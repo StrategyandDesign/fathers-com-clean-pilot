@@ -417,7 +417,13 @@
       var actions='<div class="rp-actions rp-noprint">';
       if(state==='sample') actions+='<a class="rp-btn rp-btn-yellow" href="profile.html">Take the Profile</a>';
       actions+='<button class="rp-btn rp-btn-ghost" id="rpPrint">Download as PDF</button>';
-      if(state!=='sample') actions+='<a class="rp-btn rp-btn-ghost" href="plan.html">Open my ninety-day plan</a>';
+      if(state!=='sample'){
+        /* Carry the profile through, so a man who holds two lands on the plan
+           for the one he is reading rather than the newest. */
+        var q = (A && A.slug) ? '?assessment='+encodeURIComponent(A.slug) : '';
+        actions+='<a class="rp-btn rp-btn-ghost" href="plan.html'+q+'">Open my ninety-day plan</a>';
+        actions+='<a class="rp-btn rp-btn-ghost" href="dashboard.html'+q+'">Back to my home</a>';
+      }
       if(state==='pending') actions+='<span class="rp-mailrow"><input class="rp-mail-input" type="email" id="rpEmail" placeholder="you@email.com" autocomplete="email"><button class="rp-btn rp-btn-yellow" id="rpSend">Email me this report</button></span>';
       actions+='</div>';
       actions+= (state==='account')
@@ -464,7 +470,16 @@
         '<h2 class="rp-n90-title">'+esc(gap?gap.label:'Your plan')+', one move at a time.</h2>'+
         '<p class="rp-n90-line">Your plan concentrates here. Not because you are failing, but because growth here changes the most.</p>'+
         '<div class="rp-moves rp-n90-moves">'+((gapCopy.m||[]).map(function(m,i){return '<div class="rp-move"><span class="rp-move-n">'+(i+1)+'</span>'+esc(m)+'</div>';}).join(''))+'</div>'+
-        '<p class="rp-noprint" style="margin:24px 0 0"><a class="rp-btn rp-btn-yellow" href="'+(state==='sample'?'profile.html':'plan.html')+'">'+(state==='sample'?'Start your ninety-day plan':'Open my ninety-day plan')+'</a></p>'+
+        /* The end of the report is the handoff. A man who has just read it needs
+           one obvious next step, then everything else within reach but quieter.
+           It used to offer the plan alone, which left the courses, the stories
+           and his other profile undiscoverable from here. */
+        '<p class="rp-noprint" style="margin:24px 0 0">'+
+          (state==='sample'
+            ? '<a class="rp-btn rp-btn-yellow" href="profile.html">Start your ninety-day plan</a>'
+            : '<a class="rp-btn rp-btn-yellow" href="plan.html'+((A&&A.slug)?'?assessment='+encodeURIComponent(A.slug):'')+'">Open my ninety-day plan</a>'+
+              '<a class="rp-btn rp-btn-ghost" style="margin-left:10px" href="dashboard.html'+((A&&A.slug)?'?assessment='+encodeURIComponent(A.slug):'')+'">Everything else is on my home</a>')+
+        '</p>'+
         '<p class="rp-printonly rp-plan-url">Your live plan: fathers-com-platform.vercel.app/plan.html</p></section>';
 
       var closing='<section class="rp-closing"'+bgPhoto(brand.photo_footer)+'>'+

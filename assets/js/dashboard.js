@@ -144,6 +144,77 @@
   function esc(t){ return (t==null?'':String(t)).replace(/[&<>"']/g,function(c){
     return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
 
+
+  /* ---------- What comes after the report ----------
+
+     Ordered deliberately rather than laid out flat.
+
+     Working memory holds about four items, and completion drops sharply when a
+     person faces more than three or four choices at once. So this is not a menu
+     of everything available. It is one primary action, then his report, then a
+     short "what is next" strip. Everything he might want is reachable; only one
+     thing is loud.
+
+     For a man coming out of treatment, that matters more than it does for a
+     product demo. The point is that he always knows the single next thing. */
+
+  var OTHER = { 'keystone-father-profile': 'keystone-manhood-profile',
+                'keystone-manhood-profile': 'keystone-father-profile' };
+
+  function nextStrip(activeSlug, heldSlugs){
+    var host = document.getElementById('dashNext');
+    if(!host) return;
+
+    var other = OTHER[activeSlug];
+    var hasOther = other && heldSlugs.indexOf(other) > -1;
+    var otherTitle = other ? titleFor(other) : '';
+
+    /* Courses lead, because that is the work after the profile. The count is
+       real: an empty catalogue says so rather than promising nothing. */
+    function paint(courseCount){
+      var cards = [];
+
+      cards.push(
+        '<a class="card dash-next" href="certificates.html" style="padding:22px;display:block">'+
+          '<div class="eyebrow" style="margin-bottom:8px">THE COURSES</div>'+
+          '<h3 style="margin:0 0 6px">'+(courseCount
+             ? courseCount + ' course' + (courseCount===1?'':'s') + ' open to you'
+             : 'The courses')+'</h3>'+
+          '<p class="fine" style="margin:0">'+(courseCount
+             ? 'Free. Finish one and you hold a Certificate of Completion with your name and a serial anyone can check.'
+             : 'Free to every man. Verified hours, a signed certificate, no cost.')+'</p>'+
+        '</a>');
+
+      cards.push(
+        '<a class="card dash-next" href="stories.html" style="padding:22px;display:block">'+
+          '<div class="eyebrow" style="margin-bottom:8px">STORIES</div>'+
+          '<h3 style="margin:0 0 6px">Men who have been here</h3>'+
+          '<p class="fine" style="margin:0">Short, honest accounts from men doing the same work. Read one when the week is hard.</p>'+
+        '</a>');
+
+      if(other && !hasOther){
+        cards.push(
+          '<a class="card dash-next" href="profile.html?assessment='+encodeURIComponent(other)+'" style="padding:22px;display:block">'+
+            '<div class="eyebrow" style="margin-bottom:8px">THE OTHER PROFILE</div>'+
+            '<h3 style="margin:0 0 6px">'+esc(otherTitle)+'</h3>'+
+            '<p class="fine" style="margin:0">You have taken one. The other measures different ground, and you keep both.</p>'+
+          '</a>');
+      }
+
+      host.innerHTML =
+        '<div class="eyebrow" style="margin:34px 0 12px">WHAT IS NEXT</div>'+
+        '<div class="grid-auto" style="gap:16px">'+cards.join('')+'</div>'+
+        '<p class="fine" style="margin:20px 0 0;color:var(--ash)">'+
+          'Taken this profile a while ago? <a class="link" href="profile.html?assessment='+encodeURIComponent(activeSlug)+'">Take '+esc(titleFor(activeSlug))+' again</a> '+
+          'and the new result sits alongside the old one. Nothing is overwritten.'+
+        '</p>';
+    }
+
+    if(!(window.FC && FC.live && FC.sb)) return paint(0);
+    FC.sb.from('certificate_courses').select('id').eq('published', true)
+      .then(function(r){ paint(((r && r.data) || []).length); }, function(){ paint(0); });
+  }
+
   function showList(list, who){
     var active = list[0].assessment_slug;
     try {
@@ -155,6 +226,7 @@
         if(list[i].assessment_slug === slug){
           paintSwitcher(list, slug, pick);
           draw(list[i], who);
+          nextStrip(slug, list.map(function(x){ return x.assessment_slug; }));
           return;
         }
       }
