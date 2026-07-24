@@ -341,7 +341,10 @@
     if(!scalesIn.length) return '';
     var rows=scalesIn.map(function(x,i){return scaleRow(x,i===0,result);}).join('');
     // practical panel: dimensions references the gap's first move; others use their own line
-    var doLine = meta.pracDo || (((RC||R)[result.gap_scale]&&(RC||R)[result.gap_scale].m&&(RC||R)[result.gap_scale].m[0])||'Pick one and start.');
+    var pm = planMoves(result);
+    var doLine = (pm && pm.actions[0])
+              || meta.pracDo
+              || (((RC||R)[result.gap_scale]&&(RC||R)[result.gap_scale].m&&(RC||R)[result.gap_scale].m[0])||'Pick one and start.');
     var practical='<aside class="rp-practical '+meta.cls+'">'+
         '<div class="rp-practical-h">Start here</div>'+
         '<p class="rp-practical-body">'+esc(meta.pracA)+'</p>'+
@@ -375,6 +378,30 @@
   function copyFor(A){
     var K = (A && window.FCReg && FCReg.data) ? FCReg.data(A) : null;
     return (K && K.scale_copy) || R;
+  }
+
+
+  /* ---------- ONE source of truth for what to do ----------
+
+     The report and the ninety-day plan both told a man what to do this week, out
+     of two separate content libraries. Across all 26 scales they never once
+     matched: his report said one thing, his plan said another, and he had no way
+     to know which was the instruction. That is the confusion.
+
+     The plan engine owns the twelve-week sequence, so it owns week one. The
+     report now reads its moves from the plan rather than from its own copy. They
+     cannot drift apart again, because there is only one of them.
+
+     If the plan engine is not on the page, the report falls back to its own copy
+     rather than showing nothing. */
+  function planMoves(result){
+    try {
+      if(!(window.PLAN_ENGINE && PLAN_ENGINE.build)) return null;
+      var p = PLAN_ENGINE.build(result);
+      var wk = p && p.weeks && p.weeks[0];
+      if(!wk || !wk.actions || !wk.actions.length) return null;
+      return { focus: p.focusLabel, actions: wk.actions.slice(0) };
+    } catch(e){ return null; }
   }
 
   function render(result, state, rootEl){
@@ -469,7 +496,7 @@
         '<div class="rp-n90-eyebrow">The next ninety days</div>'+
         '<h2 class="rp-n90-title">'+esc(gap?gap.label:'Your plan')+', one move at a time.</h2>'+
         '<p class="rp-n90-line">Your plan concentrates here. Not because you are failing, but because growth here changes the most.</p>'+
-        '<div class="rp-moves rp-n90-moves">'+((gapCopy.m||[]).map(function(m,i){return '<div class="rp-move"><span class="rp-move-n">'+(i+1)+'</span>'+esc(m)+'</div>';}).join(''))+'</div>'+
+        '<div class="rp-moves rp-n90-moves">'+(((planMoves(result)||{}).actions || gapCopy.m || []).map(function(m,i){return '<div class="rp-move"><span class="rp-move-n">'+(i+1)+'</span>'+esc(m)+'</div>';}).join(''))+'</div>'+
         /* The end of the report is the handoff. A man who has just read it needs
            one obvious next step, then everything else within reach but quieter.
            It used to offer the plan alone, which left the courses, the stories
