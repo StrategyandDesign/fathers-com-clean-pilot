@@ -30,11 +30,23 @@
   function setName(n){ if(n && nameEl){ nameEl.textContent = n; if(wrapEl) wrapEl.style.display = ''; } }
   function say(html){ if(banner){ banner.style.display = ''; banner.innerHTML = html; } }
   function loading(m){ host.innerHTML = '<div class="center" style="padding:60px 0"><p class="ash">'+(m||'Loading your report\u2026')+'</p></div>'; }
+  /* Two different situations that used to share one message. A man who is signed
+     out may well have a report waiting; telling him to take the profile again
+     would have him redo 128 items for nothing. */
   function empty(){
     host.innerHTML = '<div class="card" style="padding:30px">'+
       '<h3 class="d-22" style="margin:0 0 8px">Your report is not ready yet</h3>'+
       '<p class="fine" style="margin:0 0 16px">Take your Profile and your full written report appears here, always available.</p>'+
       '<a class="btn btn-yellow btn-sm" href="profile.html">Take your Profile</a></div>';
+  }
+  function signedOut(){
+    host.innerHTML = '<div class="card" style="padding:30px">'+
+      '<h3 class="d-22" style="margin:0 0 8px">Sign in to see your report</h3>'+
+      '<p class="fine" style="margin:0 0 16px">If you have taken a Profile, it is saved to your account and it is waiting here.</p>'+
+      '<div class="row wrap" style="gap:10px">'+
+        '<a class="btn btn-yellow btn-sm" href="login.html">Sign in</a>'+
+        '<a class="btn btn-secondary btn-sm" href="profile.html">I have not taken it yet</a>'+
+      '</div></div>';
   }
   function denied(){
     host.innerHTML = '<div class="card" style="padding:30px">'+
@@ -85,22 +97,45 @@
 
   /* The switcher. Only shown when he actually holds more than one profile, so a
      man with a single profile sees no extra furniture. */
+  /* The bar above the report.
+
+     Two parts, shown independently. The CHOOSER only appears when he holds more
+     than one profile, because a man with one has nothing to choose. The ACTIONS
+     always appear, because his ninety-day plan is the thing he comes back to
+     every week and it must be one tap from his home. These used to be tied
+     together, so a man with a single profile, which is most men, got no link to
+     his plan at all and had to find it in the site menu. */
   function paintSwitcher(list, activeSlug, onPick){
     var bar = document.getElementById('dashSwitch');
     if(!bar) return;
-    if(list.length < 2){ bar.style.display = 'none'; return; }
     bar.style.display = '';
-    bar.innerHTML = '<div class="eyebrow" style="margin-bottom:10px">YOUR PROFILES</div>' +
-      '<div class="row wrap" style="gap:10px">' + list.map(function(res){
-        var on = res.assessment_slug === activeSlug;
-        return '<button class="btn ' + (on ? 'btn-primary' : 'btn-secondary') + ' btn-sm" ' +
-          'data-profile="' + esc(res.assessment_slug) + '">' + esc(titleFor(res.assessment_slug)) +
-          '<span class="fine" style="display:block;opacity:.75">' + esc(fmt(res.completed_at)) + '</span></button>';
-      }).join('') + '</div>' +
-      '<div class="row wrap" style="gap:10px;margin-top:14px">' +
+
+    var chooser = '';
+    if(list.length > 1){
+      chooser = '<div class="eyebrow" style="margin-bottom:10px">YOUR PROFILES</div>' +
+        '<div class="row wrap" style="gap:10px;margin-bottom:18px">' + list.map(function(res){
+          var on = res.assessment_slug === activeSlug;
+          return '<button class="btn ' + (on ? 'btn-primary' : 'btn-secondary') + ' btn-sm" ' +
+            'data-profile="' + esc(res.assessment_slug) + '">' + esc(titleFor(res.assessment_slug)) +
+            '<span class="fine" style="display:block;opacity:.75">' + esc(fmt(res.completed_at)) + '</span></button>';
+        }).join('') + '</div>';
+    }
+
+    var active = null;
+    for(var i=0;i<list.length;i++){ if(list[i].assessment_slug === activeSlug) active = list[i]; }
+    var heading = list.length > 1
+      ? esc(titleFor(activeSlug))
+      : esc(titleFor(activeSlug)) + '<span class="fine" style="font-weight:400;opacity:.75"> &middot; completed ' + esc(fmt(active && active.completed_at)) + '</span>';
+
+    bar.innerHTML = chooser +
+      '<h3 style="margin:0 0 4px">' + heading + '</h3>' +
+      '<p class="fine" style="margin:0 0 14px">Your report lives here. Your plan is where the week\u2019s move is.</p>' +
+      '<div class="row wrap" style="gap:10px">' +
+        '<a class="btn btn-primary btn-sm" href="plan.html?assessment=' + encodeURIComponent(activeSlug) + '">Open your ninety-day plan</a>' +
         '<a class="btn btn-secondary btn-sm" href="report.html?assessment=' + encodeURIComponent(activeSlug) + '">Open the full report</a>' +
-        '<a class="btn btn-secondary btn-sm" href="plan.html?assessment=' + encodeURIComponent(activeSlug) + '">Open the ninety-day plan</a>' +
+        '<a class="btn btn-secondary btn-sm" href="certificates.html">Browse the courses</a>' +
       '</div>';
+
     bar.querySelectorAll('[data-profile]').forEach(function(b){
       b.addEventListener('click', function(){ onPick(b.getAttribute('data-profile')); });
     });
@@ -157,7 +192,7 @@
     loading();
     FC.ready.then(function(){
       var uid = FC.uid && FC.uid();
-      if(!uid){ empty(); return; }
+      if(!uid){ signedOut(); return; }
       loadProfilesFor(uid, function(list){
         showList(list, '');
         if(done) say('<b>Your report is ready.</b> <span class="fine">It will live here from now on. Print it, email it to yourself, or come back any time.</span>');
