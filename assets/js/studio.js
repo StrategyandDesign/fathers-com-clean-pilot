@@ -77,8 +77,14 @@
     /* Branding follows the assessment. A creator picks which report he is
        styling; the default applies to any assessment without its own. Before
        this there was one global row, so styling one report styled them all. */
-    var brandSlug = null;   // null = the default row
+    var brandSlug = null;   // assessment slug, or null for the default row
+    var brandOrg  = null;   // org id when styling a partner's report
     function loadBranding(){
+      if(brandOrg){
+        FC.sb.from('org_branding').select('*').eq('org_id', brandOrg).maybeSingle()
+          .then(function(r){ paintBranding((r && r.data) || {}); }, function(){ paintBranding({}); });
+        return;
+      }
       FC.sb.from('report_branding').select('*').then(function(r){
         var rows = (r && r.data) || [];
         var b = null;
@@ -109,12 +115,23 @@
       if(window.FCReg && FCReg.list){
         FCReg.list().forEach(function(a){
           var K = FCReg.data(a) || {};
-          opts.push('<option value="'+esc(K.slug||a.slug)+'">'+esc(K.title||a.name)+'</option>');
+          opts.push('<option value="a:'+esc(K.slug||a.slug)+'">'+esc(K.title||a.name)+'</option>');
         });
       }
       host.innerHTML = opts.join('');
+      /* Partners sit above assessments: a co-branded report for Returning Home
+         overrides the assessment look, field by field. */
+      FC.sb.from('orgs').select('id,name').order('name').then(function(r){
+        var rows = (r && r.data) || [];
+        if(!rows.length) return;
+        var g = '<optgroup label="Partners">' + rows.map(function(o){
+          return '<option value="o:'+esc(o.id)+'">'+esc(o.name)+'</option>'; }).join('') + '</optgroup>';
+        host.insertAdjacentHTML('beforeend', g);
+      }, function(){});
       host.addEventListener('change', function(){
-        brandSlug = host.value || null;
+        var v = host.value || '';
+        brandSlug = v.indexOf('a:') === 0 ? v.slice(2) : null;
+        brandOrg  = v.indexOf('o:') === 0 ? v.slice(2) : null;
         for(var k in state){ if(Object.prototype.hasOwnProperty.call(state,k)) state[k]=null; }
         loadBranding();
       });
@@ -131,15 +148,23 @@
       if(state.photo_satisfaction!==null) row.photo_satisfaction = state.photo_satisfaction;
       if(state.photo_cover!==null) row.photo_cover = state.photo_cover;
       if(state.photo_footer!==null) row.photo_footer = state.photo_footer;
-      var q = brandSlug
-        ? FC.sb.from('report_branding').upsert(row, {onConflict:'assessment_slug'})
-        : FC.sb.from('report_branding').upsert(Object.assign({id:1}, row), {onConflict:'id'});
+      var q;
+      if(brandOrg){
+        delete row.assessment_slug;
+        q = FC.sb.from('org_branding').upsert(Object.assign({org_id:brandOrg}, row), {onConflict:'org_id'});
+      } else if(brandSlug){
+        q = FC.sb.from('report_branding').upsert(row, {onConflict:'assessment_slug'});
+      } else {
+        q = FC.sb.from('report_branding').upsert(Object.assign({id:1}, row), {onConflict:'id'});
+      }
       q.then(function(r2){
         save.disabled=false; save.textContent='Save branding';
         if(r2.error){ msg.textContent = r2.error.message || 'Could not save. Are you an instructor or admin?'; return; }
-        msg.textContent = brandSlug
-          ? 'Saved. That report now carries it.'
-          : 'Saved. Every report without its own branding now carries it.';
+        msg.textContent = brandOrg
+          ? 'Saved. That partner\u2019s reports now carry it, over the assessment look.'
+          : brandSlug
+            ? 'Saved. That report now carries it.'
+            : 'Saved. Every report without its own branding now carries it.';
       });
     });
   }

@@ -137,27 +137,64 @@
       strength_scale:'involvement', completed_at: new Date(Date.now()-3*86400000).toISOString() };
   }
 
-  /* ---------- branding: two logos and the highlight colors. That is it. ---------- */
+  /* ---------- branding: three layers, most specific wins ----------
+     partner  a co-branded report for Returning Home or Loving Choices
+     assessment  the Manhood report can look different from the Father report
+     default  everything else
+
+     Merged field by field, so a partner that sets only its logo still inherits
+     the assessment's photos and colours rather than blanking them. A partner
+     that sets nothing is invisible: the report renders exactly as it does now.
+
+     Reads are safe by design. A man can see his own claim, and org_branding is
+     readable by an active participant of that org, so a discreet partner never
+     leaks to anyone outside it. */
+  var BRAND_FIELDS = ['logo_primary','logo_secondary','accent','accent2',
+    'photo_cover','photo_footer','photo_dimensions','photo_practices','photo_satisfaction'];
+
+  function mergeBrand(base, over){
+    var out = {}, i, k;
+    for(i=0;i<BRAND_FIELDS.length;i++){ k = BRAND_FIELDS[i]; out[k] = (base && base[k]) || ''; }
+    if(over){ for(i=0;i<BRAND_FIELDS.length;i++){ k = BRAND_FIELDS[i];
+      if(over[k] !== null && over[k] !== undefined && over[k] !== '') out[k] = over[k]; } }
+    return out;
+  }
+
+  /* Which partner is this man in, if any. RLS limits the rows to his own, so no
+     filter by user is needed or wanted here. */
+  function ownOrgId(){
+    if(!(FC.uid && FC.uid())) return Promise.resolve(null);
+    try {
+      return FC.sb.from('participant_claims').select('org_id')
+        .eq('status','active').limit(1).maybeSingle()
+        .then(function(r){ return (r && r.data && r.data.org_id) || null; },
+              function(){ return null; });
+    } catch(e){ return Promise.resolve(null); }
+  }
+
   function applyBranding(wantSlug, then){
-    var fallback = { accent:'', accent2:'', logo_primary:'', logo_secondary:'', photo_dimensions:'', photo_practices:'', photo_satisfaction:'' };
+    var fallback = { accent:'', accent2:'', logo_primary:'', logo_secondary:'',
+      photo_cover:'', photo_footer:'', photo_dimensions:'', photo_practices:'', photo_satisfaction:'' };
     var done=false, go=function(v){ if(!done){ done=true; then(v); } };
     if(!(window.FC && FC.live && FC.ready)){ go(fallback); return; }
     setTimeout(function(){ go(fallback); }, 2500);
     FC.ready.then(function(){
       if(!FC.sb){ return go(fallback); }
-      /* Branding follows the assessment. Read every row, prefer the one for this
-         instrument, fall back to the row with no slug, which is the default.
-         Before this, branding was one global row, so a hero image set for the
-         Manhood report also changed the Father report. */
       FC.sb.from('report_branding').select('*').then(function(r){
         var rows = (r && r.data) || [];
-        var slug = wantSlug || null;
-        var mine = null, dflt = null;
+        var slug = wantSlug || null, mine = null, dflt = null;
         for(var i=0;i<rows.length;i++){
           if(slug && rows[i].assessment_slug === slug) mine = rows[i];
           if(!rows[i].assessment_slug) dflt = rows[i];
         }
-        go(mine || dflt || (rows.length ? rows[0] : fallback));
+        var base = mergeBrand(dflt, mine);     // default, then this assessment
+
+        ownOrgId().then(function(orgId){
+          if(!orgId) return go(base);
+          FC.sb.from('org_branding').select('*').eq('org_id', orgId).maybeSingle()
+            .then(function(o){ go(mergeBrand(base, o && o.data)); },   // partner on top
+                  function(){ go(base); });
+        }, function(){ go(base); });
       }, function(){ go(fallback); });
     }, function(){ go(fallback); });
   }
