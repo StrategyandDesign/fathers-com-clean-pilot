@@ -53,7 +53,9 @@
       '<h3 class="d-22" style="margin:0 0 8px">Admin access required</h3>'+
       '<p class="fine" style="margin:0">Viewing another participant\u2019s dashboard requires an admin role.</p></div>';
   }
-  function draw(result, who){ setName(who); window.FCReport.render(host, { result: result, state: 'live' }); }
+  /* Collapsed form on the dashboard. The full document still lives at
+     report.html, one tap away from the strip at the top of it. */
+  function draw(result, who){ setName(who); window.FCReport.render(host, { result: result, state: 'live', collapse: true }); }
 
   /* EVERY profile he holds, newest first, one row per assessment.
 
@@ -121,15 +123,7 @@
         }).join('') + '</div>';
     }
 
-    var active = null;
-    for(var i=0;i<list.length;i++){ if(list[i].assessment_slug === activeSlug) active = list[i]; }
-    var heading = list.length > 1
-      ? esc(titleFor(activeSlug))
-      : esc(titleFor(activeSlug)) + '<span class="fine" style="font-weight:400;opacity:.75"> &middot; completed ' + esc(fmt(active && active.completed_at)) + '</span>';
-
     bar.innerHTML = chooser +
-      '<h3 style="margin:0 0 4px">' + heading + '</h3>' +
-      '<p class="fine" style="margin:0 0 14px">Your report lives here. Your plan is where the week\u2019s move is.</p>' +
       '<div class="row wrap" style="gap:10px">' +
         '<a class="btn btn-primary btn-sm" href="plan.html?assessment=' + encodeURIComponent(activeSlug) + '">Open your ninety-day plan</a>' +
         '<a class="btn btn-secondary btn-sm" href="report.html?assessment=' + encodeURIComponent(activeSlug) + '">Open the full report</a>' +

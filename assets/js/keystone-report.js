@@ -448,7 +448,18 @@
     } catch(e){ return null; }
   }
 
-  function render(result, state, rootEl){
+  /* opts.collapse renders the DASHBOARD form of this document.
+
+     The dashboard was rendering the report whole, which meant a man landed on
+     his home and faced the entire thing: cover, three chapters, twenty-six
+     scales, the closing band. There is no ten-second read in that. Collapsed
+     form keeps the summary open, folds each chapter behind a labelled row, and
+     pins the profile name and its completion date so he always knows which
+     sitting he is looking at. Nothing is removed from the full report at
+     report.html; this is a second presentation of the same render. */
+  function render(result, state, rootEl, opts){
+    opts = opts || {};
+    var COLLAPSE = !!opts.collapse;
     rootEl = rootEl || document.getElementById('rpRoot');
     if(!rootEl) return;
     var A = (window.FCReg && FCReg.detect) ? FCReg.detect(result) : null;
@@ -543,7 +554,18 @@
         ? '<section class="rp-howto"><b>How to read this.</b> Each bar shows where you stand next to '+normN+' '+esc(groupN)+' in the national norm group; the center mark is the typical '+esc(groupN.replace(/s$/,''))+'. Standings are words, not grades: A starting point, Building, Developing, Solid, Strong. This is a self-report. It is a mirror, not a verdict, and every line in it can move.</section>'
         : '<section class="rp-howto"><b>How to read this.</b> Each bar shows where you placed yourself on that part of '+esc(subjN)+', not how you compare to other '+esc(groupN)+'. This profile does not yet have a norm group, so nothing here ranks you against anyone. Standings are words, not grades: A starting point, Building, Developing, Solid, Strong. This is a self-report. It is a mirror, not a verdict, and every line in it can move.</section>';
 
-      var chapters = ACTIVE.sections.map(function(sec,idx){ return chapterHtml(sec,idx,result,brand); }).join('');
+      var chapters = ACTIVE.sections.map(function(sec,idx){
+        var html = chapterHtml(sec,idx,result,brand);
+        if(!html || !COLLAPSE) return html;
+        var n = sec.scales.filter(function(x){ return (result.scale_scores||{})[x.key]; }).length;
+        return '<details class="rp-fold" id="rp-fold-'+esc(sec.key)+'">'+
+          '<summary class="rp-fold-sum">'+
+            '<span class="rp-fold-n">'+('0'+(idx+1)).slice(-2)+'</span>'+
+            '<span class="rp-fold-t">'+esc(sec.title)+'</span>'+
+            '<span class="rp-fold-c">'+n+(n===1?' scale':' scales')+'</span>'+
+            '<span class="rp-fold-x" aria-hidden="true"></span>'+
+          '</summary>'+html+'</details>';
+      }).join('');
 
       var next90='<section id="rp-next90" class="rp-next90">'+
         '<div class="rp-n90-eyebrow">The next ninety days</div>'+
@@ -567,6 +589,45 @@
         '<footer class="rp-colophon"><div class="rp-colo-brand"><span class="rp-colo-word">Fathers.com</span>'+
           (brand.logo_secondary?'<span class="rp-colo-div"></span><img class="rp-logo rp-colo-logo" src="'+esc(brand.logo_secondary)+'" alt="Partner logo">':'')+'</div>'+
         '<div class="rp-colo-lines">Fathers.com is a program of the National Center for Fathering, a 501(c)(3) nonprofit, since 1990.<br>Your results are yours alone. We never share them.</div></footer>';
+
+      if(COLLAPSE){
+        var nScales = Object.keys(result.scale_scores||{}).length;
+        var brief = '<header class="rp-brief">'+
+            '<div class="rp-brief-l">'+
+              '<div class="rp-eyebrow">Your written report</div>'+
+              '<h2 class="rp-brief-t">'+esc(title)+'</h2>'+
+              '<p class="rp-brief-m">Completed '+esc(fmtDate(result.completed_at))+
+                ' &middot; '+nScales+' scales</p>'+
+            '</div>'+
+            '<div class="rp-brief-r rp-noprint">'+
+              '<button type="button" class="rp-fold-all" id="rpFoldAll" aria-expanded="false">Expand all</button>'+
+              '<a class="rp-btn rp-btn-ghost rp-btn-sm" href="report.html'+q+'">Open full report</a>'+
+            '</div></header>';
+
+        rootEl.innerHTML = '<div class="rp-doc rp-doc-compact">'+
+          brief+
+          /* Summary only. The norm bars and the scatter are reference material,
+             not a ten-second read, so they stay in the full report and the
+             week's move comes straight after the three cards instead. */
+          '<div class="rp-inner">'+stateLine+glance+'</div>'+
+          '<details class="rp-fold rp-fold-plan" open><summary class="rp-fold-sum">'+
+            '<span class="rp-fold-n">&#9679;</span><span class="rp-fold-t">Your next ninety days</span>'+
+            '<span class="rp-fold-c">this week</span><span class="rp-fold-x" aria-hidden="true"></span>'+
+          '</summary>'+next90+'</details>'+
+          chapters+
+        '</div>';
+
+        fitCaptions(rootEl); bindFitHooks();
+        var fa = rootEl.querySelector('#rpFoldAll');
+        if(fa) fa.addEventListener('click', function(){
+          var folds = rootEl.querySelectorAll('details.rp-fold');
+          var opening = fa.getAttribute('aria-expanded') !== 'true';
+          folds.forEach(function(d){ d.open = opening; });
+          fa.setAttribute('aria-expanded', opening ? 'true' : 'false');
+          fa.textContent = opening ? 'Collapse all' : 'Expand all';
+        });
+        return;
+      }
 
       rootEl.innerHTML = '<div class="rp-doc">'+
         '<header class="rp-cover"'+bgPhoto(brand.photo_cover, false)+'>'+cobrand+
@@ -631,7 +692,7 @@
      The assessment is resolved from the result via the registry, so the same call
      renders a father profile or a manhood profile correctly. */
   window.FCReport = {
-    render: function(el, opts){ opts = opts || {}; return render(opts.result, opts.state || 'live', el); },
+    render: function(el, opts){ opts = opts || {}; return render(opts.result, opts.state || 'live', el, { collapse: !!opts.collapse }); },
     sampleResult: sampleResult
   };
 
