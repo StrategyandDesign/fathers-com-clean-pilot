@@ -153,10 +153,27 @@
           return '<option value="o:'+esc(o.id)+'">'+esc(o.name)+'</option>'; }).join('') + '</optgroup>';
         host.insertAdjacentHTML('beforeend', g);
       }, function(){});
+      /* The preview must open the report you are actually styling.
+
+         It was hardcoded to report.html, which loads the viewer's own latest
+         result. So a creator styling the Manhood report clicked preview and was
+         shown his own Father Profile, with father branding, and reasonably
+         concluded the editor was broken. */
+      function retargetPreview(){
+        var a = document.getElementById('rb-preview');
+        if(!a) return;
+        var q = ['preview=1'];
+        if(brandSlug) q.push('assessment=' + encodeURIComponent(brandSlug));
+        if(brandOrg)  q.push('org=' + encodeURIComponent(brandOrg));
+        a.href = 'report.html?' + q.join('&');
+      }
+      retargetPreview();
+
       host.addEventListener('change', function(){
         var v = host.value || '';
         brandSlug = v.indexOf('a:') === 0 ? v.slice(2) : null;
         brandOrg  = v.indexOf('o:') === 0 ? v.slice(2) : null;
+        retargetPreview();
         for(var k in state){ if(Object.prototype.hasOwnProperty.call(state,k)) state[k]=null; }
         loadBranding();
       });

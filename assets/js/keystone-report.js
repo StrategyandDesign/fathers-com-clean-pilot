@@ -84,7 +84,29 @@
     } catch(e){ return null; }
   }
 
+  /* Studio preview. A creator styling a report needs to see THAT report, with
+     THAT branding, whether or not he has ever taken it. Without this the preview
+     link fell through to his own latest result, so styling the Manhood report
+     showed him his Father Profile. */
+  function previewRequest(){
+    try {
+      var q = new URLSearchParams(window.location.search);
+      if(q.get('preview') !== '1') return null;
+      var slug = q.get('assessment');
+      var A = (slug && window.FCReg && FCReg.bySlug) ? FCReg.bySlug(slug) : null;
+      var K = A && FCReg.data ? FCReg.data(A) : null;
+      return { instrument: K || KEYSTONE, slug: (K && K.slug) || 'keystone-father-profile',
+               org: q.get('org') || null };
+    } catch(e){ return null; }
+  }
+
   function load(){
+    var pv = previewRequest();
+    if(pv){
+      var r = sampleResult(pv.instrument);
+      r.assessment_slug = pv.slug;
+      return render(r, 'sample');
+    }
     if(window.FC && FC.live && FC.uid && FC.uid()){
       /* Every result, newest first, not just the latest one.
 
@@ -143,19 +165,35 @@
   }
 
   /* A sample with all 26 scales so the Father report shows in full. Deterministic. */
-  function sampleResult(){
+  /* A deterministic sample. Takes the instrument so a creator previewing the
+     Manhood report sees manhood scales, not father scales. It used to be pinned
+     to KEYSTONE, so every preview looked like a Father Profile no matter which
+     report was being styled. */
+  function sampleResult(ins){
+    var INS = ins || ACTIVE || KEYSTONE;
     var sc = {}, seed = 7;
-    KEYSTONE.sections.forEach(function(s){ s.scales.forEach(function(x){
+    INS.sections.forEach(function(s){ s.scales.forEach(function(x){
       seed = (seed*31 + x.key.length*7) % 61;
       sc[x.key] = { label: x.label, pct: 28 + seed, section: s.key,
         band: KS.bandFor(28 + seed) };
     });});
-    sc.involvement.pct = 81; sc.involvement.band = KS.bandFor(81);
-    sc.consistency.pct = 34; sc.consistency.band = KS.bandFor(34);
-    var vals = Object.keys(sc).map(function(k){return sc[k].pct;});
+    /* Give the sample a clear high and a clear low so the shape reads as a real
+       man's rather than a flat line. The scales were named literally, and
+       'involvement' does not exist on the Manhood Profile, so a manhood preview
+       threw before it could render. Pick the first and last scale of whatever
+       instrument this is instead. */
+    var keys = Object.keys(sc);
+    var hiKey = keys[0], loKey = keys[keys.length - 1];
+    for(var i=0;i<keys.length;i++){                       // prefer a shared, meaningful pair
+      if(keys[i] === 'involvement' || keys[i] === 'presence') hiKey = keys[i];
+      if(keys[i] === 'consistency') loKey = keys[i];
+    }
+    if(sc[hiKey]){ sc[hiKey].pct = 81; sc[hiKey].band = KS.bandFor(81); }
+    if(sc[loKey]){ sc[loKey].pct = 34; sc[loKey].band = KS.bandFor(34); }
+    var vals = keys.map(function(k){return sc[k].pct;});
     var overall = Math.round(vals.reduce(function(a,b){return a+b;},0)/vals.length);
-    return { overall_pct: overall, scale_scores: sc, gap_scale:'consistency',
-      strength_scale:'involvement', completed_at: new Date(Date.now()-3*86400000).toISOString() };
+    return { overall_pct: overall, scale_scores: sc, gap_scale: loKey,
+      strength_scale: hiKey, completed_at: new Date(Date.now()-3*86400000).toISOString() };
   }
 
   /* ---------- branding: three layers, most specific wins ----------
@@ -184,6 +222,12 @@
   /* Which partner is this man in, if any. RLS limits the rows to his own, so no
      filter by user is needed or wanted here. */
   function ownOrgId(){
+    // A creator previewing a partner's report is not a member of it, so the
+    // partner may be named explicitly for preview purposes.
+    try {
+      var q = new URLSearchParams(window.location.search);
+      if(q.get('preview') === '1' && q.get('org')) return Promise.resolve(q.get('org'));
+    } catch(e){}
     if(!(FC.uid && FC.uid())) return Promise.resolve(null);
     try {
       return FC.sb.from('participant_claims').select('org_id')
