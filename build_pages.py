@@ -881,88 +881,20 @@ PAGES['sponsor.html'] = dict(title='Sponsor a man', desc='$120 funds one man&rsq
 ''')
 
 # ================================================== account.html (P9)
-PAGES['account.html'] = dict(title='Account', desc='Settings, membership, notifications.', active='', mode='app', auth=True, body='''
-<section class="tight" style="padding-top:44px"><div class="container" style="max-width:880px">
-  <div class="row between" style="margin-bottom:30px;align-items:center">
-    <h1 class="d-36" style="margin:0">Account</h1>
+PAGES['account.html'] = dict(title='Your settings', desc='Your name, how we reach you, what stays private, and your data.', active='', mode='app', auth=True, body='''
+<section class="tight" style="padding-top:44px"><div class="container" style="max-width:760px">
+  <div class="row between" style="margin-bottom:8px;align-items:center">
+    <h1 class="d-36" style="margin:0">Your settings</h1>
     <a class="btn btn-secondary btn-sm" href="#" data-signout>Sign out</a>
   </div>
-  <div data-tabs>
-    <div class="tabs"><button class="active">Profile</button><button>Membership</button><button>Notifications</button><button>Cancel path</button></div>
-
-    <div class="tabpanel active">
-      <div class="row" style="gap:20px;margin-bottom:28px"><div class="slot r-1x1" data-slot="IMG-P9-AVA-01" style="width:72px;border-radius:50%"></div><a class="link ash" href="mailto:Team@Fathers.com?subject=Change%20my%20account%20email" style="font-size:13px">Change</a></div>
-      <div class="grid-2" style="gap:16px">
-        <div class="field"><label>Name</label><input class="input" value="Marcus T."></div>
-        <div class="field"><label>Email</label><input class="input" value="m.t@example.com"></div>
-      </div>
-      <div class="field"><label>Password</label><div class="row"><input class="input" type="password" value="••••••••••" readonly><button class="btn btn-secondary btn-sm" data-pwreset>Change</button></div></div>
-      <div class="field"><label>Kids' age ranges</label>
-        <div class="chiprow"><button class="chip selected" data-toggle>6-9</button><button class="chip selected" data-toggle>13-15</button><button class="chip" data-toggle>0-2</button><button class="chip" data-toggle>Teens</button></div>
-        <p class="fine" style="margin-top:8px">Sets your plan. Never shown to anyone.</p></div>
-      <div class="grid-2" style="gap:16px">
-        <div class="field"><label>Faith lens</label><select class="input"><option>Not for me</option><option selected>Yes, Christian</option><option>Yes, Jewish</option></select></div>
-        <div class="field"><label>Time zone</label><select class="input"><option selected>Central (CT)</option><option>Eastern (ET)</option><option>Mountain (MT)</option><option>Pacific (PT)</option></select></div>
-      </div>
-      <button class="btn btn-primary" data-prefs-save data-prefs-key="fc_account_profile">Save changes</button>
-    </div>
-
-    <div class="tabpanel">
-      <div class="card" style="margin-bottom:20px"><div class="row between wrap">
-        <div><b>Fathers.com Annual</b><p class="small" style="margin-top:6px">Renews March 4, 2027 &middot; $120</p></div>
-        <a class="btn btn-secondary btn-sm" href="mailto:Team@Fathers.com?subject=Update%20my%20payment%20method">Update payment</a></div>
-        <hr class="hr" style="margin:18px 0">
-        <div class="row between"><span class="small">Visa ending 4242</span><a class="link ash" href="mailto:Team@Fathers.com?subject=Update%20my%20payment%20method" style="font-size:13px">Update</a></div></div>
-      <div class="card" style="margin-bottom:20px"><div class="eyebrow" style="margin-bottom:14px">RECEIPTS</div>
-        <table><tbody>
-          <tr><td class="mono fine">Mar 4, 2026</td><td>Annual membership</td><td class="mono">$120.00</td><td><a class="link ash" href="#" data-print style="font-size:13px">PDF</a></td></tr>
-          <tr><td class="mono fine">Jun 2, 2026</td><td>Sponsorship, one seat</td><td class="mono">$120.00</td><td><a class="link ash" href="#" data-print style="font-size:13px">PDF</a></td></tr>
-        </tbody></table></div>
-      <div class="grid-2" style="gap:16px;margin-bottom:24px">
-        <a class="card hoverable" href="gift.html" style="text-decoration:none"><b style="font-size:15px">Give a gift</b><p class="fine" style="margin-top:6px">One year, from you.</p></a>
-        <a class="card hoverable" href="sponsor.html" style="text-decoration:none"><b style="font-size:15px">Sponsor a man</b><p class="fine" style="margin-top:6px">A seat in a certified program, funded.</p></a>
-      </div>
-      <a class="link ash" href="#" style="font-size:14px" onclick="event.preventDefault();document.querySelectorAll('[data-tabs] .tabs button')[3].click()">Cancel membership</a>
-      <p style="margin-top:26px"><a class="link ash" href="#" data-signout style="font-size:13px">Sign out</a></p>
-    </div>
-
-    <div class="tabpanel">
-      <div class="stack-16" style="max-width:560px">
-        <div class="row between"><span class="small">Weekly plan email, Monday 6:00 AM</span><input type="checkbox" class="toggle" checked onchange='if(!this.checked)toast("You will still get receipts and legal notices.")'></div>
-        <div class="row between"><span class="small">Action reminders</span><input type="checkbox" class="toggle" checked></div>
-        <div class="row between"><span class="small">New class drops</span><input type="checkbox" class="toggle" checked></div>
-        <div class="row between"><span class="small">Circle activity</span><input type="checkbox" class="toggle" checked></div>
-        <div class="row between"><span class="small">The Daily</span><input type="checkbox" class="toggle"></div>
-      </div>
-      <p class="fine" style="margin-top:22px">We send less than you expect. That's on purpose.</p>
-    </div>
-
-    <div class="tabpanel"><div data-seq style="max-width:560px">
-      <div class="seqpanel">
-        <h3 class="display d-28" style="margin-bottom:18px">Before you go: pause instead?</h3>
-        <div class="card" style="margin-bottom:18px"><b>Pause 3 months</b><p class="small" style="margin:6px 0 16px">Keep your plan and progress. $0.</p>
-          <a class="btn btn-primary btn-sm" href="mailto:Team@Fathers.com?subject=Pause%20my%20membership%20for%20three%20months">Request a pause</a></div>
-        <a class="link ash" href="#" style="font-size:14px" data-next onclick="event.preventDefault()">Continue to cancel</a>
-      </div>
-      <div class="seqpanel">
-        <h3 class="display d-28" style="margin-bottom:18px">What's the reason?</h3>
-        <div class="chiprow" style="margin-bottom:18px">
-          <button class="chip" data-toggle="single">Too expensive</button><button class="chip" data-toggle="single">Not using it</button><button class="chip" data-toggle="single">Finished what I came for</button><button class="chip" data-toggle="single">Something else</button></div>
-        <div class="field"><textarea placeholder="Optional"></textarea></div>
-        <button class="btn btn-secondary" data-next>Continue</button>
-      </div>
-      <div class="seqpanel">
-        <h3 class="display d-28" style="margin-bottom:12px">You're set through March 4, 2027.</h3>
-        <p class="small" style="margin-bottom:22px">Your baseline, plan, and notes stay saved. Come back any time.</p>
-        <a class="btn btn-secondary" href="plan.html">Back to your plan</a>
-      </div>
-    </div></div>
-  </div>
+  <p class="lead" style="max-width:60ch;margin-bottom:30px">What we hold, how we reach you, and what leaves with you. Every switch here does something the moment you save it.</p>
+  <div id="acctRoot"></div>
 </div></section>
 ''')
 
 # ================================================== certificates.html (P10 screens 1-3)
-PAGE_SCRIPTS = {'certificates.html': ['course-catalog.js']}
+PAGE_SCRIPTS = {'certificates.html': ['course-catalog.js'],
+                'account.html': ['account-prefs.js']}
 
 PAGES['certificates.html'] = dict(title='The Courses and the Certificate of Completion', desc='Three courses, free to every man. Finish the work and hold a Certificate of Completion: verified hours, a serial anyone can confirm, at no cost to you.', active='Certificates', mode='public', body='''
 <!-- HERO: the certificate is the thesis -->
