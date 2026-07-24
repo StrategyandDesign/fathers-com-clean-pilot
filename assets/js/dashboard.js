@@ -43,21 +43,88 @@
   }
   function draw(result, who){ setName(who); window.FCReport.render(host, { result: result, state: 'live' }); }
 
-  /* A completed session, then its result. Shared by own-view and admin view-as. */
-  function loadReportFor(uid, onResult, onNone){
-    FC.sb.from('keystone_sessions').select('id,completed_at')
-      .eq('user_id', uid).eq('status','completed')
-      .order('completed_at',{ascending:false}).limit(1).maybeSingle()
-      .then(function(s){
-        if(s.error || !s.data){ onNone(); return; }
-        FC.sb.from('keystone_results').select('*').eq('session_id', s.data.id).maybeSingle()
-          .then(function(r){
-            if(r.error || !r.data){ onNone(); return; }
-            var res = r.data;
-            if(!res.completed_at) res.completed_at = s.data.completed_at;
-            onResult(res);
-          }, function(){ onNone(); });
+  /* EVERY profile he holds, newest first, one row per assessment.
+
+     A man can complete more than one. Loading only his newest meant that
+     finishing the Manhood Profile made his Father Profile unreachable: the
+     report, the plan and this page all took the latest row and there was no way
+     to ask for the other. He keeps both now, and this page is where he chooses.
+
+     Legacy rows written before results carried a slug are father results. */
+  function loadProfilesFor(uid, onList, onNone){
+    FC.sb.from('keystone_results').select('*').eq('user_id', uid)
+      .order('completed_at',{ascending:false})
+      .then(function(r){
+        var rows = (r && r.data) || [];
+        if(!rows.length){ onNone(); return; }
+        var seen = {}, list = [];
+        for(var i=0;i<rows.length;i++){
+          var slug = rows[i].assessment_slug || 'keystone-father-profile';
+          if(seen[slug]) continue;          // newest sitting of each profile
+          seen[slug] = true;
+          rows[i].assessment_slug = slug;
+          list.push(rows[i]);
+        }
+        onList(list);
       }, function(){ onNone(); });
+  }
+
+  function titleFor(slug){
+    if(window.FCReg && FCReg.bySlug){
+      var a = FCReg.bySlug(slug), K = a && FCReg.data ? FCReg.data(a) : null;
+      if(K && K.title) return K.title;
+      if(a && (a.reportTitle || a.name)) return a.reportTitle || a.name;
+    }
+    return 'Your profile';
+  }
+
+  function fmt(iso){
+    try { return new Date(iso).toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'}); }
+    catch(e){ return ''; }
+  }
+
+  /* The switcher. Only shown when he actually holds more than one profile, so a
+     man with a single profile sees no extra furniture. */
+  function paintSwitcher(list, activeSlug, onPick){
+    var bar = document.getElementById('dashSwitch');
+    if(!bar) return;
+    if(list.length < 2){ bar.style.display = 'none'; return; }
+    bar.style.display = '';
+    bar.innerHTML = '<div class="eyebrow" style="margin-bottom:10px">YOUR PROFILES</div>' +
+      '<div class="row wrap" style="gap:10px">' + list.map(function(res){
+        var on = res.assessment_slug === activeSlug;
+        return '<button class="btn ' + (on ? 'btn-primary' : 'btn-secondary') + ' btn-sm" ' +
+          'data-profile="' + esc(res.assessment_slug) + '">' + esc(titleFor(res.assessment_slug)) +
+          '<span class="fine" style="display:block;opacity:.75">' + esc(fmt(res.completed_at)) + '</span></button>';
+      }).join('') + '</div>' +
+      '<div class="row wrap" style="gap:10px;margin-top:14px">' +
+        '<a class="btn btn-secondary btn-sm" href="report.html?assessment=' + encodeURIComponent(activeSlug) + '">Open the full report</a>' +
+        '<a class="btn btn-secondary btn-sm" href="plan.html?assessment=' + encodeURIComponent(activeSlug) + '">Open the ninety-day plan</a>' +
+      '</div>';
+    bar.querySelectorAll('[data-profile]').forEach(function(b){
+      b.addEventListener('click', function(){ onPick(b.getAttribute('data-profile')); });
+    });
+  }
+
+  function esc(t){ return (t==null?'':String(t)).replace(/[&<>"']/g,function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+
+  function showList(list, who){
+    var active = list[0].assessment_slug;
+    try {
+      var q = new URLSearchParams(window.location.search).get('assessment');
+      for(var i=0;i<list.length;i++){ if(q && list[i].assessment_slug === q) active = q; }
+    } catch(e){}
+    function pick(slug){
+      for(var i=0;i<list.length;i++){
+        if(list[i].assessment_slug === slug){
+          paintSwitcher(list, slug, pick);
+          draw(list[i], who);
+          return;
+        }
+      }
+    }
+    pick(active);
   }
 
   /* 1) Marcus mock. The deterministic sample, shown as a named participant. */
@@ -70,10 +137,10 @@
   function showViewAs(uid){
     loading('Loading this participant\u2019s report as they see it\u2026');
     var go = function(){
-      loadReportFor(uid, function(res){
+      loadProfilesFor(uid, function(list){
         FC.sb.from('profiles').select('name,email').eq('id', uid).maybeSingle()
-          .then(function(p){ draw(res, (p.data && (p.data.name || p.data.email)) || 'Participant'); },
-                function(){ draw(res, 'Participant'); });
+          .then(function(p){ showList(list, (p.data && (p.data.name || p.data.email)) || 'Participant'); },
+                function(){ showList(list, 'Participant'); });
         say('<b>Admin view.</b> <span class="fine">You are seeing this participant\u2019s dashboard exactly as they see it. Read only.</span>');
       }, empty);
     };
@@ -91,8 +158,8 @@
     FC.ready.then(function(){
       var uid = FC.uid && FC.uid();
       if(!uid){ empty(); return; }
-      loadReportFor(uid, function(res){
-        draw(res, '');
+      loadProfilesFor(uid, function(list){
+        showList(list, '');
         if(done) say('<b>Your report is ready.</b> <span class="fine">It will live here from now on. Print it, email it to yourself, or come back any time.</span>');
       }, empty);
     }, empty);

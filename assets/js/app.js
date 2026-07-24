@@ -285,7 +285,10 @@
     // Nav state: signed in shows My Plan and an explicit Sign out.
     var loginLink=document.querySelector('.nav-right a[href="login.html"]');
     if(loginLink&&session){
-      loginLink.textContent='My Plan'; loginLink.href='plan.html';
+      // His home is the dashboard: it holds every profile he has completed, and
+      // links out to each report and plan. Pointing this at the plan sent a man
+      // with two profiles to only one of them.
+      loginLink.textContent='My Profile'; loginLink.href='dashboard.html';
       if(!document.getElementById('navSignout')){
         var so=document.createElement('a');
         so.id='navSignout'; so.href='#'; so.textContent='Sign out';

@@ -86,10 +86,31 @@
 
   function load(){
     if(window.FC && FC.live && FC.uid && FC.uid()){
+      /* Every result, newest first, not just the latest one.
+
+         A man can complete more than one profile. Loading only the newest meant
+         that the moment he finished the Manhood Profile his Father Profile
+         report became unreachable: same URL, and the older result could never
+         win the ordering. ?assessment=<slug> now addresses a specific profile,
+         and with no parameter he gets his most recent, as before.
+
+         Legacy rows written before results carried a slug are father results, so
+         a request for the father profile accepts them too. */
       FC.sb.from('keystone_results').select('*').eq('user_id', FC.uid())
-        .order('completed_at',{ascending:false}).limit(1).maybeSingle()
+        .order('completed_at',{ascending:false})
         .then(function(r){
-          var saved = r && r.data ? r.data : null;
+          var all = (r && r.data) || [];
+          var want = null;
+          try { want = new URLSearchParams(window.location.search).get('assessment'); } catch(e){}
+          var saved = null;
+          if(want){
+            for(var i=0;i<all.length;i++){
+              var slug = all[i].assessment_slug || 'keystone-father-profile';
+              if(slug === want){ saved = all[i]; break; }
+            }
+          } else {
+            saved = all.length ? all[0] : null;
+          }
           var pend  = pendingRow();
           if(saved && pend){
             var ts = function(x){ return new Date(x.completed_at || 0).getTime() || 0; };

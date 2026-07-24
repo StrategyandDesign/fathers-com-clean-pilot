@@ -40,12 +40,28 @@
     if(window.FC && FC.live && FC.uid()){
       // First: did he just finish the assessment and sign in? Save that pending result.
       savePendingThen(function(){
+        /* Every result, newest first. ?assessment=<slug> opens the plan for a
+           specific profile, so a man who has done both keeps both plans instead
+           of the newer one replacing the older. Legacy untagged rows are father
+           results. */
         FC.sb.from('keystone_results').select('*').eq('user_id', FC.uid())
-          .order('completed_at',{ascending:false}).limit(1).maybeSingle()
+          .order('completed_at',{ascending:false})
           .then(function(r){
-            if(r.data){ render(r.data, false); }
+            var all = (r && r.data) || [];
+            var want = null;
+            try { want = new URLSearchParams(window.location.search).get('assessment'); } catch(e){}
+            var pickRow = null;
+            if(want){
+              for(var i=0;i<all.length;i++){
+                var slug = all[i].assessment_slug || 'keystone-father-profile';
+                if(slug === want){ pickRow = all[i]; break; }
+              }
+            } else {
+              pickRow = all.length ? all[0] : null;
+            }
+            if(pickRow){ render(pickRow, false); }
             else { needAssessment(); }
-          }).catch(function(){ needAssessment(); });
+          }, function(){ needAssessment(); });
       });
     } else {
       // Signed out: his own finished sitting first, the sample only if there is none.
