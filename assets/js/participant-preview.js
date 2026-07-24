@@ -73,6 +73,22 @@
   function showFather(uid, name){
     if (!live()) { showSample(); return; }
     loading('Loading this father\u2019s dashboard as he sees it\u2026');
+    /* His setting decides. The settings page promises he can keep his report
+       from staff, and that promise has to hold on every surface that could open
+       it, not only the one we happened to think of first. */
+    FC.sb.from('profiles').select('prefs').eq('id', uid).maybeSingle().then(function(pr){
+      var prefs = (pr && pr.data && pr.data.prefs) || {};
+      if(prefs.share_facilitator === false){
+        head(esc(name), 'Private by his choice',
+          esc(name) + ' has chosen not to share his report. You can see that he completed it and when. If he wants to walk through it with you, he can open it himself.');
+        host.innerHTML = '<div class="card" style="padding:26px"><p class="fine" style="margin:0">Nothing to show here, and nothing wrong.</p></div>';
+        return;
+      }
+      openFor(uid, name);
+    }, function(){ openFor(uid, name); });
+  }
+
+  function openFor(uid, name){
     loadFor(uid, function(res){
       head(esc(name), 'His dashboard, read only',
         'Exactly what ' + esc(name) + ' sees when he opens his dashboard. Read only, and rendered by the same component he uses. Private data; handle with care.');

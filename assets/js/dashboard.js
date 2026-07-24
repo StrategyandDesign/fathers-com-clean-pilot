@@ -244,6 +244,29 @@
   function showViewAs(uid){
     loading('Loading this participant\u2019s report as they see it\u2026');
     var go = function(){
+      /* His setting decides, not ours.
+
+         The settings page offers "Let my facilitator open my report". That
+         promise was not enforced anywhere: staff could open the report whether
+         he had allowed it or not. A privacy control that does nothing is worse
+         than no control, and for men enrolled through treatment or reentry it is
+         the difference between a tool and a file kept on them.
+
+         Staff still see that he completed it, and when. They do not see inside
+         unless he has said yes. */
+      FC.sb.from('profiles').select('prefs').eq('id', uid).maybeSingle().then(function(pr){
+        var prefs = (pr && pr.data && pr.data.prefs) || {};
+        if(prefs.share_facilitator === false){
+          host.innerHTML = '<div class="card" style="padding:30px">'+
+            '<h3 class="d-22" style="margin:0 0 8px">This report is private</h3>'+
+            '<p class="fine" style="margin:0">He has chosen not to share it. You can still see that he completed it and when. If he wants to walk through it with you, he can open it himself or change the setting.</p></div>';
+          say('<b>Private by his choice.</b> <span class="fine">Not an error, and not something to work around.</span>');
+          return;
+        }
+        openViewAs(uid);
+      }, function(){ openViewAs(uid); });
+    };
+    var openViewAs = function(uid){
       loadProfilesFor(uid, function(list){
         FC.sb.from('profiles').select('name,email').eq('id', uid).maybeSingle()
           .then(function(p){ showList(list, (p.data && (p.data.name || p.data.email)) || 'Participant'); },

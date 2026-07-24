@@ -83,7 +83,7 @@
     '<div class="card" style="padding:26px">'+
       '<div class="eyebrow" style="margin-bottom:6px">CLOSING YOUR ACCOUNT</div>'+
       '<h3 style="margin:0 0 6px">Delete everything</h3>'+
-      '<p class="fine" style="margin:0 0 16px;color:var(--ash)">Your answers, your reports and your plans are removed. Download your copy first if you want one. This cannot be undone.</p>'+
+      '<p class="fine" style="margin:0 0 16px;color:var(--ash)">Your answers, your reports, your plans and your course progress are removed. If you allowed research use and your record has already been anonymised, that copy cannot be found or removed, because nothing links it to you. Download your own copy first if you want one. This cannot be undone.</p>'+
       '<button class="btn btn-secondary btn-sm" id="acDelete">Delete my account</button> <span id="acDeleteMsg" class="fine"></span>'+
     '</div>';
   }
@@ -157,12 +157,27 @@
     el('acExport').addEventListener('click', function(){
       var uid = FC.uid && FC.uid();
       say('acExportMsg', 'Gathering\u2026');
+      /* "Everything the platform holds about you" has to mean it. This shipped
+         results and sittings only, leaving out his actual answers, which are the
+         most personal thing here, and his plan progress. */
       var bundle = { exported_at: new Date().toISOString(), account: ME, preferences: PREFS };
       FC.sb.from('keystone_results').select('*').eq('user_id', uid).then(function(r){
         bundle.results = (r && r.data) || [];
         return FC.sb.from('keystone_sessions').select('*').eq('user_id', uid);
       }).then(function(r){
         bundle.sittings = (r && r.data) || [];
+        var ids = bundle.sittings.map(function(x){ return x.id; });
+        return ids.length
+          ? FC.sb.from('keystone_answers').select('*').in('session_id', ids)
+          : Promise.resolve({ data: [] });
+      }).then(function(r){
+        bundle.answers = (r && r.data) || [];
+        return FC.sb.from('plan_checkins').select('*').eq('user_id', uid);
+      }).then(function(r){
+        bundle.plan_progress = (r && r.data) || [];
+        return FC.sb.from('research_consent').select('*').eq('user_id', uid);
+      }).then(function(r){
+        bundle.research_consent = (r && r.data) || [];
         var blob = new Blob([JSON.stringify(bundle, null, 2)], { type:'application/json' });
         var a = document.createElement('a');
         a.href = URL.createObjectURL(blob);
@@ -183,8 +198,23 @@
       }
       var uid = FC.uid && FC.uid();
       say('acDeleteMsg', 'Deleting\u2026');
-      FC.sb.from('keystone_results').delete().eq('user_id', uid).then(function(){
-        return FC.sb.from('keystone_sessions').delete().eq('user_id', uid);
+      /* "Delete everything" has to mean everything he can see.
+         This removed results, sittings and the profile row, and left his plan
+         check-ins and his course enrolments behind. His raw answers do go, but
+         only because keystone_answers cascades from keystone_sessions, which is
+         luck rather than intent, so sessions are deleted last on purpose.
+
+         Research records are deliberately NOT touched: once a record has been
+         anonymised nothing links it to him, which is what the consent text says
+         plainly. Withdrawing before that point is done from the switch above. */
+      FC.sb.from('plan_checkins').delete().eq('user_id', uid).then(function(){
+        return FC.sb.from('certificate_enrollments').delete().eq('user_id', uid);
+      }).then(function(){
+        return FC.sb.from('keystone_results').delete().eq('user_id', uid);
+      }).then(function(){
+        return FC.sb.from('keystone_sessions').delete().eq('user_id', uid);   // cascades to answers
+      }).then(function(){
+        return FC.sb.from('research_consent').delete().eq('user_id', uid);
       }).then(function(){
         return FC.sb.from('profiles').delete().eq('id', uid);
       }).then(function(){
