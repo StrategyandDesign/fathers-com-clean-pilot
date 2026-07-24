@@ -94,16 +94,41 @@
         paintBranding(b || {});
       }, function(){});
     }
+    /* Colours the panel falls back to when a scope has none of its own. Captured
+       once, before anything is loaded, so they are the true blank state. */
+    var BLANK_ACCENT  = accent.value  || '#E8E84A';
+    var BLANK_ACCENT2 = accent2.value || '#B08D57';
+
+    /* FULL repaint, not a merge.
+
+       This used to apply only the fields that were present: every line was
+       `if(b.x){ set }`. Switching to a report with no branding of its own
+       therefore changed nothing on screen, so the panel still showed the
+       previous report's logo, colours and photos. Two consequences, both bad:
+       the picker looked broken, and saving would have copied one report's
+       colours into another report's row without anyone intending it.
+
+       Every field is now written on every paint, cleared when absent. */
     function paintBranding(b){
-      if(b.logo_primary){ state.logo_primary=b.logo_primary; show(1,b.logo_primary); }
-      if(b.logo_secondary){ state.logo_secondary=b.logo_secondary; show(2,b.logo_secondary); }
-      if(b.accent) accent.value = b.accent;
-      if(b.accent2) accent2.value = b.accent2;
-      if(b.photo_dimensions){ state.photo_dimensions=b.photo_dimensions; showP('dim', b.photo_dimensions); }
-      if(b.photo_practices){ state.photo_practices=b.photo_practices; showP('prac', b.photo_practices); }
-      if(b.photo_satisfaction){ state.photo_satisfaction=b.photo_satisfaction; showP('sat', b.photo_satisfaction); }
-      if(b.photo_cover){ state.photo_cover=b.photo_cover; showP('cover', b.photo_cover); }
-      if(b.photo_footer){ state.photo_footer=b.photo_footer; showP('footer', b.photo_footer); }
+      b = b || {};
+      state.logo_primary   = b.logo_primary   || null;
+      state.logo_secondary = b.logo_secondary || null;
+      show(1, b.logo_primary   || null);
+      show(2, b.logo_secondary || null);
+      accent.value  = b.accent  || BLANK_ACCENT;
+      accent2.value = b.accent2 || BLANK_ACCENT2;
+      ['dim','prac','sat','cover','footer'].forEach(function(k){
+        var field = pmap[k];
+        state[field] = b[field] || null;
+        showP(k, b[field] || null);
+      });
+      // Clear any lingering filename from the previous scope's file inputs.
+      try {
+        if(files[1]) files[1].value = '';
+        if(files[2]) files[2].value = '';
+        for(var k2 in pfiles){ if(pfiles[k2]) pfiles[k2].value = ''; }
+      } catch(e){}
+      if(msg) msg.textContent = '';
     }
 
     /* Which report am I styling? Built from the registry, so a new assessment
