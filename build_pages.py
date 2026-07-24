@@ -1353,7 +1353,7 @@ PAGES['login.html'] = dict(title='Sign in', desc='Sign in to Fathers.com to pick
 .auth-legal{margin-top:34px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center}
 .auth-legal a{font-size:12px;color:var(--ash);text-decoration:none}
 .auth-legal a:hover{color:var(--bone)}
-.auth-legal span{font-size:12px;color:var(--hairline-strong)}
+.auth-legal span{font-size:12px;color:var(--ash)}
 .auth-copy{margin-top:14px;font-size:11px;color:var(--ash);text-align:center;line-height:1.5;max-width:320px}
 @media(max-width:480px){.auth-card{padding:28px 22px}}
 </style>
@@ -2049,9 +2049,9 @@ PAGES['organizations.html'] = dict(title='Become a Certified Organization', desc
 
 <section class="tight"><div class="container">
   <div class="grid-3" style="gap:24px">
-    <div class="card" style="padding:26px 28px"><p class="fine mono" style="color:var(--ember);margin-bottom:10px">01 &middot; MEASURE</p><h3 style="margin-bottom:8px">One join link tags every man.</h3><p class="small" style="color:var(--ash)">The Keystone Profile at intake: 128 items, 26 scales, about twenty minutes. Four dimensions on every man, zero program required.</p></div>
-    <div class="card" style="padding:26px 28px"><p class="fine mono" style="color:var(--ember);margin-bottom:10px">02 &middot; TRAIN</p><h3 style="margin-bottom:8px">Keep the program you trust.</h3><p class="small" style="color:var(--ash)">We make it provable. Or deploy ours: the flagship course is live today, free to every man, with two more courses in development. Your staff lead it as Certified Facilitators.</p></div>
-    <div class="card" style="padding:26px 28px"><p class="fine mono" style="color:var(--ember);margin-bottom:10px">03 &middot; PROVE</p><h3 style="margin-bottom:8px">The report and the credential.</h3><p class="small" style="color:var(--ash)">The Efficacy Report, one page per cohort. Certificates of Completion presented by your facilitators, serialed, and verified at fathers.com/verify in ten seconds.</p></div>
+    <div class="card" style="padding:26px 28px"><p class="fine mono" style="color:var(--ember-ink);margin-bottom:10px">01 &middot; MEASURE</p><h3 style="margin-bottom:8px">One join link tags every man.</h3><p class="small" style="color:var(--ash)">The Keystone Profile at intake: 128 items, 26 scales, about twenty minutes. Four dimensions on every man, zero program required.</p></div>
+    <div class="card" style="padding:26px 28px"><p class="fine mono" style="color:var(--ember-ink);margin-bottom:10px">02 &middot; TRAIN</p><h3 style="margin-bottom:8px">Keep the program you trust.</h3><p class="small" style="color:var(--ash)">We make it provable. Or deploy ours: the flagship course is live today, free to every man, with two more courses in development. Your staff lead it as Certified Facilitators.</p></div>
+    <div class="card" style="padding:26px 28px"><p class="fine mono" style="color:var(--ember-ink);margin-bottom:10px">03 &middot; PROVE</p><h3 style="margin-bottom:8px">The report and the credential.</h3><p class="small" style="color:var(--ash)">The Efficacy Report, one page per cohort. Certificates of Completion presented by your facilitators, serialed, and verified at fathers.com/verify in ten seconds.</p></div>
   </div>
 </div></section>
 
