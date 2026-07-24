@@ -448,13 +448,58 @@ footer{border-top:1px solid var(--hairline);padding:72px 0 48px;margin-top:32px}
 .rp-fold[open] > .rp-fold-sum .rp-fold-x{transform:rotate(225deg) translate(-2px,-2px)}
 .rp-fold[open] > .rp-fold-sum{border-bottom:1px solid var(--rp-line)}
 .rp-fold-plan .rp-fold-c{border-color:var(--rp-acc);color:var(--rp-acc)}
-.rp-doc-compact .rp-chapter{margin-top:0}
-.rp-doc-compact .rp-next90{margin-top:0}
+.rp-doc-compact .rp-chapter{margin-top:0;padding-bottom:clamp(18px,2.4vw,26px)}
+.rp-doc-compact .rp-next90{margin:clamp(20px,2.6vw,28px) clamp(22px,5.5vw,44px)}
+.rp-doc-compact .rp-fold[open] > .rp-fold-sum{border-bottom-color:var(--rp-line)}
+.rp-doc-compact > .rp-fold:last-of-type{border-bottom:1px solid var(--rp-line)}
 @media(prefers-reduced-motion:reduce){ .rp-fold-x{transition:none} }
 @media(max-width:560px){
   .rp-brief{padding:16px 20px}
   .rp-fold-sum{padding:15px 20px;gap:10px}
   .rp-fold-c{display:none}
+}
+
+/* ---------- dashboard "what is next" cards ----------
+   These were bare .card anchors, so every heading and body line inherited the
+   link underline and the three read as a list of raw links rather than a set of
+   choices. */
+.dash-next-h{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin:38px 0 14px}
+.dash-next{position:relative;display:flex;flex-direction:column;gap:7px;text-decoration:none;
+  padding:24px 26px 46px;border-radius:var(--r-card);background:var(--coal);border:1px solid var(--hairline);
+  transition:border-color .14s,transform .14s,background .14s}
+.dash-next:hover{border-color:var(--hairline-strong);background:var(--coal-2);transform:translateY(-2px)}
+.dash-next:focus-visible{outline:2px solid var(--ember);outline-offset:3px}
+.dash-next *{text-decoration:none}
+.dash-next-k{font-family:var(--font-mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ash)}
+.dash-next-t{font-family:var(--font-display);font-weight:600;font-size:19px;letter-spacing:-.014em;line-height:1.15;color:var(--bone);margin:0}
+.dash-next-b{font-size:13.5px;line-height:1.55;color:var(--ash);margin:0}
+.dash-next-go{position:absolute;left:26px;bottom:20px;font-family:var(--font-mono);font-size:11px;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--bone);display:inline-flex;align-items:center;gap:8px}
+.dash-next-go i{font-style:normal;transition:transform .14s}
+.dash-next:hover .dash-next-go i{transform:translateX(4px)}
+.dash-next-foot{margin:22px 0 0;font-size:13px;line-height:1.6;color:var(--ash)}
+@media(prefers-reduced-motion:reduce){ .dash-next,.dash-next-go i{transition:none} .dash-next:hover{transform:none} }
+@media(max-width:560px){ .dash-next{padding:20px 20px 44px} .dash-next-go{left:20px} }
+
+/* ---------- plan footer ----------
+   Home was in the site nav but nowhere on the page, so a man deep in his plan
+   had no visible way back to where he came from. It leads, and it is a button
+   rather than one more underlined link in a row of them. */
+.pl-foot{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;
+  margin-top:34px;padding-top:22px;border-top:1px solid var(--hairline)}
+.pl-foot-home{display:inline-flex;align-items:center;gap:9px;text-decoration:none;
+  height:42px;padding:0 20px;border-radius:var(--r-btn);border:1.5px solid var(--hairline-strong);
+  color:var(--bone);font-size:14px;font-weight:600;transition:border-color .14s,background .14s}
+.pl-foot-home:hover{border-color:var(--bone);background:var(--coal)}
+.pl-foot-home i{font-style:normal;transition:transform .14s}
+.pl-foot-home:hover i{transform:translateX(-3px)}
+.pl-foot-links{display:flex;align-items:center;gap:22px;flex-wrap:wrap}
+.pl-foot-links a{font-size:13.5px}
+@media(prefers-reduced-motion:reduce){ .pl-foot-home,.pl-foot-home i{transition:none} }
+@media(max-width:560px){
+  .pl-foot{flex-direction:column;align-items:stretch}
+  .pl-foot-home{justify-content:center}
+  .pl-foot-links{gap:14px;justify-content:center}
 }
 
 /* ---------- responsive ---------- */
@@ -756,17 +801,17 @@ footer{border-top:1px solid var(--hairline);padding:72px 0 48px;margin-top:32px}
 /* The hero. The week number carries the page the way a chapter number carries
    the report. No photo: this page is seen weekly and a fixed image goes stale. */
 .pl-hero{position:relative;overflow:hidden;border-radius:18px;margin-bottom:20px;
-  padding:clamp(28px,4vw,42px) clamp(24px,4vw,40px);
+  padding:clamp(24px,3.2vw,34px) clamp(24px,4vw,40px);
   background:linear-gradient(142deg,#2E5741 0%,#173629 96%);color:#FFFFFF;
   box-shadow:0 26px 60px -30px rgba(0,0,0,.55)}
 .pl-hero::after{content:"";position:absolute;right:-70px;top:-70px;width:280px;height:280px;
   border-radius:50%;background:rgba(255,255,255,.045);pointer-events:none}
-.pl-hero-top{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;flex-wrap:wrap;margin-bottom:20px;position:relative;z-index:2}
+.pl-hero-top{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;flex-wrap:wrap;margin-bottom:16px;position:relative;z-index:2}
 .pl-hero-eyebrow{font-family:var(--font-mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.7)}
-.pl-hero-base{display:inline-flex;align-items:center;gap:10px;padding:8px 15px;border-radius:999px;
-  border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.08);
-  font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.82)}
-.pl-hero-base b{font-size:16px;color:#FFFFFF;letter-spacing:0}
+.pl-hero-base{display:inline-flex;flex-direction:column;align-items:flex-end;gap:4px;padding:10px 18px;border-radius:14px;
+  border:1px solid rgba(255,255,255,.30);background:rgba(255,255,255,.09);text-align:right}
+.pl-hero-base-k{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.78)}
+.pl-hero-base b{font-family:var(--font-display);font-weight:600;font-size:16px;letter-spacing:-.01em;color:#FFFFFF;white-space:nowrap}
 .pl-hero-row{display:flex;align-items:baseline;gap:clamp(16px,3vw,28px);position:relative;z-index:2}
 .pl-hero-num{font-family:var(--font-display);font-weight:600;line-height:.82;letter-spacing:-.04em;
   font-size:clamp(62px,11vw,116px);color:#FFFFFF}
@@ -774,7 +819,7 @@ footer{border-top:1px solid var(--hairline);padding:72px 0 48px;margin-top:32px}
   color:rgba(255,255,255,.62);display:block;margin-bottom:8px}
 .pl-hero-say{font-family:var(--font-display);font-weight:600;letter-spacing:-.02em;line-height:1.06;
   font-size:clamp(24px,3.4vw,38px);color:#FFFFFF}
-.pl-hero-focus{margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,.18);
+.pl-hero-focus{margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,.18);
   font-size:15.5px;color:rgba(255,255,255,.9);position:relative;z-index:2}
 .pl-hero-focus b{color:#FFFFFF}
 
@@ -1235,3 +1280,7 @@ button.link:hover{border-bottom-color:var(--bone)}
 
 /* Dark theme raises --brass to #C9973B, so the tick must go dark to stay legible. */
 html[data-theme="dark"] .cert-req-mark{color:#141210}
+
+/* Band word rather than a naked percentile beside a scale name. */
+.pl-tend-band{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--bone);border:1px solid var(--hairline-strong);border-radius:999px;padding:3px 10px;white-space:nowrap}
