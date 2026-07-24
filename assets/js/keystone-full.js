@@ -229,7 +229,18 @@ window.KS = window.KS || {};
       assessment_slug: (INS && INS.slug) || 'keystone-father-profile',
       overall_pct: scored.overall, section_scores: scored.sections,
       scale_scores: scored.scales, gap_scale: scored.gap, strength_scale: scored.strength
-    }).then(function(){
+    }).then(function(r){
+      /* Fail loudly and do NOT mark the sitting complete.
+
+         This used to ignore the result of the insert and mark the session
+         completed either way. When a column was missing the insert was rejected,
+         the session was still marked done, and the man's answers were lost with
+         no error shown to anyone. A sitting is only complete once its result is
+         actually stored. */
+      if(r && r.error){
+        console.error('[keystone] result not saved:', r.error.message || r.error);
+        return { error: r.error };
+      }
       return FC.sb.from('keystone_sessions').update({
         status:'completed', completed_at:new Date().toISOString()
       }).eq('id', session.id);
