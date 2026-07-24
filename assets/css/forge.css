@@ -368,6 +368,54 @@ footer{border-top:1px solid var(--hairline);padding:72px 0 48px;margin-top:32px}
 .searchveil.open{display:flex}
 .searchpanel{width:min(720px,92vw);background:var(--coal);border:1px solid var(--hairline-strong);border-radius:12px;padding:24px;box-shadow:var(--shadow)}
 
+/* ---------- FCJourney: the participant path rail ----------
+   One component on the report, the plan, and the dashboard. Uses site tokens by
+   default so it follows the theme, and switches to report-paper tokens inside
+   .rp-doc. Hidden in print via the rp-noprint class it carries. */
+.fcj{padding:14px 0}
+.fcj-row{display:flex;align-items:center;list-style:none;margin:0;padding:0;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none}
+.fcj-row::-webkit-scrollbar{display:none}
+.fcj-step{display:flex;align-items:center;flex:0 0 auto}
+.fcj-step + .fcj-step::before{content:"";width:clamp(14px,3.5vw,44px);height:1px;background:var(--hairline);flex:0 0 auto}
+.fcj-step > a{display:flex;align-items:center;gap:9px;text-decoration:none;padding:7px 12px;border-radius:var(--r-pill);white-space:nowrap;transition:background .12s,color .12s}
+.fcj-n{flex:0 0 22px;width:22px;height:22px;border-radius:50%;border:1px solid var(--hairline-strong);display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:10.5px;line-height:1;color:var(--ash);transition:inherit}
+.fcj-l{font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ash);transition:inherit}
+.fcj-step > a:hover .fcj-l,.fcj-step > a:hover .fcj-n{color:var(--bone)}
+.fcj-step > a:hover .fcj-n{border-color:var(--bone)}
+.fcj-step-done .fcj-n{border-color:var(--hairline-strong);color:var(--bone)}
+.fcj-step-here > a{background:var(--coal)}
+.fcj-step-here .fcj-n{background:var(--ember);border-color:var(--ember);color:#FFFFFF}
+.fcj-step-here .fcj-l{color:var(--bone)}
+.fcj-step > a:focus-visible{outline:2px solid var(--ember);outline-offset:2px}
+
+/* inside the printed-paper report, follow the document palette instead */
+.rp-doc .fcj{padding:18px 0 4px;border-bottom:1px solid var(--rp-line)}
+.rp-doc .fcj-step + .fcj-step::before{background:var(--rp-line2)}
+.rp-doc .fcj-n{border-color:var(--rp-line2);color:var(--rp-ink3)}
+.rp-doc .fcj-l{color:var(--rp-ink3)}
+.rp-doc .fcj-step > a:hover .fcj-l,.rp-doc .fcj-step > a:hover .fcj-n{color:var(--rp-ink)}
+.rp-doc .fcj-step > a:hover .fcj-n{border-color:var(--rp-ink)}
+.rp-doc .fcj-step-done .fcj-n{border-color:var(--rp-brass);color:var(--rp-brass)}
+.rp-doc .fcj-step-here > a{background:rgba(46,87,65,.07)}
+.rp-doc .fcj-step-here .fcj-n{background:var(--rp-acc);border-color:var(--rp-acc);color:#FFFFFF}
+.rp-doc .fcj-step-here .fcj-l{color:var(--rp-ink)}
+.rp-doc .fcj-step > a:focus-visible{outline:2px solid var(--rp-acc);outline-offset:2px}
+/* Phones. Four labelled destinations will not fit beside four number chips at
+   320px, and this rail is navigation rather than a progress meter, so the
+   labels are what must survive. The chips go; left-to-right order and the
+   connectors still carry the sequence, and the filled pill still marks where
+   you are. */
+@media(max-width:560px){
+  .fcj{padding:10px 0}
+  .rp-doc .fcj{padding:12px 0 4px}
+  .fcj-n{display:none}
+  .fcj-l{font-size:9.5px;letter-spacing:.06em}
+  .fcj-step > a{padding:7px 7px;gap:0}
+  .fcj-step + .fcj-step::before{width:10px}
+  .fcj-step-done .fcj-l{color:var(--bone)}
+  .rp-doc .fcj-step-done .fcj-l{color:var(--rp-brass)}
+}
+
 /* ---------- responsive ---------- */
 @media(max-width:1200px){
   .nav-links{display:none}
@@ -962,11 +1010,22 @@ section.tight:has(#rpRoot){background:#F5F5F5;padding-bottom:64px}
   .rp-shape{margin:4mm 0 0}
   .rp-howto{margin:3.5mm 0 0;padding:3.5mm 5mm}
   .rp-scale{padding:2.6mm 0}
-  .rp-read{margin-top:2mm;font-size:11pt}
-  .rp-about{margin-top:1.5mm}
-  .rp-moves{margin-top:2.5mm;padding:3mm 4.5mm}
-  .rp-firstmove{margin-top:2.5mm;padding:3mm 4mm}
+  /* These four were written during the PDF pass but never applied, because the
+     .rp-doc p reset out-specified them. With the reset fixed they finally take
+     effect, and at full value they pushed the document one page longer. Trimmed
+     so the paragraphs still separate and the page count holds. */
+  .rp-read{margin-top:1.2mm;font-size:11pt}
+  .rp-about{margin-top:0.9mm}
+  .rp-moves{margin-top:1.8mm;padding:3mm 4.5mm}
+  .rp-firstmove{margin-top:1.8mm;padding:2.6mm 4mm}
   .rp-move{padding:1mm 0}
+  /* Restored margins that previously had no print value of their own. They were
+     inheriting screen pixels, which is not a deliberate print decision. */
+  .rp-cover-sub{margin-top:2mm}
+  .rp-shape-lead{margin:1.5mm 0 3mm}
+  .rp-n90-line{margin-top:2mm}
+  .rp-plan-url{margin-top:3mm}
+  .rp-brandnote{margin-top:1.5mm}
   .rp-resources{margin-top:4mm;padding-top:3mm}
   .rp-next90{margin:5mm 0 0;padding:7mm 8mm}
   .rp-closing{margin-top:5mm;border-radius:10px;min-height:auto;padding:9mm 10mm}
