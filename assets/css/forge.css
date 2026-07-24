@@ -418,6 +418,45 @@ footer{border-top:1px solid var(--hairline);padding:72px 0 48px;margin-top:32px}
   .rp-doc .fcj-step-done .fcj-l{color:var(--rp-brass)}
 }
 
+/* ---------- report, collapsed form (dashboard) ----------
+   Same document, second presentation. Summary stays open, chapters fold, and
+   the identity strip pins so the profile and its completion date are never
+   scrolled away. */
+.rp-doc-compact{overflow:visible;box-shadow:0 10px 30px -18px rgba(0,0,0,.18)}
+.rp-brief{position:sticky;top:0;z-index:5;display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;
+  padding:20px clamp(22px,5.5vw,44px);background:var(--rp-paper);border-bottom:1px solid var(--rp-line2)}
+.rp-brief-t{font-family:var(--font-display);font-weight:600;font-size:clamp(22px,2.6vw,28px);letter-spacing:-.018em;color:var(--rp-ink);margin:6px 0 0}
+.rp-brief-m{font-family:var(--font-mono);font-size:12px;color:var(--rp-ink2);margin:8px 0 0}
+.rp-brief-r{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.rp-btn.rp-btn-sm{height:38px;padding:0 16px;font-size:13.5px}
+.rp-fold-all{height:38px;padding:0 16px;border-radius:var(--rp-rs);border:1.5px solid var(--rp-ink);background:var(--rp-ink);color:var(--rp-paper);
+  font-family:var(--font-body,"Poppins",sans-serif);font-size:13.5px;font-weight:600;cursor:pointer}
+.rp-fold-all:hover{background:var(--rp-ink2);border-color:var(--rp-ink2)}
+
+.rp-fold{border-top:1px solid var(--rp-line)}
+.rp-fold-sum{display:flex;align-items:center;gap:14px;cursor:pointer;list-style:none;
+  padding:18px clamp(22px,5.5vw,44px);font-family:var(--font-display);transition:background .12s}
+.rp-fold-sum::-webkit-details-marker{display:none}
+.rp-fold-sum:hover{background:rgba(46,87,65,.05)}
+.rp-fold-sum:focus-visible{outline:2px solid var(--rp-acc);outline-offset:-2px}
+.rp-fold-n{flex:0 0 auto;font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;color:var(--rp-ink2)}
+.rp-fold-t{flex:1 1 auto;font-weight:600;font-size:clamp(17px,2vw,20px);letter-spacing:-.012em;color:var(--rp-ink)}
+.rp-fold-c{flex:0 0 auto;font-family:var(--font-mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--rp-ink2);
+  border:1px solid var(--rp-line2);border-radius:999px;padding:4px 10px;white-space:nowrap}
+.rp-fold-x{flex:0 0 auto;width:11px;height:11px;border-right:2px solid var(--rp-ink2);border-bottom:2px solid var(--rp-ink2);
+  transform:rotate(45deg) translate(-2px,-2px);transition:transform .16s}
+.rp-fold[open] > .rp-fold-sum .rp-fold-x{transform:rotate(225deg) translate(-2px,-2px)}
+.rp-fold[open] > .rp-fold-sum{border-bottom:1px solid var(--rp-line)}
+.rp-fold-plan .rp-fold-c{border-color:var(--rp-acc);color:var(--rp-acc)}
+.rp-doc-compact .rp-chapter{margin-top:0}
+.rp-doc-compact .rp-next90{margin-top:0}
+@media(prefers-reduced-motion:reduce){ .rp-fold-x{transition:none} }
+@media(max-width:560px){
+  .rp-brief{padding:16px 20px}
+  .rp-fold-sum{padding:15px 20px;gap:10px}
+  .rp-fold-c{display:none}
+}
+
 /* ---------- responsive ---------- */
 @media(max-width:1200px){
   .nav-links{display:none}
