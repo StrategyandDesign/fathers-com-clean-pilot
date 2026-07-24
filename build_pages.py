@@ -74,7 +74,7 @@ HEAD = '''<!DOCTYPE html>
 
 def nav(active='', mode='public'):
     if mode=='app':
-        links = [('Home','plan.html'),('The Courses','certificates.html'),('Stories','stories.html'),('Circles','circles.html')]
+        links = [('Home','dashboard.html'),('The Courses','certificates.html'),('Stories','stories.html'),('Circles','circles.html')]
         active = {'Certificates':'The Courses','Classes':'The Courses'}.get(active, active)
     else:
         links = [('The Profile','profile.html'),('The Courses','certificates.html'),('Stories','stories.html')]
@@ -571,7 +571,7 @@ PAGES['player.html'] = dict(title='Session 4 &middot; The Fundamentals of Father
 ''')
 
 # ================================================== plan.html (P6)
-PAGES['plan.html'] = dict(title='Home', desc='Your baseline, your plan, your work.', active='Home', mode='app', auth=True, body='''
+PAGES['plan.html'] = dict(title='Your ninety-day plan', desc='Your baseline, your plan, your work.', active='', mode='app', auth=True, body='''
 <section class="tight" style="padding-top:36px"><div class="container">
   <div class="pl-wrap">
     <div id="planRoot">
@@ -962,6 +962,8 @@ PAGES['account.html'] = dict(title='Account', desc='Settings, membership, notifi
 ''')
 
 # ================================================== certificates.html (P10 screens 1-3)
+PAGE_SCRIPTS = {'certificates.html': ['course-catalog.js']}
+
 PAGES['certificates.html'] = dict(title='The Courses and the Certificate of Completion', desc='Three courses, free to every man. Finish the work and hold a Certificate of Completion: verified hours, a serial anyone can confirm, at no cost to you.', active='Certificates', mode='public', body='''
 <!-- HERO: the certificate is the thesis -->
 <header class="cert-hero"><div class="container">
@@ -2387,6 +2389,10 @@ if __name__ == '__main__':
             html += nav(p.get('active',''), p.get('mode','public'))
             html += p['body']
             html += FOOT
+            # Per-page scripts. certificates.html reads the real published course
+            # list; hand-adding this tag was lost every time the page regenerated.
+            for extra in PAGE_SCRIPTS.get(fname, []):
+                html += '<script src="assets/js/%s"></script>\n' % extra
             if p.get('auth'):
                 html = html.replace('<body>', '<body data-auth="required">', 1)
         html += '</body>\n</html>\n'
