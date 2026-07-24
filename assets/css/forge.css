@@ -502,6 +502,55 @@ footer{border-top:1px solid var(--hairline);padding:72px 0 48px;margin-top:32px}
   .pl-foot-links{gap:14px;justify-content:center}
 }
 
+/* .grid-auto was used on the dashboard but never defined, so the cards it held
+   had no display:grid, stacked full width, and the gap on them did nothing. */
+.grid-auto{display:grid;grid-template-columns:repeat(auto-fit,minmax(268px,1fr));gap:16px;align-items:stretch}
+
+/* ---------- dashboard: your courses ----------
+   A man who enrolled had no route back to the lesson he stopped on. He had to
+   go to the catalogue, find the course, and read the card to learn he was
+   already in it. This puts the resume where he lands. */
+.dash-sec-h{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin:38px 0 14px}
+.dash-sec-h .link{font-size:13px}
+.dash-course{position:relative;display:flex;flex-direction:column;gap:9px;text-decoration:none;
+  padding:22px 24px 20px;border-radius:var(--r-card);background:var(--coal);border:1px solid var(--hairline);
+  transition:border-color .14s,transform .14s,background .14s}
+.dash-course:hover{border-color:var(--hairline-strong);background:var(--coal-2);transform:translateY(-2px)}
+.dash-course:focus-visible{outline:2px solid var(--ember);outline-offset:3px}
+.dash-course *{text-decoration:none}
+.dash-course-k{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:9.5px;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--ash)}
+.dash-course-k::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--ember);flex:0 0 auto}
+.dash-course.is-done .dash-course-k::before{background:var(--pine-hi)}
+.dash-course.is-new .dash-course-k::before{background:var(--brass)}
+.dash-course-t{font-family:var(--font-display);font-weight:600;font-size:18px;letter-spacing:-.014em;
+  line-height:1.2;color:var(--bone);margin:0}
+.dash-course-bar{height:6px;border-radius:100px;background:var(--coal-2);border:1px solid var(--hairline);overflow:hidden;margin-top:3px}
+.dash-course-fill{display:block;height:100%;border-radius:100px;background:var(--ember-btn)}
+.dash-course.is-done .dash-course-fill{background:var(--pine-hi)}
+.dash-course-m{font-family:var(--font-mono);font-size:11px;letter-spacing:.06em;color:var(--ash);margin:0}
+.dash-course-go{margin-top:6px;font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--bone);display:inline-flex;align-items:center;gap:8px}
+.dash-course-go i{font-style:normal;transition:transform .14s}
+.dash-course:hover .dash-course-go i{transform:translateX(4px)}
+@media(prefers-reduced-motion:reduce){ .dash-course,.dash-course-go i{transition:none} .dash-course:hover{transform:none} }
+
+/* ---------- dashboard: profile chooser when he holds both ----------
+   Two profiles were a row of buttons with a date crammed inside each one. They
+   are two distinct records of two distinct instruments, so they get two cards
+   and the active one is stated rather than implied by button colour. */
+.dash-prof{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-bottom:20px}
+.dash-prof-c{display:flex;flex-direction:column;gap:6px;text-align:left;cursor:pointer;
+  padding:18px 20px;border-radius:var(--r-card);background:transparent;border:1.5px solid var(--hairline);
+  font-family:inherit;transition:border-color .14s,background .14s}
+.dash-prof-c:hover{border-color:var(--hairline-strong);background:var(--coal)}
+.dash-prof-c:focus-visible{outline:2px solid var(--ember);outline-offset:3px}
+.dash-prof-c[aria-pressed="true"]{border-color:var(--ember);background:var(--coal)}
+.dash-prof-k{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ash)}
+.dash-prof-c[aria-pressed="true"] .dash-prof-k{color:var(--ember-ink)}
+.dash-prof-t{font-family:var(--font-display);font-weight:600;font-size:17px;letter-spacing:-.012em;line-height:1.2;color:var(--bone)}
+.dash-prof-d{font-family:var(--font-mono);font-size:11px;color:var(--ash)}
+
 /* ---------- responsive ---------- */
 @media(max-width:1200px){
   .nav-links{display:none}
