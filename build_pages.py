@@ -320,6 +320,7 @@ PAGES['report.html'] = dict(title='Your Written Report', desc='Every dimension: 
     </div>
   </div>
 </div></section>
+<script src="assets/js/journey.js"></script>
 <script src="assets/js/keystone-data.js"></script>
 <script src="assets/js/keystone-full.js"></script>
 <script src="assets/js/keystone-manhood-data.js"></script>
@@ -574,6 +575,7 @@ PAGES['player.html'] = dict(title='Session 4 &middot; The Fundamentals of Father
 # ================================================== plan.html (P6)
 PAGES['plan.html'] = dict(title='Your ninety-day plan', desc='Your baseline, your plan, your work.', active='', mode='app', auth=True, body='''
 <section class="tight" style="padding-top:36px"><div class="container">
+  <div data-journey="plan" data-journey-done="profile,report" style="margin-bottom:18px"></div>
   <div class="pl-wrap">
     <div id="planRoot">
       <div id="planLoading" class="center" style="padding:80px 0">
@@ -895,7 +897,8 @@ PAGES['account.html'] = dict(title='Your settings', desc='Your name, how we reac
 
 # ================================================== certificates.html (P10 screens 1-3)
 PAGE_SCRIPTS = {'certificates.html': ['course-catalog.js'],
-                'account.html': ['account-prefs.js']}
+                'account.html': ['account-prefs.js'],
+                'plan.html': ['journey.js']}
 
 PAGES['certificates.html'] = dict(title='The Courses and the Certificate of Completion', desc='Three courses, free to every man. Finish the work and hold a Certificate of Completion: verified hours, a serial anyone can confirm, at no cost to you.', active='Certificates', mode='public', body='''
 <!-- HERO: the certificate is the thesis -->
