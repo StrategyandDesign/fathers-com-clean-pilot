@@ -168,37 +168,37 @@
     function paint(courseCount){
       var cards = [];
 
-      cards.push(
-        '<a class="card dash-next" href="certificates.html" style="padding:22px;display:block">'+
-          '<div class="eyebrow" style="margin-bottom:8px">THE COURSES</div>'+
-          '<h3 style="margin:0 0 6px">'+(courseCount
-             ? courseCount + ' course' + (courseCount===1?'':'s') + ' open to you'
-             : 'The courses')+'</h3>'+
-          '<p class="fine" style="margin:0">'+(courseCount
-             ? 'Free. Finish one and you hold a Certificate of Completion with your name and a serial anyone can check.'
-             : 'Free to every man. Verified hours, a signed certificate, no cost.')+'</p>'+
-        '</a>');
+      /* One card shape, so the three read as choices rather than a list of raw
+         links. Each carries its own call so the destination is never a guess. */
+      function card(href, kicker, title, body, go){
+        return '<a class="dash-next" href="'+href+'">'+
+          '<span class="dash-next-k">'+kicker+'</span>'+
+          '<h3 class="dash-next-t">'+title+'</h3>'+
+          '<p class="dash-next-b">'+body+'</p>'+
+          '<span class="dash-next-go">'+go+' <i aria-hidden="true">&rarr;</i></span></a>';
+      }
 
-      cards.push(
-        '<a class="card dash-next" href="stories.html" style="padding:22px;display:block">'+
-          '<div class="eyebrow" style="margin-bottom:8px">STORIES</div>'+
-          '<h3 style="margin:0 0 6px">Men who have been here</h3>'+
-          '<p class="fine" style="margin:0">Short, honest accounts from men doing the same work. Read one when the week is hard.</p>'+
-        '</a>');
+      cards.push(card('certificates.html','The courses',
+        courseCount ? courseCount + ' course' + (courseCount===1?'':'s') + ' open to you' : 'The courses',
+        courseCount ? 'Free. Finish one and you hold a Certificate of Completion with your name and a serial anyone can check.'
+                    : 'Free to every man. Verified hours, a signed certificate, no cost.',
+        'Browse the courses'));
+
+      cards.push(card('stories.html','Stories','Men who have been here',
+        'Short, honest accounts from men doing the same work. Read one when the week is hard.',
+        'Read the stories'));
 
       if(other && !hasOther){
-        cards.push(
-          '<a class="card dash-next" href="profile.html?assessment='+encodeURIComponent(other)+'" style="padding:22px;display:block">'+
-            '<div class="eyebrow" style="margin-bottom:8px">THE OTHER PROFILE</div>'+
-            '<h3 style="margin:0 0 6px">'+esc(otherTitle)+'</h3>'+
-            '<p class="fine" style="margin:0">You have taken one. The other measures different ground, and you keep both.</p>'+
-          '</a>');
+        cards.push(card('profile.html?assessment='+encodeURIComponent(other),'The other profile',
+          esc(otherTitle),
+          'You have taken one. The other measures different ground, and you keep both.',
+          'Take this profile'));
       }
 
       host.innerHTML =
-        '<div class="eyebrow" style="margin:34px 0 12px">WHAT IS NEXT</div>'+
+        '<div class="dash-next-h"><span class="eyebrow">WHAT IS NEXT</span></div>'+
         '<div class="grid-auto" style="gap:16px">'+cards.join('')+'</div>'+
-        '<p class="fine" style="margin:20px 0 0;color:var(--ash)">'+
+        '<p class="dash-next-foot">'+
           'Taken this profile a while ago? <a class="link" href="profile.html?assessment='+encodeURIComponent(activeSlug)+'">Take '+esc(titleFor(activeSlug))+' again</a> '+
           'and the new result sits alongside the old one. Nothing is overwritten.'+
         '</p>';

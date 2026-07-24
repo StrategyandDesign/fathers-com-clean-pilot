@@ -115,6 +115,9 @@
     var week = isDemo ? 3 : PLAN_ENGINE.currentWeek(result.completed_at);
     var wk = plan.weeks[week-1] || plan.weeks[0];
     var overall = Math.round(result.overall_pct || plan.overall || 0);
+    /* Carry the profile through every outbound link, so a man holding two
+       profiles stays on the one this plan was built from. */
+    var q = result.assessment_slug ? '?assessment='+encodeURIComponent(result.assessment_slug) : '';
 
     var m = computeProgress(plan, week);
 
@@ -124,7 +127,10 @@
       '<div class="pl-hero">'+
         '<div class="pl-hero-top">'+
           '<div class="pl-hero-eyebrow">Your ninety-day plan</div>'+
-          '<span class="pl-hero-base">Baseline <b>'+overall+'</b></span>'+
+          '<span class="pl-hero-base">'+
+            '<span class="pl-hero-base-k">Where you started</span>'+
+            '<b>'+esc(((window.KS && KS.bandFor) ? KS.bandFor(overall).label : 'Your baseline'))+'</b>'+
+          '</span>'+
         '</div>'+
         '<div class="pl-hero-row">'+
           '<div><span class="pl-hero-numlbl">Week</span><span class="pl-hero-num">'+week+'</span></div>'+
@@ -202,8 +208,13 @@
         '<div class="card" style="padding:24px">'+
           '<div class="eyebrow" style="margin-bottom:10px">ALSO WORTH TENDING</div>'+
           plan.supporting.map(function(sp){
-            return '<div class="row between" style="margin-bottom:8px"><span class="small">'+esc(sp.label)+'</span>'+
-              '<span class="mono small ash">'+Math.round(sp.pct)+'</span></div>';
+            /* This was printing a bare percentile beside a scale name. A man
+               whose Consistency scored low read the word "Consistency" followed
+               by "0", which is a verdict, not a mirror. Band words carry the
+               same information in the platform's own language. */
+            var bd = (window.KS && KS.bandFor) ? KS.bandFor(sp.pct).label : '';
+            return '<div class="row between" style="margin-bottom:10px;gap:14px"><span class="small">'+esc(sp.label)+'</span>'+
+              '<span class="pl-tend-band">'+esc(bd)+'</span></div>';
           }).join('')+
         '</div>';
     }
@@ -221,13 +232,14 @@
 
     // 6. Tertiary, quiet.
     html +=
-      '<div class="row wrap" style="gap:12px;margin-top:20px;align-items:center">'+
-        '<a class="link ash" href="profile.html">Retake the Profile</a>'+
-        '<span class="fine ash">&middot;</span>'+
-        '<a class="link ash" href="report.html">Your full report</a>'+
-        '<span class="fine ash">&middot;</span>'+
-        '<a class="link ash" href="classes.html">Browse classes for this focus &rarr;</a>'+
-      '</div>';
+      '<nav class="pl-foot" aria-label="Where to next">'+
+        '<a class="pl-foot-home" href="dashboard.html'+q+'"><i aria-hidden="true">&larr;</i> Home</a>'+
+        '<span class="pl-foot-links">'+
+          '<a class="link ash" href="report.html'+q+'">Your full report</a>'+
+          '<a class="link ash" href="classes.html">Classes for this focus</a>'+
+          '<a class="link ash" href="profile.html'+q+'">Retake the Profile</a>'+
+        '</span>'+
+      '</nav>';
 
     root.innerHTML = html;
     restoreChecks();
