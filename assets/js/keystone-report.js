@@ -475,6 +475,14 @@
         (brand.logo_secondary ? '<span class="rp-cb-div"></span><span class="rp-cb-part"><span class="rp-cb-in">In partnership with</span><img class="rp-logo rp-logo-2" src="'+esc(brand.logo_secondary)+'" alt="Partner logo"></span>' : '')+
       '</div>';
 
+      /* Where this document sits in the participant's path. Rendered above the
+         table of contents so the order reads: where you are in the system, then
+         what is inside this document. */
+      var journey = (typeof FCJourney !== 'undefined')
+        ? FCJourney.html({ current:'report', slug:(A&&A.slug)||null,
+                           done:(state==='sample'?[]:['profile']) })
+        : '';
+
       var contents = '<nav class="rp-contents rp-noprint" aria-label="What is inside">'+
         '<span class="rp-contents-h">What&rsquo;s inside</span>'+
         '<a href="#rp-glance">At a glance</a><a href="#rp-sec-dimensions">Dimensions</a>'+
@@ -485,16 +493,17 @@
       if(state==='sample') stateLine='<div class="rp-sample-note rp-noprint">A sample report. <a href="profile.html">Take your Profile</a> and this becomes yours, free.</div>';
       if(state==='pending') stateLine='<div class="rp-sample-note rp-noprint">Not saved yet. Email yourself a secure link below and this report and your plan are kept.</div>';
 
+      /* Carry the profile through, so a man who holds two lands on the plan
+         for the one he is reading rather than the newest. */
+      var q = (A && A.slug) ? '?assessment='+encodeURIComponent(A.slug) : '';
       var actions='<div class="rp-actions rp-noprint">';
       if(state==='sample') actions+='<a class="rp-btn rp-btn-yellow" href="profile.html">Take the Profile</a>';
+      /* One obvious next step. The plan is the stage after the report, so it
+         carries the only primary weight here. Three equal ghost buttons told a
+         man nothing about what to do next. */
+      if(state!=='sample') actions+='<a class="rp-btn rp-btn-yellow" href="plan.html'+q+'">Open my ninety-day plan</a>';
       actions+='<button class="rp-btn rp-btn-ghost" id="rpPrint">Download as PDF</button>';
-      if(state!=='sample'){
-        /* Carry the profile through, so a man who holds two lands on the plan
-           for the one he is reading rather than the newest. */
-        var q = (A && A.slug) ? '?assessment='+encodeURIComponent(A.slug) : '';
-        actions+='<a class="rp-btn rp-btn-ghost" href="plan.html'+q+'">Open my ninety-day plan</a>';
-        actions+='<a class="rp-btn rp-btn-ghost" href="dashboard.html'+q+'">Back to my home</a>';
-      }
+      if(state!=='sample') actions+='<a class="rp-btn rp-btn-ghost" href="dashboard.html'+q+'">Home</a>';
       if(state==='pending') actions+='<span class="rp-mailrow"><input class="rp-mail-input" type="email" id="rpEmail" placeholder="you@email.com" autocomplete="email"><button class="rp-btn rp-btn-yellow" id="rpSend">Email me this report</button></span>';
       actions+='</div>';
       actions+= (state==='account')
@@ -549,7 +558,7 @@
           (state==='sample'
             ? '<a class="rp-btn rp-btn-yellow" href="profile.html">Start your ninety-day plan</a>'
             : '<a class="rp-btn rp-btn-yellow" href="plan.html'+((A&&A.slug)?'?assessment='+encodeURIComponent(A.slug):'')+'">Open my ninety-day plan</a>'+
-              '<a class="rp-btn rp-btn-ghost" style="margin-left:10px" href="dashboard.html'+((A&&A.slug)?'?assessment='+encodeURIComponent(A.slug):'')+'">Everything else is on my home</a>')+
+              '<a class="rp-btn rp-btn-ghost" style="margin-left:10px" href="dashboard.html'+((A&&A.slug)?'?assessment='+encodeURIComponent(A.slug):'')+'">Everything else is on your Home</a>')+
         '</p>'+
         '<p class="rp-printonly rp-plan-url">Your live plan: fathers-com-platform.vercel.app/plan.html</p></section>';
 
@@ -567,6 +576,7 @@
             '<p class="rp-cover-sub">Prepared from your answers &middot; completed '+esc(fmtDate(result.completed_at))+'</p>'+
             '<p class="rp-cover-thesis">'+esc(thesis)+'</p>'+
           '</div></div></header>'+
+        '<div class="rp-inner">'+journey+'</div>'+
         contents+
         '<div class="rp-inner">'+stateLine+actions+glance+stats+shape+howto+'</div>'+
         chapters+next90+closing+

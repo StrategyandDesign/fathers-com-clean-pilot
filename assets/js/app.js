@@ -282,23 +282,67 @@
       location.href='login.html';return;
     }
 
-    // Nav state: signed in shows My Plan and an explicit Sign out.
-    var loginLink=document.querySelector('.nav-right a[href="login.html"]');
-    if(loginLink&&session){
-      // His home is the dashboard: it holds every profile he has completed, and
-      // links out to each report and plan. Pointing this at the plan sent a man
-      // with two profiles to only one of them.
-      loginLink.textContent='My Profile'; loginLink.href='dashboard.html';
-      if(!document.getElementById('navSignout')){
-        var so=document.createElement('a');
-        so.id='navSignout'; so.href='#'; so.textContent='Sign out';
-        so.className=loginLink.className;
-        so.style.cssText='font-size:13px;color:var(--ash)';
-        so.addEventListener('click',function(e){
+    /* ---------- Nav state for a signed-in participant ----------
+       Public-built pages ship the marketing nav: The Profile / The Courses /
+       Stories, plus a yellow "Start your Profile". A signed-in man reading his
+       own report was therefore offered the thing he had already done, with no
+       route to his home, his plan or his circle. Worse, the only dashboard
+       link was a right-rail text link carrying .hide-m, so it vanished below
+       680px and never appeared in the mobile drawer, which only reveals
+       .nav-links.
+
+       So swap the whole primary list rather than relabelling one link. The
+       participant set lives in .nav-links, which means it reaches the mobile
+       drawer for the first time, and the report and the plan are in the global
+       nav at all. Role dashboards (admin, studio, org) carry data-role links
+       and are left alone. */
+    if(session) applyParticipantNav();
+
+    function applyParticipantNav(){
+      var list=document.querySelector('.nav-links');
+      if(!list || list.querySelector('a[data-role]')) return;   // role dashboards keep theirs
+      if(list.dataset.fcParticipant) return;                    // idempotent
+
+      var here=(location.pathname.split('/').pop()||'index.html').toLowerCase();
+      var slug=(/[?&]assessment=([^&]+)/.exec(location.search)||[])[1];
+      var q=slug?('?assessment='+slug):'';
+      var links=[
+        ['Home','dashboard.html'],
+        ['My Report','report.html'+q],
+        ['My Plan','plan.html'+q],
+        ['Courses','certificates.html'],
+        ['Circles','circles.html']
+      ];
+      list.innerHTML=links.map(function(l){
+        var target=l[1].split('?')[0];
+        var on=(target===here)?' class="active"':'';
+        return '<li><a href="'+l[1]+'"'+on+'>'+l[0]+'</a></li>';
+      }).join('');
+      list.dataset.fcParticipant='1';
+
+      /* The yellow marketing CTA is wrong for a man who is already inside.
+         Replace it with the account chip the app-built pages already use, so
+         the two navs converge on one shape. */
+      var cta=document.querySelector('.nav-right a.btn-yellow[href="profile.html"]');
+      if(cta){
+        var chip=document.createElement('a');
+        chip.href='account.html'; chip.className='avatarchip';
+        chip.title='Account'; chip.style.textDecoration='none';
+        /* Initial from whatever the session knows, so the chip is his and not a
+           hardcoded letter. Falls back to the wordless glyph. */
+        var who=(session.user&&(session.user.user_metadata&&session.user.user_metadata.full_name))||
+                (session.user&&session.user.email)||'';
+        chip.textContent=who?who.trim().charAt(0).toUpperCase():'\u2022';
+        cta.parentNode.replaceChild(chip, cta);
+      }
+
+      var loginLink=document.querySelector('.nav-right a[href="login.html"]');
+      if(loginLink){
+        loginLink.textContent='Sign out'; loginLink.href='#';
+        loginLink.addEventListener('click',function(e){
           e.preventDefault();
           FC.signOut().then(function(){ location.href='index.html'; });
         });
-        loginLink.parentNode.insertBefore(so, loginLink.nextSibling);
       }
     }
 
