@@ -99,6 +99,7 @@ PRE_SCRIPTS = {
         '<script src="assets/js/keystone-full.js"></script>\n'
         '<script src="assets/js/keystone-manhood-data.js"></script>\n'
         '<script src="assets/js/assessment-registry.js"></script>\n'
+        '<script src="assets/js/plan-engine.js"></script>\n'
         '<script src="assets/js/keystone-report.js"></script>\n'
     ),
 }
