@@ -483,7 +483,7 @@
 
       var cobrand = '<div class="rp-cobrand">'+
         (brand.logo_primary ? '<img class="rp-logo" src="'+esc(brand.logo_primary)+'" alt="Program logo">' : '<span class="rp-cb-word">Fathers.com</span>')+
-        (brand.logo_secondary ? '<span class="rp-cb-div"></span><span class="rp-cb-part"><span class="rp-cb-in">In partnership with</span><img class="rp-logo rp-logo-2" src="'+esc(brand.logo_secondary)+'" alt="Partner logo"></span>' : '')+
+        (brand.logo_secondary ? '<span class="rp-cb-div"></span><span class="rp-cb-part"><img class="rp-logo rp-logo-2" src="'+esc(brand.logo_secondary)+'" alt="Partner logo"></span>' : '')+
       '</div>';
 
       /* Where this document sits in the participant's path. Rendered above the
