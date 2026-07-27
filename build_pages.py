@@ -493,7 +493,7 @@ PAGES['class.html'] = dict(title='The Fundamentals of Fathering', desc='The flag
         <div class="check"><span class="checkmark">&check;</span><span class="small">Your baseline and plan</span></div>
         <div class="check"><span class="checkmark">&check;</span><span class="small">30-day money-back guarantee</span></div>
       </div></div>
-    <div class="card brass-card"><p class="small" style="margin-bottom:12px">Need court-ready proof? Finish this course and your Certificate of Completion is issued at no cost.</p>
+    <div class="card brass-card"><p class="small" style="margin-bottom:12px">Need proof someone else can check? Finish this course and your Certificate of Completion is issued at no cost.</p><p class="fine" style="margin:10px 0 0">Whether a certificate satisfies a court, agency, or program requirement is decided by that body. Confirm with yours before enrolling.</p>
       <div class="row wrap" style="gap:14px;align-items:center">
         <a class="btn btn-yellow btn-sm" href="enroll.html?cert=fundamentals&amp;title=Fathering%20Fundamentals&amp;hours=10.0">Earn the certificate</a>
         <button class="link brass" id="seeCert" data-cert-course="The Fundamentals of Fathering" data-cert-hours="10.0" style="font-size:14px;background:none;border:none;cursor:pointer;padding:0;text-decoration:underline;text-underline-offset:3px">See the Certificate</button></div></div>
@@ -985,11 +985,11 @@ PAGES['certificates.html'] = dict(title='The Courses and the Certificate of Comp
   <div class="row between wrap" style="margin-bottom:40px;align-items:flex-end">
     <div><div class="eyebrow brass" style="margin-bottom:12px">THE THREE COURSES</div>
     <h2 class="d-36">Three courses. Chosen for the rooms where men are met.</h2></div>
-    <p class="small" style="max-width:34ch">Open to every man, on either track. Presence, steadiness, and coming home: the three completions courts and programs actually ask for, built on the Keystone framework.</p>
+    <p class="small" style="max-width:34ch">Open to every man, on either track. Presence, steadiness, and coming home: three completions built on the Keystone framework.</p>
   </div>
   <div class="cert-cards" id="tracks">
     <a class="cert-card" href="enroll.html?cert=fundamentals&amp;title=Fathering%20Fundamentals&amp;hours=10.0" data-cert="fundamentals" data-title="Fathering Fundamentals" data-hours="10.0" data-desc="The flagship curriculum, hardened into proof. The same lessons taught by fathers who have lived it, plus identity verification, logged time, checkpoints, and a final assessment.">
-      <div class="cert-card-top"><span class="pill pill-court">Court-ready</span><span class="cert-card-hrs">10.0 hrs</span></div>
+      <div class="cert-card-top"><span class="pill pill-court">Verified</span><span class="cert-card-hrs">10.0 hrs</span></div>
       <h3>Fathering Fundamentals</h3>
       <p>The flagship, built on The 7 Secrets of Effective Fathers. The free course, hardened into proof.</p>
       <div class="cert-card-foot"><span class="mono">Free</span><span class="cert-card-go">Start this course &rarr;</span></div>
@@ -1018,7 +1018,7 @@ PAGES['certificates.html'] = dict(title='The Courses and the Certificate of Comp
     <button class="btn btn-primary btn-sm">Join the waitlist</button>
   </form>
 </div></section>
-  <p class="fine" style="margin-top:20px">Every course and every Certificate of Completion is free to the man. Certified organizations and facilitators carry the standard; sponsorship funds seats and materials.</p>
+  <p class="fine" style="margin-top:20px">Whether a certificate satisfies a court, agency, or program requirement is decided by that body. Confirm with yours before enrolling. Every course and every Certificate of Completion is free to the man. Certified organizations and facilitators carry the standard; sponsorship funds seats and materials.</p>
 </div></section>
 
 <!-- PROOF IN CONTEXT: the certificate as a milestone, with real photography -->
@@ -1409,7 +1409,8 @@ PAGES['enroll.html'] = dict(title='Enroll', desc='Enroll free. Finish the work a
       <div>
         <div class="eyebrow brass" style="margin-bottom:14px">THE CERTIFICATE OF COMPLETION</div>
         <h1 class="d-36" style="margin-bottom:14px">Enroll in <span id="certTitle">this course</span></h1>
-        <p class="lead" style="margin-bottom:30px">Court-ready proof that you did the work, at no cost to you. Identity confirmed, hours logged, checkpoints passed, and a serial anyone can confirm.</p>
+        <p class="lead" style="margin-bottom:30px">Verified proof that you did the work, at no cost to you. Identity confirmed, hours logged, checkpoints passed, and a serial anyone can confirm.</p>
+        <p class="fine" style="margin:-18px 0 26px">Whether a certificate satisfies a court, agency, or program requirement is decided by that body. Confirm with yours before enrolling.</p>
         <div class="eyebrow" style="margin-bottom:16px">WHAT EARNING IT REQUIRES</div>
         <div class="stack-16">
           <div class="check"><span class="checkmark">&check;</span><span class="small">Confirm your identity once at enrollment: a government ID, checked then deleted, or in-person attestation by your Certified Facilitator.</span></div>
