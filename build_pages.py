@@ -13,6 +13,14 @@ OG_IMAGE = SITE_URL + "/assets/img/og-image.jpg"
 # routes are removed from nav and footers, and stale generated files are deleted.
 # Flipping this back to True restores the vertical after a copy pass.
 SHOW_MILITARY = False
+
+# SHOW_GATHERINGS dark-launches the events surface exactly as SHOW_MILITARY does
+# for veterans: the page is not generated, any stale file is deleted, and every
+# route into it is stripped from the footer, the home page and the About page.
+# Flip to True to restore it. Nothing is deleted from this file, so restoring
+# is a one-word change.
+SHOW_GATHERINGS = False
+GATHERINGS_PAGES = {'gatherings.html'}
 MILITARY_PAGES = {
     'veterans.html', 'veterans-hub.html', 'veterans-start.html', 'veterans-checkin.html',
     'veterans-module.html', 'veterans-resources.html', 'voice.html', 'share.html',
@@ -875,9 +883,19 @@ PAGES['sponsor.html'] = dict(title='Sponsor a man', desc='$120 funds one man&rsq
     <p class="fine" style="max-width:52ch;margin-bottom:12px">Sponsored seats are assigned through Certified Organizations. You will get one update when your seat is claimed. No personal details, no program names, ever.</p>
     <p class="fine" style="max-width:52ch;margin-bottom:12px">Churches and programs: sponsor ten and we set up your join link, one link that enrolls every man under your group.</p>
     <p class="fine" style="max-width:52ch;margin-bottom:26px">Giving to your own dad or a friend? <a class="link ash" href="gift.html">Give a man the work &rarr;</a></p>
-    <form class="row" data-lead="sponsor-interest" data-done="Received. We will email you when sponsorship checkout opens." style="gap:10px;max-width:440px">
-      <input class="input" name="email" type="email" required placeholder="Your email" style="flex:1">
-      <button class="btn btn-primary">Sponsor</button>
+    <form data-lead="sponsor-interest" data-done="Received. We will email you when sponsorship checkout opens." style="max-width:520px">
+      <div class="eyebrow" style="margin:4px 0 10px">WHERE YOUR GIFT GOES</div>
+      <div class="row wrap" style="gap:8px;margin-bottom:14px">
+        <label class="chip"><input type="radio" name="designation" value="greatest-need" checked> Where the need is greatest</label>
+        <label class="chip"><input type="radio" name="designation" value="coming-home"> A father coming home</label>
+        <label class="chip"><input type="radio" name="designation" value="serving-or-served"> A father who serves or served</label>
+        <label class="chip"><input type="radio" name="designation" value="future-father"> A future father</label>
+      </div>
+      <div class="row" style="gap:10px">
+        <input class="input" name="email" type="email" required placeholder="Your email" style="flex:1">
+        <button class="btn btn-primary">Sponsor</button>
+      </div>
+      <p class="fine" style="margin-top:10px;max-width:52ch">A designation is a preference, honored whenever a matching seat is open. When none is waiting, your gift goes where the need is greatest, and we tell you which happened.</p>
     </form>
     <p class="fine" style="margin-top:8px;max-width:52ch">Sponsorship checkout opens shortly. Leave your email and we will set up your seats first.</p>
   </div>
@@ -2300,8 +2318,54 @@ PAGES['efficacy-report.html'] = dict(title='The Efficacy Report', desc='Cohort m
 ''')
 
 # ================================================== WRITER
+# ---------------------------------------------------------------------------
+# Dark-launch: remove every route into the gatherings surface.
+# Runs after all PAGES are defined. Each strip asserts its anchor so that a
+# later copy edit fails the build rather than quietly re-exposing the surface.
+# ---------------------------------------------------------------------------
+def _strip_gatherings():
+    global FOOT
+    def cut(haystack, needle, where):
+        n = haystack.count(needle)
+        if n != 1:
+            raise SystemExit(
+                'SHOW_GATHERINGS strip failed: expected 1 occurrence in %s, found %d.\n'
+                'The copy changed. Update the anchor in _strip_gatherings().' % (where, n))
+        return haystack.replace(needle, '')
+
+    # a. Footer link, present on every generated page.
+    FOOT = cut(FOOT, '<li><a href="gatherings.html">Gatherings</a></li>', 'FOOT')
+
+    # b. Home page band.
+    home = PAGES['index.html']['body']
+    start = home.find('<section><div class="container split">\n  <div>\n    <div class="eyebrow" style="margin-bottom:14px">GATHERINGS</div>')
+    if start == -1:
+        raise SystemExit('SHOW_GATHERINGS strip failed: home page band not found.')
+    end = home.find('</div></section>', start)
+    if end == -1:
+        raise SystemExit('SHOW_GATHERINGS strip failed: home page band has no closing tag.')
+    PAGES['index.html']['body'] = home[:start] + home[end + len('</div></section>'):]
+
+    # c. About page "Convene" bullet.
+    PAGES['about.html']['body'] = cut(
+        PAGES['about.html']['body'],
+        '<div class="check"><span class="checkmark">&check;</span><span><b>Convene.</b> '
+        'Gatherings that bring the field into one room.</span></div>',
+        "PAGES['about.html']")
+
+
+if not SHOW_GATHERINGS:
+    _strip_gatherings()
+
+
 if __name__ == '__main__':
     out = os.path.dirname(os.path.abspath(__file__))
+    if not SHOW_GATHERINGS:
+        for dead in GATHERINGS_PAGES:
+            dp = os.path.join(out, dead)
+            if os.path.exists(dp):
+                os.remove(dp)
+                print('removed (gatherings dark)', dead)
     if not SHOW_MILITARY:
         for dead in MILITARY_PAGES:
             dp = os.path.join(out, dead)
@@ -2310,6 +2374,8 @@ if __name__ == '__main__':
                 print('removed (military dark)', dead)
     for fname, p in PAGES.items():
         if not SHOW_MILITARY and fname in MILITARY_PAGES:
+            continue
+        if not SHOW_GATHERINGS and fname in GATHERINGS_PAGES:
             continue
         FORCED_THEME = {'organizations.html': "'light'", 'index.html': "'dark'", 'profile.html': "'dark'", 'stories.html': "'dark'", 'certificates.html': "'dark'", 'enroll.html': "'dark'", 'class.html': "'dark'", 'course.html': "'dark'", 'player.html': "'dark'", 'checkout.html': "'dark'", 'certificate.html': "'dark'", 'voice.html': "'dark'", 'share.html': "'dark'"}
         theme_js = FORCED_THEME.get(fname, 'localStorage.getItem("fc_theme")||"dark"')
