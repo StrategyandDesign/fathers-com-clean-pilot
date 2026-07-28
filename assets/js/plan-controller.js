@@ -39,6 +39,7 @@
   function load(){
     if(window.FC && FC.live && FC.uid()){
       // First: did he just finish the assessment and sign in? Save that pending result.
+      claimServerPendingThen(function(){
       savePendingThen(function(){
         /* Every result, newest first. ?assessment=<slug> opens the plan for a
            specific profile, so a man who has done both keeps both plans instead
@@ -63,12 +64,32 @@
             else { needAssessment(); }
           }, function(){ needAssessment(); });
       });
+      });
     } else {
       // Signed out: his own finished sitting first, the sample only if there is none.
       var pend = pendingResult();
       if(pend){ render(pend, false); return; }
       render(demoResult(), true);
     }
+  }
+
+  /* A sitting finished signed-out is parked server-side in pending_results,
+     keyed by a claim token the email link carries. localStorage cannot make the
+     trip to another device; a phone mail app opens its own browser and the
+     result is gone. The token can. Claiming moves the row into
+     keystone_results for this account and burns the token. */
+  function claimServerPendingThen(next){
+    var token = null;
+    try { token = new URLSearchParams(window.location.search).get('claim'); } catch(e){}
+    if(!token){ return next(); }
+    FC.sb.rpc('claim_pending_result', { p_token: token }).then(function(){
+      try {
+        var u = new URL(window.location.href);
+        u.searchParams.delete('claim');
+        window.history.replaceState({}, '', u.toString());
+      } catch(e){}
+      next();
+    }, function(){ next(); });
   }
 
   // If a completed-but-unsaved Keystone result is sitting in localStorage (from the email gate),
@@ -140,7 +161,13 @@
       '</div>';
 
     if(isDemo){
-      html += '<div class="notice brass" style="margin:0 0 20px">This is a sample plan. <a class="link" href="profile.html">Take your baseline</a> and this becomes yours, free.</div>';
+      /* The banner used to sit below the hero, where a man reading top-down had
+         already absorbed a week number and a baseline before learning none of
+         it was his. Sample status is the first thing on the page now, and the
+         hero copy stops claiming the plan was built from his profile. */
+      html = '<div class="notice brass" style="margin:0 0 20px"><b>This is a sample plan, not yours.</b> <a class="link" href="profile.html">Take your Profile</a> and your own ninety-day plan is built from your results.</div>' + html;
+      html = html.replace('Built from your Keystone Profile. Your focus is', 'A sample focus: ');
+      html = html.replace('<span class="pl-hero-base-k">Where you started</span>', '<span class="pl-hero-base-k">Sample baseline</span>');
     }
 
     // 2. THIS WEEK'S MOVE. Each action can carry a cue in his own words: when and
@@ -369,5 +396,19 @@
     };
   }
 
-  load();
+  /* Boot only after FC.ready settles. This file used to call load() at parse
+     time; on a magic-link landing the session was still being exchanged, so a
+     just-signed-in man read as signed out and was handed the demo plan. The
+     same deferred boot the report uses, for the same reason. */
+  (function boot(){
+    var started = false, run = function(){ if(!started){ started = true; load(); } };
+    if(window.FC && FC.ready && typeof FC.ready.then === 'function'){
+      FC.ready.then(run, run); setTimeout(run, 5000); return;
+    }
+    var tries = 0, iv = setInterval(function(){
+      if(window.FC && FC.ready && typeof FC.ready.then === 'function'){
+        clearInterval(iv); FC.ready.then(run, run); setTimeout(run, 5000);
+      } else if(++tries >= 60){ clearInterval(iv); run(); }
+    }, 50);
+  })();
 })();

@@ -199,7 +199,7 @@
           '<span>The Fatherhood Track. You\'ll take the full Keystone Father Profile: the complete inventory of how you father today.</span></button>'+
         '<button class="ks-mode" data-path="preparing">'+
           '<b>I\'m preparing, mentoring, or growing</b>'+
-          '<span>The Manhood Track. Expectant fathers, future fathers, mentors, and men rebuilding. You\'ll start by reflecting on your own upbringing, then explore the path.</span></button>'+
+          '<span>The Manhood Track, measured by The Keystone Manhood Profile. Expectant fathers, future fathers, mentors, and men rebuilding. You\'ll start by reflecting on your own upbringing, then explore the path.</span></button>'+
       '</div>');
     root.querySelectorAll('.ks-mode').forEach(function(b){
       b.onclick = function(){
@@ -231,6 +231,20 @@
     KS.resumeOrStart(sess.mode).then(function(){
       var done = KS.sectionsDone().length, total = order.length;
       var answered = KS.answeredCount(), all = KS.totalCount();
+      /* An in_progress row is created the moment a man picks a mode, before he
+         has answered anything. If he walks away at that instant, every later
+         visit greeted him with "Pick up where you left off. You have answered
+         0 of 128 items", which reads as the site losing his finished work.
+         Zero answers means there is nothing to resume: retire the empty row
+         and start him fresh, silently. */
+      if(!answered){
+        try {
+          FC.sb.from('keystone_sessions').update({ status:'abandoned' })
+            .eq('id', sess.id).then(function(){}, function(){});
+        } catch(e){}
+        startFresh();
+        return;
+      }
       root.innerHTML = shell(
         '<div class="eyebrow">WELCOME BACK</div>'+
         '<h2 style="margin:10px 0 6px">Pick up where you left off.</h2>'+
@@ -460,6 +474,28 @@
       assessment_slug: (ACTIVE_INS && ACTIVE_INS.slug) || 'keystone-father-profile'
     })); } catch(e){}
 
+    /* localStorage cannot follow a man to another device, and most men open the
+       email on their phone, in a mail app, in a browser this page has never
+       seen. Park the finished sitting server-side under a random claim token;
+       the emailed link carries the token; whichever device he lands on redeems
+       it into his account. localStorage stays as the same-device fallback. */
+    if(!(window.FC && FC.live && FC.uid())){
+      try {
+        var tok = (window.crypto && crypto.randomUUID) ? crypto.randomUUID()
+                : 'ct-'+Date.now()+'-'+Math.random().toString(36).slice(2,10);
+        localStorage.setItem('fc_claim_token', tok);
+        if(window.FC && FC.live && FC.ready){
+          FC.ready.then(function(){
+            return FC.sb.from('pending_results').insert({
+              token: tok,
+              assessment_slug: (ACTIVE_INS && ACTIVE_INS.slug) || 'keystone-father-profile',
+              payload: { scored: scored, preparing: KS.isPreparing(), at: Date.now() }
+            });
+          }).then(function(){}, function(e){ console.error('[keystone] pending park failed', e); });
+        }
+      } catch(e){}
+    }
+
     var signedIn = window.FC && FC.live && FC.uid();
     if(signedIn){ KS.saveResult(scored); }
 
@@ -479,7 +515,12 @@
     btn.disabled=true; btn.textContent='Sending your plan\u2026'; msg.textContent='';
     ksEv('plan_email_submitted', {});
     if(window.FC && FC.signInMagic){
-      FC.signInMagic(email, 'plan.html?reveal=1').then(function(r){
+      (function(){
+        var slug = (ACTIVE_INS && ACTIVE_INS.slug) || 'keystone-father-profile';
+        var dest = 'report.html?assessment=' + encodeURIComponent(slug);
+        try { var t = localStorage.getItem('fc_claim_token'); if(t){ dest += '&claim=' + encodeURIComponent(t); } } catch(e){}
+        return FC.signInMagic(email, dest);
+      })().then(function(r){
         if(r && r.error){ msg.textContent=r.error.message||'Something went wrong. Try again.'; msg.style.color='var(--error)'; btn.disabled=false; btn.textContent='Send me my plan'; return; }
         root.innerHTML = shell(
           '<div class="center" style="padding:44px 0">'+

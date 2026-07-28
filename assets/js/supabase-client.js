@@ -17,6 +17,36 @@ window.FC = window.FC || {};
       FC.sb.auth.onAuthStateChange(function(_e, session){ FC.session = session; });
       return FC.sb.auth.getSession().then(function(r){ FC.session = r.data.session; return FC.sb; });
     })
+    .then(function(sb){
+      /* A man arriving from a magic link carries his credentials in the URL
+         (#access_token or ?code=). supabase-js exchanges them asynchronously,
+         AFTER getSession() has already answered null. Every controller that
+         checked FC.uid() at that instant treated a just-signed-in man as
+         signed out and handed him the demo: the sample plan pinned to week 3,
+         the sample report dated three days ago. FC.ready now refuses to
+         resolve until that exchange has landed, so "ready" finally means
+         "authenticated state is known", not "client object exists". */
+      if(!sb) return sb;
+      var carriesAuth = false;
+      try {
+        carriesAuth = /access_token=|refresh_token=|type=magiclink|type=recovery|type=signup/.test(window.location.hash) ||
+                      /[?&]code=/.test(window.location.search);
+      } catch(e){}
+      if(!carriesAuth || FC.session) return sb;
+      return new Promise(function(resolve){
+        var settled = false;
+        var finish = function(){ if(!settled){ settled = true; resolve(sb); } };
+        var sub = null;
+        try {
+          sub = sb.auth.onAuthStateChange(function(_e, session){
+            if(session){ FC.session = session; finish(); }
+          });
+        } catch(e){ finish(); }
+        /* If the exchange fails (expired link, mangled URL) the page must still
+           load. Four seconds is longer than any healthy exchange. */
+        setTimeout(finish, 4000);
+      });
+    })
     .catch(function(err){ console.error('Supabase load failed', err); FC.live = false; return null; });
 
   // ---------- auth ----------

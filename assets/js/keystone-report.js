@@ -108,6 +108,7 @@
       return render(r, 'sample');
     }
     if(window.FC && FC.live && FC.uid && FC.uid()){
+      claimServerPendingThen(function(){ persistLocalPendingThen(function(){
       /* Every result, newest first, not just the latest one.
 
          A man can complete more than one profile. Loading only the newest meant
@@ -133,17 +134,89 @@
           } else {
             saved = all.length ? all[0] : null;
           }
+          RESULT_INDEX = distinctProfiles(all);
           var pend  = pendingRow();
           if(saved && pend){
             var ts = function(x){ return new Date(x.completed_at || 0).getTime() || 0; };
             return render(ts(pend) > ts(saved) ? pend : saved, 'account');
           }
           if(saved){ return render(saved, 'account'); }
-          return pendingOrSample();
-        }).catch(pendingOrSample);
+          /* Signed in, nothing stored, nothing pending. The sample is the one
+             thing this state must never show: it carries plausible numbers and
+             a plausible date, and a man who just finished elsewhere reads it as
+             his own gone wrong. Say what is true instead. */
+          return needProfile();
+        }).catch(needProfile);
+      }); });
     } else {
       pendingOrSample();
     }
+  }
+
+  var RESULT_INDEX = null;
+
+  function distinctProfiles(all){
+    var seen = {}, out = [];
+    (all||[]).forEach(function(r){
+      var slug = r.assessment_slug || 'keystone-father-profile';
+      if(!seen[slug]){ seen[slug] = true; out.push({ slug: slug, completed_at: r.completed_at }); }
+    });
+    return out;
+  }
+
+  /* The emailed link carries a claim token for a sitting finished signed-out on
+     any device. Redeem it into this account before deciding what to render. */
+  function claimServerPendingThen(next){
+    var token = null;
+    try { token = new URLSearchParams(window.location.search).get('claim'); } catch(e){}
+    if(!token){ return next(); }
+    FC.sb.rpc('claim_pending_result', { p_token: token }).then(function(){
+      try {
+        var u = new URL(window.location.href);
+        u.searchParams.delete('claim');
+        window.history.replaceState({}, '', u.toString());
+        localStorage.removeItem('fc_claim_token');
+      } catch(e){}
+      next();
+    }, function(){ next(); });
+  }
+
+  /* Same-device path: a finished sitting parked in localStorage becomes a real
+     row the first time its owner views the report signed in. Rendering it
+     read-only and never persisting was how results evaporated. */
+  function persistLocalPendingThen(next){
+    var raw;
+    try { raw = localStorage.getItem('fc_pending_result'); } catch(e){ return next(); }
+    if(!raw){ return next(); }
+    var pending;
+    try { pending = JSON.parse(raw); } catch(e){ return next(); }
+    if(!pending || !pending.scored){ return next(); }
+    var sc = pending.scored;
+    FC.sb.from('keystone_results').insert({
+      user_id: FC.uid(),
+      assessment_slug: pending.assessment_slug || 'keystone-father-profile',
+      overall_pct: sc.overall,
+      section_scores: sc.sections,
+      scale_scores: sc.scales,
+      gap_scale: sc.gap,
+      strength_scale: sc.strength
+    }).then(function(){
+      try { localStorage.removeItem('fc_pending_result'); } catch(e){}
+      next();
+    }, function(){ next(); });
+  }
+
+  function needProfile(){
+    var rootEl = document.getElementById('rpRoot');
+    if(!rootEl) return;
+    rootEl.innerHTML =
+      '<div class="rp-doc"><div class="rp-inner" style="max-width:620px;margin:56px auto;text-align:center">'+
+      '<div class="rp-eyebrow" style="margin-bottom:14px">YOUR WRITTEN REPORT</div>'+
+      '<h1 style="margin:0 0 14px">No completed profile on this account yet.</h1>'+
+      '<p class="rp-read" style="margin:0 0 10px">When you finish the Keystone Profile, your written report lives here.</p>'+
+      '<p class="rp-read" style="margin:0 0 26px">Finished it but seeing this? The save may still be on the device where you answered. Open your email link on that device once and it will move to your account for good.</p>'+
+      '<a class="rp-btn rp-btn-yellow" href="profile.html">Take the Profile</a>'+
+      '</div></div>';
   }
   function pendingOrSample(){
     var raw = null;
@@ -286,7 +359,18 @@
     if(!url) return '';
     var clean = esc(String(url).replace(/["\\]/g,''));
     var img = 'url(&quot;'+clean+'&quot;)';
-    var layers = (scrim===false) ? img : 'linear-gradient(180deg,rgba(11,24,18,.74),rgba(11,24,18,.92)),'+img;
+    /* The cover used to take the photo raw. Any photo with a light region put
+       white type on white paper, and any photo containing someone else's
+       logo put that logo on the front of a man's report. A scrim is not
+       decoration here; it is what makes the cover safe for arbitrary photos. */
+    var layers;
+    if(scrim === 'cover'){
+      layers = 'linear-gradient(180deg,rgba(11,24,18,.60),rgba(11,24,18,.84)),'+img;
+    } else if(scrim === false){
+      layers = img;
+    } else {
+      layers = 'linear-gradient(180deg,rgba(11,24,18,.74),rgba(11,24,18,.92)),'+img;
+    }
     return ' style="background-image:'+layers+';background-size:cover;background-position:center"';
   }
 
@@ -364,7 +448,11 @@
       moves='<div class="rp-moves"><span class="rp-moves-h">First moves</span>'+
         ms.map(function(m,i){return '<div class="rp-move"><span class="rp-move-n">'+(i+1)+'</span>'+esc(m)+'</div>';}).join('')+'</div>';
     } else if(!high && ms.length){
-      moves='<p class="rp-firstmove"><b>First move:</b> '+esc(ms[0])+'</p>';
+      /* Same container as the numbered set on the focus scale, one entry, no
+         number bubble. Two visual dialects for the same concept read as a
+         mistake; one dialect with different counts reads as intent. */
+      moves='<div class="rp-moves"><span class="rp-moves-h">First move</span>'+
+        '<div class="rp-move">'+esc(ms[0])+'</div></div>';
     }
     var tier=BAND_TIER[band]||0;
     return '<div class="rp-scale'+(isStr?' rp-scale-str':'')+(isGap?' rp-scale-gap':'')+'">'+
@@ -501,7 +589,24 @@
         '<a href="#rp-next90">Your next 90 days</a></nav>';
 
       var stateLine='';
-      if(state==='sample') stateLine='<div class="rp-sample-note rp-noprint">A sample report. <a href="profile.html">Take your Profile</a> and this becomes yours, free.</div>';
+      /* A man who has completed more than one profile gets a switcher, because
+         the alternative was the newer profile silently burying the older one.
+         Both of his are one tap away, the one on screen marked. */
+      if(state==='account' && RESULT_INDEX && RESULT_INDEX.length > 1){
+        var curSlug = (A && A.slug) || 'keystone-father-profile';
+        stateLine += '<div class="rp-sample-note rp-noprint" style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">'+
+          '<span style="opacity:.75">Your profiles:</span>'+
+          RESULT_INDEX.map(function(pr){
+            var reg = (window.FCReg && FCReg.bySlug) ? FCReg.bySlug(pr.slug) : null;
+            var nm = (reg && reg.name) ? reg.name.replace(/^The Keystone /,'') : pr.slug.replace(/keystone-|-profile/g,'').replace(/-/g,' ').replace(/\b\w/g,function(c){return c.toUpperCase();});
+            var on = pr.slug === curSlug;
+            return on
+              ? '<b>'+esc(nm)+'</b>'
+              : '<a class="link" href="report.html?assessment='+encodeURIComponent(pr.slug)+'">'+esc(nm)+'</a>';
+          }).join(' <span style="opacity:.4">&middot;</span> ')+
+        '</div>';
+      }
+      if(state==='sample') stateLine+='<div class="rp-sample-note rp-noprint">A sample report. <a href="profile.html">Take your Profile</a> and this becomes yours, free.</div>';
       if(state==='pending') stateLine='<div class="rp-sample-note rp-noprint">Not saved yet. Email yourself a secure link below and this report and your plan are kept.</div>';
 
       /* Carry the profile through, so a man who holds two lands on the plan
@@ -596,7 +701,7 @@
             '<div class="rp-brief-l">'+
               '<div class="rp-eyebrow">Your written report</div>'+
               '<h2 class="rp-brief-t">'+esc(title)+'</h2>'+
-              '<p class="rp-brief-m">Completed '+esc(fmtDate(result.completed_at))+
+              '<p class="rp-brief-m">'+(state==='sample' ? 'A sample report' : 'Completed '+esc(fmtDate(result.completed_at)))+
                 ' &middot; '+nScales+' scales</p>'+
             '</div>'+
             '<div class="rp-brief-r rp-noprint">'+
@@ -630,11 +735,14 @@
       }
 
       rootEl.innerHTML = '<div class="rp-doc">'+
-        '<header class="rp-cover"'+bgPhoto(brand.photo_cover, false)+'>'+cobrand+
+        '<header class="rp-cover"'+bgPhoto(brand.photo_cover, 'cover')+'>'+cobrand+
           '<div class="rp-cover-main"><div>'+
             '<div class="rp-eyebrow rp-cover-eyebrow">Your written report</div>'+
             '<h1 class="rp-cover-title">'+esc(title)+'</h1>'+
-            '<p class="rp-cover-sub">Prepared from your answers &middot; completed '+esc(fmtDate(result.completed_at))+'</p>'+
+            (state==='sample'
+              ? '<p class="rp-cover-sub">A sample of the written report &middot; not your results</p>'
+              : '<p class="rp-cover-sub">Prepared from your answers &middot; completed '+esc(fmtDate(result.completed_at))+
+                ((window.KS && KS.bandFor && result.overall_pct!=null) ? ' &middot; overall: '+esc(KS.bandFor(result.overall_pct).label) : '')+'</p>')+
             '<p class="rp-cover-thesis">'+esc(thesis)+'</p>'+
           '</div></div></header>'+
         '<div class="rp-inner">'+journey+'</div>'+
@@ -653,7 +761,11 @@
         if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ if(sm) sm.textContent='Enter your email so we can send it.'; return; }
         sb2.disabled=true; sb2.textContent='Sending\u2026';
         if(window.FC && FC.signInMagic){
-          FC.signInMagic(email, 'report.html').then(function(r){
+          (function(){
+            var dest = 'report.html'+q;
+            try { var t = localStorage.getItem('fc_claim_token'); if(t){ dest += (q?'&':'?')+'claim='+encodeURIComponent(t); } } catch(e){}
+            return FC.signInMagic(email, dest);
+          })().then(function(r){
             if(r && r.error){ if(sm) sm.textContent=r.error.message||'Something went wrong. Try again.'; sb2.disabled=false; sb2.textContent='Email me this report'; return; }
             if(sm) sm.textContent='Sent to '+email+'. The link in that email opens this report, saved to your account. No password.';
             sb2.textContent='Sent';
