@@ -44,7 +44,7 @@ supervisor assignments before opening org six. Certificates issue by admin or
 instructor roles; add instructor grants before volume arrives so the Registrar
 is not a bottleneck.
 
-## Fast follow (product)
-Roster and batch verification for caseworkers and court coordinators, exposed
-from the Facilitator Desk as an exportable serial list. Tracked as the one
-product gap; not required to start cohorts.
+## Shipped in v4.6.0
+Roster verification: the Facilitator Desk exports one CSV of claimed men,
+certificate serials, and status. Requires the 20260810 roster migration
+(owner: Alon). Until applied, the Desk shows its standard pending line.

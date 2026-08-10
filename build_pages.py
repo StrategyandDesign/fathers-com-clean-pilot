@@ -12,7 +12,7 @@ OG_IMAGE = SITE_URL + "/assets/img/og-image.jpg"
 # changelog.html. Bump BOTH constants on every release, add a CHANGELOG entry
 # below, regenerate, and upload. The stamp is the answer to "what version is
 # live": read any page footer.
-PLATFORM_VERSION = "4.5.1"
+PLATFORM_VERSION = "4.6.0"
 VERSION_DATE = "2026-08-10"
 
 # v4.0 reposition flags (ADR-4: rollout is a data change, not a redesign).
@@ -132,6 +132,11 @@ PAGES = {}
 # Release notes rendered on changelog.html. Newest first. Public copy:
 # POSITIONING.md section 9 language rules apply.
 CHANGELOG = [
+    ("4.6.0", "2026-08-10",
+     "The verification sheet. A Certified Facilitator can download one sheet "
+     "of the men he claimed, their certificate serials, and current status, "
+     "for any coordinator who requires proof. The facilitator quick start, "
+     "ceremony guide, and supervision checklist join the partner kit."),
     ("4.5.1", "2026-08-10",
      "The version stamp. Every page now carries its release number in the "
      "footer, linked to this page."),
@@ -2169,7 +2174,7 @@ PAGES['organizations.html'] = dict(title='Become a Certified Organization', desc
   <p style="color:var(--ash);margin:0 0 32px;max-width:60ch">You already intake men. Start measuring today and switch the rest on when you are ready.</p>
   <div class="grid-3">
     <div class="card" style="padding:28px"><div class="eyebrow" style="margin-bottom:12px">STEP ONE</div><h3 style="margin-bottom:8px">Measure at the door.</h3><p class="small" style="color:var(--ash)">Run the Keystone Profile at intake. A validated engagement baseline on every man, zero program required.</p></div>
-    <div class="card" style="padding:28px"><div class="eyebrow" style="margin-bottom:12px">STEP TWO</div><h3 style="margin-bottom:8px">Route to what works.</h3><p class="small" style="color:var(--ash)">Each profile points to the rated program that fits him. We become your diagnostic and referral layer.</p></div>
+    <div class="card" style="padding:28px"><div class="eyebrow" style="margin-bottom:12px">STEP TWO</div><h3 style="margin-bottom:8px">Route to what works.</h3><p class="small" style="color:var(--ash)">Each profile points to the rated program that fits him. We become your measurement and routing layer.</p></div>
     <div class="card" style="padding:28px"><div class="eyebrow" style="margin-bottom:12px">STEP THREE</div><h3 style="margin-bottom:8px">Deploy ours in a day.</h3><p class="small" style="color:var(--ash)">The assessment, three courses (presence, steadiness, coming home), the ninety-day plan, the Certificate of Completion. Switched on, not built.</p></div>
   </div>
 </div></section>

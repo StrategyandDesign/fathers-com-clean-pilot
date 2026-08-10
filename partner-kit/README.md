@@ -13,6 +13,10 @@ govern every word in here.
 | case-plan-language.md | Professionals | The quotable case plan sentence, plain text for copy and paste |
 | qsoa-template.md | Counsel | Draft Qualified Service Organization Agreement skeleton for Part 2 partners. COUNSEL REVIEW REQUIRED before any use |
 | ../docs/consent-returning-home.md | Pilot lane only | Pseudonymized pilot consent. Never used in the certification lane |
+| facilitator-quickstart.md, dist/facilitator-quickstart.pdf | Certified Facilitators | The retention rhythm: session one beats, weekly cadence, the same-day call, the ceremony |
+| ceremony-script.md | Facilitators | Ten-minute certificate ceremony, run before program exit |
+| supervision-checklist.md | NCF supervisors | The supervised first cohort as a coaching instrument |
+| org-admin-quickstart.md | Org admins | Seats, cohort funding, where incentive money goes, the Efficacy Report |
 
 ## Regenerate
     python3 partner-kit/make_inserts.py

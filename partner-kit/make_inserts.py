@@ -179,4 +179,38 @@ c.drawString(rx, y - 0.95 * inch - 13, PROFILE_DISP)
 footer(c, "To connect a father to a certified program, or to certify yours: Team@Fathers.com",
        "Fathers.com is a program of the National Center for Fathering, a 501(c)(3) nonprofit. Helping fathers since 1990.")
 c.showPage(); c.save()
+# Facilitator quick start (one page)
+c = canvas.Canvas(str(OUT / "facilitator-quickstart.pdf"), pagesize=letter)
+c.setTitle("Certified Facilitator quick start"); c.setAuthor("National Center for Fathering")
+y = header(c, "Certified Facilitator quick start")
+c.setFont("Helvetica-Bold", 20); c.setFillColor(COAL)
+c.drawString(M, y, "The facilitator is the retention product."); y -= 18
+c.setFont("Helvetica", 9.8); c.setFillColor(ASH)
+c.drawString(M, y, "In the attrition research, one facilitator ran nine courses with zero dropouts. This is the rhythm that produces that."); y -= 24
+y = section(c, y, "Before the cohort",
+    "Claim every man by his sign-in email from your Desk; claims cost him nothing and unlock "
+    "enrollment. Confirm materials and the room: same place, same hour, every week. Invite each "
+    "man directly, by name. Named invitations outperform flyers.", 9.3, 12.6)
+y = section(c, y, "Session one, the beats",
+    "Greet each man by name at the door. Say the price out loud: the Profile, the plan, the "
+    "course, and the Certificate are free to him, always. Every man starts or reviews his "
+    "Keystone Profile; his gap domain becomes his plan. Each man states one commitment. "
+    "Confirm next week before anyone leaves.", 9.3, 12.6)
+y = section(c, y, "The weekly rhythm",
+    "Open with wins; every man reports, no shame attached. Teach short; the session is for "
+    "practice. Practice in pairs; men keep coming back for the men. Each man leaves with one "
+    "step. Confirm attendance for next week before the room empties.", 9.3, 12.6)
+y = section(c, y, "When a man misses",
+    "Call him the same day. Not a text, a call. One question: what would make next week "
+    "possible. Attendance recovers when absence is noticed within hours, not weeks.", 9.3, 12.6)
+y = section(c, y, "The final and the ceremony",
+    "He writes the final; you read it and approve. The certificate issues with his serial. "
+    "Present it in front of the room, before program exit. The ceremony is curriculum.", 9.3, 12.6)
+y = section(c, y, "Your desk",
+    "Claims, cohort life, and the verification sheet live on the Facilitator Desk. The "
+    "verification sheet is one download for any coordinator who requires proof.", 9.3, 12.6)
+footer(c, "You lead education. You do not diagnose, counsel, or treat, and the credential never implies you do.",
+       "Fathers.com is a program of the National Center for Fathering, a 501(c)(3) nonprofit.")
+c.showPage(); c.save()
+
 print("partner kit generated:", SITE_URL)

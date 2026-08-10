@@ -102,10 +102,78 @@
     });
   }
 
+  // ---- Verification sheet: one CSV for the coordinator who requires proof.
+  // Reads only what this facilitator's active claims cover (RLS: roster
+  // verification migration). Never includes org identity; the public verify
+  // page never names the organization by design.
+  function csvCell(v){ v = (v === null || v === undefined) ? '' : String(v); return '"' + v.replace(/"/g,'""') + '"'; }
+  function exportRoster(){
+    var msg = el('lead-export-msg');
+    function fail(t){ if(msg){ msg.textContent = t; msg.className = 'fine cpn-err'; } }
+    if(msg){ msg.textContent = 'Building your sheet\u2026'; msg.className = 'fine'; }
+    FC.sb.from('participant_claims').select('participant_email')
+      .eq('facilitator_user_id', FC.uid()).eq('status','active')
+      .then(function(cr){
+        if(cr.error){ fail('The verification sheet loads with the roster migration applied.'); return; }
+        var emails = (cr.data || []).map(function(c){ return (c.participant_email || '').toLowerCase(); }).filter(Boolean);
+        if(!emails.length){ fail('No active claims yet. Claim a man above; his certificate joins this sheet.'); return; }
+        FC.sb.from('profiles').select('id,name,full_name,email').in('email', emails).then(function(pr){
+          if(pr.error){ fail('The verification sheet loads with the roster migration applied.'); return; }
+          var profs = pr.data || [];
+          var byId = {}; profs.forEach(function(p){ byId[p.id] = p; });
+          var ids = profs.map(function(p){ return p.id; });
+          FC.sb.from('certificate_courses').select('id,title').then(function(kr){
+            var titles = {}; ((kr && kr.data) || []).forEach(function(k){ titles[k.id] = k.title; });
+            var certQ = ids.length ? FC.sb.from('certificates').select('*').in('user_id', ids)
+                                   : Promise.resolve({ data: [] });
+            certQ.then(function(xr){
+              if(xr && xr.error){ fail('The verification sheet loads with the roster migration applied.'); return; }
+              var certs = (xr && xr.data) || [];
+              var head = ['Name','Email','Course','Serial','Status','Issued','Verify at'];
+              var verify = location.origin + '/verify.html';
+              var rows = [head.map(csvCell).join(',')];
+              var seen = {};
+              certs.forEach(function(c){
+                var p = byId[c.user_id] || {};
+                seen[(p.email || '').toLowerCase()] = true;
+                rows.push([
+                  p.full_name || p.name || '',
+                  p.email || '',
+                  c.course_title || titles[c.course_id] || '',
+                  c.serial || '',
+                  c.status || 'issued',
+                  (c.issued_at || c.created_at || '').slice(0, 10),
+                  verify
+                ].map(csvCell).join(','));
+              });
+              emails.forEach(function(em){
+                if(seen[em]) return;
+                var p = null;
+                profs.forEach(function(q){ if((q.email || '').toLowerCase() === em) p = q; });
+                rows.push([
+                  (p && (p.full_name || p.name)) || '',
+                  em, '', '', 'in progress', '', verify
+                ].map(csvCell).join(','));
+              });
+              var stamp = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+              var blob = new Blob([rows.join('\r\n') + '\r\n'], { type: 'text/csv' });
+              var a = document.createElement('a');
+              a.href = URL.createObjectURL(blob);
+              a.download = 'verification-sheet-' + stamp + '.csv';
+              document.body.appendChild(a); a.click();
+              setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 500);
+              if(msg){ msg.textContent = 'Downloaded. ' + (rows.length - 1) + ' men on the sheet.'; msg.className = 'fine cpn-ok'; }
+            });
+          });
+        });
+      });
+  }
+
   document.addEventListener('DOMContentLoaded',function(){
     boot();
     var a=el('cw-go'); if(a) a.addEventListener('click',saveWeek);
     var b=el('ann-go'); if(b) b.addEventListener('click',announce);
     var c=el('claim-add'); if(c) c.addEventListener('click',addClaim);
+    var d=el('lead-export'); if(d) d.addEventListener('click',exportRoster);
   });
 })();
