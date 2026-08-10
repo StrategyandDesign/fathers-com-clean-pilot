@@ -12,7 +12,7 @@ OG_IMAGE = SITE_URL + "/assets/img/og-image.jpg"
 # changelog.html. Bump BOTH constants on every release, add a CHANGELOG entry
 # below, regenerate, and upload. The stamp is the answer to "what version is
 # live": read any page footer.
-PLATFORM_VERSION = "4.8.0"
+PLATFORM_VERSION = "4.9.0"
 VERSION_DATE = "2026-08-10"
 
 # v4.0 reposition flags (ADR-4: rollout is a data change, not a redesign).
@@ -132,6 +132,11 @@ PAGES = {}
 # Release notes rendered on changelog.html. Newest first. Public copy:
 # POSITIONING.md section 9 language rules apply.
 CHANGELOG = [
+    ("4.9.0", "2026-08-10",
+     "Coming Home Present grows a module: catching up on how your child grew "
+     "while you were away. Facilitator materials add guidance for a man in "
+     "distress, with a clear next step and a referral path. Course completion "
+     "modes and per-program language are now recorded by the platform."),
     ("4.8.0", "2026-08-10",
      "Precision. The Profile now states its lineage plainly: grown from the "
      "Personal Fathering Profile research program of Dr. Ken Canfield. "
@@ -1103,10 +1108,10 @@ PAGES['certificates.html'] = dict(title='The Courses and the Certificate of Comp
       <p>The flagship, built on The 7 Secrets of Effective Fathers. The free course, hardened into proof.</p>
       <div class="cert-card-foot"><span class="mono">Free</span><span class="cert-card-go">Start this course &rarr;</span></div>
     </a>
-        <div class="cert-card" style="cursor:default" data-cert="reentry" data-title="Coming Home Present" data-hours="12.0" data-desc="Presence after time away, whatever kept you away. Rebuilding from day one, with confirmed identity, logged time, checkpoints, and a final assessment a court or program can trust.">
+        <div class="cert-card" style="cursor:default" data-cert="reentry" data-title="Coming Home Present" data-hours="12.0" data-desc="Presence after time away, whatever kept you away. Rebuilding from day one, catching up on how your child grew while you were away, with confirmed identity, logged time, checkpoints, and a final assessment a court or program can trust.">
       <div class="cert-card-top"><span class="pill" style="opacity:.75">In development</span><span class="cert-card-hrs">12.0 hrs</span></div>
       <h3>Coming Home Present</h3>
-      <p>Presence after time away, no matter what kept you away. Earned the hard way on purpose; the kind of proof other men respect. In development; waitlist members train first.</p>
+      <p>Presence after time away, no matter what kept you away. Includes catching up on how your child grew while you were gone. Earned the hard way on purpose; in development, waitlist members train first.</p>
       <div class="cert-card-foot"><span class="mono">Waitlist</span><a class="cert-card-go" href="#waitlist">Join the waitlist &rarr;</a></div>
     </div>
     <div class="cert-card" style="cursor:default" data-cert="anger" data-title="Steady Under Pressure" data-hours="8.0" data-desc="A man&rsquo;s temper, trained. The pause, the repair, and the steadiness the people around you can feel. Verified hours, identity checked, checkpoints, and a final assessment at eighty percent to pass.">
@@ -1597,7 +1602,7 @@ PAGES['veterans-resources.html'] = dict(title='The Homefront', desc='Support, on
 <p class="center fine" style="padding:60px 0">This now lives inside your hub. <a class="link" href="veterans-hub.html#support">Continue &rarr;</a></p>
 ''')
 
-PAGES['veterans-checkin.html'] = dict(title='A private check-in', desc='A private, two-minute check-in that points you to the right support. Not a diagnosis.', active='For Veterans', mode='app', body=VET_TOP + '''
+PAGES['veterans-checkin.html'] = dict(title='A private check-in', desc='A private, two-minute check-in. Yours alone. It points to a next step only if you want one.', active='For Veterans', mode='app', body=VET_TOP + '''
 <section class="tight"><div class="container" style="max-width:760px">
   <div class="eyebrow brass" style="margin-bottom:12px">PRIVATE, ABOUT TWO MINUTES</div>
   <h1 class="d-36" style="margin-bottom:18px">A check-in, just for you</h1>
@@ -1715,7 +1720,7 @@ PAGES['veterans-hub.html'] = dict(title='The Homefront', desc='Train for the mis
     </div>
     <div class="card" style="padding:28px">
       <b class="bone" style="font-family:var(--font-display);font-size:20px">A private check-in</b>
-      <p class="small" style="margin:10px 0 18px">Two quiet minutes, just for you. It is not a diagnosis. It points you to the right kind of support only if you want it.</p>
+      <p class="small" style="margin:10px 0 18px">Two quiet minutes, just for you. Yours alone. It points to a next step only if you want one.</p>
       <a class="btn btn-secondary" href="veterans-checkin.html">Take the check-in</a>
     </div>
   </div>
@@ -1779,7 +1784,7 @@ PAGES['veterans.html'] = dict(title='Present at Home', desc='For fathers who ser
   <div class="vet-ed-head">
     <div class="vet-ed-eyebrow">The shift</div>
     <h2>They built programs for broken men. You were never broken.</h2>
-    <p>You were between missions. So this is not treatment and it is not a support group. It is training, a record, and proof: the way you would run any mission that matters.</p>
+    <p>You were between missions. So this is training, a record, and proof: the way you would run any mission that matters.</p>
   </div>
 </section>
 
@@ -1836,7 +1841,7 @@ PAGES['veterans.html'] = dict(title='Present at Home', desc='For fathers who ser
     <div><b class="bone" style="font-size:16px">The full field guide</b><p class="small" style="margin-top:8px">Every film and read on what gets hard when you walk back through the door.</p></div>
     <div><b class="bone" style="font-size:16px">The Legacy Archive</b><p class="small" style="margin-top:8px">Guided prompts, recorded in your voice, titled and kept for your kids: bedtime, milestones, the hard days, your story.</p></div>
     <div><b class="bone" style="font-size:16px">Support matched to you</b><p class="small" style="margin-top:8px">The one free service built for your situation, with the number and what to expect.</p></div>
-    <div><b class="bone" style="font-size:16px">A private check-in</b><p class="small" style="margin-top:8px">Two minutes, just for you. Not a diagnosis. It points you to help if you want it.</p></div>
+    <div><b class="bone" style="font-size:16px">A private check-in</b><p class="small" style="margin-top:8px">Two minutes, just for you. Yours alone. It points to a next step only if you want one.</p></div>
   </div>
 </section>
 

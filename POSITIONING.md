@@ -273,3 +273,31 @@ below is enforced by tools/check_release.py where a scanner can enforce it.
    2020, 17(3):1051, a peer-reviewed review carrying it as a secondary
    citation with the primary sample unstated. Cite it exactly this way,
    internally only.
+
+## 19. Receptivity findings adopted (2026-08-10)
+
+The soldier-father receptivity review is adopted as doctrine. What changed:
+
+1. The framing lexicon is law on military-facing surfaces: training,
+   readiness, skills, tools. Clinical vocabulary is banned there even as
+   denial. The dark military bodies were scrubbed to this standard, and the
+   release checker now bans counseling, behavioral health, and support
+   group everywhere participant-facing.
+2. Completion mode is a per-course parameter: graded_final for court-facing
+   certificates, checkpoint for voluntary military cohorts. The certificate
+   records its mode. Doctrine: the credential's meaning never varies; only
+   the closing instrument does.
+3. Coming Home Present carries the module fathers asked for by name:
+   catching up on how your child grew while you were away. Parenting
+   confidence runs as a thread through the slate.
+4. The triage-and-referral protocol is part of the facilitator kit and is
+   mandatory wherever the trauma load is high: residential, reentry, and
+   any military cohort. A fathering course is never trauma treatment, and
+   the warm handoff is part of the facilitator's job.
+5. The IDF path is partner-led or it does not happen: Israeli organization,
+   Hebrew, reservist-peer facilitators, faith framing stripped from
+   delivered materials, clinical referral named before cohort one.
+   platform_verticals records locale and rtl for this purpose.
+6. docs/MILITARY-READINESS.md holds the full spec and the benchmarks.
+   The gates in section 15 posture are unchanged: rehabilitation proof
+   opens this door, nothing else.

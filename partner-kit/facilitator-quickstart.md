@@ -27,6 +27,11 @@ dropouts. This page is the rhythm that produces that.
 4. Each man leaves with one step. One.
 5. Confirm attendance for next week before the room empties.
 
+## When a man is in distress
+See facilitator-triage-and-referral.md in this kit. The short version: watch
+behavior, make the warm handoff the same day, tell your organization lead,
+and never carry it alone.
+
 ## When a man misses
 Call him the same day. Not a text, a call. No shame, one question: what would
 make next week possible. Attendance recovers when absence is noticed within

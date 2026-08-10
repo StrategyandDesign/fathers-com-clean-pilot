@@ -24,7 +24,7 @@ SECTION9_BAN = ["rehab", "recovery", "treatment", "sobriety", "clinical",
 NORMS_BAN = ["9,232", "9232", "2,066", "2066 fathers"]
 EVIDENCE_BAN = ["evidence-based", "evidence based", "clinically proven"]
 CLINICAL_BAN = ["diagnos", "therapy", "therapist", "screening tool",
-                "counseling license"]
+                "counseling", "behavioral health", "support group"]
 ORG_FACING = {"organizations.html", "facilitators.html", "employers.html",
               "find-a-program.html", "efficacy-report.html", "research.html",
               "about.html", "classes.html"}

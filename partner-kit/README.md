@@ -19,6 +19,7 @@ govern every word in here.
 | org-admin-quickstart.md | Org admins | Seats, cohort funding, where incentive money goes, the Efficacy Report |
 | engine-license-outline.md | Counsel | Governance skeleton for licensing the engine to an outside authority. COUNSEL REVIEW REQUIRED |
 | funding-map.md | Org admins, development staff | Federal, reentry, and settlement funding streams, what they pay for, budget-line mapping |
+| facilitator-triage-and-referral.md | Certified Facilitators | Distress signs, the same-day warm handoff, the education-line boundary, and the court-order rule for rebuilding trust |
 
 ## Regenerate
     python3 partner-kit/make_inserts.py
