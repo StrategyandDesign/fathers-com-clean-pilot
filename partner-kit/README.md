@@ -17,6 +17,7 @@ govern every word in here.
 | ceremony-script.md | Facilitators | Ten-minute certificate ceremony, run before program exit |
 | supervision-checklist.md | NCF supervisors | The supervised first cohort as a coaching instrument |
 | org-admin-quickstart.md | Org admins | Seats, cohort funding, where incentive money goes, the Efficacy Report |
+| engine-license-outline.md | Counsel | Governance skeleton for licensing the engine to an outside authority. COUNSEL REVIEW REQUIRED |
 
 ## Regenerate
     python3 partner-kit/make_inserts.py

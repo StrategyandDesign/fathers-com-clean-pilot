@@ -20,12 +20,14 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
 const SERVICE_ROLE = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 
-// A readable, unique serial: FC-YYYY-NNNNNN
-async function mintSerial(sb: any): Promise<string> {
+// A readable, unique serial: PREFIX-YYYY-NNNNNN. Prefix defaults to FC
+// (NCF); a course tied to a platform_verticals row mints under that
+// vertical's cert_prefix (engine verticals, v4.7.0).
+async function mintSerial(sb: any, prefix = "FC"): Promise<string> {
   const year = new Date().getFullYear();
   for (let attempt = 0; attempt < 8; attempt++) {
     const n = Math.floor(100000 + Math.random() * 900000);
-    const serial = `FC-${year}-${n}`;
+    const serial = `${prefix}-${year}-${n}`;
     const { data } = await sb.from("certificates").select("id").eq("serial", serial).maybeSingle();
     if (!data) return serial;
   }
@@ -57,7 +59,7 @@ Deno.serve(async (req) => {
     }
 
     const { data: course } = await sb
-      .from("certificate_courses").select("title, hours").eq("id", enr.course_id).single();
+      .from("certificate_courses").select("*").eq("id", enr.course_id).single();
     if (!course) {
       return new Response(JSON.stringify({ error: "Course not found" }), { status: 404 });
     }
@@ -84,13 +86,33 @@ Deno.serve(async (req) => {
     }
 
     // ---- mint + issue ----
-    const serial = await mintSerial(sb);
+    // Engine verticals: resolve the signing authority and serial prefix.
+    // NCF is the default in every case (docs/ENGINE.md).
+    let sigName = "Dr. Ken Canfield";
+    let sigTitle = "Founder, National Center for Fathering";
+    let certPrefix = "FC";
+    let verticalSlug = null;
+    if (course.vertical_id) {
+      const { data: vert } = await sb.from("platform_verticals")
+        .select("slug, cert_prefix, authority_name, authority_title")
+        .eq("id", course.vertical_id).maybeSingle();
+      if (vert) {
+        certPrefix = vert.cert_prefix || certPrefix;
+        sigName = vert.authority_name || sigName;
+        sigTitle = vert.authority_title || sigTitle;
+        verticalSlug = vert.slug || null;
+      }
+    }
+    const serial = await mintSerial(sb, certPrefix);
     const { data: cert, error: certErr } = await sb.from("certificates").insert({
       serial,
       enrollment_id: enr.id,
       recipient_display: display,
       course_title: course.title,
       hours: course.hours,
+      signatory_name: sigName,
+      signatory_title: sigTitle,
+      vertical_slug: verticalSlug,
     }).select().single();
     if (certErr) throw certErr;
 
@@ -102,6 +124,7 @@ Deno.serve(async (req) => {
       recipient: display,
       course: course.title,
       hours: course.hours,
+      signatory: sigName,
     }), { headers: { "Content-Type": "application/json" } });
 
   } catch (e) {

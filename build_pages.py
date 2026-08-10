@@ -12,7 +12,7 @@ OG_IMAGE = SITE_URL + "/assets/img/og-image.jpg"
 # changelog.html. Bump BOTH constants on every release, add a CHANGELOG entry
 # below, regenerate, and upload. The stamp is the answer to "what version is
 # live": read any page footer.
-PLATFORM_VERSION = "4.6.0"
+PLATFORM_VERSION = "4.7.0"
 VERSION_DATE = "2026-08-10"
 
 # v4.0 reposition flags (ADR-4: rollout is a data change, not a redesign).
@@ -132,6 +132,12 @@ PAGES = {}
 # Release notes rendered on changelog.html. Newest first. Public copy:
 # POSITIONING.md section 9 language rules apply.
 CHANGELOG = [
+    ("4.7.0", "2026-08-10",
+     "The engine opens to partner programs. A program with its own standard "
+     "can carry its own signing authority, its own serial prefix, and its "
+     "own entry page on the same verification spine. The standard stays the "
+     "standard: a Certificate of Completion, publicly verifiable, revocable, "
+     "education only."),
     ("4.6.0", "2026-08-10",
      "The verification sheet. A Certified Facilitator can download one sheet "
      "of the men he claimed, their certificate serials, and current status, "
@@ -166,6 +172,39 @@ for _v, _d, _t in CHANGELOG:
                + ' <span class="fine" style="color:var(--ash);font-family:var(--font-mono)">· ' + _d + '</span></h3>'
                + '<p class="small" style="color:var(--ash)">' + _t + '</p></div>')
 _cl.append('</div></section>')
+
+# Engine verticals (v4.7.0): a partner program with its own standard gets its
+# own entry page as a page-set, no app rewrite. Each entry below renders
+# <slug>.html with the vertical's name, headline, and authority line. Pair it
+# with a platform_verticals row (migration 20260810140000) so its
+# certificates mint under its prefix with its signing authority, and with an
+# instrument in Studio carrying its norms_authority. Empty list = NCF-only
+# surface, zero output change. Example:
+# VERTICALS = [dict(slug='athlete-fathers', name='Athlete Fathers',
+#     eyebrow='THE ATHLETE FATHERS PROGRAM',
+#     headline='Train fatherhood the way you train.',
+#     blurb='A measured profile, a plan, cohort training with your crew, and a certificate anyone can verify.',
+#     authority_name='Program Authority Name',
+#     authority_line='The Athlete Fathers standard is carried by its own authority on its own instrument, proven on the same verification spine.')]
+VERTICALS = []
+
+for _v in VERTICALS:
+    PAGES[_v['slug'] + '.html'] = dict(
+        title=_v['name'], desc=_v['blurb'], active='', mode='public', body=(
+        '<section class="hero tight"><div class="container" style="max-width:760px">'
+        '<div class="eyebrow" style="margin-bottom:14px">' + _v.get('eyebrow', _v['name'].upper()) + '</div>'
+        '<h1 class="d-44" style="margin-bottom:14px">' + _v['headline'] + '</h1>'
+        '<p style="color:var(--ash);max-width:56ch;margin-bottom:10px">' + _v['blurb'] + '</p>'
+        '<p class="fine" style="color:var(--ash);max-width:60ch;margin-bottom:26px">' + _v.get('authority_line', '') + '</p>'
+        '<div class="row wrap" style="gap:12px">'
+        '<a class="btn btn-yellow" href="certificates.html">See the courses</a>'
+        '<a class="btn btn-secondary" href="mailto:Team@Fathers.com">Bring a cohort</a>'
+        '</div></div></section>'
+        '<section class="tight"><div class="container"><div class="grid3">'
+        '<div class="card" style="padding:26px"><div class="eyebrow" style="margin-bottom:10px">MEASURE</div><p class="small" style="color:var(--ash)">A profile built for this community, on its own instrument, stating who normed it and on whom.</p></div>'
+        '<div class="card" style="padding:26px"><div class="eyebrow" style="margin-bottom:10px">TRAIN</div><p class="small" style="color:var(--ash)">Cohort courses led by certified facilitators. Verified hours, checkpoints, a final read by the facilitator.</p></div>'
+        '<div class="card" style="padding:26px"><div class="eyebrow" style="margin-bottom:10px">PROVE</div><p class="small" style="color:var(--ash)">A Certificate of Completion under this program\'s own serial and signing authority, verifiable by anyone in ten seconds, revocation always shown.</p></div>'
+        '</div></div></section>'))
 
 PAGES['changelog.html'] = dict(title='What\'s new', desc='Release notes for the Fathers.com platform.', active='', mode='public', body='\n'.join(_cl))
 
