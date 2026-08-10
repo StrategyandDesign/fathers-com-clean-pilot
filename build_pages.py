@@ -8,6 +8,13 @@ import re
 SITE_URL = "https://fathers-com-platform.vercel.app"
 OG_IMAGE = SITE_URL + "/assets/img/og-image.jpg"
 
+# Release stamp. Shown in the footer of every generated page and linked to
+# changelog.html. Bump BOTH constants on every release, add a CHANGELOG entry
+# below, regenerate, and upload. The stamp is the answer to "what version is
+# live": read any page footer.
+PLATFORM_VERSION = "4.5.1"
+VERSION_DATE = "2026-08-10"
+
 # v4.0 reposition flags (ADR-4: rollout is a data change, not a redesign).
 # SHOW_MILITARY dark-launches the entire veteran surface: pages are not generated,
 # routes are removed from nav and footers, and stale generated files are deleted.
@@ -112,7 +119,7 @@ FOOT = '''<footer><div class="container">
 </div>
 <div style="margin-top:48px;max-width:420px"><h4 style="font-family:var(--font-mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ash);margin-bottom:12px">One useful thing for fathers, weekly</h4>
 <form class="row" data-lead="newsletter" data-done="You are on the list. One useful thing, weekly."><input class="input" name="email" type="email" required placeholder="Email address"><button class="btn btn-secondary btn-sm">Send it</button></form></div>
-<div class="footbottom"><span class="fine">Fathers.com is a program of the National Center for Fathering, a 501(c)(3) nonprofit.</span><span class="fine">© <span data-year></span> National Center for Fathering</span></div>
+<div class="footbottom"><span class="fine">Fathers.com is a program of the National Center for Fathering, a 501(c)(3) nonprofit.</span><span class="fine">© <span data-year></span> National Center for Fathering</span><span class="fine"><a class="link" href="changelog.html" style="font-family:var(--font-mono)">v''' + PLATFORM_VERSION + ''' · ''' + VERSION_DATE + '''</a></span></div>
 </div></footer>
 <script src="assets/js/config.js"></script>
 <script src="assets/js/supabase-client.js"></script>
@@ -121,6 +128,41 @@ FOOT = '''<footer><div class="container">
 '''
 
 PAGES = {}
+
+# Release notes rendered on changelog.html. Newest first. Public copy:
+# POSITIONING.md section 9 language rules apply.
+CHANGELOG = [
+    ("4.5.1", "2026-08-10",
+     "The version stamp. Every page now carries its release number in the "
+     "footer, linked to this page."),
+    ("4.5.0", "2026-08-10",
+     "Same Team, a fourth course on co-parenting, joins the catalog as coming "
+     "soon. The education line enters the positioning record: we certify "
+     "education, and the boundaries are written down. Partner and operations "
+     "documents enter the repository. Retired pages now route home."),
+    ("4.0", "2026-07",
+     "The reposition. Certified Organizations and Certified Facilitators "
+     "carry the standard. Every course is free to the man who takes it. "
+     "Course seats flow through claims placed by certified people. A "
+     "finished Profile now survives the sign-in round trip."),
+    ("Foundation", "2026",
+     "The Keystone Father Profile, the ninety-day plan, the film library, "
+     "the Certificate of Completion with public verification, and the "
+     "certification registries."),
+]
+
+_cl = ['<section><div class="container" style="max-width:720px;padding-top:34px">',
+       '<div class="eyebrow" style="margin-bottom:12px">RELEASE NOTES</div>',
+       '<h1 class="d-36" style="margin-bottom:10px">What\'s new.</h1>',
+       '<p class="small" style="color:var(--ash);margin-bottom:34px">The live version is printed in the footer of every page. This page is the record of what shipped.</p>']
+for _v, _d, _t in CHANGELOG:
+    _label = _v if _v == "Foundation" else "v" + _v
+    _cl.append('<div style="margin-bottom:26px"><h3 style="margin-bottom:6px">' + _label
+               + ' <span class="fine" style="color:var(--ash);font-family:var(--font-mono)">· ' + _d + '</span></h3>'
+               + '<p class="small" style="color:var(--ash)">' + _t + '</p></div>')
+_cl.append('</div></section>')
+
+PAGES['changelog.html'] = dict(title='What\'s new', desc='Release notes for the Fathers.com platform.', active='', mode='public', body='\n'.join(_cl))
 
 # ================================================== index.html (P1)
 PAGES['index.html'] = dict(title='Know where you stand', desc='Take the free Keystone Profile. Four scores, one honest read, and a ninety-day plan built for you. Two tracks: Fatherhood and Manhood. About twenty minutes.', active='', mode='public', body='''
