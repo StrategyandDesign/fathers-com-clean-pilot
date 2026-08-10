@@ -256,7 +256,7 @@ PAGES['index.html'] = dict(title='Know where you stand', desc='Take the free Key
       </div>
     </a>
   </div>
-  <p style="margin-top:20px"><a class="link" href="certificates.html">See the three courses</a></p>
+  <p style="margin-top:20px"><a class="link" href="certificates.html">See the courses</a></p>
 </div></section>
 
 <section class="tight" style="padding:10px 0 34px"><div class="container">
@@ -450,7 +450,7 @@ PAGES['story.html'] = dict(title='Back to the Kitchen Table', desc='One father. 
 PAGES['classes.html'] = dict(title='The Courses', desc='Three courses, free to every man.', active='', mode='public', nochrome=True, body='''
 <meta http-equiv="refresh" content="0;url=certificates.html">
 <script>location.replace('certificates.html');</script>
-<p class="center fine" style="padding:60px 0">The classes now live inside the three courses. <a class="link" href="certificates.html">Continue to The Courses &rarr;</a></p>
+<p class="center fine" style="padding:60px 0">The classes now live inside the courses. <a class="link" href="certificates.html">Continue to The Courses &rarr;</a></p>
 ''')
 
 PAGES['class.html'] = dict(title='The Fundamentals of Fathering', desc='The flagship class on presence, taught by Dr. Ken Canfield.', active='Classes', mode='public', body='''
@@ -928,7 +928,7 @@ PAGES['certificates.html'] = dict(title='The Courses and the Certificate of Comp
       <h1 class="cert-h1">A document that<br>means something.</h1>
       <p class="lead" style="margin:22px 0 34px">Not a participation ribbon. Earned proof that you did the work, free to the man who earns it. Signed by Dr. Ken Canfield and the Certified Facilitator who led your cohort, with verified hours and a serial anyone can confirm.</p>
       <div class="row wrap" style="gap:14px">
-        <a class="btn btn-yellow" href="#catalog">See the three courses</a>
+        <a class="btn btn-yellow" href="#catalog">See the courses</a>
         <a class="btn btn-secondary" href="verify.html">Verify one</a>
       </div>
     </div>
@@ -1023,6 +1023,12 @@ PAGES['certificates.html'] = dict(title='The Courses and the Certificate of Comp
       <h3>Steady Under Pressure</h3>
       <p>A man&rsquo;s temper, trained. In development now; waitlist members shape the first cohort and train first.</p>
       <div class="cert-card-foot"><span class="mono">Waitlist</span><a class="cert-card-go" href="#waitlist">Join the waitlist &rarr;</a></div>
+    </div>
+    <div class="cert-card" style="cursor:default" data-cert="coparenting" data-title="Same Team" data-hours="8.0" data-desc="Co-parenting, trained. One team for your children, whatever the arrangement between you. Verified hours, checkpoints, and a final assessment at eighty percent to pass.">
+      <div class="cert-card-top"><span class="pill" style="opacity:.75">Coming soon</span><span class="cert-card-hrs">8.0 hrs</span></div>
+      <h3>Same Team</h3>
+      <p>Co-parenting, trained. One team for your children, whatever the arrangement between you. Coming soon; not yet open for enrollment.</p>
+      <div class="cert-card-foot"><span class="mono">Coming soon</span></div>
     </div>
       </div>
 

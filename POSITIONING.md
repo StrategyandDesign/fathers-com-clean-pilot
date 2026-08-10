@@ -183,3 +183,49 @@ The rail's baseline card hides when the hero renders so numbers appear once.
 
 Orphans removed this pass: the superseded keystone.js controller and the
 magic-link helper it used.
+
+## 16. The education line (adopted 2026-08-10)
+
+NCF is an education and certification authority. Nothing on this platform crosses
+into licensed territory. Verified by vocabulary scan of every generated page on
+2026-08-10: the live surface carries zero clinical-authority language.
+
+1. We certify education. We never diagnose, screen, treat, counsel, or provide
+   therapy, and we never use those words about ourselves.
+2. The Keystone Profile is an educational self-report profile of fathering
+   practice. Never a clinical instrument, never a screening, never a test of
+   mental health. Interpretation bands use practice language, never symptom
+   language.
+3. Certified Facilitators lead courses. The credential certifies facilitation of
+   NCF curriculum only. A facilitator who holds a counseling license does not act
+   under it here, and our copy never implies he does.
+4. The Efficacy Report reports educational outcomes: completion, movement on
+   practice domains, retention signals. Never clinical outcomes. Never a claim to
+   reduce relapse, depression, or any diagnosis.
+5. No clinical information is stored on the platform (section 9). The QSOA
+   template lives in the partner kit; the platform never receives Part 2 data.
+6. Anger content is steadiness education. Never "anger management" as a court
+   category, and never positioned to satisfy batterer-intervention requirements,
+   a regulated program class in most states. Whether a certificate satisfies any
+   requirement is decided by that body (the live FAQ posture).
+7. The Legacy Archive (voice.html) is testimonial recording only. Recordings are
+   never analyzed for health, mood, or biomarker signals.
+8. Health-adjacent modules, if ever added, are general wellness education, not
+   screening or advice.
+9. Research stays in the pseudonymized pilot lane, which already carries Subpart
+   C posture (subpart_c_determination). The service lane makes no research
+   claims.
+10. When SHOW_MILITARY flips, the veteran pages get this same scrub first. They
+    currently contain "diagnosis" and "treat" vocabulary.
+
+Counsel confirms points 2 and 6 once before court-facing distribution scales.
+
+## 17. Fourth course: co-parenting (decided 2026-08-10)
+
+The universal need map confirms one gap in the slate: co-parenting and
+communication with the mother of a man's children. Both incumbent curricula
+carry the topic; in residential settings 77 percent of fathers wanted fatherhood
+and co-parenting sessions. Decision: a fourth course enters the catalog as
+COMING SOON, not enrollable, no waitlist. Working title "Same Team," pending
+final naming. Participant copy stays label-free per section 9. Build order:
+after Coming Home Present.
