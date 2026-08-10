@@ -12,7 +12,7 @@ OG_IMAGE = SITE_URL + "/assets/img/og-image.jpg"
 # changelog.html. Bump BOTH constants on every release, add a CHANGELOG entry
 # below, regenerate, and upload. The stamp is the answer to "what version is
 # live": read any page footer.
-PLATFORM_VERSION = "4.10.0"
+PLATFORM_VERSION = "4.10.1"
 VERSION_DATE = "2026-08-10"
 
 # v4.0 reposition flags (ADR-4: rollout is a data change, not a redesign).
@@ -33,8 +33,14 @@ SHOW_GATHERINGS = False
 # Nothing is deleted from this file; flipping this back to True restores
 # Stories whole when there is capacity to produce them.
 SHOW_STORIES = False
+
+# SHOW_EMPLOYERS dark-launches the employer surface the same way. The page and
+# every route into it rest until the employer offer is ready to sell. Flip to
+# True to restore it whole.
+SHOW_EMPLOYERS = False
 GATHERINGS_PAGES = {'gatherings.html'}
 STORIES_PAGES = {'stories.html', 'story.html'}
+EMPLOYERS_PAGES = {'employers.html'}
 MILITARY_PAGES = {
     'veterans.html', 'veterans-hub.html', 'veterans-start.html', 'veterans-checkin.html',
     'veterans-module.html', 'veterans-resources.html', 'voice.html', 'share.html',
@@ -141,6 +147,9 @@ PAGES = {}
 # Release notes rendered on changelog.html. Newest first. Public copy:
 # POSITIONING.md section 9 language rules apply.
 CHANGELOG = [
+    ("4.10.1", "2026-08-10",
+     "One Dashboards button, as intended. The employer surface rests for "
+     "now; certification and verification are unchanged."),
     ("4.10.0", "2026-08-10",
      "Stories are resting for now. The Profile, the plan, and the courses "
      "carry the front of the house; the films return when there is room to "
@@ -2476,10 +2485,6 @@ PAGES['dashboard.html'] = dict(title='Your Dashboard', desc='Your written report
 <script src="assets/js/assessment-registry.js"></script>
 <script src="assets/js/plan-engine.js"></script>
 <script src="assets/js/keystone-report.js"></script>
-<script src="assets/js/config.js"></script>
-<script src="assets/js/supabase-client.js"></script>
-<script src="assets/js/roles.js"></script>
-<script src="assets/js/app.js"></script>
 <script src="assets/js/dashboard.js"></script>
 ''')
 PAGES['recover.html'] = dict(title='Rebuild lost results', desc='Your written report, always available, the moment you finish and every time you return.', active='', mode='public', body='''
@@ -2495,10 +2500,6 @@ PAGES['recover.html'] = dict(title='Rebuild lost results', desc='Your written re
 <script src="assets/js/keystone-manhood-data.js"></script>
 <script src="assets/js/assessment-registry.js"></script>
 <script src="assets/js/keystone-report.js"></script>
-<script src="assets/js/config.js"></script>
-<script src="assets/js/supabase-client.js"></script>
-<script src="assets/js/roles.js"></script>
-<script src="assets/js/app.js"></script>
 <script src="assets/js/recover.js"></script>
 ''')
 
@@ -2552,6 +2553,26 @@ if not SHOW_STORIES:
     _strip_stories()
 
 
+def _strip_employers():
+    global FOOT, PAGES
+    def cut(hay, needle, where):
+        n = hay.count(needle)
+        if n != 1:
+            raise SystemExit(
+            'SHOW_EMPLOYERS strip failed: expected 1 occurrence in %s, found %d.' % (where, n))
+        return hay.replace(needle, '')
+    FOOT = cut(FOOT, '<li><a href="employers.html">Employers</a></li>', 'FOOT')
+    b = PAGES['organizations.html']['body']
+    b = cut(b, '<a class="fit-card" href="employers.html"><b>Employers</b><span>A benefit men actually use, with proof it worked.</span><i>&rarr;</i></a>', 'organizations fit-card')
+    PAGES['organizations.html']['body'] = b
+    b = cut(b, ' &nbsp;&middot;&nbsp; <a class="link" href="employers.html" style="color:#C7C2B8">Employers</a>', 'organizations also-built-for')
+    PAGES['organizations.html']['body'] = b
+
+
+if not SHOW_EMPLOYERS:
+    _strip_employers()
+
+
 if __name__ == '__main__':
     out = os.path.dirname(os.path.abspath(__file__))
     if not SHOW_GATHERINGS:
@@ -2560,6 +2581,12 @@ if __name__ == '__main__':
             if os.path.exists(dp):
                 os.remove(dp)
                 print('removed (gatherings dark)', dead)
+    if not SHOW_EMPLOYERS:
+        for dead in EMPLOYERS_PAGES:
+            dp = os.path.join(out, dead)
+            if os.path.exists(dp):
+                os.remove(dp)
+                print('removed (employers dark)', dead)
     if not SHOW_STORIES:
         for dead in STORIES_PAGES:
             dp = os.path.join(out, dead)
@@ -2578,6 +2605,8 @@ if __name__ == '__main__':
         if not SHOW_GATHERINGS and fname in GATHERINGS_PAGES:
             continue
         if not SHOW_STORIES and fname in STORIES_PAGES:
+            continue
+        if not SHOW_EMPLOYERS and fname in EMPLOYERS_PAGES:
             continue
         FORCED_THEME = {'organizations.html': "'light'", 'index.html': "'dark'", 'profile.html': "'dark'", 'stories.html': "'dark'", 'certificates.html': "'dark'", 'enroll.html': "'dark'", 'class.html': "'dark'", 'course.html': "'dark'", 'player.html': "'dark'", 'checkout.html': "'dark'", 'certificate.html': "'dark'", 'voice.html': "'dark'", 'share.html': "'dark'"}
         theme_js = FORCED_THEME.get(fname, 'localStorage.getItem("fc_theme")||"dark"')

@@ -28,7 +28,7 @@ CLINICAL_BAN = ["diagnos", "therapy", "therapist", "screening tool",
 ORG_FACING = {"organizations.html", "facilitators.html", "employers.html",
               "find-a-program.html", "efficacy-report.html", "research.html",
               "about.html", "classes.html"}
-STUBS = {"stories.html", "story.html",
+STUBS = {"stories.html", "story.html", "employers.html",
          "gatherings.html", "share.html", "voice.html", "veterans.html",
          "veterans-hub.html", "veterans-start.html", "veterans-checkin.html",
          "veterans-module.html", "veterans-resources.html"}
