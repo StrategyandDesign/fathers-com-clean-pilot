@@ -498,7 +498,7 @@
         '<div class="rp-resources rp-noprint"><span class="rp-res-h">Train this section</span>'+
           '<a class="rp-reslink" href="class.html">The free course</a>'+
           '<a class="rp-reslink" href="classes.html">All classes</a>'+
-          '<a class="rp-reslink" href="stories.html">Stories from fathers</a>'+
+          /* SHOW_STORIES: restore when Stories return: '<a class="rp-reslink" href="stories.html">Stories from fathers</a>'+ */
           '<a class="rp-reslink" href="circles.html">Find a circle</a></div>'+
       '</div></section>';
   }

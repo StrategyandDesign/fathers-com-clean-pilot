@@ -12,7 +12,7 @@ OG_IMAGE = SITE_URL + "/assets/img/og-image.jpg"
 # changelog.html. Bump BOTH constants on every release, add a CHANGELOG entry
 # below, regenerate, and upload. The stamp is the answer to "what version is
 # live": read any page footer.
-PLATFORM_VERSION = "4.9.0"
+PLATFORM_VERSION = "4.10.0"
 VERSION_DATE = "2026-08-10"
 
 # v4.0 reposition flags (ADR-4: rollout is a data change, not a redesign).
@@ -27,14 +27,21 @@ SHOW_MILITARY = False
 # Flip to True to restore it. Nothing is deleted from this file, so restoring
 # is a one-word change.
 SHOW_GATHERINGS = False
+
+# SHOW_STORIES dark-launches the film surface the same way: pages are not
+# generated, and every route into them is stripped from the nav and footer.
+# Nothing is deleted from this file; flipping this back to True restores
+# Stories whole when there is capacity to produce them.
+SHOW_STORIES = False
 GATHERINGS_PAGES = {'gatherings.html'}
+STORIES_PAGES = {'stories.html', 'story.html'}
 MILITARY_PAGES = {
     'veterans.html', 'veterans-hub.html', 'veterans-start.html', 'veterans-checkin.html',
     'veterans-module.html', 'veterans-resources.html', 'voice.html', 'share.html',
 }
 
 # Private / transactional pages: keep them out of Google's index. Everything else is indexable.
-NOINDEX = {'report.html', 'organizations.html', 'share.html', 'account.html', 'plan.html', 'circles.html', 'player.html', 'checkout.html', 'enroll.html', 'login.html', 'veterans-hub.html', 'veterans-start.html', 'veterans-checkin.html', 'voice.html', 'find-a-program.html', 'classes.html', 'veterans-resources.html'}
+NOINDEX = {'dashboard.html', 'recover.html', 'report.html', 'organizations.html', 'share.html', 'account.html', 'plan.html', 'circles.html', 'player.html', 'checkout.html', 'enroll.html', 'login.html', 'veterans-hub.html', 'veterans-start.html', 'veterans-checkin.html', 'voice.html', 'find-a-program.html', 'classes.html', 'veterans-resources.html'}
 
 
 def _esc(s):
@@ -90,9 +97,11 @@ HEAD = '''<!DOCTYPE html>
 def nav(active='', mode='public'):
     if mode=='app':
         links = [('Home','dashboard.html'),('The Courses','certificates.html'),('Stories','stories.html'),('Circles','circles.html')]
+        if not SHOW_STORIES: links = [l for l in links if l[1] != 'stories.html']
         active = {'Certificates':'The Courses','Classes':'The Courses'}.get(active, active)
     else:
         links = [('The Profile','profile.html'),('The Courses','certificates.html'),('Stories','stories.html')]
+        if not SHOW_STORIES: links = [l for l in links if l[1] != 'stories.html']
         # Legacy page actives map onto the new public nav so highlighting stays sane.
         active = {'For Groups':'For Organizations','For Veterans':'For Organizations','Classes':'The Courses','Certificates':'The Courses','My Plan':'Home'}.get(active, active)
     lis = ''.join(f'<li><a href="{h}" {"class=\"active\"" if t==active else ""}>{t}</a></li>' for t,h in links)
@@ -132,6 +141,10 @@ PAGES = {}
 # Release notes rendered on changelog.html. Newest first. Public copy:
 # POSITIONING.md section 9 language rules apply.
 CHANGELOG = [
+    ("4.10.0", "2026-08-10",
+     "Stories are resting for now. The Profile, the plan, and the courses "
+     "carry the front of the house; the films return when there is room to "
+     "make them well."),
     ("4.9.0", "2026-08-10",
      "Coming Home Present grows a module: catching up on how your child grew "
      "while you were away. Facilitator materials add guidance for a man in "
@@ -2425,6 +2438,71 @@ PAGES['efficacy-report.html'] = dict(title='The Efficacy Report', desc='Cohort m
 # Runs after all PAGES are defined. Each strip asserts its anchor so that a
 # later copy edit fails the build rather than quietly re-exposing the surface.
 # ---------------------------------------------------------------------------
+# ================================================== adopted orphans (v4.10.0)
+# dashboard.html and recover.html predate the builder and were living outside
+# it with stale chrome. Adopted here so every chrome change reaches them.
+PAGES['dashboard.html'] = dict(title='Your Dashboard', desc='Your written report, always available, the moment you finish and every time you return.', active='Home', mode='app', body='''
+<section class="tight" style="padding-top:36px"><div class="container">
+
+  <div id="dashHead" style="margin-bottom:18px">
+    <div class="eyebrow" style="margin-bottom:8px">YOUR DASHBOARD</div>
+    <h1 class="d-32" style="margin:0">Welcome<span id="dashNameWrap" style="display:none">, <span id="dashName"></span></span></h1>
+    <p class="fine" style="margin-top:6px">Your written report lives here. It appears the moment you finish your profile, and it is here every time you come back.</p>
+  </div>
+
+  <div data-journey="" style="margin-bottom:22px"></div>
+
+  <div id="dashBanner" class="card" style="display:none;padding:14px 18px;margin-bottom:18px"></div>
+
+  <div id="dashSwitch" class="card" style="display:none;padding:22px;margin-bottom:22px"></div>
+
+  <div id="dashReport">
+    <div class="center" style="padding:80px 0">
+      <div class="eyebrow" style="margin-bottom:12px">PREPARING YOUR DASHBOARD</div>
+      <p class="ash">One moment.</p>
+    </div>
+  </div>
+
+  <div id="dashCourses"></div>
+
+  <div id="dashNext"></div>
+
+</div></section>
+
+<script src="assets/js/journey.js"></script>
+<script src="assets/js/keystone-data.js"></script>
+<script src="assets/js/keystone-full.js"></script>
+<script src="assets/js/keystone-manhood-data.js"></script>
+<script src="assets/js/assessment-registry.js"></script>
+<script src="assets/js/plan-engine.js"></script>
+<script src="assets/js/keystone-report.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/supabase-client.js"></script>
+<script src="assets/js/roles.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/dashboard.js"></script>
+''')
+PAGES['recover.html'] = dict(title='Rebuild lost results', desc='Your written report, always available, the moment you finish and every time you return.', active='', mode='public', body='''
+<section class="tight" style="padding-top:36px"><div class="container">
+  <div class="eyebrow" style="margin-bottom:8px">ADMIN &middot; REBUILD</div>
+  <h1 class="d-36" style="margin-bottom:8px">Rebuild lost results</h1>
+  <p class="lead" style="max-width:62ch;margin-bottom:26px">A sitting can be marked complete without its result being stored. The answers survive, so the result is rebuilt from them using the same scoring engine the live app uses. Nothing is written until you press the button.</p>
+  <div id="rcRoot"></div>
+</div></section>
+
+<script src="assets/js/keystone-data.js"></script>
+<script src="assets/js/keystone-full.js"></script>
+<script src="assets/js/keystone-manhood-data.js"></script>
+<script src="assets/js/assessment-registry.js"></script>
+<script src="assets/js/keystone-report.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/supabase-client.js"></script>
+<script src="assets/js/roles.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/recover.js"></script>
+''')
+
+
 def _strip_gatherings():
     global FOOT
     def cut(haystack, needle, where):
@@ -2460,6 +2538,20 @@ if not SHOW_GATHERINGS:
     _strip_gatherings()
 
 
+def _strip_stories():
+    global FOOT
+    needle = '<li><a href="stories.html">Stories</a></li>'
+    n = FOOT.count(needle)
+    if n != 1:
+        raise SystemExit(
+            'SHOW_STORIES strip failed: expected 1 occurrence in FOOT, found %d.' % n)
+    FOOT = FOOT.replace(needle, '')
+
+
+if not SHOW_STORIES:
+    _strip_stories()
+
+
 if __name__ == '__main__':
     out = os.path.dirname(os.path.abspath(__file__))
     if not SHOW_GATHERINGS:
@@ -2468,6 +2560,12 @@ if __name__ == '__main__':
             if os.path.exists(dp):
                 os.remove(dp)
                 print('removed (gatherings dark)', dead)
+    if not SHOW_STORIES:
+        for dead in STORIES_PAGES:
+            dp = os.path.join(out, dead)
+            if os.path.exists(dp):
+                os.remove(dp)
+                print('removed (stories dark)', dead)
     if not SHOW_MILITARY:
         for dead in MILITARY_PAGES:
             dp = os.path.join(out, dead)
@@ -2478,6 +2576,8 @@ if __name__ == '__main__':
         if not SHOW_MILITARY and fname in MILITARY_PAGES:
             continue
         if not SHOW_GATHERINGS and fname in GATHERINGS_PAGES:
+            continue
+        if not SHOW_STORIES and fname in STORIES_PAGES:
             continue
         FORCED_THEME = {'organizations.html': "'light'", 'index.html': "'dark'", 'profile.html': "'dark'", 'stories.html': "'dark'", 'certificates.html': "'dark'", 'enroll.html': "'dark'", 'class.html': "'dark'", 'course.html': "'dark'", 'player.html': "'dark'", 'checkout.html': "'dark'", 'certificate.html': "'dark'", 'voice.html': "'dark'", 'share.html': "'dark'"}
         theme_js = FORCED_THEME.get(fname, 'localStorage.getItem("fc_theme")||"dark"')

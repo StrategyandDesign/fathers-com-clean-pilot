@@ -28,7 +28,8 @@ CLINICAL_BAN = ["diagnos", "therapy", "therapist", "screening tool",
 ORG_FACING = {"organizations.html", "facilitators.html", "employers.html",
               "find-a-program.html", "efficacy-report.html", "research.html",
               "about.html", "classes.html"}
-STUBS = {"gatherings.html", "share.html", "voice.html", "veterans.html",
+STUBS = {"stories.html", "story.html",
+         "gatherings.html", "share.html", "voice.html", "veterans.html",
          "veterans-hub.html", "veterans-start.html", "veterans-checkin.html",
          "veterans-module.html", "veterans-resources.html"}
 
@@ -61,12 +62,20 @@ def main():
     if build_hash() != build_hash():
         failures.append("Build is not deterministic across two runs")
 
-    # Restore stub files the builder deletes; the repo keeps them until the
-    # dark surfaces return (they are replaced, not served, on regeneration).
-    subprocess.run(["git", "checkout", "--", *sorted(STUBS)],
-                   cwd=REPO, capture_output=True)
+    # Restore stub files the builder deletes. Stubs are canonical content,
+    # so the checker rewrites them directly; git state does not matter.
+    stub_html = (
+        "<!doctype html><html lang=\"en\"><head><meta charset=\"utf-8\">\n"
+        "<meta name=\"robots\" content=\"noindex,nofollow\">\n"
+        "<meta http-equiv=\"refresh\" content=\"0;url=index.html\">\n"
+        "<title>Fathers.com</title></head>\n"
+        "<body><p><a href=\"index.html\">Fathers.com</a></p></body></html>\n")
+    for name in sorted(STUBS):
+        (REPO / name).write_text(stub_html)
 
     for name in pages():
+        if name in STUBS:
+            continue
         p = REPO / name
         if not p.exists():
             continue

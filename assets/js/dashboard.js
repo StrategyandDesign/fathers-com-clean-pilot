@@ -295,9 +295,10 @@
           'Browse the courses'));
       }
 
-      cards.push(card('stories.html','Stories','Men who have been here',
-        'Short, honest accounts from men doing the same work. Read one when the week is hard.',
-        'Read the stories'));
+      // SHOW_STORIES (build_pages.py): card rests while Stories are dark. Restore:
+      // cards.push(card('stories.html','Stories','Men who have been here',
+      //         'Short, honest accounts from men doing the same work. Read one when the week is hard.',
+      //         'Read the stories'));
 
       if(other && !hasOther){
         cards.push(card('profile.html?assessment='+encodeURIComponent(other),'The other profile',
