@@ -229,3 +229,47 @@ and co-parenting sessions. Decision: a fourth course enters the catalog as
 COMING SOON, not enrollable, no waitlist. Working title "Same Team," pending
 final naming. Participant copy stays label-free per section 9. Build order:
 after Coming Home Present.
+
+## 18. The market evidence record (adopted 2026-08-10)
+
+Verdicts from the commissioned demand review, logged as doctrine. Every rule
+below is enforced by tools/check_release.py where a scanner can enforce it.
+
+1. Confirmed by the evidence: programs buy curriculum and facilitator
+   training (incumbent kits publish at $479 to $899, facilitator training at
+   $199 to $450 per person); staff training demand is documented in the
+   federal implementation studies; courts and child welfare agencies require
+   completion certificates in case plans; fathers ask for this content; and
+   funders demand outcome reporting. Both incumbent curricula are rated Does
+   Not Currently Meet Criteria on the Title IV-E Prevention Services
+   Clearinghouse as of the July 2025 review. The evidence bar is open ground.
+2. Contradicted: any claim of category-first verification. QR-verified,
+   court-checkable certificates already sell to parents at $19.95 to $95.
+   The claim rule: never "first" or "only" about verification. The
+   defensible set, exactly four items: first within evidence-based
+   fatherhood curricula; revocation always shown, which no competitor
+   advertises; free to the man; earned in a facilitator-led cohort.
+3. Unproven: the recurring model. No incumbent publishes an annual site
+   license or facilitator renewal. The $1,500 per site per year and $99
+   renewal stand as a priced hypothesis. Benchmarks: first-cycle renewal
+   above 70 percent validates the model; below 40 percent converts it to
+   one-time-plus-training. The annual fee is always sold as what a kit
+   cannot include: the registry listing, revocation authority, facilitator
+   renewals, and the Efficacy Report.
+4. The norms language rule: until section 8 resolves, printed norming
+   language is magnitude only, "thousands of fathers," never a count. In
+   code, counts print only when an instrument carries norms_printable set
+   true. The public lineage line ties the Keystone Profile to the Personal
+   Fathering Profile research program of Dr. Ken Canfield, the documented
+   instrument of record.
+5. The evidence claims rule: no page prints "evidence-based" or any rating
+   claim until a Clearinghouse rating exists. The Efficacy Report is
+   described as built for the evidence bar, never as proof already earned.
+6. The binding constraint in the federal evaluations is recruitment and
+   retention, not price. Facilitator enablement and recruitment materials
+   outrank verification features in build order.
+7. The 77 percent figure (fathers in residential treatment wanting paternity
+   and co-parenting sessions) cites Int. J. Environ. Res. Public Health
+   2020, 17(3):1051, a peer-reviewed review carrying it as a secondary
+   citation with the primary sample unstated. Cite it exactly this way,
+   internally only.

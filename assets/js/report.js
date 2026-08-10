@@ -15,7 +15,7 @@
     if(isDemo) h += '<div class="card" style="padding:14px 18px;margin-bottom:18px"><span class="fine">SAMPLE DATA. This is the exact report your funder receives, rendered from a demonstration cohort.</span></div>';
     h += '<div class="eyebrow" style="margin-bottom:6px">KEYSTONE EFFICACY REPORT</div>';
     h += '<h2 class="d-28" style="margin-bottom:4px">' + orgName + '</h2>';
-    h += '<p class="fine" style="margin-bottom:22px">Generated ' + new Date().toLocaleDateString() + ' \u00B7 Keystone Father Profile, normed on 9,232 fathers \u00B7 movement = mean latest overall minus mean baseline overall, per cohort</p>';
+    h += '<p class="fine" style="margin-bottom:22px">Generated ' + new Date().toLocaleDateString() + ' \u00B7 Keystone Father Profile, normed on thousands of fathers \u00B7 movement = mean latest overall minus mean baseline overall, per cohort</p>';
     h += '<div class="card" style="padding:0;overflow:auto"><table style="width:100%;border-collapse:collapse;font-size:14px">';
     h += '<tr style="text-align:left"><th style="padding:12px 16px">Cohort</th><th style="padding:12px 16px">Fathers</th><th style="padding:12px 16px">Completed</th><th style="padding:12px 16px">Baseline</th><th style="padding:12px 16px">Latest</th><th style="padding:12px 16px">Movement</th><th style="padding:12px 16px">Outcome overlay</th></tr>';
     rows.forEach(function(r){

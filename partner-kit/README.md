@@ -18,6 +18,7 @@ govern every word in here.
 | supervision-checklist.md | NCF supervisors | The supervised first cohort as a coaching instrument |
 | org-admin-quickstart.md | Org admins | Seats, cohort funding, where incentive money goes, the Efficacy Report |
 | engine-license-outline.md | Counsel | Governance skeleton for licensing the engine to an outside authority. COUNSEL REVIEW REQUIRED |
+| funding-map.md | Org admins, development staff | Federal, reentry, and settlement funding streams, what they pay for, budget-line mapping |
 
 ## Regenerate
     python3 partner-kit/make_inserts.py

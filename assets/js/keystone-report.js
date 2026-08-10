@@ -638,13 +638,16 @@
       // norms_n is 0 the old falsy check fell through to '2,066', printing a
       // national norm group on a profile that has never been normed.
       var normed  = !!(ACTIVE && ACTIVE.norms_n > 0);
-      var normN   = normed ? ACTIVE.norms_n.toLocaleString() : null;
+      // The count prints only when the instrument declares norms_printable.
+      // Until then, magnitude language (POSITIONING.md 18).
+      var normN   = normed ? (ACTIVE.norms_printable === true ? ACTIVE.norms_n.toLocaleString() : 'thousands of') : null;
+      var normStat = normed ? (ACTIVE.norms_printable === true ? ACTIVE.norms_n.toLocaleString() : 'thousands') : null;
       var groupN  = (ACTIVE && ACTIVE.norm_group_noun) || 'fathers';
       var subjN   = (ACTIVE && ACTIVE.subject_noun) || 'your fathering';
       var itemN   = 0;
       if(ACTIVE && ACTIVE.sections){ ACTIVE.sections.forEach(function(s){ s.scales.forEach(function(x){ itemN += (x.items||[]).length; }); }); }
       var firstStat = normed
-        ? '<div class="rp-stat"><div class="rp-stat-n">'+normN+'</div><div class="rp-stat-l">'+esc(groupN)+' in your norm group</div></div>'
+        ? '<div class="rp-stat"><div class="rp-stat-n">'+normStat+'</div><div class="rp-stat-l">'+esc(groupN)+' in your norm group</div></div>'
         : '<div class="rp-stat"><div class="rp-stat-n">'+itemN+'</div><div class="rp-stat-l">questions you answered</div></div>';
       var stats='<section class="rp-stats">'+
         firstStat+

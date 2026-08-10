@@ -268,13 +268,14 @@
         sCount = KS.itemsInSection('satisfaction').length,
         totalItems = dCount+pCount+sCount;
     // Title and norm claim come from the instrument. They used to be hardcoded,
-    // which is how this screen ended up promising "normed on 9,232 fathers"
-    // while the instrument carries 2,066 and the report prints 2,066.
+    // which is how this screen once promised a hardcoded national count
+    // while the instrument and the report carried a different one.
     var insTitle = (ACTIVE_INS.title || 'The Keystone Father Profile').toUpperCase();
     var insNormed = !!(ACTIVE_INS.norms_n > 0);
     var insGroup = ACTIVE_INS.norm_group_noun || 'fathers';
+    var insPrintable = insNormed && ACTIVE_INS.norms_printable === true;
     var insClaim = insNormed
-      ? 'The complete validated inventory, normed on '+ACTIVE_INS.norms_n.toLocaleString()+' '+insGroup+'. Answer honestly. Your results are private.'
+      ? 'The complete validated inventory, normed on '+(insPrintable ? ACTIVE_INS.norms_n.toLocaleString() : 'thousands of')+' '+insGroup+'. Answer honestly. Your results are private.'
       : 'The complete inventory. This profile does not have a norm group yet, so your results show where you placed yourself, not how you compare to other '+insGroup+'. Answer honestly. Your results are private.';
     root.innerHTML = shell(
       '<div class="eyebrow">'+insTitle+'</div>'+

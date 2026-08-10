@@ -12,7 +12,7 @@ OG_IMAGE = SITE_URL + "/assets/img/og-image.jpg"
 # changelog.html. Bump BOTH constants on every release, add a CHANGELOG entry
 # below, regenerate, and upload. The stamp is the answer to "what version is
 # live": read any page footer.
-PLATFORM_VERSION = "4.7.0"
+PLATFORM_VERSION = "4.8.0"
 VERSION_DATE = "2026-08-10"
 
 # v4.0 reposition flags (ADR-4: rollout is a data change, not a redesign).
@@ -132,6 +132,11 @@ PAGES = {}
 # Release notes rendered on changelog.html. Newest first. Public copy:
 # POSITIONING.md section 9 language rules apply.
 CHANGELOG = [
+    ("4.8.0", "2026-08-10",
+     "Precision. The Profile now states its lineage plainly: grown from the "
+     "Personal Fathering Profile research program of Dr. Ken Canfield. "
+     "Norming language states magnitude while the full technical "
+     "documentation is prepared. A funding guide joins the partner kit."),
     ("4.7.0", "2026-08-10",
      "The engine opens to partner programs. A program with its own standard "
      "can carry its own signing authority, its own serial prefix, and its "
@@ -270,7 +275,7 @@ PAGES['index.html'] = dict(title='Know where you stand', desc='Take the free Key
   <div>
     <div class="eyebrow" style="margin-bottom:14px">MEASURE &middot; YOUR BASELINE</div>
     <h2 class="d-36">Four things decide the kind of father you are.</h2>
-    <p style="color:var(--ash);margin:18px 0 28px;max-width:52ch">Involvement. Consistency. Awareness. Nurturance. The Keystone Father Profile measures all four, normed against 9,232 fathers. You get a score, an honest read on where you stand, and a ninety-day plan built from your gaps. Free, before you pay for anything.</p>
+    <p style="color:var(--ash);margin:18px 0 28px;max-width:52ch">Involvement. Consistency. Awareness. Nurturance. The Keystone Father Profile measures all four, normed against thousands of fathers. You get a score, an honest read on where you stand, and a ninety-day plan built from your gaps. Free, before you pay for anything.</p>
     <a class="btn btn-yellow" href="profile.html">Start your Profile</a>
   </div>
   <div class="card" style="padding:32px">
@@ -288,7 +293,7 @@ PAGES['index.html'] = dict(title='Know where you stand', desc='Take the free Key
     <div class="eyebrow" style="margin-bottom:12px">START FREE</div>
     <h2 style="font-family:var(--font-ui);font-weight:600;font-size:22px;margin-bottom:22px">Start free. Grow on a plan.</h2>
     <div class="row wrap"><a class="btn btn-yellow" href="profile.html">Start your Profile</a><a class="btn btn-secondary" href="sponsor.html">Sponsor a man</a></div>
-    <p class="fine" style="margin-top:12px">Every course is free to the man who takes it. Sponsorship funds seats and materials inside certified programs. The completion is still his to earn.</p>
+    <p class="fine" style="margin-top:12px">Every course is free to the man who takes it. Sponsorship funds seats and materials inside certified programs: a facilitator-led cohort with verified hours and a final, not a self-serve video. The completion is still his to earn.</p>
   </div>
   <div class="stack-16">
     <div class="check"><span class="checkmark">&check;</span><span>Your Keystone Profile and ninety-day plan, free</span></div>
@@ -347,7 +352,7 @@ PAGES['index.html'] = dict(title='Know where you stand', desc='Take the free Key
 
 <section class="tight" style="padding:10px 0 34px"><div class="container">
   <div class="row wrap" style="gap:26px;justify-content:center;text-align:center">
-    <span class="fine">Normed on 9,232 fathers</span><span class="fine ash">&middot;</span><span class="fine">Built by the National Center for Fathering since 1990</span><span class="fine ash">&middot;</span><span class="fine">Every credential publicly verifiable</span>
+    <span class="fine">Normed on thousands of fathers</span><span class="fine ash">&middot;</span><span class="fine">Built by the National Center for Fathering since 1990</span><span class="fine ash">&middot;</span><span class="fine">Every credential publicly verifiable</span>
   </div>
 </div></section>
 
@@ -397,7 +402,7 @@ PAGES['index.html'] = dict(title='Know where you stand', desc='Take the free Key
   <details open><summary>What is Fathers.com?</summary><div class="body">Fathers.com is the home of the Keystone Standard, from the National Center for Fathering. Men measure where they stand and complete the courses free. NCF certifies the organizations and facilitators who lead them, and every man who finishes holds a Certificate of Completion anyone can verify. Programs and agencies use the same standard to show whether men are changing.</div></details>
 <details><summary>Who gets certified?</summary><div class="body">Organizations and facilitators. An organization earns Certified status against a published standard. A facilitator earns the Certified Facilitator credential through training, an exam, and a supervised first cohort. The man who completes a course receives a Certificate of Completion: earned, serialed, signed, and free to him. Certification is the institutional layer. Completion is his.</div></details>
   <details><summary>How much does it cost?</summary><div class="body">For the man doing the work: nothing. The Keystone Profile, the ninety-day plan, the courses, and the Certificate of Completion are free. Organizations pay for certification and facilitator credentialing. A full class library membership is optional at $120 a year, with a 30-day money-back guarantee.</div></details>
-  <details><summary>How does the Keystone Profile work?</summary><div class="body">About 40 questions, around twenty minutes. You get four domain scores, an overall baseline, and a plan built from your gaps, normed against 9,232 fathers. Your results are yours. We never share them.</div></details>
+  <details><summary>How does the Keystone Profile work?</summary><div class="body">About 40 questions, around twenty minutes. You get four domain scores, an overall baseline, and a plan built from your gaps, normed against thousands of fathers. Your results are yours. We never share them.</div></details>
   <details><summary>Do you rate other programs?</summary><div class="body">Yes. We publish a standard for whether a father program works and rate programs against it, including our own, so fathers and funders can tell what actually helps. Tell us what you need and we will point you to one that fits.</div></details>
   <details><summary>Are the Certificates of Completion accepted by courts?</summary><div class="body">Each certificate carries verified hours, passed checkpoints, and a public verification page. Acceptance is decided by each court or program, so confirm with yours before enrolling.</div></details>
   <details><summary>Is this religious?</summary><div class="body">No. Faith is an optional lens you can switch on during the Profile. It changes which classes and actions we recommend. Nothing else.</div></details>
@@ -427,7 +432,7 @@ PAGES['profile.html'] = dict(title='The Keystone Father Profile', desc='About tw
 <div id="ksIntro" style="max-width:680px;margin:0 auto;padding:64px 24px 40px;text-align:center">
   <div class="eyebrow" style="margin-bottom:16px">THE KEYSTONE PROFILE</div>
   <h1 class="d-36" style="margin-bottom:14px">Twenty minutes that shape the next ninety days.</h1>
-  <p style="color:var(--ash);max-width:52ch;margin:0 auto 28px">One hundred twenty-eight questions, built and validated by the National Center for Fathering. You get your score on the four dimensions that decide the kind of father you are, measured against 9,232 fathers, and a ninety-day plan built from your answers.</p>
+  <p style="color:var(--ash);max-width:52ch;margin:0 auto 28px">One hundred twenty-eight questions, grown from the Personal Fathering Profile research program of Dr. Ken Canfield at the National Center for Fathering. You get your score on the four dimensions that decide the kind of father you are, measured against thousands of fathers, and a ninety-day plan built from your answers.</p>
   <div class="row wrap" style="justify-content:center;gap:22px;margin-bottom:30px">
     <span class="fine">About twenty minutes</span><span class="fine ash">&middot;</span>
     <span class="fine">Pause anytime, every answer saves</span><span class="fine ash">&middot;</span>
@@ -2058,7 +2063,7 @@ PAGES['organizations.html'] = dict(title='Become a Certified Organization', desc
       <a class="btn btn-primary" href="efficacy-report.html?demo=1">See a sample report</a>
       <a class="btn btn-secondary" href="#walkthrough">Request a walkthrough</a>
     </div>
-    <p class="fine mono" style="color:var(--ash);letter-spacing:.02em">NORMED ON 9,232 FATHERS &nbsp;&middot;&nbsp; NCF, SINCE 1990 &nbsp;&middot;&nbsp; VERIFY A SERIAL IN 10 SECONDS</p>
+    <p class="fine mono" style="color:var(--ash);letter-spacing:.02em">NORMED ON THOUSANDS OF FATHERS &nbsp;&middot;&nbsp; NCF, SINCE 1990 &nbsp;&middot;&nbsp; VERIFY A SERIAL IN 10 SECONDS</p>
   </div>
   <div class="artifact">
     <div class="artifact-tab">WHAT YOUR FUNDER RECEIVES</div>
@@ -2093,7 +2098,7 @@ PAGES['organizations.html'] = dict(title='Become a Certified Organization', desc
   <div>
     <div class="eyebrow" style="margin-bottom:12px">FATHERHOOD PROGRAMS</div>
     <h2 class="d-28" style="margin-bottom:12px">Keep the curriculum you trust. We make it provable.</h2>
-    <p class="small" style="color:var(--ash);max-width:56ch">Your program stays exactly as you run it. We add the measurement spine underneath: every father baselines at intake through your join link, retakes at exit, and your Efficacy Report writes itself, one page per cohort, benchmarked against 9,232 fathers. Concierge-first means we run your first cohort with you: codes minted, men enrolled, the report in your funder&rsquo;s hands.</p>
+    <p class="small" style="color:var(--ash);max-width:56ch">Your program stays exactly as you run it. We add the measurement spine underneath: every father baselines at intake through your join link, retakes at exit, and your Efficacy Report writes itself, one page per cohort, benchmarked against established norms. Concierge-first means we run your first cohort with you: codes minted, men enrolled, the report in your funder&rsquo;s hands.</p>
   </div>
   <div class="card" style="padding:26px 28px;align-self:start">
     <p class="small" style="margin-bottom:16px"><b>Twenty minutes gets you live.</b> Your program, your funder&rsquo;s report, on the call.</p>
@@ -2151,7 +2156,7 @@ PAGES['organizations.html'] = dict(title='Become a Certified Organization', desc
   </div>
   <div class="grid-2" style="gap:32px">
     <div><p class="fine mono" style="color:#8A8A8A;margin-bottom:8px">THE OLD WAY</p><p class="small" style="color:#C7C2B8">Sign-in sheets, satisfaction surveys, and a renewal that lives or dies on a story. Every program says it works. None can show it.</p></div>
-    <div><p class="fine mono" style="color:#C9A227;margin-bottom:8px">THE STANDARD</p><p class="small" style="color:#F5F1E8">Baseline and exit on a validated instrument. Movement per cohort, benchmarked against 9,232 fathers. A renewal that is a number.</p></div>
+    <div><p class="fine mono" style="color:#C9A227;margin-bottom:8px">THE STANDARD</p><p class="small" style="color:#F5F1E8">Baseline and exit on a validated instrument. Movement per cohort, benchmarked against established norms. A renewal that is a number.</p></div>
   </div>
 </div></section>
 
@@ -2179,7 +2184,7 @@ PAGES['organizations.html'] = dict(title='Become a Certified Organization', desc
     <div class="eyebrow" style="margin-bottom:16px">WHAT A FUNDER SEES</div>
     <div class="stack-16">
       <div class="check"><span class="checkmark">&check;</span><span>Baseline and exit scores on the four Keystone dimensions</span></div>
-      <div class="check"><span class="checkmark">&check;</span><span>Cohort movement, benchmarked against 9,232 fathers</span></div>
+      <div class="check"><span class="checkmark">&check;</span><span>Cohort movement, benchmarked against established norms</span></div>
       <div class="check"><span class="checkmark">&check;</span><span>Completion rates that hold up to an auditor</span></div>
       <div class="check"><span class="checkmark">&check;</span><span>Outcome overlays when your agency links its data</span></div>
     </div>
@@ -2285,7 +2290,7 @@ PAGES['facilitators.html'] = dict(title='Become a Certified Facilitator', desc='
   <div>
     <div class="eyebrow" style="margin-bottom:12px">WHY IT IS STRICT</div>
     <h2 class="d-28" style="margin-bottom:12px">A registry only means something if names can come off it.</h2>
-    <p class="small" style="color:var(--ash);max-width:56ch">Most curricula in this field sell a kit and an optional webinar and call the buyer trained. We do not. Certification here is examined, supervised, renewed annually, and revocable for cause, with status published in the registry. That is more work for you and for us. It is also the only reason a court, a funder, or a program director can trust the title on sight.</p>
+    <p class="small" style="color:var(--ash);max-width:56ch">Most curricula in this field sell a kit and an optional webinar and call the buyer trained. We do not. Certification here is examined, supervised, renewed annually, and revocable for cause, with status published in the registry. That is more work for you and for us. It is also what lets a court, a funder, or a program director trust the title on sight.</p>
   </div>
   <div class="card" style="padding:26px 28px;align-self:start">
     <p class="small" style="margin-bottom:16px"><b>Organizations:</b> facilitator credentialing is part of site certification. Certify the org, credential the staff, run unlimited cohorts.</p>
@@ -2328,7 +2333,7 @@ PAGES['about.html'] = dict(title='About the National Center for Fathering', desc
 <section class="band tight"><div class="container split">
   <div>
     <h2 class="d-36" style="font-size:32px">Built on three decades of research.</h2>
-    <p style="color:var(--ash);margin:16px 0 18px;max-width:52ch">NCF was founded by Dr. Ken Canfield, whose research and books on fathering have guided a generation of men. The Keystone Father Profile grows directly out of that work: four dimensions, normed on 9,232 fathers, made practical.</p>
+    <p style="color:var(--ash);margin:16px 0 18px;max-width:52ch">NCF was founded by Dr. Ken Canfield, whose research and books on fathering have guided a generation of men. The Keystone Father Profile grows directly out of that work and the Personal Fathering Profile research program: four dimensions, normed on thousands of fathers, made practical.</p>
     <p style="color:var(--ash);max-width:52ch">Fathers.com is the home of that standard: the free Profile for any man, the free courses to grow it, the Certificate of Completion that proves the work, the Certified Organization and Certified Facilitator credentials that carry it, and the reporting that shows funders and agencies whether men are changing.</p>
   </div>
   <div class="card" style="padding:32px">
@@ -2348,12 +2353,12 @@ PAGES['about.html'] = dict(title='About the National Center for Fathering', desc
 ''')
 
 # ================================================== research.html
-PAGES['research.html'] = dict(title='The research behind the Keystone Profile', desc='Four dimensions. Normed on 9,232 fathers. A versioned instrument, scored against published norms.', active='', mode='public', body='''
+PAGES['research.html'] = dict(title='The research behind the Keystone Profile', desc='Four dimensions. Normed on thousands of fathers. A versioned instrument, scored against published norms.', active='', mode='public', body='''
 <header class="hero"><div class="container" style="max-width:860px">
   <div class="eyebrow" style="margin-bottom:18px">RESEARCH</div>
   <h1 class="d-48" style="font-weight:700;letter-spacing:-.02em">The instrument behind the standard.</h1>
   <p class="small" style="color:var(--ash);margin-top:14px;max-width:56ch">The instrument is versioned. Norms are published. Methods are shown. Rate us the way we rate programs.</p>
-  <p class="lead" style="margin:22px 0 8px">The Keystone Father Profile is a validated, versioned instrument built from Dr. Ken Canfield's research and normed on 9,232 fathers. It is the spine of everything on this platform.</p>
+  <p class="lead" style="margin:22px 0 8px">The Keystone Father Profile is a validated, versioned instrument grown from the Personal Fathering Profile research program of Dr. Ken Canfield and normed on thousands of fathers. It is the spine of everything on this platform.</p>
 </div></header>
 
 <section class="band tight"><div class="container">
@@ -2388,7 +2393,7 @@ PAGES['research.html'] = dict(title='The research behind the Keystone Profile', 
 ''')
 
 # ================================================== efficacy-report.html
-PAGES['efficacy-report.html'] = dict(title='The Efficacy Report', desc='Cohort movement on the Keystone Father Profile, benchmarked against 9,232 fathers, in the format funders ask for.', active='For Organizations', mode='public', body='''
+PAGES['efficacy-report.html'] = dict(title='The Efficacy Report', desc='Cohort movement on the Keystone Father Profile, benchmarked against established norms, in the format funders ask for.', active='For Organizations', mode='public', body='''
 <section class="tight" style="padding-top:56px"><div class="container" style="max-width:980px">
   <div class="row between wrap" style="align-items:flex-end;margin-bottom:8px">
     <div>

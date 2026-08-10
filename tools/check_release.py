@@ -18,6 +18,11 @@ REPO = Path(__file__).resolve().parents[1]
 
 SECTION9_BAN = ["rehab", "recovery", "treatment", "sobriety", "clinical",
                 "patient", "inmate", "discharge"]
+# POSITIONING.md 18: no norms count prints anywhere until section 8 resolves,
+# and no evidence-rating claim prints until a Clearinghouse rating exists.
+# Lift NORMS_BAN when norms_printable ships true; lift EVIDENCE_BAN on rating.
+NORMS_BAN = ["9,232", "9232", "2,066", "2066 fathers"]
+EVIDENCE_BAN = ["evidence-based", "evidence based", "clinically proven"]
 CLINICAL_BAN = ["diagnos", "therapy", "therapist", "screening tool",
                 "counseling license"]
 ORG_FACING = {"organizations.html", "facilitators.html", "employers.html",
@@ -83,6 +88,18 @@ def main():
         chits = [b for b in CLINICAL_BAN if unnegated(b)]
         if chits:
             failures.append(f"{name}: clinical-authority hit: {chits}")
+        nhits = [b for b in NORMS_BAN if b in text]
+        if nhits:
+            failures.append(f"{name}: norms-count ban hit (POSITIONING 18): {nhits}")
+        ehits = [b for b in EVIDENCE_BAN if unnegated(b)]
+        if ehits:
+            failures.append(f"{name}: evidence-claim ban hit (POSITIONING 18): {ehits}")
+
+    for jsname in ["assets/js/keystone-data.js", "assets/js/report.js",
+                   "assets/js/keystone-ui.js", "assets/js/keystone-report.js"]:
+        jt = (REPO / jsname).read_text()
+        if "9,232" in jt or "'9232'" in jt:
+            failures.append(f"{jsname}: norms count present in renderer")
 
     cl = REPO / "changelog.html"
     if not cl.exists():
