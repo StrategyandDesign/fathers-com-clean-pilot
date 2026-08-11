@@ -12,7 +12,7 @@ OG_IMAGE = SITE_URL + "/assets/img/og-image.jpg"
 # changelog.html. Bump BOTH constants on every release, add a CHANGELOG entry
 # below, regenerate, and upload. The stamp is the answer to "what version is
 # live": read any page footer.
-PLATFORM_VERSION = "4.14.0"
+PLATFORM_VERSION = "4.14.1"
 VERSION_DATE = "2026-08-11"
 
 # v4.0 reposition flags (ADR-4: rollout is a data change, not a redesign).
@@ -161,6 +161,11 @@ PAGES = {}
 # Release notes rendered on changelog.html. Newest first. Public copy:
 # POSITIONING.md section 9 language rules apply.
 CHANGELOG = [
+    ("4.14.1", "2026-08-11",
+     "The Guide reads the way help should: dark text on a white panel at "
+     "high contrast, the path shown as an honest eight-step map that only "
+     "says you are here when the page itself proves it, and no topic "
+     "listed twice."),
     ("4.14.0", "2026-08-11",
      "The Guide arrives: a floating help layer on every page, written for "
      "one reader, the father, with a path stepper to the certificate, "
@@ -2610,6 +2615,13 @@ if SHOW_MANHOOD_COURSE:
     _map_old = "coparenting:'course-same-team.html'}"
     assert PAGES['certificates.html']['body'].count(_map_old) == 1
     PAGES['certificates.html']['body'] = PAGES['certificates.html']['body'].replace(_map_old, "coparenting:'course-same-team.html', manhood:'course-the-man-before-you.html'}")
+else:
+    # Flag off: remove any previously generated dark page so the tree never
+    # carries a stale artifact (the release checker rightly fails on one).
+    _p = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'course-the-man-before-you.html')
+    if os.path.exists(_p):
+        os.remove(_p)
+
 
 # ================================================== adopted orphans (v4.10.0)
 # dashboard.html and recover.html predate the builder and were living outside

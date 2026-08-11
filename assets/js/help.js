@@ -4,39 +4,41 @@
    to one person only: the father. No other roles are named. */
 (function(){
   if (document.getElementById('fc-help-launcher')) return;
-  var VERSION = 'v4.14';
+  var VERSION = 'v4.14.1';
   var page = (location.pathname.split('/').pop() || 'index.html');
 
   var css = ''
-  + '#fc-help-launcher{position:fixed;right:22px;bottom:22px;z-index:9998;width:52px;height:52px;border-radius:50%;border:1px solid rgba(127,127,127,.35);background:var(--coal-2,#17150f);color:var(--paper,#f5f1e8);font-size:22px;font-family:inherit;cursor:pointer;box-shadow:0 6px 24px rgba(0,0,0,.35)}'
-  + '#fc-help-panel{position:fixed;right:22px;bottom:86px;z-index:9999;width:min(400px,calc(100vw - 32px));max-height:min(640px,calc(100vh - 120px));overflow:auto;background:var(--coal-2,#17150f);color:var(--paper,#f5f1e8);border:1px solid rgba(127,127,127,.4);border-radius:16px;padding:22px;box-shadow:0 14px 44px rgba(0,0,0,.5)}'
-  + '#fc-help-panel h3{margin:0 0 4px;font-size:19px}'
-  + '#fc-help-panel .fh-sub{color:var(--ash,#9a917f);font-size:13px;margin:0 0 16px}'
-  + '#fc-help-panel .fh-x{position:absolute;top:14px;right:16px;background:none;border:0;color:var(--ash,#9a917f);font-size:18px;cursor:pointer}'
-  + '.fh-path{border:1px solid rgba(127,127,127,.35);border-radius:10px;padding:12px 14px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;gap:10px}'
-  + '.fh-path b{font-size:14px}.fh-path span{font-family:ui-monospace,monospace;font-size:12px;color:var(--ash,#9a917f)}'
-  + '.fh-sec{font-family:ui-monospace,monospace;font-size:11px;letter-spacing:.09em;color:var(--ash,#9a917f);margin:16px 0 6px}'
-  + '.fh-topic{display:block;width:100%;text-align:left;background:none;border:0;padding:7px 0;color:var(--brass,#c9a227);font-size:15px;cursor:pointer;font-family:inherit}'
-  + '.fh-topic:hover{text-decoration:underline}'
-  + '.fh-art{font-size:14px;line-height:1.55;color:var(--paper,#f5f1e8)}'
-  + '.fh-art p{margin:0 0 10px}.fh-art .fine{color:var(--ash,#9a917f);font-size:12.5px}'
-  + '.fh-back{background:none;border:0;color:var(--ash,#9a917f);cursor:pointer;padding:0;margin-bottom:12px;font-size:13px;font-family:inherit}'
-  + '.fh-foot{display:flex;justify-content:space-between;align-items:center;margin-top:16px;border-top:1px solid rgba(127,127,127,.25);padding-top:12px}'
-  + '.fh-hide{background:none;border:0;color:var(--ash,#9a917f);cursor:pointer;font-size:13px;font-family:inherit}'
-  + '.fh-ver{font-family:ui-monospace,monospace;font-size:11px;color:var(--ash,#9a917f)}';
+  + '#fc-help-launcher{position:fixed;right:22px;bottom:22px;z-index:9998;width:52px;height:52px;border-radius:50%;border:1px solid #cfc8b8;background:#ffffff;color:#1a1710;font-size:22px;font-family:inherit;cursor:pointer;box-shadow:0 6px 24px rgba(0,0,0,.28)}'
+  + '#fc-help-panel{position:fixed;right:22px;bottom:86px;z-index:9999;width:min(400px,calc(100vw - 32px));max-height:min(660px,calc(100vh - 120px));overflow:auto;background:#ffffff;color:#1a1710;border:1px solid #d8d2c4;border-radius:16px;padding:22px;box-shadow:0 14px 44px rgba(0,0,0,.35)}'
+  + '#fc-help-panel h3{margin:0 0 4px;font-size:19px;color:#1a1710}'
+  + '#fc-help-panel .fh-sub{color:#5f584a;font-size:13px;margin:0 0 14px}'
+  + '#fc-help-panel .fh-x{position:absolute;top:14px;right:16px;background:none;border:0;color:#5f584a;font-size:18px;cursor:pointer}'
+  + '.fh-sec{font-family:ui-monospace,monospace;font-size:11px;letter-spacing:.09em;color:#7a7264;margin:16px 0 6px}'
+  + '.fh-step{display:flex;gap:10px;align-items:baseline;padding:4px 8px;border-radius:6px;font-size:13.5px;color:#3a3426}'
+  + '.fh-step .n{font-family:ui-monospace,monospace;font-size:11px;color:#7a7264;min-width:14px}'
+  + '.fh-step.here{background:#f6f1e2;color:#1a1710;font-weight:600}'
+  + '.fh-step.here .tag{font-family:ui-monospace,monospace;font-size:10px;letter-spacing:.08em;color:#705400;margin-left:auto;font-weight:600}'
+  + '.fh-topic{display:block;width:100%;text-align:left;background:none;border:0;padding:7px 0;color:#705400;font-size:15px;cursor:pointer;font-family:inherit;text-decoration:none}'
+  + '.fh-topic:hover{text-decoration:underline;color:#4d3a00}'
+  + '.fh-art{font-size:14px;line-height:1.6;color:#1a1710}'
+  + '.fh-art p{margin:0 0 10px}'
+  + '.fh-back{background:none;border:0;color:#5f584a;cursor:pointer;padding:0;margin-bottom:12px;font-size:13px;font-family:inherit}'
+  + '.fh-foot{display:flex;justify-content:space-between;align-items:center;margin-top:16px;border-top:1px solid #e6e0d2;padding-top:12px}'
+  + '.fh-hide{background:none;border:0;color:#5f584a;cursor:pointer;font-size:13px;font-family:inherit}'
+  + '.fh-ver{font-family:ui-monospace,monospace;font-size:11px;color:#7a7264}';
   var style = document.createElement('style'); style.textContent = css; document.head.appendChild(style);
 
   // ---- The path to the certificate: eight steps, current one inferred. ----
   var PATH = ['Arrive','Start free','Your baseline','Your ninety-day plan','Your course','Checkpoints and the final','Submit the work','Your certificate'];
+  // The page itself is the only honest evidence of position. Anywhere
+  // else, the path renders as a map with no claimed location.
   function pathStep(){
-    var signedIn = !!(window.FC && FC.uid && FC.uid());
-    if (page === 'certificate.html' || page === 'verify.html') return 8;
+    if (page === 'certificate.html') return 8;
     if (page === 'course.html') return 6;
     if (page === 'class.html' || page.indexOf('course-') === 0 || page === 'certificates.html' || page === 'enroll.html') return 5;
     if (page === 'plan.html') return 4;
     if (page === 'profile.html') return 3;
-    if (signedIn) return 2;
-    return 1;
+    return 0;
   }
 
   // ---- Topics. One audience: the father. ----
@@ -98,12 +100,17 @@
     } else {
       var step = pathStep();
       h += '<h3>The Guide</h3><p class="fh-sub">Topics for ' + ctx.name + '</p>'
-        + '<div class="fh-path"><b>Your path to the certificate</b><span>' + step + ' of ' + PATH.length + ' &middot; ' + PATH[step-1] + '</span></div>'
-        + '<div class="fh-sec">FOR THIS PAGE</div>'
-        + ctx.topics.map(function(k){ return '<button class="fh-topic" data-t="' + k + '">' + T[k].t + '</button>'; }).join('');
+        + ctx.topics.map(function(k){ return '<button class="fh-topic" data-t="' + k + '">' + T[k].t + '</button>'; }).join('')
+        + '<div class="fh-sec">THE PATH</div>'
+        + PATH.map(function(name, idx){
+            var here = (idx + 1) === step;
+            return '<div class="fh-step' + (here ? ' here' : '') + '"><span class="n">' + (idx + 1) + '</span><span>' + name + '</span>' + (here ? '<span class="tag">YOU ARE HERE</span>' : '') + '</div>';
+          }).join('');
       ORDER.forEach(function(sec){
+        var rest = sec[1].filter(function(k){ return ctx.topics.indexOf(k) === -1; });
+        if (!rest.length) return;
         h += '<div class="fh-sec">' + sec[0] + '</div>'
-          + sec[1].map(function(k){ return '<button class="fh-topic" data-t="' + k + '">' + T[k].t + '</button>'; }).join('');
+          + rest.map(function(k){ return '<button class="fh-topic" data-t="' + k + '">' + T[k].t + '</button>'; }).join('');
       });
       h += '<div class="fh-foot"><button class="fh-hide">Hide help</button><span class="fh-ver">' + VERSION + '</span></div>';
     }
