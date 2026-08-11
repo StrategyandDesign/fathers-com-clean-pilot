@@ -12,7 +12,7 @@ OG_IMAGE = SITE_URL + "/assets/img/og-image.jpg"
 # changelog.html. Bump BOTH constants on every release, add a CHANGELOG entry
 # below, regenerate, and upload. The stamp is the answer to "what version is
 # live": read any page footer.
-PLATFORM_VERSION = "4.15.0"
+PLATFORM_VERSION = "4.15.2"
 VERSION_DATE = "2026-08-11"
 
 # v4.0 reposition flags (ADR-4: rollout is a data change, not a redesign).
@@ -161,6 +161,14 @@ PAGES = {}
 # Release notes rendered on changelog.html. Newest first. Public copy:
 # POSITIONING.md section 9 language rules apply.
 CHANGELOG = [
+    ("4.15.2", "2026-08-11",
+     "The content seed speaks the database's actual language: the video "
+     "column by its real name, a publish flag the schema was missing, "
+     "and the unique keys that make every re-run land in place."),
+    ("4.15.1", "2026-08-11",
+     "The whole course seed compiles to one SQL file that runs in the "
+     "dashboard editor: five courses, every checkpoint, every final, and "
+     "the publish flags, in a single idempotent paste."),
     ("4.15.0", "2026-08-11",
      "The whole course system stands before the first film. Every course "
      "carries its full checkpoints and written finals; a session without "

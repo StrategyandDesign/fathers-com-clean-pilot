@@ -88,12 +88,12 @@ def main():
     rows = rest(url, key, "GET", f"certificate_courses?slug=eq.{slug}&select=id,slug")
     if not rows and not create: die(f"course slug {slug} not found; pass --create to create it")
     if not rows:
-        rows = rest(url, key, "POST", "certificate_courses", [{"slug": slug, "title": doc["title"], "published": False}], prefer="return=representation")
+        rows = rest(url, key, "POST", "certificate_courses", [{"slug": slug, "title": doc["title"], "hours": 0, "published": False}], prefer="return=representation")
     course_id = rows[0]["id"]
     for v in doc["videos"]:
         vid = rest(url, key, "POST", "course_videos?on_conflict=course_id,ord",
                    [{"course_id": course_id, "ord": v["ord"], "title": v["title"],
-                     "vimeo_ref": str(v.get("vimeo") or "pending"), "duration_seconds": v["duration_seconds"]}],
+                     "video_url": str(v.get("vimeo") or "pending"), "duration_seconds": v["duration_seconds"]}],
                    prefer="resolution=merge-duplicates,return=representation")[0]
         for j, q in enumerate(v.get("checkpoint") or [], 1):
             rest(url, key, "POST", "quiz_questions?on_conflict=video_id,ord",
