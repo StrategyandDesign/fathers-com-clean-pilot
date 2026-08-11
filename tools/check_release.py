@@ -24,7 +24,8 @@ SECTION9_BAN = ["rehab", "recovery", "treatment", "sobriety", "clinical",
 NORMS_BAN = ["9,232", "9232", "2,066", "2066 fathers"]
 EVIDENCE_BAN = ["evidence-based", "evidence based", "clinically proven"]
 # Build-spec v4.12.0 claim guards: phrases that must never appear on any page.
-HARD_BAN = ["verified instructional hours", "verified hours", "proctored",
+HARD_BAN = ["verified instructional hours", "instructional hours",
+            "verified hours", "proctored",
             "temper, trained",
             "Recidivism Overlay", "Collection Overlay", "Outcome overlays",
             "normed on thousands", "normed against", "benchmarked against",
@@ -147,7 +148,9 @@ def main():
     # Referenced-asset manifest (AUDIT-V41 WP-G5): the repo is the app.
     # Every local src/href on every generated page must exist in the tree.
     missing = set()
-    for name in pages():
+    dash_src = (REPO / "build_dashboards.py").read_text() if (REPO / "build_dashboards.py").exists() else ""
+    dash_pages = [f"{k}.html" for k in re.findall(r"^    '([a-z0-9-]+)': \(", dash_src, re.M)]
+    for name in list(pages()) + dash_pages:
         if name in STUBS:
             continue
         p = REPO / name

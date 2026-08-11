@@ -281,6 +281,7 @@
           <div>
             <div class="eyebrow" style="margin-bottom:10px">YOUR PLAN IS SAVED</div>
             <h3 class="display d-28">Baseline ${state.scores?state.scores.overall:'71'}. Twelve weeks. ${state.gap||'Consistency'} first.</h3>
+            <p class="fine" style="color:var(--ash);margin-top:8px">Draft scoring while the instrument is under review. Your numbers compare you to yourself over time, never to other men.</p>
           </div>
           <div>
             <p style="font-size:15px;margin-bottom:14px">Everything a man needs here is free: the Profile, this plan, the courses, and the Certificate of Completion when he earns it.</p>

@@ -21,12 +21,13 @@ serve(async (req) => {
   let body: { user_id?: string; course_id?: string; action?: string; note?: string; contact_hours?: number; attestation_method?: string; integrity_cleared?: boolean };
   try { body = await req.json(); } catch { return json({ error: "malformed body" }, 400); }
   const { user_id, course_id, action, note, contact_hours, attestation_method } = body;
+  const recipient_display = typeof (body as { recipient_display?: string }).recipient_display === "string" ? (body as { recipient_display?: string }).recipient_display!.trim() : undefined;
 
   // Reviewer read path: the queue of submitted awards with evidence, plus the
   // 72-hour absence list. Reads run with the service role because RLS scopes
   // participants to their own rows; the role gate above is the authority here.
   if (action === "queue") {
-    const { data: subs } = await svc.from("certificate_awards").select("user_id,course_id,status,record_integrity,snapshot_independent_seconds,snapshot_checkpoints,snapshot_final_answers_count,snapshot_at").eq("status", "submitted");
+    const { data: subs } = await svc.from("certificate_awards").select("user_id,course_id,status,record_integrity,recipient_display,snapshot_independent_seconds,snapshot_checkpoints,snapshot_final_answers_count,snapshot_at").eq("status", "submitted");
     const { data: flags } = await svc.from("integrity_flags").select("user_id,course_id,reason");
     const cutoff = new Date(Date.now() - 72 * 3600_000).toISOString();
     const { data: enrs } = await svc.from("certificate_enrollments").select("user_id,course_id,state,last_activity_at").in("state", ["enrolled", "in_progress"]);
@@ -49,17 +50,23 @@ serve(async (req) => {
     if (typeof contact_hours !== "number" || !["facilitator", "id"].includes(attestation_method ?? "")) {
       return json({ error: "approve requires contact_hours and attestation_method" }, 400);
     }
+    const nameAtApprove = recipient_display || (cur.recipient_display ?? "").trim();
+    if (!nameAtApprove) return json({ error: "approve requires the recipient's name; the facilitator confirms it" }, 400);
     await svc.from("certificate_awards").update({
       status: "approved", contact_hours, attestation_method,
+      recipient_display: nameAtApprove,
       review_note: note ?? null,
       integrity_cleared: body.integrity_cleared ? true : cur.integrity_cleared ?? null,
     }).eq("user_id", user_id).eq("course_id", course_id);
   } else if (action === "return") {
     await svc.from("certificate_awards").update({ status: "returned", review_note: note ?? null }).eq("user_id", user_id).eq("course_id", course_id);
   } else if (action === "sign") {
+    if (!(cur.recipient_display ?? "").trim()) return json({ error: "cannot sign without a confirmed recipient name" }, 409);
     let serial = "";
     for (let i = 0; i < 8; i++) {
-      serial = "FC-2026-" + String(Math.floor(100000 + Math.random() * 900000));
+      const AB = "0123456789ABCDEFGHJKMNPQRSTVWXYZ"; // Crockford, no confusables
+      const bytes = crypto.getRandomValues(new Uint8Array(6));
+      serial = "FC-2026-" + Array.from(bytes).map((b) => AB[b % 32]).join("");
       const { data: clash } = await svc.from("public_certificates").select("serial").eq("serial", serial).maybeSingle();
       if (!clash) break;
     }

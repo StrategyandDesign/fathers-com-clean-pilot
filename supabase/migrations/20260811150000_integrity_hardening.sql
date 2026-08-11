@@ -132,3 +132,19 @@ create table if not exists integrity_flags (
 );
 alter table integrity_flags enable row level security;
 -- reads via service role and the reviewer surface only; no client policies.
+
+-- 9. Launch-audit additions (AUDIT-V42 PL-4, PL-7).
+alter table certificate_awards add column if not exists recipient_display text;
+alter table if exists public_certificates add column if not exists recipient_display text;
+
+-- Verify lookups move behind a rate-limited function; the registry is no
+-- longer anonymously enumerable (PL-7).
+create table if not exists verify_hits (
+  ip text not null,
+  hour_bucket timestamptz not null,
+  hits int not null default 0,
+  primary key (ip, hour_bucket)
+);
+alter table verify_hits enable row level security;
+-- service role only; no client policies.
+revoke select on public_certificates from anon;

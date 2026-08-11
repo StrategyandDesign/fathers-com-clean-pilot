@@ -10,3 +10,10 @@ Metrics targets declared in writing before enrollment opens: Micah; the 8.2 tabl
 Keystone Profile FCI runtime, server-side item bank, and the norming resolution (9,232 vs 2,066): Alon and Dr. Canfield; until then the Profile runs demo scoring with no norms constants shipped, and SHOW_PROFILE dark-launch remains a one-flag leadership call.
 Timing study and psychometric technical summary: Dr. Canfield; unlocks any future norm-referenced language.
 Tenancy org_id columns across operational tables and per-org locale settings: Alon, per POSITIONING section 23; the serial-authority column already exists on public_certificates.
+Base-schema migration-ization (folding schema.sql, schema_rbac.sql, and the
+sql-archive into ordered, idempotent migrations so db push alone cold-starts):
+Alon; tools/bootstrap_db.sh is the bridge until then.
+The Profile decision (AUDIT-V42 PL-6) is made and recorded: the Profile stays
+live with the real engine in the tree, demo-labeled scoring that compares a
+man only to himself, no norms constants shipped, and the free-first handoff;
+SHOW_PROFILE dark remains a one-flag reversal if leadership changes course.

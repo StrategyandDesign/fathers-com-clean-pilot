@@ -201,7 +201,7 @@
       var iframe=$('cw-vimeo');
       if(!iframe || !(window.Vimeo && window.Vimeo.Player)){
         // SDK blocked: fall back to a manual "I watched it" affordance so a father is never stuck.
-        var txt=$('cw-watch-txt'); if(txt) txt.innerHTML='Player could not report progress. <button class="link brass" id="cw-manual">I watched the whole lesson</button>';
+        var txt=$('cw-watch-txt'); if(txt) txt.innerHTML='Player could not report progress on this network; hours are credited only from measured playback, so this button alone cannot complete the session. Tell your facilitator, and share docs/NETWORK-REQUIREMENTS.md with the IT desk. <button class="link brass" id="cw-manual">Show my place in the film</button>';
         var mb=document.getElementById('cw-manual'); if(mb) mb.addEventListener('click', function(){ watched=threshold; updateWatchUI(); });
         return;
       }
@@ -287,6 +287,11 @@
     var payload = { video_id: curVideo.id, answers: Object.keys(answers).map(function(k){ return answers[k]; }) };
     FC.sb.functions.invoke('checkpoint_submit', { body: payload }).then(function(res){
       var d = res && res.data;
+      if(d && d.locked){
+        var mins = d.retry_after_minutes || 60;
+        stage('<div class="notice brass">Three tries this hour. Take a break, reread the session, and try again in about '+mins+' minutes. Or grab your facilitator; that is what the room is for.</div>');
+        return;
+      }
       if((res && res.error) || !d){
         stage('<div class="notice brass">Checkpoint grading runs on the server, and the grading function is not deployed yet. Nothing was recorded; tell your facilitator.</div>');
         return;

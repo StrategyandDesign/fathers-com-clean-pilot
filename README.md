@@ -17,3 +17,13 @@ Check: `python3 tools/check_release.py`
 Functions: `supabase functions deploy checkpoint_submit progress_beat submit_award review_award`
 Migrations: `supabase db push`
 Content: `python3 tools/import_content.py content/<course>.json`
+
+Upload batches (`fathers-com_NN.zip`) are git diffs of a release, not the
+tree. The tree is this repository, and `tools/check_release.py` proves its
+wholeness: the manifest check fails the build if any referenced file is
+missing. Auditing a batch zip in isolation will report the diff's absent
+files by design.
+
+Cold-starting a fresh database: run `bash tools/bootstrap_db.sh` with
+`SUPABASE_DB_URL` set (applies the base schema in order), then
+`supabase db push` and `supabase functions deploy`.

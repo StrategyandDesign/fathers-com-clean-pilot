@@ -44,14 +44,18 @@ serve(async (req) => {
 
   if (gaps.length) return json({ error: "incomplete", gaps }, 409);
 
-  const { data: cur } = await svc.from("certificate_awards").select("status").eq("user_id", uid).eq("course_id", course_id).maybeSingle();
+  const { data: cur } = await svc.from("certificate_awards").select("status,recipient_display").eq("user_id", uid).eq("course_id", course_id).maybeSingle();
   const from = cur?.status ?? "not_started";
   if (!["not_started", "in_progress", "returned"].includes(from)) return json({ error: `cannot submit from ${from}` }, 409);
 
+  const displayName = (userData?.user?.user_metadata?.full_name as string | undefined)
+    ?? (userData?.user?.user_metadata?.name as string | undefined)
+    ?? (userData?.user?.email ? String(userData.user.email).split("@")[0] : "");
   const independent = (prog ?? []).reduce((a: number, p: { watched_seconds?: number }) => a + (p.watched_seconds ?? 0), 0);
   const snapshot = Object.fromEntries((passes ?? []).map((p: { video_id: string; right_count: number; total: number }) => [p.video_id, { right: p.right_count, total: p.total }]));
   const { error } = await svc.from("certificate_awards").upsert({
     user_id: uid, course_id, status: "submitted",
+    recipient_display: cur?.recipient_display ?? displayName,
     snapshot_independent_seconds: Math.round(independent),
     snapshot_checkpoints: snapshot,
     snapshot_final_answers_count: answered.size,

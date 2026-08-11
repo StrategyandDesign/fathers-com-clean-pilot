@@ -12,7 +12,7 @@ OG_IMAGE = SITE_URL + "/assets/img/og-image.jpg"
 # changelog.html. Bump BOTH constants on every release, add a CHANGELOG entry
 # below, regenerate, and upload. The stamp is the answer to "what version is
 # live": read any page footer.
-PLATFORM_VERSION = "4.12.1"
+PLATFORM_VERSION = "4.13.0"
 VERSION_DATE = "2026-08-11"
 
 # v4.0 reposition flags (ADR-4: rollout is a data change, not a redesign).
@@ -160,6 +160,21 @@ PAGES = {}
 # Release notes rendered on changelog.html. Newest first. Public copy:
 # POSITIONING.md section 9 language rules apply.
 CHANGELOG = [
+    ("4.13.0", "2026-08-11",
+     "Launch hardening. The review engine ships as a real file the page "
+     "actually loads; every certificate now carries a name the "
+     "facilitator confirms, and signing refuses an empty one; serials "
+     "grow to a billion-value space; the public registry answers through "
+     "a rate-limited lookup so names cannot be harvested, and the record "
+     "it shows carries contact hours, measured minutes, and how identity "
+     "was confirmed; a man who misses a checkpoint three times gets a "
+     "human sentence and a clock instead of a broken screen; and a fresh "
+     "database now cold-starts from the repo with one script."),
+    ("4.12.2", "2026-08-11",
+     "The enroll page tells the pilot truth: identity is attested in "
+     "person by the facilitator, sessions are completed and measured on "
+     "the server, and the panel no longer echoes an hours figure from "
+     "the address bar."),
     ("4.12.1", "2026-08-11",
      "The lock is installed and the approval path exists. The database "
      "rejects any client write to the integrity tables; the answer key is "
@@ -1489,7 +1504,7 @@ PAGES['verify.html'] = dict(title='Verify a credential', desc='Enter a serial. C
     <div id="v-no" class="card" style="display:none;border-color:var(--error)">
       <b>NOT FOUND.</b><p class="small" style="margin-top:8px">Check the serial and try again.</p>
     </div>
-    <p class="fine" style="margin-top:32px">Every certificate carries a serial in the format FC-2026-######. A serial resolves as issued, suspended, or revoked; anything that does not resolve is not a Fathers.com certificate.</p>
+    <p class="fine" style="margin-top:32px">Every certificate carries a serial beginning FC-2026-, followed by six characters. A serial resolves as issued, suspended, or revoked; anything that does not resolve is not a Fathers.com certificate.</p>
   </div>
 </div>
 ''')
@@ -1646,10 +1661,10 @@ PAGES['enroll.html'] = dict(title='Enroll', desc='Enroll free. Finish the work a
         <p class="fine" style="margin:-18px 0 26px">Whether a certificate satisfies a court, agency, or program requirement is decided by that body. Confirm with yours before enrolling.</p>
         <div class="eyebrow" style="margin-bottom:16px">WHAT EARNING IT REQUIRES</div>
         <div class="stack-16">
-          <div class="check"><span class="checkmark">&check;</span><span class="small">Confirm your identity once at enrollment: a government ID, checked then deleted, or in-person attestation by your Certified Facilitator.</span></div>
-          <div class="check"><span class="checkmark">&check;</span><span class="small">Complete the instructional hours. Time on task is measured, not claimed.</span></div>
+          <div class="check"><span class="checkmark">&check;</span><span class="small">Confirm your identity once at enrollment: in person, attested by the Certified Facilitator who knows you. Independent ID enrollment is off during the pilot.</span></div>
+          <div class="check"><span class="checkmark">&check;</span><span class="small">Complete every session. Time on task is measured on the server, not claimed.</span></div>
           <div class="check"><span class="checkmark">&check;</span><span class="small">Pass the checkpoints and a final assessment at eighty percent.</span></div>
-          <div class="check"><span class="checkmark">&check;</span><span class="small">Receive a unique serial with a public verification page.</span></div>
+          <div class="check"><span class="checkmark">&check;</span><span class="small">Receive a unique serial with a public verification page. Your name and course title appear on that page for your serial.</span></div>
         </div>
         <p class="fine" style="margin-top:24px">Seats come through people, not codes. A Certified Facilitator or Certified Organization claims your seat; your completion then counts in your cohort&rsquo;s report, and everything stays free to you.</p>
       </div>

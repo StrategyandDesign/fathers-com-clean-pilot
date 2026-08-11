@@ -183,7 +183,11 @@
     if(d){ok.style.display='';
       ok.querySelector('[data-f=name]').textContent=d.recipient_display;
       ok.querySelector('[data-f=course]').textContent=d.course_title;
-      ok.querySelector('[data-f=hours]').textContent=(d.sessions? d.sessions+' sessions, ' : '')+'facilitator-attested completion';
+      var rec='';
+      if(typeof d.contact_hours==='number' && d.contact_hours>0){ rec += d.contact_hours.toFixed(1)+' facilitated contact hours'; }
+      if(typeof d.snapshot_independent_seconds==='number' && d.snapshot_independent_seconds>0){ rec += (rec?' \u00B7 ':'')+Math.round(d.snapshot_independent_seconds/60)+' independent minutes, platform-measured'; }
+      if(d.sessions){ rec += (rec?' \u00B7 ':'')+d.sessions+' sessions'; }
+      ok.querySelector('[data-f=hours]').textContent = rec || 'Facilitator-attested completion';
       ok.querySelector('[data-f=date]').textContent='Issued '+new Date(d.issued_at).toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
       ok.querySelector('[data-f=serial]').textContent=serial;
       var idEl=ok.querySelector('[data-f=identity]'); if(idEl) idEl.textContent = (d.attestation_method==='id') ? 'Confirmed by ID at enrollment' : 'Confirmed by Certified Facilitator';
@@ -193,8 +197,11 @@
     e.preventDefault();
     var s=vf.querySelector('input').value.trim().toUpperCase();
     if(LIVE){FC.ready.then(function(){
-      return FC.sb.from('public_certificates').select('*').eq('serial',s).maybeSingle();
-    }).then(function(r){showCert(r&&r.data?r.data:null,s)});}
+      return FC.sb.functions.invoke('verify_serial', { body: { serial: s } });
+    }).then(function(r){
+      if(r && r.error){ showCert(null, s); return; }
+      showCert(r && r.data && r.data.data ? r.data.data : null, s);
+    });}
     else showCert(DEMO_CERTS[s]||null,s);
   });}
 
