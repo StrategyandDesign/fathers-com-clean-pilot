@@ -286,7 +286,7 @@
         cards.push(card('certificates.html','The courses',
           courseCount ? courseCount + ' course' + (courseCount===1?'':'s') + ' open to you' : 'The courses',
           courseCount ? 'Free. Finish one and you hold a Certificate of Completion with your name and a serial anyone can check.'
-                      : 'Free to every man. Verified hours, a signed certificate, no cost.',
+                      : 'Free to every man. Sessions logged, a signed certificate, no cost.',
           'Browse the courses'));
       } else if(remaining > 0){
         cards.push(card('certificates.html','The courses',

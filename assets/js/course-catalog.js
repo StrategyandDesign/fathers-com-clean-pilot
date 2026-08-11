@@ -19,6 +19,7 @@
 (function(){
   var grid = document.getElementById('tracks');
   if(!grid) return;
+  window.__fcHours = {fundamentals:'10.0', reentry:'8.0', anger:'6.0', coparenting:'6.0', manhood:'6.0'};
 
   function esc(s){ return (s==null?'':String(s)).replace(/[&<>"']/g,function(c){
     return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
@@ -28,7 +29,12 @@
   // waitlist sentences are stripped, because once a course is published the old
   // copy would contradict the card it sits on.
   var BLURB = {};
+  var STATIC_HTML = {};
+  var STATIC_ORDER = [];
   grid.querySelectorAll('[data-cert]').forEach(function(el){
+    var slug = el.getAttribute('data-cert');
+    STATIC_HTML[slug] = el.outerHTML;
+    STATIC_ORDER.push(slug);
     var p = el.querySelector('p');
     if(!p) return;
     var text = p.innerHTML
@@ -46,20 +52,25 @@
       ? 'course.html?cert=' + encodeURIComponent(c.slug)
       : 'enroll.html?cert=' + encodeURIComponent(c.slug) +
         '&title=' + encodeURIComponent(c.title || '') +
-        '&hours=' + encodeURIComponent(c.hours == null ? '' : c.hours);
+        '&hours=' + encodeURIComponent((window.__fcHours && window.__fcHours[c.slug]) || (c.hours == null ? '' : c.hours));
     var cta = done ? 'View your certificate &rarr;'
             : enrolled ? 'Continue where you left off &rarr;'
             : 'Start this course &rarr;';
     var pill = done ? '<span class="pill">Earned</span>'
              : enrolled ? '<span class="pill">In progress</span>'
-             : '<span class="pill pill-court">Court-ready</span>';
-    var hrs = (c.hours == null ? '' : '<span class="cert-card-hrs">' + esc(c.hours) + ' hrs</span>');
-    var blurb = BLURB[c.slug] || 'Built on the Keystone framework. Verified hours, checkpoints, and a final assessment.';
+             : '<span class="pill">Sessions live</span>';
+    // The platform is the source of truth for hours and session counts while
+    // the database catches up. Slugs match the static data-cert values.
+    var HOURS = {fundamentals:'10.0', reentry:'8.0', anger:'6.0', coparenting:'6.0', manhood:'6.0'};
+    var SESSIONS = {fundamentals:5, reentry:8, anger:6, coparenting:6, manhood:6};
+    var shownHours = HOURS[c.slug] != null ? HOURS[c.slug] : c.hours;
+    var hrs = (shownHours == null ? '' : '<span class="cert-card-hrs">' + esc(shownHours) + ' hrs</span>');
+    var blurb = BLURB[c.slug] || 'Built on the Keystone framework. Sessions logged, checkpoints, and a final assessment.';
     return '<a class="cert-card" href="' + href + '" data-cert="' + esc(c.slug) + '">' +
       '<div class="cert-card-top">' + pill + hrs + '</div>' +
       '<h3>' + esc(c.title || c.slug) + '</h3>' +
       '<p>' + blurb + '</p>' +
-      '<div class="cert-card-foot"><span class="mono">Free</span>' +
+      '<div class="cert-card-foot"><span class="mono">Free' + (SESSIONS[c.slug] ? ' &middot; ' + SESSIONS[c.slug] + ' sessions' : '') + '</span>' +
       '<span class="cert-card-go">' + cta + '</span></div></a>';
   }
 
@@ -67,7 +78,18 @@
     if(!courses || !courses.length) return;          // keep the static page
     var byCourse = {};
     (states || []).forEach(function(e){ byCourse[e.course_id] = e; });
-    grid.innerHTML = courses.map(function(c){ return card(c, byCourse[c.id]); }).join('');
+    var bySlug = {};
+    courses.forEach(function(c){ bySlug[c.slug] = c; });
+    var out = [];
+    // Static order rules the page. A course the database knows becomes a live
+    // card with the man's real state; a course it does not know yet keeps its
+    // static card, so the catalog never loses a course while the data catches up.
+    STATIC_ORDER.forEach(function(slug){
+      if(bySlug[slug]){ out.push(card(bySlug[slug], byCourse[bySlug[slug].id])); delete bySlug[slug]; }
+      else if(STATIC_HTML[slug]){ out.push(STATIC_HTML[slug]); }
+    });
+    Object.keys(bySlug).forEach(function(slug){ out.push(card(bySlug[slug], byCourse[bySlug[slug].id])); });
+    grid.innerHTML = out.join('');
   }
 
   function boot(){

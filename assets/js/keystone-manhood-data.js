@@ -37,9 +37,9 @@
    through-line of his research. Items assume no wife, no children, no job and
    no house, because many respondents will have none of those.
 
-   CALIBRATION STATUS: NOT YET NORMED.
-   The Father Profile is scored against published norms from 2,066 fathers.
-   This instrument has none. It is therefore scored criterion-referenced (where
+   CALIBRATION STATUS: within-person only.
+   No instrument on this platform reports norm-referenced standing; the On Norms
+   statement on the Research page is the rule. This instrument has none. It is therefore scored criterion-referenced (where
    a man placed himself on the scale) rather than norm-referenced (how he
    compares to other men). Those are different claims and the platform must
    never confuse them. See `calibration` for the plan that retires this status.
@@ -64,7 +64,6 @@ window.KEYSTONE_MANHOOD = {
     note: 'Scores show where a man placed himself on each scale. They are not percentile ranks and must not be described as a comparison to other men until norms exist.'
   },
 
-  norms_n: 0,
   norm_group_noun: 'men',
   subject_noun: 'your life as a man',
 
@@ -91,7 +90,7 @@ window.KEYSTONE_MANHOOD = {
       'Cognitive pretest with 8 to 12 men drawn from the three target populations, confirming each item is understood as intended.',
       'Pilot at n>=250 across partner sites for item analysis: item-total correlations, floor and ceiling effects, Cronbach alpha per scale. Target alpha >=.80, matching the Father Profile range of .80 to .87.',
       'Exploratory factor analysis to test whether the three-section structure holds, then confirmatory factor analysis on a fresh sample.',
-      'Norming at n>=1000 to publish mean and SD per scale. At that point scoring.mode flips to norm_referenced and norms_n is set.',
+      'Norming at n>=1000 to publish mean and SD per scale. At that point scoring.mode flips to norm_referenced and the sample size is set.',
       'Differential item functioning check across the reentry, treatment and separation populations before any high-stakes use.'
     ]
   },

@@ -15,9 +15,9 @@
     if(isDemo) h += '<div class="card" style="padding:14px 18px;margin-bottom:18px"><span class="fine">SAMPLE DATA. This is the exact report your funder receives, rendered from a demonstration cohort.</span></div>';
     h += '<div class="eyebrow" style="margin-bottom:6px">KEYSTONE EFFICACY REPORT</div>';
     h += '<h2 class="d-28" style="margin-bottom:4px">' + orgName + '</h2>';
-    h += '<p class="fine" style="margin-bottom:22px">Generated ' + new Date().toLocaleDateString() + ' \u00B7 Keystone Father Profile, normed on thousands of fathers \u00B7 movement = mean latest overall minus mean baseline overall, per cohort</p>';
+    h += '<p class="fine" style="margin-bottom:22px">Generated ' + new Date().toLocaleDateString() + ' \u00B7 Keystone Father Profile \u00B7 movement = mean latest overall minus mean baseline overall, per cohort</p>';
     h += '<div class="card" style="padding:0;overflow:auto"><table style="width:100%;border-collapse:collapse;font-size:14px">';
-    h += '<tr style="text-align:left"><th style="padding:12px 16px">Cohort</th><th style="padding:12px 16px">Fathers</th><th style="padding:12px 16px">Completed</th><th style="padding:12px 16px">Baseline</th><th style="padding:12px 16px">Latest</th><th style="padding:12px 16px">Movement</th><th style="padding:12px 16px">Outcome overlay</th></tr>';
+    h += '<tr style="text-align:left"><th style="padding:12px 16px">Cohort</th><th style="padding:12px 16px">Fathers</th><th style="padding:12px 16px">Completed</th><th style="padding:12px 16px">Baseline</th><th style="padding:12px 16px">Latest</th><th style="padding:12px 16px">Movement</th></tr>';
     rows.forEach(function(r){
       var mv = fmt(r.movement);
       var mvCell = (r.movement>0? '+'+mv : ''+mv);
@@ -28,7 +28,6 @@
         + '<td style="padding:12px 16px">' + fmt(r.baseline) + '</td>'
         + '<td style="padding:12px 16px">' + fmt(r.latest) + '</td>'
         + '<td style="padding:12px 16px"><b>' + mvCell + '</b></td>'
-        + '<td style="padding:12px 16px" class="fine">' + (r.outcomes || 'Activates when your agency links outcome data') + '</td>'
         + '</tr>';
     });
     h += '</table></div>';
@@ -38,7 +37,7 @@
         + '<button class="btn btn-secondary btn-sm" id="rptEmail">Email me this brief</button>'
         + '<span class="fine" id="rptMsg"></span></div>';
     }
-    h += '<p class="fine" style="margin-top:16px">Individual fathers are never shown. Cohort aggregates only. Outcome overlays (recidivism, collection, readiness) appear when the responsible agency links its outcome records to this cohort through the secure intake.</p>';
+    h += '<p class="fine" style="margin-top:16px">We measure change on four fathering practice dimensions, and completion. We do not measure recidivism, payment compliance, treatment retention, or any clinical outcome. Individual fathers are never shown; cohort aggregates only.</p>';
     root.innerHTML = h;
     var em = document.getElementById('rptEmail');
     if(em) em.addEventListener('click', function(){
@@ -57,9 +56,9 @@
 
   if(demo){
     renderRows('Sample Fatherhood Program', [
-      { cohort:'Spring cohort A', fathers:24, completed:19, baseline:58.4, latest:71.2, movement:12.8, outcomes:'Recidivism overlay: 2 of 19 completers reoffended vs 4 of 5 non-completers (sample)' },
-      { cohort:'Spring cohort B', fathers:18, completed:13, baseline:61.0, latest:69.5, movement:8.5, outcomes:null },
-      { cohort:'Facility intake, no program', fathers:31, completed:0, baseline:55.9, latest:null, movement:null, outcomes:'Baseline only. The floor is never nothing.' }
+      { cohort:'Spring cohort A', fathers:24, completed:19, baseline:58.4, latest:71.2, movement:12.8 },
+      { cohort:'Spring cohort B', fathers:18, completed:13, baseline:61.0, latest:69.5, movement:8.5 },
+      { cohort:'Facility intake, no program', fathers:31, completed:0, baseline:55.9, latest:null, movement:null }
     ], true);
     return;
   }
@@ -83,8 +82,8 @@
         root.innerHTML='<p class="ash">Building the report\u2026</p>';
         FC.sb.rpc('get_efficacy_report', { p_org: id }).then(function(rr){
           if(rr.error) return fail('Could not build the report: '+rr.error.message);
-          var rows = (rr.data||[]).map(function(x){ return { cohort:x.cohort, fathers:x.fathers, completed:x.completed, baseline:x.baseline, latest:x.latest, movement:x.movement, outcomes:x.outcomes }; });
-          if(!rows.length) rows=[{cohort:'No cohorts yet', fathers:0, completed:0, baseline:null, latest:null, movement:null, outcomes:'Share your join link to begin: every man who enters it is tagged to your cohort.'}];
+          var rows = (rr.data||[]).map(function(x){ return { cohort:x.cohort, fathers:x.fathers, completed:x.completed, baseline:x.baseline, latest:x.latest, movement:x.movement }; });
+          if(!rows.length) rows=[{cohort:'No cohorts yet', fathers:0, completed:0, baseline:null, latest:null, movement:null}];
           renderRows(name, rows, false);
         });
       }

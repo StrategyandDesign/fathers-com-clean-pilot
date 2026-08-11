@@ -635,7 +635,7 @@
           '<div class="rp-gbig">'+esc(gap?gap.label:'')+'</div><p class="rp-gline">'+esc(gapCopy.g||'')+'</p></article></section>';
 
       // An instrument without norms must not borrow another instrument's. When
-      // norms_n is 0 the old falsy check fell through to '2,066', printing a
+      // the norming sample size is 0 the old falsy check fell through, printing a
       // national norm group on a profile that has never been normed.
       var normed  = !!(ACTIVE && ACTIVE.norms_n > 0);
       // The count prints only when the instrument declares norms_printable.
@@ -659,7 +659,7 @@
         stripSvg(result)+'</section>';
 
       var howto = normed
-        ? '<section class="rp-howto"><b>How to read this.</b> Each bar shows where you stand next to '+normN+' '+esc(groupN)+' in the national norm group; the center mark is the typical '+esc(groupN.replace(/s$/,''))+'. Standings are words, not grades: A starting point, Building, Developing, Solid, Strong. This is a self-report. It is a mirror, not a verdict, and every line in it can move.</section>'
+        ? '<section class="rp-howto"><b>How to read this.</b> Each bar shows where you stand on that scale today. Standings are words, not grades: A starting point, Building, Developing, Solid, Strong. This is a self-report. It is a mirror, not a verdict, and every line in it can move.</section>'
         : '<section class="rp-howto"><b>How to read this.</b> Each bar shows where you placed yourself on that part of '+esc(subjN)+', not how you compare to other '+esc(groupN)+'. This profile does not yet have a norm group, so nothing here ranks you against anyone. Standings are words, not grades: A starting point, Building, Developing, Solid, Strong. This is a self-report. It is a mirror, not a verdict, and every line in it can move.</section>';
 
       var chapters = ACTIVE.sections.map(function(sec,idx){

@@ -324,3 +324,33 @@ catalog card, the detail CTA mapping, and the track fit line all publish on a
 one-line flip. No public surface mentions the course while the flag is dark,
 per the retired-waitlist doctrine: we announce work when it is live, not
 before. Adoption day is a flag flip, a version bump, and a changelog entry.
+
+## 22. The build-spec adoption (v4.12.0, 2026-08-11)
+
+An external-style build specification against the v4.11.9 snapshot was
+audited, verified against the full tree, and executed. What it changed in
+doctrine: the record's authority moves to the server (the browser reports,
+the server decides); every hours figure must trace to a measured quantity,
+and until the measurement exists the number does not appear; instrument
+numbers live in exactly one canonical block; norm-referenced claims are
+unavailable until a technical summary exists, and the checker enforces all
+of it. The faith surface separation is complete on participant and
+institutional pages. The register rule stands: no outcome promises in
+participant copy, ever. Response ledger: docs/AUDIT-RESPONSE-BUILD-SPEC.md.
+
+## 23. Scale architecture decisions (AUDIT-V41 WP-M, 2026-08-11)
+
+Adopted as architecture decision records. Tenancy is data, not build flags:
+every operational row grows an org_id, cohorts belong to orgs, facilitator
+roles scope to orgs, and deployment-specific behavior (courses, language,
+serial prefix) is org configuration in the database, so the Guard onboards
+as a row, not a build. Serial authorities: public_certificates carries
+issuing_authority now, dark, so a partner signing spine is a data flip.
+Localization: a minimal i18n seam ships with English only; RTL is a data
+flip plus a translation file when a partner-led pass exists, and the courses
+are never machine-translated. Data residency: one repo, one schema, one
+Supabase project per jurisdiction; the US project never holds IDF
+participant data, and nobody saves time later by pointing Israel at the US
+database. Sequence discipline stands: SHOW_MILITARY stays dark until the
+Returning Home pilot produces completion evidence, and the IDF step remains
+partner-led with counsel and board review.

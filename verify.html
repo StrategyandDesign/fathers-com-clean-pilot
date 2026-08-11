@@ -44,18 +44,25 @@
       <div class="stack-8">
         <div class="row between"><span class="fine">Recipient</span><b class="small" data-f="name"></b></div>
         <div class="row between"><span class="fine">Course</span><b class="small" data-f="course"></b></div>
-        <div class="row between"><span class="fine">Hours</span><b class="small mono" data-f="hours"></b></div>
+        <div class="row between"><span class="fine">Record</span><b class="small mono" data-f="hours"></b></div>
+        <div class="row between"><span class="fine">Identity</span><b class="small" data-f="identity"></b></div>
         <div class="row between"><span class="fine">Date</span><b class="small" data-f="date"></b></div>
         <div class="row between"><span class="fine">Serial</span><b class="small mono" data-f="serial"></b></div>
         <div class="row between"><span class="fine">Identity</span><b class="small">Verified at enrollment</b></div>
         <div class="row between"><span class="fine">Issuer</span><b class="small">National Center for Fathering</b></div>
       </div>
-      <hr class="hr" style="margin:18px 0"><p class="small" style="margin-bottom:12px">This certificate was earned through logged hours, identity verification, and a proctored final. <a class="link" href="organizations.html">Issue these in your program &rarr;</a></p><a class="link ash" href="#" data-share="report" style="font-size:13px">Report a concern</a>
+      <hr class="hr" style="margin:18px 0"><p class="small" style="margin-bottom:12px">This certificate was earned through logged sessions, identity confirmed at enrollment, and a written final reviewed by a Certified Facilitator. <a class="link" href="organizations.html">Issue these in your program &rarr;</a></p><a class="link ash" href="#" data-share="report" style="font-size:13px">Report a concern</a>
+    </div>
+    <div id="v-susp" class="card" style="display:none;border-color:var(--brass,#6B4F14)">
+      <b>SUSPENDED.</b><p class="small" style="margin-top:8px">This serial exists, and it is suspended pending review. It does not currently verify. Questions: Team@Fathers.com.</p>
+    </div>
+    <div id="v-rev" class="card" style="display:none;border-color:var(--error)">
+      <b>REVOKED.</b><p class="small" style="margin-top:8px">This serial was issued and has been revoked. It does not verify. Names can come off the registry; that is what makes staying on it mean something.</p>
     </div>
     <div id="v-no" class="card" style="display:none;border-color:var(--error)">
       <b>NOT FOUND.</b><p class="small" style="margin-top:8px">Check the serial and try again.</p>
     </div>
-    <p class="fine" style="margin-top:32px">Every certificate carries a serial in the format FC-2026-######. If a serial does not resolve here, it is not a Fathers.com certificate.</p>
+    <p class="fine" style="margin-top:32px">Every certificate carries a serial in the format FC-2026-######. A serial resolves as issued, suspended, or revoked; anything that does not resolve is not a Fathers.com certificate.</p>
   </div>
 </div>
 

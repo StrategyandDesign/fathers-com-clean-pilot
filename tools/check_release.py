@@ -23,6 +23,15 @@ SECTION9_BAN = ["rehab", "recovery", "treatment", "sobriety", "clinical",
 # Lift NORMS_BAN when norms_printable ships true; lift EVIDENCE_BAN on rating.
 NORMS_BAN = ["9,232", "9232", "2,066", "2066 fathers"]
 EVIDENCE_BAN = ["evidence-based", "evidence based", "clinically proven"]
+# Build-spec v4.12.0 claim guards: phrases that must never appear on any page.
+HARD_BAN = ["verified instructional hours", "verified hours", "proctored",
+            "temper, trained",
+            "Recidivism Overlay", "Collection Overlay", "Outcome overlays",
+            "normed on thousands", "normed against", "benchmarked against",
+            "the national norm", "published norms", "established norms"]
+# Instrument numbers live only on research.html (canonical spec block).
+ITEMCOUNT_RE = r"\b\d{2,3}\s+(?:items|questions)\b"
+WORDCOUNT_RE = r"\b(?:twenty|forty|hundred)[a-z\- ]*\b(?:questions|items)\b"
 CLINICAL_BAN = ["diagnos", "therapy", "therapist", "screening tool",
                 "counseling", "behavioral health", "support group"]
 ORG_FACING = {"organizations.html", "facilitators.html", "employers.html",
@@ -31,7 +40,8 @@ ORG_FACING = {"organizations.html", "facilitators.html", "employers.html",
 STUBS = {"stories.html", "story.html", "employers.html",
          "gatherings.html", "share.html", "voice.html", "veterans.html",
          "veterans-hub.html", "veterans-start.html", "veterans-checkin.html",
-         "veterans-module.html", "veterans-resources.html"}
+         "veterans-module.html", "veterans-resources.html",
+         "find-a-program.html", "gift.html"}
 
 
 def pages():
@@ -90,6 +100,11 @@ def main():
                 if not re.search(r"\b(not|never|no|nor|without)\b[^.]*$", window):
                     return True
             return False
+        hard = [b for b in HARD_BAN if b.lower() in text.lower()]
+        if hard:
+            failures.append(f"{name}: hard-banned claim phrase {hard}")
+        if name != "research.html" and (re.search(ITEMCOUNT_RE, text) or re.search(WORDCOUNT_RE, text)):
+            failures.append(f"{name}: instrument item count outside research.html")
         if name not in ORG_FACING:
             hits = [b for b in SECTION9_BAN if unnegated(b)]
             if hits:
@@ -104,11 +119,48 @@ def main():
         if ehits:
             failures.append(f"{name}: evidence-claim ban hit (POSITIONING 18): {ehits}")
 
+    # Scan every shipped script and every builder for hard-banned claims
+    # (AUDIT-V41 WP-G2): the overlay regression lived in report.js and the
+    # page-only scan missed it. Guarded reads; tools/ and docs/ are exempt.
+    scan_files = sorted((REPO / "assets" / "js").glob("*.js")) + sorted(REPO.glob("build_*.py"))
+    for sf in scan_files:
+        if not sf.exists():
+            continue
+        st = sf.read_text().lower()
+        shard = [b for b in HARD_BAN if b.lower() in st]
+        if shard:
+            failures.append(f"{sf.relative_to(REPO)}: hard-banned claim phrase {shard}")
+        snorm = [b for b in NORMS_BAN if b.lower() in st]
+        if snorm:
+            failures.append(f"{sf.relative_to(REPO)}: norms count {snorm}")
+        if sf.name.endswith("-data.js") and ('norms_n' in st or '"mean":' in st or '"sd":' in st):
+            failures.append(f"{sf.relative_to(REPO)}: psychometric constants shipped client-side")
+
     for jsname in ["assets/js/keystone-data.js", "assets/js/report.js",
                    "assets/js/keystone-ui.js", "assets/js/keystone-report.js"]:
+        if not (REPO / jsname).exists():
+            continue
         jt = (REPO / jsname).read_text()
         if "9,232" in jt or "'9232'" in jt:
             failures.append(f"{jsname}: norms count present in renderer")
+
+    # Referenced-asset manifest (AUDIT-V41 WP-G5): the repo is the app.
+    # Every local src/href on every generated page must exist in the tree.
+    missing = set()
+    for name in pages():
+        if name in STUBS:
+            continue
+        p = REPO / name
+        if not p.exists():
+            continue
+        for ref in re.findall(r'(?:src|href)="([^"#]+)"', p.read_text()):
+            if ref.startswith(("http", "mailto:", "tel:", "data:", "javascript:")):
+                continue
+            path = ref.split("?")[0]
+            if path and not (REPO / path).exists():
+                missing.add(f"{name} -> {path}")
+    for m in sorted(missing):
+        failures.append(f"manifest: {m}")
 
     cl = REPO / "changelog.html"
     if not cl.exists():

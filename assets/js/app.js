@@ -171,18 +171,23 @@
 
   // Demo verify lookup when not live
   var vf=document.getElementById('verifyForm');
-  var DEMO_CERTS={'FC-2026-004317':{recipient_display:'Marcus T.',course_title:'Fathering Fundamentals Certificate',hours:'10.0',issued_at:'2026-06-02'},
-                  'FC-2026-001882':{recipient_display:'Ray M.',course_title:'Reentry Fatherhood Certificate',hours:'12.0',issued_at:'2026-04-18'}};
+  var DEMO_CERTS={'FC-2026-000000':{recipient_display:'Sample Record',course_title:'Fathering Fundamentals Certificate',sessions:'5',issued_at:'2026-06-02'},
+                  'FC-2026-000001':{recipient_display:'Sample Record',course_title:'Fathering Fundamentals Certificate',sessions:'5',issued_at:'2026-04-18',status:'revoked'}};
   function showCert(d,serial){
     var ok=document.getElementById('v-ok'),no=document.getElementById('v-no');
+    var susp=document.getElementById('v-susp'),rev=document.getElementById('v-rev');
     if(!ok||!no) return;
-    if(d){ok.style.display='';no.style.display='none';
+    [ok,no,susp,rev].forEach(function(el){ if(el) el.style.display='none'; });
+    if(d && d.status==='revoked' && rev){ rev.style.display=''; return; }
+    if(d && d.status==='suspended' && susp){ susp.style.display=''; return; }
+    if(d){ok.style.display='';
       ok.querySelector('[data-f=name]').textContent=d.recipient_display;
       ok.querySelector('[data-f=course]').textContent=d.course_title;
-      ok.querySelector('[data-f=hours]').textContent=parseFloat(d.hours).toFixed(1)+' verified instructional hours';
+      ok.querySelector('[data-f=hours]').textContent=(d.sessions? d.sessions+' sessions, ' : '')+'facilitator-attested completion';
       ok.querySelector('[data-f=date]').textContent='Issued '+new Date(d.issued_at).toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
       ok.querySelector('[data-f=serial]').textContent=serial;
-    } else {ok.style.display='none';no.style.display='';}
+      var idEl=ok.querySelector('[data-f=identity]'); if(idEl) idEl.textContent = (d.attestation_method==='id') ? 'Confirmed by ID at enrollment' : 'Confirmed by Certified Facilitator';
+    } else {no.style.display='';}
   }
   if(vf){vf.addEventListener('submit',function(e){
     e.preventDefault();

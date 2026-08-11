@@ -97,7 +97,7 @@ y = section(c, y, "What it costs", parent_text(
 y = section(c, y, "Private", parent_text(
     "Your results are yours. We never share them. You decide who sees anything."))
 y = section(c, y, "The Certificate of Completion", parent_text(
-    "Finish a course and you earn a Certificate of Completion. It carries verified hours, "
+    "Finish a course and you earn a Certificate of Completion. It carries logged sessions, "
     "checkpoints passed, a final at eighty percent, and a serial number. Any court, program, "
     "or employer you choose can confirm it online in ten seconds. It is proof you did the work."))
 y = section(c, y, "Course seats", parent_text(
@@ -137,7 +137,7 @@ y = section(c, y, "The structure",
     "and a supervised first cohort, renews annually, and appears on a public registry with "
     "revocation. The man who completes a course earns a Certificate of Completion.", 9.8, 13.5)
 y = section(c, y, "What the certificate contains",
-    "Verified hours. Checkpoints passed. A written final reviewed by his facilitator, passed "
+    "Sessions logged. Checkpoints passed. A written final reviewed by his facilitator, passed "
     "at eighty percent. A serial in the format FC-2026-######. Signed by Dr. Ken Canfield and "
     "the leading Certified Facilitator.", 9.8, 13.5)
 y = section(c, y, "Cost to the parent",

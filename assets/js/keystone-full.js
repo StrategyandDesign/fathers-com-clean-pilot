@@ -2,7 +2,7 @@
    Keystone Father Profile: full 130-item, 3-section engine.
    - Two modes: all_at_once, by_section
    - Resumable: every answer saves immediately; reload resumes
-   - Scored against published norms (mean, SD) -> z -> percentile band
+   - Scored raw today, reported as within-person change; percentile bands return only when a norming study publishes
    - Reverse-scores negatively-worded scales
    Requires: FC (supabase-client), window.KEYSTONE (the instrument JSON)
    ============================================================ */

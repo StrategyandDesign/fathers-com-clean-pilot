@@ -57,10 +57,10 @@
   const SCREENS=[
     {id:'welcome',section:'INTAKE',render:s=>`
       <div class="eyebrow" style="margin-bottom:16px">THE KEYSTONE FATHER PROFILE</div>
-      <h2 class="display d-48" style="font-size:clamp(30px,4vw,44px)">Twelve minutes. Four scores. One plan.</h2>
+      <h2 class="display d-48" style="font-size:clamp(30px,4vw,44px)">One sitting. Four scores. One plan.</h2>
       <p class="lead" style="margin:18px 0 30px">Answer honestly. There is no passing grade. There is a starting point.</p>
       <button class="btn btn-primary" data-go>Start</button>
-      <p class="fine" style="margin-top:22px">About 40 questions. Built on the National Center for Fathering's validated instrument.</p>`},
+      <p class="fine" style="margin-top:22px">The full instrument, one sitting; the canonical spec lives on the Research page. Built on the National Center for Fathering's validated instrument.</p>`},
     {id:'kids',section:'INTAKE',q:'Tell us about your kids.',helper:'Ages set your plan. Pick all that apply.',type:'chips-multi',
       opts:['Expecting','0-2','3-5','6-9','10-12','13-15','16-18','Grown']},
     {id:'situation',section:'INTAKE',q:'Which of these is true for you right now?',helper:'Pick all that apply.',type:'cards-multi',why:'This routes your plan and your class recommendations. It is never shared and never shown to anyone else.',skippable:true,
@@ -283,9 +283,9 @@
             <h3 class="display d-28">Baseline ${state.scores?state.scores.overall:'71'}. Twelve weeks. ${state.gap||'Consistency'} first.</h3>
           </div>
           <div>
-            <p style="font-size:15px;margin-bottom:14px">$120 a year. That's $10 a month, billed annually. Every class, every workbook, your plan, The Daily. 30-day money-back guarantee.</p>
-            <a class="btn btn-primary" href="checkout.html" style="width:100%">Start my membership</a>
-            <p style="margin-top:14px"><a class="link ash" href="plan.html">Not yet. Take me to my baseline.</a></p>
+            <p style="font-size:15px;margin-bottom:14px">Everything a man needs here is free: the Profile, this plan, the courses, and the Certificate of Completion when he earns it.</p>
+            <a class="btn btn-primary" href="plan.html" style="width:100%">Open my ninety-day plan</a>
+            <p style="margin-top:14px"><a class="link ash" href="sponsor.html">Support the work &rarr;</a></p>
           </div>
         </div>
       </div>`;

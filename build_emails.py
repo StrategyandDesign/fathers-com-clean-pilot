@@ -75,11 +75,11 @@ T.append(('07-win-back', 'New class: Raising Teens.', 'Built for the season you 
   btn('Come back', 'RETURN_URL') +
   p('Your baseline and notes are still saved.', 0).replace('margin:0 0 0px','margin:16px 0 0')))
 
-T.append(('08-certificate-issued', 'Your certificate is ready. Serial FC-2026-004317.', 'Verified hours, checkable serial.',
+T.append(('08-certificate-issued', 'Your certificate is ready. Serial FC-2026-004317.', 'Sessions logged, checkable serial.',
   h1('Your certificate is ready.') +
   f'<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border:2px solid #B98A2F;border-radius:8px;margin:0 0 18px;"><tr><td style="padding:18px 20px;">' +
   f'<b style="font-size:14px;color:#141210;">Fathering Fundamentals Certificate</b><br>' +
-  f'<span style="font-size:13px;color:#3a352e;">10.0 verified instructional hours · Issued June 2, 2026</span><br>' +
+  f'<span style="font-size:13px;color:#3a352e;">5 sessions · facilitator-verified · Issued June 2, 2026</span><br>' +
   f'<span style="font-family:Courier,monospace;font-size:13px;color:#141210;">SERIAL FC-2026-004317</span></td></tr></table>' +
   btn('Download PDF', 'CERT_PDF_URL') +
   p('Or send it straight to your officer or program: <a href="{{SEND_URL}}" style="color:#C2502D;">send the certificate</a>.', 12).replace('margin:0 0 12px','margin:16px 0 12px') +

@@ -142,13 +142,10 @@
 
     var ref = v.video_url || '';
     var vid = vimeoId(ref);
-    var isMp4 = !vid && /^https?:\/\/.+\.(mp4|webm|mov)(\?.*)?$/i.test(ref);
 
     var player;
     if (vid) {
-      player = '<div class="cw-embed"><iframe id="cw-vimeo" src="https://player.vimeo.com/video/'+esc(vid)+'?title=0&byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;border:0"></iframe></div>';
-    } else if (isMp4) {
-      player = '<video id="cw-video" controls playsinline preload="metadata" style="width:100%;border-radius:12px;background:#000" src="'+esc(ref)+'"></video>';
+      player = '<div class="cw-embed"><iframe id="cw-vimeo" src="https://player.vimeo.com/video/'+esc(vid)+'?title=0&byline=0&portrait=0&pip=0&speed=0&dnt=1" allow="autoplay; fullscreen" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;border:0"></iframe></div>';
     } else {
       var liveMode = !!(window.FC && FC.live);
       if(liveMode){
@@ -235,20 +232,20 @@
     lastTouch = Date.now();
     var patch = { last_activity_at: new Date().toISOString() };
     if(flip){ patch.state='in_progress'; enrollState='in_progress'; }
-    FC.sb.from('certificate_enrollments').update(patch).eq('id',enrollId).then(function(){},function(){});
+    // Activity and state are derived server-side from progress events; the client no longer writes them.
   }
   function saveProgress(done){
     if(!curVideo) return;
     var completed = done || (progress[curVideo.id] && progress[curVideo.id].completed) || false;
     progress[curVideo.id] = { video_id:curVideo.id, watched_seconds:watched, completed:completed };
-    FC.sb.from('video_progress').upsert({ user_id:uid, video_id:curVideo.id, watched_seconds:watched, completed:completed, updated_at:new Date().toISOString() }, { onConflict:'user_id,video_id' });
+    FC.sb.functions.invoke('progress_beat', { body: { video_id: curVideo.id, position_seconds: watched } }).then(function(){}, function(){});
     touchEnrollment();
   }
 
   // ---------- debrief ----------
   function openCheckpoint(){
     stage('<p class="ash">Loading the Checkpoint\u2026</p>');
-    FC.sb.from('quiz_questions').select('*').eq('video_id',curVideo.id).order('ord').then(function(r){
+    FC.sb.from('quiz_questions_public').select('id,video_id,ord,prompt,choices').eq('video_id',curVideo.id).order('ord').then(function(r){
       if(r.error){ stage('<div class="notice brass">'+esc(r.error.message)+'</div>'); return; }
       var qs=r.data||[];
       if(!qs.length){ // no debrief authored: count the lesson done and move on
@@ -279,17 +276,28 @@
       });
     });
     $('cw-q-next').addEventListener('click', function(){
-      var correct = (chosen === q.correct_index);
-      answers[q.id] = { chosen_index:chosen, correct:correct };
-      FC.sb.from('quiz_responses').upsert({ user_id:uid, question_id:q.id, chosen_index:chosen, correct:correct }, { onConflict:'user_id,question_id' });
+      // The server grades. The client only records what was chosen.
+      answers[q.id] = { question_id:q.id, chosen_index:chosen };
       if(idx < qs.length-1){ renderCheckpoint(qs, idx+1, answers); }
       else { finishCheckpoint(qs, answers); }
     });
   }
 
   function finishCheckpoint(qs, answers){
-    var right = Object.keys(answers).filter(function(k){return answers[k].correct;}).length;
-    var pass = right >= Math.ceil(qs.length*0.8);   // 80% to pass a Checkpoint
+    var payload = { video_id: curVideo.id, answers: Object.keys(answers).map(function(k){ return answers[k]; }) };
+    FC.sb.functions.invoke('checkpoint_submit', { body: payload }).then(function(res){
+      var d = res && res.data;
+      if((res && res.error) || !d){
+        stage('<div class="notice brass">Checkpoint grading runs on the server, and the grading function is not deployed yet. Nothing was recorded; tell your facilitator.</div>');
+        return;
+      }
+      finishCheckpoint(d.passed, d.right, d.total);
+    }, function(){
+      stage('<div class="notice brass">Could not reach the grading server. Nothing was recorded; try again in a moment.</div>');
+    });
+  }
+  function finishCheckpoint(pass, right, total){
+    var qs = { length: total };
     if(pass){
       markVideoComplete();
       stage('<div class="cw-status"><div class="cw-status-icon">\u2713</div><h2>Checkpoint passed</h2><p>'+right+' of '+qs.length+' correct. Lesson complete.</p><button class="btn btn-primary" id="cw-continue">Continue</button></div>');
@@ -303,7 +311,7 @@
 
   function markVideoComplete(){
     progress[curVideo.id] = { video_id:curVideo.id, watched_seconds:Math.max(watched,threshold), completed:true };
-    FC.sb.from('video_progress').upsert({ user_id:uid, video_id:curVideo.id, watched_seconds:Math.max(watched,threshold), completed:true, updated_at:new Date().toISOString() }, { onConflict:'user_id,video_id' });
+    FC.sb.functions.invoke('progress_beat', { body: { video_id: curVideo.id, position_seconds: Math.max(watched,threshold) } }).then(function(){}, function(){});
   }
 
   // ---------- final Q&A + submit ----------
@@ -319,7 +327,7 @@
   function renderFinal(qs){
     var fields = qs.length ? qs.map(function(q,i){
       return '<div class="cw-qa-item"><label class="cw-qa-label">'+(i+1)+'. '+esc(q.prompt)+'</label>'+
-        '<textarea class="cw-qa-input" data-qid="'+esc(q.id)+'" rows="4" placeholder="Write your answer"></textarea></div>';
+        '<textarea class="cw-qa-input" data-qid="'+esc(q.id)+'" rows="4" placeholder="Write your answer. You do not need to use real names here."></textarea><p class="fine" style="margin-top:4px;color:var(--ash)">You do not need to use real names here.</p></div>';
     }).join('') : '<p class="fine">This certificate has no final questions. You can submit for approval.</p>';
 
     stage(
@@ -350,7 +358,7 @@
       return FC.sb.from('final_qa_responses').upsert({ user_id:uid, question_id:q.id, answer_text:val }, { onConflict:'user_id,question_id' });
     });
     Promise.all(saves.map(function(p){return p.then(function(r){return r;},function(e){return {error:e};});})).then(function(){
-      FC.sb.from('certificate_awards').upsert({ user_id:uid, course_id:course.id, status:'submitted' }, { onConflict:'user_id,course_id' }).then(function(r){
+      FC.sb.functions.invoke('submit_award', { body: { course_id: course.id } }).then(function(r){
         if(r.error){ btn.disabled=false; btn.textContent='Submit for approval'; $('cw-submit-msg').textContent='Could not submit: '+r.error.message; return; }
         awardStatus='submitted';
         stage(statusPanel());
