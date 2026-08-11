@@ -270,7 +270,7 @@
           </div></div></div>`).join('')}
       </div>
       <div class="row"><button class="btn btn-primary" data-go>Save my plan</button>
-      <a class="link" href="index.html#membership">See what's included</a></div>`;
+      <a class="link" href="sponsor.html">Support the work &rarr;</a></div>`;
     wire(SCREENS[idx]);
   }
 

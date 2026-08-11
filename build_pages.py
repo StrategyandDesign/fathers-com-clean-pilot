@@ -12,7 +12,7 @@ OG_IMAGE = SITE_URL + "/assets/img/og-image.jpg"
 # changelog.html. Bump BOTH constants on every release, add a CHANGELOG entry
 # below, regenerate, and upload. The stamp is the answer to "what version is
 # live": read any page footer.
-PLATFORM_VERSION = "4.15.3"
+PLATFORM_VERSION = "4.16.0"
 VERSION_DATE = "2026-08-11"
 
 # v4.0 reposition flags (ADR-4: rollout is a data change, not a redesign).
@@ -161,6 +161,13 @@ PAGES = {}
 # Release notes rendered on changelog.html. Newest first. Public copy:
 # POSITIONING.md section 9 language rules apply.
 CHANGELOG = [
+    ("4.16.0", "2026-08-11",
+     "Membership steps out of the course path everywhere. The flagship "
+     "workbook is included free with the course, the course page lists "
+     "what is free instead of what a membership includes, and checkout "
+     "becomes what it always was underneath: Support the work, a "
+     "founding-supporter membership that funds the films, the kits, and "
+     "free seats, and never gates a thing."),
     ("4.15.3", "2026-08-11",
      "The Guide's launcher wears the site's colors: a white question mark "
      "on black. The panel it opens stays light and high-contrast."),
@@ -471,7 +478,7 @@ PAGES['index.html'] = dict(title='Know where you stand', desc='Take the free Key
     <div style="display:flex;gap:14px;align-items:baseline;padding:13px 0;border-top:1px solid rgba(127,127,127,.25)"><span class="fine mono" style="color:var(--ash);min-width:22px">02</span><span class="small">Dr. Canfield&rsquo;s Fundamentals of Fathering</span></div>
     <div style="display:flex;gap:14px;align-items:baseline;padding:13px 0;border-top:1px solid rgba(127,127,127,.25)"><span class="fine mono" style="color:var(--ash);min-width:22px">03</span><span class="small">Classes taught by fathers who lived it</span></div>
     <div style="display:flex;gap:14px;align-items:baseline;padding:13px 0;border-top:1px solid rgba(127,127,127,.25)"><span class="fine mono" style="color:var(--ash);min-width:22px">04</span><span class="small">A Certificate of Completion when you finish the work, at no cost</span></div>
-    <div style="display:flex;gap:14px;align-items:baseline;padding:13px 0;border-top:1px solid rgba(127,127,127,.25)"><span class="fine mono" style="color:var(--ash);min-width:22px">05</span><span class="small">Full class library membership, optional</span></div>
+    <div style="display:flex;gap:14px;align-items:baseline;padding:13px 0;border-top:1px solid rgba(127,127,127,.25)"><span class="fine mono" style="color:var(--ash);min-width:22px">05</span><span class="small">Your certificate&rsquo;s public verification page</span></div>
     <div style="display:flex;gap:14px;align-items:baseline;padding:13px 0;border-top:1px solid rgba(127,127,127,.25);border-bottom:1px solid rgba(127,127,127,.25)"><span class="fine mono" style="color:var(--ash);min-width:22px">06</span><span class="small">30-day money-back guarantee on anything paid</span></div>
   </div>
 </div></section>
@@ -568,7 +575,7 @@ PAGES['index.html'] = dict(title='Know where you stand', desc='Take the free Key
   <h2 class="d-28" style="margin-bottom:24px">Frequently asked questions</h2>
   <details open><summary>What is Fathers.com?</summary><div class="body">Fathers.com is the home of the Keystone Standard, from the National Center for Fathering. Men measure where they stand and complete the courses free. NCF certifies the organizations and facilitators who lead them, and every man who finishes holds a Certificate of Completion anyone can verify. Programs and agencies use the same standard to show whether men are changing.</div></details>
 <details><summary>Who gets certified?</summary><div class="body">Organizations and facilitators. An organization earns Certified status against a published standard. A facilitator earns the Certified Facilitator credential through training, an exam, and a supervised first cohort. The man who completes a course receives a Certificate of Completion: earned, serialed, signed, and free to him. Certification is the institutional layer. Completion is his.</div></details>
-  <details><summary>How much does it cost?</summary><div class="body">For the man doing the work: nothing. The Keystone Profile, the ninety-day plan, the courses, and the Certificate of Completion are free. Organizations pay for certification and facilitator credentialing. A full class library membership is optional at $120 a year, with a 30-day money-back guarantee.</div></details>
+  <details><summary>How much does it cost?</summary><div class="body">For the man doing the work: nothing. The Keystone Profile, the ninety-day plan, the courses, and the Certificate of Completion are free. Organizations pay for certification and facilitator credentialing. An optional founding-supporter membership funds the film library: $79 a year at founding pricing, $120 after, with a 30-day money-back guarantee. It funds the work; it never gates it.</div></details>
   <details><summary>How does the Keystone Profile work?</summary><div class="body">The full Keystone Father Profile, in one sitting. The exact item and scale counts, the response format, and the measured median completion time live on the <a class="link" href="research.html">Research page</a>. You get four domain scores, an overall baseline, and a plan built from your answers. Your results are yours. We never share them.</div></details>
   <details><summary>Do you rate other programs?</summary><div class="body">No. We certify organizations and facilitators against our own published standard, and we publish who currently holds that certification and who has had it revoked. We do not rate or rank programs that are not certified with us.</div></details>
   <details><summary>Are the Certificates of Completion accepted by courts?</summary><div class="body">Each certificate carries logged sessions, passed checkpoints, and a public verification page. Acceptance is decided by each court or program, so confirm with yours before enrolling.</div></details>
@@ -755,12 +762,13 @@ PAGES['class.html'] = dict(title='The Fundamentals of Fathering', desc='The flag
   <aside class="stack-24" style="position:sticky;top:160px">
     <div class="card"><div class="row" style="gap:16px"><span style="font-size:28px">▤</span>
       <div><b style="font-size:15px">The Fundamentals Workbook</b><p class="fine" style="margin-top:4px">28 pages</p></div></div>
-      <a class="btn btn-secondary btn-sm" style="margin-top:16px;width:100%" href="checkout.html">Included with membership &rarr;</a></div>
-    <div class="card"><div class="eyebrow" style="margin-bottom:14px">INCLUDED IN YOUR MEMBERSHIP</div>
+      <span class="fine" style="display:block;margin-top:16px;color:var(--ash)">Included free with the course.</span></div>
+    <div class="card"><div class="eyebrow" style="margin-bottom:14px">FREE WITH THE COURSE</div>
       <div class="stack-8">
-        <div class="check"><span class="checkmark">&check;</span><span class="small">Every film, class, and workbook as they publish; the library is in production, films uploading as they finish</span></div>
-        <div class="check"><span class="checkmark">&check;</span><span class="small">Your baseline and plan</span></div>
-        <div class="check"><span class="checkmark">&check;</span><span class="small">30-day money-back guarantee</span></div>
+        <div class="check"><span class="checkmark">&check;</span><span class="small">Every film and written session as they publish; films uploading as they finish</span></div>
+        <div class="check"><span class="checkmark">&check;</span><span class="small">Your baseline and ninety-day plan</span></div>
+        <div class="check"><span class="checkmark">&check;</span><span class="small">The written final, read by your facilitator</span></div>
+        <div class="check"><span class="checkmark">&check;</span><span class="small">Your Certificate of Completion, at no cost</span></div>
       </div></div>
     <div class="card brass-card"><p class="small" style="margin-bottom:12px">Need proof someone else can check? Finish this course and your Certificate of Completion is issued at no cost.</p><p class="fine" style="margin:10px 0 0">Whether a certificate satisfies a court, agency, or program requirement is decided by that body. Confirm with yours before enrolling.</p>
       <div class="row wrap" style="gap:14px;align-items:center">
@@ -1012,12 +1020,12 @@ PAGES['groups.html'] = dict(title='For Groups', desc='Circles for workplaces, te
 ''')
 
 # ================================================== checkout.html (P8 screens 1-2)
-PAGES['checkout.html'] = dict(title='Start your membership', desc='One membership. $120 a year. 30-day money-back guarantee.', active='', mode='public', body='''
+PAGES['checkout.html'] = dict(title='Support the work', desc='Founding-supporter membership funds the films and free seats. $79 a year at founding pricing. Everything a man needs here stays free.', active='', mode='public', body='''
 <section class="tight" style="padding-top:56px"><div class="container" data-seq style="max-width:1080px">
   <div class="seqpanel">
     <div style="display:grid;grid-template-columns:1.2fr .9fr;gap:48px;align-items:start">
       <div>
-        <h1 class="d-36" style="margin-bottom:14px">Start your membership.</h1>
+        <h1 class="d-36" style="margin-bottom:14px">Support the work.</h1>
         <p class="small" style="color:var(--ash);margin-bottom:24px;max-width:50ch">The membership is the library as it grows: founding pricing while the film library is in production. Fundamentals plays today; the three new courses are live as written sessions, films uploading as they finish. Your Profile, plan, retakes, the courses, and your Certificate of Completion stay free either way. The membership funds the work; it never gates it.</p>
 
         <div class="field"><label>Card number</label><input class="input" inputmode="numeric" placeholder="4242 4242 4242 4242"></div>
@@ -1029,11 +1037,11 @@ PAGES['checkout.html'] = dict(title='Start your membership', desc='One membershi
           <div class="field"><label>Name on card</label><input class="input" placeholder="Full name"></div>
           <div class="field"><label>ZIP</label><input class="input" inputmode="numeric" placeholder="72712"></div>
         </div>
-        <button class="btn btn-primary" id="paybtn" style="width:100%;margin-top:10px" data-next>Start my membership</button>
+        <button class="btn btn-primary" id="paybtn" style="width:100%;margin-top:10px" data-next>Become a founding supporter</button>
         <p class="fine" style="margin-top:14px">Payment processing wires to Stripe at deploy. No card is charged in this prototype.</p>
       </div>
       <aside class="card" style="padding:28px">
-        <div class="row between" style="margin-bottom:4px"><b>Fathers.com Annual</b><b class="mono">$120.00</b></div>
+        <div class="row between" style="margin-bottom:4px"><b>Founding Supporter &middot; annual</b><b class="mono">$120.00</b></div>
         <p class="small" style="margin-bottom:14px">$10 a month, billed once a year</p>
         <div class="row between" style="margin-bottom:18px;padding:10px 12px;border:1px solid var(--hairline);border-radius:6px">
           <span class="small"><s class="ash">$120</s> <b class="bone">$79 founding member</b></span><span class="pill pill-new">Beta pricing</span></div>
@@ -1042,8 +1050,7 @@ PAGES['checkout.html'] = dict(title='Start your membership', desc='One membershi
         <div class="stack-8">
           <div class="check"><span class="checkmark">&check;</span><span class="small">Every film, class, and workbook as they publish; the library is in production, films uploading as they finish</span></div>
           <div class="check"><span class="checkmark">&check;</span><span class="small">Your baseline and ninety-day plan</span></div>
-          <div class="check"><span class="checkmark">&check;</span><span class="small">The Daily</span></div>
-          <div class="check"><span class="checkmark">&check;</span><span class="small">Audio and downloads</span></div>
+          <div class="check"><span class="checkmark">&check;</span><span class="small">Funds the films, the facilitator kits, and free seats for men in programs</span></div>
         </div>
         <p class="fine" style="margin-top:18px">By continuing you agree to the <a class="link ash" href="terms.html" style="font-size:12px">terms</a>. Current pricing for organizations and facilitators is published on the <a class="link ash" href="organizations.html" style="font-size:12px">Organizations page</a>.</p>
       </aside>
@@ -1064,18 +1071,18 @@ PAGES['checkout.html'] = dict(title='Start your membership', desc='One membershi
 ''')
 
 # ================================================== gift.html (P8 screens 3-4)
-PAGES['gift.html'] = dict(title='Give a man the work', desc='Fund a year of full membership and materials for a man you believe in. The courses and his Certificate of Completion are free for every man; your gift funds the rest and tells him you are behind him.', active='', mode='public', body='''
+PAGES['gift.html'] = dict(title='Give a man the work', desc='Fund a year of supporter membership and materials for a man you believe in. The courses and his Certificate of Completion are free for every man; your gift funds the rest and tells him you are behind him.', active='', mode='public', body='''
 <div class="billboard">
   <div class="slot r-21x9 flush" data-slot="IMG-P8-GFT-01" style="max-height:48vh"></div>
   <div class="overlay container" style="left:50%;transform:translateX(-50%);max-width:var(--max)">
     <h1 class="d-48">Back the work. He earns the proof.</h1>
-    <p class="small" style="margin-top:10px;max-width:52ch">The courses and the Certificate of Completion are free for every man. Your gift funds a year of full membership and his printed materials, with your name on it. The completion is still earned, never given. He will know it came from you.</p>
+    <p class="small" style="margin-top:10px;max-width:52ch">The courses and the Certificate of Completion are free for every man. Your gift funds a year of supporter membership and his printed materials, with your name on it. The completion is still earned, never given. He will know it came from you.</p>
   </div>
 </div>
 <section class="tight"><div class="container split" style="align-items:start">
   <div class="card" style="padding:32px">
     <div class="row between" style="margin-bottom:10px"><b>One sponsored seat</b><b class="mono">$120</b></div>
-    <p class="fine" style="margin-bottom:22px">A year of full membership plus his printed workbooks and materials for all four courses: Fathering Fundamentals, Coming Home Present, Steady Under Pressure, Same Team. His Keystone Profile, ninety-day plan, the courses, and his Certificate of Completion are free for every man, gift or not.</p>
+    <p class="fine" style="margin-bottom:22px">A year of supporter membership plus his printed workbooks and materials for all four courses: Fathering Fundamentals, Coming Home Present, Steady Under Pressure, Same Team. His Keystone Profile, ninety-day plan, the courses, and his Certificate of Completion are free for every man, gift or not.</p>
     <div class="grid-2" style="gap:16px">
       <div class="field"><label>To</label><input class="input" id="g-to" placeholder="Dad"></div>
       <div class="field"><label>From</label><input class="input" id="g-from" placeholder="Marcus"></div>
@@ -1578,12 +1585,10 @@ PAGES['employers.html'] = dict(title='For Employers', desc='Your parental benefi
   <div class="grid-2" style="max-width:760px">
     <div class="stack-8">
       <div class="check"><span class="checkmark">&check;</span><span class="small">Every film, class, and workbook as they publish; the library is in production, films uploading as they finish</span></div>
-      <div class="check"><span class="checkmark">&check;</span><span class="small">The new-father track</span></div>
-      <div class="check"><span class="checkmark">&check;</span><span class="small">The Daily</span></div>
+      <div class="check"><span class="checkmark">&check;</span><span class="small">The Keystone baseline and ninety-day plan for every man</span></div>
     </div>
     <div class="stack-8">
-      <div class="check"><span class="checkmark">&check;</span><span class="small">Audio for the commute</span></div>
-      <div class="check"><span class="checkmark">&check;</span><span class="small">Spouse gift seat</span></div>
+      <div class="check"><span class="checkmark">&check;</span><span class="small">Facilitator-led certificate courses, free to the man</span></div>
       <div class="check"><span class="checkmark">&check;</span><span class="small"><b class="bone">Aggregate reporting only.</b></span></div>
     </div>
   </div>
