@@ -12,7 +12,7 @@ OG_IMAGE = SITE_URL + "/assets/img/og-image.jpg"
 # changelog.html. Bump BOTH constants on every release, add a CHANGELOG entry
 # below, regenerate, and upload. The stamp is the answer to "what version is
 # live": read any page footer.
-PLATFORM_VERSION = "4.16.1"
+PLATFORM_VERSION = "4.16.2"
 VERSION_DATE = "2026-08-11"
 
 # v4.0 reposition flags (ADR-4: rollout is a data change, not a redesign).
@@ -161,6 +161,12 @@ PAGES = {}
 # Release notes rendered on changelog.html. Newest first. Public copy:
 # POSITIONING.md section 9 language rules apply.
 CHANGELOG = [
+    ("4.16.2", "2026-08-11",
+     "The Studio tells the platform's truth. Its courses tab now reads "
+     "the real course tables: actual publish states, actual session and "
+     "film counts, a link to each live course page, and the content rail "
+     "named as how courses ship. The legacy class-library editor and its "
+     "phantom catalog are retired."),
     ("4.16.1", "2026-08-11",
      "The course catalog reads clean: every card carries its boundary "
      "inside itself, session counts print once, the free foot lines up "

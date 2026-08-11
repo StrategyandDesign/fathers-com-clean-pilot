@@ -212,114 +212,55 @@
   }
 
   /* ---------------- COURSES ---------------- */
-  function loadCourses(){
-    FC.sb.from('classes').select('*').order('title').then(function(r){
-      if(r.error){ el('course-list').innerHTML='<div class="notice brass" style="margin:0">Could not load courses: '+esc(r.error.message)+'</div>'; return; }
-      var rows=r.data||[];
-      if(!rows.length){el('course-list').innerHTML='<p class="fine">No courses yet. Create your first.</p>';return;}
-      var html='<div class="grid-auto">';
-      rows.forEach(function(c){
-        html+='<div class="card"><div class="row between" style="margin-bottom:8px"><b>'+esc(c.title)+'</b><span class="pill-status '+(c.published?'published':'draft')+'">'+(c.published?'published':'draft')+'</span></div>'+
-          '<p class="fine" style="margin-bottom:12px">'+esc(c.instructor||'')+' · '+(c.lesson_count||0)+' lessons</p>'+
-          '<button class="btn btn-secondary mini" data-edit="'+c.id+'">Edit</button></div>';
-      });
-      el('course-list').innerHTML=html+'</div>';
-      el('course-list').querySelectorAll('[data-edit]').forEach(function(b){b.addEventListener('click',function(){editCourse(b.dataset.edit);});});
-    });
-  }
-
   function newCourse(){
-    var slug=prompt('Course slug (lowercase, no spaces), e.g. fundamentals:');
-    if(!slug) return;
-    FC.sb.from('classes').insert({slug:slug.trim(),title:'Untitled course',instructor:'',author_id:FC.uid(),published:false,lesson_count:0}).select().single().then(function(r){
-      if(r.error){toast('Failed: '+r.error.message);return;}
-      audit&&audit('create_class',r.data.id,{slug:slug});loadCourses();editCourse(r.data.id);
+    // Courses are born on the content rail, not in this screen: a JSON file,
+    // validated and imported, so course content obeys the same law as pages.
+    alert('New courses ship through the content rail: add content/<slug>.json and run the importer or regenerate SEED-CONTENT.sql. Runbook: docs/CONTENT-PIPELINE.md');
+  }
+  function loadCourses(){
+    var SLUG_PAGE = { fundamentals:'class.html', reentry:'course-coming-home-present.html', anger:'course-steady-under-pressure.html', coparenting:'course-same-team.html', manhood:'course-the-man-before-you.html' };
+    var host = el('course-list'); if(!host) return;
+    function card(c, counts){
+      var n = counts[c.id] || {sessions:0, films:0};
+      var pub = c.published !== false;
+      var page = SLUG_PAGE[c.slug];
+      var open = (page && pub) ? '<a class="btn btn-secondary btn-sm" href="'+page+'">Open the course page &rarr;</a>'
+               : '<span class="fine">Staged dark until its flag flips</span>';
+      return '<div class="card" style="padding:20px">'
+        + '<div class="row between" style="align-items:baseline;margin-bottom:6px"><b>'+esc(c.title)+'</b>'
+        + '<span class="pill-status '+(pub?'published':'draft')+'">'+(pub?'PUBLISHED':'DRAFT')+'</span></div>'
+        + '<p class="fine mono" style="color:var(--ash);margin-bottom:8px">'+esc(c.slug)+' &middot; '+n.sessions+' sessions &middot; '+n.films+' films live</p>'
+        + open + '</div>';
+    }
+    function paint(courses, counts, demo){
+      host.innerHTML = (demo?'<p class="fine" style="margin-bottom:12px">DEMO VIEW &middot; sign in on the live site for database truth.</p>':'')
+        + '<div class="grid-2" style="gap:14px">' + courses.map(function(c){return card(c, counts);}).join('') + '</div>'
+        + '<div class="card" style="padding:18px;margin-top:16px"><div class="eyebrow" style="margin-bottom:8px">HOW COURSES SHIP</div>'
+        + '<p class="small" style="color:var(--ash)">Courses, sessions, checkpoints, and finals live in <span class="mono">content/&lt;slug&gt;.json</span> and import through the content rail: <span class="mono">tools/import_content.py</span> or the generated <span class="mono">content/SEED-CONTENT.sql</span> pasted into the SQL editor. Films swap in by editing two fields per session and re-importing. The runbook is <span class="mono">docs/CONTENT-PIPELINE.md</span>.</p></div>';
+    }
+    if(!(window.FC && FC.live)){
+      var demoCourses = [
+        {id:'d1', slug:'fundamentals', title:'Fathering Fundamentals', published:true},
+        {id:'d2', slug:'reentry', title:'Coming Home Present', published:true},
+        {id:'d3', slug:'anger', title:'Steady Under Pressure', published:true},
+        {id:'d4', slug:'coparenting', title:'Same Team', published:true}
+      ];
+      var demoCounts = {d1:{sessions:5,films:0}, d2:{sessions:8,films:0}, d3:{sessions:6,films:0}, d4:{sessions:6,films:0}};
+      paint(demoCourses, demoCounts, true); return;
+    }
+    Promise.all([
+      FC.sb.from('certificate_courses').select('id,slug,title,published').order('title'),
+      FC.sb.from('course_videos').select('course_id,video_url,duration_seconds')
+    ]).then(function(rs){
+      if(rs[0].error){ host.innerHTML = '<p class="fine">Could not load courses: '+esc(rs[0].error.message)+'</p>'; return; }
+      var counts = {};
+      (rs[1].data||[]).forEach(function(v){
+        var c = counts[v.course_id] = counts[v.course_id] || {sessions:0, films:0};
+        c.sessions++; if(v.duration_seconds > 0 && v.video_url && v.video_url !== 'pending') c.films++;
+      });
+      paint(rs[0].data||[], counts, false);
     });
   }
-
-  function editCourse(id){
-    FC.sb.from('classes').select('*, lessons(*)').eq('id',id).single().then(function(r){
-      var box=el('course-editor'); box.style.display='';
-      if(r.error || !r.data){
-        box.innerHTML='<div class="notice brass" style="margin:0">Could not open this course: '+esc((r.error&&r.error.message)||'not found')+'.<br><span class="fine">If this mentions a missing column, run studio_course_columns.sql in Supabase.</span></div>';
-        box.scrollIntoView({behavior:'smooth'});
-        return;
-      }
-      var c=r.data; var lessons=(c.lessons||[]).sort(function(a,b){return a.num-b.num;});
-      box.innerHTML=
-        '<div class="row between" style="margin-bottom:16px"><h3>Edit course</h3>'+
-        '<div class="inline-actions"><button class="btn btn-secondary mini" id="ec-close">Close</button>'+
-        '<button class="btn '+(c.published?'btn-secondary':'btn-primary')+' mini" id="ec-pub">'+(c.published?'Unpublish':'Publish')+'</button></div></div>'+
-        '<div class="grid-2" style="gap:14px">'+
-          '<div class="field"><label>Title</label><input class="input" id="ec-title" value="'+esc(c.title)+'"></div>'+
-          '<div class="field"><label>Instructor name</label><input class="input" id="ec-instr" value="'+esc(c.instructor||'')+'"></div>'+
-        '</div>'+
-        '<div class="field"><label>Summary (one line)</label><input class="input" id="ec-summary" value="'+esc(c.summary||'')+'"></div>'+
-        '<div class="field"><label>Description</label><textarea class="input" id="ec-desc">'+esc(c.description||'')+'</textarea></div>'+
-        '<label style="display:flex;gap:10px;align-items:center;margin-bottom:16px"><input type="checkbox" id="ec-drip" '+(c.drip_weekly?'checked':'')+'> Drip: lessons unlock by week</label>'+
-        '<button class="btn btn-primary btn-sm" id="ec-save">Save course</button>'+
-        '<hr class="hr" style="margin:22px 0"><h3 style="margin-bottom:14px">Lessons</h3><div id="ec-lessons"></div>'+
-        '<div class="card" style="margin-top:14px;background:var(--ink)"><b style="font-size:14px">Add a lesson</b>'+
-          '<div class="grid-4" style="gap:10px;align-items:end;margin-top:10px">'+
-            '<div class="field" style="margin:0"><label>#</label><input class="input" id="al-num" type="number" value="'+(lessons.length+1)+'"></div>'+
-            '<div class="field" style="margin:0"><label>Title</label><input class="input" id="al-title"></div>'+
-            '<div class="field" style="margin:0"><label>Vimeo ID</label><input class="input" id="al-vimeo" placeholder="76979871"></div>'+
-            '<div class="field" style="margin:0"><label>Minutes</label><input class="input" id="al-min" type="number" placeholder="9"></div>'+
-          '</div>'+
-          '<div class="field" style="margin-top:10px"><label>Unlock week (drip only)</label><input class="input mini" id="al-week" type="number" placeholder="1" style="max-width:120px"></div>'+
-          '<button class="btn btn-secondary btn-sm" id="al-go" style="margin-top:6px">Add lesson</button></div>';
-
-      renderLessons(id, lessons);
-      el('ec-close').onclick=function(){box.style.display='none';};
-      el('ec-save').onclick=function(){
-        FC.sb.from('classes').update({title:el('ec-title').value,instructor:el('ec-instr').value,summary:el('ec-summary').value,description:el('ec-desc').value,drip_weekly:el('ec-drip').checked}).eq('id',id).then(function(res){
-          if(res.error){toast('Save failed: '+res.error.message);return;} toast('Course saved.');loadCourses();
-        });
-      };
-      el('ec-pub').onclick=function(){
-        var np=!c.published;
-        FC.sb.from('classes').update({published:np}).eq('id',id).then(function(res){
-          if(res.error){toast('Failed: '+res.error.message);return;}
-          audit&&audit(np?'publish_class':'unpublish_class',id,{});toast(np?'Published. Live to members.':'Unpublished.');editCourse(id);loadCourses();
-        });
-      };
-      el('al-go').onclick=function(){
-        var num=parseInt(el('al-num').value,10)||lessons.length+1;
-        var body={class_id:id,num:num,title:el('al-title').value||('Lesson '+num),vimeo_id:el('al-vimeo').value||null,duration_seconds:(parseInt(el('al-min').value,10)||0)*60,unlock_week:parseInt(el('al-week').value,10)||null};
-        FC.sb.from('lessons').insert(body).then(function(res){
-          if(res.error){toast('Failed: '+res.error.message);return;}
-          FC.sb.from('classes').update({lesson_count:lessons.length+1}).eq('id',id).then(function(){editCourse(id);});
-        });
-      };
-    });
-  }
-
-  function renderLessons(classId, lessons){
-    var box=el('ec-lessons');
-    if(!lessons.length){box.innerHTML='<p class="fine">No lessons yet.</p>';return;}
-    box.innerHTML=lessons.map(function(l){
-      return '<div class="lesson-row"><span class="num">'+l.num+'</span>'+
-        '<div style="flex:1"><b style="font-size:14px">'+esc(l.title)+'</b>'+
-        (l.vimeo_id?' <span class="fine">· Vimeo '+esc(l.vimeo_id)+'</span>':' <span class="fine" style="color:var(--error)">· no video</span>')+
-        (l.duration_seconds?' <span class="fine">· '+Math.round(l.duration_seconds/60)+' min</span>':'')+'</div>'+
-        '<button class="btn btn-secondary mini" data-del="'+l.id+'">Delete</button></div>';
-    }).join('');
-    box.querySelectorAll('[data-del]').forEach(function(b){b.addEventListener('click',function(){
-      if(confirm('Delete this lesson?')) FC.sb.from('lessons').delete().eq('id',b.dataset.del).then(function(){editCourse(classId);});
-    });});
-  }
-
-  /* ---------------- INSTRUMENT BUILDER ----------------
-     There are two assessment systems in this platform and this tab used to show
-     only one of them. The instruments a man actually takes are defined in code
-     and served through the registry (window.FCReg). The `instruments` table is
-     the Studio-authored engine, which nothing in the participant flow reads yet.
-     Listing only the table meant the screen showed a 4-domain, 1-item stub
-     labelled "The Keystone Father Profile" while the real 26-scale, 128-item
-     instrument was invisible. Now the real ones lead, read only, with their
-     true numbers, and the Studio drafts follow, labelled for what they are. */
-
-  // Derive an honest picture of a registry instrument from its own data.
   function insFacts(A){
     var K = (window.FCReg && FCReg.data(A)) || null;
     if(!K) return null;
