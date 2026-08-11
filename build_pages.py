@@ -12,7 +12,7 @@ OG_IMAGE = SITE_URL + "/assets/img/og-image.jpg"
 # changelog.html. Bump BOTH constants on every release, add a CHANGELOG entry
 # below, regenerate, and upload. The stamp is the answer to "what version is
 # live": read any page footer.
-PLATFORM_VERSION = "4.11.1"
+PLATFORM_VERSION = "4.11.2"
 VERSION_DATE = "2026-08-11"
 
 # v4.0 reposition flags (ADR-4: rollout is a data change, not a redesign).
@@ -147,6 +147,11 @@ PAGES = {}
 # Release notes rendered on changelog.html. Newest first. Public copy:
 # POSITIONING.md section 9 language rules apply.
 CHANGELOG = [
+    ("4.11.2", "2026-08-11",
+     "The certificate specimen now reads as a specimen: your name where "
+     "yours will go, the word itself on the document, and a masked serial. "
+     "Every issued certificate carries a live serial that resolves at "
+     "verify."),
     ("4.11.1", "2026-08-11",
      "Waitlists retire. Every course is live in written sessions, the course "
      "detail points straight to them, and the films arrive on their own "
@@ -895,7 +900,7 @@ PAGES['checkout.html'] = dict(title='Start your membership', desc='One membershi
           <div class="field"><label>CVC</label><input class="input" inputmode="numeric" placeholder="123"></div>
         </div>
         <div class="grid-2" style="gap:16px">
-          <div class="field"><label>Name on card</label><input class="input" placeholder="Member 01"></div>
+          <div class="field"><label>Name on card</label><input class="input" placeholder="Full name"></div>
           <div class="field"><label>ZIP</label><input class="input" inputmode="numeric" placeholder="72712"></div>
         </div>
         <button class="btn btn-primary" id="paybtn" style="width:100%;margin-top:10px" data-next>Start my membership</button>
@@ -1071,12 +1076,12 @@ PAGES['certificates.html'] = dict(title='The Courses and the Certificate of Comp
             <img src="assets/img/logomark-dark.png" alt="" class="lg-dark"><img src="assets/img/logomark-light.png" alt="" class="lg-light">
           </div>
           <div class="cert-doc-kicker">CERTIFICATE OF COMPLETION &middot; NATIONAL CENTER FOR FATHERING</div>
-          <div class="cert-doc-name">Member 01</div>
+          <div class="cert-doc-name">Your Name</div>
           <div class="cert-doc-course">has completed Fathering Fundamentals</div>
           <div class="cert-doc-meta">10.0 verified instructional hours &middot; June 2, 2026</div>
           <div class="cert-doc-rule"></div>
           <div class="cert-doc-foot">
-            <div><div class="cert-doc-serial">SERIAL FC-2026-004317</div><div class="cert-doc-serial">Identity confirmed at enrollment</div></div>
+            <div><div class="cert-doc-serial">SPECIMEN &middot; SERIAL FC-2026-&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;</div><div class="cert-doc-serial">Identity confirmed at enrollment</div></div>
             <div class="cert-doc-qr">QR</div>
           </div>
         </div>
@@ -1249,7 +1254,7 @@ PAGES['certificates.html'] = dict(title='The Courses and the Certificate of Comp
 ''')
 
 # ================================================== certificate.html (P10 screen 4)
-PAGES['certificate.html'] = dict(title='Certificate FC-2026-004317', desc='Certificate of Completion, National Center for Fathering.', active='Certificates', mode='app', body='''
+PAGES['certificate.html'] = dict(title='Certificate of Completion, specimen', desc='What the Certificate of Completion looks like. Every issued certificate carries a live serial verifiable at fathers.com/verify.', active='Certificates', mode='app', body='''
 <section class="tight" style="padding-top:44px"><div class="container">
   <div class="row wrap" style="margin-bottom:28px;justify-content:center">
     <button class="btn btn-primary btn-sm" data-print>Print or save as PDF</button>
@@ -1260,13 +1265,13 @@ PAGES['certificate.html'] = dict(title='Certificate FC-2026-004317', desc='Certi
     <div class="brassline"></div>
     <div class="row" style="justify-content:center;margin-bottom:26px"><img src="assets/img/logomark-dark.png" alt="Fathers.com" style="height:44px"></div>
     <div class="head">Certificate of Completion &middot; National Center for Fathering</div>
-    <div class="name">Member 01</div>
+    <div class="name">Your Name</div>
     <div class="course">has completed the Fathering Fundamentals Certificate</div>
     <div class="hours">10.0 verified instructional hours &middot; Completed June 2, 2026</div>
     <div class="rule"></div>
     <div class="sealrow">
       <div>
-        <div class="serial">SERIAL FC-2026-004317</div>
+        <div class="serial">SPECIMEN &middot; SERIAL FC-2026-&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;</div>
         <div class="serial" style="margin-top:6px">Identity verified at enrollment</div>
         <div class="serial" style="margin-top:6px">Issued by the National Center for Fathering</div>
         <div class="serial" style="margin-top:14px"><b>Verify at fathers.com/verify</b></div>
@@ -1381,7 +1386,7 @@ PAGES['verify.html'] = dict(title='Verify a credential', desc='Enter a serial. C
     <h1 class="d-36" style="margin-bottom:8px">Verify a certificate</h1>
     <p class="small" style="margin-bottom:28px">Enter the serial printed on the document. Ten seconds, no login.</p>
     <form id="verifyForm" class="row" style="margin-bottom:28px">
-      <input class="input mono" placeholder="FC-2026-004317" aria-label="Certificate serial">
+      <input class="input mono" placeholder="FC-2026-000000" aria-label="Certificate serial">
       <button class="btn btn-primary">Verify</button>
     </form>
     <div id="v-ok" class="card" style="display:none;border-color:var(--pine-hi)">
