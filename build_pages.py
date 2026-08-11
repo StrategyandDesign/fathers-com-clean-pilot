@@ -12,7 +12,7 @@ OG_IMAGE = SITE_URL + "/assets/img/og-image.jpg"
 # changelog.html. Bump BOTH constants on every release, add a CHANGELOG entry
 # below, regenerate, and upload. The stamp is the answer to "what version is
 # live": read any page footer.
-PLATFORM_VERSION = "4.14.1"
+PLATFORM_VERSION = "4.15.0"
 VERSION_DATE = "2026-08-11"
 
 # v4.0 reposition flags (ADR-4: rollout is a data change, not a redesign).
@@ -161,6 +161,14 @@ PAGES = {}
 # Release notes rendered on changelog.html. Newest first. Public copy:
 # POSITIONING.md section 9 language rules apply.
 CHANGELOG = [
+    ("4.15.0", "2026-08-11",
+     "The whole course system stands before the first film. Every course "
+     "carries its full checkpoints and written finals; a session without "
+     "its film shows the placeholder card, links the written session, and "
+     "opens its checkpoint immediately; passing unlocks the next session; "
+     "and the room gains Previous and Next arrows, keyboard included, so "
+     "a man moves back and forward through his sessions freely. When each "
+     "film lands, one import swaps it in and measured time begins."),
     ("4.14.1", "2026-08-11",
      "The Guide reads the way help should: dark text on a white panel at "
      "high contrast, the path shown as an honest eight-step map that only "

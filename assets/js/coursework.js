@@ -54,11 +54,13 @@
   function loadContent(){
     Promise.all([
       FC.sb.from('course_videos').select('*').eq('course_id',course.id).order('ord'),
-      FC.sb.from('video_progress').select('video_id,watched_seconds,completed').eq('user_id',uid)
+      FC.sb.from('video_progress').select('video_id,watched_seconds,completed').eq('user_id',uid),
+      FC.sb.from('checkpoint_passes').select('video_id').eq('user_id',uid)
     ].map(function(p){return p.then(function(r){return r;},function(e){return {error:e};});})).then(function(res){
       if(res[0].error){ stage('<div class="notice brass">Could not load the course right now: '+esc(res[0].error.message)+'. Try again in a moment, or tell your facilitator.</div>'); return; }
       videos = res[0].data || [];
       progress = {}; (res[1].data||[]).forEach(function(p){ progress[p.video_id]=p; });
+      passes = {}; ((res[2]&&res[2].data)||[]).forEach(function(p){ passes[p.video_id]=true; });
       if(!videos.length){
         var sp = SESSIONS_PAGE[slug];
         stage(sp
@@ -71,7 +73,15 @@
   }
 
   // ---------- outline ----------
-  function videoDone(v){ var p=progress[v.id]; return !!(p && p.completed); }
+  function hasFilm(v){ return !!(v.duration_seconds && v.duration_seconds > 0); }
+  // A session with a film is done when the server marks measured playback
+  // complete. A placeholder session (film in production) is done when its
+  // checkpoint is passed; the written session carries the teaching until
+  // the film lands, and no time is ever credited against it.
+  function videoDone(v){
+    if (hasFilm(v)) { var p=progress[v.id]; return !!(p && p.completed); }
+    return !!passes[v.id];
+  }
   function firstUnfinishedIndex(){ for(var i=0;i<videos.length;i++){ if(!videoDone(videos[i])) return i; } return -1; }
   function allVideosDone(){ return firstUnfinishedIndex() === -1; }
 
@@ -122,7 +132,7 @@
   }
 
   // ---------- video + watch tracking ----------
-  var watchTimer=null, watched=0, threshold=0, curVideo=null;
+  var watchTimer=null, watched=0, threshold=0, curVideo=null, passes={};
 
   // Accepts a bare Vimeo ID (e.g. 1198023217), a vimeo.com URL, or a full MP4 URL.
   function vimeoId(ref){
@@ -149,15 +159,24 @@
     } else {
       var liveMode = !!(window.FC && FC.live);
       if(liveMode){
-        var sessLink = SESSIONS_PAGE[slug] ? ' The written session is live: <a class="link" href="'+SESSIONS_PAGE[slug]+'">read it now &rarr;</a>' : '';
-        player = '<div class="cw-novid"><div class="eyebrow brass" style="margin-bottom:10px">Film in production</div><p class="small">The film for this session uploads here when it finishes. Hours are logged only against the real film.'+sessLink+'</p></div>';
+        var sessLink = SESSIONS_PAGE[slug] ? '<a class="btn btn-secondary btn-sm" style="margin-top:12px" href="'+SESSIONS_PAGE[slug]+'" target="_blank" rel="noopener">Read the written session &rarr;</a>' : '';
+        player = '<div class="cw-novid"><div class="eyebrow brass" style="margin-bottom:10px">Film in production</div><p class="small">The film for this session uploads here when it finishes; no time is credited until it does. The written session carries the teaching now: read it, then take the checkpoint below.</p>'+sessLink+'</div>';
       } else {
         player = '<div class="cw-novid"><div class="eyebrow brass" style="margin-bottom:10px">Demo preview</div><p class="small">In production this session plays its film here. Demo mode can simulate the flow.</p><button class="btn btn-secondary btn-sm" id="cw-sim" style="margin-top:12px">Simulate watching (demo)</button></div>';
       }
     }
 
+    var prevOk = i > 0;
+    var nextExists = i + 1 < videos.length;
     stage(
-      '<button class="link ash" id="cw-back" style="margin-bottom:16px">\u2190 All lessons</button>'+
+      '<div class="row between" style="margin-bottom:16px;align-items:center">'+
+        '<button class="link ash" id="cw-back">\u2190 All lessons</button>'+
+        '<div class="row" style="gap:10px">'+
+          '<button class="btn btn-secondary btn-sm" id="cw-prev"'+(prevOk?'':' disabled')+'>\u2190 Previous</button>'+
+          '<button class="btn btn-secondary btn-sm" id="cw-next"'+((nextExists && videoDone(v))?'':' disabled')+
+            (nextExists && !videoDone(v) ? ' title="Finish this session to unlock the next"' : '')+'>Next \u2192</button>'+
+        '</div>'+
+      '</div>'+
       '<div class="eyebrow brass">LESSON '+(i+1)+' OF '+videos.length+'</div>'+
       '<h2 class="cw-lesson-title">'+esc(v.title)+'</h2>'+
       '<div class="cw-video-wrap">'+player+'</div>'+
@@ -166,6 +185,22 @@
       '<div class="cw-video-actions"><button class="btn btn-primary" id="cw-to-debrief" disabled>Continue to Checkpoint</button></div>'
     );
     $('cw-back').addEventListener('click', function(){ stopWatch(); teardownVimeo(); renderOutline(); });
+    function goRel(delta){
+      var t = i + delta;
+      if (t < 0 || t >= videos.length) return;
+      if (delta > 0 && !videoDone(videos[i])) return; // forward only through finished work
+      stopWatch(); teardownVimeo(); openVideo(t);
+    }
+    var pv=$('cw-prev'); if(pv) pv.addEventListener('click', function(){ goRel(-1); });
+    var nx=$('cw-next'); if(nx) nx.addEventListener('click', function(){ goRel(1); });
+    if (window.__cwKeys) document.removeEventListener('keydown', window.__cwKeys);
+    window.__cwKeys = function(e){
+      if (/input|textarea|select/i.test((e.target && e.target.tagName) || '')) return;
+      if (!curVideo) return;
+      if (e.key === 'ArrowLeft') goRel(-1);
+      if (e.key === 'ArrowRight') goRel(1);
+    };
+    document.addEventListener('keydown', window.__cwKeys);
     updateWatchUI();
 
     if (vid) {
@@ -183,7 +218,15 @@
     if (sim){ sim.addEventListener('click', function(){ startWatch(); sim.textContent='Watching\u2026'; sim.disabled=true; }); }
 
     var cont=$('cw-to-debrief');
-    cont.addEventListener('click', function(){ stopWatch(); teardownVimeo(); saveProgress(true); openCheckpoint(); });
+    var filmless = !vid && !!(window.FC && FC.live);
+    if (filmless) {
+      cont.disabled = false;
+      cont.textContent = passes[v.id] ? 'Retake the checkpoint' : 'Take the checkpoint';
+      var wb = root.querySelector('.cw-watch'); if (wb) wb.style.display = 'none';
+      cont.addEventListener('click', function(){ openCheckpoint(); });
+    } else {
+      cont.addEventListener('click', function(){ stopWatch(); teardownVimeo(); saveProgress(true); openCheckpoint(); });
+    }
   }
 
   // ---- Vimeo Player API tracking (loads the SDK once) ----
@@ -296,6 +339,7 @@
         stage('<div class="notice brass">Checkpoint grading runs on the server, and the grading function is not deployed yet. Nothing was recorded; tell your facilitator.</div>');
         return;
       }
+      if (d && d.passed && curVideo && !(curVideo.duration_seconds > 0)) { passes[curVideo.id] = true; }
       finishCheckpoint(d.passed, d.right, d.total);
     }, function(){
       stage('<div class="notice brass">Could not reach the grading server. Nothing was recorded; try again in a moment.</div>');

@@ -1,0 +1,41 @@
+{
+  "slug": "fundamentals",
+  "title": "Fathering Fundamentals",
+  "videos": [
+    { "ord": 1, "title": "Why Presence Wins", "vimeo": "pending", "duration_seconds": 0,
+      "checkpoint": [
+        { "prompt": "What does this course treat as the engine that everything else in fathering rides on?", "choices": ["Providing financially", "Presence: showing up, attention on", "Having the right answers", "Strict discipline"], "correct_index": 1 },
+        { "prompt": "A father is home every evening but on his phone through dinner. By this session's standard, what is he giving his children?", "choices": ["Presence, because he is in the room", "Proximity without presence", "Quality time"], "correct_index": 1 },
+        { "prompt": "What is the practical move this session asks of you first?", "choices": ["Plan a big outing to make up for lost time", "Pick one daily window and put your attention fully on your child in it", "Wait until life is less busy"], "correct_index": 1 }
+      ] },
+    { "ord": 2, "title": "A Schedule They Can Trust", "vimeo": "pending", "duration_seconds": 0,
+      "checkpoint": [
+        { "prompt": "In this session, what does the calendar function as?", "choices": ["A productivity tool", "A promise your children can watch you keep", "A record for your own reference"], "correct_index": 1 },
+        { "prompt": "Which builds a child's trust fastest, according to the session?", "choices": ["Occasional big surprises", "A standing time that happens when you said it would, week after week", "Explaining why you were busy"], "correct_index": 1 },
+        { "prompt": "You have to miss a standing time. What is the move?", "choices": ["Skip it quietly; children forget", "Tell them ahead, name the new time, and keep the new time", "Make it up with a gift"], "correct_index": 1 }
+      ] },
+    { "ord": 3, "title": "Enter Their World", "vimeo": "pending", "duration_seconds": 0,
+      "checkpoint": [
+        { "prompt": "What does awareness look like in practice in this session?", "choices": ["Monitoring their grades closely", "Knowing their friends' names and their inner weather", "Checking their phone"], "correct_index": 1 },
+        { "prompt": "Your child shares a problem. The session's counsel is to lead with what?", "choices": ["A fix, quickly, so they feel helped", "Questions, without fixing", "A story about your own childhood"], "correct_index": 1 },
+        { "prompt": "Why do questions beat fixes when a child opens up?", "choices": ["Questions keep the door open and tell the child their world is worth entering", "Questions save time", "Fixes are usually wrong"], "correct_index": 0 }
+      ] },
+    { "ord": 4, "title": "Repair Fast, Stand for Something", "vimeo": "pending", "duration_seconds": 0,
+      "checkpoint": [
+        { "prompt": "What is the repair standard this session sets after a blowup or a broken word?", "choices": ["Let time smooth it over", "Own it out loud within twenty-four hours", "Wait for the child to bring it up"], "correct_index": 1 },
+        { "prompt": "What makes discipline build a child instead of frighten one?", "choices": ["Making consequences bigger each time", "Values said out loud in calm hours, so correction connects to something known", "Keeping the rules unstated so they stay flexible"], "correct_index": 1 },
+        { "prompt": "A real repair, per this session, sounds most like which of these?", "choices": ["I was wrong to yell. That is not how I want to speak to you.", "You know I love you, right?", "Let's just forget about last night."], "correct_index": 0 }
+      ] },
+    { "ord": 5, "title": "Your Own Father, Your Ninety Days", "vimeo": "pending", "duration_seconds": 0,
+      "checkpoint": [
+        { "prompt": "Why does this course end by looking at the fathering you received?", "choices": ["To assign blame accurately", "Because every man fathers out of an inheritance, and seeing it clearly is how you choose what continues", "Because history repeats no matter what"], "correct_index": 1 },
+        { "prompt": "Why does no man hold a standard alone in this course?", "choices": ["Standards spoken to another man hold better under load than private vows", "Accountability is a program requirement", "Other men have better answers"], "correct_index": 0 },
+        { "prompt": "What does locking your ninety-day plan mean here?", "choices": ["The plan can never change", "You commit to a written plan with one first target and a retake of your baseline at the end", "You memorize the course material"], "correct_index": 1 }
+      ] }
+  ],
+  "final_qa": [
+    { "prompt": "Name your one daily presence window: when it is, and what you put down to be in it. Then describe one evening this course changed how you showed up in it." },
+    { "prompt": "Write the repair you owe or recently made: what happened, what you said or will say out loud, and what you want your child to know about how you handle being wrong." },
+    { "prompt": "From the fathering you received: name one thing you are keeping on purpose, one thing that stops with you, and the first target of your ninety-day plan." }
+  ]
+}

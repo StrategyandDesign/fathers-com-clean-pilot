@@ -44,7 +44,11 @@ serve(async (req) => {
   const passBy = new Map((passes ?? []).map((p: { video_id: string }) => [p.video_id, p]));
   for (const v of vids ?? []) {
     const p = progBy.get(v.id) as { completed?: boolean } | undefined;
-    if (!p?.completed) gaps.push(`Finish session ${v.ord}: ${v.title}`);
+    const hasFilm = typeof v.duration_seconds === "number" && v.duration_seconds > 0;
+    // A session with a film requires server-measured completion. A placeholder
+    // session (film in production) has no time to measure; its checkpoint and
+    // the written session carry the requirement until the film lands.
+    if (hasFilm && !p?.completed) gaps.push(`Finish session ${v.ord}: ${v.title}`);
     if (!passBy.get(v.id)) gaps.push(`Pass the checkpoint for session ${v.ord}: ${v.title}`);
   }
 

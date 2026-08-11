@@ -1,0 +1,47 @@
+{
+  "slug": "manhood",
+  "title": "The Man Before You",
+  "videos": [
+    { "ord": 1, "title": "The Man Before You", "vimeo": "pending", "duration_seconds": 0,
+      "checkpoint": [
+        { "prompt": "What is the first act of choosing, per this session?", "choices": ["Deciding what kind of father you will be", "Seeing clearly what you were given: kept, missing, harmful, without a verdict on the man", "Forgiving everything"], "correct_index": 1 },
+        { "prompt": "Every man fathers out of what, in this session's frame?", "choices": ["His instincts", "An inheritance, received or resisted", "His circumstances"], "correct_index": 1 },
+        { "prompt": "Why map the inheritance without a verdict on the man who gave it?", "choices": ["Because verdicts keep you arguing with the past instead of choosing your carry", "Because the man was probably right", "Because feelings do not belong in the work"], "correct_index": 0 }
+      ] },
+    { "ord": 2, "title": "The Account", "vimeo": "pending", "duration_seconds": 0,
+      "checkpoint": [
+        { "prompt": "What is the core distinction this session draws?", "choices": ["Forgiving versus forgetting", "Resolving a history versus reopening a relationship; the first never requires the second", "Writing versus speaking"], "correct_index": 1 },
+        { "prompt": "Where the father is unsafe, unwilling, or gone, the account is settled how?", "choices": ["It cannot be settled", "Entirely on paper", "Through another family member"], "correct_index": 1 },
+        { "prompt": "What does the letter accomplish even if never sent?", "choices": ["It closes the open loop enough to stop living against it or from inside it", "It creates a record for others", "Nothing, unless he reads it"], "correct_index": 0 }
+      ] },
+    { "ord": 3, "title": "What Stops With Me", "vimeo": "pending", "duration_seconds": 0,
+      "checkpoint": [
+        { "prompt": "How does the line break, per this session?", "choices": ["By accident, under pressure", "On purpose, out loud", "Slowly, without anyone deciding"], "correct_index": 1 },
+        { "prompt": "Why speak the line to another man instead of keeping a private vow?", "choices": ["A stated line, witnessed, holds better under load than a private vow", "So he can enforce it", "Tradition"], "correct_index": 0 },
+        { "prompt": "The line has two columns. What are they?", "choices": ["Right and wrong", "Stops with me, and continues through me", "His fault and mine"], "correct_index": 1 }
+      ] },
+    { "ord": 4, "title": "The Younger Man", "vimeo": "pending", "duration_seconds": 0,
+      "checkpoint": [
+        { "prompt": "What is the fastest way to train fathering before fatherhood, per this session?", "choices": ["Reading about child development", "Practicing on the younger man already in your life", "Waiting until children come"], "correct_index": 1 },
+        { "prompt": "What is catch-and-return, as trained here?", "choices": ["A sport drill", "Meeting a younger man's bid for attention and returning it with interest, a question for his answer", "Correcting his mistakes quickly"], "correct_index": 1 },
+        { "prompt": "What does this session ask you to leave with?", "choices": ["A general intention to mentor someday", "One named man you are deliberately investing in", "A schedule of lessons to teach him"], "correct_index": 1 }
+      ] },
+    { "ord": 5, "title": "The Household You Are Building", "vimeo": "pending", "duration_seconds": 0,
+      "checkpoint": [
+        { "prompt": "When does the household begin, per this session?", "choices": ["When someone moves in", "Before anyone moves in; it begins with your word holding", "When children come"], "correct_index": 1 },
+        { "prompt": "What beats a declaration, in this session's economy of trust?", "choices": ["A track record", "A bigger declaration", "An explanation of intent"], "correct_index": 0 },
+        { "prompt": "Which is this session's kind of promise?", "choices": ["A vow about the next decade", "A call at the promised time, kept, week after week", "A promise made privately to yourself"], "correct_index": 1 }
+      ] },
+    { "ord": 6, "title": "The Long Line", "vimeo": "pending", "duration_seconds": 0,
+      "checkpoint": [
+        { "prompt": "What does the line holding actually look like, per this session's closing scene?", "choices": ["A dramatic turning point", "An ordinary Tuesday where the calls happen, the question gets asked, and the tested pattern does not repeat", "Public recognition"], "correct_index": 1 },
+        { "prompt": "What does the line plan contain?", "choices": ["The account settled, the line stated, the younger man named, the promises running, and an accountability partner", "A list of goals for the year", "The course notes, summarized"], "correct_index": 0 },
+        { "prompt": "Who is in the line, per this course's final frame?", "choices": ["Fathers only", "You, already, whether or not children ever come", "Men who finish the course"], "correct_index": 1 }
+      ] }
+  ],
+  "final_qa": [
+    { "prompt": "From your inheritance map: name one thing you received that you are keeping on purpose, one that stops with you, and where each showed up in your conduct this month." },
+    { "prompt": "Describe the state of your account: written or in progress, sent or unsent, and what settling it on paper has changed in how you carry it. Contact decisions are yours alone and belong here only if you chose one." },
+    { "prompt": "Name your younger man and your accountability partner, the promises currently running to each, and your record of keeping them." }
+  ]
+}

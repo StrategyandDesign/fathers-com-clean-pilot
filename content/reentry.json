@@ -1,0 +1,59 @@
+{
+  "slug": "reentry",
+  "title": "Coming Home Present",
+  "videos": [
+    { "ord": 1, "title": "The Body You Bring Home", "vimeo": "pending", "duration_seconds": 0,
+      "checkpoint": [
+        { "prompt": "The session says your body did its job where you were. What is the work now?", "choices": ["Forgetting that time completely", "Teaching your body that home is not there", "Staying on guard, since habits keep you safe"], "correct_index": 1 },
+        { "prompt": "A loud noise at home spikes you to full alert. What does this session call that?", "choices": ["A character flaw", "A trained response firing where it is no longer needed", "Proof you are not ready"], "correct_index": 1 },
+        { "prompt": "What is the daily practice this session gives you?", "choices": ["Avoiding stressful rooms", "A slow exhale practice that tells your body the threat level here", "Pushing through and ignoring the surge"], "correct_index": 1 }
+      ] },
+    { "ord": 2, "title": "The First Weeks", "vimeo": "pending", "duration_seconds": 0,
+      "checkpoint": [
+        { "prompt": "How does this session tell you to treat the emotional wave of the first weeks?", "choices": ["Plan around it; do not grade yourself by it", "Fight it until it passes", "Take it as the truth about how the return is going"], "correct_index": 0 },
+        { "prompt": "Which plan fits the first weeks, per this session?", "choices": ["Pack the calendar to make up for lost time", "Few commitments, kept without fail", "Wait to commit to anything until you feel settled"], "correct_index": 1 },
+        { "prompt": "A hard day in week two means what?", "choices": ["The return is failing", "You are on the wave the session told you to expect", "You need to try harder tomorrow to prove it"], "correct_index": 1 }
+      ] },
+    { "ord": 3, "title": "The Child Who Grew", "vimeo": "pending", "duration_seconds": 0,
+      "checkpoint": [
+        { "prompt": "Who does this session tell you to get to know?", "choices": ["The child you remember", "The child in front of you now", "The child you hoped they would become"], "correct_index": 1 },
+        { "prompt": "Your child's interests changed completely while you were away. The session's move is what?", "choices": ["Steer them back to what you shared before", "Learn the new world with questions, from the start", "Give it time and let them come to you"], "correct_index": 1 },
+        { "prompt": "Why do questions matter so much at this stage?", "choices": ["They show the child you are studying who they actually are now", "They fill awkward silence", "They test what the child remembers about you"], "correct_index": 0 }
+      ] },
+    { "ord": 4, "title": "Small Deposits", "vimeo": "pending", "duration_seconds": 0,
+      "checkpoint": [
+        { "prompt": "What beats what, in this session's rule for rebuilding trust?", "choices": ["Big and rare beats small and often", "Small and often beats big and rare", "Words beat actions early on"], "correct_index": 1 },
+        { "prompt": "Which is a deposit, as this session means it?", "choices": ["A ten-minute call that happens exactly when you said", "A large gift on a birthday", "A promise about next year"], "correct_index": 0 },
+        { "prompt": "Why do small deposits work on a child's trust?", "choices": ["Children prefer small things", "Each kept promise is evidence, and evidence stacks", "They cost less"], "correct_index": 1 }
+      ] },
+    { "ord": 5, "title": "When It Breaks", "vimeo": "pending", "duration_seconds": 0,
+      "checkpoint": [
+        { "prompt": "How does this session treat rupture between you and your child?", "choices": ["As normal, with repair as the skill", "As rare if you are careful", "As proof the return came too soon"], "correct_index": 0 },
+        { "prompt": "You snapped at your child last night. The session's next step is what?", "choices": ["Give them space for a few days", "Own it out loud, briefly and without excuses, and say what you will do differently", "Do something fun together and move on"], "correct_index": 1 },
+        { "prompt": "What does a child learn from watching you repair?", "choices": ["That you are unreliable", "That being wrong can be handled honestly, which is itself the teaching", "That they can get away with things too"], "correct_index": 1 }
+      ] },
+    { "ord": 6, "title": "Keeping Your Word at a Distance", "vimeo": "pending", "duration_seconds": 0,
+      "checkpoint": [
+        { "prompt": "Why does a kept promise count double from far away, per this session?", "choices": ["Distance makes promises harder to check", "Distance strips everything but the promise itself, so keeping it is pure evidence", "Children expect less from far away"], "correct_index": 1 },
+        { "prompt": "Which promise should you make at a distance?", "choices": ["The biggest one you can, to show intent", "Only one you can keep from where you actually are", "None, until you are closer"], "correct_index": 1 },
+        { "prompt": "You promised a call at seven and something came up at work. What is the move?", "choices": ["Call the next day and explain", "Call at seven even for two minutes, or renegotiate before seven, never after", "Text instead"], "correct_index": 1 }
+      ] },
+    { "ord": 7, "title": "The Reunion Day", "vimeo": "pending", "duration_seconds": 0,
+      "checkpoint": [
+        { "prompt": "What does this session have you build before the day comes?", "choices": ["A speech about the future", "A first-hour plan, rehearsed", "A list of questions for the child"], "correct_index": 1 },
+        { "prompt": "If the child pulls away on reunion day, the session says that is what?", "choices": ["The answer", "The start, not the answer", "A sign to give the plan up"], "correct_index": 1 },
+        { "prompt": "Which first hour fits this session's counsel?", "choices": ["Low pressure, an ordinary shared activity, exits allowed", "A big celebration with everyone there", "A serious talk about everything that happened"], "correct_index": 0 }
+      ] },
+    { "ord": 8, "title": "The Long Return", "vimeo": "pending", "duration_seconds": 0,
+      "checkpoint": [
+        { "prompt": "What is the return, in this course's final frame?", "choices": ["A day you get right or wrong", "A season you work, deposit by deposit", "A test the child administers"], "correct_index": 1 },
+        { "prompt": "What carries the return through month three and beyond?", "choices": ["The emotion of the reunion", "The routines: standing times, kept promises, fast repairs", "The child's forgiveness"], "correct_index": 1 },
+        { "prompt": "When the old pattern gets tested and you hold, what does the session call that?", "choices": ["Luck", "The line holding, which is what change looks like from inside", "A sign the work is finished"], "correct_index": 1 }
+      ] }
+  ],
+  "final_qa": [
+    { "prompt": "Describe your body's alarm firing at home since you started this course: the trigger, what the old response would have been, and what you did instead." },
+    { "prompt": "List the small deposits you have running right now: what you promised, to which child, and your record of keeping each one. What is the next deposit you will add?" },
+    { "prompt": "Write your first-hour plan for the reunion, or describe how the first hour actually went: the setting, your opening move, and your plan if the child pulls away." }
+  ]
+}

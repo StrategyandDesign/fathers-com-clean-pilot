@@ -2,7 +2,12 @@
 """Content importer (AUDIT-V41 WP-J): one JSON per course -> live course.
 
 Usage:
-  SUPABASE_URL=... SUPABASE_SERVICE_ROLE_KEY=... python3 tools/import_content.py content/coming-home-present.json [--create]
+  SUPABASE_URL=... SUPABASE_SERVICE_ROLE_KEY=... python3 tools/import_content.py content/<course>.json [--create] [--allow-placeholders] [--check]
+
+  --check              validate only; touches nothing, needs no keys
+  --allow-placeholders accept duration_seconds 0 and vimeo "pending" for
+                       staging the full flow before films land; checkpoints
+                       and finals are still required in full
 
 Validates hard, then upserts certificate_courses, course_videos,
 quiz_questions, and final_qa_questions via the service key from env.
@@ -18,7 +23,7 @@ BANNED = ["verified instructional hours", "verified hours", "temper, trained",
 def die(msg):
     print(f"FAIL: {msg}"); sys.exit(1)
 
-def validate(doc, path):
+def validate(doc, path, allow_placeholders=False):
     errs = []
     if not doc.get("slug"): errs.append("slug missing")
     if not doc.get("title"): errs.append("title missing")
@@ -28,9 +33,14 @@ def validate(doc, path):
     for i, v in enumerate(vids, 1):
         where = f"videos[{i}]"
         d = v.get("duration_seconds")
-        if not isinstance(d, (int, float)) or d <= 0:
-            errs.append(f"{where}: duration_seconds must be present and > 0 (no film, no row)")
-        if not v.get("vimeo"): errs.append(f"{where}: vimeo ref missing")
+        if allow_placeholders:
+            if not isinstance(d, (int, float)) or d < 0:
+                errs.append(f"{where}: duration_seconds must be a number (0 allowed with --allow-placeholders)")
+        else:
+            if not isinstance(d, (int, float)) or d <= 0:
+                errs.append(f"{where}: duration_seconds must be present and > 0 (no film, no row; stage with --allow-placeholders)")
+            if not v.get("vimeo") or str(v.get("vimeo")) == "pending":
+                errs.append(f"{where}: vimeo ref missing")
         if v.get("ord") in ords: errs.append(f"{where}: duplicate ord {v.get('ord')}")
         ords.add(v.get("ord"))
         cps = v.get("checkpoint") or []
@@ -65,10 +75,15 @@ def rest(url, key, method, path, body=None, prefer=None):
 def main():
     if len(sys.argv) < 2: die("usage: import_content.py content/<course>.json [--create]")
     path = sys.argv[1]; create = "--create" in sys.argv
+    allow_placeholders = "--allow-placeholders" in sys.argv
+    check_only = "--check" in sys.argv
+    doc = json.load(open(path))
+    validate(doc, path, allow_placeholders)
+    if check_only:
+        print(f"OK: {path} validates ({len(doc['videos'])} videos, {sum(len(v.get('checkpoint') or []) for v in doc['videos'])} checkpoint questions, {len(doc['final_qa'])} final prompts)")
+        return
     url = os.environ.get("SUPABASE_URL"); key = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
     if not url or not key: die("SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY must be set in env")
-    doc = json.load(open(path))
-    validate(doc, path)
     slug = doc["slug"]
     rows = rest(url, key, "GET", f"certificate_courses?slug=eq.{slug}&select=id,slug")
     if not rows and not create: die(f"course slug {slug} not found; pass --create to create it")
@@ -78,7 +93,7 @@ def main():
     for v in doc["videos"]:
         vid = rest(url, key, "POST", "course_videos?on_conflict=course_id,ord",
                    [{"course_id": course_id, "ord": v["ord"], "title": v["title"],
-                     "vimeo_ref": str(v["vimeo"]), "duration_seconds": v["duration_seconds"]}],
+                     "vimeo_ref": str(v.get("vimeo") or "pending"), "duration_seconds": v["duration_seconds"]}],
                    prefer="resolution=merge-duplicates,return=representation")[0]
         for j, q in enumerate(v.get("checkpoint") or [], 1):
             rest(url, key, "POST", "quiz_questions?on_conflict=video_id,ord",
