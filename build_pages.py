@@ -12,7 +12,7 @@ OG_IMAGE = SITE_URL + "/assets/img/og-image.jpg"
 # changelog.html. Bump BOTH constants on every release, add a CHANGELOG entry
 # below, regenerate, and upload. The stamp is the answer to "what version is
 # live": read any page footer.
-PLATFORM_VERSION = "4.13.0"
+PLATFORM_VERSION = "4.13.1"
 VERSION_DATE = "2026-08-11"
 
 # v4.0 reposition flags (ADR-4: rollout is a data change, not a redesign).
@@ -160,6 +160,9 @@ PAGES = {}
 # Release notes rendered on changelog.html. Newest first. Public copy:
 # POSITIONING.md section 9 language rules apply.
 CHANGELOG = [
+    ("4.13.1", "2026-08-11",
+     "Every server function is a single self-contained file, so it "
+     "deploys from the dashboard editor as pasted."),
     ("4.13.0", "2026-08-11",
      "Launch hardening. The review engine ships as a real file the page "
      "actually loads; every certificate now carries a name the "

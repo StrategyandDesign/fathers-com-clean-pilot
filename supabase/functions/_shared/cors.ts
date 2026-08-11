@@ -1,3 +1,5 @@
+// Reference only: every function inlines these helpers so it can be
+// pasted whole into the dashboard editor. Keep the two in sync if edited.
 // Shared CORS scaffolding for every Fathers.com Edge Function (WP-B).
 export const corsHeaders = {
   "Access-Control-Allow-Origin": "*", // tighten to deployment origins at cutover
