@@ -13,6 +13,8 @@
 
   var demo = !(window.FC && FC.live);
   var slug = (new URLSearchParams(location.search).get('cert') || 'fundamentals').toLowerCase();
+  // Written sessions live on the platform while films are in production.
+  var SESSIONS_PAGE = {reentry:'course-coming-home-present.html', anger:'course-steady-under-pressure.html', coparenting:'course-same-team.html', manhood:'course-the-man-before-you.html'};
   var uid=null, course=null, videos=[], progress={}, awardStatus=null;
 
   // ---------- boot ----------
@@ -54,10 +56,16 @@
       FC.sb.from('course_videos').select('*').eq('course_id',course.id).order('ord'),
       FC.sb.from('video_progress').select('video_id,watched_seconds,completed').eq('user_id',uid)
     ].map(function(p){return p.then(function(r){return r;},function(e){return {error:e};});})).then(function(res){
-      if(res[0].error){ stage('<div class="notice brass">Could not load videos: '+esc(res[0].error.message)+'. If this mentions a missing table, run certificate_accountability.sql.</div>'); return; }
+      if(res[0].error){ stage('<div class="notice brass">Could not load the course right now: '+esc(res[0].error.message)+'. Try again in a moment, or tell your facilitator.</div>'); return; }
       videos = res[0].data || [];
       progress = {}; (res[1].data||[]).forEach(function(p){ progress[p.video_id]=p; });
-      if(!videos.length){ stage('<div class="notice brass">This certificate has no lessons yet. An admin adds them in the Certificates tab.</div>'); return; }
+      if(!videos.length){
+        var sp = SESSIONS_PAGE[slug];
+        stage(sp
+          ? '<div class="notice brass">The films for this course are in production and upload as they finish. Every written session is live now: <a class="link" href="' + sp + '">read the sessions &rarr;</a></div>'
+          : '<div class="notice brass">The films for this course are in production and upload as they finish.</div>');
+        return;
+      }
       renderOutline();
     });
   }
@@ -142,7 +150,13 @@
     } else if (isMp4) {
       player = '<video id="cw-video" controls playsinline preload="metadata" style="width:100%;border-radius:12px;background:#000" src="'+esc(ref)+'"></video>';
     } else {
-      player = '<div class="cw-novid"><div class="eyebrow brass" style="margin-bottom:10px">No video set</div><p class="small">An admin adds the Vimeo link or ID in the Certificates tab. For now you can simulate watching to preview the flow.</p><button class="btn btn-secondary btn-sm" id="cw-sim" style="margin-top:12px">Simulate watching</button></div>';
+      var liveMode = !!(window.FC && FC.live);
+      if(liveMode){
+        var sessLink = SESSIONS_PAGE[slug] ? ' The written session is live: <a class="link" href="'+SESSIONS_PAGE[slug]+'">read it now &rarr;</a>' : '';
+        player = '<div class="cw-novid"><div class="eyebrow brass" style="margin-bottom:10px">Film in production</div><p class="small">The film for this session uploads here when it finishes. Hours are logged only against the real film.'+sessLink+'</p></div>';
+      } else {
+        player = '<div class="cw-novid"><div class="eyebrow brass" style="margin-bottom:10px">Demo preview</div><p class="small">In production this session plays its film here. Demo mode can simulate the flow.</p><button class="btn btn-secondary btn-sm" id="cw-sim" style="margin-top:12px">Simulate watching (demo)</button></div>';
+      }
     }
 
     stage(

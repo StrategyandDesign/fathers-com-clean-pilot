@@ -12,7 +12,7 @@ OG_IMAGE = SITE_URL + "/assets/img/og-image.jpg"
 # changelog.html. Bump BOTH constants on every release, add a CHANGELOG entry
 # below, regenerate, and upload. The stamp is the answer to "what version is
 # live": read any page footer.
-PLATFORM_VERSION = "4.11.6"
+PLATFORM_VERSION = "4.11.9"
 VERSION_DATE = "2026-08-11"
 
 # v4.0 reposition flags (ADR-4: rollout is a data change, not a redesign).
@@ -154,6 +154,22 @@ PAGES = {}
 # Release notes rendered on changelog.html. Newest first. Public copy:
 # POSITIONING.md section 9 language rules apply.
 CHANGELOG = [
+    ("4.11.9", "2026-08-11",
+     "Two dead ends healed and one integrity gate added. Enrolling in any "
+     "course works again: the retired waitlist branch that blanked the "
+     "enroll page is gone. A course whose films are in production points "
+     "an enrolled man to his live written sessions instead of an empty "
+     "room. And hours can only be logged against a real film: the demo "
+     "simulate control no longer exists in live mode."),
+    ("4.11.8", "2026-08-11",
+     "The signed-in catalog tells the same truth as the page: correct "
+     "hours, session counts, an honest status pill, and no course ever "
+     "drops out while the database catches up."),
+    ("4.11.7", "2026-08-11",
+     "The homepage measure and start-free sections are redesigned: one "
+     "primary action instead of two competing buttons, a four-step line "
+     "that shows the whole system at a glance, an honest sample label on "
+     "the score card, and a cleaner ledger of what free includes."),
     ("4.11.6", "2026-08-11",
      "The flagship course states its audience like the rest of the slate."),
     ("4.11.5", "2026-08-11",
@@ -336,12 +352,18 @@ PAGES['index.html'] = dict(title='Know where you stand', desc='Take the free Key
   </div>
 </div></header>
 
-<section class="band"><div class="container split">
+<section class="band"><div class="container split" style="align-items:center">
   <div>
     <div class="eyebrow" style="margin-bottom:14px">MEASURE &middot; YOUR BASELINE</div>
     <h2 class="d-36">Four things decide the kind of father you are.</h2>
     <p style="color:var(--ash);margin:18px 0 28px;max-width:52ch">Involvement. Consistency. Awareness. Nurturance. The Keystone Father Profile measures all four, normed against thousands of fathers. You get a score, an honest read on where you stand, and a ninety-day plan built from your gaps. Free, before you pay for anything.</p>
-    <a class="btn btn-yellow" href="profile.html">Start your Profile</a>
+    <div style="display:flex;flex-wrap:wrap;border-top:1px solid rgba(127,127,127,.25)">
+      <div style="flex:1 1 46%;min-width:150px;padding:14px 18px 14px 0;border-bottom:1px solid rgba(127,127,127,.25)"><div class="fine mono" style="letter-spacing:.1em;color:var(--ash)">01</div><div class="small" style="margin-top:4px"><b>Measure</b></div><div class="fine" style="color:var(--ash);margin-top:2px">Your baseline, in one sitting.</div></div>
+      <div style="flex:1 1 46%;min-width:150px;padding:14px 18px 14px 0;border-bottom:1px solid rgba(127,127,127,.25)"><div class="fine mono" style="letter-spacing:.1em;color:var(--ash)">02</div><div class="small" style="margin-top:4px"><b>Plan</b></div><div class="fine" style="color:var(--ash);margin-top:2px">Ninety days, built from your gaps.</div></div>
+      <div style="flex:1 1 46%;min-width:150px;padding:14px 18px 14px 0;border-bottom:1px solid rgba(127,127,127,.25)"><div class="fine mono" style="letter-spacing:.1em;color:var(--ash)">03</div><div class="small" style="margin-top:4px"><b>Train</b></div><div class="fine" style="color:var(--ash);margin-top:2px">Cohorts led by men who lived it.</div></div>
+      <div style="flex:1 1 46%;min-width:150px;padding:14px 18px 14px 0;border-bottom:1px solid rgba(127,127,127,.25)"><div class="fine mono" style="letter-spacing:.1em;color:var(--ash)">04</div><div class="small" style="margin-top:4px"><b>Verify</b></div><div class="fine" style="color:var(--ash);margin-top:2px">Hours logged. A serial anyone can check.</div></div>
+    </div>
+    <a class="link" href="profile.html" style="display:inline-block;margin-top:20px">Start your Profile &rarr;</a>
   </div>
   <div class="card" style="padding:32px">
     <div class="eyebrow" style="margin-bottom:16px">THE FOUR DIMENSIONS</div>
@@ -350,23 +372,25 @@ PAGES['index.html'] = dict(title='Know where you stand', desc='Take the free Key
     <div class="domain gap"><div class="row1"><span>Consistency</span><span class="score">55</span></div><div class="bar"><span style="width:55%"></span></div></div>
     <div class="domain"><div class="row1"><span>Awareness</span><span class="score">74</span></div><div class="bar"><span style="width:74%"></span></div></div>
     <div class="domain" style="margin-bottom:0"><div class="row1"><span>Nurturance</span><span class="score">77</span></div><div class="bar"><span style="width:77%"></span></div></div>
+    <p class="fine" style="color:var(--ash);margin:20px 0 0">A sample baseline, for illustration. Your numbers will be your own.</p>
   </div>
 </div></section>
 
-<section class="band tight" id="start-free"><div class="container split" style="align-items:start">
+<section class="band tight" id="start-free"><div class="container split" style="align-items:center">
   <div>
     <div class="eyebrow" style="margin-bottom:12px">START FREE</div>
-    <h2 style="font-family:var(--font-ui);font-weight:600;font-size:22px;margin-bottom:22px">Start free. Grow on a plan.</h2>
-    <div class="row wrap"><a class="btn btn-yellow" href="profile.html">Start your Profile</a><a class="btn btn-secondary" href="sponsor.html">Sponsor a man</a></div>
-    <p class="fine" style="margin-top:12px">Every course is free to the man who takes it. Sponsorship funds seats and materials inside certified programs: a facilitator-led cohort with verified hours and a final, not a self-serve video. The completion is still his to earn.</p>
+    <h2 class="d-28" style="margin-bottom:14px">Start free. Grow on a plan.</h2>
+    <p class="fine" style="color:var(--ash);max-width:46ch;margin-bottom:24px">Every course is free to the man who takes it. Sponsorship funds seats and materials inside certified programs: a facilitator-led cohort with verified hours and a final, not a self-serve video. The completion is still his to earn.</p>
+    <div class="row wrap" style="align-items:center;gap:18px"><a class="btn btn-yellow" href="profile.html">Start your Profile</a><a class="link" href="sponsor.html">Or sponsor a man &rarr;</a></div>
   </div>
-  <div class="stack-16">
-    <div class="check"><span class="checkmark">&check;</span><span>Your Keystone Profile and ninety-day plan, free</span></div>
-    <div class="check"><span class="checkmark">&check;</span><span>Dr. Canfield's Fundamentals of Fathering, free</span></div>
-    <div class="check"><span class="checkmark">&check;</span><span>Classes taught by fathers who lived it</span></div>
-    <div class="check"><span class="checkmark">&check;</span><span>A Certificate of Completion when you finish the work, at no cost</span></div>
-    <div class="check"><span class="checkmark">&check;</span><span>Full class library membership, optional</span></div>
-    <div class="check"><span class="checkmark">&check;</span><span>30-day money-back guarantee on anything paid</span></div>
+  <div>
+    <div class="fine mono" style="letter-spacing:.08em;margin-bottom:4px;color:var(--ash)">WHAT FREE INCLUDES</div>
+    <div style="display:flex;gap:14px;align-items:baseline;padding:13px 0;border-top:1px solid rgba(127,127,127,.25)"><span class="fine mono" style="color:var(--ash);min-width:22px">01</span><span class="small">Your Keystone Profile and ninety-day plan</span></div>
+    <div style="display:flex;gap:14px;align-items:baseline;padding:13px 0;border-top:1px solid rgba(127,127,127,.25)"><span class="fine mono" style="color:var(--ash);min-width:22px">02</span><span class="small">Dr. Canfield&rsquo;s Fundamentals of Fathering</span></div>
+    <div style="display:flex;gap:14px;align-items:baseline;padding:13px 0;border-top:1px solid rgba(127,127,127,.25)"><span class="fine mono" style="color:var(--ash);min-width:22px">03</span><span class="small">Classes taught by fathers who lived it</span></div>
+    <div style="display:flex;gap:14px;align-items:baseline;padding:13px 0;border-top:1px solid rgba(127,127,127,.25)"><span class="fine mono" style="color:var(--ash);min-width:22px">04</span><span class="small">A Certificate of Completion when you finish the work, at no cost</span></div>
+    <div style="display:flex;gap:14px;align-items:baseline;padding:13px 0;border-top:1px solid rgba(127,127,127,.25)"><span class="fine mono" style="color:var(--ash);min-width:22px">05</span><span class="small">Full class library membership, optional</span></div>
+    <div style="display:flex;gap:14px;align-items:baseline;padding:13px 0;border-top:1px solid rgba(127,127,127,.25);border-bottom:1px solid rgba(127,127,127,.25)"><span class="fine mono" style="color:var(--ash);min-width:22px">06</span><span class="small">30-day money-back guarantee on anything paid</span></div>
   </div>
 </div></section>
 

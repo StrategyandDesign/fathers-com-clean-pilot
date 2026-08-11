@@ -15,14 +15,9 @@
   // Enrollment requires an active claim; the server-side checkout function is
   // the authority on both the claim and the enrollment.
 
-  var DEV = { steady:'Steady Under Pressure', reentry:'Coming Home Present' };
-  if(DEV[slug]){
-    var ep0=$('enrollPanel'), wp=$('waitlistPanel');
-    if(ep0) ep0.style.display='none';
-    if(wp){ wp.hidden=false; setText('wlTitle', DEV[slug]); var t=$('wlTrack'); if(t) t.value=DEV[slug]; }
-    document.title = DEV[slug] + ' | Waitlist | Fathers.com';
-    return;
-  }
+  // v4.11: every course in the slate is live. The development-era branch that
+  // routed some slugs to a waitlist panel is gone with the panel itself; every
+  // slug flows through the one real enrollment path below.
 
   setText('certTitle', title);
   setText('certTitleSum', title);
