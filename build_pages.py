@@ -12,8 +12,8 @@ OG_IMAGE = SITE_URL + "/assets/img/og-image.jpg"
 # changelog.html. Bump BOTH constants on every release, add a CHANGELOG entry
 # below, regenerate, and upload. The stamp is the answer to "what version is
 # live": read any page footer.
-PLATFORM_VERSION = "4.11.0"
-VERSION_DATE = "2026-08-10"
+PLATFORM_VERSION = "4.11.1"
+VERSION_DATE = "2026-08-11"
 
 # v4.0 reposition flags (ADR-4: rollout is a data change, not a redesign).
 # SHOW_MILITARY dark-launches the entire veteran surface: pages are not generated,
@@ -147,6 +147,10 @@ PAGES = {}
 # Release notes rendered on changelog.html. Newest first. Public copy:
 # POSITIONING.md section 9 language rules apply.
 CHANGELOG = [
+    ("4.11.1", "2026-08-11",
+     "Waitlists retire. Every course is live in written sessions, the course "
+     "detail points straight to them, and the films arrive on their own "
+     "schedule."),
     ("4.11.0", "2026-08-11",
      "All three certificate courses publish their complete written sessions: "
      "Coming Home Present in eight, Steady Under Pressure in six, Same Team in "
@@ -1159,16 +1163,6 @@ PAGES['certificates.html'] = dict(title='The Courses and the Certificate of Comp
     </div>
       </div>
 
-<section class="tight" id="waitlist"><div class="container" style="max-width:640px">
-  <div class="eyebrow" style="margin-bottom:12px">THE NEXT COURSES</div>
-  <h2 class="d-28" style="margin-bottom:8px">Two courses in development. Get in the first cohort.</h2>
-  <p class="small" style="color:var(--ash);margin-bottom:18px">Steady Under Pressure and Coming Home Present are being built now. Waitlist members hear first, train first, and shape the curriculum.</p>
-  <form class="row wrap" data-lead="track-waitlist" data-done="You are on the list. You will hear the moment enrollment opens.">
-    <select class="input" name="track" required style="max-width:240px"><option value="" disabled selected>Which course?</option><option>Steady Under Pressure</option><option>Coming Home Present</option><option>Both</option></select>
-    <input class="input" name="email" type="email" required placeholder="Email address" style="max-width:260px">
-    <button class="btn btn-primary btn-sm">Join the waitlist</button>
-  </form>
-</div></section>
   <p class="fine" style="margin-top:20px">Whether a certificate satisfies a court, agency, or program requirement is decided by that body. Confirm with yours before enrolling. Every course and every Certificate of Completion is free to the man. Certified organizations and facilitators carry the standard; sponsorship funds seats and materials.</p>
 </div></section>
 
@@ -1243,10 +1237,9 @@ PAGES['certificates.html'] = dict(title='The Courses and the Certificate of Comp
       var explore = document.getElementById('certExplore');
       if(explore){
         var slug = c.getAttribute('data-cert');
-        var href = c.getAttribute('href');
-        if(!href){ href = 'enroll.html?cert=' + encodeURIComponent(slug) + '&title=' + encodeURIComponent(c.getAttribute('data-title')||'') + '&hours=' + encodeURIComponent(c.getAttribute('data-hours')||''); }
-        explore.setAttribute('href', href);
-        explore.textContent = slug==='fundamentals' ? 'Explore this course' : 'Join the waitlist';
+        var courseHref = {fundamentals:'class.html', reentry:'course-coming-home-present.html', anger:'course-steady-under-pressure.html', coparenting:'course-same-team.html'}[slug];
+        explore.setAttribute('href', courseHref || 'certificates.html');
+        explore.textContent = slug==='fundamentals' ? 'Explore this course' : 'Read the sessions';
       }
       document.getElementById('fundamentals').scrollIntoView({behavior:'smooth'});
     });
@@ -1587,19 +1580,6 @@ PAGES['enroll.html'] = dict(title='Enroll', desc='Enroll free. Finish the work a
     </div>
   </div>
 
-  <div id="waitlistPanel" hidden>
-    <a class="link ash" href="certificates.html" style="font-size:13px;display:inline-block;margin-bottom:20px">&larr; All certificates</a>
-    <div style="max-width:640px">
-      <div class="eyebrow brass" style="margin-bottom:14px">IN DEVELOPMENT</div>
-      <h1 class="d-36" style="margin-bottom:14px"><span id="wlTitle">This certificate</span></h1>
-      <p style="color:var(--ash);margin-bottom:22px">This track is being built now. Waitlist members hear first, train first, and shape the curriculum. Earned the hard way on purpose; that is the kind of proof men respect.</p>
-      <form class="row wrap" data-lead="track-waitlist" data-done="You are on the list. You will hear the moment enrollment opens." style="gap:12px">
-        <input type="hidden" name="track" id="wlTrack" value="">
-        <input class="input" name="email" type="email" required placeholder="Email address" style="max-width:280px">
-        <button class="btn btn-primary">Join the waitlist</button>
-      </form>
-      <p class="fine" style="margin-top:18px">Today, the flagship course, The 7 Secrets of Effective Fathers, is free to every member. <a class="link" href="class.html">Start free &rarr;</a></p>
-    </div>
   </div>
   <div id="successPanel" style="display:none">
     <div class="center" style="max-width:620px;margin:40px auto">
@@ -1760,11 +1740,11 @@ PAGES['veterans-hub.html'] = dict(title='The Homefront', desc='Train for the mis
 <section class="vet-ed" id="credential">
   <div class="vet-ed-head">
     <div class="vet-ed-eyebrow">Earned, never given</div>
-    <h2>The certificate is coming. It will cost you effort.</h2>
-    <p>Coming Home Present: identity checked, hours logged, a final passed. Peers respect it because it cannot be bought. Waitlist members train first. Today, the flagship course, The 7 Secrets of Effective Fathers, is already yours, free.</p>
+    <h2>The certificate costs effort. That is the point.</h2>
+    <p>Coming Home Present: identity checked, hours logged, a final passed. Peers respect it because it cannot be bought. All eight written sessions are live; films are in production. Today, the flagship course, The 7 Secrets of Effective Fathers, is already yours, free.</p>
   </div>
   <div class="row wrap" style="gap:12px;margin-top:6px">
-    <a class="btn btn-secondary btn-sm" href="enroll.html?cert=reentry&title=Coming%20Home%20Present&hours=12.0">Join the waitlist</a>
+    <a class="btn btn-secondary btn-sm" href="course-coming-home-present.html">Read the sessions</a>
     <a class="btn btn-yellow btn-sm" href="class.html">Start the free course</a>
   </div>
 </section>
@@ -1892,11 +1872,11 @@ PAGES['veterans.html'] = dict(title='Present at Home', desc='For fathers who ser
 
 <section class="vet-ed">
   <div class="vet-ed-head">
-    <div class="vet-ed-eyebrow">The certificate track &middot; in development</div>
+    <div class="vet-ed-eyebrow">The certificate track</div>
     <h2>Coming Home Present. Earned, never given.</h2>
-    <p>A verified certificate built for men who serve and return: identity checked, hours logged, a final passed. Earned the hard way on purpose. That is the kind of proof men respect, because it cannot be bought. It is in development now; waitlist members train first. Today, the flagship course, The 7 Secrets of Effective Fathers, is already free to every member.</p>
+    <p>A verified certificate built for men who serve and return: identity checked, hours logged, a final passed. Earned the hard way on purpose. That is the kind of proof men respect, because it cannot be bought. The full written sessions are live now; films are in production. Today, the flagship course, The 7 Secrets of Effective Fathers, is already free to every member.</p>
   </div>
-  <p style="margin-top:4px"><a class="btn btn-secondary btn-sm" href="certificates.html#waitlist">Join the waitlist</a></p>
+  <p style="margin-top:4px"><a class="btn btn-secondary btn-sm" href="course-coming-home-present.html">Read the sessions</a></p>
 </section>
 
 <section class="vet-ed">
@@ -2203,7 +2183,7 @@ PAGES['organizations.html'] = dict(title='Become a Certified Organization', desc
 <section class="tight"><div class="container">
   <div class="grid-3" style="gap:24px">
     <div class="card" style="padding:26px 28px"><p class="fine mono" style="color:var(--ember-ink);margin-bottom:10px">01 &middot; MEASURE</p><h3 style="margin-bottom:8px">One join link tags every man.</h3><p class="small" style="color:var(--ash)">The Keystone Profile at intake: 128 items, 26 scales, about twenty minutes. Four dimensions on every man, zero program required.</p></div>
-    <div class="card" style="padding:26px 28px"><p class="fine mono" style="color:var(--ember-ink);margin-bottom:10px">02 &middot; TRAIN</p><h3 style="margin-bottom:8px">Keep the program you trust.</h3><p class="small" style="color:var(--ash)">We make it provable. Or deploy ours: the flagship course is live today, free to every man, with two more courses in development. Your staff lead it as Certified Facilitators.</p></div>
+    <div class="card" style="padding:26px 28px"><p class="fine mono" style="color:var(--ember-ink);margin-bottom:10px">02 &middot; TRAIN</p><h3 style="margin-bottom:8px">Keep the program you trust.</h3><p class="small" style="color:var(--ash)">We make it provable. Or deploy ours: the full course slate is live today, free to every man, with films arriving as they finish. Your staff lead it as Certified Facilitators.</p></div>
     <div class="card" style="padding:26px 28px"><p class="fine mono" style="color:var(--ember-ink);margin-bottom:10px">03 &middot; PROVE</p><h3 style="margin-bottom:8px">The report and the credential.</h3><p class="small" style="color:var(--ash)">The Efficacy Report, one page per cohort. Certificates of Completion presented by your facilitators, serialed, and verified at fathers.com/verify in ten seconds.</p></div>
   </div>
 </div></section>
@@ -2241,7 +2221,7 @@ PAGES['organizations.html'] = dict(title='Become a Certified Organization', desc
   <div>
     <div class="eyebrow" style="margin-bottom:14px">FOR COURTS AND PROBATION</div>
     <h2 class="d-28" style="margin-bottom:8px">Order the class by name. Verify in ten seconds.</h2>
-    <p style="color:var(--ash);max-width:52ch">Fathering Fundamentals is orderable by name today: identity confirmed at enrollment, hours logged not claimed, a final at eighty percent. Completion is confirmed at fathers.com/verify with the serial on the Certificate of Completion. No account, no phone call, no paperwork chase. Coming Home Present and Steady Under Pressure, built for referral, are in development; waitlist your caseload and they train first.</p>
+    <p style="color:var(--ash);max-width:52ch">Fathering Fundamentals is orderable by name today: identity confirmed at enrollment, hours logged not claimed, a final at eighty percent. Completion is confirmed at fathers.com/verify with the serial on the Certificate of Completion. No account, no phone call, no paperwork chase. Coming Home Present and Steady Under Pressure, built for referral, have every written session live; films are in production, and your caseload can start now.</p>
   </div>
   <div class="card" style="padding:32px">
     <div class="eyebrow" style="margin-bottom:16px">FOR THE MAN YOU REFER</div>
@@ -2437,7 +2417,7 @@ PAGES['research.html'] = dict(title='The research behind the Keystone Profile', 
 </div></section>
 
 <section class="band tight"><div class="container" style="max-width:860px">
-  <div class="eyebrow" style="margin-bottom:12px">IN DEVELOPMENT</div>
+  <div class="eyebrow" style="margin-bottom:12px">UNDER PSYCHOMETRIC REVIEW</div>
   <h2 class="d-28" style="margin-bottom:8px">The Keystone Manhood Profile.</h2>
   <p style="color:var(--ash);margin:0 0 14px;max-width:62ch">The Manhood Track instrument mirrors the Father Profile architecture exactly: 128 items, 26 scales, identical response formats and scoring, so the two tracks are measured with equal weight. Its four dimensions are Presence, Discipline, Respect, and Service, grounded in strengths-based research on prosocial masculinity, self-discipline, and contribution.</p>
   <p style="color:var(--ash);margin:0;max-width:62ch">The draft item bank is complete and under psychometric review. It deploys only after sign-off and carries no norm-referenced claims until a norming study supports them. That is the same rule we hold every instrument to, including our own.</p>

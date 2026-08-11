@@ -147,16 +147,6 @@
     </div>
       </div>
 
-<section class="tight" id="waitlist"><div class="container" style="max-width:640px">
-  <div class="eyebrow" style="margin-bottom:12px">THE NEXT COURSES</div>
-  <h2 class="d-28" style="margin-bottom:8px">Two courses in development. Get in the first cohort.</h2>
-  <p class="small" style="color:var(--ash);margin-bottom:18px">Steady Under Pressure and Coming Home Present are being built now. Waitlist members hear first, train first, and shape the curriculum.</p>
-  <form class="row wrap" data-lead="track-waitlist" data-done="You are on the list. You will hear the moment enrollment opens.">
-    <select class="input" name="track" required style="max-width:240px"><option value="" disabled selected>Which course?</option><option>Steady Under Pressure</option><option>Coming Home Present</option><option>Both</option></select>
-    <input class="input" name="email" type="email" required placeholder="Email address" style="max-width:260px">
-    <button class="btn btn-primary btn-sm">Join the waitlist</button>
-  </form>
-</div></section>
   <p class="fine" style="margin-top:20px">Whether a certificate satisfies a court, agency, or program requirement is decided by that body. Confirm with yours before enrolling. Every course and every Certificate of Completion is free to the man. Certified organizations and facilitators carry the standard; sponsorship funds seats and materials.</p>
 </div></section>
 
@@ -231,10 +221,9 @@
       var explore = document.getElementById('certExplore');
       if(explore){
         var slug = c.getAttribute('data-cert');
-        var href = c.getAttribute('href');
-        if(!href){ href = 'enroll.html?cert=' + encodeURIComponent(slug) + '&title=' + encodeURIComponent(c.getAttribute('data-title')||'') + '&hours=' + encodeURIComponent(c.getAttribute('data-hours')||''); }
-        explore.setAttribute('href', href);
-        explore.textContent = slug==='fundamentals' ? 'Explore this course' : 'Join the waitlist';
+        var courseHref = {fundamentals:'class.html', reentry:'course-coming-home-present.html', anger:'course-steady-under-pressure.html', coparenting:'course-same-team.html'}[slug];
+        explore.setAttribute('href', courseHref || 'certificates.html');
+        explore.textContent = slug==='fundamentals' ? 'Explore this course' : 'Read the sessions';
       }
       document.getElementById('fundamentals').scrollIntoView({behavior:'smooth'});
     });
@@ -254,7 +243,7 @@
 </div>
 <div style="margin-top:48px;max-width:420px"><h4 style="font-family:var(--font-mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ash);margin-bottom:12px">One useful thing for fathers, weekly</h4>
 <form class="row" data-lead="newsletter" data-done="You are on the list. One useful thing, weekly."><input class="input" name="email" type="email" required placeholder="Email address"><button class="btn btn-secondary btn-sm">Send it</button></form></div>
-<div class="footbottom"><span class="fine">Fathers.com is a program of the National Center for Fathering, a 501(c)(3) nonprofit.</span><span class="fine">© <span data-year></span> National Center for Fathering</span><span class="fine"><a class="link" href="changelog.html" style="font-family:var(--font-mono)">v4.11.0 · 2026-08-10</a></span></div>
+<div class="footbottom"><span class="fine">Fathers.com is a program of the National Center for Fathering, a 501(c)(3) nonprofit.</span><span class="fine">© <span data-year></span> National Center for Fathering</span><span class="fine"><a class="link" href="changelog.html" style="font-family:var(--font-mono)">v4.11.1 · 2026-08-11</a></span></div>
 </div></footer>
 <script src="assets/js/config.js"></script>
 <script src="assets/js/supabase-client.js"></script>
