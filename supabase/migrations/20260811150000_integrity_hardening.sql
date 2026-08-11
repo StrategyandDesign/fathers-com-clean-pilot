@@ -93,14 +93,46 @@ create policy fqa_write_own on final_qa_responses for insert to authenticated wi
 drop policy if exists fqa_update_own on final_qa_responses;
 create policy fqa_update_own on final_qa_responses for update to authenticated using (auth.uid() = user_id);
 
--- 6. Verify surface: public_certificates carries status, attestation, and the
---    record fields the verify page renders. If public_certificates is a view
---    in your base schema, recreate it to expose these columns instead.
-alter table if exists public_certificates add column if not exists status text not null default 'issued';
-alter table if exists public_certificates add column if not exists attestation_method text;
-alter table if exists public_certificates add column if not exists contact_hours numeric;
-alter table if exists public_certificates add column if not exists snapshot_independent_seconds integer;
-alter table if exists public_certificates add column if not exists issuing_authority text not null default 'fathers.com';
+-- 6. Verify surface: public_certificates becomes a real table. The base
+--    schema defined it as a view over the legacy certificates table that
+--    filtered out revoked rows, which both blocks the new columns and makes
+--    a revoked serial render as not-found instead of REVOKED. The reviewer
+--    function writes this table at signing; the verify function reads it
+--    with the service role; no anonymous reads remain.
+do $$
+begin
+  if exists (select 1 from pg_class c join pg_namespace n on n.oid = c.relnamespace
+             where n.nspname = 'public' and c.relname = 'public_certificates' and c.relkind = 'v') then
+    execute 'drop view public_certificates';
+  end if;
+end $$;
+
+create table if not exists public_certificates (
+  serial text primary key,
+  status text not null default 'issued',
+  recipient_display text,
+  course_title text,
+  hours numeric,
+  issued_at timestamptz,
+  contact_hours numeric,
+  attestation_method text,
+  snapshot_independent_seconds integer,
+  issuing_authority text not null default 'fathers.com'
+);
+
+-- Backfill any legacy rows, carrying revocation as a real status.
+do $$
+begin
+  if to_regclass('public.certificates') is not null then
+    insert into public_certificates (serial, status, recipient_display, course_title, hours, issued_at)
+    select serial, case when revoked then 'revoked' else 'issued' end,
+           recipient_display, course_title, hours, issued_at
+    from certificates
+    on conflict (serial) do nothing;
+  end if;
+end $$;
+
+alter table public_certificates enable row level security;
 
 -- 7. Checkpoint attempts and durable passes (WP-C).
 create table if not exists quiz_attempts (
@@ -135,7 +167,6 @@ alter table integrity_flags enable row level security;
 
 -- 9. Launch-audit additions (AUDIT-V42 PL-4, PL-7).
 alter table certificate_awards add column if not exists recipient_display text;
-alter table if exists public_certificates add column if not exists recipient_display text;
 
 -- Verify lookups move behind a rate-limited function; the registry is no
 -- longer anonymously enumerable (PL-7).
@@ -147,4 +178,4 @@ create table if not exists verify_hits (
 );
 alter table verify_hits enable row level security;
 -- service role only; no client policies.
-revoke select on public_certificates from anon;
+revoke select on public_certificates from anon, authenticated;
