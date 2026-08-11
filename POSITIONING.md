@@ -301,3 +301,17 @@ The soldier-father receptivity review is adopted as doctrine. What changed:
 6. docs/MILITARY-READINESS.md holds the full spec and the benchmarks.
    The gates in section 15 posture are unchanged: rehabilitation proof
    opens this door, nothing else.
+
+## 20. Course publication and the deploy punch list (2026-08-11)
+
+Curriculum Revision 3 is adopted: Coming Home Present runs eight sessions,
+Steady Under Pressure six, Same Team six, sixty minutes each, completed
+before the return, every practice on two tracks. All written sessions are
+published on the platform with film-slot placeholders (div.video-slot,
+data-video keys) awaiting the uploads. The deploy audit's punch list is
+executed in v4.11.0: the verify page leak removed, legal drafts finalized
+in copy (counsel review remains the external gate), demo data neutralized
+and labeled, "validated" softened to research-based with printed sources,
+and the education line published on the organizations, facilitators, and
+profile pages with a downloadable referral protocol PDF. The funding
+proposal's course hours must sync to 8/6/6 at its next revision.
