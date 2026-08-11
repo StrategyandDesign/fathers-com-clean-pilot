@@ -55,7 +55,7 @@
     certificate: { t: 'What your certificate carries', b: '<p>Your name, confirmed by the facilitator who led you. Your sessions, completed and measured. The final, written by you and read by a person. And a unique serial with a public page where any court, program, or employer can confirm it in ten seconds, no login.</p><p>We certify the work. You supply the change.</p>' },
     send: { t: 'Send it where it counts', b: '<p>When your certificate issues, the verification link is yours to send: to your officer, your program, your employer, or anyone who needs to see that you did the work. The page shows your name, the course, the record, and how your identity was confirmed. Nothing else.</p>' },
     privacy: { t: 'Who can see what', b: '<p>Your answers are yours. Programs see group totals, never your individual answers. Your written reflections are read by your facilitator to approve your work, and you never need to use real names in them. The public verification page shows your name and course title for your serial, and nothing more.</p>' },
-    hide: { t: 'Hiding help, and getting it back', b: '<p>Hide help puts this guide away. To bring it back, use the Help link in the footer of any page, or press the question-mark key. It will be here, same topics, same order.</p>' },
+    hide: { t: 'Minimizing this guide', b: '<p>Minimize closes this panel back down to the question-mark icon in the corner; the icon always stays. Tap it, press the question-mark key, or use the Help link in the footer to open the guide again.</p>' },
     keys: { t: 'Work at speed', b: '<p>Press the question-mark key on any page to open this guide. Escape closes it. Everything else is one clear button at a time; that is by design.</p>' }
   };
 
@@ -112,31 +112,26 @@
         h += '<div class="fh-sec">' + sec[0] + '</div>'
           + rest.map(function(k){ return '<button class="fh-topic" data-t="' + k + '">' + T[k].t + '</button>'; }).join('');
       });
-      h += '<div class="fh-foot"><button class="fh-hide">Hide help</button><span class="fh-ver">' + VERSION + '</span></div>';
+      h += '<div class="fh-foot"><button class="fh-hide">Minimize</button><span class="fh-ver">' + VERSION + '</span></div>';
     }
     panel.innerHTML = h;
     document.body.appendChild(panel);
     panel.querySelector('.fh-x').addEventListener('click', toggle);
     var back = panel.querySelector('.fh-back'); if (back) back.addEventListener('click', function(){ render(null); });
     panel.querySelectorAll('.fh-topic').forEach(function(t){ t.addEventListener('click', function(){ render(t.getAttribute('data-t')); }); });
-    var hide = panel.querySelector('.fh-hide'); if (hide) hide.addEventListener('click', function(){
-      try { localStorage.setItem('fc_help_hidden', '1'); } catch(e){}
-      toggle(); var l = document.getElementById('fc-help-launcher'); if (l) l.style.display = 'none';
-    });
+    var hide = panel.querySelector('.fh-hide'); if (hide) hide.addEventListener('click', function(){ toggle(); });
   }
   function toggle(){ open = !open; if (open) render(null); else if (panel) { panel.remove(); panel = null; } }
-  window.FCHelp = { show: function(){ try { localStorage.removeItem('fc_help_hidden'); } catch(e){}
-    var l = document.getElementById('fc-help-launcher'); if (l) l.style.display = ''; if (!open) toggle(); } };
+  window.FCHelp = { show: function(){ if (!open) toggle(); } };
 
-  var hidden = false; try { hidden = localStorage.getItem('fc_help_hidden') === '1'; } catch(e){}
-  var l = launcher(); if (hidden) l.style.display = 'none';
+  launcher();
   document.addEventListener('keydown', function(e){
     if (e.key === '?' && !/input|textarea|select/i.test((e.target && e.target.tagName) || '')) { window.FCHelp.show(); }
     if (e.key === 'Escape' && open) toggle();
   });
   // First arrival: open the guide once, on the front page only.
   try {
-    if (!hidden && page === 'index.html' && !localStorage.getItem('fc_help_seen')) {
+    if (page === 'index.html' && !localStorage.getItem('fc_help_seen')) {
       localStorage.setItem('fc_help_seen', '1');
       setTimeout(function(){ if (!open) toggle(); }, 1200);
     }
