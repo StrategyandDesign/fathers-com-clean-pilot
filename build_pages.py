@@ -12,7 +12,7 @@ OG_IMAGE = SITE_URL + "/assets/img/og-image.jpg"
 # changelog.html. Bump BOTH constants on every release, add a CHANGELOG entry
 # below, regenerate, and upload. The stamp is the answer to "what version is
 # live": read any page footer.
-PLATFORM_VERSION = "4.11.2"
+PLATFORM_VERSION = "4.11.3"
 VERSION_DATE = "2026-08-11"
 
 # v4.0 reposition flags (ADR-4: rollout is a data change, not a redesign).
@@ -147,6 +147,9 @@ PAGES = {}
 # Release notes rendered on changelog.html. Newest first. Public copy:
 # POSITIONING.md section 9 language rules apply.
 CHANGELOG = [
+    ("4.11.3", "2026-08-11",
+     "The platform counts its own slate correctly: four courses, everywhere "
+     "it speaks of them, with true session counts beside each."),
     ("4.11.2", "2026-08-11",
      "The certificate specimen now reads as a specimen: your name where "
      "yours will go, the word itself on the document, and a masked serial. "
@@ -582,7 +585,7 @@ PAGES['story.html'] = dict(title='Back to the Kitchen Table', desc='One father. 
 ''')
 
 # ================================================== classes.html (P4 catalog)
-PAGES['classes.html'] = dict(title='The Courses', desc='Three courses, free to every man.', active='', mode='public', nochrome=True, body='''
+PAGES['classes.html'] = dict(title='The Courses', desc='Four courses, free to every man.', active='', mode='public', nochrome=True, body='''
 <meta http-equiv="refresh" content="0;url=certificates.html">
 <script>location.replace('certificates.html');</script>
 <p class="center fine" style="padding:60px 0">The classes now live inside the courses. <a class="link" href="certificates.html">Continue to The Courses &rarr;</a></p>
@@ -644,11 +647,11 @@ PAGES['class.html'] = dict(title='The Fundamentals of Fathering', desc='The flag
 </div></section>
 
 <section class="band tight"><div class="container">
-  <h2 style="font-family:var(--font-display);font-size:24px;margin-bottom:20px">Keep training. The other two.</h2>
-  <div class="rowscroll" data-repeat="2" data-prefix="IMG-P4-REL-" data-ratio="r-2x3" data-href="certificates.html#catalog"
-    data-titles="Steady Under Pressure|Coming Home Present"
-    data-subs="A man&rsquo;s temper, trained|Presence after time away"
-    data-metas="5 sessions &middot; Certificate of Completion|5 sessions &middot; Certificate of Completion"></div>
+  <h2 style="font-family:var(--font-display);font-size:24px;margin-bottom:20px">Keep training. The other three.</h2>
+  <div class="rowscroll" data-repeat="3" data-prefix="IMG-P4-REL-" data-ratio="r-2x3" data-href="certificates.html#catalog"
+    data-titles="Steady Under Pressure|Coming Home Present|Same Team"
+    data-subs="A man&rsquo;s temper, trained|Presence after time away|One team for your children"
+    data-metas="6 sessions &middot; Certificate of Completion|8 sessions &middot; Certificate of Completion|6 sessions &middot; Certificate of Completion"></div>
 </div></section>
 <script src="assets/js/cert-preview.js"></script>
 ''')
@@ -949,7 +952,7 @@ PAGES['gift.html'] = dict(title='Give a man the work', desc='Fund a year of full
 <section class="tight"><div class="container split" style="align-items:start">
   <div class="card" style="padding:32px">
     <div class="row between" style="margin-bottom:10px"><b>One sponsored seat</b><b class="mono">$120</b></div>
-    <p class="fine" style="margin-bottom:22px">A year of full membership plus his printed workbooks and materials for all three courses: Fathering Fundamentals, Steady Under Pressure, Coming Home Present. His Keystone Profile, ninety-day plan, the courses, and his Certificate of Completion are free for every man, gift or not.</p>
+    <p class="fine" style="margin-bottom:22px">A year of full membership plus his printed workbooks and materials for all four courses: Fathering Fundamentals, Coming Home Present, Steady Under Pressure, Same Team. His Keystone Profile, ninety-day plan, the courses, and his Certificate of Completion are free for every man, gift or not.</p>
     <div class="grid-2" style="gap:16px">
       <div class="field"><label>To</label><input class="input" id="g-to" placeholder="Dad"></div>
       <div class="field"><label>From</label><input class="input" id="g-from" placeholder="Marcus"></div>
@@ -1055,7 +1058,7 @@ PAGE_SCRIPTS = {'certificates.html': ['course-catalog.js'],
                 'account.html': ['account-prefs.js'],
                 'plan.html': ['journey.js']}
 
-PAGES['certificates.html'] = dict(title='The Courses and the Certificate of Completion', desc='Three courses, free to every man. Finish the work and hold a Certificate of Completion: verified hours, a serial anyone can confirm, at no cost to you.', active='Certificates', mode='public', body='''
+PAGES['certificates.html'] = dict(title='The Courses and the Certificate of Completion', desc='Four courses, free to every man. Finish the work and hold a Certificate of Completion: verified hours, a serial anyone can confirm, at no cost to you.', active='Certificates', mode='public', body='''
 <!-- HERO: the certificate is the thesis -->
 <header class="cert-hero"><div class="container">
   <div class="cert-hero-grid">
@@ -1137,9 +1140,9 @@ PAGES['certificates.html'] = dict(title='The Courses and the Certificate of Comp
 <!-- CATALOG: the certificates themselves -->
 <section id="catalog" class="band"><div class="container">
   <div class="row between wrap" style="margin-bottom:40px;align-items:flex-end">
-    <div><div class="eyebrow brass" style="margin-bottom:12px">THE THREE COURSES</div>
-    <h2 class="d-36">Three courses. Chosen for the rooms where men are met.</h2></div>
-    <p class="small" style="max-width:34ch">Open to every man, on either track. Presence, steadiness, and coming home: three completions built on the Keystone framework.</p>
+    <div><div class="eyebrow brass" style="margin-bottom:12px">THE COURSES</div>
+    <h2 class="d-36">Four courses. Chosen for the rooms where men are met.</h2></div>
+    <p class="small" style="max-width:34ch">Open to every man. Presence, steadiness, coming home, and one team for the children: four completions built on the Keystone framework.</p>
   </div>
   <div class="cert-cards" id="tracks">
     <a class="cert-card" href="enroll.html?cert=fundamentals&amp;title=Fathering%20Fundamentals&amp;hours=10.0" data-cert="fundamentals" data-title="Fathering Fundamentals" data-hours="10.0" data-desc="The flagship curriculum, hardened into proof. The same lessons taught by fathers who have lived it, plus identity verification, logged time, checkpoints, and a final assessment.">
@@ -2240,7 +2243,7 @@ PAGES['organizations.html'] = dict(title='Become a Certified Organization', desc
   <div class="grid-3">
     <div class="card" style="padding:28px"><div class="eyebrow" style="margin-bottom:12px">STEP ONE</div><h3 style="margin-bottom:8px">Measure at the door.</h3><p class="small" style="color:var(--ash)">Run the Keystone Profile at intake. A research-based engagement baseline on every man, zero program required.</p></div>
     <div class="card" style="padding:28px"><div class="eyebrow" style="margin-bottom:12px">STEP TWO</div><h3 style="margin-bottom:8px">Route to what works.</h3><p class="small" style="color:var(--ash)">Each profile points to the rated program that fits him. We become your measurement and routing layer.</p></div>
-    <div class="card" style="padding:28px"><div class="eyebrow" style="margin-bottom:12px">STEP THREE</div><h3 style="margin-bottom:8px">Deploy ours in a day.</h3><p class="small" style="color:var(--ash)">The assessment, three courses (presence, steadiness, coming home), the ninety-day plan, the Certificate of Completion. Switched on, not built.</p></div>
+    <div class="card" style="padding:28px"><div class="eyebrow" style="margin-bottom:12px">STEP THREE</div><h3 style="margin-bottom:8px">Deploy ours in a day.</h3><p class="small" style="color:var(--ash)">The assessment, four courses (presence, steadiness, coming home, one team), the ninety-day plan, the Certificate of Completion. Switched on, not built.</p></div>
   </div>
 </div></section>
 
@@ -2377,7 +2380,7 @@ PAGES['about.html'] = dict(title='About the National Center for Fathering', desc
     <div class="eyebrow" style="margin-bottom:16px">WHAT WE DO</div>
     <div class="stack-16">
       <div class="check"><span class="checkmark">&check;</span><span><b>Measure.</b> The Keystone Profile, free for every man.</span></div>
-      <div class="check"><span class="checkmark">&check;</span><span><b>Train.</b> Three courses, free to the men who take them.</span></div>
+      <div class="check"><span class="checkmark">&check;</span><span><b>Train.</b> Four courses, free to the men who take them.</span></div>
       <div class="check"><span class="checkmark">&check;</span><span><b>Certify.</b> Organizations and facilitators, against a published standard, with a public registry.</span></div>
       <div class="check"><span class="checkmark">&check;</span><span><b>Convene.</b> Gatherings that bring the field into one room.</span></div>
     </div>
