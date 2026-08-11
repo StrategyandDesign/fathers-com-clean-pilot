@@ -8,7 +8,7 @@
   var page = (location.pathname.split('/').pop() || 'index.html');
 
   var css = ''
-  + '#fc-help-launcher{position:fixed;right:22px;bottom:22px;z-index:9998;width:52px;height:52px;border-radius:50%;border:1px solid #cfc8b8;background:#ffffff;color:#1a1710;font-size:22px;font-family:inherit;cursor:pointer;box-shadow:0 6px 24px rgba(0,0,0,.28)}'
+  + '#fc-help-launcher{position:fixed;right:22px;bottom:22px;z-index:9998;width:52px;height:52px;border-radius:50%;border:1px solid rgba(255,255,255,.28);background:#0b0a08;color:#ffffff;font-size:22px;font-family:inherit;cursor:pointer;box-shadow:0 6px 24px rgba(0,0,0,.45)}'
   + '#fc-help-panel{position:fixed;right:22px;bottom:86px;z-index:9999;width:min(400px,calc(100vw - 32px));max-height:min(660px,calc(100vh - 120px));overflow:auto;background:#ffffff;color:#1a1710;border:1px solid #d8d2c4;border-radius:16px;padding:22px;box-shadow:0 14px 44px rgba(0,0,0,.35)}'
   + '#fc-help-panel h3{margin:0 0 4px;font-size:19px;color:#1a1710}'
   + '#fc-help-panel .fh-sub{color:#5f584a;font-size:13px;margin:0 0 14px}'
