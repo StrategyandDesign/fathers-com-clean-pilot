@@ -315,3 +315,12 @@ and labeled, "validated" softened to research-based with printed sources,
 and the education line published on the organizations, facilitators, and
 profile pages with a downloadable referral protocol PDF. The funding
 proposal's course hours must sync to 8/6/6 at its next revision.
+
+## 21. The Man Before You, staged dark (2026-08-11)
+
+The Manhood Track course is specced (Rev 1, gated on Dr. Canfield) and fully
+staged behind SHOW_MANHOOD_COURSE=False: the complete six-session page, the
+catalog card, the detail CTA mapping, and the track fit line all publish on a
+one-line flip. No public surface mentions the course while the flag is dark,
+per the retired-waitlist doctrine: we announce work when it is live, not
+before. Adoption day is a flag flip, a version bump, and a changelog entry.
