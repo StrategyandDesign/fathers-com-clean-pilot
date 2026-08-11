@@ -12,7 +12,7 @@ OG_IMAGE = SITE_URL + "/assets/img/og-image.jpg"
 # changelog.html. Bump BOTH constants on every release, add a CHANGELOG entry
 # below, regenerate, and upload. The stamp is the answer to "what version is
 # live": read any page footer.
-PLATFORM_VERSION = "4.11.3"
+PLATFORM_VERSION = "4.11.4"
 VERSION_DATE = "2026-08-11"
 
 # v4.0 reposition flags (ADR-4: rollout is a data change, not a redesign).
@@ -147,6 +147,11 @@ PAGES = {}
 # Release notes rendered on changelog.html. Newest first. Public copy:
 # POSITIONING.md section 9 language rules apply.
 CHANGELOG = [
+    ("4.11.4", "2026-08-11",
+     "The platform promises the record, not the outcome. The certificate "
+     "band, the referral card, the lesson note, and the about heading now "
+     "say exactly what we certify, and leave the change where it lives: "
+     "with him."),
     ("4.11.3", "2026-08-11",
      "The platform counts its own slate correctly: four courses, everywhere "
      "it speaks of them, with true session counts beside each."),
@@ -678,7 +683,7 @@ PAGES['player.html'] = dict(title='Session 4 &middot; The Fundamentals of Father
       <div data-tabs style="margin-top:28px">
         <div class="tabs"><button class="active">Overview</button><button>Workbook</button><button>Notes</button></div>
         <div class="tabpanel active">
-          <p class="small" style="max-width:64ch;margin-bottom:20px">Awareness is the skill of knowing your kids' inner weather before they announce it. This lesson trains three habits: learn the names, ask without fixing, and watch the transitions. Ten minutes now, a different dinner table by Friday.</p>
+          <p class="small" style="max-width:64ch;margin-bottom:20px">Awareness is the skill of knowing your kids' inner weather before they announce it. This lesson trains three habits: learn the names, ask without fixing, and watch the transitions. Ten minutes now; practice it at your table this week.</p>
           <p class="quote" style="font-size:22px">"Consistency is love the kids can set a clock by."</p>
         </div>
         <div class="tabpanel">
@@ -1182,9 +1187,9 @@ PAGES['certificates.html'] = dict(title='The Courses and the Certificate of Comp
     </div>
     <div class="cert-context-copy">
       <div class="eyebrow brass" style="margin-bottom:14px">WHY IT MATTERS</div>
-      <h2 class="d-36" style="margin-bottom:20px">The document opens doors.<br>The work changes a family.</h2>
-      <p class="lead" style="margin-bottom:16px">A judge sees a serial they can verify. A program sees hours they can trust. But the man who earned it sees something else: the proof that he showed up, learned, and became someone the people in his life can count on.</p>
-      <p class="small">That is the difference between a certificate and a keepsake. This is both.</p>
+      <h2 class="d-36" style="margin-bottom:20px">The document proves the work.<br>The change is his to make.</h2>
+      <p class="lead" style="margin-bottom:16px">A judge sees a serial anyone can check. A program sees hours that were logged, not claimed. And the man who earned it sees the record: weeks he showed up, work he finished, a hard thing done all the way through. What that becomes in his home is not ours to promise. It is his to build, and this is proof he started.</p>
+      <p class="small">We certify the work. He supplies the change.</p>
     </div>
   </div>
 </div></section>
@@ -2233,7 +2238,7 @@ PAGES['organizations.html'] = dict(title='Become a Certified Organization', desc
   </div>
   <div class="card" style="padding:32px">
     <div class="eyebrow" style="margin-bottom:16px">FOR THE MAN YOU REFER</div>
-    <p class="small" style="color:var(--ash)">He starts free with the Keystone Profile, trains the course you name, and leaves with a document that opens doors instead of a checkbox that closes them. He pays nothing at any step.</p>
+    <p class="small" style="color:var(--ash)">He starts free with the Keystone Profile, trains the course you name, and leaves with a document any reviewer can verify, instead of a checkbox nobody can check. He pays nothing at any step.</p>
   </div>
 </div></section>
 
@@ -2366,7 +2371,7 @@ PAGES['gatherings.html'] = dict(title='Gatherings', desc='Fathers, in real life.
 PAGES['about.html'] = dict(title='About the National Center for Fathering', desc='NCF measures men, trains them free, certifies the organizations and facilitators who lead them, and convenes the field.', active='', mode='public', body='''
 <header class="hero"><div class="container" style="max-width:860px">
   <div class="eyebrow" style="margin-bottom:18px">ABOUT NCF</div>
-  <h1 class="d-48" style="font-weight:700;letter-spacing:-.02em">The trusted third party for fatherhood.</h1>
+  <h1 class="d-48" style="font-weight:700;letter-spacing:-.02em">The independent third party for fatherhood.</h1>
   <p class="lead" style="margin:22px 0 8px">The National Center for Fathering measures men, trains them at no cost, certifies the organizations and facilitators who lead them, and convenes the field. We publish one standard and hold everyone to it, including ourselves: our own courses are measured, reported, and rated the same way anyone else&rsquo;s are.</p>
 </div></header>
 
