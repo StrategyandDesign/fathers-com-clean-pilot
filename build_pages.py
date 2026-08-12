@@ -421,7 +421,7 @@ PAGES['index.html'] = dict(title='Become the father they can count on', desc='Kn
     <div class="eyebrow" style="margin-bottom:18px">FATHERS.COM</div>
     <h1 class="d-48" style="font-weight:700;letter-spacing:-.02em">Become the father they can count on.</h1>
     <p class="lead" style="margin:22px 0 12px">Presence they can feel at home. Steadiness under pressure. Warmth they hear.</p>
-    <p style="color:var(--ash);margin:0 0 28px;max-width:48ch;font-size:17px;line-height:1.55">Start with the free Keystone Father Profile (about twenty minutes). You get scores on the four things that matter, a twelve-week plan built from your answers, and a path into facilitator-supported film courses. Not a lecture. Not a label. Proof when you finish.</p>
+    <p style="color:var(--ash);margin:0 0 24px;max-width:42ch;font-size:17px;line-height:1.5">Free Profile, about twenty minutes. Your plan and film path start from there.</p>
     <div class="hero-cta" style="display:flex;flex-direction:column;align-items:flex-start;gap:14px;max-width:440px">
       <a class="btn btn-yellow btn-lg" href="profile.html" style="width:100%;text-align:center">Start free Profile &middot; about 20 min</a>
       <div class="progress-rail" aria-hidden="true" style="padding:0">
@@ -429,12 +429,13 @@ PAGES['index.html'] = dict(title='Become the father they can count on', desc='Kn
         <span class="pr-step"><span class="pr-n">2</span> Plan</span><span class="pr-join"></span>
         <span class="pr-step"><span class="pr-n">3</span> Course</span>
       </div>
-      <p class="fine" style="margin:0;color:var(--ash)">Path: measure, plan, train. Proof: a certificate anyone can verify.</p>
       <div class="row wrap" style="gap:16px;align-items:center">
-        <a class="btn btn-secondary btn-sm" href="login.html">Log in</a>
+        <a class="link ash" href="login.html" style="font-size:13px">Log in</a>
+        <span class="fine" style="color:var(--ash)">&middot;</span>
         <a class="link ash" href="organizations.html" style="font-size:13px">I have a facilitator</a>
+        <span class="fine" style="color:var(--ash)">&middot;</span>
+        <a class="link ash" href="profile.html?assessment=keystone-manhood-profile" style="font-size:13px">Manhood track</a>
       </div>
-      <p class="fine" style="margin:0"><a class="link ash" href="profile.html?assessment=keystone-manhood-profile" style="font-size:12px">Preparing, mentoring, or growing? The Manhood track</a></p>
     </div>
   </div>
   <div class="heromarquee" aria-hidden="true">
