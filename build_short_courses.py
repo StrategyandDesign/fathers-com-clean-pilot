@@ -236,7 +236,7 @@ def cert_card_html(course: dict) -> str:
     n = len(course["sessions"])
     href = course["html"]
     photo = course["photo"]
-    hours = "3.0"
+    hours = "2.4"
     if slug == "reentry":
         blurb = "Rehab and treatment reconnect first: body, kids and partner, deposits, reunion. Same skills for service return. Twelve short sessions. Facilitator support when claimed."
         data_desc = "For fathers in rehab or treatment preparing to reconnect with children and/or a significant other; also for service members returning home. Self-paced film with a Certified Facilitator available for questions, checkpoints, and a certificate a court or program can trust."
@@ -274,6 +274,41 @@ def cert_card_html(course: dict) -> str:
     </div>'''
 
 
+def replace_cert_card(html: str, course: dict) -> str:
+    """Replace one catalog card by data-cert, matching nested div depth."""
+    slug = course["slug"]
+    card = cert_card_html(course)
+    if not card.endswith("\n"):
+        card += "\n"
+    marker = 'data-cert="%s"' % slug
+    pos = html.find(marker)
+    if pos < 0:
+        return html
+    start = html.rfind("<div", 0, pos)
+    if start < 0:
+        return html
+    i = start
+    depth = 0
+    while i < len(html):
+        if html.startswith("<div", i):
+            depth += 1
+            gt = html.find(">", i)
+            if gt < 0:
+                break
+            i = gt + 1
+            continue
+        if html.startswith("</div>", i):
+            depth -= 1
+            i += len("</div>")
+            if depth == 0:
+                if i < len(html) and html[i] == "\n":
+                    i += 1
+                return html[:start] + card + html[i:]
+            continue
+        i += 1
+    return html
+
+
 def apply_to_build_pages(build_pages_path: Path, courses: dict) -> None:
     """Replace giant PAGES[...] body strings with helper-loaded bodies."""
     text = build_pages_path.read_text(encoding="utf-8")
@@ -309,6 +344,8 @@ def apply_to_build_pages(build_pages_path: Path, courses: dict) -> None:
             # Fallback: line-anchored replace of the assignment start through next PAGES[
             start = text.find(f"PAGES['{fname}'] = dict(")
             if start < 0:
+                if f"PAGES['{fname}'] = _short_course_page_meta" in text:
+                    continue
                 raise SystemExit(f"Could not find PAGES['{fname}'] assignment")
             # Find matching end: next line that starts with PAGES[ after this one,
             # scanning carefully because body has nested quotes. The assignment ends
@@ -331,42 +368,48 @@ def apply_to_build_pages(build_pages_path: Path, courses: dict) -> None:
             text = new_text
 
     # Patch catalog session counts / hours / cards inside certificates body
-    # Replace data-hours and session labels for the three courses in the certificates string.
     replacements = [
+        ('data-cert="fundamentals" data-title="Fathering Fundamentals" data-hours="10.0"',
+         'data-cert="fundamentals" data-title="Fathering Fundamentals" data-hours="1.1"'),
         ('data-cert="reentry" data-title="Coming Home Present" data-hours="8.0"',
-         'data-cert="reentry" data-title="Coming Home Present" data-hours="3.0"'),
+         'data-cert="reentry" data-title="Coming Home Present" data-hours="2.4"'),
+        ('data-cert="reentry" data-title="Coming Home Present" data-hours="3.0"',
+         'data-cert="reentry" data-title="Coming Home Present" data-hours="2.4"'),
         ('data-cert="anger" data-title="Steady Under Pressure" data-hours="6.0"',
-         'data-cert="anger" data-title="Steady Under Pressure" data-hours="3.0"'),
+         'data-cert="anger" data-title="Steady Under Pressure" data-hours="2.4"'),
+        ('data-cert="anger" data-title="Steady Under Pressure" data-hours="3.0"',
+         'data-cert="anger" data-title="Steady Under Pressure" data-hours="2.4"'),
         ('data-cert="coparenting" data-title="Same Team" data-hours="6.0"',
-         'data-cert="coparenting" data-title="Same Team" data-hours="3.0"'),
+         'data-cert="coparenting" data-title="Same Team" data-hours="2.4"'),
+        ('data-cert="coparenting" data-title="Same Team" data-hours="3.0"',
+         'data-cert="coparenting" data-title="Same Team" data-hours="2.4"'),
         ("var SESS = {fundamentals:'5', reentry:'8', anger:'6', coparenting:'6', manhood:'6'};",
-         "var SESS = {fundamentals:'5', reentry:'12', anger:'12', coparenting:'12', manhood:'6'};"),
+         "var SESS = {fundamentals:'9', reentry:'12', anger:'12', coparenting:'12', manhood:'6'};"),
+        ("var SESS = {fundamentals:'5', reentry:'12', anger:'12', coparenting:'12', manhood:'6'};",
+         "var SESS = {fundamentals:'9', reentry:'12', anger:'12', coparenting:'12', manhood:'6'};"),
+        ("var SESS = {fundamentals:'9', reentry:'12', anger:'12', coparenting:'12', manhood:'6'};",
+         "var SESS = {fundamentals:'9', reentry:'12', anger:'12', coparenting:'12', manhood:'6'};"),
+        ('<span class="fine mono">5 sessions</span></div>\n        <h3 style="margin-bottom:6px">Fathering Fundamentals</h3>',
+         '<span class="fine mono">9 sessions</span></div>\n        <h3 style="margin-bottom:6px">Fathering Fundamentals</h3>'),
         ('<span class="fine mono">6 sessions</span></div>\n        <h3 style="margin-bottom:6px">Steady Under Pressure</h3>',
          '<span class="fine mono">12 sessions</span></div>\n        <h3 style="margin-bottom:6px">Steady Under Pressure</h3>'),
         ('<span class="fine mono">8 sessions</span></div>\n        <h3 style="margin-bottom:6px">Coming Home Present</h3>',
          '<span class="fine mono">12 sessions</span></div>\n        <h3 style="margin-bottom:6px">Coming Home Present</h3>'),
+        ('<div class="mono small">5 sessions &middot; facilitator-verified</div>',
+         '<div class="mono small">9 sessions &middot; facilitator-verified</div>'),
+        ('enroll.html?cert=fundamentals&amp;title=Fathering%20Fundamentals&amp;hours=10.0',
+         'course-fathering-fundamentals.html'),
     ]
     for old, new in replacements:
         if old in text:
             text = text.replace(old, new)
 
-    # Replace entire cert cards for the three courses inside PAGES['certificates.html']
+    # Replace entire cert cards for the four courses inside PAGES['certificates.html']
     for key in COURSE_KEYS:
-        course = courses[key]
-        slug = course["slug"]
-        card = cert_card_html(course)
-        # Match existing card block by data-cert
-        card_pat = re.compile(
-            r'    <div class="cert-card" style="cursor:default" data-cert="'
-            + re.escape(slug)
-            + r'"[\s\S]*?</div>\n      <div class="cert-card-foot">[\s\S]*?</div>\n    </div>',
-            re.M,
-        )
-        text2, n = card_pat.subn(card, text, count=1)
-        if n == 1:
-            text = text2
-        else:
-            print(f"warn: cert card for {slug} not replaced in build_pages.py ({n})")
+        before = text
+        text = replace_cert_card(text, courses[key])
+        if text == before:
+            print(f"warn: cert card for {courses[key]['slug']} not replaced in build_pages.py")
 
     # Preview title for Steady Under Pressure
     text = text.replace(

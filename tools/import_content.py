@@ -20,6 +20,26 @@ BANNED = ["verified instructional hours", "verified hours", "temper, trained",
           "normed on thousands", "normed against", "benchmarked against",
           "the national norm", "published norms", "established norms", "proctored"]
 
+
+def normalize_doc(doc):
+    """Accept sessions[] (Seven Secrets shape) or videos[]; map video_url -> vimeo."""
+    if not doc.get("videos") and doc.get("sessions"):
+        doc = dict(doc)
+        doc["videos"] = doc["sessions"]
+    vids = []
+    for v in doc.get("videos") or []:
+        v = dict(v)
+        if not v.get("vimeo"):
+            ref = v.get("video_url")
+            v["vimeo"] = "pending" if ref in (None, "", False) else str(ref)
+        vids.append(v)
+    doc = dict(doc)
+    doc["videos"] = vids
+    if doc.get("hours") is None:
+        dur = sum(int(v.get("duration_seconds") or 0) for v in vids)
+        doc["hours"] = round(dur / 3600.0, 1) if dur else 0
+    return doc
+
 def die(msg):
     print(f"FAIL: {msg}"); sys.exit(1)
 
@@ -77,7 +97,7 @@ def main():
     path = sys.argv[1]; create = "--create" in sys.argv
     allow_placeholders = "--allow-placeholders" in sys.argv
     check_only = "--check" in sys.argv
-    doc = json.load(open(path))
+    doc = normalize_doc(json.load(open(path)))
     validate(doc, path, allow_placeholders)
     if check_only:
         print(f"OK: {path} validates ({len(doc['videos'])} videos, {sum(len(v.get('checkpoint') or []) for v in doc['videos'])} checkpoint questions, {len(doc['final_qa'])} final prompts)")
@@ -88,8 +108,12 @@ def main():
     rows = rest(url, key, "GET", f"certificate_courses?slug=eq.{slug}&select=id,slug")
     if not rows and not create: die(f"course slug {slug} not found; pass --create to create it")
     if not rows:
-        rows = rest(url, key, "POST", "certificate_courses", [{"slug": slug, "title": doc["title"], "hours": 0, "published": False}], prefer="return=representation")
+        hours = float(doc.get("hours") or 0)
+        rows = rest(url, key, "POST", "certificate_courses", [{"slug": slug, "title": doc["title"], "hours": hours, "published": False}], prefer="return=representation")
     course_id = rows[0]["id"]
+    hours = float(doc.get("hours") or 0)
+    rest(url, key, "PATCH", f"certificate_courses?id=eq.{course_id}",
+         {"title": doc["title"], "hours": hours})
     for v in doc["videos"]:
         vid = rest(url, key, "POST", "course_videos?on_conflict=course_id,ord",
                    [{"course_id": course_id, "ord": v["ord"], "title": v["title"],

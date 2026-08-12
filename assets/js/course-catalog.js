@@ -19,7 +19,7 @@
 (function(){
   var grid = document.getElementById('tracks');
   if(!grid) return;
-  window.__fcHours = {fundamentals:'1.1', reentry:'3.0', anger:'3.0', coparenting:'3.0', manhood:'6.0'};
+  window.__fcHours = {fundamentals:'1.1', reentry:'2.4', anger:'2.4', coparenting:'2.4', manhood:'6.0'};
 
   function esc(s){ return (s==null?'':String(s)).replace(/[&<>"']/g,function(c){
     return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
@@ -61,16 +61,22 @@
              : '<span class="pill">Sessions live</span>';
     // The platform is the source of truth for hours and session counts while
     // the database catches up. Slugs match the static data-cert values.
-    var HOURS = {fundamentals:'1.1', reentry:'3.0', anger:'3.0', coparenting:'3.0', manhood:'6.0'};
+    var HOURS = {fundamentals:'1.1', reentry:'2.4', anger:'2.4', coparenting:'2.4', manhood:'6.0'};
     var SESSIONS = {fundamentals:9, reentry:12, anger:12, coparenting:12, manhood:6};
     var shownHours = HOURS[c.slug] != null ? HOURS[c.slug] : c.hours;
-    var hrs = (shownHours == null ? '' : '<span class="cert-card-hrs">' + esc(shownHours) + ' hrs</span>');
+    var sessN = SESSIONS[c.slug];
+    var hrs = (sessN != null
+      ? '<span class="cert-card-hrs">' + sessN + ' sessions</span>'
+      : (shownHours == null ? '' : '<span class="cert-card-hrs">' + esc(shownHours) + ' hrs film</span>'));
     var blurb = BLURB[c.slug] || 'Built on the Keystone framework. Sessions logged, checkpoints, and a final assessment.';
+    var footMeta = 'Free';
+    if(sessN) footMeta += ' &middot; ' + sessN + ' sessions';
+    if(shownHours != null && shownHours !== '') footMeta += ' &middot; ~' + esc(shownHours) + ' hrs film';
     return '<a class="cert-card" href="' + href + '" data-cert="' + esc(c.slug) + '">' +
       '<div class="cert-card-top">' + pill + hrs + '</div>' +
       '<h3>' + esc(c.title || c.slug) + '</h3>' +
       '<p>' + blurb + '</p>' +
-      '<div class="cert-card-foot"><span class="mono">Free' + (SESSIONS[c.slug] ? ' &middot; ' + SESSIONS[c.slug] + ' sessions' : '') + '</span>' +
+      '<div class="cert-card-foot"><span class="mono">' + footMeta + '</span>' +
       '<span class="cert-card-go">' + cta + '</span></div></a>';
   }
 

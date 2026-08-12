@@ -345,7 +345,7 @@
     {
       "ord": 9,
       "bible_number": 8,
-      "title": "Bonus Secret  - Honoring the Father Who is Guiding You",
+      "title": "Bonus Secret - Honoring the Father Who is Guiding You",
       "duration_seconds": 480,
       "poster": "assets/img/session-stills/fathering-fundamentals/s08.png",
       "video_url": null,
@@ -383,6 +383,20 @@
       ],
       "keyline": "Honor the Father who is guiding you.",
       "practice": "Name one way you will honor God’s guidance in your fathering this week."
+    }
+  ],
+  "final_qa": [
+    {
+      "prompt": "Name one Secret you will practice this week, and the concrete move that proves it."
+    },
+    {
+      "prompt": "What did the free assessment show you about where you are strong and where you want to grow?"
+    },
+    {
+      "prompt": "Who will notice the change first if you keep this practice for thirty days?"
+    },
+    {
+      "prompt": "What will you do the next time you break your word with your child?"
     }
   ]
 }

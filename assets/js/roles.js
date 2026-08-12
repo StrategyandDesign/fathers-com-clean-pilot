@@ -95,24 +95,37 @@ window.FCR = window.FCR || {};
     });
   }
   document.addEventListener('DOMContentLoaded', function(){
-    if(!ready()){ zeroStragglers(); return; }
+    // Demo / offline: show the four published short courses Micah expects.
+    if(!ready()){
+      if(document.querySelector('[data-glance="admin-content"]')) setGlance('admin-content', 4);
+      if(document.querySelector('[data-glance="studio-courses"]')) setGlance('studio-courses', 4);
+      if(document.querySelector('[data-glance="studio-live"]')) setGlance('studio-live', 4);
+      if(document.querySelector('[data-glance="studio-draft"]')) setGlance('studio-draft', 0);
+      zeroStragglers();
+      return;
+    }
     setTimeout(zeroStragglers, 3500);
     var sb = FC.sb;
 
-    // ADMIN glance
+    // ADMIN glance: "courses live" means published certificate courses.
     if(document.querySelector('[data-glance="admin-people"]')){
       sb.from('profiles').select('id', {count:'exact', head:true}).then(function(r){
         if(r && r.count != null) setGlance('admin-people', r.count);
       }, function(){});
-      sb.from('certificate_courses').select('id', {count:'exact', head:true}).then(function(r){
+      sb.from('certificate_courses').select('id', {count:'exact', head:true}).eq('published', true).then(function(r){
         if(r && r.count != null) setGlance('admin-content', r.count);
       }, function(){});
     }
 
-    // STUDIO glance (courses owned by this instructor)
+    // STUDIO glance
     if(document.querySelector('[data-glance="studio-courses"]')){
-      sb.from('certificate_courses').select('id', {count:'exact', head:true}).then(function(r){
-        if(r && r.count != null) setGlance('studio-courses', r.count);
+      sb.from('certificate_courses').select('id,published').then(function(r){
+        var rows = (r && r.data) || [];
+        var live = 0, draft = 0;
+        rows.forEach(function(c){ if(c.published) live++; else draft++; });
+        setGlance('studio-courses', rows.length);
+        setGlance('studio-live', live);
+        setGlance('studio-draft', draft);
       }, function(){});
     }
 
