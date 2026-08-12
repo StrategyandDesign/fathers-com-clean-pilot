@@ -411,12 +411,13 @@ for _v in VERTICALS:
 PAGES['changelog.html'] = dict(title='What\'s new', desc='Release notes for the Fathers.com platform.', active='', mode='public', body='\n'.join(_cl))
 
 # ================================================== index.html (P1)
-PAGES['index.html'] = dict(title='Know where you stand', desc='Take the free Keystone Father Profile. About twenty minutes. Four scores, one honest read, and a ninety-day plan built for you.', active='', mode='public', body='''
+PAGES['index.html'] = dict(title='Become the father they can count on', desc='Know where you stand, work a ninety-day plan, train on film. Leave with proof. Free Keystone Father Profile from Fathers.com.', active='', mode='public', body='''
 <header class="hero"><div class="container split">
   <div>
     <div class="eyebrow" style="margin-bottom:18px">FATHERS.COM</div>
-    <h1 class="d-48" style="font-weight:700;letter-spacing:-.02em">Know where you stand.</h1>
-    <p class="lead" style="margin:22px 0 28px">Start with the free Keystone Father Profile. About twenty minutes. You get scores on the four things that matter, and a ninety-day plan built from your answers, not a lecture, not a label.</p>
+    <h1 class="d-48" style="font-weight:700;letter-spacing:-.02em">Become the father they can count on.</h1>
+    <p class="lead" style="margin:22px 0 12px">Presence they can feel at home. Steadiness under pressure. Warmth they hear. That is the destination.</p>
+    <p style="color:var(--ash);margin:0 0 28px;max-width:48ch;font-size:17px;line-height:1.55">Start with the free Keystone Father Profile (about twenty minutes). You get scores on the four things that matter, a ninety-day plan built from your answers, and a path into facilitator-supported film courses. Not a lecture. Not a label. Proof when you finish.</p>
     <div class="hero-cta" style="display:flex;flex-direction:column;align-items:flex-start;gap:14px;max-width:440px">
       <a class="btn btn-yellow btn-lg" href="profile.html" style="width:100%;text-align:center">Start free Profile &middot; about 20 min</a>
       <div class="progress-rail" aria-hidden="true" style="padding:0">
@@ -424,6 +425,7 @@ PAGES['index.html'] = dict(title='Know where you stand', desc='Take the free Key
         <span class="pr-step"><span class="pr-n">2</span> Plan</span><span class="pr-join"></span>
         <span class="pr-step"><span class="pr-n">3</span> Course</span>
       </div>
+      <p class="fine" style="margin:0;color:var(--ash)">Path: measure, plan, train. Proof: a certificate anyone can verify.</p>
       <div class="row wrap" style="gap:16px;align-items:center">
         <a class="btn btn-secondary btn-sm" href="login.html">Log in</a>
         <a class="link ash" href="organizations.html" style="font-size:13px">I have a facilitator</a>
@@ -459,11 +461,12 @@ PAGES['index.html'] = dict(title='Know where you stand', desc='Take the free Key
 </div></header>
 
 <section class="tight" style="padding-top:12px;padding-bottom:20px"><div class="container">
-  <div class="eyebrow brass" style="margin-bottom:16px">HOW IT WORKS</div>
+  <div class="eyebrow brass" style="margin-bottom:10px">HOW IT WORKS</div>
+  <p class="small" style="margin:0 0 18px;color:var(--ash);max-width:62ch">Same destination every time: a father they can count on. Three honest steps get you there.</p>
   <div class="hiw-rail" aria-label="Profile, then Plan, then Course">
-    <div class="hiw"><div class="hiw-n">01 &middot; PROFILE</div><b>Know where you stand</b><p class="small" style="margin-top:8px;color:var(--ash)">Free Keystone Father Profile. About twenty minutes. Private to you.</p></div>
-    <div class="hiw"><div class="hiw-n">02 &middot; PLAN</div><b>Ninety days, built for you</b><p class="small" style="margin-top:8px;color:var(--ash)">Small moves from your gaps, workable on a busy week.</p></div>
-    <div class="hiw"><div class="hiw-n">03 &middot; COURSE</div><b>Film with a facilitator</b><p class="small" style="margin-top:8px;color:var(--ash)">When a Certified Facilitator claims your seat, watch, checkpoint, and earn a verifiable certificate.</p></div>
+    <div class="hiw"><div class="hiw-n">01 &middot; PROFILE</div><b>Know where you stand</b><p class="small" style="margin-top:8px;color:var(--ash)">Free Keystone Father Profile. About twenty minutes. Private to you. Your baseline on the four things that matter.</p></div>
+    <div class="hiw"><div class="hiw-n">02 &middot; PLAN</div><b>Ninety days, built for you</b><p class="small" style="margin-top:8px;color:var(--ash)">Small moves from your gaps, workable on a busy week. Practice that shows up at home.</p></div>
+    <div class="hiw"><div class="hiw-n">03 &middot; COURSE</div><b>Train on film. Leave with proof.</b><p class="small" style="margin-top:8px;color:var(--ash)">Facilitator-supported film courses. Checkpoints, logged hours, and a certificate anyone can verify.</p></div>
   </div>
 </div></section>
 
