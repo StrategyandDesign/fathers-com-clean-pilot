@@ -330,6 +330,7 @@
         paintNextAction({kicker:'Next action', title:'Open your plan for this week',
           body:'Weeks you showed up matter more than streaks.',
           href:'plan.html', cta:'Open My Plan'});
+      }
 
       /* One card shape, so the three read as choices rather than a list of raw
          links. Each carries its own call so the destination is never a guess. */
