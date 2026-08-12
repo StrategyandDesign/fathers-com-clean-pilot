@@ -67,7 +67,7 @@
       opts:['Married','Divorced or separated','Single father','Stepfather','Long-distance dad','Deployed or recently home','Incarcerated or recently released','New father']},
     {id:'time',section:'INTAKE',q:'How much focused time do your kids get from you in a normal week?',type:'chips-single',
       opts:['Under 1 hour','1-3 hours','4-7 hours','8-15 hours','15 plus']},
-    {id:'goal',section:'INTAKE',q:'Ninety days from now, what do you want to be true?',type:'cards-single',
+    {id:'goal',section:'INTAKE',q:'Twelve weeks from now, what do you want to be true?',type:'cards-single',
       opts:['I show up consistently',"I know what's going on in their world","We're rebuilding after a hard season",'I lead with more patience',"I'm present, not just there"]},
     {id:'i1',section:'BASELINE',q:"I know the names of my kids' closest friends.",type:'agree'},
     {id:'i2',section:'BASELINE',q:'My kids can predict when they will see me next.',type:'agree'},
@@ -258,7 +258,7 @@
         </div>`).join('')}
       <p class="small" style="margin:8px 0 26px">${gap} is your gap. Your plan starts there.</p>
       <p class="fine" style="margin-bottom:26px">Your results are yours. We never share them.</p>
-      <button class="btn btn-primary" data-go>See my ninety-day plan</button>`;
+      <button class="btn btn-primary" data-go>See my plan</button>`;
     wire(SCREENS[idx]);
     requestAnimationFrame(()=>setTimeout(()=>{
       el.querySelectorAll('[data-w]').forEach(sp=>sp.style.width=sp.dataset.w+'%');},60));
@@ -270,7 +270,7 @@
       ['Weeks 5-8','Enter their world','IMG-P2-PLAN-02',['Learn the names of their three closest friends.','Ask one question about their world daily. No fixing.']],
       ['Weeks 9-12','Set the standard','IMG-P2-PLAN-03',['Say one thing you stand for, out loud, at the table.','When you blow it, repair it inside 24 hours.']]];
     el.innerHTML=`
-      <h2 class="display" style="font-size:30px">Your Ninety-Day Presence Plan.</h2>
+      <h2 class="display" style="font-size:30px">Your Twelve-Week Presence Plan.</h2>
       <p class="helper">One lesson and two actions a week. Built from your baseline. ${gap} first.</p>
       <div class="stack-24" style="margin:26px 0 30px">${PH.map(([w,t,slot,acts])=>`
         <div class="card"><div class="row" style="align-items:flex-start;gap:20px">
@@ -297,7 +297,7 @@
           </div>
           <div>
             <p style="font-size:15px;margin-bottom:14px">Everything a man needs here is free: the Profile, this plan, the courses, and the Certificate of Completion when he earns it.</p>
-            <a class="btn btn-primary" href="plan.html" style="width:100%">Open my ninety-day plan</a>
+            <a class="btn btn-primary" href="plan.html" style="width:100%">Open my plan</a>
             <p style="margin-top:14px"><a class="link ash" href="sponsor.html">Support the work &rarr;</a></p>
           </div>
         </div>

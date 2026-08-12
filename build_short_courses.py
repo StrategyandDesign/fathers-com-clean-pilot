@@ -63,6 +63,8 @@ def session_article(course: dict, sess: dict) -> str:
     ord_ = sess["ord"]
     sid = f"{prefix}{ord_}"
     vkey = f"{course['video_prefix']}{ord_}"
+    slug = course["slug"]
+    demo_href = f"course.html?demo=1&amp;cert={_e(slug)}"
     science = sess.get("science")
     science_html = (
         f'  <p class="fine" style="color:var(--ash)">The science in the room: {_e(science)}</p>\n'
@@ -73,8 +75,9 @@ def session_article(course: dict, sess: dict) -> str:
   <div class="row between" style="margin-bottom:10px"><span class="pill">SESSION {ord_}</span><span class="fine mono">~12 MIN</span></div>
   <h3 class="d-28" style="margin-bottom:12px">{_e(sess["title"])}</h3>
   <div class="video-slot" data-video="{vkey}" style="border:1px dashed rgba(127,127,127,.45);border-radius:10px;padding:24px;text-align:center;margin-bottom:16px">
-    <p class="fine mono" style="letter-spacing:.08em">FILM IN PRODUCTION</p>
-    <p class="fine" style="color:var(--ash);margin-top:6px">The session film uploads here. The written session below is complete.</p>
+    <p class="eyebrow brass" style="margin-bottom:8px">PREVIEW SESSION</p>
+    <p class="fine" style="color:var(--ash);margin:0 0 14px;max-width:42ch;margin-left:auto;margin-right:auto">Film still finishing. Open the full player demo for this course (all 12 sessions).</p>
+    <a class="btn btn-yellow btn-sm" href="{demo_href}">Watch the demo player</a>
   </div>
   <p class="lead" style="font-size:17px;margin-bottom:12px">{_q(sess["quote"])}</p>
   <p style="color:var(--ash);margin-bottom:12px"><b>One scene.</b> {_e(sess["scene"])}</p>
@@ -97,7 +100,7 @@ def glance_html(course: dict) -> str:
     return (
         '<section class="tight"><div class="container" style="max-width:860px">'
         '<div class="eyebrow" style="margin-bottom:6px">SESSIONS AT A GLANCE</div>'
-        f'<p class="fine" style="color:var(--ash);margin:0 0 6px">The {n} sessions, about twelve minutes of film each. Tap any one to read it in full.</p>'
+        f'<p class="fine" style="color:var(--ash);margin:0 0 6px">The {n} sessions, about twelve minutes of film each. Tap any one to read it in full. Films are still finishing — open the <a class="link" href="course.html?demo=1&amp;cert={_e(course["slug"])}">full player demo</a> for the course flow.</p>'
         + "".join(items)
         + "</div></section>"
     )
@@ -125,7 +128,7 @@ def billboard_html(course: dict) -> str:
   <p class="lead" style="max-width:62ch;margin-bottom:10px">{_e(course["lead"])}</p>
   <p class="fine" style="color:var(--ash);max-width:62ch;margin-bottom:6px">{_e(course["fine1"])}</p>
   <p class="fine" style="color:var(--ash);max-width:62ch;margin-bottom:14px">{_e(course["fine2"])}</p>
-{disc}  <div class="row wrap" style="gap:10px;margin-bottom:8px"><a class="btn btn-yellow" href="profile.html">Start with free Profile</a><a class="btn btn-secondary" href="certificates.html#catalog">Browse courses</a></div>
+{disc}  <div class="row wrap" style="gap:10px;margin-bottom:8px"><a class="btn btn-yellow" href="profile.html">Start with free Profile</a><a class="btn btn-secondary" href="course.html?demo=1&amp;cert={_e(course["slug"])}">Watch the demo player</a><a class="btn btn-secondary" href="certificates.html#catalog">Browse courses</a></div>
 </div></section></div></section>
 '''
 
@@ -134,7 +137,7 @@ def cta_html() -> str:
     return '''
 <section class="band"><div class="container" style="max-width:860px;text-align:center">
   <h2 class="d-28" style="margin-bottom:10px">Start free. Train on film.</h2>
-  <p style="color:var(--ash);max-width:56ch;margin:0 auto 20px">Start with the Keystone Father Profile and your ninety-day plan, or bring this course to the men your organization serves. Facilitator-supported, self-paced.</p>
+  <p style="color:var(--ash);max-width:56ch;margin:0 auto 20px">Start with the Keystone Father Profile and your twelve-week plan, or bring this course to the men your organization serves. Facilitator-supported, self-paced.</p>
   <div class="row" style="gap:12px;justify-content:center"><a class="btn btn-primary" href="profile.html">Start with the Profile</a><a class="btn btn-secondary" href="organizations.html">Bring it to your organization</a></div>
 </div></section>
 '''

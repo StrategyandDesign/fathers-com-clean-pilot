@@ -73,7 +73,7 @@
       if (lastS && lastS.completed_at){
         var days = Math.floor((Date.now() - new Date(lastS.completed_at).getTime()) / 86400000);
         if (days > 90){
-          staleCard = card('THE NINETY DAYS ARE UP','Retake the Keystone Profile',
+          staleCard = card('TIME FOR A FRESH READ','Retake the Keystone Profile',
             'Your last measure was ' + new Date(lastS.completed_at).toLocaleDateString() + ', ' + days + ' days ago. Retake it and see the movement since.',
             'profile.html','Retake now');
         }

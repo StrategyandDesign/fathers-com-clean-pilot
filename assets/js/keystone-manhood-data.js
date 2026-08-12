@@ -416,7 +416,7 @@ window.KEYSTONE_MANHOOD.scale_copy = {
   relationship_satisfaction:{about:"Whether the people close to you actually know you.",s:"The people close to you actually know you.",g:"Being known takes telling. Let someone further in.",m:["Tell one person something true you usually keep back.","Ask a friend how they are, then ask again.","Reach out to someone you have let drift."]},
 };
 
-/* The ninety-day tracks for THIS instrument.
+/* The twelve-week tracks for THIS instrument.
    Twelve weeks per scale, two actions a week, phased Establish, Deepen,
    Sustain. The father tracks are written around a man's children, so a
    Manhood result used to pick them up on shared scale keys and hand a man
@@ -441,7 +441,7 @@ window.KEYSTONE_MANHOOD.tracks = {
       ["Notice who got less of you, and rebalance.","Help one person with something they are learning."],
       ["Make the standing times automatic, not negotiated.","Bring someone along to something you already do."],
       ["Ask someone to teach you something they are good at.","Show up early to one thing, unhurried."],
-      ["Look back at the ninety days with one of them in the room.","Plan one bigger thing together for next season."],
+      ["Look back at these twelve weeks with one of them in the room.","Plan one bigger thing together for next season."],
       ["Lock the rhythm in for the next quarter.","Tell one person what you noticed change in you."],
     ]
   },
@@ -458,7 +458,7 @@ window.KEYSTONE_MANHOOD.tracks = {
       ["Ask one person if you are predictable. Take the answer.","Keep your word on the small thing nobody would check."],
       ["Make the routine boring on purpose. Boring is the point.","Hold your schedule through a week that goes wrong."],
       ["Be the same man in the room you are on your own.","Let someone rely on you without asking twice."],
-      ["Count the promises kept over ninety days.","Name the one you still drop, and plan for it."],
+      ["Count the promises kept over twelve weeks.","Name the one you still drop, and plan for it."],
       ["Set the rhythm for the next quarter and write it down.","Tell someone what they can count on from you now."],
     ]
   },
@@ -475,7 +475,7 @@ window.KEYSTONE_MANHOOD.tracks = {
       ["Say one true thing you would normally keep back.","Notice one way you are different at work than at home."],
       ["Make the daily check a habit, not an effort.","Ask someone what changed in you over these weeks."],
       ["Name your two hardest triggers and your plan for each.","Tell one person what you are learning about yourself."],
-      ["Look back at ninety days of notes and find the pattern.","Name one thing you now see that you could not see before."],
+      ["Look back at twelve weeks of notes and find the pattern.","Name one thing you now see that you could not see before."],
       ["Set a monthly check with yourself and keep it.","Tell someone what you intend to keep watching."],
     ]
   },
@@ -493,7 +493,7 @@ window.KEYSTONE_MANHOOD.tracks = {
       ["Make encouragement your default, not your effort.","Bless what someone is doing well, out loud, in front of others."],
       ["Show up for someone in a way that costs you time.","Be the safe place for one hard conversation."],
       ["Ask the people close to you if they feel safe with you.","Name what you want to be known for."],
-      ["Choose one person to keep encouraging past ninety days.","Tell them why you are not going anywhere."],
+      ["Choose one person to keep encouraging past this season.","Tell them why you are not going anywhere."],
     ]
   },
   commitment: {
@@ -509,7 +509,7 @@ window.KEYSTONE_MANHOOD.tracks = {
       ["Name what you are actually committed to, and what you are not.","Cut one commitment so you can keep the rest."],
       ["Make showing up automatic, not a decision you relitigate.","Tell someone what you are staying for."],
       ["Stay through a setback without renegotiating.","Ask someone if you have been reliable. Take the answer."],
-      ["Count what you stayed with over ninety days.","Name the commitment you will not drop next quarter."],
+      ["Count what you stayed with over twelve weeks.","Name the commitment you will not drop next quarter."],
       ["Put the next quarter's commitments in writing.","Tell one person what they can expect from you now."],
     ]
   },
@@ -543,7 +543,7 @@ window.KEYSTONE_MANHOOD.tracks = {
       ["Ask what you should stop doing, and stop it.","Do one thing that only pays off later."],
       ["Make honest work your default, not your effort.","Teach someone one thing you know how to do."],
       ["Hold your standard on a week you are tired.","Say no to work you cannot do well."],
-      ["Look at ninety days of work. Name what you are proud of.","Name the habit you are keeping."],
+      ["Look at twelve weeks of work. Name what you are proud of.","Name the habit you are keeping."],
       ["Set one work standard for the next quarter.","Tell someone what you are building toward."],
     ]
   },
@@ -560,7 +560,7 @@ window.KEYSTONE_MANHOOD.tracks = {
       ["Recover in an hour instead of a day.","Name one thing you are carrying that is not about them."],
       ["Make the pause automatic.","Handle a bad week without a blowup."],
       ["Tell a battle buddy what sets you off, so he can ask.","Take one piece of criticism without striking back."],
-      ["Count the times you paused over ninety days.","Name the trigger you are still working on."],
+      ["Count the times you paused over twelve weeks.","Name the trigger you are still working on."],
       ["Set your plan for the next hard moment, in writing.","Tell someone what they can expect from you under pressure."],
     ]
   },
@@ -577,7 +577,7 @@ window.KEYSTONE_MANHOOD.tracks = {
       ["Review the plan and cut what does not matter.","Invest one hour in something that grows slowly."],
       ["Make the long view a monthly habit.","Ask who is watching how you handle things."],
       ["Take the step that is inconvenient but right.","Name the cycle you intend to break."],
-      ["Look at ninety days. Name what is actually built.","Write next quarter's one long-range step."],
+      ["Look at twelve weeks. Name what is actually built.","Write next quarter's one long-range step."],
       ["Set a yearly review date and keep it.","Tell someone what you want to leave behind."],
     ]
   },
@@ -587,14 +587,14 @@ window.KEYSTONE_MANHOOD.tracks = {
       ["Do one thing this week that is only for your own health.","Tell one person something true you have been carrying."],
       ["Move your body three times this week.","Read, train, or learn one thing on purpose."],
       ["Get to sleep on time four nights running.","Name one thing that steadies you, and do it."],
-      ["Ask one person to be your battle buddy for ninety days.","Cut one thing that is draining you for no return."],
+      ["Ask one person to be your battle buddy for twelve weeks.","Cut one thing that is draining you for no return."],
       ["Tell your battle buddy the truth about a hard week.","Add one thing back that you used to love."],
       ["Take a full day off from the thing you grind at.","Eat like a man who intends to be around."],
       ["Say no to something so you can rest.","Do something creative or physical with no purpose."],
       ["Ask for help with one thing.","Notice what has actually improved and say it out loud."],
       ["Make the health habit automatic, not heroic.","Check in with your battle buddy without being asked."],
       ["Handle a hard week without dropping the basics.","Name what you want your next season to feel like."],
-      ["Look at ninety days. Name what got better.","Name the one habit you are keeping."],
+      ["Look at twelve weeks. Name what got better.","Name the one habit you are keeping."],
       ["Set next quarter's one health commitment.","Ask your battle buddy to keep walking with you."],
     ]
   },
@@ -611,7 +611,7 @@ window.KEYSTONE_MANHOOD.tracks = {
       ["Ask if what you model matches what you want passed on.","Fix one thing your example is teaching by accident."],
       ["Make the standard automatic, not performed.","Invite someone to call you on the gap."],
       ["Hold the line in a week where it costs you.","Bless someone publicly for doing the right thing."],
-      ["Look at ninety days. Name what you now model well.","Name the gap you are still closing."],
+      ["Look at twelve weeks. Name what you now model well.","Name the gap you are still closing."],
       ["Set the standard you will hold next quarter.","Tell someone what you want copied and what you do not."],
     ]
   },
@@ -645,7 +645,7 @@ window.KEYSTONE_MANHOOD.tracks = {
       ["Check whether what you assumed is still true.","Ask what they need from you specifically."],
       ["Make the asking routine, not an event.","Bring up something they told you months ago."],
       ["Ask one person if they feel known by you.","Learn something about the person you know least."],
-      ["Look at ninety days. Name what you now know.","Name who you still do not really know."],
+      ["Look at twelve weeks. Name what you now know.","Name who you still do not really know."],
       ["Set a rhythm for keeping up with two people.","Tell one person what you have noticed about them."],
     ]
   },
@@ -662,7 +662,7 @@ window.KEYSTONE_MANHOOD.tracks = {
       ["Check the plan against what actually happened.","Tell someone what you are working toward."],
       ["Make the saving automatic, not a decision.","Handle an unexpected cost without panic."],
       ["Keep the plan through a hard month.","Ask someone you trust to look at it with you."],
-      ["Look at ninety days. Name what improved.","Name the habit that is still costing you."],
+      ["Look at twelve weeks. Name what improved.","Name the habit that is still costing you."],
       ["Write next quarter's plan and tell one person.","Set the standard you intend to hold."],
     ]
   },
@@ -679,7 +679,7 @@ window.KEYSTONE_MANHOOD.tracks = {
       ["Review what you learned and what stuck.","Ask what you should learn next, and from whom."],
       ["Make the learning time automatic.","Find one person who will keep pushing you."],
       ["Keep learning in a week you are busy.","Use the new skill for someone else's benefit."],
-      ["Look at ninety days. Name what you can do now.","Name what you want to learn next."],
+      ["Look at twelve weeks. Name what you can do now.","Name what you want to learn next."],
       ["Set next quarter's one skill.","Tell someone what you are working on so they can ask."],
     ]
   },
@@ -696,7 +696,7 @@ window.KEYSTONE_MANHOOD.tracks = {
       ["Ask whether you actually listen, or just consult.","Build the short list of people you will call."],
       ["Make asking first your default.","Go to your battle buddy before the decision, not after."],
       ["Take counsel in a week you feel certain.","Give counsel to someone who asked."],
-      ["Look at ninety days. Name the decision counsel improved.","Name the thing you still decide alone."],
+      ["Look at twelve weeks. Name the decision counsel improved.","Name the thing you still decide alone."],
       ["Set who you will call for what, in writing.","Tell those people you intend to keep calling."],
     ]
   },
@@ -713,7 +713,7 @@ window.KEYSTONE_MANHOOD.tracks = {
       ["Prepare for the failure you can see coming.","Ask what people needed from you and did not get."],
       ["Make the first move automatic.","Get the household or the team back on its feet."],
       ["Handle a real setback with the plan you wrote.","Thank the people who held steady with you."],
-      ["Look at ninety days. Name what you handled well.","Name what still knocks you sideways."],
+      ["Look at twelve weeks. Name what you handled well.","Name what still knocks you sideways."],
       ["Write next quarter's plan for the likely crisis.","Tell people what to expect from you when it goes wrong."],
     ]
   },
@@ -730,7 +730,7 @@ window.KEYSTONE_MANHOOD.tracks = {
       ["Ask whether the people close to you feel it.","Say the thing you have been putting off saying."],
       ["Make the warmth default, not occasional.","Tell someone what they have meant to you over the years."],
       ["Be affectionate in a week that is going badly.","Reach out to someone you have let drift."],
-      ["Look at ninety days. Name who hears it now.","Name who still does not."],
+      ["Look at twelve weeks. Name who hears it now.","Name who still does not."],
       ["Set one person you will keep telling.","Tell them why."],
     ]
   },
@@ -747,7 +747,7 @@ window.KEYSTONE_MANHOOD.tracks = {
       ["Check whether your code survives pressure.","Ask what you want your convictions to cost."],
       ["Make the practice automatic, not occasional.","Talk it through with your battle buddy."],
       ["Hold the code in a week you do not feel it.","Do the quiet right thing nobody will see."],
-      ["Look at ninety days. Name what steadied you.","Name where you still bend."],
+      ["Look at twelve weeks. Name what steadied you.","Name where you still bend."],
       ["Write the code down for the next quarter.","Tell one person what you intend to live by."],
     ]
   },
@@ -764,7 +764,7 @@ window.KEYSTONE_MANHOOD.tracks = {
       ["Review where the hours went and adjust once.","Say no to something good for something better."],
       ["Make the protected time automatic.","Tell people what time is not available and why."],
       ["Hold the calendar through a hard week.","Give time to the person you keep postponing."],
-      ["Look at ninety days. Name who got your time.","Name who still does not."],
+      ["Look at twelve weeks. Name who got your time.","Name who still does not."],
       ["Set next quarter's protected time and write it down.","Tell one person it is theirs."],
     ]
   },
@@ -781,7 +781,7 @@ window.KEYSTONE_MANHOOD.tracks = {
       ["Step back where you have been taking over.","Introduce one person to someone who can help them."],
       ["Make both directions a habit.","Meet with the man you are helping, on schedule."],
       ["Take correction well in front of someone watching.","Encourage the person you are guiding, specifically."],
-      ["Look at ninety days. Name who you helped.","Name who helped you."],
+      ["Look at twelve weeks. Name who you helped.","Name who helped you."],
       ["Set the next quarter's rhythm for both.","Tell both men you intend to keep going."],
     ]
   },
@@ -798,7 +798,7 @@ window.KEYSTONE_MANHOOD.tracks = {
       ["Check whether you are a partner or a project.","Bring something up before it becomes a problem."],
       ["Make the protected time automatic.","Choose them over your phone, visibly."],
       ["Hold the connection through a hard week.","Do something together that is not logistics."],
-      ["Look at ninety days. Ask them what changed.","Name what you are still getting wrong."],
+      ["Look at twelve weeks. Ask them what changed.","Name what you are still getting wrong."],
       ["Set next quarter's rhythm with them, together.","Tell them what you are committing to."],
     ]
   },
@@ -815,7 +815,7 @@ window.KEYSTONE_MANHOOD.tracks = {
       ["Talk it through with your battle buddy, honestly.","Notice where the old pattern still shows up."],
       ["Do one thing that proves the cycle is breakable.","Write down what you want remembered about how you raised people."],
       ["Sit with the grief if it comes. It is part of it.","Bless something about the man who raised you, if you can."],
-      ["Look at ninety days. Name what loosened its grip.","Name what you are still carrying."],
+      ["Look at twelve weeks. Name what loosened its grip.","Name what you are still carrying."],
       ["Decide what you keep and what stops here. Write it down.","Tell one person what you have decided."],
     ]
   },
@@ -832,7 +832,7 @@ window.KEYSTONE_MANHOOD.tracks = {
       ["Ask whether the standard you hold yourself to is fair.","Adjust one expectation that was never realistic."],
       ["Make the weekly stock-take a habit.","Notice how you talk about yourself, and change one word."],
       ["Handle a bad week without concluding you are a bad man.","Name one thing you are genuinely proud of."],
-      ["Look at ninety days. Name what changed in you.","Name what you are still working on, without shame."],
+      ["Look at twelve weeks. Name what changed in you.","Name what you are still working on, without shame."],
       ["Write what kind of man you intend to be next quarter.","Tell your battle buddy so he can hold you to it."],
     ]
   },
@@ -849,7 +849,7 @@ window.KEYSTONE_MANHOOD.tracks = {
       ["Check whether people can tell you bad news.","Fix one thing that makes it hard to work with you."],
       ["Make the asking routine, not an event.","Bless what people are doing well, out loud."],
       ["Lead steadily through a week that goes wrong.","Thank the people who carried it with you."],
-      ["Look at ninety days. Ask whether trust grew.","Name where you still lose people."],
+      ["Look at twelve weeks. Ask whether trust grew.","Name where you still lose people."],
       ["Set the standard you will lead by next quarter.","Tell them what they can expect from you."],
     ]
   },
@@ -866,7 +866,7 @@ window.KEYSTONE_MANHOOD.tracks = {
       ["Ask whether the people close to you feel close.","Say the thing you have been rehearsing for months."],
       ["Make reaching out a rhythm, not a mood.","Bring two people in your life together."],
       ["Stay connected through a week you want to withdraw.","Tell someone what their friendship has meant."],
-      ["Look at ninety days. Name who knows you now.","Name who you are still hiding from."],
+      ["Look at twelve weeks. Name who knows you now.","Name who you are still hiding from."],
       ["Set the rhythm for the next quarter, with names on it.","Tell your battle buddy you intend to keep going."],
     ]
   },

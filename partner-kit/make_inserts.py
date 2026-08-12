@@ -90,7 +90,7 @@ c.drawString(M, y, parent_text("Free. Private. About twenty minutes. Built by th
 y = section(c, y, "What this is", parent_text(
     "The Keystone Profile. About 40 questions on your phone. You get your score on the four "
     "things that matter: Involvement. Consistency. Awareness. Nurturance. Then you get a "
-    "ninety-day plan built for you, one clear step at a time."))
+    "twelve-week plan built for you, one clear step at a time."))
 y = section(c, y, "What it costs", parent_text(
     "Nothing. The Profile is free. The plan is free. The courses are free to the man who "
     "takes them. That will not change."))
@@ -141,7 +141,7 @@ y = section(c, y, "What the certificate contains",
     "at eighty percent. A serial in the format FC-2026-######. Signed by Dr. Ken Canfield and "
     "the leading Certified Facilitator.", 9.8, 13.5)
 y = section(c, y, "Cost to the parent",
-    "Zero, ever. The Keystone Profile, the ninety-day plan, the courses, and the Certificate "
+    "Zero, ever. The Keystone Profile, the twelve-week plan, the courses, and the Certificate "
     "of Completion are free to the participant. Organizations pay for certification. "
     "Sponsorship funds seats.", 9.8, 13.5)
 y = section(c, y, "Privacy posture",

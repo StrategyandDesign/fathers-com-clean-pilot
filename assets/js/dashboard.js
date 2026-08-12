@@ -148,7 +148,7 @@
 
      Two parts, shown independently. The CHOOSER only appears when he holds more
      than one profile, because a man with one has nothing to choose. The ACTIONS
-     always appear, because his ninety-day plan is the thing he comes back to
+     always appear, because his twelve-week plan is the thing he comes back to
      every week and it must be one tap from his home. These used to be tied
      together, so a man with a single profile, which is most men, got no link to
      his plan at all and had to find it in the site menu. */
@@ -177,7 +177,7 @@
 
     bar.innerHTML = chooser +
       '<div class="row wrap" style="gap:10px">' +
-        '<a class="btn btn-primary btn-sm" href="plan.html?assessment=' + encodeURIComponent(activeSlug) + '">Open your ninety-day plan</a>' +
+        '<a class="btn btn-primary btn-sm" href="plan.html?assessment=' + encodeURIComponent(activeSlug) + '">Open your plan</a>' +
         '<a class="btn btn-secondary btn-sm" href="report.html?assessment=' + encodeURIComponent(activeSlug) + '">Open the full report</a>' +
         '<a class="btn btn-secondary btn-sm" href="certificates.html">Browse the courses</a>' +
       '</div>';
@@ -347,7 +347,7 @@
 
       if(!enrolled && !hasClaim){
         cards.push(card('plan.html','This week',
-          'Your ninety-day plan',
+          'Your twelve-week plan',
           'One or two moves built from your Profile. Mark them when they happen.',
           'Open your plan'));
         cards.push(card('certificates.html','Train the focus',

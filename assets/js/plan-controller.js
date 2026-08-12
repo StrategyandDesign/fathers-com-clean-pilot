@@ -1,5 +1,5 @@
 /* ============================================================
-   Plan Controller: renders a man's personalized 90-day plan.
+   Plan Controller: renders a man's personalized twelve-week plan.
    Reads his latest keystone_results, runs PLAN_ENGINE, and shows:
    - his focus dimension (from his real growth-focus)
    - this week's specific actions (checkable, saved)
@@ -125,7 +125,7 @@
       '<div class="center" style="max-width:560px;margin:60px auto">'+
       '<div class="eyebrow brass" style="margin-bottom:14px">YOUR PLAN STARTS WITH YOUR BASELINE</div>'+
       '<h1 class="d-36" style="margin-bottom:16px">Take the Keystone Profile first.</h1>'+
-      '<p class="lead" style="margin-bottom:28px">Your ninety-day plan is built from your results: your real strengths, and the one dimension where growth will matter most. It takes about twenty minutes, and you can do it in sittings.</p>'+
+      '<p class="lead" style="margin-bottom:28px">Your twelve-week plan is built from your results: your real strengths, and the one dimension where growth will matter most. It takes about twenty minutes, and you can do it in sittings.</p>'+
       '<a class="btn btn-yellow" href="profile.html">Take your baseline</a>'+
       '</div>';
   }
@@ -147,7 +147,7 @@
     var html =
       '<div class="pl-hero">'+
         '<div class="pl-hero-top">'+
-          '<div class="pl-hero-eyebrow">Your ninety-day plan</div>'+
+          '<div class="pl-hero-eyebrow">Your twelve-week plan</div>'+
           '<span class="pl-hero-base">'+
             '<span class="pl-hero-base-k">Where you started</span>'+
             '<b>'+esc(((window.KS && KS.bandFor) ? KS.bandFor(overall).label : 'Your baseline'))+'</b>'+
@@ -165,7 +165,7 @@
          already absorbed a week number and a baseline before learning none of
          it was his. Sample status is the first thing on the page now, and the
          hero copy stops claiming the plan was built from his profile. */
-      html = '<div class="notice brass" style="margin:0 0 20px"><b>This is a sample plan, not yours.</b> <a class="link" href="profile.html">Take your Profile</a> and your own ninety-day plan is built from your results.</div>' + html;
+      html = '<div class="notice brass" style="margin:0 0 20px"><b>This is a sample plan, not yours.</b> <a class="link" href="profile.html">Take your Profile</a> and your own twelve-week plan is built from your results.</div>' + html;
       html = html.replace('Built from your Keystone Profile. Your focus is', 'A sample focus: ');
       html = html.replace('<span class="pl-hero-base-k">Where you started</span>', '<span class="pl-hero-base-k">Sample baseline</span>');
     }
@@ -225,7 +225,7 @@
     //    "Weeks you showed up" is cumulative, not a chain that breaks.
     html +=
       '<div class="card pl-progress">'+
-        '<div class="row between" style="margin-bottom:14px"><div class="eyebrow" style="margin:0">YOUR NINETY DAYS</div>'+
+        '<div class="row between" style="margin-bottom:14px"><div class="eyebrow" style="margin:0">YOUR TWELVE WEEKS</div>'+
         '<span class="fine mono">'+m.pctThroughPlan+'% through</span></div>'+
         '<div class="pl-arc">'+
           plan.weeks.map(function(w){
@@ -368,7 +368,7 @@
   }
 
   // Calm progress only. Cumulative actions and weeks-shown-up, and how far through the
-  // ninety days he is (goal-gradient). No consecutive streak, because a broken streak
+  // twelve weeks he is (goal-gradient). No consecutive streak, because a broken streak
   // shames the exact users who miss weeks for real reasons. No badge theater.
   function computeProgress(plan, week){
     var actionsDone = 0, weeksWithAction = 0, cuesSet = 0;

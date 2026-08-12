@@ -144,7 +144,7 @@ A participant can only participate in a course when an active claim exists
 for him, placed by a Certified Facilitator or a Certified Organization. The
 claim is by the email he signs in with (or his user id once attached).
 Facilitators place and release claims from the Facilitator Desk. The free
-film library, the Keystone Profile, and the ninety-day plan remain open to
+film library, the Keystone Profile, and the twelve-week plan remain open to
 every man; the three courses and the Certificate of Completion flow through
 claims. Enrollment records carry claim_id so completions roll up to cohorts.
 
