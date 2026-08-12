@@ -483,7 +483,7 @@
         '<div class="rp-practical-h">Start here</div>'+
         '<p class="rp-practical-body">'+esc(meta.pracA)+'</p>'+
         '<div class="rp-practical-do"><span class="rp-do-k">Do this week</span><span>'+esc(doLine)+'</span></div>'+
-        '<a class="rp-practical-link rp-noprint" href="class.html">Train this section &rarr;</a>'+
+        '<a class="rp-practical-link rp-noprint" href="course-fathering-fundamentals.html">Train this section &rarr;</a>'+
       '</aside>';
     var photo=brand['photo_'+sec.key];
     var pStyle=photo ? ' style="background-image:linear-gradient(180deg,rgba(11,24,18,.5),rgba(11,24,18,.85)),url(&quot;'+esc(String(photo).replace(/["\\\\]/g,''))+'&quot;);background-size:cover;background-position:center"' : '';
@@ -498,7 +498,7 @@
       '</div>'+
       '<div class="rp-inner">'+practical+rows+
         '<div class="rp-resources rp-noprint"><span class="rp-res-h">Train this section</span>'+
-          '<a class="rp-reslink" href="class.html">The free course</a>'+
+          '<a class="rp-reslink" href="course-fathering-fundamentals.html">The free course</a>'+
           '<a class="rp-reslink" href="classes.html">All classes</a>'+
           /* SHOW_STORIES: restore when Stories return: '<a class="rp-reslink" href="stories.html">Stories from fathers</a>'+ */
           '<a class="rp-reslink" href="circles.html">Find a circle</a></div>'+
