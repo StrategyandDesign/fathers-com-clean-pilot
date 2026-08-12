@@ -201,12 +201,15 @@
       /* Preview must stay playable even when Supabase is live. Prefer a shape
          still poster when present; otherwise keep the short stand-in sim. */
       if (poster) {
+        /* Media stays a clean 16:9 still. Labels + Play sit below, never on the image. */
         player = '<div class="cw-poster-wrap">'+
           '<img src="'+esc(poster)+'" alt="">'+
-          '<div style="position:absolute;inset:auto 0 0 0;padding:16px 18px;background:linear-gradient(transparent,rgba(0,0,0,.82))">'+
-          '<div class="eyebrow brass" style="margin-bottom:6px">SHAPE PREVIEW · PLACEHOLDER</div>'+
-          '<p class="small" style="margin:0 0 12px;color:#ddd">Final film goes here. Press play for a short stand-in, then take the checkpoint.</p>'+
-          '<button class="btn btn-yellow btn-sm" id="cw-sim">Play preview session</button></div></div>';
+          '</div>'+
+          '<div class="cw-sim-below">'+
+          '<div class="eyebrow brass">SHAPE PREVIEW · PLACEHOLDER</div>'+
+          '<p class="small ash">Final film goes here. Press play for a short stand-in, then take the checkpoint.</p>'+
+          '<button class="btn btn-yellow btn-sm" id="cw-sim">Play preview session</button>'+
+          '</div>';
       } else {
         player = '<div class="cw-novid" style="padding:28px 24px;border:1px solid rgba(127,127,127,.28);border-radius:14px;background:rgba(255,255,255,.03)">'+
           '<div class="eyebrow brass" style="margin-bottom:10px">PREVIEW SESSION · PLACEHOLDER</div>'+
