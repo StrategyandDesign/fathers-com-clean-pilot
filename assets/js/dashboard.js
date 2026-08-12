@@ -254,7 +254,7 @@
       }, function(){ done(0, 0); });
   }
 
-  function nextStrip(activeSlug, heldSlugs, enrolled, courseCount){
+  function nextStrip(activeSlug, heldSlugs, enrolled, courseCount, hasClaim){
     var host = document.getElementById('dashNext');
     if(!host) return;
 
@@ -262,11 +262,8 @@
     var hasOther = other && heldSlugs.indexOf(other) > -1;
     var otherTitle = other ? titleFor(other) : '';
 
-    /* Courses lead, because that is the work after the profile. The count is
-       real: an empty catalogue says so rather than promising nothing. Once he is
-       enrolled the catalogue card changes or leaves, because telling a man who
-       is inside all three that "3 courses are open to you" is both wrong and
-       slightly insulting. His enrolled courses live in Your Courses above. */
+    /* Courses lead once a claim (or enrollment) exists. Unclaimed men should
+       stay on the free plan / facilitator path, not hit the certificates enroll wall. */
     function paint(courseCount){
       var cards = [];
       enrolled = enrolled || 0;
@@ -282,7 +279,16 @@
           '<span class="dash-next-go">'+go+' <i aria-hidden="true">&rarr;</i></span></a>';
       }
 
-      if(!enrolled){
+      if(!enrolled && !hasClaim){
+        cards.push(card('plan.html','What is next',
+          'Keep your ninety-day plan moving',
+          'Your plan is open now. Courses unlock when a Certified Facilitator or Organization adds your seat.',
+          'Open your plan'));
+        cards.push(card('organizations.html','If you have a facilitator',
+          'They add your seat when you are ready',
+          'Under a minute on their side. After that, enrollment is free and waiting for you.',
+          'Find a program'));
+      } else if(!enrolled){
         cards.push(card('certificates.html','The courses',
           courseCount ? courseCount + ' course' + (courseCount===1?'':'s') + ' open to you' : 'The courses',
           courseCount ? 'Free. Finish one and you hold a Certificate of Completion with your name and a serial anyone can check.'
@@ -338,7 +344,13 @@
           var held = list.map(function(x){ return x.assessment_slug; });
           var uid = (window.FC && FC.uid) ? FC.uid() : null;
           coursesStrip(uid, function(enrolled, total){
-            nextStrip(slug, held, enrolled, total || null);
+            var paintNext = function(hasClaim){
+              nextStrip(slug, held, enrolled, total || null, !!hasClaim);
+            };
+            if(!(window.FC && FC.live && FC.sb && uid)){ paintNext(false); return; }
+            FC.sb.from('participant_claims').select('id').eq('user_id', uid).limit(1)
+              .then(function(cr){ paintNext(!!(cr && cr.data && cr.data.length)); },
+                    function(){ paintNext(false); });
           });
           return;
         }

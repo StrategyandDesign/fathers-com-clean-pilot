@@ -1,7 +1,28 @@
 // Fathers.com : send-email edge function (Deno / Supabase)
 // Deploy:  supabase functions deploy send-email
-// Secret:  supabase secrets set RESEND_API_KEY=re_...
-// Call:    POST { to, template, data } or { to, subject, html }
+// Secrets (required):
+//   RESEND_API_KEY              — Resend API key
+//   INTERNAL_FUNCTION_SECRET    — shared secret for server-to-server / arbitrary html
+//   SUPABASE_URL                — injected by platform
+//   SUPABASE_ANON_KEY           — injected by platform (JWT validation)
+//   SUPABASE_SERVICE_ROLE_KEY   — injected by platform (JWT validation fallback)
+// Call:    POST { to, template, data }  (Bearer JWT or x-internal-secret)
+//          POST { to, subject, html }   (INTERNAL_FUNCTION_SECRET only)
+
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+const ALLOWED_TEMPLATES = new Set([
+  "01-welcome",
+  "02-weekly-plan",
+  "03-missed-week",
+  "04-gift-receipt",
+  "05-gift-delivery",
+  "06-renewal",
+  "07-win-back",
+  "08-certificate-issued",
+  "09-leader-digest",
+  "org-invite",
+]);
 
 const SUBJECTS: Record<string, string> = {
   "01-welcome": "Your baseline is saved.",
@@ -41,20 +62,115 @@ function fill(s: string, data: Record<string, string>): string {
   return s.replace(/{{(\w+)}}/g, (_, k) => data[k] ?? "");
 }
 
-Deno.serve(async (req) => {
-  const cors = {
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Headers": "authorization, content-type",
+const CORS_BASE = {
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-internal-secret",
+  "Access-Control-Allow-Methods": "POST, OPTIONS",
+};
+function allowedOrigin(origin: string | null): string | null {
+  if (!origin) return null;
+  if (origin === "http://localhost:3000") return origin;
+  if (/^https:\/\/([a-z0-9-]+\.)?fathers\.com$/.test(origin)) return origin;
+  if (/^https:\/\/[a-z0-9-]+-strategyanddesign\.vercel\.app$/.test(origin)) return origin;
+  if (/^https:\/\/fathers-com-platform[a-z0-9-]*\.vercel\.app$/.test(origin)) return origin;
+  return null;
+}
+function corsFor(req: Request): Record<string, string> {
+  const allowed = allowedOrigin(req.headers.get("Origin"));
+  return {
+    ...CORS_BASE,
+    "Access-Control-Allow-Origin": allowed ?? "https://fathers.com",
   };
+}
+
+function isEmail(to: unknown): to is string {
+  return typeof to === "string" && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(to.trim());
+}
+
+async function callerAuthorized(req: Request): Promise<{ ok: true; internal: boolean } | { ok: false; status: number; error: string }> {
+  const internalSecret = Deno.env.get("INTERNAL_FUNCTION_SECRET") ?? "";
+  const presented = req.headers.get("x-internal-secret") ?? "";
+  if (internalSecret && presented && presented === internalSecret) {
+    return { ok: true, internal: true };
+  }
+
+  const auth = req.headers.get("Authorization") ?? "";
+  const jwt = auth.replace(/^Bearer\s+/i, "").trim();
+  if (!jwt) return { ok: false, status: 401, error: "Authorization Bearer JWT or x-internal-secret required" };
+
+  const url = Deno.env.get("SUPABASE_URL")!;
+  const anon = Deno.env.get("SUPABASE_ANON_KEY") ?? "";
+  const service = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "";
+
+  if (anon) {
+    const client = createClient(url, anon, { global: { headers: { Authorization: `Bearer ${jwt}` } } });
+    const { data, error } = await client.auth.getUser();
+    if (!error && data?.user) return { ok: true, internal: false };
+  }
+  if (service) {
+    const admin = createClient(url, service, { auth: { persistSession: false } });
+    const { data, error } = await admin.auth.getUser(jwt);
+    if (!error && data?.user) return { ok: true, internal: false };
+  }
+  return { ok: false, status: 401, error: "invalid session" };
+}
+
+Deno.serve(async (req) => {
+  const cors = corsFor(req);
   if (req.method === "OPTIONS") return new Response("ok", { headers: cors });
+  if (req.method !== "POST") {
+    return new Response(JSON.stringify({ error: "method not allowed" }), {
+      status: 405, headers: { ...cors, "Content-Type": "application/json" },
+    });
+  }
 
   try {
-    const { to, template, data = {}, subject, html } = await req.json();
-    if (!to) throw new Error("Missing 'to'.");
+    const authz = await callerAuthorized(req);
+    if (!authz.ok) {
+      return new Response(JSON.stringify({ error: authz.error }), {
+        status: authz.status, headers: { ...cors, "Content-Type": "application/json" },
+      });
+    }
 
-    const finalSubject = subject ?? fill(SUBJECTS[template] ?? "Fathers.com", data);
-    const finalHtml = html ?? fill(BODIES[template] ?? "", data);
-    if (!finalHtml) throw new Error(`No body for template '${template}'. Inline it or pass html.`);
+    const { to, template, data = {}, subject, html } = await req.json();
+    if (!isEmail(to)) {
+      return new Response(JSON.stringify({ error: "Missing or invalid 'to' email." }), {
+        status: 400, headers: { ...cors, "Content-Type": "application/json" },
+      });
+    }
+
+    const wantsArbitrary = (subject != null && subject !== "") || (html != null && html !== "");
+    if (wantsArbitrary && !authz.internal) {
+      return new Response(JSON.stringify({ error: "Arbitrary subject/html requires x-internal-secret" }), {
+        status: 403, headers: { ...cors, "Content-Type": "application/json" },
+      });
+    }
+
+    let finalSubject: string;
+    let finalHtml: string;
+
+    if (authz.internal && wantsArbitrary) {
+      finalSubject = String(subject ?? fill(SUBJECTS[template] ?? "Fathers.com", data));
+      finalHtml = String(html ?? fill(BODIES[template] ?? "", data));
+    } else {
+      if (!template || !ALLOWED_TEMPLATES.has(template)) {
+        return new Response(JSON.stringify({ error: "template not allowlisted" }), {
+          status: 400, headers: { ...cors, "Content-Type": "application/json" },
+        });
+      }
+      finalSubject = fill(SUBJECTS[template] ?? "Fathers.com", data);
+      finalHtml = fill(BODIES[template] ?? "", data);
+      if (!finalHtml) {
+        return new Response(JSON.stringify({ error: `No body for template '${template}'.` }), {
+          status: 400, headers: { ...cors, "Content-Type": "application/json" },
+        });
+      }
+    }
+
+    if (!finalHtml) {
+      return new Response(JSON.stringify({ error: "No email body." }), {
+        status: 400, headers: { ...cors, "Content-Type": "application/json" },
+      });
+    }
 
     const r = await fetch("https://api.resend.com/emails", {
       method: "POST",
@@ -64,7 +180,7 @@ Deno.serve(async (req) => {
       },
       body: JSON.stringify({
         from: "Fathers.com <plan@updates.fathers.com>",
-        to,
+        to: to.trim(),
         subject: finalSubject,
         html: finalHtml,
       }),
@@ -81,7 +197,3 @@ Deno.serve(async (req) => {
     });
   }
 });
-
-// Appended templates: org invite (referenced by org.js)
-// Add to SUBJECTS / BODIES maps above when integrating, or handle here:
-//   "org-invite": subject "You have a seat on Fathers.com", body links to {{JOIN_URL}}.

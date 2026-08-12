@@ -1,5 +1,5 @@
 /* Circles. Real posts and replies against Supabase. No demo.
-   A signed-in father is auto-joined to his circle, sees the feed, posts,
+   A signed-in father sees his circle when he is a member, posts,
    replies, and can report. Author names come from profiles. */
 (function(){
   'use strict';
@@ -32,7 +32,14 @@
       uid = FC.uid && FC.uid();
       if (!uid) { location.href = 'login.html?next=circles.html'; return; }
       resolveCircle().then(function(cid){
-        if (!cid) { feed.innerHTML = '<p class="ash" style="padding:12px 0">No circle is available yet. A leader can create one.</p>'; return; }
+        if (!cid) {
+          feed.innerHTML = '<div class="card" style="padding:22px;margin:12px 0">'+
+            '<h3 class="d-22" style="margin:0 0 8px">Your circle is not open yet</h3>'+
+            '<p class="ash" style="margin:0 0 12px">A facilitator opens the circle for your cohort. You will see it here once they add you. Until then, keep your free plan moving.</p>'+
+            '<a class="btn btn-primary btn-sm" href="plan.html">Continue your free plan</a>'+
+          '</div>';
+          return;
+        }
         circleId = cid;
         wireComposer();
         load();
@@ -40,17 +47,12 @@
     });
   }
 
-  // The father's circle, or auto-join the first available one.
+  // Membership only. Do not auto-join the first row; facilitator opens the circle.
   function resolveCircle(){
     return FC.sb.from('circle_members').select('circle_id').eq('user_id', uid).limit(1)
       .then(function(r){
         if (r.data && r.data.length) return r.data[0].circle_id;
-        return FC.sb.from('circles').select('id').limit(1).then(function(cr){
-          if (!cr.data || !cr.data.length) return null;
-          var cid = cr.data[0].id;
-          return FC.sb.from('circle_members').insert({ circle_id: cid, user_id: uid })
-            .then(function(){ return cid; }, function(){ return cid; });
-        });
+        return null;
       });
   }
 

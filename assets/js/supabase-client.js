@@ -61,6 +61,17 @@ window.FC = window.FC || {};
           data: { name: name || null },
           emailRedirectTo: location.origin + location.pathname.replace(/[^/]*$/, '') + (next || 'plan.html')
         }
+      }).then(function(r){
+        // Retention defaults for new participants (news stays opt-in).
+        try {
+          var uid = r && r.data && r.data.user && r.data.user.id;
+          if(uid){
+            FC.sb.from('profiles').update({
+              prefs: { email_weekly: true, email_course: true, email_news: false, share_facilitator: true }
+            }).eq('id', uid).then(function(){}, function(){});
+          }
+        } catch(e){}
+        return r;
       });
     });
   };

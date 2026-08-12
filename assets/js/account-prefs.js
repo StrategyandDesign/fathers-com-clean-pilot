@@ -45,7 +45,7 @@
     '<div class="card" style="padding:26px;margin-bottom:18px">'+
       '<div class="eyebrow" style="margin-bottom:6px">HOW WE REACH YOU</div>'+
       '<h3 style="margin:0 0 6px">Email</h3>'+
-      '<p class="fine" style="margin:0 0 16px;color:var(--ash)">Off by default. Nothing is sent unless you turn it on.</p>'+
+      '<p class="fine" style="margin:0 0 16px;color:var(--ash)">Weekly plan and course reminders stay on so you do not lose the thread. Turn either off anytime. News stays off until you opt in.</p>'+
       '<label class="actionrow" style="cursor:pointer"><input type="checkbox" id="acWeekly">'+
         '<div><b>The week\u2019s move</b><div class="fine">One short message a week naming the one action from your plan. Nothing else.</div></div></label>'+
       '<label class="actionrow" style="cursor:pointer;margin-top:12px"><input type="checkbox" id="acCourse">'+
@@ -97,8 +97,13 @@
         PREFS = ME.prefs || {};
         if(el('acName'))  el('acName').value  = ME.name  || '';
         if(el('acEmail')) el('acEmail').value = ME.email || '';
-        if(el('acWeekly'))   el('acWeekly').checked   = !!PREFS.email_weekly;
-        if(el('acCourse'))   el('acCourse').checked   = !!PREFS.email_course;
+        // Retention defaults for new participants: weekly + course on, news opt-in.
+        if(PREFS.email_weekly === undefined && PREFS.email_course === undefined && PREFS.email_news === undefined){
+          PREFS.email_weekly = true; PREFS.email_course = true; PREFS.email_news = false;
+          FC.sb.from('profiles').update({ prefs: PREFS }).eq('id', uid).then(function(){}, function(){});
+        }
+        if(el('acWeekly'))   el('acWeekly').checked   = PREFS.email_weekly !== false;
+        if(el('acCourse'))   el('acCourse').checked   = PREFS.email_course !== false;
         if(el('acNews'))     el('acNews').checked     = !!PREFS.email_news;
         // Facilitator sharing defaults ON: it is how a programme supports him.
         if(el('acShareFac')) el('acShareFac').checked = PREFS.share_facilitator !== false;

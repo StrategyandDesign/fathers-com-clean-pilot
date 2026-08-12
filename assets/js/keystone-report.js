@@ -620,7 +620,10 @@
       if(state!=='sample') actions+='<a class="rp-btn rp-btn-yellow" href="plan.html'+q+'">Open my ninety-day plan</a>';
       actions+='<button class="rp-btn rp-btn-ghost" id="rpPrint">Download as PDF</button>';
       if(state!=='sample') actions+='<a class="rp-btn rp-btn-ghost" href="dashboard.html'+q+'">Home</a>';
-      if(state==='pending') actions+='<span class="rp-mailrow"><input class="rp-mail-input" type="email" id="rpEmail" placeholder="you@email.com" autocomplete="email"><button class="rp-btn rp-btn-yellow" id="rpSend">Email me this report</button></span>';
+      if(state==='pending') actions+='<span class="rp-mailrow" style="flex-wrap:wrap">'+
+        '<input class="rp-mail-input" type="email" id="rpEmail" placeholder="you@email.com" autocomplete="email">'+
+        '<input class="rp-mail-input" type="password" id="rpPass" placeholder="Password (8+)" autocomplete="new-password">'+
+        '<button class="rp-btn rp-btn-yellow" id="rpSend">Save this report</button></span>';
       actions+='</div>';
       actions+= (state==='account')
         ? '<p class="rp-brandnote rp-noprint">Saved to your account.</p>'
@@ -758,25 +761,32 @@
 
       var pb=document.getElementById('rpPrint');
       if(pb) pb.addEventListener('click', function(){ window.print(); });
-      var sb2=document.getElementById('rpSend'), se=document.getElementById('rpEmail'), sm=document.getElementById('rpMsg');
+      var sb2=document.getElementById('rpSend'), se=document.getElementById('rpEmail'), sp=document.getElementById('rpPass'), sm=document.getElementById('rpMsg');
       function send(){
         var email=(se.value||'').trim();
-        if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ if(sm) sm.textContent='Enter your email so we can send it.'; return; }
-        sb2.disabled=true; sb2.textContent='Sending\u2026';
-        if(window.FC && FC.signInMagic){
-          (function(){
-            var dest = 'report.html'+q;
-            try { var t = localStorage.getItem('fc_claim_token'); if(t){ dest += (q?'&':'?')+'claim='+encodeURIComponent(t); } } catch(e){}
-            return FC.signInMagic(email, dest);
-          })().then(function(r){
-            if(r && r.error){ if(sm) sm.textContent=r.error.message||'Something went wrong. Try again.'; sb2.disabled=false; sb2.textContent='Email me this report'; return; }
-            if(sm) sm.textContent='Sent to '+email+'. The link in that email opens this report, saved to your account. No password.';
-            sb2.textContent='Sent';
-          });
-        }
+        var pass=(sp && sp.value) || '';
+        if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ if(sm) sm.textContent='Enter a valid email.'; return; }
+        if(pass.length < 8){ if(sm) sm.textContent='Password needs at least 8 characters.'; return; }
+        sb2.disabled=true; sb2.textContent='Saving\u2026';
+        var dest = 'report.html'+q;
+        try { var tok = localStorage.getItem('fc_claim_token'); if(tok){ dest += (q?'&':'?')+'claim='+encodeURIComponent(tok); } } catch(e){}
+        if(!(window.FC && FC.signUpPassword)){ if(sm) sm.textContent='Sign-in is not available right now.'; sb2.disabled=false; sb2.textContent='Save this report'; return; }
+        FC.signUpPassword(email, pass, '', dest).then(function(r){
+          function go(){ location.href = dest; }
+          if(r && r.error){
+            return FC.signInPassword(email, pass).then(function(r2){
+              if(r2 && r2.error){ if(sm) sm.textContent=r.error.message||'Could not create the account.'; sb2.disabled=false; sb2.textContent='Save this report'; return; }
+              go();
+            });
+          }
+          if(r.data && r.data.session){ go(); return; }
+          if(sm) sm.textContent='Account created. Check your email to confirm it, then sign in to open this report.';
+          sb2.disabled=false; sb2.textContent='Save this report';
+        }, function(){ if(sm) sm.textContent='Could not create the account. Try again.'; sb2.disabled=false; sb2.textContent='Save this report'; });
       }
       if(sb2){ sb2.addEventListener('click', send); }
       if(se){ se.addEventListener('keydown', function(ev){ if(ev.key==='Enter') send(); }); }
+      if(sp){ sp.addEventListener('keydown', function(ev){ if(ev.key==='Enter') send(); }); }
     });
   }
 

@@ -115,22 +115,23 @@ HEAD = '''<!DOCTYPE html>
 
 def nav(active='', mode='public'):
     if mode=='app':
-        links = [('Home','dashboard.html'),('The Courses','certificates.html'),('Stories','stories.html'),('Circles','circles.html')]
+        links = [('Home','dashboard.html'),('My Plan','plan.html'),('The Courses','certificates.html'),('Stories','stories.html'),('Circles','circles.html')]
         if not SHOW_STORIES: links = [l for l in links if l[1] != 'stories.html']
         active = {'Certificates':'The Courses','Classes':'The Courses'}.get(active, active)
     else:
-        links = [('The Profile','profile.html'),('The Courses','certificates.html'),('Stories','stories.html')]
+        links = [('The Profile','profile.html'),('The Courses','certificates.html'),('Stories','stories.html'),('Log in','login.html')]
         if not SHOW_STORIES: links = [l for l in links if l[1] != 'stories.html']
         # Legacy page actives map onto the new public nav so highlighting stays sane.
+        # Log in lives in .nav-links so the mobile MENU drawer can reach it (nav-right hide-m cannot).
         active = {'For Groups':'For Organizations','For Veterans':'For Organizations','Classes':'The Courses','Certificates':'The Courses','My Plan':'Home'}.get(active, active)
     lis = ''.join(f'<li><a href="{h}" {"class=\"active\"" if t==active else ""}>{t}</a></li>' for t,h in links)
-    right = ('<a href="sponsor.html" class="hide-m">Sponsor</a><a href="login.html" class="hide-m">Log in</a><a class="btn btn-yellow btn-sm" href="profile.html">Start your Profile</a>'
+    right = ('<a href="sponsor.html" class="hide-m">Sponsor</a><a class="btn btn-yellow btn-sm" href="profile.html">Start your Profile</a>'
              if mode=='public' else
              '<a href="#" data-open-search class="hide-m">Search</a><a href="sponsor.html" class="hide-m">Sponsor</a><a href="account.html" class="avatarchip" title="Account" style="text-decoration:none">M</a>')
     return f'''<nav class="nav"><div class="container nav-inner">
 <a class="brand" href="index.html"><img class="lg-dark" src="assets/img/logomark-light.png" alt="Fathers.com logomark"><img class="lg-light" src="assets/img/logomark-dark.png" alt="Fathers.com logomark"><b>Fathers.com</b></a>
-<ul class="nav-links">{lis}</ul>
-<div class="nav-right">{right}<button class="themeswitch" data-themeswitch aria-label="Switch palette" title="Switch palette"><span class="tsw-dot"></span></button><button class="nav-toggle">MENU</button></div>
+<ul class="nav-links" id="fc-nav-links">{lis}</ul>
+<div class="nav-right">{right}<button class="themeswitch" data-themeswitch aria-label="Switch palette" title="Switch palette"><span class="tsw-dot"></span></button><button class="nav-toggle" type="button" aria-expanded="false" aria-controls="fc-nav-links">MENU</button></div>
 </div></nav>
 '''
 
@@ -396,34 +397,20 @@ for _v in VERTICALS:
 PAGES['changelog.html'] = dict(title='What\'s new', desc='Release notes for the Fathers.com platform.', active='', mode='public', body='\n'.join(_cl))
 
 # ================================================== index.html (P1)
-PAGES['index.html'] = dict(title='Know where you stand', desc='Take the free Keystone Profile. Four scores, one honest read, and a ninety-day plan built for you. Two tracks: Fatherhood and Manhood. About twenty minutes.', active='', mode='public', body='''
+PAGES['index.html'] = dict(title='Know where you stand', desc='Take the free Keystone Father Profile. About twenty minutes. Four scores, one honest read, and a ninety-day plan built for you.', active='', mode='public', body='''
 <header class="hero"><div class="container split">
   <div>
     <div class="eyebrow" style="margin-bottom:18px">FATHERS.COM</div>
     <h1 class="d-48" style="font-weight:700;letter-spacing:-.02em">Know where you stand.</h1>
-    <p class="lead" style="margin:22px 0 28px">Start with the free Keystone Profile. Get your score on the four things that matter, and a ninety-day plan built for you. Two tracks, one standard: The Fatherhood Track for men raising children now, The Manhood Track for men preparing, mentoring, or growing.</p>
-    <div class="hero-intent">
-      <div class="hero-intent-q">Where are you in the journey?</div>
-      <div class="hero-intent-opts">
-        <button class="hero-intent-opt" data-path="father">
-          <span class="hio-text">
-            <span class="hio-label">I'm raising children now</span>
-            <span class="hio-sub">The Fatherhood Track</span>
-          </span>
-          <span class="hio-arrow">&rarr;</span>
-        </button>
-        <button class="hero-intent-opt" data-path="full" data-assessment="keystone-manhood-profile">
-          <span class="hio-text">
-            <span class="hio-label">I'm preparing, mentoring, or growing</span>
-            <span class="hio-sub">The Manhood Track</span>
-          </span>
-          <span class="hio-arrow">&rarr;</span>
-        </button>
+    <p class="lead" style="margin:22px 0 28px">Start with the free Keystone Father Profile. About twenty minutes. You get scores on the four things that matter, and a ninety-day plan built from your answers&mdash;not a lecture, not a label.</p>
+    <div class="hero-cta" style="display:flex;flex-direction:column;align-items:flex-start;gap:14px;max-width:420px">
+      <a class="btn btn-yellow" href="profile.html" style="width:100%;text-align:center">Start free Profile &middot; about 20 min</a>
+      <div class="row wrap" style="gap:16px;align-items:center">
+        <a class="btn btn-secondary btn-sm" href="login.html">Log in</a>
+        <a class="link ash" href="organizations.html" style="font-size:13px">I have a facilitator</a>
       </div>
-      <div class="hero-intent-foot">
-        <span class="fine">Free. About twenty minutes. Your results are private.</span>
-        <a class="link ash" href="certificates.html" style="font-size:13px">Or explore classes first</a>
-      </div>
+      <p class="fine" style="margin:0;color:var(--ash)">Free for participants &middot; Facilitator-led &middot; Certificate you can verify</p>
+      <p class="fine" style="margin:0"><a class="link ash" href="profile.html?assessment=keystone-manhood-profile" style="font-size:12px">Preparing, mentoring, or growing? The Manhood track</a></p>
     </div>
   </div>
   <div class="heromarquee" aria-hidden="true">
@@ -452,6 +439,27 @@ PAGES['index.html'] = dict(title='Know where you stand', desc='Take the free Key
     </div>
   </div>
 </div></header>
+
+<section class="tight" style="padding-top:8px;padding-bottom:8px"><div class="container">
+  <div class="eyebrow brass" style="margin-bottom:18px">HOW IT WORKS</div>
+  <div class="grid-3" style="gap:18px">
+    <div class="card" style="padding:22px">
+      <div class="mono ash" style="margin-bottom:8px">01</div>
+      <b>Profile</b>
+      <p class="small" style="margin-top:8px;color:var(--ash)">Take the free Keystone Father Profile. About twenty minutes. Your results stay private.</p>
+    </div>
+    <div class="card" style="padding:22px">
+      <div class="mono ash" style="margin-bottom:8px">02</div>
+      <b>Plan</b>
+      <p class="small" style="margin-top:8px;color:var(--ash)">Get a ninety-day plan built from your gaps&mdash;small moves you can keep on a busy week.</p>
+    </div>
+    <div class="card" style="padding:22px">
+      <div class="mono ash" style="margin-bottom:8px">03</div>
+      <b>Course <span class="fine" style="font-weight:400">(with a facilitator)</span></b>
+      <p class="small" style="margin-top:8px;color:var(--ash)">When a Certified Facilitator claims your seat, enroll free and earn a certificate anyone can verify.</p>
+    </div>
+  </div>
+</div></section>
 
 <section class="band"><div class="container split" style="align-items:center">
   <div>
@@ -1312,7 +1320,8 @@ PAGES['certificates.html'] = dict(title='The Courses and the Certificate of Comp
     </div>
       </div>
 
-  <p class="fine" style="margin-top:20px">Whether a certificate satisfies a court, agency, or program requirement is decided by that body. Confirm with yours before enrolling. Every course and every Certificate of Completion is free to the man. Certified organizations and facilitators carry the standard; sponsorship funds seats and materials.</p>
+  <p class="small" style="margin-top:22px;max-width:72ch;color:var(--ash)"><b style="color:var(--bone)">Where to start.</b> Coming Home Present is the return spine after time away. Steady Under Pressure is the skills add-on when pressure is the issue. Same Team when co-parenting is the work. Fathering Fundamentals is the foundation&mdash;and the alumni home base.</p>
+  <p class="fine" style="margin-top:14px">Whether a certificate satisfies a court, agency, or program requirement is decided by that body. Confirm with yours before enrolling. Every course and every Certificate of Completion is free to the man. Certified organizations and facilitators carry the standard; sponsorship funds seats and materials.</p>
 </div></section>
 
 <!-- PROOF IN CONTEXT: the certificate as a milestone, with real photography -->

@@ -3,7 +3,14 @@
   // Nav
   var nav=document.querySelector('.nav');
   var tog=document.querySelector('.nav-toggle');
-  if(tog) tog.addEventListener('click',function(){nav.classList.toggle('open')});
+  if(tog){
+    if(!tog.getAttribute('aria-controls')) tog.setAttribute('aria-controls','fc-nav-links');
+    if(!tog.getAttribute('aria-expanded')) tog.setAttribute('aria-expanded','false');
+    tog.addEventListener('click',function(){
+      var open=nav.classList.toggle('open');
+      tog.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+  }
 
   // Tabs
   document.querySelectorAll('[data-tabs]').forEach(function(group){
@@ -323,7 +330,8 @@
         ['My Report','report.html'+q],
         ['My Plan','plan.html'+q],
         ['Courses','certificates.html'],
-        ['Circles','circles.html']
+        ['Circles','circles.html'],
+        ['Sign out','#signout']
       ];
       list.innerHTML=links.map(function(l){
         var target=l[1].split('?')[0];
@@ -331,6 +339,13 @@
         return '<li><a href="'+l[1]+'"'+on+'>'+l[0]+'</a></li>';
       }).join('');
       list.dataset.fcParticipant='1';
+      var so=list.querySelector('a[href="#signout"]');
+      if(so){
+        so.addEventListener('click',function(e){
+          e.preventDefault();
+          FC.signOut().then(function(){ location.href='index.html'; });
+        });
+      }
 
       /* The yellow marketing CTA is wrong for a man who is already inside.
          Replace it with the account chip the app-built pages already use, so
@@ -346,15 +361,6 @@
                 (session.user&&session.user.email)||'';
         chip.textContent=who?who.trim().charAt(0).toUpperCase():'\u2022';
         cta.parentNode.replaceChild(chip, cta);
-      }
-
-      var loginLink=document.querySelector('.nav-right a[href="login.html"]');
-      if(loginLink){
-        loginLink.textContent='Sign out'; loginLink.href='#';
-        loginLink.addEventListener('click',function(e){
-          e.preventDefault();
-          FC.signOut().then(function(){ location.href='index.html'; });
-        });
       }
     }
 
