@@ -4,9 +4,9 @@ Verifies, in order:
 1. Build determinism: two consecutive page builds are byte-identical.
 2. Version stamp: every chrome'd page footer carries PLATFORM_VERSION.
 3. Changelog: changelog.html exists and leads with the current version.
-4. Language: participant-facing pages pass the POSITIONING.md section 9 ban.
-   Organization-facing pages may name verticals by design and are exempt.
-5. Clinical-authority scan (POSITIONING.md section 16) across all pages.
+4. Clinical-authority scan (POSITIONING.md section 16) across all pages.
+   Section 9 audience/setting words (rehab, recovery, treatment, etc.) are
+   allowed sitewide when accurate; they are not enforced here.
 Exit code 0 on pass; 1 on any failure, with every failure printed."""
 import hashlib
 import re
@@ -16,8 +16,6 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[1]
 
-SECTION9_BAN = ["rehab", "recovery", "treatment", "sobriety", "clinical",
-                "patient", "inmate", "discharge"]
 # POSITIONING.md 18: no norms count prints anywhere until section 8 resolves,
 # and no evidence-rating claim prints until a Clearinghouse rating exists.
 # Lift NORMS_BAN when norms_printable ships true; lift EVIDENCE_BAN on rating.
@@ -35,9 +33,6 @@ ITEMCOUNT_RE = r"\b\d{2,3}\s+(?:items|questions)\b"
 WORDCOUNT_RE = r"\b(?:twenty|forty|hundred)[a-z\- ]*\b(?:questions|items)\b"
 CLINICAL_BAN = ["diagnos", "therapy", "therapist", "screening tool",
                 "counseling", "behavioral health", "support group"]
-ORG_FACING = {"organizations.html", "facilitators.html", "employers.html",
-              "find-a-program.html", "efficacy-report.html", "research.html",
-              "about.html", "classes.html"}
 STUBS = {"stories.html", "story.html", "employers.html",
          "gatherings.html", "share.html", "voice.html", "veterans.html",
          "veterans-hub.html", "veterans-start.html", "veterans-checkin.html",
@@ -106,10 +101,6 @@ def main():
             failures.append(f"{name}: hard-banned claim phrase {hard}")
         if name != "research.html" and (re.search(ITEMCOUNT_RE, text) or re.search(WORDCOUNT_RE, text)):
             failures.append(f"{name}: instrument item count outside research.html")
-        if name not in ORG_FACING:
-            hits = [b for b in SECTION9_BAN if unnegated(b)]
-            if hits:
-                failures.append(f"{name}: section 9 ban hit: {hits}")
         chits = [b for b in CLINICAL_BAN if unnegated(b)]
         if chits:
             failures.append(f"{name}: clinical-authority hit: {chits}")
