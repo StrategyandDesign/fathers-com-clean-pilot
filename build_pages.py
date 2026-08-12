@@ -1276,9 +1276,9 @@ PAGES['certificates.html'] = dict(title='The Courses and the Certificate of Comp
     <div class="eyebrow brass" style="margin-bottom:8px">PREVIEW THE FULL EXPERIENCE</div>
     <p class="small" style="margin:0 0 12px;color:var(--ash)">Click through the player, plan, and dashboard with sample progress. Same structure a father sees when films are live.</p>
     <div class="row wrap" style="gap:12px">
-      <a class="btn btn-yellow btn-sm" href="course.html?demo=1&amp;cert=anger">Course player demo</a>
-      <a class="btn btn-secondary btn-sm" href="plan.html?demo=1">Plan demo</a>
-      <a class="btn btn-secondary btn-sm" href="dashboard.html?demo=1">Dashboard demo</a>
+      <a class="btn btn-yellow btn-sm" href="course.html?preview=1&amp;cert=anger">Course preview player</a>
+      <a class="btn btn-secondary btn-sm" href="plan.html?preview=1">Plan preview</a>
+      <a class="btn btn-secondary btn-sm" href="dashboard.html?preview=1">Dashboard preview</a>
     </div>
   </div>
 
@@ -2285,7 +2285,7 @@ PAGES['share.html'] = dict(title='A message for you', desc='A private voice mess
 ''')
 
 
-PAGES['course.html'] = dict(title='Your Certificate', desc='Watch the lessons, pass each Checkpoint, answer the final Q&A, and submit for approval.', active='Certificates', mode='app', auth=True, body='''
+PAGES['course.html'] = dict(title='Your Certificate', desc='Watch the lessons, pass each Checkpoint, answer the final Q&A, and submit for approval.', active='Courses', mode='public', auth=False, body='''
 <section class="cw-wrap" id="cw-root">
   <div class="cw-head">
     <a class="link ash" href="certificates.html" style="display:inline-block;margin-bottom:16px">&larr; All courses</a>
@@ -2295,6 +2295,7 @@ PAGES['course.html'] = dict(title='Your Certificate', desc='Watch the lessons, p
   <div id="cw-note"></div>
   <div id="cw-stage"><p class="ash">Loading\u2026</p></div>
 </section>
+<script src="assets/js/course-demo-data.js"></script>
 <script src="assets/js/coursework.js"></script>
 ''')
 

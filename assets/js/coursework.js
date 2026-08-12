@@ -12,7 +12,7 @@
   function note(html){ var n=$('cw-note'); if(n) n.innerHTML = html; }
 
   var qs = new URLSearchParams(location.search);
-  var demo = qs.get('demo') === '1' || !(window.FC && FC.live);
+  var demo = qs.get('preview') === '1' || qs.get('demo') === '1' || !(window.FC && FC.live);
   var slug = (qs.get('cert') || 'anger').toLowerCase();
   // Film-first coursework. Session guides remain available as support.
   var SESSIONS_PAGE = {reentry:'course-coming-home-present.html', anger:'course-steady-under-pressure.html', coparenting:'course-same-team.html', manhood:'course-the-man-before-you.html'};
@@ -23,7 +23,7 @@
     if (demo) { bootDemo(); return; }
     FC.ready.then(function(){
       uid = FC.uid && FC.uid();
-      if (!uid) { location.href = 'login.html?next=' + encodeURIComponent('course.html?cert='+slug); return; }
+      if (!uid) { location.href = 'login.html?next=' + encodeURIComponent('course.html?preview=1&cert='+slug); return; }
       load();
     });
   }
@@ -33,7 +33,7 @@
   function bootDemo(){
     var pack = (window.FC_COURSE_DEMO && FC_COURSE_DEMO[slug]) || null;
     if(!pack){
-      stage('<div class="notice brass">Demo catalog missing for this course. Try <a class="link" href="course.html?demo=1&amp;cert=anger">Steady Under Pressure</a>.</div>');
+      stage('<div class="notice brass">Preview catalog missing for this course. Try <a class="link" href="course.html?preview=1&amp;cert=anger">Steady Under Pressure</a>.</div>');
       return;
     }
     course = { id: pack.id, slug: pack.slug, title: pack.title, hours: pack.hours, published: true };
@@ -46,8 +46,8 @@
     });
     finalQa = pack.final_qa || [];
     progress = {}; passes = {}; awardStatus = null; enrollId = null;
-    if($('cw-title')) $('cw-title').textContent = course.title + ' (demo)';
-    note('<div class="notice brass" style="margin:0 0 14px"><b>Demonstration player.</b> <span class="fine">Full session list, demo film stage, working checkpoints, and final Q&amp;A. Same flow a father sees when films are live. <a class="link" href="dashboard.html?demo=1">Dashboard demo</a> · <a class="link" href="plan.html?demo=1">Plan demo</a></span></div>');
+    if($('cw-title')) $('cw-title').textContent = course.title + ' (preview)';
+    note('<div class="notice brass" style="margin:0 0 14px"><b>Preview player.</b> <span class="fine">Try the full session flow before you create an account. No email required. When you are ready, <a class="link" href="profile.html">start your free Profile</a>.</span></div>');
     renderOutline();
   }
 
@@ -186,10 +186,10 @@
         player = '<div class="cw-novid"><div class="eyebrow brass" style="margin-bottom:10px">Film loading soon</div><p class="small">This session plays on Vimeo here. No time is credited until the film is live. Use the session guide if you need the outline, then take the checkpoint below.</p>'+sessLink+'</div>';
       } else {
         player = '<div class="cw-novid" style="padding:28px 24px;border:1px solid rgba(127,127,127,.28);border-radius:14px;background:rgba(255,255,255,.03)">'+
-          '<div class="eyebrow brass" style="margin-bottom:10px">DEMO SESSION \u00b7 ~12 MIN</div>'+
+          '<div class="eyebrow brass" style="margin-bottom:10px">PREVIEW SESSION \u00b7 ~12 MIN</div>'+
           '<h3 style="margin:0 0 8px;font-family:var(--font-display);font-size:26px">'+esc(v.title)+'</h3>'+
           '<p class="small ash" style="margin:0 0 16px;max-width:48ch">This is the full player experience. Press play to simulate the film, then take the checkpoint. Same steps when Vimeo is live.</p>'+
-          '<button class="btn btn-yellow" id="cw-sim">Play demo session</button></div>';
+          '<button class="btn btn-yellow" id="cw-sim">Play preview session</button></div>';
       }
     }
 
@@ -244,7 +244,7 @@
     var sim=$('cw-sim');
     if (sim){
       sim.addEventListener('click', function(){
-        sim.disabled=true; sim.textContent='Playing demo\u2026';
+        sim.disabled=true; sim.textContent='Playing preview\u2026';
         startWatch();
         // Stakeholder demo: advance a 12-min session in ~8 seconds
         var tick = setInterval(function(){
@@ -252,7 +252,7 @@
           updateWatchUI();
           if(watched >= threshold){
             clearInterval(tick); stopWatch();
-            sim.textContent='Watched (demo)';
+            sim.textContent='Watched (preview)';
           }
         }, 1000);
       });
@@ -481,7 +481,7 @@
     var btn=$('cw-submit'); btn.disabled=true; btn.textContent='Submitting\u2026';
     if (demo){
       awardStatus='submitted';
-      stage('<div class="cw-status"><div class="cw-status-icon">\u2713</div><h2>Submitted (demo)</h2><p>In live mode your facilitator reviews this and the Certificate of Completion follows. You just walked the full father flow.</p><a class="btn btn-primary" href="dashboard.html?demo=1">Back to dashboard demo</a></div>');
+      stage('<div class="cw-status"><div class="cw-status-icon">\u2713</div><h2>Submitted (preview)</h2><p>In live mode your facilitator reviews this and the Certificate of Completion follows. You just walked the full father flow.</p><a class="btn btn-primary" href="dashboard.html?preview=1">Back to dashboard preview</a></div>');
       return;
     }
 
