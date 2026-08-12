@@ -15,8 +15,9 @@
   var demo = qs.get('preview') === '1' || qs.get('demo') === '1' || !(window.FC && FC.live);
   var slug = (qs.get('cert') || 'anger').toLowerCase();
   // Film-first coursework. Session guides remain available as support.
-  var SESSIONS_PAGE = {reentry:'course-coming-home-present.html', anger:'course-steady-under-pressure.html', coparenting:'course-same-team.html', fundamentals:'course-fathering-fundamentals.html', manhood:'course-the-man-before-you.html'};
-  var SESSION_ANCHOR = {anger:'b', reentry:'a', coparenting:'c', fundamentals:'f', manhood:'m'};
+  /* Manhood is an assessment track, not a film course page (no course-the-man-before-you.html). */
+  var SESSIONS_PAGE = {reentry:'course-coming-home-present.html', anger:'course-steady-under-pressure.html', coparenting:'course-same-team.html', fundamentals:'course-fathering-fundamentals.html'};
+  var SESSION_ANCHOR = {anger:'b', reentry:'a', coparenting:'c', fundamentals:'f'};
   function sessionGuideHref(sessionIndex){
     var page = SESSIONS_PAGE[slug]; if(!page) return '';
     var prefix = SESSION_ANCHOR[slug] || '';
