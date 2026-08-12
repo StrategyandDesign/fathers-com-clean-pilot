@@ -156,7 +156,9 @@
   };
 
   // ---------- entry: choose mode, or resume ----------
-  function start(){
+  /* Real start of the runner. Separated so the conversion intro (#ksIntro) can
+     stay on screen until the man taps Begin, instead of being wiped by gate(). */
+  function proceedStart(){
     // An explicit track choice on the homepage always wins, signed in or not.
     var intent = null;
     try { intent = localStorage.getItem('fc_intent_path'); if(intent) localStorage.removeItem('fc_intent_path'); } catch(e){}
@@ -192,6 +194,37 @@
           if(r.data){ KS.setPath(r.data.path||'father'); offerResume(r.data); } else { startFresh(); }
         }).catch(startFresh);
     } else { startFresh(); }
+  }
+
+  function start(){
+    var intro = document.getElementById('ksIntro');
+    var beginBtn = document.getElementById('ksBegin');
+    var introDone = false;
+    try { introDone = sessionStorage.getItem('ks_intro_done') === '1'; } catch(e){}
+    var intentPeek = null;
+    var resumePeek = false;
+    try { intentPeek = localStorage.getItem('fc_intent_path'); } catch(e){}
+    try { resumePeek = localStorage.getItem('fc_resume_intent') === '1'; } catch(e){}
+    // Homepage track choice or mid-assessment resume always skip the invite.
+    if(intentPeek || resumePeek || introDone || !intro || intro.hidden || !beginBtn){
+      proceedStart();
+      return;
+    }
+    // Signed-in man with real progress: skip invite and offer resume.
+    if(window.FC && FC.live && FC.uid && FC.uid()){
+      FC.sb.from('keystone_sessions').select('*').eq('user_id',FC.uid()).eq('status','in_progress')
+        .order('updated_at',{ascending:false}).limit(1).maybeSingle().then(function(r){
+          if(r.data && (r.data.answered_count > 0 || (r.data.answers && Object.keys(r.data.answers).length))){
+            KS.setPath(r.data.path||'father'); offerResume(r.data); return;
+          }
+          // No real progress: keep the conversion intro until Begin.
+          beginBtn.addEventListener('click', function(){ proceedStart(); }, { once: true });
+        }).catch(function(){
+          beginBtn.addEventListener('click', function(){ proceedStart(); }, { once: true });
+        });
+      return;
+    }
+    beginBtn.addEventListener('click', function(){ proceedStart(); }, { once: true });
   }
 
   // Resume the assessment at the first unanswered question of the current path.
