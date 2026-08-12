@@ -52,16 +52,15 @@ T.append(('03-missed-week', 'Week 4 is still on the table.', 'No lecture. Just t
   p('Week 4 takes 25 minutes total.') +
   btn('Pick it back up', 'PLAN_URL')))
 
-T.append(('04-gift-receipt', 'Your gift is set for June 21.', 'One year of Fathers.com, scheduled.',
-  h1('Your gift is set for June 21.') +
-  card('<b style="font-size:14px;color:#141210;">1 year of Fathers.com · $120</b><br><span style="font-size:13px;color:#6b6257;">To {{TO_NAME}}, from {{FROM_NAME}}<br>Delivers June 21 by email</span>') +
-  p('Want to change the date or the message? <a href="{{EDIT_URL}}" style="color:#C2502D;">Edit your gift</a>.')))
+T.append(('04-gift-receipt', 'Your certification sponsorship is noted.', 'Certification sponsorship received.',
+  h1('Your certification sponsorship is noted.') +
+  p('Thank you. Your gift funds Certified Organization status and facilitator credentialing. Men who take the courses still pay nothing.') +
+  p('Fathers.com is a program of the National Center for Fathering, a 501(c)(3).')))
 
-T.append(('05-gift-delivery', '{{FROM_NAME}} sent you a year of Fathers.com.', 'Every class. Your baseline. Your plan.',
-  h1('{{FROM_NAME}} sent you a year of Fathers.com.') +
-  f'<p style="margin:0 0 22px;font-family:Helvetica,Arial,sans-serif;font-style:italic;font-size:18px;line-height:1.45;color:#3a352e;">&ldquo;{{{{GIFT_MESSAGE}}}}&rdquo;</p>' +
-  btn('Claim it and take your baseline', 'REDEEM_URL') +
-  p('No card required to redeem.', 0).replace('margin:0 0 0px','margin:16px 0 0')))
+T.append(('05-gift-delivery', 'Thank you for sponsoring organization certification.', 'Thank you for sponsoring certification.',
+  h1('Thank you for sponsoring certification.') +
+  p('Your gift supports Certified Organization status and facilitator credentialing so programs can run film cohorts and issue verifiable certificates.') +
+  btn('See how certification works', 'ORG_URL')))
 
 T.append(('06-renewal', 'Your membership renews March 4.', 'One year in. Here is the line.',
   h1('Your membership renews March 4.') +

@@ -29,18 +29,18 @@
 <meta name="twitter:image" content="https://fathers-com-platform.vercel.app/assets/img/og-image.jpg">
 </head>
 <body>
-
-<div style="min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:64px 20px">
-  <a class="brand" href="index.html" style="margin-bottom:56px"><img class="lg-dark" src="assets/img/logomark-light.png" alt="Fathers.com logomark" style="height:34px"><img class="lg-light" src="assets/img/logomark-dark.png" alt="Fathers.com logomark" style="height:34px"><b style="font-family:var(--font-display);font-size:20px">Fathers.com</b></a>
-  <div style="width:100%;max-width:520px">
-    <h1 class="d-36" style="margin-bottom:8px">Verify a certificate</h1>
-    <p class="small" style="margin-bottom:28px">Enter the serial printed on the document. Ten seconds, no login.</p>
-    <form id="verifyForm" class="row" style="margin-bottom:28px">
-      <input class="input mono" placeholder="FC-2026-000000" aria-label="Certificate serial">
-      <button class="btn btn-primary">Verify</button>
+<div class="verify-shell">
+  <a class="brand" href="index.html" style="margin-bottom:40px"><img class="lg-dark" src="assets/img/logomark-light.png" alt="Fathers.com logomark" style="height:34px"><img class="lg-light" src="assets/img/logomark-dark.png" alt="Fathers.com logomark" style="height:34px"><b style="font-family:var(--font-display);font-size:20px">Fathers.com</b></a>
+  <div class="verify-card">
+    <div class="eyebrow brass" style="margin-bottom:12px">PUBLIC REGISTRY</div>
+    <h1 class="d-36" style="margin-bottom:10px">Verify a credential</h1>
+    <p class="small" style="margin-bottom:28px;max-width:46ch">Enter the serial on the document. Ten seconds. No login. Issued, suspended, or revoked, stated plainly.</p>
+    <form id="verifyForm" class="verify-form">
+      <input class="input mono verify-input" placeholder="FC-2026-000000" aria-label="Certificate serial" autocomplete="off" spellcheck="false">
+      <button class="btn btn-yellow">Verify</button>
     </form>
-    <div id="v-ok" class="card" style="display:none;border-color:var(--pine-hi)">
-      <div class="row" style="margin-bottom:18px"><span class="checkmark">&check;</span><b style="letter-spacing:.14em">VALID</b></div>
+    <div id="v-ok" class="verify-status is-ok" style="display:none">
+      <div class="vs-label" style="color:var(--pine-hi)">Valid</div>
       <div class="stack-8">
         <div class="row between"><span class="fine">Recipient</span><b class="small" data-f="name"></b></div>
         <div class="row between"><span class="fine">Course</span><b class="small" data-f="course"></b></div>
@@ -48,21 +48,25 @@
         <div class="row between"><span class="fine">Identity</span><b class="small" data-f="identity"></b></div>
         <div class="row between"><span class="fine">Date</span><b class="small" data-f="date"></b></div>
         <div class="row between"><span class="fine">Serial</span><b class="small mono" data-f="serial"></b></div>
-        <div class="row between"><span class="fine">Identity</span><b class="small">Verified at enrollment</b></div>
         <div class="row between"><span class="fine">Issuer</span><b class="small">National Center for Fathering</b></div>
       </div>
-      <hr class="hr" style="margin:18px 0"><p class="small" style="margin-bottom:12px">This certificate was earned through logged sessions, identity confirmed at enrollment, and a written final reviewed by a Certified Facilitator. <a class="link" href="organizations.html">Issue these in your program &rarr;</a></p><a class="link ash" href="#" data-share="report" style="font-size:13px">Report a concern</a>
+      <hr class="hr" style="margin:18px 0">
+      <p class="small" style="margin-bottom:12px">Logged sessions, identity confirmed at enrollment, final reviewed by a Certified Facilitator. <a class="link" href="organizations.html">Issue these in your program &rarr;</a></p>
+      <a class="link ash" href="#" data-share="report" style="font-size:13px">Report a concern</a>
     </div>
-    <div id="v-susp" class="card" style="display:none;border-color:var(--brass,#6B4F14)">
-      <b>SUSPENDED.</b><p class="small" style="margin-top:8px">This serial exists, and it is suspended pending review. It does not currently verify. Questions: Team@Fathers.com.</p>
+    <div id="v-susp" class="verify-status is-warn" style="display:none">
+      <div class="vs-label" style="color:var(--brass)">Suspended</div>
+      <p class="small" style="margin:0">This serial exists and is suspended pending review. It does not currently verify. Questions: Team@Fathers.com.</p>
     </div>
-    <div id="v-rev" class="card" style="display:none;border-color:var(--error)">
-      <b>REVOKED.</b><p class="small" style="margin-top:8px">This serial was issued and has been revoked. It does not verify. Names can come off the registry; that is what makes staying on it mean something.</p>
+    <div id="v-rev" class="verify-status is-bad" style="display:none">
+      <div class="vs-label" style="color:var(--error)">Revoked</div>
+      <p class="small" style="margin:0">This serial was issued and has been revoked. It does not verify. Names can come off the registry. That is what makes staying on it mean something.</p>
     </div>
-    <div id="v-no" class="card" style="display:none;border-color:var(--error)">
-      <b>NOT FOUND.</b><p class="small" style="margin-top:8px">Check the serial and try again.</p>
+    <div id="v-no" class="verify-status is-bad" style="display:none">
+      <div class="vs-label" style="color:var(--error)">Not found</div>
+      <p class="small" style="margin:0">Check the serial and try again. Anything that does not resolve is not a Fathers.com credential.</p>
     </div>
-    <p class="fine" style="margin-top:32px">Every certificate carries a serial beginning FC-2026-, followed by six characters. A serial resolves as issued, suspended, or revoked; anything that does not resolve is not a Fathers.com certificate.</p>
+    <p class="fine" style="margin-top:32px;color:var(--ash)">Serials begin <span class="mono">FC-2026-</span> followed by six characters. Facilitator and organization status also resolve here when printed on their credentials.</p>
   </div>
 </div>
 

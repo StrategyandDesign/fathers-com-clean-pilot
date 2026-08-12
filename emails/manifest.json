@@ -20,14 +20,14 @@
   {
     "id": "04-gift-receipt",
     "file": "04-gift-receipt.html",
-    "subject": "Your gift is set for June 21.",
-    "preview": "One year of Fathers.com, scheduled."
+    "subject": "Your certification sponsorship is noted.",
+    "preview": "Certification sponsorship received."
   },
   {
     "id": "05-gift-delivery",
     "file": "05-gift-delivery.html",
-    "subject": "{{FROM_NAME}} sent you a year of Fathers.com.",
-    "preview": "Every class. Your baseline. Your plan."
+    "subject": "Thank you for sponsoring organization certification.",
+    "preview": "Thank you for sponsoring certification."
   },
   {
     "id": "06-renewal",
