@@ -1,41 +1,388 @@
 {
   "slug": "fundamentals",
   "title": "Fathering Fundamentals",
-  "videos": [
-    { "ord": 1, "title": "Why Presence Wins", "vimeo": "pending", "duration_seconds": 0,
+  "subtitle": "The Seven Secrets of Effective Fathers Assessment & Course",
+  "hours": 1.1,
+  "session_count": 9,
+  "note": "Migrated from older 5-session Keystone pack to live Seven Secrets structure (Intro + 7 + Bonus). Ken film URLs pending; shape stills are placeholders.",
+  "sessions": [
+    {
+      "ord": 1,
+      "bible_number": 0,
+      "title": "Introduction",
+      "duration_seconds": 480,
+      "poster": "assets/img/session-stills/fathering-fundamentals/s00.png",
+      "video_url": null,
       "checkpoint": [
-        { "prompt": "What does this course treat as the engine that everything else in fathering rides on?", "choices": ["Providing financially", "Presence: showing up, attention on", "Having the right answers", "Strict discipline"], "correct_index": 1 },
-        { "prompt": "A father is home every evening but on his phone through dinner. By this session's standard, what is he giving his children?", "choices": ["Presence, because he is in the room", "Proximity without presence", "Quality time"], "correct_index": 1 },
-        { "prompt": "What is the practical move this session asks of you first?", "choices": ["Plan a big outing to make up for lost time", "Pick one daily window and put your attention fully on your child in it", "Wait until life is less busy"], "correct_index": 1 }
-      ] },
-    { "ord": 2, "title": "A Schedule They Can Trust", "vimeo": "pending", "duration_seconds": 0,
+        {
+          "prompt": "What should you do before the First Secret sessions?",
+          "choices": [
+            "Skip the assessment and jump to Session 1",
+            "Watch the overview and take the free assessment",
+            "Wait until you finish all seven secrets"
+          ],
+          "correct_index": 1,
+          "feedback": ""
+        },
+        {
+          "prompt": "What is this course built on?",
+          "choices": [
+            "Guesswork about fathering",
+            "Dr. Ken Canfield's research-based Seven Secrets",
+            "Only military parenting tips"
+          ],
+          "correct_index": 1,
+          "feedback": ""
+        },
+        {
+          "prompt": "Why take the assessment first?",
+          "choices": [
+            "So growth targets are personal, not generic",
+            "So you can skip hard sessions",
+            "So the course can grade your child"
+          ],
+          "correct_index": 0,
+          "feedback": ""
+        }
+      ],
+      "keyline": "Welcome, overview, and take the assessment.",
+      "practice": "Complete the free assessment before Session 1."
+    },
+    {
+      "ord": 2,
+      "bible_number": 1,
+      "title": "First Secret: Commitment",
+      "duration_seconds": 480,
+      "poster": "assets/img/session-stills/fathering-fundamentals/s01.png",
+      "video_url": null,
       "checkpoint": [
-        { "prompt": "In this session, what does the calendar function as?", "choices": ["A productivity tool", "A promise your children can watch you keep", "A record for your own reference"], "correct_index": 1 },
-        { "prompt": "Which builds a child's trust fastest, according to the session?", "choices": ["Occasional big surprises", "A standing time that happens when you said it would, week after week", "Explaining why you were busy"], "correct_index": 1 },
-        { "prompt": "You have to miss a standing time. What is the move?", "choices": ["Skip it quietly; children forget", "Tell them ahead, name the new time, and keep the new time", "Make it up with a gift"], "correct_index": 1 }
-      ] },
-    { "ord": 3, "title": "Enter Their World", "vimeo": "pending", "duration_seconds": 0,
+        {
+          "prompt": "What does the First Secret treat as essential?",
+          "choices": [
+            "Being present physically, emotionally, and spiritually",
+            "Winning every argument at home",
+            "Providing money without being present"
+          ],
+          "correct_index": 0,
+          "feedback": ""
+        },
+        {
+          "prompt": "What does commitment build, per this session?",
+          "choices": [
+            "Fear of consequences",
+            "Trust and lasting influence",
+            "A perfect schedule"
+          ],
+          "correct_index": 1,
+          "feedback": ""
+        },
+        {
+          "prompt": "Which practice matches this session?",
+          "choices": [
+            "Name one physical, one emotional, and one spiritual way you will show up this week",
+            "Buy a bigger gift",
+            "Avoid hard conversations"
+          ],
+          "correct_index": 0,
+          "feedback": ""
+        }
+      ],
+      "keyline": "Present physically, emotionally, spiritually; commitment builds trust.",
+      "practice": "Name one physical, one emotional, and one spiritual way you will show up this week."
+    },
+    {
+      "ord": 3,
+      "bible_number": 2,
+      "title": "Second Secret: Knowing Your Child",
+      "duration_seconds": 480,
+      "poster": "assets/img/session-stills/fathering-fundamentals/s02.png",
+      "video_url": null,
       "checkpoint": [
-        { "prompt": "What does awareness look like in practice in this session?", "choices": ["Monitoring their grades closely", "Knowing their friends' names and their inner weather", "Checking their phone"], "correct_index": 1 },
-        { "prompt": "Your child shares a problem. The session's counsel is to lead with what?", "choices": ["A fix, quickly, so they feel helped", "Questions, without fixing", "A story about your own childhood"], "correct_index": 1 },
-        { "prompt": "Why do questions beat fixes when a child opens up?", "choices": ["Questions keep the door open and tell the child their world is worth entering", "Questions save time", "Fixes are usually wrong"], "correct_index": 0 }
-      ] },
-    { "ord": 4, "title": "Repair Fast, Stand for Something", "vimeo": "pending", "duration_seconds": 0,
+        {
+          "prompt": "What opens deeper connection in the Second Secret?",
+          "choices": [
+            "Knowing your child's unique personality, needs, and interests",
+            "Comparing them to siblings",
+            "Waiting until they are older"
+          ],
+          "correct_index": 0,
+          "feedback": ""
+        },
+        {
+          "prompt": "Knowing your child means mainly:",
+          "choices": [
+            "Tracking grades only",
+            "Entering their world so they feel seen",
+            "Correcting them faster"
+          ],
+          "correct_index": 1,
+          "feedback": ""
+        },
+        {
+          "prompt": "A practical move for this secret is to:",
+          "choices": [
+            "Ask and notice something specific about your child this week",
+            "Assume you already know them",
+            "Lead with advice before listening"
+          ],
+          "correct_index": 0,
+          "feedback": ""
+        }
+      ],
+      "keyline": "Unique personality, needs, and interests open deeper connection.",
+      "practice": "Write three specifics: one personality trait, one need, one interest for your child."
+    },
+    {
+      "ord": 4,
+      "bible_number": 3,
+      "title": "Third Secret: Showing Up Consistently",
+      "duration_seconds": 480,
+      "poster": "assets/img/session-stills/fathering-fundamentals/s03.png",
+      "video_url": null,
       "checkpoint": [
-        { "prompt": "What is the repair standard this session sets after a blowup or a broken word?", "choices": ["Let time smooth it over", "Own it out loud within twenty-four hours", "Wait for the child to bring it up"], "correct_index": 1 },
-        { "prompt": "What makes discipline build a child instead of frighten one?", "choices": ["Making consequences bigger each time", "Values said out loud in calm hours, so correction connects to something known", "Keeping the rules unstated so they stay flexible"], "correct_index": 1 },
-        { "prompt": "A real repair, per this session, sounds most like which of these?", "choices": ["I was wrong to yell. That is not how I want to speak to you.", "You know I love you, right?", "Let's just forget about last night."], "correct_index": 0 }
-      ] },
-    { "ord": 5, "title": "Your Own Father, Your Ninety Days", "vimeo": "pending", "duration_seconds": 0,
+        {
+          "prompt": "What does Showing Up Consistently create?",
+          "choices": [
+            "Occasional big surprises",
+            "Stability through consistent actions, values, and discipline",
+            "Flexibility with no patterns"
+          ],
+          "correct_index": 1,
+          "feedback": ""
+        },
+        {
+          "prompt": "Consistency here is mainly about:",
+          "choices": [
+            "Keeping a rhythm your child can count on",
+            "Never changing plans",
+            "Being perfect every day"
+          ],
+          "correct_index": 0,
+          "feedback": ""
+        },
+        {
+          "prompt": "If you must miss a standing time, the strong move is:",
+          "choices": [
+            "Skip quietly",
+            "Tell them ahead, name the new time, and keep it",
+            "Make it up with a gift only"
+          ],
+          "correct_index": 1,
+          "feedback": ""
+        }
+      ],
+      "keyline": "Stability through consistent actions, values, and discipline.",
+      "practice": "Pick one action, one value, and one discipline habit you will keep the same this week."
+    },
+    {
+      "ord": 5,
+      "bible_number": 4,
+      "title": "Fourth Secret: Protecting and Providing Security",
+      "duration_seconds": 480,
+      "poster": "assets/img/session-stills/fathering-fundamentals/s04.png",
+      "video_url": null,
       "checkpoint": [
-        { "prompt": "Why does this course end by looking at the fathering you received?", "choices": ["To assign blame accurately", "Because every man fathers out of an inheritance, and seeing it clearly is how you choose what continues", "Because history repeats no matter what"], "correct_index": 1 },
-        { "prompt": "Why does no man hold a standard alone in this course?", "choices": ["Standards spoken to another man hold better under load than private vows", "Accountability is a program requirement", "Other men have better answers"], "correct_index": 0 },
-        { "prompt": "What does locking your ninety-day plan mean here?", "choices": ["The plan can never change", "You commit to a written plan with one first target and a retake of your baseline at the end", "You memorize the course material"], "correct_index": 1 }
-      ] }
-  ],
-  "final_qa": [
-    { "prompt": "Name your one daily presence window: when it is, and what you put down to be in it. Then describe one evening this course changed how you showed up in it." },
-    { "prompt": "Write the repair you owe or recently made: what happened, what you said or will say out loud, and what you want your child to know about how you handle being wrong." },
-    { "prompt": "From the fathering you received: name one thing you are keeping on purpose, one thing that stops with you, and the first target of your ninety-day plan." }
+        {
+          "prompt": "Protecting and Providing Security covers:",
+          "choices": [
+            "Physical, emotional, and spiritual safety and provision",
+            "Only financial provision",
+            "Only physical safety"
+          ],
+          "correct_index": 0,
+          "feedback": ""
+        },
+        {
+          "prompt": "Security for a child often feels like:",
+          "choices": [
+            "Unpredictable intensity",
+            "A father who keeps them safe and provided for across those dimensions",
+            "Strict silence about hard topics"
+          ],
+          "correct_index": 1,
+          "feedback": ""
+        },
+        {
+          "prompt": "A practical focus this week is:",
+          "choices": [
+            "Name one way you will protect or provide security this week",
+            "Wait for a crisis",
+            "Outsource all protection"
+          ],
+          "correct_index": 0,
+          "feedback": ""
+        }
+      ],
+      "keyline": "Physical, emotional, and spiritual safety and provision.",
+      "practice": "Name one protective move and one provision move you will make this week."
+    },
+    {
+      "ord": 6,
+      "bible_number": 5,
+      "title": "Fifth Secret: Affirming and Encouraging",
+      "duration_seconds": 480,
+      "poster": "assets/img/session-stills/fathering-fundamentals/s05.png",
+      "video_url": null,
+      "checkpoint": [
+        {
+          "prompt": "Affirming and Encouraging means:",
+          "choices": [
+            "Speak life: affirm who they are and encourage who they are becoming",
+            "Praise only grades",
+            "Avoid compliments so they stay humble"
+          ],
+          "correct_index": 0,
+          "feedback": ""
+        },
+        {
+          "prompt": "Why affirm who they are, not only what they do?",
+          "choices": [
+            "It builds identity and courage, not just performance",
+            "It is easier",
+            "It replaces discipline"
+          ],
+          "correct_index": 0,
+          "feedback": ""
+        },
+        {
+          "prompt": "A practice for this secret is:",
+          "choices": [
+            "Speak one specific affirmation and one encouragement this week",
+            "Wait for a big milestone",
+            "Compare them to another child"
+          ],
+          "correct_index": 0,
+          "feedback": ""
+        }
+      ],
+      "keyline": "Speak life: affirm who they are and encourage who they are becoming.",
+      "practice": "Speak one specific affirmation and one forward-looking encouragement to your child."
+    },
+    {
+      "ord": 7,
+      "bible_number": 6,
+      "title": "Sixth Secret: Disciplining with Love",
+      "duration_seconds": 480,
+      "poster": "assets/img/session-stills/fathering-fundamentals/s06.png",
+      "video_url": null,
+      "checkpoint": [
+        {
+          "prompt": "Disciplining with Love means:",
+          "choices": [
+            "Correction that trains, bound by love, not anger",
+            "Punishment that vents your frustration",
+            "Ignoring problems until they explode"
+          ],
+          "correct_index": 0,
+          "feedback": ""
+        },
+        {
+          "prompt": "What should bound correction in this session?",
+          "choices": [
+            "Anger",
+            "Love and a clear training purpose",
+            "Public shame"
+          ],
+          "correct_index": 1,
+          "feedback": ""
+        },
+        {
+          "prompt": "When you correct, the aim is to:",
+          "choices": [
+            "Win the moment",
+            "Train the child while keeping the relationship intact",
+            "Prove you were right"
+          ],
+          "correct_index": 1,
+          "feedback": ""
+        }
+      ],
+      "keyline": "Correction that trains, bound by love, not anger.",
+      "practice": "Prepare one loving correction script: what happened, the value, the next step."
+    },
+    {
+      "ord": 8,
+      "bible_number": 7,
+      "title": "Seventh Secret: Modeling Integrity and Faith",
+      "duration_seconds": 480,
+      "poster": "assets/img/session-stills/fathering-fundamentals/s07.png",
+      "video_url": null,
+      "checkpoint": [
+        {
+          "prompt": "Modeling Integrity and Faith means:",
+          "choices": [
+            "Lead by example in faith and values",
+            "Tell them what to believe without living it",
+            "Keep faith private and unrelated to home"
+          ],
+          "correct_index": 0,
+          "feedback": ""
+        },
+        {
+          "prompt": "Why does modeling matter more than lectures?",
+          "choices": [
+            "Children learn what you live more than what you say",
+            "Lectures never work",
+            "Modeling is easier"
+          ],
+          "correct_index": 0,
+          "feedback": ""
+        },
+        {
+          "prompt": "A practical move is:",
+          "choices": [
+            "Choose one value you will live visibly this week",
+            "Hide your mistakes",
+            "Outsource faith formation entirely"
+          ],
+          "correct_index": 0,
+          "feedback": ""
+        }
+      ],
+      "keyline": "Lead by example in faith and values.",
+      "practice": "Choose one visible practice of faith or integrity and keep it where your child can see it."
+    },
+    {
+      "ord": 9,
+      "bible_number": 8,
+      "title": "Bonus Secret  - Honoring the Father Who is Guiding You",
+      "duration_seconds": 480,
+      "poster": "assets/img/session-stills/fathering-fundamentals/s08.png",
+      "video_url": null,
+      "checkpoint": [
+        {
+          "prompt": "The Bonus Secret centers on:",
+          "choices": [
+            "Honoring the Father who is guiding you",
+            "Skipping gratitude",
+            "Comparing your fathering to others online"
+          ],
+          "correct_index": 0,
+          "feedback": ""
+        },
+        {
+          "prompt": "Why close with honor and guidance?",
+          "choices": [
+            "Fathering is received and passed on under guidance, not invented alone",
+            "So the course feels longer",
+            "To replace the seven secrets"
+          ],
+          "correct_index": 0,
+          "feedback": ""
+        },
+        {
+          "prompt": "A fitting practice is:",
+          "choices": [
+            "Name how you will honor the guidance you have received as you father",
+            "Ignore the past entirely",
+            "Finish without reflection"
+          ],
+          "correct_index": 0,
+          "feedback": ""
+        }
+      ],
+      "keyline": "Honor the Father who is guiding you.",
+      "practice": "Name one way you will honor God’s guidance in your fathering this week."
+    }
   ]
 }

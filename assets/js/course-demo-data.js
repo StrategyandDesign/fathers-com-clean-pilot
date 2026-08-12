@@ -1,10 +1,10 @@
-/* Offline demo catalog for course.html?demo=1 — full player UX without Supabase. */
+/* Offline demo catalog for course.html?preview=1  - full player UX without Supabase. */
 window.FC_COURSE_DEMO = {
   "anger": {
     "id": "demo-course-anger",
     "slug": "anger",
     "title": "Steady Under Pressure",
-    "hours": 3.0,
+    "hours": 3,
     "published": true,
     "videos": [
       {
@@ -41,7 +41,9 @@ window.FC_COURSE_DEMO = {
             ],
             "correct_index": 1
           }
-        ]
+        ],
+        "poster": "assets/img/session-stills/steady-under-pressure/s01.png",
+        "video_url": "assets/video/steady/surge-is-a-signal-fluid.mp4"
       },
       {
         "id": "demo-anger-2",
@@ -77,7 +79,8 @@ window.FC_COURSE_DEMO = {
             ],
             "correct_index": 1
           }
-        ]
+        ],
+        "poster": "assets/img/session-stills/steady-under-pressure/s02.png"
       },
       {
         "id": "demo-anger-3",
@@ -113,7 +116,8 @@ window.FC_COURSE_DEMO = {
             ],
             "correct_index": 1
           }
-        ]
+        ],
+        "poster": "assets/img/session-stills/steady-under-pressure/s03.png"
       },
       {
         "id": "demo-anger-4",
@@ -149,7 +153,8 @@ window.FC_COURSE_DEMO = {
             ],
             "correct_index": 1
           }
-        ]
+        ],
+        "poster": "assets/img/session-stills/steady-under-pressure/s04.png"
       },
       {
         "id": "demo-anger-5",
@@ -185,7 +190,8 @@ window.FC_COURSE_DEMO = {
             ],
             "correct_index": 1
           }
-        ]
+        ],
+        "poster": "assets/img/session-stills/steady-under-pressure/s05.png"
       },
       {
         "id": "demo-anger-6",
@@ -221,7 +227,8 @@ window.FC_COURSE_DEMO = {
             ],
             "correct_index": 0
           }
-        ]
+        ],
+        "poster": "assets/img/session-stills/steady-under-pressure/s06.png"
       },
       {
         "id": "demo-anger-7",
@@ -257,7 +264,8 @@ window.FC_COURSE_DEMO = {
             ],
             "correct_index": 1
           }
-        ]
+        ],
+        "poster": "assets/img/session-stills/steady-under-pressure/s07.png"
       },
       {
         "id": "demo-anger-8",
@@ -293,7 +301,8 @@ window.FC_COURSE_DEMO = {
             ],
             "correct_index": 1
           }
-        ]
+        ],
+        "poster": "assets/img/session-stills/steady-under-pressure/s08.png"
       },
       {
         "id": "demo-anger-9",
@@ -329,7 +338,8 @@ window.FC_COURSE_DEMO = {
             ],
             "correct_index": 1
           }
-        ]
+        ],
+        "poster": "assets/img/session-stills/steady-under-pressure/s09.png"
       },
       {
         "id": "demo-anger-10",
@@ -365,7 +375,8 @@ window.FC_COURSE_DEMO = {
             ],
             "correct_index": 1
           }
-        ]
+        ],
+        "poster": "assets/img/session-stills/steady-under-pressure/s10.png"
       },
       {
         "id": "demo-anger-11",
@@ -401,7 +412,8 @@ window.FC_COURSE_DEMO = {
             ],
             "correct_index": 1
           }
-        ]
+        ],
+        "poster": "assets/img/session-stills/steady-under-pressure/s11.png"
       },
       {
         "id": "demo-anger-12",
@@ -437,7 +449,8 @@ window.FC_COURSE_DEMO = {
             ],
             "correct_index": 0
           }
-        ]
+        ],
+        "poster": "assets/img/session-stills/steady-under-pressure/s12.png"
       }
     ],
     "final_qa": [
@@ -459,7 +472,7 @@ window.FC_COURSE_DEMO = {
     "id": "demo-course-reentry",
     "slug": "reentry",
     "title": "Coming Home Present",
-    "hours": 3.0,
+    "hours": 3,
     "published": true,
     "videos": [
       {
@@ -496,7 +509,8 @@ window.FC_COURSE_DEMO = {
             ],
             "correct_index": 1
           }
-        ]
+        ],
+        "poster": "assets/img/session-stills/coming-home-present/s01.png"
       },
       {
         "id": "demo-reentry-2",
@@ -532,7 +546,8 @@ window.FC_COURSE_DEMO = {
             ],
             "correct_index": 0
           }
-        ]
+        ],
+        "poster": "assets/img/session-stills/coming-home-present/s02.png"
       },
       {
         "id": "demo-reentry-3",
@@ -568,7 +583,8 @@ window.FC_COURSE_DEMO = {
             ],
             "correct_index": 1
           }
-        ]
+        ],
+        "poster": "assets/img/session-stills/coming-home-present/s03.png"
       },
       {
         "id": "demo-reentry-4",
@@ -604,7 +620,8 @@ window.FC_COURSE_DEMO = {
             ],
             "correct_index": 1
           }
-        ]
+        ],
+        "poster": "assets/img/session-stills/coming-home-present/s04.png"
       },
       {
         "id": "demo-reentry-5",
@@ -640,7 +657,8 @@ window.FC_COURSE_DEMO = {
             ],
             "correct_index": 0
           }
-        ]
+        ],
+        "poster": "assets/img/session-stills/coming-home-present/s05.png"
       },
       {
         "id": "demo-reentry-6",
@@ -676,7 +694,8 @@ window.FC_COURSE_DEMO = {
             ],
             "correct_index": 0
           }
-        ]
+        ],
+        "poster": "assets/img/session-stills/coming-home-present/s06.png"
       },
       {
         "id": "demo-reentry-7",
@@ -712,7 +731,8 @@ window.FC_COURSE_DEMO = {
             ],
             "correct_index": 1
           }
-        ]
+        ],
+        "poster": "assets/img/session-stills/coming-home-present/s07.png"
       },
       {
         "id": "demo-reentry-8",
@@ -748,7 +768,8 @@ window.FC_COURSE_DEMO = {
             ],
             "correct_index": 1
           }
-        ]
+        ],
+        "poster": "assets/img/session-stills/coming-home-present/s08.png"
       },
       {
         "id": "demo-reentry-9",
@@ -784,7 +805,8 @@ window.FC_COURSE_DEMO = {
             ],
             "correct_index": 1
           }
-        ]
+        ],
+        "poster": "assets/img/session-stills/coming-home-present/s09.png"
       },
       {
         "id": "demo-reentry-10",
@@ -820,7 +842,8 @@ window.FC_COURSE_DEMO = {
             ],
             "correct_index": 1
           }
-        ]
+        ],
+        "poster": "assets/img/session-stills/coming-home-present/s10.png"
       },
       {
         "id": "demo-reentry-11",
@@ -856,7 +879,8 @@ window.FC_COURSE_DEMO = {
             ],
             "correct_index": 0
           }
-        ]
+        ],
+        "poster": "assets/img/session-stills/coming-home-present/s11.png"
       },
       {
         "id": "demo-reentry-12",
@@ -892,7 +916,8 @@ window.FC_COURSE_DEMO = {
             ],
             "correct_index": 1
           }
-        ]
+        ],
+        "poster": "assets/img/session-stills/coming-home-present/s12.png"
       }
     ],
     "final_qa": [
@@ -914,7 +939,7 @@ window.FC_COURSE_DEMO = {
     "id": "demo-course-coparenting",
     "slug": "coparenting",
     "title": "Same Team",
-    "hours": 3.0,
+    "hours": 3,
     "published": true,
     "videos": [
       {
@@ -951,7 +976,8 @@ window.FC_COURSE_DEMO = {
             ],
             "correct_index": 0
           }
-        ]
+        ],
+        "poster": "assets/img/session-stills/same-team/s01.png"
       },
       {
         "id": "demo-coparenting-2",
@@ -987,7 +1013,8 @@ window.FC_COURSE_DEMO = {
             ],
             "correct_index": 1
           }
-        ]
+        ],
+        "poster": "assets/img/session-stills/same-team/s02.png"
       },
       {
         "id": "demo-coparenting-3",
@@ -1023,7 +1050,8 @@ window.FC_COURSE_DEMO = {
             ],
             "correct_index": 0
           }
-        ]
+        ],
+        "poster": "assets/img/session-stills/same-team/s03.png"
       },
       {
         "id": "demo-coparenting-4",
@@ -1059,7 +1087,8 @@ window.FC_COURSE_DEMO = {
             ],
             "correct_index": 1
           }
-        ]
+        ],
+        "poster": "assets/img/session-stills/same-team/s04.png"
       },
       {
         "id": "demo-coparenting-5",
@@ -1095,7 +1124,8 @@ window.FC_COURSE_DEMO = {
             ],
             "correct_index": 1
           }
-        ]
+        ],
+        "poster": "assets/img/session-stills/same-team/s05.png"
       },
       {
         "id": "demo-coparenting-6",
@@ -1131,7 +1161,8 @@ window.FC_COURSE_DEMO = {
             ],
             "correct_index": 1
           }
-        ]
+        ],
+        "poster": "assets/img/session-stills/same-team/s06.png"
       },
       {
         "id": "demo-coparenting-7",
@@ -1167,7 +1198,8 @@ window.FC_COURSE_DEMO = {
             ],
             "correct_index": 1
           }
-        ]
+        ],
+        "poster": "assets/img/session-stills/same-team/s07.png"
       },
       {
         "id": "demo-coparenting-8",
@@ -1203,7 +1235,8 @@ window.FC_COURSE_DEMO = {
             ],
             "correct_index": 0
           }
-        ]
+        ],
+        "poster": "assets/img/session-stills/same-team/s08.png"
       },
       {
         "id": "demo-coparenting-9",
@@ -1239,7 +1272,8 @@ window.FC_COURSE_DEMO = {
             ],
             "correct_index": 0
           }
-        ]
+        ],
+        "poster": "assets/img/session-stills/same-team/s09.png"
       },
       {
         "id": "demo-coparenting-10",
@@ -1275,7 +1309,8 @@ window.FC_COURSE_DEMO = {
             ],
             "correct_index": 1
           }
-        ]
+        ],
+        "poster": "assets/img/session-stills/same-team/s10.png"
       },
       {
         "id": "demo-coparenting-11",
@@ -1311,7 +1346,8 @@ window.FC_COURSE_DEMO = {
             ],
             "correct_index": 1
           }
-        ]
+        ],
+        "poster": "assets/img/session-stills/same-team/s11.png"
       },
       {
         "id": "demo-coparenting-12",
@@ -1347,7 +1383,8 @@ window.FC_COURSE_DEMO = {
             ],
             "correct_index": 1
           }
-        ]
+        ],
+        "poster": "assets/img/session-stills/same-team/s12.png"
       }
     ],
     "final_qa": [
@@ -1369,113 +1406,118 @@ window.FC_COURSE_DEMO = {
     "id": "demo-course-fundamentals",
     "slug": "fundamentals",
     "title": "Fathering Fundamentals",
-    "hours": 10.0,
+    "hours": 1.1,
     "published": true,
     "videos": [
       {
         "id": "demo-fundamentals-1",
         "ord": 1,
-        "title": "Why Presence Wins",
+        "title": "Introduction",
         "vimeo_id": null,
-        "duration_seconds": 900,
+        "duration_seconds": 480,
+        "poster": "assets/img/session-stills/fathering-fundamentals/s00.png",
+        "video_url": null,
         "checkpoint_json": [
           {
-            "prompt": "What does this course treat as the engine that everything else in fathering rides on?",
+            "prompt": "What should you do before the First Secret sessions?",
             "choices": [
-              "Providing financially",
-              "Presence: showing up, attention on",
-              "Having the right answers",
-              "Strict discipline"
+              "Skip the assessment and jump to Session 1",
+              "Watch the overview and take the free assessment",
+              "Wait until you finish all seven secrets"
             ],
             "correct_index": 1
           },
           {
-            "prompt": "A father is home every evening but on his phone through dinner. By this session's standard, what is he giving his children?",
+            "prompt": "What is this course built on?",
             "choices": [
-              "Presence, because he is in the room",
-              "Proximity without presence",
-              "Quality time"
+              "Guesswork about fathering",
+              "Dr. Ken Canfield's research-based Seven Secrets",
+              "Only military parenting tips"
             ],
             "correct_index": 1
           },
           {
-            "prompt": "What is the practical move this session asks of you first?",
+            "prompt": "Why take the assessment first?",
             "choices": [
-              "Plan a big outing to make up for lost time",
-              "Pick one daily window and put your attention fully on your child in it",
-              "Wait until life is less busy"
+              "So growth targets are personal, not generic",
+              "So you can skip hard sessions",
+              "So the course can grade your child"
             ],
-            "correct_index": 1
+            "correct_index": 0
           }
         ]
       },
       {
         "id": "demo-fundamentals-2",
         "ord": 2,
-        "title": "A Schedule They Can Trust",
+        "title": "First Secret: Commitment",
         "vimeo_id": null,
-        "duration_seconds": 900,
+        "duration_seconds": 480,
+        "poster": "assets/img/session-stills/fathering-fundamentals/s01.png",
+        "video_url": null,
         "checkpoint_json": [
           {
-            "prompt": "In this session, what does the calendar function as?",
+            "prompt": "What does the First Secret treat as essential?",
             "choices": [
-              "A productivity tool",
-              "A promise your children can watch you keep",
-              "A record for your own reference"
+              "Being present physically, emotionally, and spiritually",
+              "Winning every argument at home",
+              "Providing money without being present"
+            ],
+            "correct_index": 0
+          },
+          {
+            "prompt": "What does commitment build, per this session?",
+            "choices": [
+              "Fear of consequences",
+              "Trust and lasting influence",
+              "A perfect schedule"
             ],
             "correct_index": 1
           },
           {
-            "prompt": "Which builds a child's trust fastest, according to the session?",
+            "prompt": "Which practice matches this session?",
             "choices": [
-              "Occasional big surprises",
-              "A standing time that happens when you said it would, week after week",
-              "Explaining why you were busy"
+              "Name one physical, one emotional, and one spiritual way you will show up this week",
+              "Buy a bigger gift",
+              "Avoid hard conversations"
             ],
-            "correct_index": 1
-          },
-          {
-            "prompt": "You have to miss a standing time. What is the move?",
-            "choices": [
-              "Skip it quietly; children forget",
-              "Tell them ahead, name the new time, and keep the new time",
-              "Make it up with a gift"
-            ],
-            "correct_index": 1
+            "correct_index": 0
           }
         ]
       },
       {
         "id": "demo-fundamentals-3",
         "ord": 3,
-        "title": "Enter Their World",
+        "title": "Second Secret: Knowing Your Child",
         "vimeo_id": null,
-        "duration_seconds": 900,
+        "duration_seconds": 480,
+        "poster": "assets/img/session-stills/fathering-fundamentals/s02.png",
+        "video_url": null,
         "checkpoint_json": [
           {
-            "prompt": "What does awareness look like in practice in this session?",
+            "prompt": "What opens deeper connection in the Second Secret?",
             "choices": [
-              "Monitoring their grades closely",
-              "Knowing their friends' names and their inner weather",
-              "Checking their phone"
+              "Knowing your child's unique personality, needs, and interests",
+              "Comparing them to siblings",
+              "Waiting until they are older"
+            ],
+            "correct_index": 0
+          },
+          {
+            "prompt": "Knowing your child means mainly:",
+            "choices": [
+              "Tracking grades only",
+              "Entering their world so they feel seen",
+              "Correcting them faster"
             ],
             "correct_index": 1
           },
           {
-            "prompt": "Your child shares a problem. The session's counsel is to lead with what?",
+            "prompt": "A practical move for this secret is to:",
             "choices": [
-              "A fix, quickly, so they feel helped",
-              "Questions, without fixing",
-              "A story about your own childhood"
-            ],
-            "correct_index": 1
-          },
-          {
-            "prompt": "Why do questions beat fixes when a child opens up?",
-            "choices": [
-              "Questions keep the door open and tell the child their world is worth entering",
-              "Questions save time",
-              "Fixes are usually wrong"
+              "Ask and notice something specific about your child this week",
+              "Assume you already know them",
+              "Lead with advice before listening"
             ],
             "correct_index": 0
           }
@@ -1484,85 +1526,241 @@ window.FC_COURSE_DEMO = {
       {
         "id": "demo-fundamentals-4",
         "ord": 4,
-        "title": "Repair Fast, Stand for Something",
+        "title": "Third Secret: Showing Up Consistently",
         "vimeo_id": null,
-        "duration_seconds": 900,
+        "duration_seconds": 480,
+        "poster": "assets/img/session-stills/fathering-fundamentals/s03.png",
+        "video_url": null,
         "checkpoint_json": [
           {
-            "prompt": "What is the repair standard this session sets after a blowup or a broken word?",
+            "prompt": "What does Showing Up Consistently create?",
             "choices": [
-              "Let time smooth it over",
-              "Own it out loud within twenty-four hours",
-              "Wait for the child to bring it up"
+              "Occasional big surprises",
+              "Stability through consistent actions, values, and discipline",
+              "Flexibility with no patterns"
             ],
             "correct_index": 1
           },
           {
-            "prompt": "What makes discipline build a child instead of frighten one?",
+            "prompt": "Consistency here is mainly about:",
             "choices": [
-              "Making consequences bigger each time",
-              "Values said out loud in calm hours, so correction connects to something known",
-              "Keeping the rules unstated so they stay flexible"
-            ],
-            "correct_index": 1
-          },
-          {
-            "prompt": "A real repair, per this session, sounds most like which of these?",
-            "choices": [
-              "I was wrong to yell. That is not how I want to speak to you.",
-              "You know I love you, right?",
-              "Let's just forget about last night."
+              "Keeping a rhythm your child can count on",
+              "Never changing plans",
+              "Being perfect every day"
             ],
             "correct_index": 0
+          },
+          {
+            "prompt": "If you must miss a standing time, the strong move is:",
+            "choices": [
+              "Skip quietly",
+              "Tell them ahead, name the new time, and keep it",
+              "Make it up with a gift only"
+            ],
+            "correct_index": 1
           }
         ]
       },
       {
         "id": "demo-fundamentals-5",
         "ord": 5,
-        "title": "Your Own Father, Your Ninety Days",
+        "title": "Fourth Secret: Protecting and Providing Security",
         "vimeo_id": null,
-        "duration_seconds": 900,
+        "duration_seconds": 480,
+        "poster": "assets/img/session-stills/fathering-fundamentals/s04.png",
+        "video_url": null,
         "checkpoint_json": [
           {
-            "prompt": "Why does this course end by looking at the fathering you received?",
+            "prompt": "Protecting and Providing Security covers:",
             "choices": [
-              "To assign blame accurately",
-              "Because every man fathers out of an inheritance, and seeing it clearly is how you choose what continues",
-              "Because history repeats no matter what"
-            ],
-            "correct_index": 1
-          },
-          {
-            "prompt": "Why does no man hold a standard alone in this course?",
-            "choices": [
-              "Standards spoken to another man hold better under load than private vows",
-              "Accountability is a program requirement",
-              "Other men have better answers"
+              "Physical, emotional, and spiritual safety and provision",
+              "Only financial provision",
+              "Only physical safety"
             ],
             "correct_index": 0
           },
           {
-            "prompt": "What does locking your ninety-day plan mean here?",
+            "prompt": "Security for a child often feels like:",
             "choices": [
-              "The plan can never change",
-              "You commit to a written plan with one first target and a retake of your baseline at the end",
-              "You memorize the course material"
+              "Unpredictable intensity",
+              "A father who keeps them safe and provided for across those dimensions",
+              "Strict silence about hard topics"
             ],
             "correct_index": 1
+          },
+          {
+            "prompt": "A practical focus this week is:",
+            "choices": [
+              "Name one way you will protect or provide security this week",
+              "Wait for a crisis",
+              "Outsource all protection"
+            ],
+            "correct_index": 0
+          }
+        ]
+      },
+      {
+        "id": "demo-fundamentals-6",
+        "ord": 6,
+        "title": "Fifth Secret: Affirming and Encouraging",
+        "vimeo_id": null,
+        "duration_seconds": 480,
+        "poster": "assets/img/session-stills/fathering-fundamentals/s05.png",
+        "video_url": null,
+        "checkpoint_json": [
+          {
+            "prompt": "Affirming and Encouraging means:",
+            "choices": [
+              "Speak life: affirm who they are and encourage who they are becoming",
+              "Praise only grades",
+              "Avoid compliments so they stay humble"
+            ],
+            "correct_index": 0
+          },
+          {
+            "prompt": "Why affirm who they are, not only what they do?",
+            "choices": [
+              "It builds identity and courage, not just performance",
+              "It is easier",
+              "It replaces discipline"
+            ],
+            "correct_index": 0
+          },
+          {
+            "prompt": "A practice for this secret is:",
+            "choices": [
+              "Speak one specific affirmation and one encouragement this week",
+              "Wait for a big milestone",
+              "Compare them to another child"
+            ],
+            "correct_index": 0
+          }
+        ]
+      },
+      {
+        "id": "demo-fundamentals-7",
+        "ord": 7,
+        "title": "Sixth Secret: Disciplining with Love",
+        "vimeo_id": null,
+        "duration_seconds": 480,
+        "poster": "assets/img/session-stills/fathering-fundamentals/s06.png",
+        "video_url": null,
+        "checkpoint_json": [
+          {
+            "prompt": "Disciplining with Love means:",
+            "choices": [
+              "Correction that trains, bound by love, not anger",
+              "Punishment that vents your frustration",
+              "Ignoring problems until they explode"
+            ],
+            "correct_index": 0
+          },
+          {
+            "prompt": "What should bound correction in this session?",
+            "choices": [
+              "Anger",
+              "Love and a clear training purpose",
+              "Public shame"
+            ],
+            "correct_index": 1
+          },
+          {
+            "prompt": "When you correct, the aim is to:",
+            "choices": [
+              "Win the moment",
+              "Train the child while keeping the relationship intact",
+              "Prove you were right"
+            ],
+            "correct_index": 1
+          }
+        ]
+      },
+      {
+        "id": "demo-fundamentals-8",
+        "ord": 8,
+        "title": "Seventh Secret: Modeling Integrity and Faith",
+        "vimeo_id": null,
+        "duration_seconds": 480,
+        "poster": "assets/img/session-stills/fathering-fundamentals/s07.png",
+        "video_url": null,
+        "checkpoint_json": [
+          {
+            "prompt": "Modeling Integrity and Faith means:",
+            "choices": [
+              "Lead by example in faith and values",
+              "Tell them what to believe without living it",
+              "Keep faith private and unrelated to home"
+            ],
+            "correct_index": 0
+          },
+          {
+            "prompt": "Why does modeling matter more than lectures?",
+            "choices": [
+              "Children learn what you live more than what you say",
+              "Lectures never work",
+              "Modeling is easier"
+            ],
+            "correct_index": 0
+          },
+          {
+            "prompt": "A practical move is:",
+            "choices": [
+              "Choose one value you will live visibly this week",
+              "Hide your mistakes",
+              "Outsource faith formation entirely"
+            ],
+            "correct_index": 0
+          }
+        ]
+      },
+      {
+        "id": "demo-fundamentals-9",
+        "ord": 9,
+        "title": "Bonus Secret  - Honoring the Father Who is Guiding You",
+        "vimeo_id": null,
+        "duration_seconds": 480,
+        "poster": "assets/img/session-stills/fathering-fundamentals/s08.png",
+        "video_url": null,
+        "checkpoint_json": [
+          {
+            "prompt": "The Bonus Secret centers on:",
+            "choices": [
+              "Honoring the Father who is guiding you",
+              "Skipping gratitude",
+              "Comparing your fathering to others online"
+            ],
+            "correct_index": 0
+          },
+          {
+            "prompt": "Why close with honor and guidance?",
+            "choices": [
+              "Fathering is received and passed on under guidance, not invented alone",
+              "So the course feels longer",
+              "To replace the seven secrets"
+            ],
+            "correct_index": 0
+          },
+          {
+            "prompt": "A fitting practice is:",
+            "choices": [
+              "Name how you will honor the guidance you have received as you father",
+              "Ignore the past entirely",
+              "Finish without reflection"
+            ],
+            "correct_index": 0
           }
         ]
       }
     ],
     "final_qa": [
       {
-        "prompt": "Name your one daily presence window: when it is, and what you put down to be in it. Then describe one evening this course changed how you showed up in it."
+        "prompt": "Name one presence commitment (physical, emotional, or spiritual) you will keep this week, and how your child will be able to feel it."
       },
       {
-        "prompt": "Write the repair you owe or recently made: what happened, what you said or will say out loud, and what you want your child to know about how you handle being wrong."
+        "prompt": "Which of the Seven Secrets is your sharpest growth edge right now, and what is one practice you will run for fourteen days?"
       },
       {
-        "prompt": "From the fathering you received: name one thing you are keeping on purpose, one thing that stops with you, and the first target of your ninety-day plan."
+        "prompt": "How will you honor the guidance you have received as you father, in one concrete action this month?"
       }
     ]
   }

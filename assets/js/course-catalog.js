@@ -19,7 +19,7 @@
 (function(){
   var grid = document.getElementById('tracks');
   if(!grid) return;
-  window.__fcHours = {fundamentals:'10.0', reentry:'3.0', anger:'3.0', coparenting:'3.0', manhood:'6.0'};
+  window.__fcHours = {fundamentals:'1.1', reentry:'3.0', anger:'3.0', coparenting:'3.0', manhood:'6.0'};
 
   function esc(s){ return (s==null?'':String(s)).replace(/[&<>"']/g,function(c){
     return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
@@ -61,8 +61,8 @@
              : '<span class="pill">Sessions live</span>';
     // The platform is the source of truth for hours and session counts while
     // the database catches up. Slugs match the static data-cert values.
-    var HOURS = {fundamentals:'10.0', reentry:'3.0', anger:'3.0', coparenting:'3.0', manhood:'6.0'};
-    var SESSIONS = {fundamentals:5, reentry:12, anger:12, coparenting:12, manhood:6};
+    var HOURS = {fundamentals:'1.1', reentry:'3.0', anger:'3.0', coparenting:'3.0', manhood:'6.0'};
+    var SESSIONS = {fundamentals:9, reentry:12, anger:12, coparenting:12, manhood:6};
     var shownHours = HOURS[c.slug] != null ? HOURS[c.slug] : c.hours;
     var hrs = (shownHours == null ? '' : '<span class="cert-card-hrs">' + esc(shownHours) + ' hrs</span>');
     var blurb = BLURB[c.slug] || 'Built on the Keystone framework. Sessions logged, checkpoints, and a final assessment.';

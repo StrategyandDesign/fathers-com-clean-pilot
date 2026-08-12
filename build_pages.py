@@ -555,7 +555,7 @@ PAGES['index.html'] = dict(title='Become the father they can count on', desc='Kn
       <div style="padding:20px 22px">
         <div class="row between" style="margin-bottom:8px"><span class="pill">FILM COURSE</span><span class="fine mono">12 sessions</span></div>
         <h3 style="margin-bottom:6px">Coming Home Present</h3>
-        <p class="fine" style="color:var(--ash)">Presence after time away. Film sessions with a facilitator; proof a court or program can check.</p>
+        <p class="fine" style="color:var(--ash)">Rehab and treatment reconnect, then service return. Film with a facilitator; proof a court or program can check.</p>
       </div>
     </a>
   </div>
@@ -1363,7 +1363,7 @@ PAGES['certificates.html'] = dict(title='The Courses and the Certificate of Comp
     </div>
       </div>
 
-  <p class="small" style="margin-top:22px;max-width:72ch;color:var(--ash)"><b style="color:var(--bone)">Where to start.</b> Coming Home Present is the return spine after time away. Steady Under Pressure is the skills add-on when pressure is the issue. Same Team when co-parenting is the work. Fathering Fundamentals is the foundation, and the alumni home base.</p>
+  <p class="small" style="margin-top:22px;max-width:72ch;color:var(--ash)"><b style="color:var(--bone)">Where to start.</b> Coming Home Present is the return spine for fathers reconnecting after rehab or treatment (and the same skills for service return). Steady Under Pressure is the skills add-on when pressure is the issue. Same Team when co-parenting is the work. Fathering Fundamentals is the foundation, and the alumni home base.</p>
   <p class="fine" style="margin-top:14px">Whether a certificate satisfies a court, agency, or program requirement is decided by that body. Confirm with yours before enrolling. Every course and every Certificate of Completion is free to the man. Certified organizations and facilitators carry the standard. <a class="link ash" href="sponsor.html">Sponsorship funds organization certification</a>.</p>
 
   <div class="sess-preview-row">
@@ -1475,14 +1475,14 @@ PAGES['certificates.html'] = dict(title='The Courses and the Certificate of Comp
     c.addEventListener('click', function(e){
       if(e.target.closest('a, summary, details, button')) return;
       title.textContent = c.getAttribute('data-title');
-      var SESS = {fundamentals:'5', reentry:'12', anger:'12', coparenting:'12', manhood:'6'};
+      var SESS = {fundamentals:'9', reentry:'12', anger:'12', coparenting:'12', manhood:'6'};
       hours.textContent = (SESS[c.getAttribute('data-cert')] || '') + ' sessions, facilitator-supported';
       desc.textContent = c.getAttribute('data-desc');
       eyebrow.textContent = c.getAttribute('data-cert')==='fundamentals' ? 'FLAGSHIP COURSE' : 'COURSE';
       var explore = document.getElementById('certExplore');
       if(explore){
         var slug = c.getAttribute('data-cert');
-        var courseHref = {fundamentals:'class.html', reentry:'course-coming-home-present.html', anger:'course-steady-under-pressure.html', coparenting:'course-same-team.html'}[slug];
+        var courseHref = {fundamentals:'course-fathering-fundamentals.html', reentry:'course-coming-home-present.html', anger:'course-steady-under-pressure.html', coparenting:'course-same-team.html'}[slug];
         explore.setAttribute('href', courseHref || 'certificates.html');
         explore.textContent = slug==='fundamentals' ? 'Explore this course' : 'Open the course';
       }
@@ -2728,6 +2728,7 @@ PAGES['efficacy-report.html'] = dict(title='The Efficacy Report', desc='Cohort m
 PAGES['course-coming-home-present.html'] = _short_course_page_meta(_SHORT_COURSES['reentry'])
 PAGES['course-steady-under-pressure.html'] = _short_course_page_meta(_SHORT_COURSES['anger'])
 PAGES['course-same-team.html'] = _short_course_page_meta(_SHORT_COURSES['coparenting'])
+PAGES['course-fathering-fundamentals.html'] = _short_course_page_meta(_SHORT_COURSES['fundamentals'])
 
 # ================================================== dark: directory + gift (v4.12.0)
 if not SHOW_DIRECTORY:
