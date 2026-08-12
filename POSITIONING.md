@@ -8,7 +8,7 @@ and pricing questions. Facts are labeled facts. Hypotheses are labeled hypothese
 - NCF certifies institutions and people. Participants complete free.
 - **Certified Organization**: a site credential. Annual, published, revocable.
 - **Certified Facilitator**: a personal credential. Examined, supervised, renewed annually, published, revocable. It belongs to the person and travels with them.
-- **Certificate of Completion**: the participant document. Earned, serialed, signed by Dr. Ken Canfield and the leading Certified Facilitator, publicly verifiable, and free to the man. Always.
+- **Certificate of Completion**: the participant document. Earned, serialed, signed by Dr. Ken Canfield and the Certified Facilitator who sponsored the seat, publicly verifiable, and free to the man. Always.
 - "Certified / certification" is reserved for organizations and facilitators. The man's document uses "certificate" but never "certified." The grammar carries the tier.
 
 ## 2. Naming decision (research basis)
@@ -248,7 +248,7 @@ below is enforced by tools/check_release.py where a scanner can enforce it.
    The claim rule: never "first" or "only" about verification. The
    defensible set, exactly four items: first within evidence-based
    fatherhood curricula; revocation always shown, which no competitor
-   advertises; free to the man; earned in a facilitator-led cohort.
+   advertises; free to the man; earned in a facilitator-supported film course.
 3. Unproven: the recurring model. No incumbent publishes an annual site
    license or facilitator renewal. The $1,500 per site per year and $99
    renewal stand as a priced hypothesis. Benchmarks: first-cycle renewal
