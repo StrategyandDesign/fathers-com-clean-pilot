@@ -16,6 +16,13 @@
   var slug = (qs.get('cert') || 'anger').toLowerCase();
   // Film-first coursework. Session guides remain available as support.
   var SESSIONS_PAGE = {reentry:'course-coming-home-present.html', anger:'course-steady-under-pressure.html', coparenting:'course-same-team.html', manhood:'course-the-man-before-you.html'};
+  var SESSION_ANCHOR = {anger:'b', reentry:'r', coparenting:'c', manhood:'m'};
+  function sessionGuideHref(sessionIndex){
+    var page = SESSIONS_PAGE[slug]; if(!page) return '';
+    var prefix = SESSION_ANCHOR[slug] || '';
+    if(!prefix || sessionIndex == null) return page;
+    return page + '#' + prefix + String(sessionIndex + 1);
+  }
   var uid=null, course=null, videos=[], progress={}, awardStatus=null, passes={}, finalQa=[];
 
   // ---------- boot ----------
@@ -47,8 +54,11 @@
     finalQa = pack.final_qa || [];
     progress = {}; passes = {}; awardStatus = null; enrollId = null;
     if($('cw-title')) $('cw-title').textContent = course.title + ' (preview)';
-    note('<div class="notice brass" style="margin:0 0 14px"><b>Preview player.</b> <span class="fine">Try the full session flow before you create an account. No email required. When you are ready, <a class="link" href="profile.html">start your free Profile</a>.</span></div>');
+    var signedIn = !!(window.FC && FC.uid && FC.uid());
+    note('<div class="notice brass" style="margin:0 0 14px"><b>Preview player.</b> <span class="fine">Walk the real session flow: play a session, pass the checkpoint, move to the next. Films are not live yet, so play runs a short stand-in.'+(signedIn?'':' No account needed.')+' When you want proof later, a Certified Facilitator claims your seat and you earn a serial.</span></div>');
     renderOutline();
+    /* Land on lesson 1 immediately so preview is not an empty outline. */
+    if(videos.length) openVideo(0);
   }
 
   function load(){
@@ -88,7 +98,7 @@
       if(!videos.length){
         var sp = SESSIONS_PAGE[slug];
         stage(sp
-          ? '<div class="notice brass">This course is film-first. When the session films are ready they play here. Meanwhile, open the session guide: <a class="link" href="' + sp + '">session guide &rarr;</a></div>'
+          ? '<div class="notice brass">This course is film-first. When session films are ready they play here. Until then use <a class="link" href="course.html?preview=1&amp;cert='+esc(slug)+'">the preview player</a> or the written outline on the course page.</div>'
           : '<div class="notice brass">This course is film-first. Session films play here when ready.</div>');
         return;
       }
@@ -179,18 +189,19 @@
     var player;
     if (vid) {
       player = '<div class="cw-embed"><iframe id="cw-vimeo" src="https://player.vimeo.com/video/'+esc(vid)+'?title=0&byline=0&portrait=0&pip=0&speed=0&dnt=1" allow="autoplay; fullscreen" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;border:0"></iframe></div>';
+    } else if (demo) {
+      /* Preview must stay playable even when Supabase is live. The old branch
+         treated FC.live as "real course" and showed Film loading soon, which
+         sent men to the marketing session guide and broke the preview promise. */
+      player = '<div class="cw-novid" style="padding:28px 24px;border:1px solid rgba(127,127,127,.28);border-radius:14px;background:rgba(255,255,255,.03)">'+
+        '<div class="eyebrow brass" style="margin-bottom:10px">PREVIEW SESSION \u00b7 ~12 MIN</div>'+
+        '<h3 style="margin:0 0 8px;font-family:var(--font-display);font-size:26px">'+esc(v.title)+'</h3>'+
+        '<p class="small ash" style="margin:0 0 16px;max-width:48ch">Press play to run this session the way the live player will. About eight seconds stands in for the twelve-minute film. Then take the checkpoint.</p>'+
+        '<button class="btn btn-yellow" id="cw-sim">Play preview session</button></div>';
     } else {
-      var liveMode = !!(window.FC && FC.live);
-      if(liveMode){
-        var sessLink = SESSIONS_PAGE[slug] ? '<a class="btn btn-secondary btn-sm" style="margin-top:12px" href="'+SESSIONS_PAGE[slug]+'" target="_blank" rel="noopener">Open session guide &rarr;</a>' : '';
-        player = '<div class="cw-novid"><div class="eyebrow brass" style="margin-bottom:10px">Film loading soon</div><p class="small">This session plays on Vimeo here. No time is credited until the film is live. Use the session guide if you need the outline, then take the checkpoint below.</p>'+sessLink+'</div>';
-      } else {
-        player = '<div class="cw-novid" style="padding:28px 24px;border:1px solid rgba(127,127,127,.28);border-radius:14px;background:rgba(255,255,255,.03)">'+
-          '<div class="eyebrow brass" style="margin-bottom:10px">PREVIEW SESSION \u00b7 ~12 MIN</div>'+
-          '<h3 style="margin:0 0 8px;font-family:var(--font-display);font-size:26px">'+esc(v.title)+'</h3>'+
-          '<p class="small ash" style="margin:0 0 16px;max-width:48ch">This is the full player experience. Press play to simulate the film, then take the checkpoint. Same steps when Vimeo is live.</p>'+
-          '<button class="btn btn-yellow" id="cw-sim">Play preview session</button></div>';
-      }
+      var sessHref = sessionGuideHref(i);
+      var sessLink = sessHref ? '<a class="btn btn-secondary btn-sm" style="margin-top:12px" href="'+sessHref+'">Read this session\u2019s outline \u2192</a>' : '';
+      player = '<div class="cw-novid"><div class="eyebrow brass" style="margin-bottom:10px">Film loading soon</div><p class="small">This session plays on Vimeo here when the film is live. For now, read the outline, then take the checkpoint below.</p>'+sessLink+'</div>';
     }
 
     var prevOk = i > 0;
@@ -259,7 +270,7 @@
     }
 
     var cont=$('cw-to-debrief');
-    var filmless = !vid && !!(window.FC && FC.live);
+    var filmless = !demo && !vid && !!(window.FC && FC.live);
     if (filmless) {
       cont.disabled = false;
       cont.textContent = passes[v.id] ? 'Retake the checkpoint' : 'Take the checkpoint';
@@ -481,7 +492,7 @@
     var btn=$('cw-submit'); btn.disabled=true; btn.textContent='Submitting\u2026';
     if (demo){
       awardStatus='submitted';
-      stage('<div class="cw-status"><div class="cw-status-icon">\u2713</div><h2>Submitted (preview)</h2><p>In live mode your facilitator reviews this and the Certificate of Completion follows. You just walked the full father flow.</p><a class="btn btn-primary" href="dashboard.html?preview=1">Back to dashboard preview</a></div>');
+      stage('<div class="cw-status"><div class="cw-status-icon">\u2713</div><h2>Preview finished</h2><p>You walked the session flow. This is not a Certificate of Completion and does not create a serial. To earn proof, a Certified Facilitator claims your seat through a Certified Organization.</p><a class="btn btn-primary" href="organizations.html">How organizations verify men</a> <a class="btn btn-secondary" style="margin-left:8px" href="certificates.html">Back to courses</a></div>');
       return;
     }
 

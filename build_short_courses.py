@@ -129,6 +129,7 @@ def billboard_html(course: dict) -> str:
   <p class="fine" style="color:var(--ash);max-width:62ch;margin-bottom:6px">{_e(course["fine1"])}</p>
   <p class="fine" style="color:var(--ash);max-width:62ch;margin-bottom:14px">{_e(course["fine2"])}</p>
 {disc}  <div class="row wrap" style="gap:10px;margin-bottom:8px"><a class="btn btn-yellow" href="profile.html">Start with free Profile</a><a class="btn btn-secondary" href="course.html?preview=1&amp;cert={_e(course["slug"])}">Watch the preview player</a><a class="btn btn-secondary" href="certificates.html#catalog">Browse courses</a></div>
+  <p class="fine" style="color:var(--ash);margin:0 0 18px;max-width:48ch">Preview is practice only. Earn proof through a Certified Organization.</p>
 </div></section></div></section>
 '''
 

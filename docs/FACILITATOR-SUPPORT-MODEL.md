@@ -30,3 +30,6 @@ Some organizations may later offer live cohort sessions as an optional layer. Co
 ## Copy vocabulary
 
 Prefer **Facilitator-supported** over **Facilitator-led**. Prefer **who sponsored your seat** or **your Certified Facilitator** over **who led your cohort**. Prefer **Watch on your schedule** / **Self-paced film** over language that requires sitting in a live session.
+
+## Verified-only completion
+Film preview and the free Profile/plan do not issue proof. Claim is required before enrollment counts toward a Certificate of Completion and a public serial. Preview sittings cannot be converted into serials.
