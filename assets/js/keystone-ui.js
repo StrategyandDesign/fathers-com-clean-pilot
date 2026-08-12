@@ -287,7 +287,7 @@
       '<h2 style="margin:0 0 8px">Start with the father you had.</h2>'+
       '<p class="helper">Before a man fathers well, it helps to understand how he was fathered. These '+items.length+' questions are about your own upbringing. There are no wrong answers, and your reflections are private.</p>'+
       '<button class="btn btn-yellow" style="width:100%;margin-top:28px" id="ks-prep-begin">Begin</button>'+
-      '<p class="fine" style="margin-top:16px;text-align:center"><a href="certificates.html" class="link ash" style="font-size:12px">Or browse the three courses first</a></p>');
+      '<p class="fine" style="margin-top:16px;text-align:center"><a href="certificates.html" class="link ash" style="font-size:12px">Or browse the courses first</a></p>');
     document.getElementById('ks-prep-begin').onclick = function(){
       KS.resumeOrStart('all_at_once').then(function(){ runSection(KS.pathSectionKeys()[0]); });
     };
@@ -582,7 +582,7 @@
     btn.disabled=true; btn.textContent='Saving your plan\u2026'; msg.textContent='';
     ksEv('plan_email_submitted', {});
     var slug = (ACTIVE_INS && ACTIVE_INS.slug) || 'keystone-father-profile';
-    var dest = 'report.html?assessment=' + encodeURIComponent(slug);
+    var dest = 'plan.html?assessment=' + encodeURIComponent(slug) + '&reveal=1';
     try { var t = localStorage.getItem('fc_claim_token'); if(t){ dest += '&claim=' + encodeURIComponent(t); } } catch(e){}
     if(!(window.FC && FC.signUpPassword)){ msg.textContent='Sign-in is not available right now.'; msg.style.color='var(--error)'; btn.disabled=false; btn.textContent='Start my plan'; return; }
     FC.signUpPassword(email, pass, '', dest).then(function(r){

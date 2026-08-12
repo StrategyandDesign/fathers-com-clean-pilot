@@ -288,18 +288,21 @@
                   '<span class="dash-course-go">'+call+' <i aria-hidden="true">&rarr;</i></span></a>';
               }).join('');
 
+              host.setAttribute('data-enrolled','1');
               host.innerHTML =
                 '<div class="dash-sec-h"><span class="eyebrow">YOUR COURSES</span>'+
                   '<a class="link ash" href="certificates.html">All courses &rarr;</a></div>'+
                 '<div class="grid-auto">'+cards+'</div>';
 
-              done(mine.length, courses.length);
+              var resumeSlug = (byId[mine[0].course_id] && byId[mine[0].course_id].slug) || '';
+              var resumeHref = resumeSlug ? ('course.html?cert='+encodeURIComponent(resumeSlug)) : 'certificates.html';
+              done(mine.length, courses.length, resumeHref);
             });
           }, function(){ done(0, courses.length); });
       }, function(){ done(0, 0); });
   }
 
-  function nextStrip(activeSlug, heldSlugs, enrolled, courseCount, hasClaim){
+  function nextStrip(activeSlug, heldSlugs, enrolled, courseCount, hasClaim, resumeHref){
     var host = document.getElementById('dashNext');
     if(!host) return;
 
@@ -325,7 +328,7 @@
       } else if(remaining > 0){
         paintNextAction({kicker:'Next action', title:'Resume your course',
           body:'Continue the film sessions and checkpoints. Honest progress beats perfect weeks.',
-          href:'certificates.html', cta:'Continue'});
+          href: resumeHref || 'certificates.html', cta:'Continue'});
       } else {
         paintNextAction({kicker:'Next action', title:'Open your plan for this week',
           body:'Weeks you showed up matter more than streaks.',
@@ -365,7 +368,7 @@
           'Small moves from your gaps. Honest beats perfect.',
           'Open your plan'));
       } else if(remaining > 0){
-        cards.push(card('certificates.html','Keep training',
+        cards.push(card(resumeHref || 'certificates.html','Keep training',
           remaining + ' more course' + (remaining===1?'':'s') + ' open',
           'You are already in ' + enrolled + '. Finish one for a Certificate of Completion.',
           'Continue'));
@@ -417,9 +420,9 @@
           draw(list[i], who);
           var held = list.map(function(x){ return x.assessment_slug; });
           var uid = (window.FC && FC.uid) ? FC.uid() : null;
-          coursesStrip(uid, function(enrolled, total){
+          coursesStrip(uid, function(enrolled, total, resumeHref){
             var paintNext = function(hasClaim){
-              nextStrip(slug, held, enrolled, total || null, !!hasClaim);
+              nextStrip(slug, held, enrolled, total || null, !!hasClaim, resumeHref || null);
             };
             if(!(window.FC && FC.live && FC.sb && uid)){ paintNext(false); return; }
             FC.sb.from('participant_claims').select('id').eq('user_id', uid).limit(1)

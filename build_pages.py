@@ -1786,7 +1786,7 @@ PAGES['enroll.html'] = dict(title='Enroll', desc='Enroll free. Finish the work a
 </style>
 <section class="tight" style="padding-top:56px"><div class="container" style="max-width:1040px">
   <div id="enrollPanel">
-    <a class="link ash" href="certificates.html" style="font-size:13px;display:inline-block;margin-bottom:20px">&larr; All certificates</a>
+    <a class="link ash" href="certificates.html" style="font-size:13px;display:inline-block;margin-bottom:20px">&larr; All courses</a>
     <div style="display:grid;grid-template-columns:1.2fr .9fr;gap:48px;align-items:start" class="enroll-grid">
       <div>
         <div class="eyebrow brass" style="margin-bottom:14px">THE CERTIFICATE OF COMPLETION</div>
@@ -2271,7 +2271,7 @@ PAGES['share.html'] = dict(title='A message for you', desc='A private voice mess
 PAGES['course.html'] = dict(title='Your Certificate', desc='Watch the lessons, pass each Checkpoint, answer the final Q&A, and submit for approval.', active='Certificates', mode='app', auth=True, body='''
 <section class="cw-wrap" id="cw-root">
   <div class="cw-head">
-    <a class="link ash" href="certificates.html" style="display:inline-block;margin-bottom:16px">&larr; All certificates</a>
+    <a class="link ash" href="certificates.html" style="display:inline-block;margin-bottom:16px">&larr; All courses</a>
     <div class="eyebrow brass">THE CERTIFICATE OF COMPLETION</div>
     <h1 class="d-36" id="cw-title" style="margin-top:8px">Your certificate</h1>
   </div>
