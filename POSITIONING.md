@@ -75,9 +75,18 @@ File: `assets/js/keystone-manhood-data.js`. Status: draft item bank, complete.
 
 ## 9. Language system
 
-Participant-facing copy never uses: rehab, recovery, treatment, sobriety,
-clinical, patient, inmate, facility, discharge, or any population label. The
-certificate and the public verification page never name the referring
+Audience and setting words are allowed sitewide when accurate: rehab, recovery,
+treatment, sobriety, clinical, patient, inmate, facility, discharge, and plain
+population labels that describe who a course or partner serves. Coming Home and
+other rehab-first / reentry copy may name those settings on participant-facing
+pages. Prefer concrete setting language over euphemism.
+
+Still avoid clinical-authority overclaim (section 16): we certify education; we
+never diagnose, screen, treat, counsel, or provide therapy, and we never use
+those words about ourselves. The Keystone Profile remains an educational
+self-report, never a clinical instrument.
+
+The certificate and the public verification page never name the referring
 organization. Organization-facing pages may name verticals plainly (residential
 and recovery, reentry and alternative sentencing, courts and probation).
 
