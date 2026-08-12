@@ -66,7 +66,7 @@ html[data-theme="light"]{
   --elev-2:0 8px 24px rgba(0,0,0,.28);
   --elev-3:0 16px 48px rgba(0,0,0,.40);
   --r-card:10px; --r-btn:6px; --r-pill:999px;
-  --font-display:"Fraunces","Iowan Old Style",Georgia,serif;
+  --font-display:"Source Serif 4","Iowan Old Style",Georgia,serif;
   --font-ui:"Poppins",system-ui,-apple-system,Arial,sans-serif;
   --font-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
   --max:1216px;
