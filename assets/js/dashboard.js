@@ -20,7 +20,7 @@
 
   var qs    = new URLSearchParams(location.search);
   var asUid = qs.get('as');
-  var demo  = qs.get('demo');
+  var demo  = qs.get('preview') || qs.get('demo');
   var done  = qs.get('done');
 
   var nameEl = document.getElementById('dashName');
@@ -439,7 +439,7 @@
   /* 1) Marcus mock. The deterministic sample, shown as a named participant. */
   function showMarcus(){
     draw(window.FCReport.sampleResult(), 'Marcus Bennett');
-    say('<b>Demonstration dashboard.</b> <span class="fine">Full father home: next action, matched course, report. Try the <a class="link" href="course.html?demo=1&amp;cert=anger">course player demo</a> and <a class="link" href="plan.html?demo=1">plan demo</a>.</span>');
+    say('<b>Preview dashboard.</b> <span class="fine">Full father home: next action, matched course, report. Try the <a class="link" href="course.html?preview=1&amp;cert=anger">course preview player</a> and <a class="link" href="plan.html?demo=1">plan preview</a>.</span>');
   }
 
   /* 2) Admin view-as. Same component, the participant\u2019s data, read only. */

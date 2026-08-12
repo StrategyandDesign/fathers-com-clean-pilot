@@ -296,9 +296,11 @@
   FC.ready.then(function(){
     var session=FC.session;
 
-    // Auth gate
-    if(document.body.dataset.auth==='required'&&!session){
-      location.href='login.html';return;
+    // Auth gate (preview/demo players stay open to first-time visitors)
+    var _qs = new URLSearchParams(location.search);
+    var _previewOpen = _qs.get('preview')==='1' || _qs.get('demo')==='1';
+    if(document.body.dataset.auth==='required'&&!session&&!_previewOpen){
+      location.href='login.html?next='+encodeURIComponent(location.pathname+location.search);return;
     }
 
     /* ---------- Nav state for a signed-in participant ----------
