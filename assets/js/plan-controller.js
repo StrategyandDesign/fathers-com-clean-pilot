@@ -200,6 +200,27 @@
         '<p class="fine" style="margin-top:16px">Mark them when they happen. Honest beats perfect. Miss a day and the week still counts.</p>'+
       '</div>';
 
+    // 2b. THE MATCHED COURSE. Excitement without a catalog dump. One film path
+    //     tied to his focus, then browse-all as secondary.
+    if(window.FCFocusCourse){
+      var course = FCFocusCourse.forFocus(plan.focusScale || plan.focusLabel);
+      html += FCFocusCourse.cardHtml(course, {
+        esc: esc,
+        kicker: 'TRAIN THIS FOCUS',
+        focusLabel: plan.focusLabel,
+        cta: 'Open ' + course.title,
+        href: course.href
+      });
+    } else {
+      html +=
+        '<div class="card" style="padding:24px;margin-bottom:22px">'+
+          '<div class="eyebrow brass" style="margin-bottom:10px">TRAIN THIS FOCUS</div>'+
+          '<b style="font-size:18px">Film courses matched to how you father</b>'+
+          '<p class="small ash" style="margin:8px 0 14px">Self-paced film with a Certified Facilitator available for questions. Free when your seat is claimed.</p>'+
+          '<a class="btn btn-yellow btn-sm" href="certificates.html">See the courses</a>'+
+        '</div>';
+    }
+
     // 3. Calm progress. Goal-gradient and endowed progress, never a punitive streak.
     //    "Weeks you showed up" is cumulative, not a chain that breaks.
     html +=
@@ -220,42 +241,32 @@
         '</div>'+
       '</div>';
 
-    // 4. Secondary: lead-from-strength and the areas also worth tending.
-    html += '<div class="grid-2" style="gap:16px;margin-bottom:22px">';
+    // 4. Secondary depth. Available, not competing with this week's move.
+    var depth = '';
     if(plan.strengthLabel){
-      html +=
-        '<div class="card" style="padding:24px">'+
-          '<div class="eyebrow" style="margin-bottom:10px">LEAD FROM YOUR STRENGTH</div>'+
-          '<b style="font-family:var(--font-display);font-size:20px;font-weight:600">'+esc(plan.strengthLabel)+'</b>'+
-          '<p class="small ash" style="margin-top:8px">This is working. Keep it working while you build the rest.</p>'+
+      depth +=
+        '<div style="margin-bottom:14px">'+
+          '<div class="eyebrow" style="margin-bottom:8px">LEAD FROM YOUR STRENGTH</div>'+
+          '<b style="font-family:var(--font-display);font-size:18px;font-weight:600">'+esc(plan.strengthLabel)+'</b>'+
+          '<p class="small ash" style="margin-top:6px">This is working. Keep it working while you build the rest.</p>'+
         '</div>';
     }
     if(plan.supporting && plan.supporting.length){
-      html +=
-        '<div class="card" style="padding:24px">'+
-          '<div class="eyebrow" style="margin-bottom:10px">ALSO WORTH TENDING</div>'+
-          plan.supporting.map(function(sp){
-            /* This was printing a bare percentile beside a scale name. A man
-               whose Consistency scored low read the word "Consistency" followed
-               by "0", which is a verdict, not a mirror. Band words carry the
-               same information in the platform's own language. */
+      depth +=
+        '<div class="eyebrow" style="margin-bottom:8px">ALSO WORTH TENDING</div>'+
+        plan.supporting.map(function(sp){
             var bd = (window.KS && KS.bandFor) ? KS.bandFor(sp.pct).label : '';
-            return '<div class="row between" style="margin-bottom:10px;gap:14px"><span class="small">'+esc(sp.label)+'</span>'+
+            return '<div class="row between" style="margin-bottom:8px;gap:14px"><span class="small">'+esc(sp.label)+'</span>'+
               '<span class="pl-tend-band">'+esc(bd)+'</span></div>';
-          }).join('')+
-        '</div>';
+          }).join('');
     }
-    html += '</div>';
+    if(depth){
+      html += '<details class="pl-depth card" style="padding:20px 22px;margin-bottom:22px"><summary class="pl-depth-sum">More from your Profile</summary><div style="margin-top:16px">'+depth+'</div></details>';
+    }
 
-    // 5. The certificate as the EARNED OUTCOME of finishing, not a competing upsell.
-    //    Demoted: ghost button, end of page, framed as something he earns.
+    // 5. Proof, quiet. The course card above already carries excitement.
     html +=
-      '<div class="card pl-cert">'+
-        '<div class="eyebrow" style="margin-bottom:8px">WHEN YOU FINISH</div>'+
-        '<b style="font-size:16px">These ninety days end in proof.</b>'+
-        '<p class="small ash" style="margin:6px 0 14px;max-width:60ch">Finish your plan and the course and you earn a verified Certificate of Completion. Identity checked, hours logged, a serial anyone can confirm, recognized where it counts. You do not buy it. You earn it.</p>'+
-        '<a class="btn btn-secondary btn-sm" href="certificates.html">See how the certificate works</a>'+
-      '</div>';
+      '<p class="fine ash" style="text-align:center;margin:8px 0 22px;max-width:56ch;margin-left:auto;margin-right:auto">Finish the plan and a film course and you earn a <a class="link" href="certificates.html">verified Certificate of Completion</a>. Hours logged. A serial anyone can check. You earn it. You do not buy it.</p>';
 
     // 6. Tertiary, quiet.
     html +=
@@ -263,7 +274,7 @@
         '<a class="pl-foot-home" href="dashboard.html'+q+'"><i aria-hidden="true">&larr;</i> Home</a>'+
         '<span class="pl-foot-links">'+
           '<a class="link ash" href="report.html'+q+'">Your full report</a>'+
-          '<a class="link ash" href="classes.html">Classes for this focus</a>'+
+          '<a class="link ash" href="certificates.html">All courses</a>'+
           '<a class="link ash" href="profile.html'+q+'">Retake the Profile</a>'+
         '</span>'+
       '</nav>';

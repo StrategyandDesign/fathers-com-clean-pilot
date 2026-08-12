@@ -81,10 +81,11 @@
       var vetCard = '';
 
       var tiles =
-        '<div class="eyebrow" style="margin:26px 0 12px">THE THREE COURSES</div><div class="grid-3">'+
-        tile('Fathering Fundamentals', fundAw?'EARNED':(fundEnr?'IN PROGRESS':'FREE'), fundEnr||fundAw?'course.html?cert=fundamentals':'class.html')+
-        tile('Steady Under Pressure','IN DEVELOPMENT','certificates.html#waitlist')+
-        tile('Coming Home Present','IN DEVELOPMENT','certificates.html#waitlist')+
+        '<div class="eyebrow" style="margin:26px 0 12px">THE COURSES</div><div class="grid-2">'+
+        tile('Fathering Fundamentals', fundAw?'EARNED':(fundEnr?'IN PROGRESS':'FREE'), fundEnr||fundAw?'course.html?cert=fundamentals':'certificates.html')+
+        tile('Steady Under Pressure','FILM COURSE','course-steady-under-pressure.html')+
+        tile('Coming Home Present','FILM COURSE','course-coming-home-present.html')+
+        tile('Same Team','FILM COURSE','course-same-team.html')+
         '</div>';
 
       var reportCard = card('YOUR WRITTEN REPORT','The Keystone report',

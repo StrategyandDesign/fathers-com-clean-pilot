@@ -73,7 +73,34 @@
   }
   /* Collapsed form on the dashboard. The full document still lives at
      report.html, one tap away from the strip at the top of it. */
-  function draw(result, who){ setName(who); window.FCReport.render(host, { result: result, state: 'live', collapse: true }); }
+  function draw(result, who){
+    setName(who);
+    window.FCReport.render(host, { result: result, state: 'live', collapse: true });
+    paintMatchedCourse(result);
+  }
+
+  /* One excited course card above the report when he is not mid-enrollment UI. */
+  function paintMatchedCourse(result){
+    var box = document.getElementById('dashCourses');
+    if(!box || !window.FCFocusCourse || !result) return;
+    // If coursesStrip already painted enrollment cards, do not clobber them.
+    if(box.getAttribute('data-enrolled') === '1') return;
+    var course = FCFocusCourse.forFocus(result.gap_scale);
+    var focusLabel = '';
+    try {
+      if(window.PLAN_ENGINE && PLAN_ENGINE.build){
+        focusLabel = PLAN_ENGINE.build(result).focusLabel || '';
+      }
+    } catch(e){}
+    if(!focusLabel && result.gap_scale) focusLabel = String(result.gap_scale);
+    box.innerHTML = FCFocusCourse.cardHtml(course, {
+      kicker: 'TRAIN YOUR FOCUS',
+      focusLabel: focusLabel,
+      cta: 'Open ' + course.title,
+      href: course.href
+    });
+    box.style.marginBottom = '22px';
+  }
 
   /* EVERY profile he holds, newest first, one row per assessment.
 
@@ -261,18 +288,21 @@
                   '<span class="dash-course-go">'+call+' <i aria-hidden="true">&rarr;</i></span></a>';
               }).join('');
 
+              host.setAttribute('data-enrolled','1');
               host.innerHTML =
                 '<div class="dash-sec-h"><span class="eyebrow">YOUR COURSES</span>'+
                   '<a class="link ash" href="certificates.html">All courses &rarr;</a></div>'+
                 '<div class="grid-auto">'+cards+'</div>';
 
-              done(mine.length, courses.length);
+              var resumeSlug = (byId[mine[0].course_id] && byId[mine[0].course_id].slug) || '';
+              var resumeHref = resumeSlug ? ('course.html?cert='+encodeURIComponent(resumeSlug)) : 'certificates.html';
+              done(mine.length, courses.length, resumeHref);
             });
           }, function(){ done(0, courses.length); });
       }, function(){ done(0, 0); });
   }
 
-  function nextStrip(activeSlug, heldSlugs, enrolled, courseCount, hasClaim){
+  function nextStrip(activeSlug, heldSlugs, enrolled, courseCount, hasClaim, resumeHref){
     var host = document.getElementById('dashNext');
     if(!host) return;
 
@@ -288,23 +318,22 @@
       var remaining = Math.max(0, courseCount - enrolled);
       /* Sticky primary next action (one loud calm CTA). */
       if(!enrolled && !hasClaim){
-        paintNextAction({kicker:'Next action', title:'Keep your ninety-day plan moving',
-          body:'Courses open when a Certified Facilitator or Organization adds your seat.',
+        paintNextAction({kicker:'Next action', title:'Do this week on your plan',
+          body:'One or two moves. Then preview the film course matched to your focus. A facilitator claims your seat so enrollment stays free.',
           href:'plan.html', cta:'Open My Plan'});
       } else if(!enrolled){
-        paintNextAction({kicker:'Next action', title:'Enroll in a film course',
-          body:'Your seat is ready. Finish a course for a verifiable Certificate of Completion.',
-          href:'certificates.html', cta:'Browse courses'});
+        paintNextAction({kicker:'Next action', title:'Start your matched film course',
+          body:'Your seat is ready. Self-paced film, facilitator available for questions, certificate when you finish.',
+          href:'certificates.html', cta:'See your course'});
       } else if(remaining > 0){
         paintNextAction({kicker:'Next action', title:'Resume your course',
-          body:'You are enrolled. Continue the film sessions and checkpoints.',
-          href:'certificates.html', cta:'Continue'});
+          body:'Continue the film sessions and checkpoints. Honest progress beats perfect weeks.',
+          href: resumeHref || 'certificates.html', cta:'Continue'});
       } else {
         paintNextAction({kicker:'Next action', title:'Open your plan for this week',
-          body:'Calm cumulative progress. Weeks you showed up matter more than streaks.',
+          body:'Weeks you showed up matter more than streaks.',
           href:'plan.html', cta:'Open My Plan'});
       }
-
 
       /* One card shape, so the three read as choices rather than a list of raw
          links. Each carries its own call so the destination is never a guess. */
@@ -317,25 +346,36 @@
       }
 
       if(!enrolled && !hasClaim){
-        cards.push(card('plan.html','What is next',
-          'Keep your ninety-day plan moving',
-          'Your plan is open now. Courses unlock when a Certified Facilitator or Organization adds your seat.',
+        cards.push(card('plan.html','This week',
+          'Your ninety-day plan',
+          'One or two moves built from your Profile. Mark them when they happen.',
           'Open your plan'));
-        cards.push(card('organizations.html','If you have a facilitator',
-          'They add your seat when you are ready',
-          'Under a minute on their side. After that, enrollment is free and waiting for you.',
+        cards.push(card('certificates.html','Train the focus',
+          'Film courses matched to how you father',
+          'Preview the sessions now. When a Certified Facilitator claims your seat, enrollment is free.',
+          'See the courses'));
+        cards.push(card('organizations.html','Have a facilitator?',
+          'They claim your seat in under a minute',
+          'That keeps every course and certificate free to you.',
           'Find a program'));
       } else if(!enrolled){
-        cards.push(card('certificates.html','The courses',
-          courseCount ? courseCount + ' course' + (courseCount===1?'':'s') + ' open to you' : 'The courses',
-          courseCount ? 'Free. Finish one and you hold a Certificate of Completion with your name and a serial anyone can check.'
-                      : 'Free to every man. Sessions logged, a signed certificate, no cost.',
-          'Browse the courses'));
+        cards.push(card('certificates.html','Your course',
+          courseCount ? courseCount + ' course' + (courseCount===1?'':'s') + ' open to you' : 'Start a film course',
+          'Self-paced film. Facilitator available for questions. A certificate with a serial anyone can check.',
+          'See the courses'));
+        cards.push(card('plan.html','This week',
+          'Keep the plan moving',
+          'Small moves from your gaps. Honest beats perfect.',
+          'Open your plan'));
       } else if(remaining > 0){
-        cards.push(card('certificates.html','The courses',
-          remaining + ' more course' + (remaining===1?'':'s') + ' open to you',
-          'You are already in ' + enrolled + '. Finish one and you hold a Certificate of Completion with your name and a serial anyone can check.',
-          'Browse the courses'));
+        cards.push(card(resumeHref || 'certificates.html','Keep training',
+          remaining + ' more course' + (remaining===1?'':'s') + ' open',
+          'You are already in ' + enrolled + '. Finish one for a Certificate of Completion.',
+          'Continue'));
+        cards.push(card('plan.html','This week',
+          'Keep the plan moving',
+          'Weeks you showed up matter more than streaks.',
+          'Open your plan'));
       }
 
       // SHOW_STORIES (build_pages.py): card rests while Stories are dark. Restore:
@@ -380,9 +420,9 @@
           draw(list[i], who);
           var held = list.map(function(x){ return x.assessment_slug; });
           var uid = (window.FC && FC.uid) ? FC.uid() : null;
-          coursesStrip(uid, function(enrolled, total){
+          coursesStrip(uid, function(enrolled, total, resumeHref){
             var paintNext = function(hasClaim){
-              nextStrip(slug, held, enrolled, total || null, !!hasClaim);
+              nextStrip(slug, held, enrolled, total || null, !!hasClaim, resumeHref || null);
             };
             if(!(window.FC && FC.live && FC.sb && uid)){ paintNext(false); return; }
             FC.sb.from('participant_claims').select('id').eq('user_id', uid).limit(1)
