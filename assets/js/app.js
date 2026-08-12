@@ -227,15 +227,23 @@
     });
   });
 
-  // Play overlays: graceful handling until real video is wired.
-  // A play button should never be a dead click. For now, tell the truth.
+  // Play overlays: honor an existing href (homepage billboard, course cards).
+  // Otherwise open Fathering Fundamentals. class.html remains a Seven Secrets wrapper only.
   document.querySelectorAll('.play-overlay, .hm-play, .cert-doc-3d').forEach(function(el){
     if(el.classList.contains('cert-doc-3d')) return; // the cert doc isn't a video
     el.style.cursor = 'pointer';
-    el.addEventListener('click', function(){
-      // A play button must produce a real result: open the flagship class page.
-      if(!/class\.html$/.test(location.pathname)) location.href='class.html';
-      else if(window.toast) toast('Full lessons unlock with the free Profile. Trailers are being wired now.');
+    el.addEventListener('click', function(ev){
+      var href = (el.tagName === 'A' && el.getAttribute('href')) || '';
+      if(href && href !== '#'){
+        // Let the native <a> navigation proceed; do not override to class.html.
+        return;
+      }
+      ev.preventDefault();
+      if(!/course-fathering-fundamentals\.html$/.test(location.pathname)){
+        location.href = 'course-fathering-fundamentals.html';
+      } else if(window.toast){
+        toast('Full lessons unlock with the free Profile. Trailers are being wired now.');
+      }
     });
   });
 
