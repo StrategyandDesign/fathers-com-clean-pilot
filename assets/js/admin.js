@@ -6,7 +6,7 @@
   function esc(s){return (s==null?'':String(s)).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
 
   function boot(){
-    if(demo){ el('demo-note').style.display=''; show(); return; }
+    if(demo){ el('demo-note').style.display=''; show(); loadContent(); return; }
     FCR.guard(['admin']).then(function(ok){
       if(!ok){ el('denied').style.display=''; return; }
       show(); loadPeople(); loadContent(); loadInstruments(); loadOrgs(); loadAudit();
@@ -22,7 +22,7 @@
         var html='<table class="dtable"><thead><tr><th>Name</th><th>Email</th><th>Roles</th><th></th></tr></thead><tbody>';
         rows.forEach(function(p){
           var chips=(byUser[p.id]||[]).map(function(x){return '<span class="rolechip '+x.role+'">'+x.role+(x.org_id?' ·org':'')+'</span>';}).join('')||'<span class="fine">member</span>';
-          html+='<tr><td>'+esc(p.name||'—')+'</td><td class="fine">'+esc(p.email)+'</td><td>'+chips+'</td>'+
+          html+='<tr><td>'+esc(p.name||'-')+'</td><td class="fine">'+esc(p.email)+'</td><td>'+chips+'</td>'+
             '<td class="inline-actions"><button class="btn btn-secondary mini" data-revoke="'+p.id+'">Manage</button></td></tr>';
         });
         html+='</tbody></table>';
@@ -57,14 +57,66 @@
   }
 
   function loadContent(){
-    FC.sb.from('classes').select('id,title,instructor,published,lesson_count').order('created_at',{ascending:false}).then(function(r){
-      var rows=r.data||[];
-      var html='<table class="dtable"><thead><tr><th>Class</th><th>Instructor</th><th>Lessons</th><th>Status</th></tr></thead><tbody>';
-      rows.forEach(function(c){
-        html+='<tr><td>'+esc(c.title)+'</td><td class="fine">'+esc(c.instructor||'—')+'</td><td class="mono">'+(c.lesson_count||0)+'</td>'+
-          '<td><span class="pubdot '+(c.published?'on':'off')+'"></span>'+(c.published?'Published':'Draft')+'</td></tr>';
+    var host=el('content-table');
+    var SLUG_PAGE={fundamentals:'course-fathering-fundamentals.html',reentry:'course-coming-home-present.html',anger:'course-steady-under-pressure.html',coparenting:'course-same-team.html',manhood:'course-the-man-before-you.html'};
+    var EXPECTED={fundamentals:9,reentry:12,anger:12,coparenting:12,manhood:6};
+    function paintCerts(courses, counts){
+      var html='<div class="eyebrow" style="margin:0 0 10px">CERTIFICATE COURSES (PRODUCT TRUTH)</div>';
+      html+='<table class="dtable"><thead><tr><th>Course</th><th>Sessions</th><th>Films live</th><th>Status</th><th></th></tr></thead><tbody>';
+      (courses||[]).forEach(function(c){
+        var n=counts[c.id]||{sessions:0,films:0};
+        var sess=n.sessions||EXPECTED[c.slug]||0;
+        var page=SLUG_PAGE[c.slug];
+        var link=page?'<a class="btn btn-secondary mini" href="'+page+'">Course page</a>':'';
+        html+='<tr><td>'+esc(c.title)+'<div class="fine mono">'+esc(c.slug)+'</div></td>'+
+          '<td class="mono">'+sess+'</td><td class="mono">'+n.films+'</td>'+
+          '<td><span class="pubdot '+(c.published?'on':'off')+'"></span>'+(c.published?'Published':'Draft')+'</td>'+
+          '<td class="inline-actions">'+link+'</td></tr>';
       });
-      el('content-table').innerHTML=html+'</tbody></table>';
+      if(!(courses||[]).length){
+        html+='<tr><td colspan="5" class="fine">No certificate_courses rows yet. Paste content/SEED-CONTENT.sql in the SQL editor, or keep the static short-course pages as the public source of truth.</td></tr>';
+      }
+      html+='</tbody></table>';
+      return html;
+    }
+    function paintClasses(rows){
+      var html='<div class="eyebrow" style="margin:22px 0 10px">LEGACY CLASS LIBRARY</div>';
+      html+='<table class="dtable"><thead><tr><th>Class</th><th>Instructor</th><th>Lessons</th><th>Status</th></tr></thead><tbody>';
+      if(!(rows||[]).length){
+        html+='<tr><td colspan="4" class="fine">No legacy classes. The four film courses above are the live catalog.</td></tr>';
+      } else {
+        rows.forEach(function(c){
+          html+='<tr><td>'+esc(c.title)+'</td><td class="fine">'+esc(c.instructor||'-')+'</td><td class="mono">'+(c.lesson_count||0)+'</td>'+
+            '<td><span class="pubdot '+(c.published?'on':'off')+'"></span>'+(c.published?'Published':'Draft')+'</td></tr>';
+        });
+      }
+      return html+'</tbody></table>';
+    }
+    if(!(window.FC&&FC.live)){
+      var demo=[
+        {id:'d1',slug:'fundamentals',title:'Fathering Fundamentals',published:true},
+        {id:'d2',slug:'reentry',title:'Coming Home Present',published:true},
+        {id:'d3',slug:'anger',title:'Steady Under Pressure',published:true},
+        {id:'d4',slug:'coparenting',title:'Same Team',published:true}
+      ];
+      var counts={d1:{sessions:9,films:0},d2:{sessions:12,films:0},d3:{sessions:12,films:0},d4:{sessions:12,films:0}};
+      host.innerHTML=paintCerts(demo,counts)+paintClasses([]);
+      return;
+    }
+    Promise.all([
+      FC.sb.from('certificate_courses').select('id,slug,title,published,hours').order('title'),
+      FC.sb.from('course_videos').select('course_id,video_url,duration_seconds'),
+      FC.sb.from('classes').select('id,title,instructor,published,lesson_count').order('created_at',{ascending:false})
+    ]).then(function(rs){
+      var counts={};
+      ((rs[1]&&rs[1].data)||[]).forEach(function(v){
+        var c=counts[v.course_id]=counts[v.course_id]||{sessions:0,films:0};
+        c.sessions++;
+        if(v.duration_seconds>0 && v.video_url && v.video_url!=='pending') c.films++;
+      });
+      host.innerHTML=paintCerts((rs[0]&&rs[0].data)||[], counts)+paintClasses((rs[2]&&rs[2].data)||[]);
+    }, function(err){
+      host.innerHTML='<p class="fine">Could not load content: '+esc(err&&err.message||'error')+'</p>';
     });
   }
 
@@ -83,7 +135,7 @@
       var rows=r.data||[];
       var html='<table class="dtable"><thead><tr><th>Organization</th><th>Seats</th><th>Renews</th><th></th></tr></thead><tbody>';
       rows.forEach(function(o){
-        html+='<tr><td>'+esc(o.name)+'</td><td class="mono">'+o.seats+'</td><td class="fine">'+(o.renews_on||'—')+'</td>'+
+        html+='<tr><td>'+esc(o.name)+'</td><td class="mono">'+o.seats+'</td><td class="fine">'+(o.renews_on||'-')+'</td>'+
           '<td class="inline-actions">'+
           '<button class="btn btn-secondary mini" data-orgadmin="'+o.id+'">+ org_admin</button>'+
           '<button class="btn btn-secondary mini" data-leader="'+o.id+'">+ leader</button></td></tr>';

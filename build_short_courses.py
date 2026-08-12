@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
-"""Generate short-session marketing pages for anger / reentry / coparenting.
+"""Generate short-session marketing pages for anger / reentry / coparenting / fundamentals.
 
 Reads content/short-course-pages.json and writes:
   - course-steady-under-pressure.html
   - course-coming-home-present.html
   - course-same-team.html
+  - course-fathering-fundamentals.html
 
 Also exposes helpers used by build_pages.py so future rebuilds do not wipe
-the 12 x ~12-minute session bodies.
+the session bodies. Injects shape stills + practice checkpoints under each slot.
 """
 from __future__ import annotations
 
@@ -20,7 +21,19 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent
 CONTENT = ROOT / "content" / "short-course-pages.json"
 
-COURSE_KEYS = ("anger", "reentry", "coparenting")
+COURSE_KEYS = ("anger", "reentry", "coparenting", "fundamentals")
+
+STILL_DIR = {
+    "anger": "steady-under-pressure",
+    "reentry": "coming-home-present",
+    "coparenting": "same-team",
+    "fundamentals": "fathering-fundamentals",
+}
+
+VIDEO_FOR_SESSION = {
+    # (slug, ord) -> relative mp4 path
+    ("anger", 1): "assets/video/steady/surge-is-a-signal-fluid.mp4",
+}
 
 
 def load_courses():
@@ -71,20 +84,46 @@ def session_article(course: dict, sess: dict) -> str:
         if science
         else ""
     )
-    return f'''<article class="card" style="padding:26px 28px;margin-bottom:18px" id="{sid}">
-  <div class="row between" style="margin-bottom:10px"><span class="pill">SESSION {ord_}</span><span class="fine mono">~12 MIN</span></div>
-  <h3 class="d-28" style="margin-bottom:12px">{_e(sess["title"])}</h3>
-  <div class="video-slot" data-video="{vkey}" style="border:1px dashed rgba(127,127,127,.45);border-radius:10px;padding:24px;text-align:center;margin-bottom:16px">
-    <p class="eyebrow brass" style="margin-bottom:8px">PREVIEW SESSION</p>
-    <p class="fine" style="color:var(--ash);margin:0 0 14px;max-width:42ch;margin-left:auto;margin-right:auto">Film still finishing. Open the full preview player for this course (all 12 sessions).</p>
-    <a class="btn btn-yellow btn-sm" href="{demo_href}">Watch the preview player</a>
-  </div>
-  <p class="lead" style="font-size:17px;margin-bottom:12px">{_q(sess["quote"])}</p>
-  <p style="color:var(--ash);margin-bottom:12px"><b>One scene.</b> {_e(sess["scene"])}</p>
-  <p style="color:var(--ash);margin-bottom:12px"><b>In the room.</b> {_e(sess["in_room"])}</p>
-  <p style="color:var(--ash);margin-bottom:14px"><b>What you leave with.</b> {_e(sess["leave_with"])}</p>
-  {practice_html(sess)}
-{science_html}</article>'''
+    stills_dir = course.get("stills_dir") or STILL_DIR.get(slug, slug)
+    still_src = f"assets/img/session-stills/{stills_dir}/s{int(ord_):02d}.png"
+    mp4 = VIDEO_FOR_SESSION.get((slug, int(ord_)))
+    if mp4:
+        media = (
+            '    <div class="vs-media">\n'
+            f'      <video controls playsinline preload="metadata" poster="{_e(still_src)}"'
+            f' src="{_e(mp4)}"></video>\n'
+            '    </div>\n'
+        )
+    else:
+        media = (
+            '    <div class="vs-media">\n'
+            f'      <img src="{_e(still_src)}" alt="Shape preview for {_e(sess["title"])}">\n'
+            '    </div>\n'
+        )
+    label = sess.get("session_label") or f"SESSION {ord_}"
+    length = sess.get("length_label") or (
+        "part of 1.1h course" if slug == "fundamentals" else "~12 MIN"
+    )
+    return (
+        f'<article class="card" style="padding:26px 28px;margin-bottom:18px" id="{sid}">\n'
+        f'  <div class="row between" style="margin-bottom:10px"><span class="pill">{_e(label)}</span><span class="fine mono">{_e(length)}</span></div>\n'
+        f'  <h3 class="d-28" style="margin-bottom:12px">{_e(sess["title"])}</h3>\n'
+        f'  <div class="video-slot vs-still" data-video="{vkey}" data-course="{_e(slug)}" data-session="{ord_}">\n'
+        + media +
+        '    <div class="vs-caption">\n'
+        '      <p class="eyebrow brass">SHAPE PREVIEW · PLACEHOLDER</p>\n'
+        '      <p class="fine" style="color:var(--ash)">Final film goes here. Until then this shape still holds the 16:9 slot.</p>\n'
+        f'      <p style="margin-top:10px"><a class="btn btn-yellow btn-sm" href="{demo_href}">Open preview player</a></p>\n'
+        '    </div>\n'
+        '  </div>\n'
+        f'  <div class="session-checkpoint" data-session-checkpoint data-course="{_e(slug)}" data-session="{ord_}"></div>\n'
+        f'  <p class="lead" style="font-size:17px;margin-bottom:12px">{_q(sess["quote"])}</p>\n'
+        f'  <p style="color:var(--ash);margin-bottom:12px"><b>One scene.</b> {_e(sess["scene"])}</p>\n'
+        f'  <p style="color:var(--ash);margin-bottom:12px"><b>In the room.</b> {_e(sess["in_room"])}</p>\n'
+        f'  <p style="color:var(--ash);margin-bottom:14px"><b>What you leave with.</b> {_e(sess["leave_with"])}</p>\n'
+        f'  {practice_html(sess)}\n'
+        f'{science_html}</article>'
+    )
 
 
 def glance_html(course: dict) -> str:
@@ -100,7 +139,7 @@ def glance_html(course: dict) -> str:
     return (
         '<section class="tight"><div class="container" style="max-width:860px">'
         '<div class="eyebrow" style="margin-bottom:6px">SESSIONS AT A GLANCE</div>'
-        f'<p class="fine" style="color:var(--ash);margin:0 0 6px">The {n} sessions, about twelve minutes of film each. Tap any one to read it in full. Films are still finishing — open the <a class="link" href="course.html?preview=1&amp;cert={_e(course["slug"])}">full preview player</a> for the course flow.</p>'
+        f'<p class="fine" style="color:var(--ash);margin:0 0 6px">The {n} sessions. Tap any one to read it in full. Shape stills hold each film slot for now. Open the <a class="link" href="course.html?preview=1&amp;cert={_e(course["slug"])}">full preview player</a> for the course flow.</p>'
         + "".join(items)
         + "</div></section>"
     )
@@ -108,6 +147,7 @@ def glance_html(course: dict) -> str:
 
 def billboard_html(course: dict) -> str:
     n = len(course["sessions"])
+    minutes = "ALREADY FILMED" if course.get("slug") == "fundamentals" else "~12 MINUTES EACH"
     disc = ""
     if course.get("disclaimer"):
         disc = (
@@ -122,7 +162,7 @@ def billboard_html(course: dict) -> str:
     <div class="cb-shade"></div>
     <div class="cb-copy"><div class="eyebrow">FILM COURSE &middot; {n} SESSIONS</div><h2>{_e(course["title"])}</h2></div>
   </div>
-  <div class="eyebrow brass" style="margin-bottom:14px">FILM COURSE &middot; {n} SESSIONS &middot; ~12 MINUTES EACH</div>
+  <div class="eyebrow brass" style="margin-bottom:14px">FILM COURSE &middot; {n} SESSIONS &middot; {minutes}</div>
   <h1 class="d-36" style="margin-bottom:14px">{_e(course["title"])}</h1>
   <p class="fine mono" style="letter-spacing:.08em;margin-bottom:10px;color:var(--ash)">{_e(course["eyebrow_track"])}</p>
   <p class="lead" style="max-width:62ch;margin-bottom:10px">{_e(course["lead"])}</p>
@@ -196,13 +236,17 @@ def cert_card_html(course: dict) -> str:
     n = len(course["sessions"])
     href = course["html"]
     photo = course["photo"]
-    hours = "3.0"
+    hours = "2.4"
     if slug == "reentry":
-        blurb = "Presence after time away. The return spine: body, child, deposits, reunion. Twelve short sessions. Facilitator support when claimed."
-        data_desc = "Presence after time away, whatever kept you away. Self-paced film with a Certified Facilitator available for questions, checkpoints, and a certificate a court or program can trust."
+        blurb = "Rehab and treatment reconnect first: body, kids and partner, deposits, reunion. Same skills for service return. Twelve short sessions. Facilitator support when claimed."
+        data_desc = "For fathers in rehab or treatment preparing to reconnect with children and/or a significant other; also for service members returning home. Self-paced film with a Certified Facilitator available for questions, checkpoints, and a certificate a court or program can trust."
     elif slug == "anger":
         blurb = "Steadiness on film: the pause, the repair, and the habits underneath. Twelve short sessions. Facilitator available for questions."
         data_desc = "Steadiness, trained on film: the pause, the repair, and the habits underneath them. Self-paced, with a Certified Facilitator available for questions. Sessions logged, checkpoints, and a final assessment at eighty percent to pass."
+    elif slug == "fundamentals":
+        blurb = "Seven Secrets assessment and course: intro, seven secrets, and a bonus. Already filmed; shape stills until Vimeo is wired."
+        data_desc = "The Seven Secrets of Effective Fathers Assessment and Course. Self-paced sessions with checkpoints, a free assessment, and a Certified Facilitator available for questions."
+        hours = "1.1"
     else:
         blurb = "Co-parenting on film. One team for your children, whatever the arrangement. Twelve short sessions. Facilitator available for questions."
         data_desc = "Co-parenting, trained on film. One team for your children, whatever the arrangement between you. Self-paced, with a Certified Facilitator available for questions. Sessions logged, checkpoints, and a final assessment at eighty percent to pass."
@@ -228,6 +272,41 @@ def cert_card_html(course: dict) -> str:
       <details class="sess-peek" style="margin-top:4px"><summary class="fine" style="cursor:pointer;color:var(--brass,#c9a227)">All {n} sessions</summary>{peek}<p class="fine" style="margin:6px 0 0"><a class="link" href="{href}">Open the course &rarr;</a></p></details>
       <div class="cert-card-foot"><span class="mono">Free</span><a class="cert-card-go" href="{href}">Open the course &rarr;</a></div>
     </div>'''
+
+
+def replace_cert_card(html: str, course: dict) -> str:
+    """Replace one catalog card by data-cert, matching nested div depth."""
+    slug = course["slug"]
+    card = cert_card_html(course)
+    if not card.endswith("\n"):
+        card += "\n"
+    marker = 'data-cert="%s"' % slug
+    pos = html.find(marker)
+    if pos < 0:
+        return html
+    start = html.rfind("<div", 0, pos)
+    if start < 0:
+        return html
+    i = start
+    depth = 0
+    while i < len(html):
+        if html.startswith("<div", i):
+            depth += 1
+            gt = html.find(">", i)
+            if gt < 0:
+                break
+            i = gt + 1
+            continue
+        if html.startswith("</div>", i):
+            depth -= 1
+            i += len("</div>")
+            if depth == 0:
+                if i < len(html) and html[i] == "\n":
+                    i += 1
+                return html[:start] + card + html[i:]
+            continue
+        i += 1
+    return html
 
 
 def apply_to_build_pages(build_pages_path: Path, courses: dict) -> None:
@@ -265,6 +344,8 @@ def apply_to_build_pages(build_pages_path: Path, courses: dict) -> None:
             # Fallback: line-anchored replace of the assignment start through next PAGES[
             start = text.find(f"PAGES['{fname}'] = dict(")
             if start < 0:
+                if f"PAGES['{fname}'] = _short_course_page_meta" in text:
+                    continue
                 raise SystemExit(f"Could not find PAGES['{fname}'] assignment")
             # Find matching end: next line that starts with PAGES[ after this one,
             # scanning carefully because body has nested quotes. The assignment ends
@@ -287,42 +368,48 @@ def apply_to_build_pages(build_pages_path: Path, courses: dict) -> None:
             text = new_text
 
     # Patch catalog session counts / hours / cards inside certificates body
-    # Replace data-hours and session labels for the three courses in the certificates string.
     replacements = [
+        ('data-cert="fundamentals" data-title="Fathering Fundamentals" data-hours="10.0"',
+         'data-cert="fundamentals" data-title="Fathering Fundamentals" data-hours="1.1"'),
         ('data-cert="reentry" data-title="Coming Home Present" data-hours="8.0"',
-         'data-cert="reentry" data-title="Coming Home Present" data-hours="3.0"'),
+         'data-cert="reentry" data-title="Coming Home Present" data-hours="2.4"'),
+        ('data-cert="reentry" data-title="Coming Home Present" data-hours="3.0"',
+         'data-cert="reentry" data-title="Coming Home Present" data-hours="2.4"'),
         ('data-cert="anger" data-title="Steady Under Pressure" data-hours="6.0"',
-         'data-cert="anger" data-title="Steady Under Pressure" data-hours="3.0"'),
+         'data-cert="anger" data-title="Steady Under Pressure" data-hours="2.4"'),
+        ('data-cert="anger" data-title="Steady Under Pressure" data-hours="3.0"',
+         'data-cert="anger" data-title="Steady Under Pressure" data-hours="2.4"'),
         ('data-cert="coparenting" data-title="Same Team" data-hours="6.0"',
-         'data-cert="coparenting" data-title="Same Team" data-hours="3.0"'),
+         'data-cert="coparenting" data-title="Same Team" data-hours="2.4"'),
+        ('data-cert="coparenting" data-title="Same Team" data-hours="3.0"',
+         'data-cert="coparenting" data-title="Same Team" data-hours="2.4"'),
         ("var SESS = {fundamentals:'5', reentry:'8', anger:'6', coparenting:'6', manhood:'6'};",
-         "var SESS = {fundamentals:'5', reentry:'12', anger:'12', coparenting:'12', manhood:'6'};"),
+         "var SESS = {fundamentals:'9', reentry:'12', anger:'12', coparenting:'12', manhood:'6'};"),
+        ("var SESS = {fundamentals:'5', reentry:'12', anger:'12', coparenting:'12', manhood:'6'};",
+         "var SESS = {fundamentals:'9', reentry:'12', anger:'12', coparenting:'12', manhood:'6'};"),
+        ("var SESS = {fundamentals:'9', reentry:'12', anger:'12', coparenting:'12', manhood:'6'};",
+         "var SESS = {fundamentals:'9', reentry:'12', anger:'12', coparenting:'12', manhood:'6'};"),
+        ('<span class="fine mono">5 sessions</span></div>\n        <h3 style="margin-bottom:6px">Fathering Fundamentals</h3>',
+         '<span class="fine mono">9 sessions</span></div>\n        <h3 style="margin-bottom:6px">Fathering Fundamentals</h3>'),
         ('<span class="fine mono">6 sessions</span></div>\n        <h3 style="margin-bottom:6px">Steady Under Pressure</h3>',
          '<span class="fine mono">12 sessions</span></div>\n        <h3 style="margin-bottom:6px">Steady Under Pressure</h3>'),
         ('<span class="fine mono">8 sessions</span></div>\n        <h3 style="margin-bottom:6px">Coming Home Present</h3>',
          '<span class="fine mono">12 sessions</span></div>\n        <h3 style="margin-bottom:6px">Coming Home Present</h3>'),
+        ('<div class="mono small">5 sessions &middot; facilitator-verified</div>',
+         '<div class="mono small">9 sessions &middot; facilitator-verified</div>'),
+        ('enroll.html?cert=fundamentals&amp;title=Fathering%20Fundamentals&amp;hours=10.0',
+         'course-fathering-fundamentals.html'),
     ]
     for old, new in replacements:
         if old in text:
             text = text.replace(old, new)
 
-    # Replace entire cert cards for the three courses inside PAGES['certificates.html']
+    # Replace entire cert cards for the four courses inside PAGES['certificates.html']
     for key in COURSE_KEYS:
-        course = courses[key]
-        slug = course["slug"]
-        card = cert_card_html(course)
-        # Match existing card block by data-cert
-        card_pat = re.compile(
-            r'    <div class="cert-card" style="cursor:default" data-cert="'
-            + re.escape(slug)
-            + r'"[\s\S]*?</div>\n      <div class="cert-card-foot">[\s\S]*?</div>\n    </div>',
-            re.M,
-        )
-        text2, n = card_pat.subn(card, text, count=1)
-        if n == 1:
-            text = text2
-        else:
-            print(f"warn: cert card for {slug} not replaced in build_pages.py ({n})")
+        before = text
+        text = replace_cert_card(text, courses[key])
+        if text == before:
+            print(f"warn: cert card for {courses[key]['slug']} not replaced in build_pages.py")
 
     # Preview title for Steady Under Pressure
     text = text.replace(
@@ -396,6 +483,19 @@ def _retitle_prefix(prefix: str, title: str, desc: str, fname: str) -> str:
     return prefix
 
 
+def _ensure_checkpoint_scripts(html: str) -> str:
+    """Ensure guide pages load the shared checkpoint pack + mount JS."""
+    tags = [
+        '<script src="assets/js/session-checkpoints-data.js"></script>',
+        '<script src="assets/js/session-checkpoint.js"></script>',
+    ]
+    for tag in tags:
+        if tag not in html:
+            html = html.replace('</body>', tag + '\n</body>', 1)
+    return html
+
+
+
 def write_course_html_files(courses: dict) -> None:
     """Write standalone HTML using chrome cloned from an existing course page."""
     sample = ROOT / "course-steady-under-pressure.html"
@@ -412,6 +512,7 @@ def write_course_html_files(courses: dict) -> None:
         html = prefix + "\n" + meta["body"] + suffix
         # Ensure Courses nav stays active
         html = html.replace('href="certificates.html" >', 'href="certificates.html" class="active">')
+        html = _ensure_checkpoint_scripts(html)
         out = ROOT / fname
         out.write_text(html, encoding="utf-8")
         print("wrote", out)

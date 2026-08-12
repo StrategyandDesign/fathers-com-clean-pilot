@@ -35,7 +35,8 @@
           ],
           "correct_index": 0
         }
-      ]
+      ],
+      "poster": "assets/img/session-stills/same-team/s01.png"
     },
     {
       "ord": 2,
@@ -70,7 +71,8 @@
           ],
           "correct_index": 1
         }
-      ]
+      ],
+      "poster": "assets/img/session-stills/same-team/s02.png"
     },
     {
       "ord": 3,
@@ -105,7 +107,8 @@
           ],
           "correct_index": 0
         }
-      ]
+      ],
+      "poster": "assets/img/session-stills/same-team/s03.png"
     },
     {
       "ord": 4,
@@ -140,7 +143,8 @@
           ],
           "correct_index": 1
         }
-      ]
+      ],
+      "poster": "assets/img/session-stills/same-team/s04.png"
     },
     {
       "ord": 5,
@@ -175,7 +179,8 @@
           ],
           "correct_index": 1
         }
-      ]
+      ],
+      "poster": "assets/img/session-stills/same-team/s05.png"
     },
     {
       "ord": 6,
@@ -210,7 +215,8 @@
           ],
           "correct_index": 1
         }
-      ]
+      ],
+      "poster": "assets/img/session-stills/same-team/s06.png"
     },
     {
       "ord": 7,
@@ -245,7 +251,8 @@
           ],
           "correct_index": 1
         }
-      ]
+      ],
+      "poster": "assets/img/session-stills/same-team/s07.png"
     },
     {
       "ord": 8,
@@ -280,7 +287,8 @@
           ],
           "correct_index": 0
         }
-      ]
+      ],
+      "poster": "assets/img/session-stills/same-team/s08.png"
     },
     {
       "ord": 9,
@@ -315,7 +323,8 @@
           ],
           "correct_index": 0
         }
-      ]
+      ],
+      "poster": "assets/img/session-stills/same-team/s09.png"
     },
     {
       "ord": 10,
@@ -350,7 +359,8 @@
           ],
           "correct_index": 1
         }
-      ]
+      ],
+      "poster": "assets/img/session-stills/same-team/s10.png"
     },
     {
       "ord": 11,
@@ -385,7 +395,8 @@
           ],
           "correct_index": 1
         }
-      ]
+      ],
+      "poster": "assets/img/session-stills/same-team/s11.png"
     },
     {
       "ord": 12,
@@ -420,7 +431,8 @@
           ],
           "correct_index": 1
         }
-      ]
+      ],
+      "poster": "assets/img/session-stills/same-team/s12.png"
     }
   ],
   "final_qa": [
@@ -436,5 +448,6 @@
     {
       "prompt": "Write your handoff ritual in four lines: place, time, calm script, and what never gets discussed at the exchange."
     }
-  ]
+  ],
+  "hours": 2.4
 }

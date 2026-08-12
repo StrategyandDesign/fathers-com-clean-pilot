@@ -6,9 +6,9 @@
 
   function boot(){
     if(demo){ el('demo-note').style.display=''; el('app').style.display='';
-      el('course-list').innerHTML='<p class="fine">Live data loads with Supabase keys. The New buttons open the real builder.</p>';
       el('instr-list').innerHTML='<p class="fine">Same here. Build an instrument to see items, scales, domains, and weights.</p>';
       brandingInit(true);
+      loadCourses();
       return; }
     FCR.guard(['instructor','admin']).then(function(ok){
       if(!ok){ el('denied').style.display=''; return; }
@@ -218,18 +218,25 @@
     alert('New courses ship through the content rail: add content/<slug>.json and run the importer or regenerate SEED-CONTENT.sql. Runbook: docs/CONTENT-PIPELINE.md');
   }
   function loadCourses(){
-    var SLUG_PAGE = { fundamentals:'class.html', reentry:'course-coming-home-present.html', anger:'course-steady-under-pressure.html', coparenting:'course-same-team.html', manhood:'course-the-man-before-you.html' };
+    var SLUG_PAGE = { fundamentals:'course-fathering-fundamentals.html', reentry:'course-coming-home-present.html', anger:'course-steady-under-pressure.html', coparenting:'course-same-team.html', manhood:'course-the-man-before-you.html' };
     var host = el('course-list'); if(!host) return;
     function card(c, counts){
-      var n = counts[c.id] || {sessions:0, films:0};
+      var n = counts[c.id] || {sessions:0, films:0, checkpoints:0};
       var pub = c.published !== false;
       var page = SLUG_PAGE[c.slug];
+      var SHAPE = {fundamentals:true, reentry:true, anger:true, coparenting:true};
       var open = (page && pub) ? '<a class="btn btn-secondary btn-sm" href="'+page+'">Open the course page &rarr;</a>'
                : '<span class="fine">Staged dark until its flag flips</span>';
+      var filmLine = n.films + ' films live';
+      var shapeNote = '';
+      if(SHAPE[c.slug]){
+        shapeNote = '<p class="fine" style="color:var(--ash);margin:0 0 10px">Shape preview stills + checkpoints live on the course page. Studio edits assessments here; session film swaps ship through the content rail.</p>';
+      }
       return '<div class="card" style="padding:20px">'
         + '<div class="row between" style="align-items:baseline;margin-bottom:6px"><b>'+esc(c.title)+'</b>'
         + '<span class="pill-status '+(pub?'published':'draft')+'">'+(pub?'PUBLISHED':'DRAFT')+'</span></div>'
-        + '<p class="fine mono" style="color:var(--ash);margin-bottom:8px">'+esc(c.slug)+' &middot; '+n.sessions+' sessions &middot; '+n.films+' films live</p>'
+        + '<p class="fine mono" style="color:var(--ash);margin-bottom:8px">'+esc(c.slug)+' &middot; '+n.sessions+' sessions &middot; '+filmLine+'</p>'
+        + shapeNote
         + open + '</div>';
     }
     function paint(courses, counts, demo){
@@ -245,7 +252,7 @@
         {id:'d3', slug:'anger', title:'Steady Under Pressure', published:true},
         {id:'d4', slug:'coparenting', title:'Same Team', published:true}
       ];
-      var demoCounts = {d1:{sessions:5,films:0}, d2:{sessions:8,films:0}, d3:{sessions:6,films:0}, d4:{sessions:6,films:0}};
+      var demoCounts = {d1:{sessions:9,films:0}, d2:{sessions:12,films:0}, d3:{sessions:12,films:0}, d4:{sessions:12,films:0}};
       paint(demoCourses, demoCounts, true); return;
     }
     Promise.all([

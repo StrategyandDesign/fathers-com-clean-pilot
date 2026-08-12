@@ -35,7 +35,8 @@
           ],
           "correct_index": 1
         }
-      ]
+      ],
+      "poster": "assets/img/session-stills/coming-home-present/s01.png"
     },
     {
       "ord": 2,
@@ -70,7 +71,8 @@
           ],
           "correct_index": 0
         }
-      ]
+      ],
+      "poster": "assets/img/session-stills/coming-home-present/s02.png"
     },
     {
       "ord": 3,
@@ -105,7 +107,8 @@
           ],
           "correct_index": 1
         }
-      ]
+      ],
+      "poster": "assets/img/session-stills/coming-home-present/s03.png"
     },
     {
       "ord": 4,
@@ -140,7 +143,8 @@
           ],
           "correct_index": 1
         }
-      ]
+      ],
+      "poster": "assets/img/session-stills/coming-home-present/s04.png"
     },
     {
       "ord": 5,
@@ -175,7 +179,8 @@
           ],
           "correct_index": 0
         }
-      ]
+      ],
+      "poster": "assets/img/session-stills/coming-home-present/s05.png"
     },
     {
       "ord": 6,
@@ -210,7 +215,8 @@
           ],
           "correct_index": 0
         }
-      ]
+      ],
+      "poster": "assets/img/session-stills/coming-home-present/s06.png"
     },
     {
       "ord": 7,
@@ -245,7 +251,8 @@
           ],
           "correct_index": 1
         }
-      ]
+      ],
+      "poster": "assets/img/session-stills/coming-home-present/s07.png"
     },
     {
       "ord": 8,
@@ -280,7 +287,8 @@
           ],
           "correct_index": 1
         }
-      ]
+      ],
+      "poster": "assets/img/session-stills/coming-home-present/s08.png"
     },
     {
       "ord": 9,
@@ -315,7 +323,8 @@
           ],
           "correct_index": 1
         }
-      ]
+      ],
+      "poster": "assets/img/session-stills/coming-home-present/s09.png"
     },
     {
       "ord": 10,
@@ -350,7 +359,8 @@
           ],
           "correct_index": 1
         }
-      ]
+      ],
+      "poster": "assets/img/session-stills/coming-home-present/s10.png"
     },
     {
       "ord": 11,
@@ -385,7 +395,8 @@
           ],
           "correct_index": 0
         }
-      ]
+      ],
+      "poster": "assets/img/session-stills/coming-home-present/s11.png"
     },
     {
       "ord": 12,
@@ -420,7 +431,8 @@
           ],
           "correct_index": 1
         }
-      ]
+      ],
+      "poster": "assets/img/session-stills/coming-home-present/s12.png"
     }
   ],
   "final_qa": [
@@ -431,10 +443,11 @@
       "prompt": "List the small deposits you have running right now: what you promised, to which child, and your record of keeping each one. What is the next deposit you will add?"
     },
     {
-      "prompt": "Write your first-hour plan for the reunion, or describe how the first hour actually went: the setting, your opening move, and your plan if the child pulls away."
+      "prompt": "Write your first-hour plan for the reunion, or describe how the first hour actually went: the setting, your opening move with kids and/or your significant other, and your plan if a child pulls away."
     },
     {
       "prompt": "Name the few promises you are keeping this season, and the accountability partner or facilitator check-in that holds you to them."
     }
-  ]
+  ],
+  "hours": 2.4
 }

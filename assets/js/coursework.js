@@ -15,13 +15,15 @@
   var demo = qs.get('preview') === '1' || qs.get('demo') === '1' || !(window.FC && FC.live);
   var slug = (qs.get('cert') || 'anger').toLowerCase();
   // Film-first coursework. Session guides remain available as support.
-  var SESSIONS_PAGE = {reentry:'course-coming-home-present.html', anger:'course-steady-under-pressure.html', coparenting:'course-same-team.html', manhood:'course-the-man-before-you.html'};
-  var SESSION_ANCHOR = {anger:'b', reentry:'r', coparenting:'c', manhood:'m'};
+  var SESSIONS_PAGE = {reentry:'course-coming-home-present.html', anger:'course-steady-under-pressure.html', coparenting:'course-same-team.html', fundamentals:'course-fathering-fundamentals.html', manhood:'course-the-man-before-you.html'};
+  var SESSION_ANCHOR = {anger:'b', reentry:'r', coparenting:'c', fundamentals:'f', manhood:'m'};
   function sessionGuideHref(sessionIndex){
     var page = SESSIONS_PAGE[slug]; if(!page) return '';
     var prefix = SESSION_ANCHOR[slug] || '';
     if(!prefix || sessionIndex == null) return page;
-    return page + '#' + prefix + String(sessionIndex + 1);
+    /* Fathering Fundamentals guide ids are f0..f8 (Intro through Bonus). */
+    var n = (slug === 'fundamentals') ? sessionIndex : (sessionIndex + 1);
+    return page + '#' + prefix + String(n);
   }
   var uid=null, course=null, videos=[], progress={}, awardStatus=null, passes={}, finalQa=[];
 
@@ -46,8 +48,10 @@
     course = { id: pack.id, slug: pack.slug, title: pack.title, hours: pack.hours, published: true };
     videos = (pack.videos || []).map(function(v){
       return {
-        id: v.id, ord: v.ord, title: v.title, vimeo_id: null,
+        id: v.id, ord: v.ord, title: v.title, vimeo_id: v.vimeo_id || null,
         duration_seconds: v.duration_seconds || 720,
+        video_url: v.video_url || null,
+        poster: v.poster || null,
         checkpoint_json: v.checkpoint_json || v.checkpoint || []
       };
     });
@@ -185,23 +189,39 @@
 
     var ref = v.video_url || '';
     var vid = vimeoId(ref);
+    var isMp4 = !!(ref && /\.mp4($|\?)/i.test(ref));
+    var poster = v.poster || '';
 
     var player;
     if (vid) {
       player = '<div class="cw-embed"><iframe id="cw-vimeo" src="https://player.vimeo.com/video/'+esc(vid)+'?title=0&byline=0&portrait=0&pip=0&speed=0&dnt=1" allow="autoplay; fullscreen" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;border:0"></iframe></div>';
+    } else if (isMp4) {
+      player = '<div class="cw-poster-wrap"><video id="cw-video" class="cw-html5" controls playsinline preload="metadata"'+(poster?' poster="'+esc(poster)+'"':'')+' src="'+esc(ref)+'"></video></div>';
     } else if (demo) {
-      /* Preview must stay playable even when Supabase is live. The old branch
-         treated FC.live as "real course" and showed Film loading soon, which
-         sent men to the marketing session guide and broke the preview promise. */
-      player = '<div class="cw-novid" style="padding:28px 24px;border:1px solid rgba(127,127,127,.28);border-radius:14px;background:rgba(255,255,255,.03)">'+
-        '<div class="eyebrow brass" style="margin-bottom:10px">PREVIEW SESSION \u00b7 ~12 MIN</div>'+
-        '<h3 style="margin:0 0 8px;font-family:var(--font-display);font-size:26px">'+esc(v.title)+'</h3>'+
-        '<p class="small ash" style="margin:0 0 16px;max-width:48ch">Press play to run this session the way the live player will. About eight seconds stands in for the twelve-minute film. Then take the checkpoint.</p>'+
-        '<button class="btn btn-yellow" id="cw-sim">Play preview session</button></div>';
+      /* Preview must stay playable even when Supabase is live. Prefer a shape
+         still poster when present; otherwise keep the short stand-in sim. */
+      if (poster) {
+        /* Media stays a clean 16:9 still. Labels + Play sit below, never on the image. */
+        player = '<div class="cw-poster-wrap">'+
+          '<img src="'+esc(poster)+'" alt="">'+
+          '</div>'+
+          '<div class="cw-sim-below">'+
+          '<div class="eyebrow brass">SHAPE PREVIEW · PLACEHOLDER</div>'+
+          '<p class="small ash">Final film goes here. Press play for a short stand-in, then take the checkpoint.</p>'+
+          '<button class="btn btn-yellow btn-sm" id="cw-sim">Play preview session</button>'+
+          '</div>';
+      } else {
+        player = '<div class="cw-novid" style="padding:28px 24px;border:1px solid rgba(127,127,127,.28);border-radius:14px;background:rgba(255,255,255,.03)">'+
+          '<div class="eyebrow brass" style="margin-bottom:10px">PREVIEW SESSION · PLACEHOLDER</div>'+
+          '<h3 style="margin:0 0 8px;font-family:var(--font-display);font-size:26px">'+esc(v.title)+'</h3>'+
+          '<p class="small ash" style="margin:0 0 16px;max-width:48ch">Press play to run this session the way the live player will. About eight seconds stands in for the film. Then take the checkpoint.</p>'+
+          '<button class="btn btn-yellow" id="cw-sim">Play preview session</button></div>';
+      }
     } else {
       var sessHref = sessionGuideHref(i);
       var sessLink = sessHref ? '<a class="btn btn-secondary btn-sm" style="margin-top:12px" href="'+sessHref+'">Read this session\u2019s outline \u2192</a>' : '';
-      player = '<div class="cw-novid"><div class="eyebrow brass" style="margin-bottom:10px">Film loading soon</div><p class="small">This session plays on Vimeo here when the film is live. For now, read the outline, then take the checkpoint below.</p>'+sessLink+'</div>';
+      var posterBlock = poster ? '<div class="cw-poster-wrap" style="margin-bottom:14px"><img src="'+esc(poster)+'" alt=""></div>' : '';
+      player = '<div class="cw-novid">'+posterBlock+'<div class="eyebrow brass" style="margin-bottom:10px">Film loading soon</div><p class="small">This session plays on Vimeo here when the film is live. For now, read the outline, then take the checkpoint below.</p>'+sessLink+'</div>';
     }
 
     var prevOk = i > 0;

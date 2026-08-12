@@ -49,7 +49,7 @@
   function courseObj(){ return courses.find(function(c){ return c.id === curCourse; }); }
 
   function loadCourses(){
-    FC.sb.from('certificate_courses').select('id,title,hours,published').order('title').then(function(r){
+    FC.sb.from('certificate_courses').select('id,slug,title,hours,published').order('title').then(function(r){
       if (r.error) { fail('cert-videos', r.error); return; }
       courses = r.data || [];
       var sel = el('cert-course-select');
@@ -74,7 +74,9 @@
 
   function togglePublish(){
     var c = courseObj(); if (!c) return;
-    if (!c.published && videos.length !== 5 && !window.confirm('The standard is five videos per course. This course has ' + videos.length + '. Publish anyway?')) return;
+    var EXPECTED={fundamentals:9,reentry:12,anger:12,coparenting:12,manhood:6};
+    var expect=EXPECTED[(c.slug||'').toLowerCase()];
+    if (!c.published && expect && videos.length !== expect && !window.confirm('This course is shaped for ' + expect + ' sessions. It currently has ' + videos.length + '. Publish anyway?')) return;
     FC.sb.from('certificate_courses').update({ published: !c.published }).eq('id', curCourse).then(function(r){
       if (r.error) { note('Failed: ' + r.error.message); return; }
       c.published = !c.published; selectCourse(); note(c.published ? 'Published.' : 'Moved to draft.');
@@ -88,7 +90,7 @@
     FC.sb.from('course_videos').select('*').eq('course_id', curCourse).order('ord').then(function(r){
       if (r.error) { fail('cert-videos', r.error); return; }
       videos = r.data || [];
-      if (!videos.length) { el('cert-videos').innerHTML = '<p class="fine">No videos yet. Add the first below. The standard is five per course.</p>'; return; }
+      if (!videos.length) { el('cert-videos').innerHTML = '<p class="fine">No sessions yet. Add the first below. The four live courses use 9 / 12 / 12 / 12 sessions (Fundamentals Seven Secrets, then the three short film courses).</p>'; return; }
       var html = '<table class="dtable"><thead><tr><th>#</th><th>Title</th><th>Length</th><th>Debrief</th><th></th></tr></thead><tbody>';
       videos.forEach(function(v){
         html += '<tr><td>' + v.ord + '</td><td>' + esc(v.title) + '</td><td class="fine">' + fmtLen(v.duration_seconds) + '</td>' +

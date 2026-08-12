@@ -134,7 +134,8 @@
         "practice": "Complete a one-page steady-week plan with one weekly marker you will report to your facilitator or accountability partner.",
         "science": "Small repeated anchors outperform rare heroic effort."
       }
-    ]
+    ],
+    "stills_dir": "steady-under-pressure"
   },
   "reentry": {
     "slug": "reentry",
@@ -144,9 +145,9 @@
     "preview_photo": "assets/img/photos/hero-03.jpg",
     "id_prefix": "a",
     "video_prefix": "chp-a",
-    "eyebrow_track": "BUILT FOR A FATHER RETURNING TO HIS CHILDREN",
-    "lead": "Twelve short film sessions on the return: the body you bring home, the wave, few promises kept, the child who grew, small deposits, repair, reunion day, and the season after. Built so a man can complete the practices inside the rules that govern him now.",
-    "desc": "Twelve short sessions on presence after time away: the body you bring home, few promises kept, small deposits, repair, and the reunion rehearsed before it happens.",
+    "eyebrow_track": "FOR FATHERS IN REHAB OR TREATMENT RECONNECTING AT HOME",
+    "lead": "Twelve short film sessions for fathers in rehab or treatment preparing to reconnect with their children and/or a significant other: the body you bring home, the wave, few promises kept, the child who grew, small deposits, repair, reunion day, and the season after. Built so a man can complete the practices inside the rules that govern him now. Same body skills if you are coming home from service.",
+    "desc": "Twelve short sessions on presence after time in a program: reconnect with children and a significant other, with the same skills for service members and anyone returning after time away.",
     "fine1": "Self-paced film. About twelve minutes each. Watch when you can. A Certified Facilitator is available for questions and accountability when your seat is claimed. Optional live cohorts may be offered by some programs. The reunion session is a climax: you leave with a first-hour plan rehearsed and in hand.",
     "fine2": "Logged sessions and a checkable practice. Completion never requires contact with your child, and no practice ever asks you to go beyond the rules that govern you now or any court order. Where contact is limited, every drill has a before-return option.",
     "sessions": [
@@ -159,7 +160,7 @@
         "leave_with": "You can name what your body is doing when it revs, and call it a physical response, not a character flaw.",
         "practice": "Keep a short body-state log and name two likely home triggers.",
         "science": "Fight or flight can outlast the threat; naming the response is the first retraining step.",
-        "before_return": "Keep a three-times-daily one-word body-state log. Name two likely home triggers. Rehearse the sentence you will use to tell family what helps.",
+        "before_return": "Keep a three-times-daily one-word body-state log where you are now. Name two likely home triggers (kids, partner, kitchen noise). Rehearse the sentence you will use to tell family what helps.",
         "after_return": "Keep the log at home, agree one signal with a family member if contact allows, and report what happened."
       },
       {
@@ -171,7 +172,7 @@
         "leave_with": "You can catch a home sound and label it as home on purpose.",
         "practice": "Name two home sounds that used to mean threat and rehearse a calm home label for each.",
         "science": "Retraining meaning reduces false alarms when old cues meet a safe setting.",
-        "before_return": "List two sounds or scenes from home and write the new meaning next to each. Rehearse the labels aloud daily for five days.",
+        "before_return": "List two sounds or scenes from home (kids, partner, street) and write the new meaning next to each. Rehearse the labels aloud daily for five days inside program rules.",
         "after_return": "When one of those sounds hits, say the home label once under your breath and log whether your body stood down."
       },
       {
@@ -179,11 +180,11 @@
         "title": "Plan Around the Wave",
         "quote": "Plan around the wave. Do not grade yourself by it.",
         "scene": "Day nine home. He slept badly, snapped over spilled cereal, and by noon he is quietly deciding he is failing. He is not failing. He is in a wave, and the plan says what to do on wave days.",
-        "in_room": "Energy, mood, and sleep run in waves in the early weeks of any return. That is expected. You plan around it instead of reading it as a verdict.",
+        "in_room": "Energy, mood, and sleep run in waves in the early weeks of any return from a program or from service. That is expected. You plan around it instead of reading it as a verdict on the reconnect.",
         "leave_with": "You can expect the low weeks, plan around them, and stop grading yourself by them.",
         "practice": "Write a wave-day rule: sleep anchor, fewer commitments, and one recovery move.",
         "science": "Early-return waves in sleep and mood are common while a body leaves an imposed routine.",
-        "before_return": "Hold one fixed sleep and wake time for five nights where you are now. Write your wave-day rule on one page.",
+        "before_return": "Hold one fixed sleep and wake time for five nights in the house. Write your wave-day rule on one page for kids and partner contact.",
         "after_return": "Hold the same sleep anchor at home and use the wave-day rule on the next hard day."
       },
       {
@@ -191,11 +192,11 @@
         "title": "Few Promises, Kept",
         "quote": "Few commitments, kept without fail.",
         "scene": "He wants to promise everything. He picks two standing times instead and keeps both. By week three the child stops asking if he means it.",
-        "in_room": "Distance and early return punish over-promising. You choose a short list you can keep from where you actually are, then keep it without fail.",
+        "in_room": "Distance and early return punish over-promising. You choose a short list you can keep from where you actually are (program rules, court orders, duty schedule), then keep it without fail.",
         "leave_with": "You can make fewer promises and keep every one you make.",
         "practice": "Choose at most three commitments you can keep this week and keep a written record.",
         "science": "Reliability beats volume; each kept promise is evidence.",
-        "before_return": "Make and keep up to three small promises deliverable inside your current rules. Where no contact is permitted, keep promises to your facilitator or cohort and file the child-facing list for day one.",
+        "before_return": "Make and keep up to three small promises deliverable inside your current rules. Where no contact is permitted, keep promises to your facilitator or cohort and file the child- and partner-facing list for day one.",
         "after_return": "Keep three small specific promises in a week at home and log each one."
       },
       {
@@ -227,7 +228,7 @@
         "title": "Small Deposits",
         "quote": "Small and often beats big and rare.",
         "scene": "Mid-conversation with someone else, the child appears holding a drawing. He stops, looks at it, and says show me the best part. Twenty seconds. That is a deposit.",
-        "in_room": "Trust rebuilds through many small responsive interactions, not one big moment. You practice catching and returning bids for attention.",
+        "in_room": "Trust rebuilds through many small responsive interactions with kids and partner, not one big make-up moment. You practice catching and returning bids for attention.",
         "leave_with": "You can make daily small deposits and explain why they beat grand gestures.",
         "practice": "Catch and return three bids, or role-play five exchanges if contact is limited.",
         "science": "Serve and return: a child's bid met by a steady adult builds trust and brains.",
@@ -275,11 +276,11 @@
         "title": "Reunion Day",
         "quote": "If the child pulls away, that is the start, not the answer.",
         "scene": "First hour home. The younger one hides behind a leg. The older one shrugs off the hug. He keeps his voice low and offers the small plan he rehearsed: a walk to the corner and back.",
-        "in_room": "You prepare for the first hours back, including early pull-away. You write and rehearse a low-pressure first-hour plan.",
+        "in_room": "You prepare for the first hours back with kids and/or a significant other, including early pull-away. You write and rehearse a low-pressure first-hour plan. Same climax work if you are coming home from service.",
         "leave_with": "You leave with a realistic, rehearsed first-hour plan and the patience to let it be imperfect.",
         "practice": "Write and rehearse a low-pressure first-hour plan.",
         "science": "Early pull-away at reunions is common and often temporary; patience is a skill.",
-        "before_return": "Write the low-pressure first-hour plan and rehearse it aloud. Your facilitator checks the plan.",
+        "before_return": "Write the low-pressure first-hour plan (kids and/or partner) and rehearse it aloud. Your facilitator checks the plan.",
         "after_return": "Run the plan and report how it went."
       },
       {
@@ -287,14 +288,15 @@
         "title": "The Season of Return",
         "quote": "The return is a season, not a day.",
         "scene": "Week six, an ordinary Tuesday. Nothing dramatic happened. He did the ritual anyway, logged the wave, made the small deposit. That is the plan working.",
-        "in_room": "You fold the course into a personal return plan, frame fathering as a long work, and name an accountability partner.",
+        "in_room": "You fold the course into a personal return plan for fathering and partner reconnect, frame the work as a long season, and name an accountability partner. Same season frame after service.",
         "leave_with": "You leave with a written season plan, a first checkpoint, and a named accountability partner.",
         "practice": "Complete a one-page return plan with a checkpoint date and named accountability partner.",
         "science": "Routines hold gains; steady spaced practice beats bursts.",
         "before_return": "Complete the one-page return plan, name the accountability partner, and set the first after-return checkpoint date.",
         "after_return": "Work the plan and report at the checkpoint."
       }
-    ]
+    ],
+    "stills_dir": "coming-home-present"
   },
   "coparenting": {
     "slug": "coparenting",
@@ -429,6 +431,132 @@
         "leave_with": "You leave with a repeatable handoff ritual and a first checkpoint.",
         "practice": "Complete a one-page handoff ritual plan and walk it through with a cohort partner or facilitator. After return, execute one handoff to the plan and log it.",
         "science": "A predictable ritual says what words cannot at the transition."
+      }
+    ],
+    "stills_dir": "same-team"
+  },
+  "fundamentals": {
+    "slug": "fundamentals",
+    "title": "Fathering Fundamentals",
+    "html": "course-fathering-fundamentals.html",
+    "photo": "assets/img/photos/action-01.jpg",
+    "preview_photo": "assets/img/photos/action-02.jpg",
+    "id_prefix": "f",
+    "video_prefix": "ff-f",
+    "stills_dir": "fathering-fundamentals",
+    "eyebrow_track": "SEVEN SECRETS · ASSESSMENT & COURSE · ALREADY FILMED",
+    "lead": "Introduction, seven secrets, and a bonus: Dr. Ken Canfield's research-based course already shot on fathers.com. Shape-animation stills hold the slot until Ken's film URLs are wired. Free assessment included.",
+    "desc": "The Seven Secrets of Effective Fathers: intro, seven secrets, and a bonus session, with shape previews and practice checkpoints on the guide page.",
+    "fine1": "Film already shot. Wrapper stills keep visual consistency with the short courses. Ken's session film stays as shot once Vimeo IDs are connected. Self-paced, with a Certified Facilitator available when your seat is claimed.",
+    "fine2": "Logged sessions and checkpoints for enrolled learners. Guide-page checkpoints are practice only and never mint a certificate on their own.",
+    "sessions": [
+      {
+        "ord": 0,
+        "title": "Introduction",
+        "quote": "Welcome, overview, and take the assessment.",
+        "scene": "A dad opens the course, hears the welcome, and takes the assessment before the first secret.",
+        "in_room": "Course welcome, overview film, and free assessment entry point.",
+        "leave_with": "You know the arc of the seven secrets and have started the assessment.",
+        "practice": "Complete the free assessment before Session 1.",
+        "science": "Assessment first so growth targets are personal, not generic.",
+        "session_label": "INTRO",
+        "length_label": "part of 1.1h course"
+      },
+      {
+        "ord": 1,
+        "title": "First Secret: Commitment",
+        "quote": "Present physically, emotionally, spiritually; commitment builds trust.",
+        "scene": "He chooses to be present in the room, in the conversation, and in the spiritual lead of the home.",
+        "in_room": "Commitment as physical, emotional, and spiritual presence; trust as the fruit.",
+        "leave_with": "You treat presence as a commitment your child can feel across all three dimensions.",
+        "practice": "Name one physical, one emotional, and one spiritual way you will show up this week.",
+        "science": "Commitment builds trust and lays the foundation for lasting influence.",
+        "session_label": "SESSION 1",
+        "length_label": "part of 1.1h course"
+      },
+      {
+        "ord": 2,
+        "title": "Second Secret: Knowing Your Child",
+        "quote": "Unique personality, needs, and interests open deeper connection.",
+        "scene": "He names what makes this child different and asks a question that fits that child, not a script.",
+        "in_room": "Personality, needs, and interests as the path to meaningful connection.",
+        "leave_with": "You can name concrete traits, needs, and interests for each child.",
+        "practice": "Write three specifics: one personality trait, one need, one interest for your child.",
+        "science": "Understanding uniqueness opens the door to deeper connection.",
+        "session_label": "SESSION 2",
+        "length_label": "part of 1.1h course"
+      },
+      {
+        "ord": 3,
+        "title": "Third Secret: Showing Up Consistently",
+        "quote": "Stability through consistent actions, values, and discipline.",
+        "scene": "Week after week he keeps the same actions and values so the home feels steady.",
+        "in_room": "Stability via consistent actions, values, and discipline.",
+        "leave_with": "You treat consistency as security your child can feel.",
+        "practice": "Pick one action, one value, and one discipline habit you will keep the same this week.",
+        "science": "Children thrive on stability; consistency builds confidence.",
+        "session_label": "SESSION 3",
+        "length_label": "part of 1.1h course"
+      },
+      {
+        "ord": 4,
+        "title": "Fourth Secret: Protecting and Providing Security",
+        "quote": "Physical, emotional, and spiritual safety and provision.",
+        "scene": "He meets a need and removes a threat so the child feels safe and valued.",
+        "in_room": "Safety and provision across physical, emotional, and spiritual dimensions.",
+        "leave_with": "You can name how you protect and provide in each of the three dimensions.",
+        "practice": "Name one protective move and one provision move you will make this week.",
+        "science": "Protection and provision communicate value to the child.",
+        "session_label": "SESSION 4",
+        "length_label": "part of 1.1h course"
+      },
+      {
+        "ord": 5,
+        "title": "Fifth Secret: Affirming and Encouraging",
+        "quote": "Speak life: affirm who they are and encourage who they are becoming.",
+        "scene": "He names something true and good about his child out loud, then encourages the next faithful step.",
+        "in_room": "Affirmation and encouragement as a core Seven Secret (title-led; see mismatch note).",
+        "leave_with": "You leave ready to speak specific affirmation and practical encouragement this week.",
+        "practice": "Speak one specific affirmation and one forward-looking encouragement to your child.",
+        "science": "TITLE/BODY MISMATCH on live page: body describes honoring mother; structure follows title Affirming and Encouraging.",
+        "session_label": "SESSION 5",
+        "length_label": "part of 1.1h course"
+      },
+      {
+        "ord": 6,
+        "title": "Sixth Secret: Disciplining with Love",
+        "quote": "Correction that trains, bound by love, not anger.",
+        "scene": "He corrects with a calm voice, names the value, and stays connected while the boundary holds.",
+        "in_room": "Loving discipline as a core Seven Secret (title-led; see mismatch note).",
+        "leave_with": "You can correct with clarity and love in the same move.",
+        "practice": "Prepare one loving correction script: what happened, the value, the next step.",
+        "science": "TITLE/BODY MISMATCH on live page: body describes listening; structure follows title Disciplining with Love.",
+        "session_label": "SESSION 6",
+        "length_label": "part of 1.1h course"
+      },
+      {
+        "ord": 7,
+        "title": "Seventh Secret: Modeling Integrity and Faith",
+        "quote": "Lead by example in faith and values.",
+        "scene": "He lives a value out loud so his child can watch faith and integrity in motion.",
+        "in_room": "Modeling faith and values; spiritual guidance that grounds worldview.",
+        "leave_with": "You identify one faith or integrity practice your child can observe this week.",
+        "practice": "Choose one visible practice of faith or integrity and keep it where your child can see it.",
+        "science": "Guiding children spiritually shapes worldview and grounds them in lasting truth.",
+        "session_label": "SESSION 7",
+        "length_label": "part of 1.1h course"
+      },
+      {
+        "ord": 8,
+        "title": "Bonus Secret  - Honoring the Father Who is Guiding You",
+        "quote": "Honor the Father who is guiding you.",
+        "scene": "After the seven secrets, he pauses to honor the Father guiding his own fathering.",
+        "in_room": "Bonus close: honor the Father who guides you.",
+        "leave_with": "You end with gratitude and a posture of being guided, not self-made.",
+        "practice": "Name one way you will honor God’s guidance in your fathering this week.",
+        "science": "Page provides title only for bonus body; keep framing title-led and modest.",
+        "session_label": "BONUS",
+        "length_label": "part of 1.1h course"
       }
     ]
   }
