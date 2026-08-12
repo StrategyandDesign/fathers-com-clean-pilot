@@ -416,7 +416,7 @@ PAGES['index.html'] = dict(title='Become the father they can count on', desc='Kn
   <div>
     <div class="eyebrow" style="margin-bottom:18px">FATHERS.COM</div>
     <h1 class="d-48" style="font-weight:700;letter-spacing:-.02em">Become the father they can count on.</h1>
-    <p class="lead" style="margin:22px 0 12px">Presence they can feel at home. Steadiness under pressure. Warmth they hear. That is the destination.</p>
+    <p class="lead" style="margin:22px 0 12px">Presence they can feel at home. Steadiness under pressure. Warmth they hear.</p>
     <p style="color:var(--ash);margin:0 0 28px;max-width:48ch;font-size:17px;line-height:1.55">Start with the free Keystone Father Profile (about twenty minutes). You get scores on the four things that matter, a ninety-day plan built from your answers, and a path into facilitator-supported film courses. Not a lecture. Not a label. Proof when you finish.</p>
     <div class="hero-cta" style="display:flex;flex-direction:column;align-items:flex-start;gap:14px;max-width:440px">
       <a class="btn btn-yellow btn-lg" href="profile.html" style="width:100%;text-align:center">Start free Profile &middot; about 20 min</a>
