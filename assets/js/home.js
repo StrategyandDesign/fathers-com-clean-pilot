@@ -48,7 +48,7 @@
       var courseCard;
       if(fundAw && (fundAw.status==='signed'||fundAw.status==='awarded')){
         courseCard = card('YOUR CERTIFICATE OF COMPLETION','Fathering Fundamentals: complete.',
-          'Verified, serialed, and publicly checkable. The next courses are in development.',
+          'Verified, serialed, and publicly checkable. Keep going with Steady Under Pressure, Coming Home Present, or Same Team.',
           'verify.html','See how verification works');
       } else if(fundEnr && fundEnr.effective_state==='stalled'){
         courseCard = card('PICK IT BACK UP','Fathering Fundamentals',
