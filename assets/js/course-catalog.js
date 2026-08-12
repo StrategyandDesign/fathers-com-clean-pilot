@@ -72,7 +72,7 @@
     var footMeta = 'Free';
     if(sessN) footMeta += ' &middot; ' + sessN + ' sessions';
     if(shownHours != null && shownHours !== '') footMeta += ' &middot; ~' + esc(shownHours) + ' hrs film';
-    return '<a class="cert-card" href="' + href + '" data-cert="' + esc(c.slug) + '">' +
+    return '<a class="cert-card" href="' + href + '" data-motion="fade-up" data-cert="' + esc(c.slug) + '">' +
       '<div class="cert-card-top">' + pill + hrs + '</div>' +
       '<h3>' + esc(c.title || c.slug) + '</h3>' +
       '<p>' + blurb + '</p>' +
@@ -96,6 +96,17 @@
     });
     Object.keys(bySlug).forEach(function(slug){ out.push(card(bySlug[slug], byCourse[bySlug[slug].id])); });
     grid.innerHTML = out.join('');
+    // Re-run fade-ups if motion already booted before catalog swapped cards.
+    try {
+      if (window.anime && !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) {
+        var fresh = grid.querySelectorAll('[data-motion="fade-up"]');
+        if (fresh.length) {
+          fresh.forEach(function(el){ el.style.opacity = '0'; });
+          window.anime({ targets: fresh, opacity: [0, 1], translateY: [12, 0], duration: 700, delay: window.anime.stagger(70), easing: 'easeOutCubic' });
+        }
+      }
+    } catch (e) {}
+
   }
 
   function boot(){

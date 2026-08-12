@@ -112,6 +112,11 @@
           try { localStorage.setItem(storageKey(course, session), '1'); } catch (e) {}
         }
         paint();
+        if (state.passed) {
+          try {
+            el.dispatchEvent(new CustomEvent('fc:checkpoint-passed', { bubbles: true }));
+          } catch (e) {}
+        }
       });
       var retry = el.querySelector('[data-retry]');
       if (retry) {
