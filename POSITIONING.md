@@ -378,3 +378,58 @@ participant data, and nobody saves time later by pointing Israel at the US
 database. Sequence discipline stands: SHOW_MILITARY stays dark until the
 Returning Home pilot produces completion evidence, and the IDF step remains
 partner-led with counsel and board review.
+
+## 24. Education-first, agentic underneath (adopted 2026-08-12)
+
+Two faces, one platform. To the participant father this is an education product.
+To professionals and organizations it becomes an increasingly agentic delivery
+system. The second face must never steal the first.
+
+### What the father should feel
+He can see where he stands, he knows his next move, the film respects his time,
+he can finish, and someone serious signed that he did. Excitement comes from
+progress he can feel: baseline, plan, session done, checkpoint passed,
+certificate. Not from features, dashboards, or bots.
+
+### Education-first (participant surfaces)
+Homepage, Profile, Plan, and the course player stay in father language: learn,
+train, complete. Short wins. One session in front. Calm skill, not content
+library sprawl. If an agent ever helps him directly, it should feel like a good
+coach in his pocket (next practice, where he left off), never like customer
+support automation or surveillance.
+
+### Agentic power (professional surfaces)
+Facilitator Desk, org claims, cohort health, stuck learners, suggested outreach,
+efficacy reporting, seat and certificate operations. That is how pros get more
+effective without making the father feel managed by software.
+
+### Rule
+Every agent capability must either (1) help the man complete the next honest
+step, or (2) help a facilitator or organization remove friction so more men
+complete. If it only creates dashboards that do not change his week, it waits.
+
+### Sequence
+1. Now: flawless education loop (Quick Start, film courses, checkpoints, free
+   path clarity).
+2. Next: quiet agents for facilitators (who has not watched, who failed a
+   checkpoint, suggested outreach).
+3. Later: org-level agents (cohort reports, sponsor proof, seat ops) that still
+   land as better human support on his side.
+
+### Surface map (father vs Desk)
+
+| Surface | Audience | Job | Agentic role |
+|---|---|---|---|
+| Home / Start free | Father | Want the work; know it is free to him | None visible |
+| Profile Quick Start / Full | Father | Baseline without a 20-minute wall | Later: resume coach only |
+| Plan | Father | This week's move from his scales | Later: nudge the move, not the metric |
+| Course player | Father | Train one session; pass checkpoint | Later: "continue Session N" only |
+| Certificate / verify | Father + outsider | Pride and proof | Issuance automation behind the scenes |
+| Facilitator Desk | Facilitator | See who needs a human | Primary agent surface |
+| Org / claims / efficacy | Org lead | Deliver cohort value and proof | Primary agent surface |
+| Sponsor | Funder | Fund infrastructure, not seats | Reporting agents later |
+
+Participant success looks like pride and momentum. Org success looks like
+completion and verifiable change. Agentic work widens the second without
+diluting the first.
+
