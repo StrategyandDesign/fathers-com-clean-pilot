@@ -174,7 +174,7 @@ PAGES = {
         </div>
       </div>
       <div id="certs-build">
-        <p class="fine" style="margin:0 0 14px">Five videos per course. Each video ends in a Checkpoint; the course closes with the Final Q&amp;A. Completion issues the Certificate of Completion, signed by Dr. Canfield and the leading Certified Facilitator, at no cost to the man.</p>
+        <p class="fine" style="margin:0 0 14px">Five videos per course. Each video ends in a Checkpoint; the course closes with the Final Q&amp;A. Completion issues the Certificate of Completion, signed by Dr. Canfield and the Certified Facilitator who sponsored the seat, at no cost to the man.</p>
         <div class="eyebrow" style="margin:0 0 12px">VIDEOS, WITH LENGTH SO WE KNOW IF THEY WATCHED</div>
         <div id="cert-videos" class="fine">Loading&hellip;</div>
         <div class="row wrap" style="gap:10px;margin-top:16px;align-items:end">
@@ -263,7 +263,7 @@ PAGES = {
 <div class="grid-3">
   <a class="card" href="org.html" style="padding:18px 22px;text-decoration:none"><h3 style="margin-bottom:4px">Organization</h3><p class="fine" style="color:var(--ash)">The service window: join link, movement, cohorts, roster.</p></a>
   <a class="card" href="studio.html" style="padding:18px 22px;text-decoration:none"><h3 style="margin-bottom:4px">Studio</h3><p class="fine" style="color:var(--ash)">Courses, films, and publishing.</p></a>
-  <a class="card" href="lead.html" style="padding:18px 22px;text-decoration:none"><h3 style="margin-bottom:4px">Facilitator Desk</h3><p class="fine" style="color:var(--ash)">Cohorts, members, and group life.</p></a>
+  <a class="card" href="lead.html" style="padding:18px 22px;text-decoration:none"><h3 style="margin-bottom:4px">Facilitator Desk</h3><p class="fine" style="color:var(--ash)">Roster, claims, progress, and quiet alerts.</p></a>
   <a class="card" href="participant.html" style="padding:18px 22px;text-decoration:none"><h3 style="margin-bottom:4px">Participant snapshot</h3><p class="fine" style="color:var(--ash)">One man at a time, handled with care.</p></a>
   <a class="card" href="plan.html" style="padding:18px 22px;text-decoration:none"><h3 style="margin-bottom:4px">Father&rsquo;s Home</h3><p class="fine" style="color:var(--ash)">What every father sees: his baseline, plan, and feed.</p></a>
 
@@ -431,7 +431,7 @@ PAGES = {
 '''),
 
 'lead': ('Facilitator Desk', '''
-<div class="dash-head"><h1 class="d-36">Facilitator Desk</h1><p class="lead">Plan the weeks, post to your men, keep the standard. Your Certified Facilitator status lives in the public registry.</p></div><div class="glance"><div class="glance-card"><div class="glance-lbl">YOUR WORLD</div><div class="glance-big" data-glance="lead-men">--</div><div class="glance-sub">men in your Circle</div></div><div class="glance-card"><div class="glance-lbl">THIS WEEK</div><div class="glance-big" data-glance="lead-watched">--</div><div class="glance-sub">watched the film</div></div><div class="glance-card"><div class="glance-lbl">NEXT MEETING</div><div class="glance-big glance-sm" data-glance="lead-next-meet">--</div><div class="glance-sub">stay ready</div></div><div class="glance-card glance-next"><div class="glance-lbl">CONSIDER NEXT</div><div class="glance-next-txt" data-glance="lead-next">Post this week's question, and check who hasn't watched yet.</div></div></div>
+<div class="dash-head"><h1 class="d-36">Facilitator Desk</h1><p class="lead">Claim seats, keep the roster, watch progress, and stay available for questions. Your Certified Facilitator status lives in the public registry.</p></div><div class="glance"><div class="glance-card"><div class="glance-lbl">YOUR WORLD</div><div class="glance-big" data-glance="lead-men">--</div><div class="glance-sub">men in your Circle</div></div><div class="glance-card"><div class="glance-lbl">THIS WEEK</div><div class="glance-big" data-glance="lead-watched">--</div><div class="glance-sub">watched the film</div></div><div class="glance-card"><div class="glance-lbl">NEXT MEETING</div><div class="glance-big glance-sm" data-glance="lead-next-meet">--</div><div class="glance-sub">stay ready</div></div><div class="glance-card glance-next"><div class="glance-lbl">CONSIDER NEXT</div><div class="glance-next-txt" data-glance="lead-next">Post this week's question, and check who hasn't watched yet.</div></div></div>
 <div id="circle-picker" class="row" style="margin-bottom:24px"></div>
 <div id="lead-body" data-tabs>
   <div class="tabs"><button class="active">This week</button><button>Plan weeks</button><button>Announce</button><button>Roster</button><button>Claims</button></div>

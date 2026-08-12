@@ -11,7 +11,7 @@ DB role keys are stable; display names carry the v4.0 certification positioning 
 | instructor | NCF curriculum staff | Build and publish courses (lessons + Vimeo + workbooks + drip), build and publish assessment instruments, issue certificates | studio.html |
 | content_reviewer | NCF reviewer | Read drafts before publish (review workflow hook; same read scope as authors) | studio.html (read) |
 | org_admin | Certified Organization admin | Manage their organization's seats, invite men, see participation counts (never individual answers or scores) | org.html |
-| circle_leader | Certified Facilitator | Run cohorts from the Facilitator Desk: plan the weeks, post announcements, moderate, see their roster. Public credential status lives in the registry | lead.html |
+| circle_leader | Certified Facilitator | Support men from the Facilitator Desk: claim seats, see roster and progress, post announcements, quiet alerts. Live cohort co-watch is optional, not required for default completion. Public credential status lives in the registry | lead.html |
 | member | Participant | Take assessments, work a plan, watch lessons, post in their Circle. Pays nothing, ever | plan.html (default) |
 
 Every signed-in user is a member (Participant) by default. Roles are additive and, for org_admin and circle_leader (Certified Organization admin and Certified Facilitator), scoped to a specific org. The Certified Facilitator credential itself belongs to the person and follows them across organizations; the circle_leader grant is the per-org operating permission.
@@ -35,6 +35,6 @@ From then on, grant every other role from the Admin dashboard.
 
 ## Communications (launch scope)
 - Circle discussion threads (member to member, within a Circle).
-- Circle announcements (leader to cohort).
+- Circle announcements (facilitator to claimed men / cohort grouping).
 - Triggered email via Resend (welcome, weekly plan, invite, certificate, and the rest in `emails/`).
 Direct member-to-member messaging and real-time chat are deliberately deferred.

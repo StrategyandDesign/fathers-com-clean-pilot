@@ -30,8 +30,9 @@ claims are multi-org by design, and enrollments roll up per cohort by claim_id.
 5. Open the cohort. Facilitator places claims by sign-in email from the
    Facilitator Desk (lead.html). Free Profile and plan are already open to
    every man; claims unlock the course and the Certificate.
-6. Run the course. Weekly sessions, checkpoints, written final the facilitator
-   reads at approval.
+6. Run the course. Men watch on their schedule; facilitator available for
+   questions and accountability. Checkpoints, written final the facilitator
+   reads at approval. Live cohort attendance is optional if the org offers it.
 7. Ceremony and issuance. issue-certificate stamps FC-2026-###### and writes
    the auditable row. Ceremony before program exit is the pilot hypothesis.
 8. Efficacy Report per cohort from the rollup. Do not publish numbers until

@@ -10,7 +10,7 @@
 
 ## Unique opportunity thesis
 
-Fathers.com is the rare hybrid of **facilitator-led cohorts** and a **digital activation path** that a stressed father can start alone:
+Fathers.com is the rare hybrid of **facilitator-supported film courses** and a **digital activation path** that a stressed father can start alone:
 
 1. **Keystone Profile** (free, ~20 minutes, private)  
 2. **Ninety-day plan** (built from his gaps)  
@@ -45,7 +45,7 @@ Organizations get B2B infrastructure: cohort claims, completion proof, public se
 ### Global chrome
 - Public nav: Profile, Courses, For organizations, Log in (drawer); primary **Start Profile**.
 - App nav: Dashboard, My Plan, Courses, Circle; Account chip; My Plan in nav-right on desktop.
-- Thin trust bar under public nav: Free for participants · Facilitator-led · Verifiable certificate · Verify a serial.
+- Thin trust bar under public nav: Free for participants · Facilitator-supported · Verifiable certificate · Verify a serial.
 - Footer: Measure / Train / Organizations / Company; verify link prominent (`foot-verify`).
 
 ### Father path

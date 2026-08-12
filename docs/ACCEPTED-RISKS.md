@@ -4,7 +4,7 @@ the risk, why it is acceptable now, and the clean fix later.
 
 1. A participant can read his own quiz_responses.correct between attempts,
 so across the three-attempt hourly budget he can map which answers were
-wrong. Acceptable in a facilitator-led cohort with the retry flag firing at
+wrong. Acceptable in a facilitator-supported course with the retry flag firing at
 twelve attempts course-wide. Clean fix later: a participant view of
 quiz_responses without the correct column.
 

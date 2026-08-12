@@ -16,7 +16,7 @@ Audience includes stressed, court-adjacent, and return-from-time-away men. Tone:
 - Secondary: **Log in** and **I have a facilitator** (organizations).
 - Manhood demoted to a quiet text link.
 - Added a **How it works** strip: Profile → Plan → Course (with facilitator).
-- Trust line (no fake stats): free for participants · facilitator-led · certificate you can verify.
+- Trust line (no fake stats): free for participants · facilitator-supported · certificate you can verify.
 
 ### 2. Keystone assessment receptivity
 - Progress chrome always shows **section X of 3**, item progress, overall answered %, and an **honest minutes-left** estimate (~9s/item from remaining count).
@@ -52,7 +52,7 @@ Audience includes stressed, court-adjacent, and return-from-time-away men. Tone:
 | **Duolingo-style one next action** | Celebration → Start my plan; dashboard unclaimed → plan |
 | **SDT: autonomy** — mode choice, save later, no shame | Keystone gates |
 | **SDT: competence** — celebration + plan as the build | Post-assessment |
-| **SDT: relatedness** — facilitator-led course, not self-serve theater | How it works / enroll |
+| **SDT: relatedness** — facilitator-supported course, not self-serve theater | How it works / enroll |
 | **Mobile thumb zone** — Log in / My Plan in drawer | Nav + `app.js` |
 | **Nonprofit / court-safe trust** — verifiable certificate, no fake stats, banned-word hygiene | Trust line, catalog, claim copy |
 
@@ -65,7 +65,7 @@ Audience includes stressed, court-adjacent, and return-from-time-away men. Tone:
 3. **Progress salience** — Long instruments (128 items) need continuous “how far / how long” or abandonment spikes mid-run.
 4. **Self-Determination Theory** — Autonomy (password account he owns), competence (celebration → plan), relatedness (facilitator claim as dignity, not punishment).
 5. **Mobile thumb zone / a11y** — Returning users must reach Log in / My Plan without desktop-only chrome; MENU must expose state.
-6. **Trust** — Free + facilitator-led + verifiable beat invented completion rates for this audience.
+6. **Trust** — Free + facilitator-supported + verifiable beat invented completion rates for this audience.
 
 ---
 
