@@ -13,7 +13,7 @@
 Fathers.com is the rare hybrid of **facilitator-supported film courses** and a **digital activation path** that a stressed father can start alone:
 
 1. **Keystone Profile** (free, ~20 minutes, private)  
-2. **Ninety-day plan** (built from his gaps)  
+2. **Twelve-week plan** (built from his gaps)  
 3. **Film courses** with a Certified Facilitator (claim, watch, checkpoint, verifiable certificate)
 
 Organizations get B2B infrastructure: cohort claims, completion proof, public serial verify. Fathers get dignity and one next action. Sponsors fund **organization certification and facilitator credentialing**, not individual seat gifts. That keeps the product story coherent: men stay free; the standard is what gets funded.

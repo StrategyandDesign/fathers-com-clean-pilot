@@ -659,7 +659,7 @@
       : '<div class="ks-save-card">'+
           '<div class="ks-built"><div class="ks-built-track"><span id="ksBuilt" style="width:0"></span></div><span class="ks-built-n">Your profile is 90% built</span></div>'+
           '<h3 class="ks-save-h">Save your plan. One step left.</h3>'+
-          '<p class="helper" style="margin-bottom:16px">Create a free account with a password so your ninety-day plan and profile stay with you on any device.</p>'+
+          '<p class="helper" style="margin-bottom:16px">Create a free account with a password so your plan and profile stay with you on any device.</p>'+
           '<input class="input" type="email" id="ksEmail" placeholder="you@email.com" autocomplete="email" style="margin-bottom:10px">'+
           '<input class="input" type="password" id="ksPass" placeholder="Password (8+ characters)" autocomplete="new-password">'+
           '<button class="btn btn-yellow" id="ksSavePlan" style="width:100%;margin-top:10px">Start my plan</button>'+
@@ -693,7 +693,7 @@
           (gCopy.g ? '<p class="ks-next-line">'+esc(gCopy.g)+'</p>' : '')+
         '</div>')+
       (moves ? '<div class="ks-moves"><div class="ks-moves-h">Your first three moves</div>'+moves+
-        '<p class="fine" style="margin-top:14px">These are day one. Your full ninety-day plan builds from here.</p></div>' : '')+
+        '<p class="fine" style="margin-top:14px">These are day one. Your full twelve-week plan builds from here.</p></div>' : '')+
       accountCard+
       '<details class="ks-fullprofile"><summary>See your full profile, all 26 dimensions</summary>'+
         '<p class="fine" style="margin:12px 0 18px">'+

@@ -119,7 +119,7 @@ window.FC = window.FC || {};
       ['Say one thing you stand for, out loud, at the table.', 'When you blow it, repair it inside 24 hours.'],
       ['Tell each kid one thing you respect about them.', 'Write down the standard you hold. Read it daily.'],
       ['Tell your kid one true story from before they were born.', 'Ask a man you trust to check you weekly.'],
-      ['Repair one old thing you never repaired.', 'Set the next ninety days with your kids in the room.']]]
+      ['Repair one old thing you never repaired.', 'Set the next twelve weeks with your kids in the room.']]]
   ];
   PHASES.forEach(function(ph, pi){
     ph[2].forEach(function(acts, wi){

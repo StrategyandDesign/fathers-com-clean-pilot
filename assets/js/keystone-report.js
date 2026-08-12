@@ -91,7 +91,9 @@
   function previewRequest(){
     try {
       var q = new URLSearchParams(window.location.search);
-      if(q.get('preview') !== '1') return null;
+      /* Studio uses preview=1. Public sample uses sample=1 so a cold visit never
+         hangs on Preparing forever when there is no signed-in result. */
+      if(q.get('preview') !== '1' && q.get('sample') !== '1') return null;
       var slug = q.get('assessment');
       var A = (slug && window.FCReg && FCReg.bySlug) ? FCReg.bySlug(slug) : null;
       var K = A && FCReg.data ? FCReg.data(A) : null;
@@ -346,7 +348,7 @@
       pracA:'The most trainable part of your fathering. Pick one practice below, do it every day this week, and the dimension it feeds gets stronger. This is the fastest place to win.',
       pracDo:'Choose one practice and repeat it daily. Repetition is the whole method.'},
     satisfaction:{cls:'rp-sec-satisfaction', theme:'Satisfaction follows action.',
-      pracA:'A readout, not a task. This rises on its own as you do the moves in the first two sections. Come back in ninety days and watch it climb.',
+      pracA:'A readout, not a task. This rises on its own as you do the moves in the first two sections. Come back in twelve weeks and watch it climb.',
       pracDo:'Do the moves above. Let this number take care of itself.'}
   };
   var BAND_TIER = {'Strong':4,'Solid':3,'Developing':2,'Building':1,'A starting point':0};
@@ -515,7 +517,7 @@
 
   /* ---------- ONE source of truth for what to do ----------
 
-     The report and the ninety-day plan both told a man what to do this week, out
+     The report and the twelve-week plan both told a man what to do this week, out
      of two separate content libraries. Across all 26 scales they never once
      matched: his report said one thing, his plan said another, and he had no way
      to know which was the instruction. That is the confusion.
@@ -577,16 +579,17 @@
       /* Where this document sits in the participant's path. Rendered above the
          table of contents so the order reads: where you are in the system, then
          what is inside this document. */
-      var journey = (typeof FCJourney !== 'undefined')
+      /* Page chrome may already render the journey rail via data-journey.
+         Injecting a second copy stacked two steppers on report.html. */
+      var journey = (typeof FCJourney !== 'undefined' && !document.querySelector('[data-journey]'))
         ? FCJourney.html({ current:'report', slug:(A&&A.slug)||null,
                            done:(state==='sample'?[]:['profile']) })
         : '';
 
       var contents = '<nav class="rp-contents rp-noprint" aria-label="What is inside">'+
         '<span class="rp-contents-h">What&rsquo;s inside</span>'+
-        '<a href="#rp-glance">At a glance</a><a href="#rp-sec-dimensions">Dimensions</a>'+
-        '<a href="#rp-sec-practices">Practices</a><a href="#rp-sec-satisfaction">Satisfaction</a>'+
-        '<a href="#rp-next90">Your next 90 days</a></nav>';
+        '<a href="#rp-glance">At a glance</a><a href="#rp-next90">This week</a>'+
+        '<a href="#rp-deep">Deep dive</a></nav>';
 
       var stateLine='';
       /* A man who has completed more than one profile gets a switcher, because
@@ -617,7 +620,7 @@
       /* One obvious next step. The plan is the stage after the report, so it
          carries the only primary weight here. Three equal ghost buttons told a
          man nothing about what to do next. */
-      if(state!=='sample') actions+='<a class="rp-btn rp-btn-yellow" href="plan.html'+q+'">Open my ninety-day plan</a>';
+      if(state!=='sample') actions+='<a class="rp-btn rp-btn-yellow" href="plan.html'+q+'">Open my plan</a>';
       actions+='<button class="rp-btn rp-btn-ghost" id="rpPrint">Download as PDF</button>';
       if(state!=='sample') actions+='<a class="rp-btn rp-btn-ghost" href="dashboard.html'+q+'">Home</a>';
       if(state==='pending') actions+='<span class="rp-mailrow" style="flex-wrap:wrap">'+
@@ -655,7 +658,7 @@
       var stats='<section class="rp-stats">'+
         firstStat+
         '<div class="rp-stat"><div class="rp-stat-n">'+keys.length+'</div><div class="rp-stat-l">parts of '+esc(subjN)+', measured</div></div>'+
-        '<div class="rp-stat"><div class="rp-stat-n">90</div><div class="rp-stat-l">days to your next move</div></div></section>';
+        '<div class="rp-stat"><div class="rp-stat-n">12</div><div class="rp-stat-l">weeks in your plan</div></div></section>';
 
       var shape='<section class="rp-shape"><div class="rp-eyebrow">Your shape</div>'+
         '<p class="rp-shape-lead">Each mark is one part of '+esc(subjN)+', placed against '+(normed?'where the typical '+esc(groupN.replace(/s$/,''))+' stands':'the middle of the scale')+'. A mirror, not a ranking. The strongest ground is lit; the next move is ringed.</p>'+
@@ -667,7 +670,7 @@
 
       var chapters = ACTIVE.sections.map(function(sec,idx){
         var html = chapterHtml(sec,idx,result,brand);
-        if(!html || !COLLAPSE) return html;
+        if(!html) return '';
         var n = sec.scales.filter(function(x){ return (result.scale_scores||{})[x.key]; }).length;
         return '<details class="rp-fold" id="rp-fold-'+esc(sec.key)+'">'+
           '<summary class="rp-fold-sum">'+
@@ -679,7 +682,7 @@
       }).join('');
 
       var next90='<section id="rp-next90" class="rp-next90">'+
-        '<div class="rp-n90-eyebrow">The next ninety days</div>'+
+        '<div class="rp-n90-eyebrow">This week</div>'+
         '<h2 class="rp-n90-title">'+esc(gap?gap.label:'Your plan')+', one move at a time.</h2>'+
         '<p class="rp-n90-line">Your plan concentrates here. Not because you are failing, but because growth here changes the most.</p>'+
         '<div class="rp-moves rp-n90-moves">'+(((planMoves(result)||{}).actions || gapCopy.m || []).map(function(m,i){return '<div class="rp-move"><span class="rp-move-n">'+(i+1)+'</span>'+esc(m)+'</div>';}).join(''))+'</div>'+
@@ -689,8 +692,8 @@
            and his other profile undiscoverable from here. */
         '<p class="rp-noprint" style="margin:24px 0 0">'+
           (state==='sample'
-            ? '<a class="rp-btn rp-btn-yellow" href="profile.html">Start your ninety-day plan</a>'
-            : '<a class="rp-btn rp-btn-yellow" href="plan.html'+((A&&A.slug)?'?assessment='+encodeURIComponent(A.slug):'')+'">Open my ninety-day plan</a>'+
+            ? '<a class="rp-btn rp-btn-yellow" href="profile.html">Start your plan</a>'
+            : '<a class="rp-btn rp-btn-yellow" href="plan.html'+((A&&A.slug)?'?assessment='+encodeURIComponent(A.slug):'')+'">Open my plan</a>'+
               '<a class="rp-btn rp-btn-ghost" style="margin-left:10px" href="dashboard.html'+((A&&A.slug)?'?assessment='+encodeURIComponent(A.slug):'')+'">Everything else is on your Home</a>')+
         '</p>'+
         '<p class="rp-printonly rp-plan-url">Your live plan: fathers-com-platform.vercel.app/plan.html</p></section>';
@@ -722,7 +725,7 @@
              week's move comes straight after the three cards instead. */
           '<div class="rp-inner">'+stateLine+glance+'</div>'+
           '<details class="rp-fold rp-fold-plan" open><summary class="rp-fold-sum">'+
-            '<span class="rp-fold-n">&#9679;</span><span class="rp-fold-t">Your next ninety days</span>'+
+            '<span class="rp-fold-n">&#9679;</span><span class="rp-fold-t">Your twelve weeks</span>'+
             '<span class="rp-fold-c">this week</span><span class="rp-fold-x" aria-hidden="true"></span>'+
           '</summary>'+next90+'</details>'+
           chapters+
@@ -740,6 +743,14 @@
         return;
       }
 
+      var deepDive = '<div id="rp-deep" class="rp-inner rp-noprint" style="display:flex;justify-content:flex-end;margin:8px 0 4px">'+
+        '<button type="button" class="rp-fold-all" id="rpFoldAll" aria-expanded="false">Expand all</button></div>'+
+        '<details class="rp-fold" id="rp-fold-shape"><summary class="rp-fold-sum">'+
+          '<span class="rp-fold-n">&#9679;</span><span class="rp-fold-t">Your shape</span>'+
+          '<span class="rp-fold-c">how to read it</span><span class="rp-fold-x" aria-hidden="true"></span>'+
+        '</summary><div class="rp-inner">'+stats+shape+howto+'</div></details>'+
+        chapters;
+
       rootEl.innerHTML = '<div class="rp-doc">'+
         '<header class="rp-cover"'+bgPhoto(brand.photo_cover, 'cover')+'>'+cobrand+
           '<div class="rp-cover-main"><div>'+
@@ -753,11 +764,21 @@
           '</div></div></header>'+
         '<div class="rp-inner">'+journey+'</div>'+
         contents+
-        '<div class="rp-inner">'+stateLine+actions+glance+stats+shape+howto+'</div>'+
-        chapters+next90+closing+
+        '<div class="rp-inner">'+stateLine+actions+glance+'</div>'+
+        next90+
+        deepDive+
+        closing+
       '</div>';
 
       fitCaptions(rootEl); bindFitHooks();
+      var faFull = rootEl.querySelector('#rpFoldAll');
+      if(faFull) faFull.addEventListener('click', function(){
+        var folds = rootEl.querySelectorAll('details.rp-fold');
+        var opening = faFull.getAttribute('aria-expanded') !== 'true';
+        folds.forEach(function(d){ d.open = opening; });
+        faFull.setAttribute('aria-expanded', opening ? 'true' : 'false');
+        faFull.textContent = opening ? 'Collapse all' : 'Expand all';
+      });
 
       var pb=document.getElementById('rpPrint');
       if(pb) pb.addEventListener('click', function(){ window.print(); });
@@ -803,11 +824,20 @@
     if(window.FC && FC.ready && typeof FC.ready.then === 'function'){
       FC.ready.then(run, run);
       setTimeout(run, 2500);
+      /* Never leave PREPARING forever if auth/query stalls. */
+      setTimeout(function(){
+        var root = document.getElementById('rpRoot');
+        if(root && /PREPARING YOUR REPORT/i.test(root.textContent||'')) pendingOrSample();
+      }, 6000);
       return;
     }
     var tries = 0, iv = setInterval(function(){
       if(window.FC && FC.ready && typeof FC.ready.then === 'function'){
         clearInterval(iv); FC.ready.then(run, run); setTimeout(run, 2500);
+        setTimeout(function(){
+          var root = document.getElementById('rpRoot');
+          if(root && /PREPARING YOUR REPORT/i.test(root.textContent||'')) pendingOrSample();
+        }, 6000);
       } else if(++tries >= 40){ clearInterval(iv); run(); }
     }, 50);
   }

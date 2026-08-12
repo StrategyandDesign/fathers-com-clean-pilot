@@ -850,7 +850,7 @@ footer{border-top:1px solid var(--hairline);padding:72px 0 48px;margin-top:32px}
 .mo-badge-icon{font-size:12px}
 .mo-badge.earned .mo-badge-icon{color:var(--pine-hi)}
 
-/* ===== Ninety-day plan =====================================================
+/* ===== Twelve-week plan ====================================================
    The report is read once and remembered. The plan is returned to every week,
    so it borrows the report's typographic confidence (display serif at scale, a
    dark accent band, generous air) without its document weight. Everything below
@@ -968,7 +968,7 @@ section.tight:has(#rpRoot){background:#F5F5F5;padding-bottom:64px}
 .rp-btn.rp-btn-yellow:hover{background:var(--rp-yellow-hi)}
 .rp-btn.rp-btn-ghost{background:transparent;color:var(--rp-ink);border-color:var(--rp-line2)}
 .rp-btn.rp-btn-ghost:hover{border-color:var(--rp-ink)}
-/* On the dark ninety-day band a ghost button must take the band's ink, not the
+/* On the dark twelve-week band a ghost button must take the band's ink, not the
    page's. It was rendering #141310 on #173629 at 1.41:1. */
 .rp-next90 .rp-btn.rp-btn-ghost{color:#FFFFFF;border-color:rgba(255,255,255,.55)}
 .rp-next90 .rp-btn.rp-btn-ghost:hover{border-color:#FFFFFF;background:rgba(255,255,255,.08)}
@@ -1098,7 +1098,7 @@ section.tight:has(#rpRoot){background:#F5F5F5;padding-bottom:64px}
 .rp-reslink::after{content:"\2192";color:var(--rp-acc);font-weight:700;font-family:var(--font-mono)}
 .rp-reslink:hover{border-color:var(--rp-acc);box-shadow:0 8px 20px -14px rgba(20,19,16,.35);transform:translateY(-1px)}
 
-/* next 90 */
+/* next twelve weeks (rp-next90 section) */
 .rp-next90{margin:56px clamp(22px,5.5vw,64px) 0;background:var(--rp-pine-deep);color:#FFFFFF;border-radius:var(--rp-r);padding:clamp(28px,4vw,44px)}
 .rp-n90-eyebrow{font-family:var(--font-mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.82);margin-bottom:12px}
 .rp-n90-title{font-size:clamp(25px,3vw,32px);color:#FFFFFF;font-weight:600;letter-spacing:-.016em}

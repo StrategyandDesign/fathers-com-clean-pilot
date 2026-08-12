@@ -9,6 +9,8 @@
 
   var css = ''
   + '#fc-help-launcher{position:fixed;right:22px;bottom:22px;z-index:9998;width:52px;height:52px;border-radius:50%;border:1px solid rgba(255,255,255,.28);background:#0b0a08;color:#ffffff;font-size:22px;font-family:inherit;cursor:pointer;box-shadow:0 6px 24px rgba(0,0,0,.45)}'
+  + '@keyframes fc-help-nudge{0%{transform:scale(1)}35%{transform:scale(1.08)}70%{transform:scale(0.97)}100%{transform:scale(1)}}'
+  + '#fc-help-launcher.fc-help-nudge{animation:fc-help-nudge .7s ease-out 1}'
   + '#fc-help-panel{position:fixed;right:22px;bottom:86px;z-index:9999;width:min(400px,calc(100vw - 32px));max-height:min(660px,calc(100vh - 120px));overflow:auto;background:#ffffff;color:#1a1710;border:1px solid #d8d2c4;border-radius:16px;padding:22px;box-shadow:0 14px 44px rgba(0,0,0,.35)}'
   + '#fc-help-panel h3{margin:0 0 4px;font-size:19px;color:#1a1710}'
   + '#fc-help-panel .fh-sub{color:#5f584a;font-size:13px;margin:0 0 14px}'
@@ -29,7 +31,7 @@
   var style = document.createElement('style'); style.textContent = css; document.head.appendChild(style);
 
   // ---- The path to the certificate: eight steps, current one inferred. ----
-  var PATH = ['Arrive','Start free','Your baseline','Your ninety-day plan','Your course','Checkpoints and the final','Submit the work','Your certificate'];
+  var PATH = ['Arrive','Start free','Your baseline','Your plan','Your course','Checkpoints and the final','Submit the work','Your certificate'];
   // The page itself is the only honest evidence of position. Anywhere
   // else, the path renders as a map with no claimed location.
   function pathStep(){
@@ -43,10 +45,10 @@
 
   // ---- Topics. One audience: the father. ----
   var T = {
-    start: { t: 'Start here: what this is', b: '<p>This platform trains four things a father can actually practice: involvement, consistency, awareness, and nurturance. You measure where you stand, get a ninety-day plan, take a self-paced film course with a Certified Facilitator available for questions, and finish with a Certificate of Completion that anyone can check online.</p><p>Everything a man needs here is free: the Profile, the plan, the courses, and the certificate when you earn it. That is not a trial. It is the model.</p>' },
+    start: { t: 'Start here: what this is', b: '<p>This platform trains four things a father can actually practice: involvement, consistency, awareness, and nurturance. You measure where you stand, get a plan for this season, take a self-paced film course with a Certified Facilitator available for questions, and finish with a Certificate of Completion that anyone can check online.</p><p>Everything a man needs here is free: the Profile, the plan, the courses, and the certificate when you earn it. That is not a trial. It is the model.</p>' },
     account: { t: 'Create your free account', b: '<p>Tap Start your Profile anywhere on the site. Enter your email and we send you a sign-in link; tap it and you are in. No password to remember, no card, no cost.</p><p>If you are in a program, your facilitator may set you up in the room instead. Either way it costs you nothing.</p>' },
     free: { t: 'Is this really free?', b: '<p>Yes. Every course and the Certificate of Completion are free to the man who takes them, always. Sponsors fund organization certification and facilitator credentialing; the courses stay free to you.</p>' },
-    profile: { t: 'Take your Profile, get your plan', b: '<p>The Keystone Profile is a set of honest questions about your fathering, taken in one sitting. Answer straight; nobody is grading you. You get four scores and an overall baseline, and your numbers compare you to yourself over time, never to other men.</p><p>From your answers we build a ninety-day plan: one clear thing to work on first.</p>' },
+    profile: { t: 'Take your Profile, get your plan', b: '<p>The Keystone Profile is a set of honest questions about your fathering, taken in one sitting. Answer straight; nobody is grading you. You get four scores and an overall baseline, and your numbers compare you to yourself over time, never to other men.</p><p>From your answers we build a twelve-week plan: one clear thing to work on first.</p>' },
     course: { t: 'Pick your course', b: '<p>Fathering Fundamentals is the flagship and serves every man. Coming Home Present is built for a father returning to his children after time away. Steady Under Pressure trains the pause, the repair, and the habits underneath them. Same Team is for fathers raising children across two homes.</p><p>Every written session is published on each course page, free to read right now.</p>' },
     session: { t: 'How a session works', b: '<p>Most film courses use short sessions of about twelve minutes: one scene, one skill, one practice, then a short checkpoint. Fathering Fundamentals keeps its longer flagship sessions. Time on task is measured while you watch; when the film ends you take a short checkpoint, and passing it unlocks the next session. One clear next step, every time.</p>' },
     checkpoint: { t: 'The checkpoint rule', b: '<p>Checkpoints pass at eighty percent. You get three tries an hour; if you miss three, take a break, reread the session, and come back after the window, or ask your Certified Facilitator. That is what support is for.</p>' },
@@ -124,16 +126,20 @@
   function toggle(){ open = !open; if (open) render(null); else if (panel) { panel.remove(); panel = null; } }
   window.FCHelp = { show: function(){ if (!open) toggle(); } };
 
-  launcher();
+  var btn = launcher();
   document.addEventListener('keydown', function(e){
     if (e.key === '?' && !/input|textarea|select/i.test((e.target && e.target.tagName) || '')) { window.FCHelp.show(); }
     if (e.key === 'Escape' && open) toggle();
   });
-  // First arrival: open the guide once, on the front page only.
+  // First arrival: keep the panel closed. Nudge the ? once, then stop.
   try {
     if (page === 'index.html' && !localStorage.getItem('fc_help_seen')) {
       localStorage.setItem('fc_help_seen', '1');
-      setTimeout(function(){ if (!open) toggle(); }, 1200);
+      setTimeout(function(){
+        if (open || !btn) return;
+        btn.classList.add('fc-help-nudge');
+        setTimeout(function(){ btn.classList.remove('fc-help-nudge'); }, 800);
+      }, 900);
     }
   } catch(e){}
 })();

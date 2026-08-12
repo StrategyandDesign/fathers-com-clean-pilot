@@ -32,8 +32,8 @@ Doctrine in force: facilitator-supported self-paced film; claim for Q&A/accounta
 
 ### 2. Report (`report.html` + `keystone-report.js`)
 - **Nav chrome:** **Public** mode (Profile / Courses / For organizations / Log in + Start Profile). A finished father still sees marketing nav, not Dashboard / My Plan.
-- **Sees:** Full written report (glance, dimensions, practices, satisfaction, next 90 days). Journey rail injected by JS: Profile ✓ → **Report** (here) → Plan → Courses.
-- **Primary CTA:** **Open my ninety-day plan** → `plan.html?assessment=…`
+- **Sees:** Full written report (glance, dimensions, practices, satisfaction, twelve weeks). Journey rail injected by JS: Profile ✓ → **Report** (here) → Plan → Courses.
+- **Primary CTA:** **Open my plan** → `plan.html?assessment=…`
 - **Secondary:** Home → `dashboard.html`; print/email; per-chapter "Train this section →" → **`class.html`** (Fundamentals only); "All classes" → `classes.html` (instant redirect to certificates).
 - **Empty / sample:** Push to Profile.
 
@@ -43,7 +43,7 @@ Doctrine in force: facilitator-supported self-paced film; claim for Q&A/accounta
 - **Sees when result exists:**
   1. Hero: Week N, baseline band, "Your focus is **{scale}**"
   2. **DO THIS WEEK** card: focus label, 2 checkbox actions, "Set when and where" cues, cheer on complete
-  3. **YOUR NINETY DAYS** arc (Establish / Deepen / Sustain) + actions done / weeks showed up / cues set
+  3. **YOUR TWELVE WEEKS** arc (Establish / Deepen / Sustain) + actions done / weeks showed up / cues set
   4. Lead from strength + Also worth tending
   5. **WHEN YOU FINISH** certificate card → generic `certificates.html`
   6. Foot: Home | full report | **"Classes for this focus"** → `classes.html` (redirect, **no focus param**) | Retake
@@ -157,7 +157,7 @@ Audience: skeptical busy fathers, often program-referred; want competence + proo
 - **Copy:** Keep "Know where you stand. Train what matters." Add under CTA: "You will leave with a score and one next move."
 - **Primary CTA:** Begin the Profile
 - **Flow trim:** If arriving from homepage Father CTA (or default), skip gate; default **all at once**; "Prefer shorter sittings?" as fine link into `by_section`.
-- **Finish:** Celebration stays. Primary always **Start my ninety-day plan** → **`plan.html`**. Report = fine text only. Fix signup dest to match CTA.
+- **Finish:** Celebration stays. Primary always **Start my plan** → **`plan.html`**. Report = fine text only. Fix signup dest to match CTA.
 
 ### 2. Report (demote in default path)
 - **Role:** Deep reference + print/PDF for facilitator or court packet. Not the default next click after Profile.
