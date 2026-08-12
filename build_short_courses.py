@@ -89,14 +89,14 @@ def session_article(course: dict, sess: dict) -> str:
     mp4 = VIDEO_FOR_SESSION.get((slug, int(ord_)))
     if mp4:
         media = (
-            '    <div class="vs-media">\n'
+            '    <div class="vs-media" data-motion="media-fade">\n'
             f'      <video controls playsinline preload="metadata" poster="{_e(still_src)}"'
             f' src="{_e(mp4)}"></video>\n'
             '    </div>\n'
         )
     else:
         media = (
-            '    <div class="vs-media">\n'
+            '    <div class="vs-media" data-motion="media-fade">\n'
             f'      <img src="{_e(still_src)}" alt="Shape preview for {_e(sess["title"])}">\n'
             '    </div>\n'
         )
@@ -165,7 +165,7 @@ def billboard_html(course: dict) -> str:
   <div class="eyebrow brass" style="margin-bottom:14px">FILM COURSE &middot; {n} SESSIONS &middot; {minutes}</div>
   <h1 class="d-36" style="margin-bottom:14px">{_e(course["title"])}</h1>
   <p class="fine mono" style="letter-spacing:.08em;margin-bottom:10px;color:var(--ash)">{_e(course["eyebrow_track"])}</p>
-  <p class="lead" style="max-width:62ch;margin-bottom:10px">{_e(course["lead"])}</p>
+  <p class="lead" style="max-width:62ch;margin-bottom:10px" data-motion="fade-up">{_e(course["lead"])}</p>
   <p class="fine" style="color:var(--ash);max-width:62ch;margin-bottom:6px">{_e(course["fine1"])}</p>
   <p class="fine" style="color:var(--ash);max-width:62ch;margin-bottom:14px">{_e(course["fine2"])}</p>
 {disc}  <div class="row wrap" style="gap:10px;margin-bottom:8px"><a class="btn btn-yellow" href="profile.html">Start with free Profile</a><a class="btn btn-secondary" href="course.html?preview=1&amp;cert={_e(course["slug"])}">Watch the preview player</a><a class="btn btn-secondary" href="certificates.html#catalog">Browse courses</a></div>
@@ -259,7 +259,7 @@ def cert_card_html(course: dict) -> str:
 
     peek = sess_peek_ol(course)
     visible = sess_visible_ol(course)
-    return f'''    <div class="cert-card" style="cursor:default" data-cert="{slug}" data-title="{_e(title)}" data-hours="{hours}" data-desc="{_e(data_desc)}">
+    return f'''    <div class="cert-card" style="cursor:default" data-motion="fade-up" data-cert="{slug}" data-title="{_e(title)}" data-hours="{hours}" data-desc="{_e(data_desc)}">
       <div class="course-card-media">
         <img src="{_e(photo)}" alt="">
         <div class="ccm-overlay"></div>
@@ -488,6 +488,8 @@ def _ensure_checkpoint_scripts(html: str) -> str:
     tags = [
         '<script src="assets/js/session-checkpoints-data.js"></script>',
         '<script src="assets/js/session-checkpoint.js"></script>',
+        '<script src="assets/js/vendor/anime.min.js"></script>',
+        '<script src="assets/js/motion.js"></script>',
     ]
     for tag in tags:
         if tag not in html:
