@@ -560,9 +560,9 @@ PAGES['index.html'] = dict(title='Become the father they can count on', desc='Kn
     <a class="card" href="course-fathering-fundamentals.html" style="padding:0;overflow:hidden;text-decoration:none">
       <div class="slot r-2x3 filled" data-slot="IMG-P1-CAT-1" style="max-height:280px"><img src="assets/img/photos/action-01.jpg" alt="Fathering Fundamentals"></div>
       <div style="padding:20px 22px">
-        <div class="row between" style="margin-bottom:8px"><span class="pill">FREE COURSE</span><span class="fine mono">8 sessions</span></div>
+        <div class="row between" style="margin-bottom:8px"><span class="pill">OPEN · FREE</span><span class="fine mono">8 sessions</span></div>
         <h3 style="margin-bottom:6px">Fathering Fundamentals</h3>
-        <p class="fine" style="color:var(--ash)">Dr. Ken Canfield&rsquo;s Seven Secrets. Intro + seven secrets. Free to train.</p>
+        <p class="fine" style="color:var(--ash)">Dr. Ken Canfield&rsquo;s Seven Secrets. Intro + seven secrets. Free to train. Open now, no seat claim required.</p>
         <span class="card-cta">Start Fundamentals &rarr;</span>
       </div>
     </a>
@@ -844,7 +844,7 @@ PAGES['class.html'] = dict(title='The Fundamentals of Fathering', desc='The flag
 <div class="billboard">
   <div class="slot r-21x9 flush filled" data-slot="IMG-P4-DET-01" style="max-height:64vh"><img src="assets/img/photos/community-02.jpg" alt="Fathers who took the course"></div>
   <div class="overlay container" style="left:50%;transform:translateX(-50%);max-width:var(--max)">
-    <div class="eyebrow" style="margin-bottom:10px">THE FREE COURSE &middot; THE 7 SECRETS OF EFFECTIVE FATHERS</div>
+    <div class="eyebrow" style="margin-bottom:10px">THE OPEN · FREE &middot; THE 7 SECRETS OF EFFECTIVE FATHERS</div>
     <h1 class="d-48">The Fundamentals of Fathering</h1>
 <p class="fine mono" style="letter-spacing:.08em;margin:10px 0 0;color:var(--ash)">FOR EVERY MAN, ON EITHER TRACK</p>
     <p class="small" style="margin-top:10px">Dr. Ken Canfield. Founder, National Center for Fathering, since 1990. One standard.</p>
