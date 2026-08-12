@@ -2,46 +2,439 @@
   "slug": "anger",
   "title": "Steady Under Pressure",
   "videos": [
-    { "ord": 1, "title": "The Alarm System", "vimeo": "pending", "duration_seconds": 0,
+    {
+      "ord": 1,
+      "title": "The Surge Is a Signal",
+      "vimeo": "pending",
+      "duration_seconds": 720,
       "checkpoint": [
-        { "prompt": "What does this session call the surge you feel when anger hits?", "choices": ["A signal, not an order", "A weakness to eliminate", "An order your body must obey"], "correct_index": 0 },
-        { "prompt": "Why does the surge arrive faster than your thinking?", "choices": ["Because you have not trained enough yet", "Because the alarm system is built to fire before deliberation; the skill is what happens next", "Because the situation is truly dangerous"], "correct_index": 1 },
-        { "prompt": "What is the first skill this course builds on top of the alarm?", "choices": ["Avoiding every trigger", "Noticing the surge early enough to choose", "Explaining your anger to others"], "correct_index": 1 }
-      ] },
-    { "ord": 2, "title": "The Pause and the Exhale", "vimeo": "pending", "duration_seconds": 0,
+        {
+          "prompt": "What does this session call the surge you feel when anger hits?",
+          "choices": [
+            "A signal, not an order",
+            "A weakness to eliminate",
+            "An order your body must obey"
+          ],
+          "correct_index": 0
+        },
+        {
+          "prompt": "Why does the surge arrive faster than your thinking?",
+          "choices": [
+            "Because you have not trained enough yet",
+            "Because the alarm system fires before deliberation; the skill is what happens next",
+            "Because the situation is always truly dangerous"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "What is the first skill this course builds on top of the alarm?",
+          "choices": [
+            "Avoiding every trigger",
+            "Noticing the surge early enough to choose",
+            "Explaining your anger to others"
+          ],
+          "correct_index": 1
+        }
+      ]
+    },
+    {
+      "ord": 2,
+      "title": "Know Your Early Cues",
+      "vimeo": "pending",
+      "duration_seconds": 720,
       "checkpoint": [
-        { "prompt": "What do six seconds and a long exhale buy you, per this session?", "choices": ["Your judgment back", "The other person's apology", "The end of the feeling"], "correct_index": 0 },
-        { "prompt": "Why the exhale specifically?", "choices": ["It looks calm to others", "A long slow exhale signals the body to stand down faster than willpower does", "It gives you something to count"], "correct_index": 1 },
-        { "prompt": "When is the pause practiced so it works under load?", "choices": ["Only in the heat of real conflict", "In the boring hours, daily, so it is there when the surge comes", "Once, at the start of the course"], "correct_index": 1 }
-      ] },
-    { "ord": 3, "title": "The Step Away", "vimeo": "pending", "duration_seconds": 0,
+        {
+          "prompt": "Where does this session tell you to catch the surge?",
+          "choices": [
+            "In the shout",
+            "In the jaw, or your earliest body cue",
+            "After the argument ends"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "Why name your early cues in writing?",
+          "choices": [
+            "So you can prove them to someone else",
+            "So you recognize them under load before the peak",
+            "So you can skip the pause later"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "Which is an early cue, as this session means it?",
+          "choices": [
+            "A long rant",
+            "Jaw set, heat in the face, or a clenched fist before words rise",
+            "Leaving the house for the night"
+          ],
+          "correct_index": 1
+        }
+      ]
+    },
+    {
+      "ord": 3,
+      "title": "Six Seconds",
+      "vimeo": "pending",
+      "duration_seconds": 720,
       "checkpoint": [
-        { "prompt": "What is the purpose of stepping away in this session?", "choices": ["To win the argument by leaving", "To come back; the step away serves the return", "To show how upset you are"], "correct_index": 1 },
-        { "prompt": "What makes a step away different from storming out?", "choices": ["Volume", "Saying where you are going and when you are coming back", "Nothing; they are the same"], "correct_index": 1 },
-        { "prompt": "You feel yourself flooding mid-conversation with your child. Which is the session's move?", "choices": ["Push through so they know you care", "Name it, step out briefly, return when you said", "End the conversation for the night"], "correct_index": 1 }
-      ] },
-    { "ord": 4, "title": "Naming It", "vimeo": "pending", "duration_seconds": 0,
+        {
+          "prompt": "What do six seconds buy you, per this session?",
+          "choices": [
+            "Your judgment back",
+            "The other person's apology",
+            "The end of the feeling"
+          ],
+          "correct_index": 0
+        },
+        {
+          "prompt": "When is the six-second pause practiced so it works under load?",
+          "choices": [
+            "Only in real conflict",
+            "In the boring hours, daily, so it is there when the surge comes",
+            "Once at the start of the course"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "You feel the surge mid-conversation. Which is the session's move?",
+          "choices": [
+            "Push through so they know you care",
+            "Take six silent seconds before you speak",
+            "End the conversation for the night"
+          ],
+          "correct_index": 1
+        }
+      ]
+    },
+    {
+      "ord": 4,
+      "title": "The Long Exhale",
+      "vimeo": "pending",
+      "duration_seconds": 720,
       "checkpoint": [
-        { "prompt": "Why does saying the feeling out loud matter, per this session?", "choices": ["So you do not have to show it instead", "So others feel responsible for it", "It does not; feelings should stay private"], "correct_index": 0 },
-        { "prompt": "Which sentence is naming it, as this session teaches?", "choices": ["You are making me angry.", "I am angry right now, and I need a minute before we keep going.", "Everyone needs to calm down."], "correct_index": 1 },
-        { "prompt": "What does a child learn from a father who names his anger plainly?", "choices": ["That anger is shameful", "That big feelings can be handled with words, which becomes their skill too", "That the father is weak"], "correct_index": 1 }
-      ] },
-    { "ord": 5, "title": "The Repair", "vimeo": "pending", "duration_seconds": 0,
+        {
+          "prompt": "Why the long exhale specifically?",
+          "choices": [
+            "It looks calm to others",
+            "A long slow exhale stands the body down faster than willpower does",
+            "It gives you something to count"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "What is the drill this session asks you to own?",
+          "choices": [
+            "Hold your breath until the feeling passes",
+            "A daily long-exhale practice you can run anywhere",
+            "A loud sigh in front of the other person"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "The surge hits and you already took six seconds. What next?",
+          "choices": [
+            "Argue harder with a clear head",
+            "Run one long slow exhale to stand the body down",
+            "Skip the exhale if you already paused"
+          ],
+          "correct_index": 1
+        }
+      ]
+    },
+    {
+      "ord": 5,
+      "title": "Step Away to Come Back",
+      "vimeo": "pending",
+      "duration_seconds": 720,
       "checkpoint": [
-        { "prompt": "What is the standard for owning it, per this session?", "choices": ["Out loud, specific, without excuses", "A general apology when things are calm", "Letting actions speak over time"], "correct_index": 0 },
-        { "prompt": "Which of these is a repair and not an excuse?", "choices": ["I was tired; you know how my week was.", "I raised my voice at you. That was wrong, and it is mine to fix.", "I am sorry you got upset."], "correct_index": 1 },
-        { "prompt": "Why repair fast instead of letting it fade?", "choices": ["Fast repair keeps the rupture from hardening into the relationship's normal", "Children have short memories", "It gets the discomfort over with"], "correct_index": 0 }
-      ] },
-    { "ord": 6, "title": "Steady Habits, Steady Mood", "vimeo": "pending", "duration_seconds": 0,
+        {
+          "prompt": "What is the purpose of stepping away in this session?",
+          "choices": [
+            "To win the argument by leaving",
+            "To come back; the step away serves the return",
+            "To show how upset you are"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "What makes a step away different from storming out?",
+          "choices": [
+            "Volume",
+            "Saying where you are going and when you are coming back",
+            "Nothing; they are the same"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "You feel yourself flooding mid-conversation with your child. Which is the session's move?",
+          "choices": [
+            "Push through so they know you care",
+            "Name it, step out briefly, return when you said",
+            "End the conversation for the night"
+          ],
+          "correct_index": 1
+        }
+      ]
+    },
+    {
+      "ord": 6,
+      "title": "The Line You Leave On",
+      "vimeo": "pending",
+      "duration_seconds": 720,
       "checkpoint": [
-        { "prompt": "Where does this session say steadiness is actually built?", "choices": ["In dramatic moments of self-control", "In the boring hours: sleep, movement, routine", "In willpower alone"], "correct_index": 1 },
-        { "prompt": "Why do sleep and routine belong in an anger course?", "choices": ["They are filler", "A depleted body fires the alarm sooner and louder; the habits raise your threshold", "They replace the need for the pause"], "correct_index": 1 },
-        { "prompt": "What does this course ask you to leave with?", "choices": ["A promise to never feel the surge again", "A trained pause, a named feeling, a fast repair, and daily habits that hold them up", "A list of people who provoke you"], "correct_index": 1 }
-      ] }
+        {
+          "prompt": "What belongs in the line you leave on?",
+          "choices": [
+            "A long explanation of why you are right",
+            "A short line that names the break and when you return",
+            "Silence, then disappear"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "Why say the line before you leave the room?",
+          "choices": [
+            "So the other person feels guilty",
+            "So the break is a reset, not abandonment",
+            "So you win the argument"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "Which line fits this session?",
+          "choices": [
+            "I need ten minutes. I am coming back.",
+            "Forget it. I am done talking.",
+            "You always do this."
+          ],
+          "correct_index": 0
+        }
+      ]
+    },
+    {
+      "ord": 7,
+      "title": "Name the Feeling",
+      "vimeo": "pending",
+      "duration_seconds": 720,
+      "checkpoint": [
+        {
+          "prompt": "Why does saying the feeling out loud matter, per this session?",
+          "choices": [
+            "So you do not have to show it instead",
+            "So others feel responsible for it",
+            "It does not; feelings should stay private"
+          ],
+          "correct_index": 0
+        },
+        {
+          "prompt": "Which sentence is naming it, as this session teaches?",
+          "choices": [
+            "You are making me angry.",
+            "I am angry right now, and I need a minute before we keep going.",
+            "Everyone needs to calm down."
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "What does a child learn from a father who names his anger plainly?",
+          "choices": [
+            "That anger is shameful",
+            "That big feelings can be handled with words",
+            "That the father is weak"
+          ],
+          "correct_index": 1
+        }
+      ]
+    },
+    {
+      "ord": 8,
+      "title": "Feelings Without Weapons",
+      "vimeo": "pending",
+      "duration_seconds": 720,
+      "checkpoint": [
+        {
+          "prompt": "What does 'without loading it' mean here?",
+          "choices": [
+            "Never feel anger",
+            "Name the feeling without blame, insults, or history dumps",
+            "Only write feelings, never say them"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "Which line names the feeling without a weapon?",
+          "choices": [
+            "I am frustrated, and I want to finish this calmly.",
+            "You always ruin everything when I am tired.",
+            "Fine. Whatever."
+          ],
+          "correct_index": 0
+        },
+        {
+          "prompt": "Why strip the weapon from the sentence?",
+          "choices": [
+            "Because feelings are wrong",
+            "Because blame reloads the fight; clean naming lowers heat",
+            "Because the other person should guess"
+          ],
+          "correct_index": 1
+        }
+      ]
+    },
+    {
+      "ord": 9,
+      "title": "Own It Same Day",
+      "vimeo": "pending",
+      "duration_seconds": 720,
+      "checkpoint": [
+        {
+          "prompt": "What is the standard for owning it, per this session?",
+          "choices": [
+            "Out loud, same day, without excuses",
+            "A general apology when things are calm next week",
+            "Letting actions speak over time"
+          ],
+          "correct_index": 0
+        },
+        {
+          "prompt": "Why same day instead of waiting?",
+          "choices": [
+            "Children have short memories",
+            "Fast ownership keeps the rupture from hardening into the relationship's normal",
+            "It gets the discomfort over with"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "You barked last night and morning is here. The move is?",
+          "choices": [
+            "Wait until they bring it up",
+            "Own it out loud today, specific and without defense",
+            "Do something fun and move on"
+          ],
+          "correct_index": 1
+        }
+      ]
+    },
+    {
+      "ord": 10,
+      "title": "The Short Apology",
+      "vimeo": "pending",
+      "duration_seconds": 720,
+      "checkpoint": [
+        {
+          "prompt": "Which of these is a repair and not an excuse?",
+          "choices": [
+            "I was tired; you know how my week was.",
+            "I raised my voice at you. That was wrong, and it is mine to fix.",
+            "I am sorry you got upset."
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "What stays out of the short apology?",
+          "choices": [
+            "The specific thing you did",
+            "Defense, blame, and a long story",
+            "A plan for next time"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "Why keep the apology short?",
+          "choices": [
+            "So you can leave faster",
+            "Short and specific lands; defense undoes it",
+            "Children prefer vague words"
+          ],
+          "correct_index": 1
+        }
+      ]
+    },
+    {
+      "ord": 11,
+      "title": "Sleep, Food, Movement",
+      "vimeo": "pending",
+      "duration_seconds": 720,
+      "checkpoint": [
+        {
+          "prompt": "Where does this session say steadiness is actually built?",
+          "choices": [
+            "In dramatic moments of self-control",
+            "In the boring hours: sleep, food, movement",
+            "In willpower alone"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "Why do sleep and routine belong in this course?",
+          "choices": [
+            "They are filler",
+            "A depleted body fires the alarm sooner and louder; the habits raise your threshold",
+            "They replace the need for the pause"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "Which weekly marker fits this session?",
+          "choices": [
+            "Never feel the surge again",
+            "Lights out by a set hour five nights, plus one movement block most days",
+            "A promise to avoid hard conversations"
+          ],
+          "correct_index": 1
+        }
+      ]
+    },
+    {
+      "ord": 12,
+      "title": "Your Steady Week",
+      "vimeo": "pending",
+      "duration_seconds": 720,
+      "checkpoint": [
+        {
+          "prompt": "What does this course ask you to leave with?",
+          "choices": [
+            "A promise to never feel the surge again",
+            "A trained pause, a named feeling, a fast repair, and daily habits that hold them up",
+            "A list of people who provoke you"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "How do you stack a steady week?",
+          "choices": [
+            "One big heroic day",
+            "Small anchors repeated until they hold",
+            "Waiting until life is less busy"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "The line of this session is?",
+          "choices": [
+            "Stack the small things until they hold.",
+            "White-knuckle every moment.",
+            "Skip the boring hours."
+          ],
+          "correct_index": 0
+        }
+      ]
+    }
   ],
   "final_qa": [
-    { "prompt": "Describe one real surge since you started this course: the trigger, where you caught it, what the pause and exhale did, and how the moment ended." },
-    { "prompt": "Write the repair you made or owe from a moment your anger got ahead of you: the exact words, said or planned, without excuses." },
-    { "prompt": "Name the two daily habits you are running to raise your threshold, and your honest record of them across the last two weeks." }
+    {
+      "prompt": "Describe one real surge since you started this course: the trigger, where you caught it in your body, what the six seconds and exhale did, and how the moment ended."
+    },
+    {
+      "prompt": "Write the short apology you made or owe from a moment your anger got ahead of you: the exact words, said or planned, without defense."
+    },
+    {
+      "prompt": "Name the two daily habits you are running to raise your threshold, and your honest record of them across the last two weeks."
+    },
+    {
+      "prompt": "Write your steady-week plan in three lines: sleep anchor, movement block, and the line you will use when you need to step away."
+    }
   ]
 }

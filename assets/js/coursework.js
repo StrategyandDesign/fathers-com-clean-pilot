@@ -11,20 +11,44 @@
   function stage(html){ $('cw-stage').innerHTML = html; window.scrollTo({top:0,behavior:'smooth'}); }
   function note(html){ var n=$('cw-note'); if(n) n.innerHTML = html; }
 
-  var demo = !(window.FC && FC.live);
-  var slug = (new URLSearchParams(location.search).get('cert') || 'fundamentals').toLowerCase();
+  var qs = new URLSearchParams(location.search);
+  var demo = qs.get('demo') === '1' || !(window.FC && FC.live);
+  var slug = (qs.get('cert') || 'anger').toLowerCase();
   // Film-first coursework. Session guides remain available as support.
   var SESSIONS_PAGE = {reentry:'course-coming-home-present.html', anger:'course-steady-under-pressure.html', coparenting:'course-same-team.html', manhood:'course-the-man-before-you.html'};
-  var uid=null, course=null, videos=[], progress={}, awardStatus=null;
+  var uid=null, course=null, videos=[], progress={}, awardStatus=null, passes={}, finalQa=[];
 
   // ---------- boot ----------
   function boot(){
-    if (demo) { stage('<div class="notice brass">Course content loads with a signed-in account.</div>'); return; }
+    if (demo) { bootDemo(); return; }
     FC.ready.then(function(){
       uid = FC.uid && FC.uid();
       if (!uid) { location.href = 'login.html?next=' + encodeURIComponent('course.html?cert='+slug); return; }
       load();
     });
+  }
+
+  /* Full offline player for stakeholders and local preview.
+     Same outline, session, checkpoint, and final flow as live. */
+  function bootDemo(){
+    var pack = (window.FC_COURSE_DEMO && FC_COURSE_DEMO[slug]) || null;
+    if(!pack){
+      stage('<div class="notice brass">Demo catalog missing for this course. Try <a class="link" href="course.html?demo=1&amp;cert=anger">Steady Under Pressure</a>.</div>');
+      return;
+    }
+    course = { id: pack.id, slug: pack.slug, title: pack.title, hours: pack.hours, published: true };
+    videos = (pack.videos || []).map(function(v){
+      return {
+        id: v.id, ord: v.ord, title: v.title, vimeo_id: null,
+        duration_seconds: v.duration_seconds || 720,
+        checkpoint_json: v.checkpoint_json || v.checkpoint || []
+      };
+    });
+    finalQa = pack.final_qa || [];
+    progress = {}; passes = {}; awardStatus = null; enrollId = null;
+    if($('cw-title')) $('cw-title').textContent = course.title + ' (demo)';
+    note('<div class="notice brass" style="margin:0 0 14px"><b>Demonstration player.</b> <span class="fine">Full session list, demo film stage, working checkpoints, and final Q&amp;A. Same flow a father sees when films are live. <a class="link" href="dashboard.html?demo=1">Dashboard demo</a> · <a class="link" href="plan.html?demo=1">Plan demo</a></span></div>');
+    renderOutline();
   }
 
   function load(){
@@ -161,7 +185,11 @@
         var sessLink = SESSIONS_PAGE[slug] ? '<a class="btn btn-secondary btn-sm" style="margin-top:12px" href="'+SESSIONS_PAGE[slug]+'" target="_blank" rel="noopener">Open session guide &rarr;</a>' : '';
         player = '<div class="cw-novid"><div class="eyebrow brass" style="margin-bottom:10px">Film loading soon</div><p class="small">This session plays on Vimeo here. No time is credited until the film is live. Use the session guide if you need the outline, then take the checkpoint below.</p>'+sessLink+'</div>';
       } else {
-        player = '<div class="cw-novid"><div class="eyebrow brass" style="margin-bottom:10px">Demo preview</div><p class="small">In live mode this session plays its Vimeo film here. Demo mode can simulate the flow.</p><button class="btn btn-secondary btn-sm" id="cw-sim" style="margin-top:12px">Simulate watching (demo)</button></div>';
+        player = '<div class="cw-novid" style="padding:28px 24px;border:1px solid rgba(127,127,127,.28);border-radius:14px;background:rgba(255,255,255,.03)">'+
+          '<div class="eyebrow brass" style="margin-bottom:10px">DEMO SESSION \u00b7 ~12 MIN</div>'+
+          '<h3 style="margin:0 0 8px;font-family:var(--font-display);font-size:26px">'+esc(v.title)+'</h3>'+
+          '<p class="small ash" style="margin:0 0 16px;max-width:48ch">This is the full player experience. Press play to simulate the film, then take the checkpoint. Same steps when Vimeo is live.</p>'+
+          '<button class="btn btn-yellow" id="cw-sim">Play demo session</button></div>';
       }
     }
 
@@ -214,7 +242,21 @@
       }
     }
     var sim=$('cw-sim');
-    if (sim){ sim.addEventListener('click', function(){ startWatch(); sim.textContent='Watching\u2026'; sim.disabled=true; }); }
+    if (sim){
+      sim.addEventListener('click', function(){
+        sim.disabled=true; sim.textContent='Playing demo\u2026';
+        startWatch();
+        // Stakeholder demo: advance a 12-min session in ~8 seconds
+        var tick = setInterval(function(){
+          watched = Math.min(threshold, watched + Math.max(1, Math.ceil(threshold/8)));
+          updateWatchUI();
+          if(watched >= threshold){
+            clearInterval(tick); stopWatch();
+            sim.textContent='Watched (demo)';
+          }
+        }, 1000);
+      });
+    }
 
     var cont=$('cw-to-debrief');
     var filmless = !vid && !!(window.FC && FC.live);
@@ -280,6 +322,7 @@
     if(!curVideo) return;
     var completed = done || (progress[curVideo.id] && progress[curVideo.id].completed) || false;
     progress[curVideo.id] = { video_id:curVideo.id, watched_seconds:watched, completed:completed };
+    if (demo) return;
     FC.sb.functions.invoke('progress_beat', { body: { video_id: curVideo.id, position_seconds: watched } }).then(function(){}, function(){});
     touchEnrollment();
   }
@@ -287,6 +330,22 @@
   // ---------- debrief ----------
   function openCheckpoint(){
     stage('<p class="ash">Loading the Checkpoint\u2026</p>');
+    if (demo){
+      var raw = curVideo.checkpoint_json || [];
+      var qs = raw.map(function(q, i){
+        return {
+          id: 'demo-q-'+curVideo.id+'-'+i,
+          video_id: curVideo.id,
+          ord: i+1,
+          prompt: q.prompt,
+          choices: q.choices,
+          correct_index: (typeof q.correct_index === 'number' ? q.correct_index : 0)
+        };
+      });
+      if(!qs.length){ markVideoComplete(); note(''); renderOutline(); return; }
+      renderCheckpoint(qs, 0, {});
+      return;
+    }
     FC.sb.from('quiz_questions_public').select('id,video_id,ord,prompt,choices').eq('video_id',curVideo.id).order('ord').then(function(r){
       if(r.error){ stage('<div class="notice brass">'+esc(r.error.message)+'</div>'); return; }
       var qs=r.data||[];
@@ -321,11 +380,23 @@
       // The server grades. The client only records what was chosen.
       answers[q.id] = { question_id:q.id, chosen_index:chosen };
       if(idx < qs.length-1){ renderCheckpoint(qs, idx+1, answers); }
-      else { finishCheckpoint(qs, answers); }
+      else { submitCheckpointAnswers(qs, answers); }
     });
   }
 
-  function finishCheckpoint(qs, answers){
+  function submitCheckpointAnswers(qs, answers){
+    if (demo){
+      var right = 0;
+      qs.forEach(function(q){
+        var a = answers[q.id];
+        var chosen = a && typeof a.chosen_index === 'number' ? a.chosen_index : -1;
+        if (chosen === (typeof q.correct_index === 'number' ? q.correct_index : 0)) right++;
+      });
+      var pass = right >= Math.ceil(qs.length * 0.8);
+      if (pass) passes[curVideo.id] = true;
+      showCheckpointResult(pass, right, qs.length);
+      return;
+    }
     var payload = { video_id: curVideo.id, answers: Object.keys(answers).map(function(k){ return answers[k]; }) };
     FC.sb.functions.invoke('checkpoint_submit', { body: payload }).then(function(res){
       var d = res && res.data;
@@ -339,12 +410,12 @@
         return;
       }
       if (d && d.passed && curVideo && !(curVideo.duration_seconds > 0)) { passes[curVideo.id] = true; }
-      finishCheckpoint(d.passed, d.right, d.total);
+      showCheckpointResult(d.passed, d.right, d.total);
     }, function(){
       stage('<div class="notice brass">Could not reach the grading server. Nothing was recorded; try again in a moment.</div>');
     });
   }
-  function finishCheckpoint(pass, right, total){
+  function showCheckpointResult(pass, right, total){
     var qs = { length: total };
     if(pass){
       markVideoComplete();
@@ -359,12 +430,21 @@
 
   function markVideoComplete(){
     progress[curVideo.id] = { video_id:curVideo.id, watched_seconds:Math.max(watched,threshold), completed:true };
+    passes[curVideo.id] = true;
+    if (demo) return;
     FC.sb.functions.invoke('progress_beat', { body: { video_id: curVideo.id, position_seconds: Math.max(watched,threshold) } }).then(function(){}, function(){});
   }
 
   // ---------- final Q&A + submit ----------
   function openFinal(){
     stage('<p class="ash">Loading the final Q&amp;A\u2026</p>');
+    if (demo){
+      var qs = (finalQa||[]).map(function(q,i){
+        return { id: 'demo-final-'+i, ord: i+1, prompt: q.prompt || q };
+      });
+      renderFinal(qs);
+      return;
+    }
     FC.sb.from('final_qa_questions').select('*').eq('course_id',course.id).order('ord').then(function(r){
       if(r.error){ stage('<div class="notice brass">'+esc(r.error.message)+'</div>'); return; }
       var qs=r.data||[];
@@ -399,6 +479,12 @@
   function submitFinal(qs){
     if(!allVideosDone()){ $('cw-submit-msg').textContent='Finish all lessons first.'; return; }
     var btn=$('cw-submit'); btn.disabled=true; btn.textContent='Submitting\u2026';
+    if (demo){
+      awardStatus='submitted';
+      stage('<div class="cw-status"><div class="cw-status-icon">\u2713</div><h2>Submitted (demo)</h2><p>In live mode your facilitator reviews this and the Certificate of Completion follows. You just walked the full father flow.</p><a class="btn btn-primary" href="dashboard.html?demo=1">Back to dashboard demo</a></div>');
+      return;
+    }
+
     // save all answers, then flip the award to submitted
     var saves = qs.map(function(q){
       var t=root.querySelector('textarea[data-qid="'+q.id+'"]');
