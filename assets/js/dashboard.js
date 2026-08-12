@@ -439,7 +439,7 @@
   /* 1) Marcus mock. The deterministic sample, shown as a named participant. */
   function showMarcus(){
     draw(window.FCReport.sampleResult(), 'Marcus Bennett');
-    say('<b>Demonstration dashboard.</b> <span class="fine">This is exactly what a participant named Marcus sees the moment he finishes his profile, and every time he returns. Live participants see their own result in this same place.</span>');
+    say('<b>Demonstration dashboard.</b> <span class="fine">Full father home: next action, matched course, report. Try the <a class="link" href="course.html?demo=1&amp;cert=anger">course player demo</a> and <a class="link" href="plan.html?demo=1">plan demo</a>.</span>');
   }
 
   /* 2) Admin view-as. Same component, the participant\u2019s data, read only. */

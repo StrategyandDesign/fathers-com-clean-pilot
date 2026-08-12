@@ -6,20 +6,22 @@
     involvement: {
       slug: 'reentry',
       title: 'Coming Home Present',
-      sessions: 8,
+      sessions: 12,
       href: 'course-coming-home-present.html',
-      enroll: 'enroll.html?cert=reentry&title=Coming%20Home%20Present&hours=8.0',
+      enroll: 'enroll.html?cert=reentry&title=Coming%20Home%20Present&hours=3.0',
       photo: 'assets/img/photos/hero-02.jpg',
-      line: 'Presence after time away. Film sessions you can finish, with a facilitator for questions.'
+      line: 'Presence after time away. Twelve short film sessions (~12 min each), with a facilitator for questions.',
+      minutes: 12
     },
     consistency: {
       slug: 'anger',
       title: 'Steady Under Pressure',
-      sessions: 6,
+      sessions: 12,
       href: 'course-steady-under-pressure.html',
-      enroll: 'enroll.html?cert=anger&title=Steady%20Under%20Pressure&hours=6.0',
+      enroll: 'enroll.html?cert=anger&title=Steady%20Under%20Pressure&hours=3.0',
       photo: 'assets/img/photos/hero-04.jpg',
-      line: 'Steadiness when the week gets loud. Trained on film, with checkpoints that prove the work.'
+      line: 'Steadiness when the week gets loud. Twelve short film sessions (~12 min each) with checkpoints that prove the work.',
+      minutes: 12
     },
     awareness: {
       slug: 'fundamentals',
@@ -33,11 +35,12 @@
     nurturance: {
       slug: 'coparenting',
       title: 'Same Team',
-      sessions: 6,
+      sessions: 12,
       href: 'course-same-team.html',
-      enroll: 'enroll.html?cert=coparenting&title=Same%20Team&hours=6.0',
+      enroll: 'enroll.html?cert=coparenting&title=Same%20Team&hours=3.0',
       photo: 'assets/img/photos/hero-06.jpg',
-      line: 'Warmth they can feel, and one team around the children. Film with a facilitator available.'
+      line: 'Warmth they can feel, and one team around the children. Twelve short film sessions (~12 min each).',
+      minutes: 12
     }
   };
 
@@ -69,6 +72,7 @@
     return {
       slug: c.slug, title: c.title, sessions: c.sessions,
       href: c.href, enroll: c.enroll, photo: c.photo, line: c.line,
+      minutes: c.minutes || null,
       focusKey: k || 'fundamentals'
     };
   }
@@ -80,6 +84,11 @@
     var focusLabel = opts.focusLabel || '';
     var cta = opts.cta || 'See the course';
     var href = opts.href || course.href;
+    try {
+      if (new URLSearchParams(location.search).get('demo') === '1' && course.slug) {
+        href = 'course.html?demo=1&cert=' + encodeURIComponent(course.slug);
+      }
+    } catch (e) {}
     return '<div class="pl-train">'+
       '<div class="pl-train-media"><img src="'+esc(course.photo)+'" alt=""></div>'+
       '<div class="pl-train-body">'+
@@ -87,7 +96,7 @@
         (focusLabel ? '<p class="fine ash" style="margin:0 0 8px">Matched to your focus: <b style="color:inherit">'+esc(focusLabel)+'</b></p>' : '')+
         '<h2 class="pl-train-title">'+esc(course.title)+'</h2>'+
         '<p class="pl-train-line">'+esc(course.line)+'</p>'+
-        '<div class="pl-train-meta"><span class="fine mono">'+esc(String(course.sessions))+' sessions</span><span class="fine ash">&middot;</span><span class="fine mono">Facilitator-supported</span><span class="fine ash">&middot;</span><span class="fine mono">Free</span></div>'+
+        '<div class="pl-train-meta"><span class="fine mono">'+esc(String(course.sessions))+' sessions</span>'+(course.minutes?'<span class="fine ash">&middot;</span><span class="fine mono">~'+esc(String(course.minutes))+' min each</span>':'')+'<span class="fine ash">&middot;</span><span class="fine mono">Facilitator-supported</span><span class="fine ash">&middot;</span><span class="fine mono">Free</span></div>'+
         '<div class="pl-train-cta">'+
           '<a class="btn btn-yellow" href="'+esc(href)+'">'+esc(cta)+'</a>'+
           '<a class="link ash" href="certificates.html" style="font-size:13px">Browse all courses</a>'+

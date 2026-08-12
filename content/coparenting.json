@@ -2,46 +2,439 @@
   "slug": "coparenting",
   "title": "Same Team",
   "videos": [
-    { "ord": 1, "title": "One Team for the Children", "vimeo": "pending", "duration_seconds": 0,
+    {
+      "ord": 1,
+      "title": "One Team for the Children",
+      "vimeo": "pending",
+      "duration_seconds": 720,
       "checkpoint": [
-        { "prompt": "What is the one-sentence frame this course runs on?", "choices": ["Whatever we are to each other, we are one team for the child", "Keep the peace at any cost", "Win the important decisions"], "correct_index": 0 },
-        { "prompt": "Being one team requires what, per this session?", "choices": ["Being friends with the other parent", "Agreeing on everything", "Working the child's interests together, whatever the history between you"], "correct_index": 2 },
-        { "prompt": "What does the child gain when the team holds?", "choices": ["Two households pulling one direction, which lowers the load they carry", "Fewer rules", "A guarantee of no conflict"], "correct_index": 0 }
-      ] },
-    { "ord": 2, "title": "The Body in Conflict", "vimeo": "pending", "duration_seconds": 0,
+        {
+          "prompt": "What is the one-sentence frame this course runs on?",
+          "choices": [
+            "Whatever we are to each other, we are one team for the child",
+            "Keep the peace at any cost",
+            "Win the important decisions"
+          ],
+          "correct_index": 0
+        },
+        {
+          "prompt": "Being one team requires what, per this session?",
+          "choices": [
+            "Being friends with the other parent",
+            "Agreeing on everything",
+            "Working the child's interests together, whatever the history between you"
+          ],
+          "correct_index": 2
+        },
+        {
+          "prompt": "What does the child gain when the team holds?",
+          "choices": [
+            "Two households pulling one direction, which lowers the load they carry",
+            "Fewer rules",
+            "A guarantee of no conflict"
+          ],
+          "correct_index": 0
+        }
+      ]
+    },
+    {
+      "ord": 2,
+      "title": "Write the Shared Goal",
+      "vimeo": "pending",
+      "duration_seconds": 720,
       "checkpoint": [
-        { "prompt": "What does flooded mean in this session?", "choices": ["Being sad", "Your body so activated that judgment is gone; continuing makes it worse", "Disagreeing strongly"], "correct_index": 1 },
-        { "prompt": "What is the rule when you notice you are flooded?", "choices": ["Push through to resolution", "Pause, about twenty minutes, then resume", "End all contact for the week"], "correct_index": 1 },
-        { "prompt": "Why twenty minutes, roughly?", "choices": ["It is how long the body needs to actually come down; five minutes of silent rehearsing does not count", "It is a rule of the platform", "It gives you time to build your case"], "correct_index": 0 }
-      ] },
-    { "ord": 3, "title": "Businesslike", "vimeo": "pending", "duration_seconds": 0,
+        {
+          "prompt": "What do you write in this session?",
+          "choices": [
+            "A long parenting agreement",
+            "One child-centered sentence you can both hold",
+            "A list of past grievances"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "Which sentence is child-centered?",
+          "choices": [
+            "We keep school nights calm so she can sleep and learn.",
+            "You need to admit what you did.",
+            "We will never disagree again."
+          ],
+          "correct_index": 0
+        },
+        {
+          "prompt": "Why one sentence instead of many?",
+          "choices": [
+            "Courts prefer short documents",
+            "One clear goal steers hard moments; a stack of demands restarts the fight",
+            "Children cannot understand long goals"
+          ],
+          "correct_index": 1
+        }
+      ]
+    },
+    {
+      "ord": 3,
+      "title": "Flooded Means Pause",
+      "vimeo": "pending",
+      "duration_seconds": 720,
       "checkpoint": [
-        { "prompt": "What are the three marks of businesslike communication here?", "choices": ["Short, factual, about the child", "Polite, warm, frequent", "Written, formal, copied to others"], "correct_index": 0 },
-        { "prompt": "Which message is businesslike?", "choices": ["Pickup Friday is 5:30 at school; she has her science fair board with her.", "We need to talk about your choices lately.", "Fine. Whatever works for you, as usual."], "correct_index": 0 },
-        { "prompt": "Why keep it to the child?", "choices": ["Because the old disputes are settled", "Because every message that stays on the child is one that cannot reopen the marriage", "Because feelings are wrong"], "correct_index": 1 }
-      ] },
-    { "ord": 4, "title": "Earning Back Trust", "vimeo": "pending", "duration_seconds": 0,
+        {
+          "prompt": "What does flooded mean in this session?",
+          "choices": [
+            "Being sad",
+            "Your body so activated that judgment is gone; continuing makes it worse",
+            "Disagreeing strongly"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "What is the rule when you notice you are flooded?",
+          "choices": [
+            "Push through to resolution",
+            "Pause, about twenty minutes, then resume",
+            "End all contact for the week"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "Why twenty minutes, roughly?",
+          "choices": [
+            "It is how long the body needs to actually come down; five minutes of silent rehearsing does not count",
+            "It is a rule of the platform",
+            "It gives you time to build your case"
+          ],
+          "correct_index": 0
+        }
+      ]
+    },
+    {
+      "ord": 4,
+      "title": "Break Clean",
+      "vimeo": "pending",
+      "duration_seconds": 720,
       "checkpoint": [
-        { "prompt": "What buys back a co-parent's trust, per this session?", "choices": ["Reliability, kept small promises, over time", "A sincere conversation about the past", "Generosity with money"], "correct_index": 0 },
-        { "prompt": "How does this session treat court orders and agreements?", "choices": ["As obstacles to work around when unfair", "As the floor you never build against; trust is earned inside them, never against them", "As relevant only to lawyers"], "correct_index": 1 },
-        { "prompt": "Which is the right first promise to rebuild with?", "choices": ["A large one, to prove commitment", "A small one you are certain to keep, then another", "None; let time do it"], "correct_index": 1 }
-      ] },
-    { "ord": 5, "title": "One Child, Two Homes", "vimeo": "pending", "duration_seconds": 0,
+        {
+          "prompt": "What belongs in a clean break?",
+          "choices": [
+            "A long speech about why you are leaving",
+            "A short line that names the pause and when you will resume",
+            "Silence and a hung-up call"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "Which line is a clean break?",
+          "choices": [
+            "I am flooded. Let's resume at 8 tonight.",
+            "I am done with you.",
+            "Fine. Whatever."
+          ],
+          "correct_index": 0
+        },
+        {
+          "prompt": "Why name when you will resume?",
+          "choices": [
+            "So the other parent feels controlled",
+            "So the pause is a reset, not abandonment of the topic",
+            "So you can skip the topic forever"
+          ],
+          "correct_index": 1
+        }
+      ]
+    },
+    {
+      "ord": 5,
+      "title": "Businesslike",
+      "vimeo": "pending",
+      "duration_seconds": 720,
       "checkpoint": [
-        { "prompt": "Who carries the distance between two homes, per this session?", "choices": ["The parents equally", "The child; your job is to lighten the load", "Nobody, if the schedule is fair"], "correct_index": 1 },
-        { "prompt": "Which lightens the child's load?", "choices": ["Asking what happens at the other house", "Letting the child feel free to love both homes out loud", "Keeping the households completely identical"], "correct_index": 1 },
-        { "prompt": "Your child praises something at the other home. The session's move is what?", "choices": ["Receive it warmly; their ease is the win", "Match it with something better at yours", "Change the subject"], "correct_index": 0 }
-      ] },
-    { "ord": 6, "title": "The Handoff", "vimeo": "pending", "duration_seconds": 0,
+        {
+          "prompt": "What are the three marks of businesslike communication here?",
+          "choices": [
+            "Short, factual, about the child",
+            "Polite, warm, frequent",
+            "Written, formal, copied to others"
+          ],
+          "correct_index": 0
+        },
+        {
+          "prompt": "Which message is businesslike?",
+          "choices": [
+            "Pickup Friday is 5:30 at school; she has her science fair board with her.",
+            "We need to talk about your choices lately.",
+            "Fine. Whatever works for you, as usual."
+          ],
+          "correct_index": 0
+        },
+        {
+          "prompt": "Why keep it to the child?",
+          "choices": [
+            "Because the old disputes are settled",
+            "Because every message that stays on the child is one that cannot reopen the marriage",
+            "Because feelings are wrong"
+          ],
+          "correct_index": 1
+        }
+      ]
+    },
+    {
+      "ord": 6,
+      "title": "Cooler Channels",
+      "vimeo": "pending",
+      "duration_seconds": 720,
       "checkpoint": [
-        { "prompt": "What is the standard for handoffs in this session?", "choices": ["Predictable beats perfect", "Quick beats friendly", "Flexible beats scheduled"], "correct_index": 0 },
-        { "prompt": "What belongs at a handoff?", "choices": ["The unresolved topic from last week", "The child's things, the practical facts, a calm goodbye", "A private word with the other parent about concerns"], "correct_index": 1 },
-        { "prompt": "Why does predictability matter so much at the handoff moment?", "choices": ["It saves time", "The handoff is where the child feels the team most directly; calm sameness tells them the ground is solid", "It prevents lateness"], "correct_index": 1 }
-      ] }
+        {
+          "prompt": "What does this session ask you to choose?",
+          "choices": [
+            "The channel that lowers heat",
+            "The channel that wins arguments",
+            "Only face-to-face conflict"
+          ],
+          "correct_index": 0
+        },
+        {
+          "prompt": "When a text thread heats up, the cooler move is often?",
+          "choices": [
+            "Keep typing faster",
+            "Move to a written log or a scheduled call after a pause",
+            "Bring the child into the thread"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "Why channel choice matters?",
+          "choices": [
+            "Some apps are free",
+            "The medium can raise or lower heat before a word is read",
+            "Courts ban all texts"
+          ],
+          "correct_index": 1
+        }
+      ]
+    },
+    {
+      "ord": 7,
+      "title": "Reliability Buys Trust",
+      "vimeo": "pending",
+      "duration_seconds": 720,
+      "checkpoint": [
+        {
+          "prompt": "What buys back a co-parent's trust, per this session?",
+          "choices": [
+            "Reliability, kept small promises, over time",
+            "A sincere conversation about the past",
+            "Generosity with money"
+          ],
+          "correct_index": 0
+        },
+        {
+          "prompt": "Which is the right first promise to rebuild with?",
+          "choices": [
+            "A large one, to prove commitment",
+            "A small one you are certain to keep, then another",
+            "None; let time do it"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "You were late last week. The rebuild move is?",
+          "choices": [
+            "Explain at length",
+            "Be early to the next three agreed times without a speech",
+            "Skip the next handoff"
+          ],
+          "correct_index": 1
+        }
+      ]
+    },
+    {
+      "ord": 8,
+      "title": "Never Against an Order",
+      "vimeo": "pending",
+      "duration_seconds": 720,
+      "checkpoint": [
+        {
+          "prompt": "How does this session treat court orders and agreements?",
+          "choices": [
+            "As obstacles to work around when unfair",
+            "As the floor you never build against; trust is earned inside them, never against them",
+            "As relevant only to lawyers"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "What must you never ask a child to carry?",
+          "choices": [
+            "A backpack",
+            "An adult fight",
+            "A school folder"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "Which action fits this session?",
+          "choices": [
+            "Keep every commitment exactly as written inside the order",
+            "Ask the child to pass a message about money",
+            "Skip a visit to make a point"
+          ],
+          "correct_index": 0
+        }
+      ]
+    },
+    {
+      "ord": 9,
+      "title": "What the Child Carries",
+      "vimeo": "pending",
+      "duration_seconds": 720,
+      "checkpoint": [
+        {
+          "prompt": "Who carries the distance between two homes, per this session?",
+          "choices": [
+            "The parents equally",
+            "The child; your job is to lighten the load",
+            "Nobody, if the schedule is fair"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "Which lightens the child's load?",
+          "choices": [
+            "Asking what happens at the other house to gather ammo",
+            "Letting the child feel free to love both homes out loud",
+            "Keeping the households completely identical"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "Your child praises something at the other home. The session's move is what?",
+          "choices": [
+            "Receive it warmly; their ease is the win",
+            "Match it with something better at yours",
+            "Change the subject"
+          ],
+          "correct_index": 0
+        }
+      ]
+    },
+    {
+      "ord": 10,
+      "title": "Two Homes, One Child",
+      "vimeo": "pending",
+      "duration_seconds": 720,
+      "checkpoint": [
+        {
+          "prompt": "What beats perfect agreement, per this session?",
+          "choices": [
+            "Predictable rules",
+            "Identical houses",
+            "No rules at either home"
+          ],
+          "correct_index": 0
+        },
+        {
+          "prompt": "Which helps a child across two homes?",
+          "choices": [
+            "Fighting until every rule matches",
+            "A few clear, predictable rules the child can count on at your place",
+            "Asking the child to choose a side"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "Why predictability matters more than perfection?",
+          "choices": [
+            "Courts require it",
+            "A child can adapt to two homes when each home is steady",
+            "Children dislike agreement"
+          ],
+          "correct_index": 1
+        }
+      ]
+    },
+    {
+      "ord": 11,
+      "title": "The Handoff",
+      "vimeo": "pending",
+      "duration_seconds": 720,
+      "checkpoint": [
+        {
+          "prompt": "What is the standard for handoffs in this session?",
+          "choices": [
+            "Predictable beats perfect",
+            "Quick beats friendly",
+            "Flexible beats scheduled"
+          ],
+          "correct_index": 0
+        },
+        {
+          "prompt": "What belongs at a handoff?",
+          "choices": [
+            "The unresolved topic from last week",
+            "The child's things, the practical facts, a calm goodbye",
+            "A private word with the other parent about concerns"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "Why does predictability matter so much at the handoff moment?",
+          "choices": [
+            "It saves time",
+            "The handoff is where the child feels the team most directly; calm sameness tells them the ground is solid",
+            "It prevents lateness"
+          ],
+          "correct_index": 1
+        }
+      ]
+    },
+    {
+      "ord": 12,
+      "title": "The Handoff Ritual",
+      "vimeo": "pending",
+      "duration_seconds": 720,
+      "checkpoint": [
+        {
+          "prompt": "What is the handoff ritual built from?",
+          "choices": [
+            "Same place, same time, same calm script",
+            "Surprise locations to keep it fresh",
+            "Long talks at every exchange"
+          ],
+          "correct_index": 0
+        },
+        {
+          "prompt": "Which script fits the ritual?",
+          "choices": [
+            "Bag, jacket, homework. See you Thursday at 5.",
+            "We need to talk about last month right now.",
+            "Tell your mother what I said."
+          ],
+          "correct_index": 0
+        },
+        {
+          "prompt": "Why keep the ritual short and same?",
+          "choices": [
+            "So adults can argue later elsewhere",
+            "Sameness lowers the child's stress at the transition",
+            "Children prefer silence always"
+          ],
+          "correct_index": 1
+        }
+      ]
+    }
   ],
   "final_qa": [
-    { "prompt": "Write the last message you sent the other parent, then rewrite it businesslike: short, factual, about the child. What changed?" },
-    { "prompt": "Describe one flooded moment this course caught: where you felt it, how you paused, and what resuming later made possible." },
-    { "prompt": "Name the small promise you are using to rebuild trust inside the agreement that governs you, and your record of keeping it so far." }
+    {
+      "prompt": "Write the last message you sent the other parent, then rewrite it businesslike: short, factual, about the child. What changed?"
+    },
+    {
+      "prompt": "Describe one flooded moment this course caught: where you felt it, how you paused, and what resuming later made possible."
+    },
+    {
+      "prompt": "Name the small promise you are using to rebuild trust inside the agreement that governs you, and your record of keeping it so far."
+    },
+    {
+      "prompt": "Write your handoff ritual in four lines: place, time, calm script, and what never gets discussed at the exchange."
+    }
   ]
 }
