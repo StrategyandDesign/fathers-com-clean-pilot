@@ -61,7 +61,7 @@
       } else {
         courseCard = card('THE FREE COURSE','The 7 Secrets of Effective Fathers',
         'Dr. Ken Canfield\u2019s flagship, free to train. Finish it and your Certificate of Completion is issued at no cost.',
-        'class.html','Start free');
+        'course-fathering-fundamentals.html','Start free');
       }
 
       var recCard = card('THE PROOF','The Certificate of Completion',
@@ -82,7 +82,7 @@
 
       var tiles =
         '<div class="eyebrow" style="margin:26px 0 12px">THE COURSES</div><div class="grid-2">'+
-        tile('Fathering Fundamentals', fundAw?'EARNED':(fundEnr?'IN PROGRESS':'FREE'), fundEnr||fundAw?'course.html?cert=fundamentals':'certificates.html')+
+        tile('Fathering Fundamentals', fundAw?'EARNED':(fundEnr?'IN PROGRESS':'FREE'), fundEnr||fundAw?'course.html?cert=fundamentals':'course-fathering-fundamentals.html')+
         tile('Steady Under Pressure','FILM COURSE','course-steady-under-pressure.html')+
         tile('Coming Home Present','FILM COURSE','course-coming-home-present.html')+
         tile('Same Team','FILM COURSE','course-same-team.html')+

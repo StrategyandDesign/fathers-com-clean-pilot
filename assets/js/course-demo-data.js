@@ -4,7 +4,7 @@ window.FC_COURSE_DEMO = {
     "id": "demo-course-anger",
     "slug": "anger",
     "title": "Steady Under Pressure",
-    "hours": 3,
+    "hours": 2.4,
     "published": true,
     "videos": [
       {
@@ -472,7 +472,7 @@ window.FC_COURSE_DEMO = {
     "id": "demo-course-reentry",
     "slug": "reentry",
     "title": "Coming Home Present",
-    "hours": 3,
+    "hours": 2.4,
     "published": true,
     "videos": [
       {
@@ -939,7 +939,7 @@ window.FC_COURSE_DEMO = {
     "id": "demo-course-coparenting",
     "slug": "coparenting",
     "title": "Same Team",
-    "hours": 3,
+    "hours": 2.4,
     "published": true,
     "videos": [
       {

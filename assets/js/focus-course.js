@@ -8,7 +8,7 @@
       title: 'Coming Home Present',
       sessions: 12,
       href: 'course-coming-home-present.html',
-      enroll: 'enroll.html?cert=reentry&title=Coming%20Home%20Present&hours=3.0',
+      enroll: 'enroll.html?cert=reentry&title=Coming%20Home%20Present&hours=2.4',
       photo: 'assets/img/photos/hero-02.jpg',
       line: 'Presence after time away. Twelve short film sessions (~12 min each), with a facilitator for questions.',
       minutes: 12
@@ -18,7 +18,7 @@
       title: 'Steady Under Pressure',
       sessions: 12,
       href: 'course-steady-under-pressure.html',
-      enroll: 'enroll.html?cert=anger&title=Steady%20Under%20Pressure&hours=3.0',
+      enroll: 'enroll.html?cert=anger&title=Steady%20Under%20Pressure&hours=2.4',
       photo: 'assets/img/photos/hero-04.jpg',
       line: 'Steadiness when the week gets loud. Twelve short film sessions (~12 min each) with checkpoints that prove the work.',
       minutes: 12
@@ -26,18 +26,18 @@
     awareness: {
       slug: 'fundamentals',
       title: 'Fathering Fundamentals',
-      sessions: 5,
-      href: 'certificates.html',
-      enroll: 'enroll.html?cert=fundamentals&title=Fathering%20Fundamentals&hours=10.0',
+      sessions: 9,
+      href: 'course-fathering-fundamentals.html',
+      enroll: 'enroll.html?cert=fundamentals&title=Fathering%20Fundamentals&hours=1.1',
       photo: 'assets/img/photos/hero-01.jpg',
-      line: 'See your child clearly. Dr. Canfield\'s flagship film course on presence and knowing who they are.'
+      line: 'See your child clearly. Dr. Canfield\'s Seven Secrets flagship film course (~1.1 hrs). Nine sessions with checkpoints.'
     },
     nurturance: {
       slug: 'coparenting',
       title: 'Same Team',
       sessions: 12,
       href: 'course-same-team.html',
-      enroll: 'enroll.html?cert=coparenting&title=Same%20Team&hours=3.0',
+      enroll: 'enroll.html?cert=coparenting&title=Same%20Team&hours=2.4',
       photo: 'assets/img/photos/hero-06.jpg',
       line: 'Warmth they can feel, and one team around the children. Twelve short film sessions (~12 min each).',
       minutes: 12
@@ -47,11 +47,11 @@
   var FALLBACK = {
     slug: 'fundamentals',
     title: 'Fathering Fundamentals',
-    sessions: 5,
-    href: 'certificates.html',
-    enroll: 'enroll.html?cert=fundamentals&title=Fathering%20Fundamentals&hours=10.0',
+    sessions: 9,
+    href: 'course-fathering-fundamentals.html',
+    enroll: 'enroll.html?cert=fundamentals&title=Fathering%20Fundamentals&hours=1.1',
     photo: 'assets/img/photos/hero-01.jpg',
-    line: 'The flagship film course. Presence first. Free to every man who does the work.'
+    line: 'The Seven Secrets flagship film course (~1.1 hrs). Presence first. Free to every man who does the work.'
   };
 
   function normalize(key){

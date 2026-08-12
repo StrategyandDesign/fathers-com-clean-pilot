@@ -519,12 +519,12 @@ PAGES['index.html'] = dict(title='Become the father they can count on', desc='Kn
 
 <section><div class="container">
   <div class="billboard">
-    <a class="slot r-21x9 play-overlay filled" data-slot="IMG-P1-BILL-01" href="class.html" aria-label="Watch The Fundamentals of Fathering"><img src="assets/img/photos/billboard-home.jpg" alt="A father with his son"><span class="tri"></span></a>
+    <a class="slot r-21x9 play-overlay filled" data-slot="IMG-P1-BILL-01" href="course-fathering-fundamentals.html" aria-label="Watch The Fundamentals of Fathering"><img src="assets/img/photos/billboard-home.jpg" alt="A father with his son"><span class="tri"></span></a>
     <div class="overlay">
       <div class="eyebrow" style="margin-bottom:12px">TRAIN &middot; THE FLAGSHIP CLASS</div>
       <h2 class="d-36" style="margin:0 0 8px">The Fundamentals of Fathering</h2>
       <p class="small" style="margin-bottom:18px">The Keystone Profile grows out of the work of Dr. Ken Canfield, founder of the National Center for Fathering. Start with his flagship class on presence. Free.</p>
-      <a class="btn btn-secondary play" href="class.html">Watch The Fundamentals</a>
+      <a class="btn btn-secondary play" href="course-fathering-fundamentals.html">Watch The Fundamentals</a>
     </div>
   </div>
 </div></section>
@@ -533,8 +533,8 @@ PAGES['index.html'] = dict(title='Become the father they can count on', desc='Kn
   <div class="eyebrow" style="margin-bottom:12px">TRAIN &middot; YOUR PLAN</div>
   <h2 class="d-28" style="margin-bottom:12px">A plan you actually work.</h2>
   <p style="color:var(--ash);margin:0 0 24px;max-width:56ch">Your Profile becomes a twelve-week plan, one clear step at a time. New films and lessons every month, on the drive or on the couch. The Profile and your plan are always free.</p>
-  <div class="grid-3" id="homeclasses" style="margin-top:6px">
-    <a class="card" href="class.html" style="padding:0;overflow:hidden;text-decoration:none">
+  <div class="grid-2" id="homeclasses" style="margin-top:6px">
+    <a class="card" href="course-fathering-fundamentals.html" style="padding:0;overflow:hidden;text-decoration:none">
       <div class="slot r-2x3 filled" data-slot="IMG-P1-CAT-1" style="max-height:280px"><img src="assets/img/photos/action-01.jpg" alt="Fathering Fundamentals"></div>
       <div style="padding:20px 22px">
         <div class="row between" style="margin-bottom:8px"><span class="pill">FREE COURSE</span><span class="fine mono">9 sessions</span></div>
@@ -556,6 +556,14 @@ PAGES['index.html'] = dict(title='Become the father they can count on', desc='Kn
         <div class="row between" style="margin-bottom:8px"><span class="pill">FILM COURSE</span><span class="fine mono">12 sessions</span></div>
         <h3 style="margin-bottom:6px">Coming Home Present</h3>
         <p class="fine" style="color:var(--ash)">Rehab and treatment reconnect, then service return. Film with a facilitator; proof a court or program can check.</p>
+      </div>
+    </a>
+    <a class="card" href="course-same-team.html" style="padding:0;overflow:hidden;text-decoration:none">
+      <div class="slot r-2x3 filled" data-slot="IMG-P1-CAT-4" style="max-height:280px"><img src="assets/img/photos/hero-06.jpg" alt="Same Team"></div>
+      <div style="padding:20px 22px">
+        <div class="row between" style="margin-bottom:8px"><span class="pill">FILM COURSE</span><span class="fine mono">12 sessions</span></div>
+        <h3 style="margin-bottom:6px">Same Team</h3>
+        <p class="fine" style="color:var(--ash)">Co-parenting on film with a facilitator. One team around the children, whatever the arrangement.</p>
       </div>
     </a>
   </div>
@@ -768,7 +776,7 @@ PAGES['story.html'] = dict(title='Back to the Kitchen Table', desc='One father. 
     <div class="card"><div class="eyebrow" style="margin-bottom:14px">WHAT HE TRAINS NOW</div>
       <div class="row" style="gap:16px"><div class="slot r-2x3" data-slot="IMG-P3-DET-02" style="flex:0 0 72px"></div>
       <div><b style="font-size:15px">Watch Ray's class: Coming Home Present</b><p class="small" style="margin-top:6px">5 sessions &middot; 1h 25m</p></div></div>
-      <a class="btn btn-secondary btn-sm" href="class.html" style="margin-top:16px">Go to the class</a></div>
+      <a class="btn btn-secondary btn-sm" href="course-coming-home-present.html" style="margin-top:16px">Go to the class</a></div>
     <div class="card"><div class="eyebrow" style="margin-bottom:12px">WHERE HE STARTED</div>
       <p class="small" style="margin-bottom:14px">Ray's first Presence Baseline: <b class="mono bone">43</b></p>
       <a class="btn btn-yellow btn-sm" href="profile.html">Get yours</a></div>
@@ -1143,7 +1151,7 @@ PAGES['checkout.html'] = dict(title='Support the work', desc='Founding-supporter
       <p class="small" style="margin-bottom:36px">Receipt sent to m•••@•••.com.</p>
       <div class="grid-2" style="gap:20px;text-align:left">
         <a class="card hoverable" href="plan.html" style="text-decoration:none;color:inherit"><div class="eyebrow" style="margin-bottom:10px">NEXT</div><b>Pick up your plan. Week 1 is ready.</b></a>
-        <a class="card hoverable" href="class.html" style="text-decoration:none;color:inherit"><div class="slot r-16x9" data-slot="IMG-P8-CNF-01" style="margin-bottom:12px"></div><b>Start the flagship class</b></a>
+        <a class="card hoverable" href="course-fathering-fundamentals.html" style="text-decoration:none;color:inherit"><div class="slot r-16x9" data-slot="IMG-P8-CNF-01" style="margin-bottom:12px"></div><b>Start the flagship class</b></a>
       </div>
     </div>
   </div>
@@ -1848,7 +1856,7 @@ PAGES['enroll.html'] = dict(title='Enroll', desc='Enroll free. Finish the work a
       <h1 class="d-36" style="margin-bottom:10px">You are enrolled.</h1>
       <p class="small" style="margin-bottom:36px">Your seat in <b class="bone" id="successTitle">this certificate</b> is saved. Your first step is to verify your identity, then begin the hours. Nothing expires, so start whenever you are ready.</p>
       <div class="row wrap" style="gap:14px;justify-content:center">
-        <a class="btn btn-primary" id="beginBtn" href="class.html">Begin your certificate</a>
+        <a class="btn btn-primary" id="beginBtn" href="course-fathering-fundamentals.html">Begin your certificate</a>
         <a class="btn btn-secondary" href="plan.html">Back to My Plan</a>
       </div>
     </div>
@@ -2006,7 +2014,7 @@ PAGES['veterans-hub.html'] = dict(title='The Homefront', desc='Train for the mis
   </div>
   <div class="row wrap" style="gap:12px;margin-top:6px">
     <a class="btn btn-secondary btn-sm" href="course-coming-home-present.html">Read the sessions</a>
-    <a class="btn btn-yellow btn-sm" href="class.html">Start the free course</a>
+    <a class="btn btn-yellow btn-sm" href="course-fathering-fundamentals.html">Start the free course</a>
   </div>
 </section>
 
