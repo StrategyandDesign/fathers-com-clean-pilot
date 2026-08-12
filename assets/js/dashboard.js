@@ -29,24 +29,42 @@
 
   function setName(n){ if(n && nameEl){ nameEl.textContent = n; if(wrapEl) wrapEl.style.display = ''; } }
   function say(html){ if(banner){ banner.style.display = ''; banner.innerHTML = html; } }
+  function paintNextAction(opts){
+    var el = document.getElementById('dashNextAction');
+    if(!el) return;
+    opts = opts || {};
+    if(!opts.title){ el.style.display = 'none'; el.innerHTML = ''; return; }
+    el.style.display = '';
+    el.innerHTML =
+      '<div><div class="next-action-k">'+(opts.kicker||'Next action')+'</div>'+
+      '<p class="next-action-t">'+opts.title+'</p>'+
+      (opts.body ? '<p class="next-action-b">'+opts.body+'</p>' : '')+
+      '</div><div class="next-action-cta"><a class="btn btn-yellow btn-sm" href="'+opts.href+'">'+(opts.cta||'Continue')+'</a></div>';
+  }
+
   function loading(m){ host.innerHTML = '<div class="center" style="padding:60px 0"><p class="ash">'+(m||'Loading your report\u2026')+'</p></div>'; }
   /* Two different situations that used to share one message. A man who is signed
      out may well have a report waiting; telling him to take the profile again
      would have him redo 128 items for nothing. */
   function empty(){
-    host.innerHTML = '<div class="card" style="padding:30px">'+
-      '<h3 class="d-22" style="margin:0 0 8px">Your report is not ready yet</h3>'+
-      '<p class="fine" style="margin:0 0 16px">Take your Profile and your full written report appears here, always available.</p>'+
-      '<a class="btn btn-yellow btn-sm" href="profile.html">Take your Profile</a></div>';
+    paintNextAction({kicker:'Next action', title:'Take your free Profile',
+      body:'About twenty minutes. Your report and plan appear here when you finish.',
+      href:'profile.html', cta:'Start Profile'});
+    host.innerHTML = '<div class="dash-empty">'+
+      '<h3>Your report is not ready yet</h3>'+
+      '<p>Take your Profile and your full written report appears here, always available.</p>'+
+      '<div class="row wrap"><a class="btn btn-yellow btn-sm" href="profile.html">Take your Profile</a>'+
+      '<a class="btn btn-secondary btn-sm" href="plan.html">See My Plan</a></div></div>';
   }
   function signedOut(){
-    host.innerHTML = '<div class="card" style="padding:30px">'+
-      '<h3 class="d-22" style="margin:0 0 8px">Sign in to see your report</h3>'+
-      '<p class="fine" style="margin:0 0 16px">If you have taken a Profile, it is saved to your account and it is waiting here.</p>'+
-      '<div class="row wrap" style="gap:10px">'+
-        '<a class="btn btn-yellow btn-sm" href="login.html">Sign in</a>'+
-        '<a class="btn btn-secondary btn-sm" href="profile.html">I have not taken it yet</a>'+
-      '</div></div>';
+    paintNextAction({kicker:'Next action', title:'Sign in to continue',
+      body:'If you have taken a Profile, it is waiting on your account.',
+      href:'login.html', cta:'Sign in'});
+    host.innerHTML = '<div class="dash-empty">'+
+      '<h3>Sign in to see your report</h3>'+
+      '<p>If you have taken a Profile, it is saved to your account and it is waiting here.</p>'+
+      '<div class="row wrap"><a class="btn btn-yellow btn-sm" href="login.html">Sign in</a>'+
+      '<a class="btn btn-secondary btn-sm" href="profile.html">I have not taken it yet</a></div></div>';
   }
   function denied(){
     host.innerHTML = '<div class="card" style="padding:30px">'+
@@ -254,7 +272,7 @@
       }, function(){ done(0, 0); });
   }
 
-  function nextStrip(activeSlug, heldSlugs, enrolled, courseCount){
+  function nextStrip(activeSlug, heldSlugs, enrolled, courseCount, hasClaim){
     var host = document.getElementById('dashNext');
     if(!host) return;
 
@@ -262,15 +280,31 @@
     var hasOther = other && heldSlugs.indexOf(other) > -1;
     var otherTitle = other ? titleFor(other) : '';
 
-    /* Courses lead, because that is the work after the profile. The count is
-       real: an empty catalogue says so rather than promising nothing. Once he is
-       enrolled the catalogue card changes or leaves, because telling a man who
-       is inside all three that "3 courses are open to you" is both wrong and
-       slightly insulting. His enrolled courses live in Your Courses above. */
+    /* Courses lead once a claim (or enrollment) exists. Unclaimed men should
+       stay on the free plan / facilitator path, not hit the certificates enroll wall. */
     function paint(courseCount){
       var cards = [];
       enrolled = enrolled || 0;
       var remaining = Math.max(0, courseCount - enrolled);
+      /* Sticky primary next action (one loud calm CTA). */
+      if(!enrolled && !hasClaim){
+        paintNextAction({kicker:'Next action', title:'Keep your ninety-day plan moving',
+          body:'Courses open when a Certified Facilitator or Organization adds your seat.',
+          href:'plan.html', cta:'Open My Plan'});
+      } else if(!enrolled){
+        paintNextAction({kicker:'Next action', title:'Enroll in a film course',
+          body:'Your seat is ready. Finish a course for a verifiable Certificate of Completion.',
+          href:'certificates.html', cta:'Browse courses'});
+      } else if(remaining > 0){
+        paintNextAction({kicker:'Next action', title:'Resume your course',
+          body:'You are enrolled. Continue the film sessions and checkpoints.',
+          href:'certificates.html', cta:'Continue'});
+      } else {
+        paintNextAction({kicker:'Next action', title:'Open your plan for this week',
+          body:'Calm cumulative progress. Weeks you showed up matter more than streaks.',
+          href:'plan.html', cta:'Open My Plan'});
+      }
+
 
       /* One card shape, so the three read as choices rather than a list of raw
          links. Each carries its own call so the destination is never a guess. */
@@ -282,7 +316,16 @@
           '<span class="dash-next-go">'+go+' <i aria-hidden="true">&rarr;</i></span></a>';
       }
 
-      if(!enrolled){
+      if(!enrolled && !hasClaim){
+        cards.push(card('plan.html','What is next',
+          'Keep your ninety-day plan moving',
+          'Your plan is open now. Courses unlock when a Certified Facilitator or Organization adds your seat.',
+          'Open your plan'));
+        cards.push(card('organizations.html','If you have a facilitator',
+          'They add your seat when you are ready',
+          'Under a minute on their side. After that, enrollment is free and waiting for you.',
+          'Find a program'));
+      } else if(!enrolled){
         cards.push(card('certificates.html','The courses',
           courseCount ? courseCount + ' course' + (courseCount===1?'':'s') + ' open to you' : 'The courses',
           courseCount ? 'Free. Finish one and you hold a Certificate of Completion with your name and a serial anyone can check.'
@@ -338,7 +381,13 @@
           var held = list.map(function(x){ return x.assessment_slug; });
           var uid = (window.FC && FC.uid) ? FC.uid() : null;
           coursesStrip(uid, function(enrolled, total){
-            nextStrip(slug, held, enrolled, total || null);
+            var paintNext = function(hasClaim){
+              nextStrip(slug, held, enrolled, total || null, !!hasClaim);
+            };
+            if(!(window.FC && FC.live && FC.sb && uid)){ paintNext(false); return; }
+            FC.sb.from('participant_claims').select('id').eq('user_id', uid).limit(1)
+              .then(function(cr){ paintNext(!!(cr && cr.data && cr.data.length)); },
+                    function(){ paintNext(false); });
           });
           return;
         }

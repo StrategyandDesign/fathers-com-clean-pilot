@@ -92,10 +92,11 @@
     {id:'account',section:'RESULTS',render:s=>{
       if(window.FC&&FC.live){return `
       <h2 class="display" style="font-size:30px">Save your baseline and plan.</h2>
-      <p class="helper">No password. We email you a sign-in link. Click it and your baseline and plan save to your account.</p>
+      <p class="helper">Create a free account with email and password. Your baseline and plan save to it.</p>
       <div class="stack-16" style="margin:18px 0 6px">
-        <input class="input" type="email" placeholder="Email address" id="acctEmail">
-        <button class="btn btn-primary" style="width:100%" id="otpBtn">Email me a sign-in link</button>
+        <input class="input" type="email" placeholder="Email address" id="acctEmail" autocomplete="email">
+        <input class="input" type="password" placeholder="Password (8+ characters)" id="acctPass" autocomplete="new-password">
+        <button class="btn btn-primary" style="width:100%" id="otpBtn">Create account and save</button>
       </div>
       <p class="fine" id="otpMsg">Free to save. Membership starts only if you choose it.</p>
       <p style="margin-top:18px"><a href="#" class="link ash" data-go style="font-size:13px">Skip for now</a></p>`;}
@@ -164,12 +165,23 @@
     if(sc.render){el.innerHTML=sc.render(state);wire(sc);
       if(sc.id==='account'){var ob=document.getElementById('otpBtn');if(ob){ob.addEventListener('click',function(){
         var em=document.getElementById('acctEmail').value.trim();
-        if(!em){document.getElementById('otpMsg').textContent='Enter your email first.';return;}
-        ob.disabled=true;ob.textContent='Sending…';
-        FC.signIn(em,'plan.html').then(function(r){
-          ob.textContent='Email me a sign-in link';ob.disabled=false;
-          var m=document.getElementById('otpMsg');if(r.error){m.style.color='var(--error)';m.textContent='Could not send: '+r.error.message;}else{ob.textContent='Link sent \u2713';m.style.color='var(--pine-hi)';m.textContent='Sent. Check your email, click the link, and your baseline saves automatically.';}
-        });
+        var pw=(document.getElementById('acctPass')&&document.getElementById('acctPass').value)||'';
+        var msg=document.getElementById('otpMsg');
+        if(!em){msg.textContent='Enter your email first.';return;}
+        if(pw.length<8){msg.textContent='Password needs at least 8 characters.';return;}
+        ob.disabled=true;ob.textContent='Saving…';
+        FC.signUpPassword(em,pw,'','plan.html').then(function(r){
+          if(r&&r.error){
+            return FC.signInPassword(em,pw).then(function(r2){
+              ob.disabled=false;ob.textContent='Create account and save';
+              if(r2&&r2.error){msg.style.color='var(--error)';msg.textContent=r.error.message||'Could not create the account.';return;}
+              location.href='plan.html';
+            });
+          }
+          if(r.data&&r.data.session){location.href='plan.html';return;}
+          ob.disabled=false;ob.textContent='Create account and save';
+          msg.style.color='var(--pine-hi)';msg.textContent='Account created. Check your email to confirm it, then sign in.';
+        }, function(){ob.disabled=false;ob.textContent='Create account and save';msg.style.color='var(--error)';msg.textContent='Could not create the account.';});
       });}}
       if(sc.auto)setTimeout(next,sc.auto);
       if(sc.loader)runLoader();return;}

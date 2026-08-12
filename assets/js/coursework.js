@@ -13,7 +13,7 @@
 
   var demo = !(window.FC && FC.live);
   var slug = (new URLSearchParams(location.search).get('cert') || 'fundamentals').toLowerCase();
-  // Written sessions live on the platform while films are in production.
+  // Film-first coursework. Session guides remain available as support.
   var SESSIONS_PAGE = {reentry:'course-coming-home-present.html', anger:'course-steady-under-pressure.html', coparenting:'course-same-team.html', manhood:'course-the-man-before-you.html'};
   var uid=null, course=null, videos=[], progress={}, awardStatus=null;
 
@@ -64,8 +64,8 @@
       if(!videos.length){
         var sp = SESSIONS_PAGE[slug];
         stage(sp
-          ? '<div class="notice brass">The films for this course are in production and upload as they finish. Every written session is live now: <a class="link" href="' + sp + '">read the sessions &rarr;</a></div>'
-          : '<div class="notice brass">The films for this course are in production and upload as they finish.</div>');
+          ? '<div class="notice brass">This course is film-first. When the session films are ready they play here. Meanwhile, open the session guide: <a class="link" href="' + sp + '">session guide &rarr;</a></div>'
+          : '<div class="notice brass">This course is film-first. Session films play here when ready.</div>');
         return;
       }
       renderOutline();
@@ -75,9 +75,8 @@
   // ---------- outline ----------
   function hasFilm(v){ return !!(v.duration_seconds && v.duration_seconds > 0); }
   // A session with a film is done when the server marks measured playback
-  // complete. A placeholder session (film in production) is done when its
-  // checkpoint is passed; the written session carries the teaching until
-  // the film lands, and no time is ever credited against it.
+  // complete. A placeholder (no Vimeo yet) is done when its checkpoint is
+  // passed. No time is credited until a real film is present.
   function videoDone(v){
     if (hasFilm(v)) { var p=progress[v.id]; return !!(p && p.completed); }
     return !!passes[v.id];
@@ -159,10 +158,10 @@
     } else {
       var liveMode = !!(window.FC && FC.live);
       if(liveMode){
-        var sessLink = SESSIONS_PAGE[slug] ? '<a class="btn btn-secondary btn-sm" style="margin-top:12px" href="'+SESSIONS_PAGE[slug]+'" target="_blank" rel="noopener">Read the written session &rarr;</a>' : '';
-        player = '<div class="cw-novid"><div class="eyebrow brass" style="margin-bottom:10px">Film in production</div><p class="small">The film for this session uploads here when it finishes; no time is credited until it does. The written session carries the teaching now: read it, then take the checkpoint below.</p>'+sessLink+'</div>';
+        var sessLink = SESSIONS_PAGE[slug] ? '<a class="btn btn-secondary btn-sm" style="margin-top:12px" href="'+SESSIONS_PAGE[slug]+'" target="_blank" rel="noopener">Open session guide &rarr;</a>' : '';
+        player = '<div class="cw-novid"><div class="eyebrow brass" style="margin-bottom:10px">Film loading soon</div><p class="small">This session plays on Vimeo here. No time is credited until the film is live. Use the session guide if you need the outline, then take the checkpoint below.</p>'+sessLink+'</div>';
       } else {
-        player = '<div class="cw-novid"><div class="eyebrow brass" style="margin-bottom:10px">Demo preview</div><p class="small">In production this session plays its film here. Demo mode can simulate the flow.</p><button class="btn btn-secondary btn-sm" id="cw-sim" style="margin-top:12px">Simulate watching (demo)</button></div>';
+        player = '<div class="cw-novid"><div class="eyebrow brass" style="margin-bottom:10px">Demo preview</div><p class="small">In live mode this session plays its Vimeo film here. Demo mode can simulate the flow.</p><button class="btn btn-secondary btn-sm" id="cw-sim" style="margin-top:12px">Simulate watching (demo)</button></div>';
       }
     }
 

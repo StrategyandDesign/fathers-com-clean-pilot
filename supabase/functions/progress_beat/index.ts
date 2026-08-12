@@ -6,17 +6,32 @@ import { serve } from "https://deno.land/std@0.224.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 // CORS helpers inlined so this function deploys as a single pasted file
 // from the Supabase dashboard editor, no shared-module resolution required.
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+const CORS_BASE = {
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-internal-secret",
   "Access-Control-Allow-Methods": "POST, OPTIONS",
 };
+function allowedOrigin(origin: string | null): string | null {
+  if (!origin) return null;
+  if (origin === "http://localhost:3000") return origin;
+  if (/^https:\/\/([a-z0-9-]+\.)?fathers\.com$/.test(origin)) return origin;
+  if (/^https:\/\/[a-z0-9-]+-strategyanddesign\.vercel\.app$/.test(origin)) return origin;
+  if (/^https:\/\/fathers-com-platform[a-z0-9-]*\.vercel\.app$/.test(origin)) return origin;
+  return null;
+}
+function corsFor(req: Request): Record<string, string> {
+  const allowed = allowedOrigin(req.headers.get("Origin"));
+  return {
+    ...CORS_BASE,
+    "Access-Control-Allow-Origin": allowed ?? "https://fathers.com",
+  };
+}
 function preflight(req: Request): Response | null {
-  return req.method === "OPTIONS" ? new Response("ok", { headers: corsHeaders }) : null;
+  return req.method === "OPTIONS" ? new Response("ok", { headers: corsFor(req) }) : null;
 }
-function json(body: unknown, status = 200): Response {
-  return new Response(JSON.stringify(body), { status, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+function json(req: Request, body: unknown, status = 200): Response {
+  return new Response(JSON.stringify(body), { status, headers: { ...corsFor(req), "Content-Type": "application/json" } });
 }
+
 
 serve(async (req) => {
   const pf = preflight(req); if (pf) return pf;
@@ -24,25 +39,25 @@ serve(async (req) => {
   const anon = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_ANON_KEY")!, { global: { headers: { Authorization: auth } } });
   const { data: userData } = await anon.auth.getUser();
   const uid = userData?.user?.id;
-  if (!uid) return json({ error: "not signed in" }, 401);
+  if (!uid) return json(req, { error: "not signed in" }, 401);
 
   let body: { video_id?: string; position_seconds?: number };
-  try { body = await req.json(); } catch { return json({ error: "malformed body" }, 400); }
+  try { body = await req.json(); } catch { return json(req, { error: "malformed body" }, 400); }
   const { video_id, position_seconds } = body;
-  if (!video_id || typeof position_seconds !== "number") return json({ error: "bad request" }, 400);
+  if (!video_id || typeof position_seconds !== "number") return json(req, { error: "bad request" }, 400);
 
   const svc = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
   const now = new Date();
 
   const { data: vid } = await svc.from("course_videos").select("course_id,duration_seconds").eq("id", video_id).maybeSingle();
-  if (!vid) return json({ error: "unknown video" }, 400);
+  if (!vid) return json(req, { error: "unknown video" }, 400);
   const { data: enr } = await svc.from("certificate_enrollments").select("id,state").eq("user_id", uid).eq("course_id", vid.course_id).maybeSingle();
-  if (!enr) return json({ error: "not enrolled" }, 403);
+  if (!enr) return json(req, { error: "not enrolled" }, 403);
 
   const duration = vid.duration_seconds ?? 0;
   async function reject(reason: string) {
     await svc.from("progress_events").insert({ user_id: uid, video_id, position_seconds, credited_seconds: 0, reason });
-    return json({ credited: 0, reason });
+    return json(req, { credited: 0, reason });
   }
   if (!duration) return reject("no film");
   if (position_seconds > duration + 5) return reject("position past duration");
@@ -70,5 +85,5 @@ serve(async (req) => {
   await svc.from("certificate_enrollments").update({ last_activity_at: now.toISOString() })
     .eq("user_id", uid).eq("course_id", vid.course_id).eq("state", "in_progress");
 
-  return json({ credited, total, completed: done });
+  return json(req, { credited, total, completed: done });
 });

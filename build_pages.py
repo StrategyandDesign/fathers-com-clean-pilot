@@ -115,35 +115,50 @@ HEAD = '''<!DOCTYPE html>
 
 def nav(active='', mode='public'):
     if mode=='app':
-        links = [('Home','dashboard.html'),('The Courses','certificates.html'),('Stories','stories.html'),('Circles','circles.html')]
-        if not SHOW_STORIES: links = [l for l in links if l[1] != 'stories.html']
-        active = {'Certificates':'The Courses','Classes':'The Courses'}.get(active, active)
+        # Signed-in chrome: Dashboard + My Plan always present; Account in nav-right.
+        links = [('Dashboard','dashboard.html'),('My Plan','plan.html'),('Courses','certificates.html'),('Circle','circles.html')]
+        active = {'Home':'Dashboard','Certificates':'Courses','The Courses':'Courses','Classes':'Courses','Circles':'Circle'}.get(active, active)
     else:
-        links = [('The Profile','profile.html'),('The Courses','certificates.html'),('Stories','stories.html')]
-        if not SHOW_STORIES: links = [l for l in links if l[1] != 'stories.html']
-        # Legacy page actives map onto the new public nav so highlighting stays sane.
-        active = {'For Groups':'For Organizations','For Veterans':'For Organizations','Classes':'The Courses','Certificates':'The Courses','My Plan':'Home'}.get(active, active)
+        # Public: father path first; org entry grouped; Log in in drawer (not hide-m).
+        links = [('Profile','profile.html'),('Courses','certificates.html'),('For organizations','organizations.html'),('Log in','login.html')]
+        if SHOW_STORIES:
+            # Stories sits after Courses when live; kept out of the cold father path otherwise.
+            links = [('Profile','profile.html'),('Courses','certificates.html'),('Stories','stories.html'),('For organizations','organizations.html'),('Log in','login.html')]
+        active = {
+            'The Profile':'Profile','The Courses':'Courses','Certificates':'Courses','Classes':'Courses',
+            'For Organizations':'For organizations','For Groups':'For organizations','For Veterans':'For organizations',
+            'My Plan':'Profile','Home':'Profile'
+        }.get(active, active)
     lis = ''.join(f'<li><a href="{h}" {"class=\"active\"" if t==active else ""}>{t}</a></li>' for t,h in links)
-    right = ('<a href="sponsor.html" class="hide-m">Sponsor</a><a href="login.html" class="hide-m">Log in</a><a class="btn btn-yellow btn-sm" href="profile.html">Start your Profile</a>'
+    right = ('<a href="sponsor.html" class="hide-m">Sponsor</a><a class="btn btn-yellow btn-sm" href="profile.html">Start Profile</a>'
              if mode=='public' else
-             '<a href="#" data-open-search class="hide-m">Search</a><a href="sponsor.html" class="hide-m">Sponsor</a><a href="account.html" class="avatarchip" title="Account" style="text-decoration:none">M</a>')
+             '<a href="plan.html" class="hide-m">My Plan</a><a href="account.html" class="avatarchip" title="Account" style="text-decoration:none">M</a>')
     return f'''<nav class="nav"><div class="container nav-inner">
 <a class="brand" href="index.html"><img class="lg-dark" src="assets/img/logomark-light.png" alt="Fathers.com logomark"><img class="lg-light" src="assets/img/logomark-dark.png" alt="Fathers.com logomark"><b>Fathers.com</b></a>
-<ul class="nav-links">{lis}</ul>
-<div class="nav-right">{right}<button class="themeswitch" data-themeswitch aria-label="Switch palette" title="Switch palette"><span class="tsw-dot"></span></button><button class="nav-toggle">MENU</button></div>
+<ul class="nav-links" id="fc-nav-links">{lis}</ul>
+<div class="nav-right">{right}<button class="themeswitch" data-themeswitch aria-label="Switch palette" title="Switch palette"><span class="tsw-dot"></span></button><button class="nav-toggle" type="button" aria-expanded="false" aria-controls="fc-nav-links">MENU</button></div>
 </div></nav>
+'''
+
+
+TRUST_BAR = '''<div class="trust-bar" role="note"><div class="container trust-bar-inner">
+  <span>Free for participants</span><span class="tb-dot" aria-hidden="true">&middot;</span>
+  <span>Facilitator-led</span><span class="tb-dot" aria-hidden="true">&middot;</span>
+  <span>Verifiable certificate</span><span class="tb-dot" aria-hidden="true">&middot;</span>
+  <a href="verify.html">Verify a serial</a>
+</div></div>
 '''
 
 FOOT = '''<footer><div class="container">
 <div class="footgrid">
   <div><a class="brand" href="index.html" style="margin-bottom:16px"><img class="lg-dark" src="assets/img/logomark-light.png" alt="" style="height:34px"><img class="lg-light" src="assets/img/logomark-dark.png" alt="" style="height:34px"><b>Fathers.com</b></a>
     <p class="small" style="margin-top:14px;max-width:32ch">Presence is a skill. Train it.</p>
-    <p class="fine" style="margin-top:14px">PO Box 996, Tontitown, AR 72770<br>Team@Fathers.com</p></div>
-  <div><h4>Measure</h4><ul><li><a href="profile.html">The Keystone Profile</a></li><li><a href="research.html">The Research</a></li></ul></div>
-  <div><h4>Train &amp; Prove</h4><ul><li><a href="stories.html">Stories</a></li><li><a href="certificates.html">The Courses</a></li><li><a href="verify.html">Verify a credential</a></li></ul></div>
-  <div><h4>Certification</h4><ul><li><a href="organizations.html">Certified Organizations</a></li><li><a href="facilitators.html">Certified Facilitators</a></li><li><a href="groups.html">Groups &amp; Circles</a></li><li><a href="employers.html">Employers</a></li><li><a href="sponsor.html">Sponsor a Man</a></li></ul></div>
-  <div><h4>Company</h4><ul><li><a href="about.html">About NCF</a></li><li><a href="research.html">Research</a></li><li><a href="gatherings.html">Gatherings</a></li><li><a href="mailto:Team@Fathers.com">Contact</a></li></ul></div>
-  <div><h4>Legal</h4><ul><li><a href="terms.html">Terms</a></li><li><a href="privacy.html">Privacy</a></li><li><a href="security.html">Security</a></li><li><a href="verify.html">Verify a credential</a></li></ul></div>
+    <p class="fine" style="margin-top:14px">PO Box 996, Tontitown, AR 72770<br>Team@Fathers.com</p>
+    <a class="foot-verify" href="verify.html">Verify a serial &rarr;</a></div>
+  <div><h4>Measure</h4><ul><li><a href="profile.html">Keystone Profile</a></li><li><a href="research.html">Research</a></li><li><a href="plan.html">My Plan</a></li></ul></div>
+  <div><h4>Train</h4><ul><li><a href="certificates.html">Courses</a></li><li><a href="stories.html">Stories</a></li><li><a href="verify.html">Verify a credential</a></li></ul></div>
+  <div><h4>Organizations</h4><ul><li><a href="organizations.html">Certified Organizations</a></li><li><a href="facilitators.html">Certified Facilitators</a></li><li><a href="groups.html">Groups &amp; Circles</a></li><li><a href="employers.html">Employers</a></li><li><a href="sponsor.html">Sponsor certification</a></li></ul></div>
+  <div><h4>Company</h4><ul><li><a href="about.html">About NCF</a></li><li><a href="gatherings.html">Gatherings</a></li><li><a href="mailto:Team@Fathers.com">Contact</a></li><li><a href="terms.html">Terms</a></li><li><a href="privacy.html">Privacy</a></li><li><a href="security.html">Security</a></li></ul></div>
 </div>
 <div style="margin-top:48px;max-width:420px"><h4 style="font-family:var(--font-mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ash);margin-bottom:12px">One useful thing for fathers, weekly</h4>
 <form class="row" data-lead="newsletter" data-done="You are on the list. One useful thing, weekly."><input class="input" name="email" type="email" required placeholder="Email address"><button class="btn btn-secondary btn-sm">Send it</button></form></div>
@@ -396,34 +411,24 @@ for _v in VERTICALS:
 PAGES['changelog.html'] = dict(title='What\'s new', desc='Release notes for the Fathers.com platform.', active='', mode='public', body='\n'.join(_cl))
 
 # ================================================== index.html (P1)
-PAGES['index.html'] = dict(title='Know where you stand', desc='Take the free Keystone Profile. Four scores, one honest read, and a ninety-day plan built for you. Two tracks: Fatherhood and Manhood. About twenty minutes.', active='', mode='public', body='''
+PAGES['index.html'] = dict(title='Know where you stand', desc='Take the free Keystone Father Profile. About twenty minutes. Four scores, one honest read, and a ninety-day plan built for you.', active='', mode='public', body='''
 <header class="hero"><div class="container split">
   <div>
     <div class="eyebrow" style="margin-bottom:18px">FATHERS.COM</div>
     <h1 class="d-48" style="font-weight:700;letter-spacing:-.02em">Know where you stand.</h1>
-    <p class="lead" style="margin:22px 0 28px">Start with the free Keystone Profile. Get your score on the four things that matter, and a ninety-day plan built for you. Two tracks, one standard: The Fatherhood Track for men raising children now, The Manhood Track for men preparing, mentoring, or growing.</p>
-    <div class="hero-intent">
-      <div class="hero-intent-q">Where are you in the journey?</div>
-      <div class="hero-intent-opts">
-        <button class="hero-intent-opt" data-path="father">
-          <span class="hio-text">
-            <span class="hio-label">I'm raising children now</span>
-            <span class="hio-sub">The Fatherhood Track</span>
-          </span>
-          <span class="hio-arrow">&rarr;</span>
-        </button>
-        <button class="hero-intent-opt" data-path="full" data-assessment="keystone-manhood-profile">
-          <span class="hio-text">
-            <span class="hio-label">I'm preparing, mentoring, or growing</span>
-            <span class="hio-sub">The Manhood Track</span>
-          </span>
-          <span class="hio-arrow">&rarr;</span>
-        </button>
+    <p class="lead" style="margin:22px 0 28px">Start with the free Keystone Father Profile. About twenty minutes. You get scores on the four things that matter, and a ninety-day plan built from your answers, not a lecture, not a label.</p>
+    <div class="hero-cta" style="display:flex;flex-direction:column;align-items:flex-start;gap:14px;max-width:440px">
+      <a class="btn btn-yellow btn-lg" href="profile.html" style="width:100%;text-align:center">Start free Profile &middot; about 20 min</a>
+      <div class="progress-rail" aria-hidden="true" style="padding:0">
+        <span class="pr-step is-here"><span class="pr-n">1</span> Profile</span><span class="pr-join"></span>
+        <span class="pr-step"><span class="pr-n">2</span> Plan</span><span class="pr-join"></span>
+        <span class="pr-step"><span class="pr-n">3</span> Course</span>
       </div>
-      <div class="hero-intent-foot">
-        <span class="fine">Free. About twenty minutes. Your results are private.</span>
-        <a class="link ash" href="certificates.html" style="font-size:13px">Or explore classes first</a>
+      <div class="row wrap" style="gap:16px;align-items:center">
+        <a class="btn btn-secondary btn-sm" href="login.html">Log in</a>
+        <a class="link ash" href="organizations.html" style="font-size:13px">I have a facilitator</a>
       </div>
+      <p class="fine" style="margin:0"><a class="link ash" href="profile.html?assessment=keystone-manhood-profile" style="font-size:12px">Preparing, mentoring, or growing? The Manhood track</a></p>
     </div>
   </div>
   <div class="heromarquee" aria-hidden="true">
@@ -453,6 +458,15 @@ PAGES['index.html'] = dict(title='Know where you stand', desc='Take the free Key
   </div>
 </div></header>
 
+<section class="tight" style="padding-top:12px;padding-bottom:20px"><div class="container">
+  <div class="eyebrow brass" style="margin-bottom:16px">HOW IT WORKS</div>
+  <div class="hiw-rail" aria-label="Profile, then Plan, then Course">
+    <div class="hiw"><div class="hiw-n">01 &middot; PROFILE</div><b>Know where you stand</b><p class="small" style="margin-top:8px;color:var(--ash)">Free Keystone Father Profile. About twenty minutes. Private to you.</p></div>
+    <div class="hiw"><div class="hiw-n">02 &middot; PLAN</div><b>Ninety days, built for you</b><p class="small" style="margin-top:8px;color:var(--ash)">Small moves from your gaps, workable on a busy week.</p></div>
+    <div class="hiw"><div class="hiw-n">03 &middot; COURSE</div><b>Film with a facilitator</b><p class="small" style="margin-top:8px;color:var(--ash)">When a Certified Facilitator claims your seat, watch, checkpoint, and earn a verifiable certificate.</p></div>
+  </div>
+</div></section>
+
 <section class="band"><div class="container split" style="align-items:center">
   <div>
     <div class="eyebrow" style="margin-bottom:14px">MEASURE &middot; YOUR BASELINE</div>
@@ -481,8 +495,8 @@ PAGES['index.html'] = dict(title='Know where you stand', desc='Take the free Key
   <div>
     <div class="eyebrow" style="margin-bottom:12px">START FREE</div>
     <h2 class="d-28" style="margin-bottom:14px">Start free. Grow on a plan.</h2>
-    <p class="fine" style="color:var(--ash);max-width:46ch;margin-bottom:24px">Every course is free to the man who takes it. Sponsorship funds seats and materials inside certified programs: a facilitator-led cohort with logged sessions and a final, not a self-serve video. The completion is still his to earn.</p>
-    <div class="row wrap" style="align-items:center;gap:18px"><a class="btn btn-yellow" href="profile.html">Start your Profile</a><a class="link" href="sponsor.html">Or sponsor a man &rarr;</a></div>
+    <p class="fine" style="color:var(--ash);max-width:46ch;margin-bottom:24px">Every course is free to the man who takes it. Certified Organizations and facilitators carry the standard: film cohorts, logged sessions, and a verifiable certificate. Sponsors fund organization certification and facilitator credentialing, not individual seats.</p>
+    <div class="row wrap" style="align-items:center;gap:18px"><a class="btn btn-yellow" href="profile.html">Start your Profile</a><a class="link" href="sponsor.html">Sponsor a Certified Organization &rarr;</a></div>
   </div>
   <div>
     <div class="fine mono" style="letter-spacing:.08em;margin-bottom:4px;color:var(--ash)">WHAT FREE INCLUDES</div>
@@ -523,17 +537,17 @@ PAGES['index.html'] = dict(title='Know where you stand', desc='Take the free Key
     <a class="card" href="course-steady-under-pressure.html" style="padding:0;overflow:hidden;text-decoration:none">
       <div class="slot r-2x3 filled" data-slot="IMG-P1-CAT-2" style="max-height:280px"><img src="assets/img/photos/action-02.jpg" alt="Steady Under Pressure"></div>
       <div style="padding:20px 22px">
-        <div class="row between" style="margin-bottom:8px"><span class="pill">SESSIONS LIVE</span><span class="fine mono">6 sessions</span></div>
+        <div class="row between" style="margin-bottom:8px"><span class="pill">FILM COURSE</span><span class="fine mono">6 sessions</span></div>
         <h3 style="margin-bottom:6px">Steady Under Pressure</h3>
-        <p class="fine" style="color:var(--ash)">Steadiness, trained. All six written sessions are live; films are in production.</p>
+        <p class="fine" style="color:var(--ash)">Steadiness, trained on film with a facilitator. Checkpoints and a verifiable certificate.</p>
       </div>
     </a>
     <a class="card" href="course-coming-home-present.html" style="padding:0;overflow:hidden;text-decoration:none">
       <div class="slot r-2x3 filled" data-slot="IMG-P1-CAT-3" style="max-height:280px"><img src="assets/img/photos/community-01.jpg" alt="Coming Home Present"></div>
       <div style="padding:20px 22px">
-        <div class="row between" style="margin-bottom:8px"><span class="pill">SESSIONS LIVE</span><span class="fine mono">8 sessions</span></div>
+        <div class="row between" style="margin-bottom:8px"><span class="pill">FILM COURSE</span><span class="fine mono">8 sessions</span></div>
         <h3 style="margin-bottom:6px">Coming Home Present</h3>
-        <p class="fine" style="color:var(--ash)">Presence after time away. All eight written sessions are live; films are in production.</p>
+        <p class="fine" style="color:var(--ash)">Presence after time away. Film sessions with a facilitator; proof a court or program can check.</p>
       </div>
     </a>
   </div>
@@ -541,8 +555,11 @@ PAGES['index.html'] = dict(title='Know where you stand', desc='Take the free Key
 </div></section>
 
 <section class="tight" style="padding:10px 0 34px"><div class="container">
-  <div class="row wrap" style="gap:26px;justify-content:center;text-align:center">
-    <span class="fine">Change measured per man, baseline to exit</span><span class="fine ash">&middot;</span><span class="fine">Built by the National Center for Fathering since 1990</span><span class="fine ash">&middot;</span><span class="fine">Every credential publicly verifiable</span>
+  <div class="social-proof">
+    <span>National Center for Fathering &middot; since 1990</span>
+    <span>Dr. Ken Canfield</span>
+    <span>Verify any serial at fathers.com/verify</span>
+    <span>Change measured per man, baseline to exit</span>
   </div>
 </div></section>
 
@@ -614,20 +631,28 @@ PAGES['report.html'] = dict(title='Your Written Report', desc='Every dimension: 
 <script src="assets/js/keystone-report.js"></script>
 ''')
 
-PAGES['profile.html'] = dict(title='The Keystone Father Profile', desc='About twenty minutes. Four scores. One plan.', active='', mode='public', nochrome=True, body='''
-<div id="ksIntro" style="max-width:680px;margin:0 auto;padding:64px 24px 40px;text-align:center">
-  <div class="eyebrow" style="margin-bottom:16px">THE KEYSTONE PROFILE</div>
-  <h1 class="d-36" style="margin-bottom:14px">Twenty minutes that shape the next ninety days.</h1>
-<p class="fine" style="max-width:60ch;margin:14px 0 0;color:var(--ash)">The Keystone Father Profile is an educational tool, not a clinical, diagnostic, or medical instrument, and it is not a substitute for professional care. If you are carrying something heavy, tell your facilitator; connecting you with the right help, the same day, is part of the job.</p>
-
-  <p style="color:var(--ash);max-width:52ch;margin:0 auto 28px">The full inventory, in one sitting; the canonical spec lives on the <a class="link" href="research.html">Research page</a>. Grown from the Personal Fathering Profile research program of Dr. Ken Canfield at the National Center for Fathering. You get your score on the four dimensions you can train, and a ninety-day plan built from your answers.</p>
-  <div class="row wrap" style="justify-content:center;gap:22px;margin-bottom:30px">
-    <span class="fine">About twenty minutes</span><span class="fine ash">&middot;</span>
-    <span class="fine">Pause anytime, every answer saves</span><span class="fine ash">&middot;</span>
-    <span class="fine">Private. Your answers are never shown to anyone.</span>
+PAGES['profile.html'] = dict(title='The Keystone Father Profile', desc='About twenty minutes. Four scores. One plan.', active='Profile', mode='public', nochrome=True, body='''<div id="ksIntro" style="max-width:640px;margin:0 auto;padding:72px 24px 48px;text-align:center">
+  <div class="eyebrow brass" style="margin-bottom:18px">THE KEYSTONE FATHER PROFILE</div>
+  <h1 class="d-36" style="margin-bottom:16px">About twenty minutes.<br>Four scores. One plan.</h1>
+  <p style="color:var(--ash);max-width:48ch;margin:0 auto 22px;font-size:17px;line-height:1.55">An honest read on where you stand. Not a lecture. Not a label. You leave with scores you can train and a ninety-day plan built from your answers.</p>
+  <div class="row wrap" style="justify-content:center;gap:10px 18px;margin-bottom:28px">
+    <span class="fine mono" style="letter-spacing:.04em">~20 minutes</span>
+    <span class="fine ash">&middot;</span>
+    <span class="fine mono" style="letter-spacing:.04em">Pause anytime</span>
+    <span class="fine ash">&middot;</span>
+    <span class="fine mono" style="letter-spacing:.04em">Private to you</span>
   </div>
-  <button class="btn btn-yellow" id="ksBegin" style="font-size:16px;padding:14px 34px">Begin the Profile</button>
-  <p class="fine" style="margin-top:16px">Already started? It picks up right where you left off.</p>
+  <button class="btn btn-yellow btn-lg" id="ksBegin">Begin the Profile</button>
+  <p class="fine" style="margin-top:18px;color:var(--ash)">Already started? It picks up where you left off.</p>
+  <div class="card" style="margin:36px auto 0;padding:18px 20px;text-align:left;max-width:480px">
+    <div class="eyebrow" style="margin-bottom:10px">WHAT YOU GET</div>
+    <div class="stack-8">
+      <div class="check"><span class="checkmark">&check;</span><span class="small">Scores on Involvement, Consistency, Awareness, Nurturance</span></div>
+      <div class="check"><span class="checkmark">&check;</span><span class="small">A ninety-day plan with one clear next move</span></div>
+      <div class="check"><span class="checkmark">&check;</span><span class="small">A path into film courses when a facilitator claims your seat</span></div>
+    </div>
+  </div>
+  <p class="fine" style="max-width:56ch;margin:22px auto 0;color:var(--ash)">An educational tool from Dr. Ken Canfield and the National Center for Fathering. Not clinical or diagnostic. Spec on the <a class="link" href="research.html">Research page</a>. If you are carrying something heavy, tell your facilitator. Connecting you with help the same day is part of the job.</p>
 </div>
 <div class="assess" id="keystone" hidden></div>
 <p class="center fine" style="padding:0 0 28px"><a class="link ash" href="index.html" style="font-size:12px">Back to Fathers.com</a></p>
@@ -975,7 +1000,7 @@ PAGES['groups.html'] = dict(title='For Groups', desc='Circles for workplaces, te
         <div class="check"><span class="checkmark">&check;</span><span class="small">Every class and film</span></div>
         <div class="check"><span class="checkmark">&check;</span><span class="small">Leader kits and guides</span></div>
         <div class="check"><span class="checkmark">&check;</span><span class="small">Admin analytics</span></div>
-        <div class="check"><span class="checkmark">&check;</span><span class="small">Sponsored-seat option</span></div>
+        <div class="check"><span class="checkmark">&check;</span><span class="small">Organization certification sponsorship</span></div>
       </div></div>
     <div class="card" style="padding:32px"><div class="eyebrow" style="margin-bottom:12px">ORGANIZATION</div>
       <div class="bigscore" style="font-size:44px">Custom</div>
@@ -1010,7 +1035,7 @@ PAGES['groups.html'] = dict(title='For Groups', desc='Circles for workplaces, te
     <table><thead><tr><th>Name</th><th>Email</th><th>Baseline</th><th>Last active</th><th>Circle</th></tr></thead><tbody>
       <tr><td>Member 01</td><td class="fine">member01@…</td><td><span class="checkmark" style="width:16px;height:16px;font-size:9px">&check;</span></td><td class="fine">Today</td><td class="fine">Tuesday 0600</td></tr>
       <tr><td>Member 02</td><td class="fine">member02@…</td><td><span class="checkmark" style="width:16px;height:16px;font-size:9px">&check;</span></td><td class="fine">2h</td><td class="fine">Tuesday 0600</td></tr>
-      <tr><td>Member 03</td><td class="fine">member03@…</td><td class="fine">&mdash;</td><td class="fine">Invited</td><td class="fine">Thursday 1900</td></tr>
+      <tr><td>Member 03</td><td class="fine">member03@…</td><td class="fine">, </td><td class="fine">Invited</td><td class="fine">Thursday 1900</td></tr>
     </tbody></table>
   </div>
 </div></section>
@@ -1083,105 +1108,76 @@ PAGES['checkout.html'] = dict(title='Support the work', desc='Founding-supporter
 ''')
 
 # ================================================== gift.html (P8 screens 3-4)
-PAGES['gift.html'] = dict(title='Give a man the work', desc='Fund a year of supporter membership and materials for a man you believe in. The courses and his Certificate of Completion are free for every man; your gift funds the rest and tells him you are behind him.', active='', mode='public', body='''
-<div class="billboard">
-  <div class="slot r-21x9 flush" data-slot="IMG-P8-GFT-01" style="max-height:48vh"></div>
-  <div class="overlay container" style="left:50%;transform:translateX(-50%);max-width:var(--max)">
-    <h1 class="d-48">Back the work. He earns the proof.</h1>
-    <p class="small" style="margin-top:10px;max-width:52ch">The courses and the Certificate of Completion are free for every man. Your gift funds a year of supporter membership and his printed materials, with your name on it. The completion is still earned, never given. He will know it came from you.</p>
-  </div>
-</div>
-<section class="tight"><div class="container split" style="align-items:start">
-  <div class="card" style="padding:32px">
-    <div class="row between" style="margin-bottom:10px"><b>One sponsored seat</b><b class="mono">$120</b></div>
-    <p class="fine" style="margin-bottom:22px">A year of supporter membership plus his printed workbooks and materials for all four courses: Fathering Fundamentals, Coming Home Present, Steady Under Pressure, Same Team. His Keystone Profile, ninety-day plan, the courses, and his Certificate of Completion are free for every man, gift or not.</p>
-    <div class="grid-2" style="gap:16px">
-      <div class="field"><label>To</label><input class="input" id="g-to" placeholder="Dad"></div>
-      <div class="field"><label>From</label><input class="input" id="g-from" placeholder="Marcus"></div>
-    </div>
-    <div class="field"><label>Message</label><textarea id="g-msg" maxlength="200" placeholder="You showed me. Now train it."></textarea>
-      <p class="fine" style="margin-top:6px"><span id="g-count">200 left</span></p></div>
-    <div class="field"><label>Delivery</label>
-      <div class="chiprow"><button class="chip selected" data-deliver="now">Send now</button><button class="chip" data-deliver="date">Pick a date</button></div>
-      <input class="input" id="g-date" type="date" value="2027-06-20" style="display:none;margin-top:12px;max-width:220px">
-    </div>
-    <div class="field"><label>Method</label>
-      <div class="chiprow"><button class="chip selected" data-toggle="single">Email</button><button class="chip" data-toggle="single">Printable card</button></div></div>
-    <form class="row" data-lead="gift-interest" data-done="You are on the list. We will email you the moment giving opens." style="gap:10px">
-      <input class="input" name="email" type="email" required placeholder="Your email" style="flex:1">
-      <button class="btn btn-primary">Reserve this gift</button>
-    </form>
-    <p class="fine" style="margin-top:8px">Gift checkout opens shortly. Reserve it now and we will email you first.</p>
-    <p class="fine" style="margin-top:12px"><b class="bone">Completions are earned, never given.</b> You are backing the work, not buying the paper: identity confirmed, hours logged, a final at eighty percent. When he passes, the document is his because he earned it. That is why it means something.</p>
-    <p class="fine" style="margin-top:8px">Giving to a man you have not met? <a class="link ash" href="sponsor.html">Sponsor a man &rarr;</a></p>
-  </div>
-  <div>
-    <div class="eyebrow" style="margin-bottom:14px">HE SEES THIS</div>
-    <div class="doc" style="padding:40px;max-width:520px;margin:0">
-      <img src="assets/img/logomark-dark.png" alt="Fathers.com" style="height:36px;margin-bottom:24px">
-      <p style="font-family:var(--font-mono);font-size:12px;letter-spacing:.2em;color:#6b6257;text-transform:uppercase;margin-bottom:14px">A sponsored seat</p>
-      <h2 style="font-size:26px;color:#141210;margin-bottom:16px">For <span id="pv-to">Dad</span>, from <span id="pv-from">Marcus</span></h2>
-      <p id="pv-msg" style="font-family:var(--font-display);font-size:19px;color:#3a352e;line-height:1.45;margin-bottom:24px">You showed me. Now train it.</p>
-      <span style="display:inline-block;background:#E86A3C;color:#0A0A0A;padding:13px 24px;border-radius:6px;font-weight:600;font-size:14px">Claim it and take your baseline</span>
-      <p style="font-size:11px;color:#6b6257;margin-top:18px">No card required to redeem.</p>
-    </div>
-  </div>
+PAGES['gift.html'] = dict(title='Sponsor organization certification', desc='Fund Certified Organization status and facilitator credentialing. Men stay free.', active='', mode='public', body='''
+<meta http-equiv="refresh" content="0;url=sponsor.html">
+<section class="hero"><div class="container" style="max-width:640px">
+  <div class="eyebrow" style="margin-bottom:14px">SPONSORSHIP</div>
+  <h1 class="d-36">Sponsorship funds organizations.</h1>
+  <p class="lead" style="margin:16px 0 22px">Gifts go to Certified Organization status and facilitator credentialing. Courses stay free for the men who do the work.</p>
+  <a class="btn btn-yellow" href="sponsor.html">Sponsor certification</a>
 </div></section>
-<section class="band tight"><div class="container center" style="max-width:620px">
-  <div class="eyebrow" style="margin-bottom:16px">REDEMPTION PREVIEW</div>
-  <h2 class="d-28" style="margin-bottom:12px">Marcus sponsored your seat, paid in full.</h2>
-  <p class="quote" style="font-size:20px;margin-bottom:26px">"You showed me. Now train it."</p>
-  <a class="btn btn-primary" href="profile.html">Claim it and take your baseline</a>
-  <p class="fine" style="margin-top:14px">No card required to redeem.</p>
-</div></section>
-<script>
-(function(){
-  var t=document.getElementById('g-to'),f=document.getElementById('g-from'),m=document.getElementById('g-msg'),c=document.getElementById('g-count');
-  function u(){document.getElementById('pv-to').textContent=t.value||'Dad';document.getElementById('pv-from').textContent=f.value||'Marcus';document.getElementById('pv-msg').textContent=m.value||'You showed me. Now train it.';c.textContent=(200-m.value.length)+' left';}
-  [t,f,m].forEach(function(x){x.addEventListener('input',u)});u();
-  document.querySelectorAll('[data-deliver]').forEach(function(b){b.addEventListener('click',function(){
-    document.querySelectorAll('[data-deliver]').forEach(function(x){x.classList.remove('selected')});b.classList.add('selected');
-    document.getElementById('g-date').style.display=b.dataset.deliver==='date'?'':'none';});});
-})();
-</script>
 ''')
 
-# ================================================== sponsor.html (P8 screen 5)
-PAGES['sponsor.html'] = dict(title='Sponsor a man', desc='$120 funds one man&rsquo;s seat and materials in a certified program. Tax-deductible. He earns the completion; you fund the work.', active='', mode='public', body='''
+PAGES['sponsor.html'] = dict(title='Sponsor organization certification', desc='Fund a site becoming a Certified Organization and credential its facilitators. Tax-deductible. Men stay free; you fund the standard.', active='For organizations', mode='public', body='''
 <header class="hero"><div class="container split">
-  <div class="slot r-4x3" data-slot="IMG-P8-SPN-01"></div>
   <div>
-    <h1 class="d-48">Sponsor a man.</h1>
-    <p class="lead" style="margin:20px 0 8px">$120 funds one man&rsquo;s seat and printed materials in a certified program. The courses and the Certificate of Completion are free to him; your gift carries the cohort.</p>
-    <p class="small" style="margin-bottom:28px">Your gift is tax-deductible. Fathers.com is a program of the National Center for Fathering, a 501(c)(3).</p>
-    <div class="chiprow" style="margin-bottom:16px">
-      <button class="chip selected" data-toggle="single">1 man &middot; $120</button>
-      <button class="chip" data-toggle="single">3 men &middot; $360</button>
-      <button class="chip" data-toggle="single">10 men &middot; $1,200</button>
-      <button class="chip" data-toggle="single">Custom</button>
+    <div class="eyebrow brass" style="margin-bottom:14px">SPONSORSHIP &middot; ORGANIZATIONS</div>
+    <h1 class="d-48">Sponsor a Certified Organization.</h1>
+    <p class="lead" style="margin:20px 0 16px">Your gift funds site certification and facilitator credentialing, so a program can measure cohorts, lead film courses, and issue verifiable certificates. Men who take the work still pay nothing.</p>
+    <p class="small" style="margin-bottom:26px;color:var(--ash)">Tax-deductible. Fathers.com is a program of the National Center for Fathering, a 501(c)(3).</p>
+    <div class="org-outcomes" style="margin:0 0 28px">
+      <div class="oo"><b>Site certification</b><span>Annual Certified Organization status against the published standard.</span></div>
+      <div class="oo"><b>Facilitator credentials</b><span>Training, exam, supervised first cohort, registry listing.</span></div>
+      <div class="oo"><b>Cohort proof</b><span>Efficacy reporting and certificates anyone can verify.</span></div>
     </div>
-    <label style="display:flex;gap:12px;align-items:center;color:var(--bone);font-size:14px;margin-bottom:18px"><input type="checkbox" class="toggle"> Make it monthly</label>
-    <p class="fine" style="max-width:52ch;margin-bottom:12px">Sponsored seats are assigned through Certified Organizations. You will get one update when your seat is claimed. No personal details, no program names, ever.</p>
-    <p class="fine" style="max-width:52ch;margin-bottom:12px">Organizations and programs: sponsor ten and we set up your join link, one link that enrolls every man under your group.</p>
-    <p class="fine" style="max-width:52ch;margin-bottom:26px">Giving to your own dad or a friend? <a class="link ash" href="gift.html">Give a man the work &rarr;</a></p>
-    <form data-lead="sponsor-interest" data-done="Received. We will email you when sponsorship checkout opens." style="max-width:520px">
+    <div class="chiprow" style="margin-bottom:18px">
+      <button class="chip selected" type="button" data-toggle="single">1 facilitator &middot; $349</button>
+      <button class="chip" type="button" data-toggle="single">Site year &middot; $1,500</button>
+      <button class="chip" type="button" data-toggle="single">Site + 3 facilitators</button>
+      <button class="chip" type="button" data-toggle="single">Custom</button>
+    </div>
+    <form data-lead="sponsor-interest" data-done="Received. We will email you when certification sponsorship checkout opens." style="max-width:520px">
       <div class="eyebrow" style="margin:4px 0 10px">WHERE YOUR GIFT GOES</div>
       <div class="row wrap" style="gap:8px;margin-bottom:14px">
         <label class="chip"><input type="radio" name="designation" value="greatest-need" checked> Where the need is greatest</label>
-        <label class="chip"><input type="radio" name="designation" value="coming-home"> A father coming home</label>
-        <label class="chip"><input type="radio" name="designation" value="serving-or-served"> A father who serves or served</label>
-        <label class="chip"><input type="radio" name="designation" value="future-father"> A future father</label>
+        <label class="chip"><input type="radio" name="designation" value="new-site"> A new Certified Organization</label>
+        <label class="chip"><input type="radio" name="designation" value="facilitators"> Facilitator credentialing</label>
+        <label class="chip"><input type="radio" name="designation" value="renewal"> Annual renewal fund</label>
       </div>
       <div class="row" style="gap:10px">
         <input class="input" name="email" type="email" required placeholder="Your email" style="flex:1">
-        <button class="btn btn-primary">Sponsor</button>
+        <button class="btn btn-yellow">Sponsor certification</button>
       </div>
-      <p class="fine" style="margin-top:10px;max-width:52ch">A designation is a preference, honored whenever a matching seat is open. When none is waiting, your gift goes where the need is greatest, and we tell you which happened.</p>
+      <p class="fine" style="margin-top:12px;max-width:52ch">A designation is a preference. When a matching opportunity is open we honor it; otherwise your gift goes where certification need is greatest, and we tell you which happened.</p>
     </form>
-    <p class="fine" style="margin-top:8px;max-width:52ch">Sponsorship checkout opens shortly. Leave your email and we will set up your seats first.</p>
+    <p class="fine" style="margin-top:16px;max-width:52ch">Run a program yourself? <a class="link" href="organizations.html">Become a Certified Organization</a> &middot; <a class="link" href="facilitators.html">Get credentialed as a facilitator</a></p>
+  </div>
+  <div class="org-panel">
+    <div class="org-kicker">WHAT SPONSORSHIP IS</div>
+    <h2 class="d-22" style="margin-bottom:12px">Infrastructure, not a seat gift.</h2>
+    <p class="small" style="color:var(--ash);margin-bottom:16px">Sponsorship does not buy a man a certificate or assign him a personal seat. It funds the organization layer that makes free, facilitator-led, verifiable courses possible.</p>
+    <div class="stack-16">
+      <div class="check"><span class="checkmark">&check;</span><span class="small"><b>Certified Organization</b>, $1,500 per site, per year (launch pricing pends partner interviews)</span></div>
+      <div class="check"><span class="checkmark">&check;</span><span class="small"><b>Certified Facilitator</b>, $349 initial, $99 annual renewal</span></div>
+      <div class="check"><span class="checkmark">&check;</span><span class="small"><b>Men stay free</b>, Profile, plan, courses, and Certificate of Completion</span></div>
+    </div>
+    <p class="fine" style="margin-top:20px"><a class="link brass" href="verify.html">Verify a credential &rarr;</a></p>
   </div>
 </div></header>
+
+<section class="band tight"><div class="container split" style="align-items:start">
+  <div>
+    <div class="eyebrow" style="margin-bottom:12px">FOR FUNDERS &amp; DONORS</div>
+    <h2 class="d-28" style="margin-bottom:12px">One gift. A program that can prove itself.</h2>
+    <p class="small" style="color:var(--ash);max-width:56ch">When you sponsor certification, a site gets credentialed facilitators, baseline-to-exit measurement, and certificates courts and funders can check in ten seconds. That is the lever, not underwriting one individual enrollment.</p>
+  </div>
+  <div class="card" style="padding:26px 28px">
+    <p class="small" style="margin-bottom:14px"><b>Checkout opens shortly.</b> Leave your email on this page and we will place you first when certification sponsorship is live.</p>
+    <a class="btn btn-secondary btn-sm" href="organizations.html#walkthrough">See organization walkthrough</a>
+  </div>
+</div></section>
 ''')
+
 
 # ================================================== account.html (P9)
 PAGES['account.html'] = dict(title='Your settings', desc='Your name, how we reach you, what stays private, and your data.', active='', mode='app', auth=True, body='''
@@ -1289,30 +1285,31 @@ PAGES['certificates.html'] = dict(title='The Courses and the Certificate of Comp
   </div>
   <style>#tracks .cert-card{display:flex;flex-direction:column}#tracks .cert-card .sess-peek{margin-top:auto}#tracks .cert-card .cert-card-foot{margin-top:12px}</style>\n  <div class="cert-cards" id="tracks">
     <div class="cert-card" style="cursor:default" data-cert="fundamentals" data-title="Fathering Fundamentals" data-hours="10.0" data-desc="The flagship curriculum, hardened into proof. The same lessons taught by fathers who have lived it, plus identity verification, logged time, checkpoints, and a final assessment.">
-      <div class="cert-card-top"><span class="pill">Sessions live</span><span class="cert-card-hrs">5 sessions</span></div>
+      <div class="cert-card-top"><span class="pill">Film course</span><span class="cert-card-hrs">5 sessions</span></div>
       <h3>Fathering Fundamentals</h3>
       <p>The flagship, built on The 7 Secrets of Effective Fathers. The free course, hardened into proof.</p>\n      <details class="sess-peek" style="margin-top:10px"><summary class="fine" style="cursor:pointer;color:var(--brass,#c9a227)">The 5 lessons, at a glance</summary><ol class="small" style="margin:8px 0 2px;padding-left:18px"><li style="margin:5px 0"><b>Why Presence Wins</b> <span style="color:var(--ash)">&middot; &ldquo;Presence is the engine; everything else rides on it.&rdquo;</span></li><li style="margin:5px 0"><b>A Schedule They Can Trust</b> <span style="color:var(--ash)">&middot; &ldquo;Standing time, the calendar as a promise.&rdquo;</span></li><li style="margin:5px 0"><b>Enter Their World</b> <span style="color:var(--ash)">&middot; &ldquo;Friends’ names, inner weather, questions without fixing.&rdquo;</span></li><li style="margin:5px 0"><b>Repair Fast, Stand for Something</b> <span style="color:var(--ash)">&middot; &ldquo;The 24-hour repair standard, values out loud.&rdquo;</span></li><li style="margin:5px 0"><b>Your Own Father, Your Ninety Days</b> <span style="color:var(--ash)">&middot; &ldquo;What you inherited, what stops with you, the plan locked.&rdquo;</span></li></ol><p class="fine" style="margin:6px 0 0"><a class="link" href="class.html">Read them in full &rarr;</a></p></details>\n      <div class="cert-card-foot"><span class="mono">Free</span><a class="cert-card-go" href="enroll.html?cert=fundamentals&amp;title=Fathering%20Fundamentals&amp;hours=10.0">Enroll free &rarr;</a></div>\n    </div>\n    <div class="cert-card" style="cursor:default" data-cert="reentry" data-title="Coming Home Present" data-hours="8.0" data-desc="Presence after time away, whatever kept you away. Rebuilding from day one, catching up on how your child grew while you were away, with confirmed identity, logged time, checkpoints, and a final assessment a court or program can trust.">
-      <div class="cert-card-top"><span class="pill">Sessions live</span><span class="cert-card-hrs">8 sessions</span></div>
+      <div class="cert-card-top"><span class="pill">Film course</span><span class="cert-card-hrs">8 sessions</span></div>
       <h3>Coming Home Present</h3>
-      <p>Presence after time away, no matter what kept you away. All eight written sessions are published now, including catching up on how your child grew while you were gone. Films are in production and upload as they finish.</p>
-      \n      <details class="sess-peek" style="margin-top:10px"><summary class="fine" style="cursor:pointer;color:var(--brass,#c9a227)">The 8 sessions, at a glance</summary><ol class="small" style="margin:8px 0 2px;padding-left:18px"><li style="margin:5px 0"><b>The Body You Bring Home</b> <span style="color:var(--ash)">&middot; &ldquo;Your body did its job there. Now teach it that home is not there.&rdquo;</span></li><li style="margin:5px 0"><b>The First Weeks</b> <span style="color:var(--ash)">&middot; &ldquo;Plan around the wave. Do not grade yourself by it.&rdquo;</span></li><li style="margin:5px 0"><b>The Child Who Grew</b> <span style="color:var(--ash)">&middot; &ldquo;Meet the child in front of you, not the one you left.&rdquo;</span></li><li style="margin:5px 0"><b>Small Deposits</b> <span style="color:var(--ash)">&middot; &ldquo;Small and often beats big and rare.&rdquo;</span></li><li style="margin:5px 0"><b>When It Breaks</b> <span style="color:var(--ash)">&middot; &ldquo;Rupture is normal. Repair is the skill.&rdquo;</span></li><li style="margin:5px 0"><b>Keeping Your Word at a Distance</b> <span style="color:var(--ash)">&middot; &ldquo;A kept promise counts double from far away.&rdquo;</span></li><li style="margin:5px 0"><b>The Reunion Day</b> <span style="color:var(--ash)">&middot; &ldquo;If the child pulls away, that is the start, not the answer.&rdquo;</span></li><li style="margin:5px 0"><b>The Long Return</b> <span style="color:var(--ash)">&middot; &ldquo;The return is a season, not a day.&rdquo;</span></li></ol><p class="fine" style="margin:6px 0 0"><a class="link" href="course-coming-home-present.html">Read them in full &rarr;</a></p></details>\n      <div class="cert-card-foot"><span class="mono">Free</span><a class="cert-card-go" href="course-coming-home-present.html">Read the sessions &rarr;</a></div>
+      <p>Presence after time away, no matter what kept you away. Film sessions with a Certified Facilitator, checkpoints, and a certificate a court or program can verify.</p>
+      \n      <details class="sess-peek" style="margin-top:10px"><summary class="fine" style="cursor:pointer;color:var(--brass,#c9a227)">The 8 sessions, at a glance</summary><ol class="small" style="margin:8px 0 2px;padding-left:18px"><li style="margin:5px 0"><b>The Body You Bring Home</b> <span style="color:var(--ash)">&middot; &ldquo;Your body did its job there. Now teach it that home is not there.&rdquo;</span></li><li style="margin:5px 0"><b>The First Weeks</b> <span style="color:var(--ash)">&middot; &ldquo;Plan around the wave. Do not grade yourself by it.&rdquo;</span></li><li style="margin:5px 0"><b>The Child Who Grew</b> <span style="color:var(--ash)">&middot; &ldquo;Meet the child in front of you, not the one you left.&rdquo;</span></li><li style="margin:5px 0"><b>Small Deposits</b> <span style="color:var(--ash)">&middot; &ldquo;Small and often beats big and rare.&rdquo;</span></li><li style="margin:5px 0"><b>When It Breaks</b> <span style="color:var(--ash)">&middot; &ldquo;Rupture is normal. Repair is the skill.&rdquo;</span></li><li style="margin:5px 0"><b>Keeping Your Word at a Distance</b> <span style="color:var(--ash)">&middot; &ldquo;A kept promise counts double from far away.&rdquo;</span></li><li style="margin:5px 0"><b>The Reunion Day</b> <span style="color:var(--ash)">&middot; &ldquo;If the child pulls away, that is the start, not the answer.&rdquo;</span></li><li style="margin:5px 0"><b>The Long Return</b> <span style="color:var(--ash)">&middot; &ldquo;The return is a season, not a day.&rdquo;</span></li></ol><p class="fine" style="margin:6px 0 0"><a class="link" href="course-coming-home-present.html">Read them in full &rarr;</a></p></details>\n      <div class="cert-card-foot"><span class="mono">Free</span><a class="cert-card-go" href="course-coming-home-present.html">Open the course &rarr;</a></div>
     </div>
     <div class="cert-card" style="cursor:default" data-cert="anger" data-title="Steady Under Pressure" data-hours="6.0" data-desc="Steadiness, trained: the pause, the repair, and the habits underneath them. Sessions logged, identity checked, checkpoints, and a final assessment at eighty percent to pass.">
-      <div class="cert-card-top"><span class="pill">Sessions live</span><span class="cert-card-hrs">6 sessions</span></div>
+      <div class="cert-card-top"><span class="pill">Film course</span><span class="cert-card-hrs">6 sessions</span></div>
       <h3>Steady Under Pressure</h3>
-      <p>Steadiness, trained: the pause, the repair, and the habits underneath them. All six written sessions are published; films are in production.</p>\n      <p class="fine" style="color:var(--ash);margin-top:12px">Not anger management, batterer intervention, or a substitute for any court-mandated program; not designed or validated for those purposes and never ordered in their place.</p>
-      \n      <details class="sess-peek" style="margin-top:10px"><summary class="fine" style="cursor:pointer;color:var(--brass,#c9a227)">The 6 sessions, at a glance</summary><ol class="small" style="margin:8px 0 2px;padding-left:18px"><li style="margin:5px 0"><b>The Alarm System</b> <span style="color:var(--ash)">&middot; &ldquo;The surge is a signal, not an order.&rdquo;</span></li><li style="margin:5px 0"><b>The Pause and the Exhale</b> <span style="color:var(--ash)">&middot; &ldquo;Six seconds and a long exhale buy your judgment back.&rdquo;</span></li><li style="margin:5px 0"><b>The Step Away</b> <span style="color:var(--ash)">&middot; &ldquo;Step away to come back.&rdquo;</span></li><li style="margin:5px 0"><b>Naming It</b> <span style="color:var(--ash)">&middot; &ldquo;Say the feeling so you do not have to show it.&rdquo;</span></li><li style="margin:5px 0"><b>The Repair</b> <span style="color:var(--ash)">&middot; &ldquo;Own it out loud.&rdquo;</span></li><li style="margin:5px 0"><b>Steady Habits, Steady Mood</b> <span style="color:var(--ash)">&middot; &ldquo;Steadiness is built in the boring hours.&rdquo;</span></li></ol><p class="fine" style="margin:6px 0 0"><a class="link" href="course-steady-under-pressure.html">Read them in full &rarr;</a></p></details>\n      <div class="cert-card-foot"><span class="mono">Free</span><a class="cert-card-go" href="course-steady-under-pressure.html">Read the sessions &rarr;</a></div>
+      <p>Steadiness, trained on film: the pause, the repair, and the habits underneath them. Facilitator-led, with checkpoints and a verifiable certificate.</p>\n      <p class="fine" style="color:var(--ash);margin-top:12px">Not anger management, batterer intervention, or a substitute for any court-mandated program; not designed or validated for those purposes and never ordered in their place.</p>
+      \n      <details class="sess-peek" style="margin-top:10px"><summary class="fine" style="cursor:pointer;color:var(--brass,#c9a227)">The 6 sessions, at a glance</summary><ol class="small" style="margin:8px 0 2px;padding-left:18px"><li style="margin:5px 0"><b>The Alarm System</b> <span style="color:var(--ash)">&middot; &ldquo;The surge is a signal, not an order.&rdquo;</span></li><li style="margin:5px 0"><b>The Pause and the Exhale</b> <span style="color:var(--ash)">&middot; &ldquo;Six seconds and a long exhale buy your judgment back.&rdquo;</span></li><li style="margin:5px 0"><b>The Step Away</b> <span style="color:var(--ash)">&middot; &ldquo;Step away to come back.&rdquo;</span></li><li style="margin:5px 0"><b>Naming It</b> <span style="color:var(--ash)">&middot; &ldquo;Say the feeling so you do not have to show it.&rdquo;</span></li><li style="margin:5px 0"><b>The Repair</b> <span style="color:var(--ash)">&middot; &ldquo;Own it out loud.&rdquo;</span></li><li style="margin:5px 0"><b>Steady Habits, Steady Mood</b> <span style="color:var(--ash)">&middot; &ldquo;Steadiness is built in the boring hours.&rdquo;</span></li></ol><p class="fine" style="margin:6px 0 0"><a class="link" href="course-steady-under-pressure.html">Read them in full &rarr;</a></p></details>\n      <div class="cert-card-foot"><span class="mono">Free</span><a class="cert-card-go" href="course-steady-under-pressure.html">Open the course &rarr;</a></div>
     </div>
 
     <div class="cert-card" style="cursor:default" data-cert="coparenting" data-title="Same Team" data-hours="6.0" data-desc="Co-parenting, trained. One team for your children, whatever the arrangement between you. Sessions logged, checkpoints, and a final assessment at eighty percent to pass.">
-      <div class="cert-card-top"><span class="pill">Sessions live</span><span class="cert-card-hrs">6 sessions</span></div>
+      <div class="cert-card-top"><span class="pill">Film course</span><span class="cert-card-hrs">6 sessions</span></div>
       <h3>Same Team</h3>
-      <p>Co-parenting, trained. One team for your children, whatever the arrangement between you. All six written sessions are published; films are in production.</p>
-      \n      <details class="sess-peek" style="margin-top:10px"><summary class="fine" style="cursor:pointer;color:var(--brass,#c9a227)">The 6 sessions, at a glance</summary><ol class="small" style="margin:8px 0 2px;padding-left:18px"><li style="margin:5px 0"><b>One Team for the Children</b> <span style="color:var(--ash)">&middot; &ldquo;Whatever we are to each other, we are one team for the child.&rdquo;</span></li><li style="margin:5px 0"><b>The Body in Conflict</b> <span style="color:var(--ash)">&middot; &ldquo;Flooded means pause. Twenty minutes, then resume.&rdquo;</span></li><li style="margin:5px 0"><b>Businesslike</b> <span style="color:var(--ash)">&middot; &ldquo;Short, factual, about the child.&rdquo;</span></li><li style="margin:5px 0"><b>Earning Back Trust</b> <span style="color:var(--ash)">&middot; &ldquo;Trust is bought with reliability, and never against an order.&rdquo;</span></li><li style="margin:5px 0"><b>One Child, Two Homes</b> <span style="color:var(--ash)">&middot; &ldquo;The child carries the distance. Lighten the load.&rdquo;</span></li><li style="margin:5px 0"><b>The Handoff</b> <span style="color:var(--ash)">&middot; &ldquo;Predictable beats perfect.&rdquo;</span></li></ol><p class="fine" style="margin:6px 0 0"><a class="link" href="course-same-team.html">Read them in full &rarr;</a></p></details>\n      <div class="cert-card-foot"><span class="mono">Free</span><a class="cert-card-go" href="course-same-team.html">Read the sessions &rarr;</a></div>
+      <p>Co-parenting, trained on film. One team for your children, whatever the arrangement between you. Facilitator-led, with checkpoints and a verifiable certificate.</p>
+      \n      <details class="sess-peek" style="margin-top:10px"><summary class="fine" style="cursor:pointer;color:var(--brass,#c9a227)">The 6 sessions, at a glance</summary><ol class="small" style="margin:8px 0 2px;padding-left:18px"><li style="margin:5px 0"><b>One Team for the Children</b> <span style="color:var(--ash)">&middot; &ldquo;Whatever we are to each other, we are one team for the child.&rdquo;</span></li><li style="margin:5px 0"><b>The Body in Conflict</b> <span style="color:var(--ash)">&middot; &ldquo;Flooded means pause. Twenty minutes, then resume.&rdquo;</span></li><li style="margin:5px 0"><b>Businesslike</b> <span style="color:var(--ash)">&middot; &ldquo;Short, factual, about the child.&rdquo;</span></li><li style="margin:5px 0"><b>Earning Back Trust</b> <span style="color:var(--ash)">&middot; &ldquo;Trust is bought with reliability, and never against an order.&rdquo;</span></li><li style="margin:5px 0"><b>One Child, Two Homes</b> <span style="color:var(--ash)">&middot; &ldquo;The child carries the distance. Lighten the load.&rdquo;</span></li><li style="margin:5px 0"><b>The Handoff</b> <span style="color:var(--ash)">&middot; &ldquo;Predictable beats perfect.&rdquo;</span></li></ol><p class="fine" style="margin:6px 0 0"><a class="link" href="course-same-team.html">Read them in full &rarr;</a></p></details>\n      <div class="cert-card-foot"><span class="mono">Free</span><a class="cert-card-go" href="course-same-team.html">Open the course &rarr;</a></div>
     </div>
       </div>
 
-  <p class="fine" style="margin-top:20px">Whether a certificate satisfies a court, agency, or program requirement is decided by that body. Confirm with yours before enrolling. Every course and every Certificate of Completion is free to the man. Certified organizations and facilitators carry the standard; sponsorship funds seats and materials.</p>
+  <p class="small" style="margin-top:22px;max-width:72ch;color:var(--ash)"><b style="color:var(--bone)">Where to start.</b> Coming Home Present is the return spine after time away. Steady Under Pressure is the skills add-on when pressure is the issue. Same Team when co-parenting is the work. Fathering Fundamentals is the foundation, and the alumni home base.</p>
+  <p class="fine" style="margin-top:14px">Whether a certificate satisfies a court, agency, or program requirement is decided by that body. Confirm with yours before enrolling. Every course and every Certificate of Completion is free to the man. Certified organizations and facilitators carry the standard. <a class="link ash" href="sponsor.html">Sponsorship funds organization certification</a>.</p>
 </div></section>
 
 <!-- PROOF IN CONTEXT: the certificate as a milestone, with real photography -->
@@ -1389,7 +1386,7 @@ PAGES['certificates.html'] = dict(title='The Courses and the Certificate of Comp
         var slug = c.getAttribute('data-cert');
         var courseHref = {fundamentals:'class.html', reentry:'course-coming-home-present.html', anger:'course-steady-under-pressure.html', coparenting:'course-same-team.html'}[slug];
         explore.setAttribute('href', courseHref || 'certificates.html');
-        explore.textContent = slug==='fundamentals' ? 'Explore this course' : 'Read the sessions';
+        explore.textContent = slug==='fundamentals' ? 'Explore this course' : 'Open the course';
       }
       document.getElementById('fundamentals').scrollIntoView({behavior:'smooth'});
     });
@@ -1527,18 +1524,18 @@ PAGES['security.html'] = dict(title='Security', desc='How Fathers.com protects y
 </div></section>
 ''')
 
-PAGES['verify.html'] = dict(title='Verify a credential', desc='Enter a serial. Confirm a Certificate of Completion, a Certified Facilitator, or a Certified Organization in the public registry.', active='', mode='public', nochrome=True, body='''
-<div style="min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:64px 20px">
-  <a class="brand" href="index.html" style="margin-bottom:56px"><img class="lg-dark" src="assets/img/logomark-light.png" alt="Fathers.com logomark" style="height:34px"><img class="lg-light" src="assets/img/logomark-dark.png" alt="Fathers.com logomark" style="height:34px"><b style="font-family:var(--font-display);font-size:20px">Fathers.com</b></a>
-  <div style="width:100%;max-width:520px">
-    <h1 class="d-36" style="margin-bottom:8px">Verify a certificate</h1>
-    <p class="small" style="margin-bottom:28px">Enter the serial printed on the document. Ten seconds, no login.</p>
-    <form id="verifyForm" class="row" style="margin-bottom:28px">
-      <input class="input mono" placeholder="FC-2026-000000" aria-label="Certificate serial">
-      <button class="btn btn-primary">Verify</button>
+PAGES['verify.html'] = dict(title='Verify a credential', desc='Enter a serial. Confirm a Certificate of Completion, a Certified Facilitator, or a Certified Organization in the public registry.', active='', mode='public', nochrome=True, body='''<div class="verify-shell">
+  <a class="brand" href="index.html" style="margin-bottom:40px"><img class="lg-dark" src="assets/img/logomark-light.png" alt="Fathers.com logomark" style="height:34px"><img class="lg-light" src="assets/img/logomark-dark.png" alt="Fathers.com logomark" style="height:34px"><b style="font-family:var(--font-display);font-size:20px">Fathers.com</b></a>
+  <div class="verify-card">
+    <div class="eyebrow brass" style="margin-bottom:12px">PUBLIC REGISTRY</div>
+    <h1 class="d-36" style="margin-bottom:10px">Verify a credential</h1>
+    <p class="small" style="margin-bottom:28px;max-width:46ch">Enter the serial on the document. Ten seconds. No login. Issued, suspended, or revoked, stated plainly.</p>
+    <form id="verifyForm" class="verify-form">
+      <input class="input mono verify-input" placeholder="FC-2026-000000" aria-label="Certificate serial" autocomplete="off" spellcheck="false">
+      <button class="btn btn-yellow">Verify</button>
     </form>
-    <div id="v-ok" class="card" style="display:none;border-color:var(--pine-hi)">
-      <div class="row" style="margin-bottom:18px"><span class="checkmark">&check;</span><b style="letter-spacing:.14em">VALID</b></div>
+    <div id="v-ok" class="verify-status is-ok" style="display:none">
+      <div class="vs-label" style="color:var(--pine-hi)">Valid</div>
       <div class="stack-8">
         <div class="row between"><span class="fine">Recipient</span><b class="small" data-f="name"></b></div>
         <div class="row between"><span class="fine">Course</span><b class="small" data-f="course"></b></div>
@@ -1546,21 +1543,25 @@ PAGES['verify.html'] = dict(title='Verify a credential', desc='Enter a serial. C
         <div class="row between"><span class="fine">Identity</span><b class="small" data-f="identity"></b></div>
         <div class="row between"><span class="fine">Date</span><b class="small" data-f="date"></b></div>
         <div class="row between"><span class="fine">Serial</span><b class="small mono" data-f="serial"></b></div>
-        <div class="row between"><span class="fine">Identity</span><b class="small">Verified at enrollment</b></div>
         <div class="row between"><span class="fine">Issuer</span><b class="small">National Center for Fathering</b></div>
       </div>
-      <hr class="hr" style="margin:18px 0"><p class="small" style="margin-bottom:12px">This certificate was earned through logged sessions, identity confirmed at enrollment, and a written final reviewed by a Certified Facilitator. <a class="link" href="organizations.html">Issue these in your program &rarr;</a></p><a class="link ash" href="#" data-share="report" style="font-size:13px">Report a concern</a>
+      <hr class="hr" style="margin:18px 0">
+      <p class="small" style="margin-bottom:12px">Logged sessions, identity confirmed at enrollment, final reviewed by a Certified Facilitator. <a class="link" href="organizations.html">Issue these in your program &rarr;</a></p>
+      <a class="link ash" href="#" data-share="report" style="font-size:13px">Report a concern</a>
     </div>
-    <div id="v-susp" class="card" style="display:none;border-color:var(--brass,#6B4F14)">
-      <b>SUSPENDED.</b><p class="small" style="margin-top:8px">This serial exists, and it is suspended pending review. It does not currently verify. Questions: Team@Fathers.com.</p>
+    <div id="v-susp" class="verify-status is-warn" style="display:none">
+      <div class="vs-label" style="color:var(--brass)">Suspended</div>
+      <p class="small" style="margin:0">This serial exists and is suspended pending review. It does not currently verify. Questions: Team@Fathers.com.</p>
     </div>
-    <div id="v-rev" class="card" style="display:none;border-color:var(--error)">
-      <b>REVOKED.</b><p class="small" style="margin-top:8px">This serial was issued and has been revoked. It does not verify. Names can come off the registry; that is what makes staying on it mean something.</p>
+    <div id="v-rev" class="verify-status is-bad" style="display:none">
+      <div class="vs-label" style="color:var(--error)">Revoked</div>
+      <p class="small" style="margin:0">This serial was issued and has been revoked. It does not verify. Names can come off the registry. That is what makes staying on it mean something.</p>
     </div>
-    <div id="v-no" class="card" style="display:none;border-color:var(--error)">
-      <b>NOT FOUND.</b><p class="small" style="margin-top:8px">Check the serial and try again.</p>
+    <div id="v-no" class="verify-status is-bad" style="display:none">
+      <div class="vs-label" style="color:var(--error)">Not found</div>
+      <p class="small" style="margin:0">Check the serial and try again. Anything that does not resolve is not a Fathers.com credential.</p>
     </div>
-    <p class="fine" style="margin-top:32px">Every certificate carries a serial beginning FC-2026-, followed by six characters. A serial resolves as issued, suspended, or revoked; anything that does not resolve is not a Fathers.com certificate.</p>
+    <p class="fine" style="margin-top:32px;color:var(--ash)">Serials begin <span class="mono">FC-2026-</span> followed by six characters. Facilitator and organization status also resolve here when printed on their credentials.</p>
   </div>
 </div>
 ''')
@@ -1668,7 +1669,7 @@ PAGES['login.html'] = dict(title='Sign in', desc='Sign in to Fathers.com to pick
   </a>
   <div class="auth-card">
     <h1 class="auth-title" id="authTitle">Sign in</h1>
-    <p class="auth-sub" id="authSub">Welcome back. Pick up your plan where you left off.</p>
+    <p class="auth-sub" id="authSub">Password sign-in. Pick up your plan where you left off.</p>
     <form id="authForm" novalidate>
       <div class="auth-field" id="authNameField" style="display:none">
         <label for="authName">Your name</label>
@@ -1682,7 +1683,7 @@ PAGES['login.html'] = dict(title='Sign in', desc='Sign in to Fathers.com to pick
         <div class="auth-label-row"><label for="authPass">Password</label><button type="button" class="auth-forgot" id="authForgot">Forgot?</button></div>
         <input id="authPass" class="input" type="password" autocomplete="current-password" placeholder="Your password">
       </div>
-      <button class="btn btn-primary auth-btn" id="authSignin" type="submit">Sign in</button>
+      <button class="btn btn-yellow auth-btn" id="authSignin" type="submit">Sign in</button>
       <p class="auth-msg" id="authMsg" role="status" aria-live="polite"></p>
     </form>
   </div>
@@ -2234,9 +2235,10 @@ PAGES['organizations.html'] = dict(title='Become a Certified Organization', desc
     <h1 class="d-48" style="margin-bottom:16px">Become a Certified Organization.</h1>
     <p style="color:var(--ash);max-width:52ch;margin-bottom:24px">Every program says it works. Certification is how you prove it: credentialed facilitators, baseline and exit measurement on one instrument, and the report your funder already asks for. Your men pay nothing. Your organization carries the standard.</p>
     <div class="row wrap" style="gap:12px;margin-bottom:22px">
-      <a class="btn btn-primary" href="efficacy-report.html?demo=1">See a sample report</a>
-      <a class="btn btn-secondary" href="#walkthrough">Request a walkthrough</a>
+      <a class="btn btn-yellow" href="#walkthrough">Bring a cohort</a>
+      <a class="btn btn-secondary" href="efficacy-report.html?demo=1">See a sample report</a>
     </div>
+    <p class="fine" style="margin:0 0 8px"><a class="link ash" href="sponsor.html">Sponsor organization certification</a></p>
     <p class="fine mono" style="color:var(--ash);letter-spacing:.02em">CHANGE MEASURED PER MAN, BASELINE TO EXIT &nbsp;&middot;&nbsp; NCF, SINCE 1990 &nbsp;&middot;&nbsp; VERIFY A SERIAL IN 10 SECONDS</p>
   </div>
   <div class="artifact">
@@ -2248,7 +2250,7 @@ PAGES['organizations.html'] = dict(title='Become a Certified Organization', desc
         <tr><th>Cohort</th><th>Fathers</th><th>Completed</th><th>Baseline</th><th>Latest</th><th>Movement</th></tr>
         <tr><td>Spring cohort A</td><td>24</td><td>19</td><td>58.4</td><td>71.2</td><td class="mv">+12.8</td></tr>
         <tr><td>Spring cohort B</td><td>18</td><td>13</td><td>61.0</td><td>69.5</td><td class="mv">+8.5</td></tr>
-        <tr><td>Intake, no program</td><td>31</td><td>0</td><td>55.9</td><td>&mdash;</td><td>baseline only</td></tr>
+        <tr><td>Intake, no program</td><td>31</td><td>0</td><td>55.9</td><td>, </td><td>baseline only</td></tr>
       </table>
       <p class="fine" style="color:var(--ash);margin-top:12px">Individual fathers are never shown. Cohort aggregates only. <a class="link" href="efficacy-report.html?demo=1">Open the full sample &rarr;</a></p>
     </div>
@@ -2341,7 +2343,7 @@ PAGES['organizations.html'] = dict(title='Become a Certified Organization', desc
 <section class="tight"><div class="container">
   <div class="grid-3" style="gap:24px">
     <div class="card" style="padding:26px 28px"><p class="fine mono" style="color:var(--ember-ink);margin-bottom:10px">01 &middot; MEASURE</p><h3 style="margin-bottom:8px">One join link tags every man.</h3><p class="small" style="color:var(--ash)">The Keystone Profile at intake: the full instrument, one sitting. The canonical spec lives on the Research page. Four dimensions on every man, zero program required.</p></div>
-    <div class="card" style="padding:26px 28px"><p class="fine mono" style="color:var(--ember-ink);margin-bottom:10px">02 &middot; TRAIN</p><h3 style="margin-bottom:8px">Keep the program you trust.</h3><p class="small" style="color:var(--ash)">We make it provable. Or deploy ours: the full course slate is live today, free to every man, with films arriving as they finish. Your staff lead it as Certified Facilitators.</p></div>
+    <div class="card" style="padding:26px 28px"><p class="fine mono" style="color:var(--ember-ink);margin-bottom:10px">02 &middot; TRAIN</p><h3 style="margin-bottom:8px">Keep the program you trust.</h3><p class="small" style="color:var(--ash)">We make it provable. Or deploy ours: the full course slate is live today, free to every man, film-first with facilitator-led cohorts. Your staff lead it as Certified Facilitators.</p></div>
     <div class="card" style="padding:26px 28px"><p class="fine mono" style="color:var(--ember-ink);margin-bottom:10px">03 &middot; PROVE</p><h3 style="margin-bottom:8px">The report and the credential.</h3><p class="small" style="color:var(--ash)">The Efficacy Report, one page per cohort. Certificates of Completion presented by your facilitators, serialed, and verified at fathers.com/verify in ten seconds.</p></div>
   </div>
 </div></section>
@@ -2375,7 +2377,7 @@ PAGES['organizations.html'] = dict(title='Become a Certified Organization', desc
   <div>
     <div class="eyebrow" style="margin-bottom:14px">FOR COURTS AND PROBATION</div>
     <h2 class="d-28" style="margin-bottom:8px">Order the class by name. Verify in ten seconds.</h2>
-    <p style="color:var(--ash);max-width:52ch">Some courts and agencies accept Fathering Fundamentals as a supplemental fathering education component; acceptance is at their discretion, so confirm before referring. What travels with it: identity confirmed at enrollment, hours logged not claimed, a final at eighty percent. Completion is confirmed at fathers.com/verify with the serial on the Certificate of Completion. No account, no phone call, no paperwork chase. Coming Home Present and Steady Under Pressure, built for referral, have every written session live; films are in production, and your caseload can start now. Steady Under Pressure is a fathering skills course, not anger management, batterer intervention, or a substitute for any court-mandated treatment program, and should not be ordered in their place.</p>
+    <p style="color:var(--ash);max-width:52ch">Some courts and agencies accept Fathering Fundamentals as a supplemental fathering education component; acceptance is at their discretion, so confirm before referring. What travels with it: identity confirmed at enrollment, hours logged not claimed, a final at eighty percent. Completion is confirmed at fathers.com/verify with the serial on the Certificate of Completion. No account, no phone call, no paperwork chase. Coming Home Present and Steady Under Pressure are built for referral. Film cohorts, logged sessions, and verifiable certificates. Your caseload can start now. Steady Under Pressure is a fathering skills course, not anger management, batterer intervention, or a substitute for any court-mandated treatment program, and should not be ordered in their place.</p>
   </div>
   <div class="card" style="padding:32px">
     <div class="eyebrow" style="margin-bottom:16px">FOR THE MAN YOU REFER</div>
@@ -2438,9 +2440,10 @@ PAGES['facilitators.html'] = dict(title='Become a Certified Facilitator', desc='
     <h1 class="d-48" style="margin-bottom:16px">Become a Certified Facilitator.</h1>
     <p style="color:var(--ash);max-width:52ch;margin-bottom:24px">The men do the work. You carry the standard. The NCF Certified Facilitator credential says you were trained, examined, and supervised through a real cohort, and that your status is current and publicly checkable. It belongs to you, not your employer, and it travels with you.</p>
     <div class="row wrap" style="gap:12px;margin-bottom:22px">
-      <a class="btn btn-primary" href="mailto:Team@Fathers.com?subject=Certified%20Facilitator%20credential">Start the conversation</a>
+      <a class="btn btn-yellow" href="mailto:Team@Fathers.com?subject=Certified%20Facilitator%20credential">Get credentialed</a>
       <a class="btn btn-secondary" href="verify.html">Check a facilitator&rsquo;s status</a>
     </div>
+    <p class="fine" style="margin:0 0 8px"><a class="link ash" href="sponsor.html">Sponsor facilitator credentialing</a></p>
     <p class="fine mono" style="color:var(--ash);letter-spacing:.02em">$349 INITIAL &nbsp;&middot;&nbsp; $99 ANNUAL RENEWAL &nbsp;&middot;&nbsp; LAUNCH PRICING PENDS PARTNER INTERVIEWS</p>
   </div>
   <div class="card" style="padding:32px">
@@ -2632,10 +2635,7 @@ if not SHOW_DIRECTORY:
     PAGES.pop('find-a-program.html', None)
 if not SHOW_GIFT:
     PAGES.pop('gift.html', None)
-    _sp = PAGES['sponsor.html']['body']
-    _gl = 'Giving to your own dad or a friend? <a class="link ash" href="gift.html">Give a man the work &rarr;</a></p>'
-    assert _sp.count(_gl) == 1
-    PAGES['sponsor.html']['body'] = _sp.replace(_gl, '</p>')
+    # gift.html (personal gift) stays dark. sponsor.html is org-certification only.
 # ================================================== dark: The Man Before You
 # Staged in full, gated on Dr. Canfield review of spec Rev 1. See flag above.
 if SHOW_MANHOOD_COURSE:
@@ -2662,14 +2662,15 @@ else:
 # ================================================== adopted orphans (v4.10.0)
 # dashboard.html and recover.html predate the builder and were living outside
 # it with stale chrome. Adopted here so every chrome change reaches them.
-PAGES['dashboard.html'] = dict(title='Your Dashboard', desc='Your written report, always available, the moment you finish and every time you return.', active='Home', mode='app', body='''
-<section class="tight" style="padding-top:36px"><div class="container">
+PAGES['dashboard.html'] = dict(title='Your Dashboard', desc='Your written report, always available, the moment you finish and every time you return.', active='Home', mode='app', body='''<section class="tight" style="padding-top:36px"><div class="container">
 
-  <div id="dashHead" style="margin-bottom:18px">
+  <div id="dashHead" style="margin-bottom:14px">
     <div class="eyebrow" style="margin-bottom:8px">YOUR DASHBOARD</div>
     <h1 class="d-32" style="margin:0">Welcome<span id="dashNameWrap" style="display:none">, <span id="dashName"></span></span></h1>
-    <p class="fine" style="margin-top:6px">Your written report lives here. It appears the moment you finish your profile, and it is here every time you come back.</p>
+    <p class="fine" style="margin-top:6px">Your report, your plan, and the next film session. One place every time you return.</p>
   </div>
+
+  <div id="dashNextAction" class="next-action" style="display:none" aria-live="polite"></div>
 
   <div data-journey="" style="margin-bottom:22px"></div>
 
@@ -2677,14 +2678,14 @@ PAGES['dashboard.html'] = dict(title='Your Dashboard', desc='Your written report
 
   <div id="dashSwitch" class="card" style="display:none;padding:22px;margin-bottom:22px"></div>
 
+  <div id="dashCourses" style="margin-bottom:8px"></div>
+
   <div id="dashReport">
     <div class="center" style="padding:80px 0">
       <div class="eyebrow" style="margin-bottom:12px">PREPARING YOUR DASHBOARD</div>
       <p class="ash">One moment.</p>
     </div>
   </div>
-
-  <div id="dashCourses"></div>
 
   <div id="dashNext"></div>
 
@@ -2805,6 +2806,11 @@ if __name__ == '__main__':
             if os.path.exists(dp):
                 os.remove(dp)
                 print('removed (stories dark)', dead)
+    if not SHOW_GIFT:
+        gp = os.path.join(out, 'gift.html')
+        if os.path.exists(gp):
+            os.remove(gp)
+            print('removed (gift dark)', 'gift.html')
     if not SHOW_MILITARY:
         for dead in MILITARY_PAGES:
             dp = os.path.join(out, dead)
@@ -2833,7 +2839,10 @@ if __name__ == '__main__':
                          '<script src="assets/js/keystone-full.js"></script>\n'
                          '<script src="assets/js/keystone-ui.js"></script>\n')
         else:
-            html += nav(p.get('active',''), p.get('mode','public'))
+            mode = p.get('mode','public')
+            html += nav(p.get('active',''), mode)
+            if mode == 'public':
+                html += TRUST_BAR
             html += p['body']
             html += FOOT
             # Per-page scripts. certificates.html reads the real published course

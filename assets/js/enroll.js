@@ -63,8 +63,17 @@
         if(d && d.enrolled){ showSuccess(); return; }
         if(d && d.claim_required){
           var cs = $('claimStatus');
-          if(cs){ cs.textContent = 'No active claim found for your account yet. Ask your facilitator or organization to claim your seat, then enroll again. It takes them under a minute.'; cs.className = 'small cpn-err'; }
-          note('Your seat has not been claimed yet.', 'cpn-err');
+          if(cs){
+            cs.className = 'small cpn-err';
+            cs.innerHTML = 'Courses open after a Certified Facilitator or Organization adds you to their roster. That keeps the work accountable and the certificate verifiable.'+
+              '<div style="margin-top:12px;display:flex;flex-wrap:wrap;gap:10px;align-items:center">'+
+                '<a class="btn btn-primary btn-sm" href="plan.html">Continue your free plan</a>'+
+                '<a class="link ash" href="organizations.html">Find a Certified Organization</a>'+
+                '<a class="link ash" href="facilitators.html">How facilitators work</a>'+
+              '</div>'+
+              '<p class="fine" style="margin:10px 0 0">If you already have a facilitator, ask them to add your seat. It takes them under a minute. Then come back here and enroll free.</p>';
+          }
+          note('Your free plan stays open. When your seat is ready, enrollment is one tap.', 'cpn-err');
           return;
         }
         if(d && d.checkout_url){ location.href = d.checkout_url; return; }   // Stripe, when live

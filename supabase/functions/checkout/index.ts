@@ -37,15 +37,30 @@ const SUPABASE_URL = Deno.env.get("SUPABASE_URL") ?? "";
 const SERVICE_ROLE = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "";
 const STRIPE_SECRET_KEY = Deno.env.get("STRIPE_SECRET_KEY") ?? "";   // absent until payments go live
 
-const CORS = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+const CORS_BASE = {
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-internal-secret",
   "Access-Control-Allow-Methods": "POST, OPTIONS",
 };
+function allowedOrigin(origin: string | null): string | null {
+  if (!origin) return null;
+  if (origin === "http://localhost:3000") return origin;
+  if (/^https:\/\/([a-z0-9-]+\.)?fathers\.com$/.test(origin)) return origin;
+  if (/^https:\/\/[a-z0-9-]+-strategyanddesign\.vercel\.app$/.test(origin)) return origin;
+  if (/^https:\/\/fathers-com-platform[a-z0-9-]*\.vercel\.app$/.test(origin)) return origin;
+  return null;
+}
+function corsFor(req: Request): Record<string, string> {
+  const allowed = allowedOrigin(req.headers.get("Origin"));
+  return {
+    ...CORS_BASE,
+    "Access-Control-Allow-Origin": allowed ?? "https://fathers.com",
+  };
+}
 
-function json(body: unknown, status = 200) {
+function json(req: Request, body: unknown, status = 200) {
   return new Response(JSON.stringify(body), {
-    status, headers: { ...CORS, "Content-Type": "application/json" },
+    status,
+    headers: { ...corsFor(req), "Content-Type": "application/json" },
   });
 }
 
@@ -75,34 +90,34 @@ async function fulfill(admin: ReturnType<typeof createClient>, args: {
 }
 
 Deno.serve(async (req) => {
-  if (req.method === "OPTIONS") return new Response("ok", { headers: CORS });
-  if (req.method !== "POST") return json({ error: "method not allowed" }, 405);
+  if (req.method === "OPTIONS") return new Response("ok", { headers: corsFor(req) });
+  if (req.method !== "POST") return json(req, { error: "method not allowed" }, 405);
 
   // ---- 1) Authenticate the father ----
   const jwt = (req.headers.get("Authorization") ?? "").replace(/^Bearer\s+/i, "");
-  if (!jwt) return json({ error: "not signed in" }, 401);
+  if (!jwt) return json(req, { error: "not signed in" }, 401);
   const admin = createClient(SUPABASE_URL, SERVICE_ROLE, { auth: { persistSession: false } });
   const { data: userData, error: userErr } = await admin.auth.getUser(jwt);
-  if (userErr || !userData?.user) return json({ error: "invalid session" }, 401);
+  if (userErr || !userData?.user) return json(req, { error: "invalid session" }, 401);
   const userId = userData.user.id;
 
   let body: { action?: string; course_slug?: string } = {};
   try { body = await req.json(); } catch { /* empty */ }
-  if (body.action !== "create_checkout") return json({ error: "unsupported action" }, 400);
-  if (!body.course_slug) return json({ error: "course_slug required" }, 400);
+  if (body.action !== "create_checkout") return json(req, { error: "unsupported action" }, 400);
+  if (!body.course_slug) return json(req, { error: "course_slug required" }, 400);
 
   // ---- 2) Price truth: the database, never the browser ----
   const { data: course, error: courseErr } = await admin
     .from("certificate_courses")
     .select("id,slug,title,hours,price_cents")
     .eq("slug", body.course_slug.toLowerCase()).single();
-  if (courseErr || !course) return json({ error: "course not found" }, 404);
+  if (courseErr || !course) return json(req, { error: "course not found" }, 404);
 
   // Already enrolled: succeed idempotently.
   const { data: already } = await admin
     .from("certificate_enrollments")
     .select("id").eq("user_id", userId).eq("course_id", course.id).maybeSingle();
-  if (already) return json({ ok: true, enrolled: true, already: true, course: course.slug });
+  if (already) return json(req, { ok: true, enrolled: true, already: true, course: course.slug });
 
   // ---- 3) The claim check: the only door into a course ----
   const email = (userData.user.email ?? "").toLowerCase();
@@ -115,7 +130,7 @@ Deno.serve(async (req) => {
   if (!claim) {
     // v4.0.1: 200, not 403. A missing claim is an expected business outcome
     // the client must be able to read and explain, not a transport failure.
-    return json({
+    return json(req, {
       claim_required: true,
       message: "No active claim found. Ask your facilitator or organization to claim your seat, then enroll again.",
     }, 200);
@@ -134,16 +149,16 @@ Deno.serve(async (req) => {
         userId, courseId: course.id, claimId: claim.id,
         amountPaidCents: 0, checkoutRef: null,
       });
-      return json({ ok: true, enrolled: true, course: course.slug, total_cents: 0 });
+      return json(req, { ok: true, enrolled: true, course: course.slug, total_cents: 0 });
     } catch (e) {
-      return json({ error: "enrollment failed", detail: String(e) }, 500);
+      return json(req, { error: "enrollment failed", detail: String(e) }, 500);
     }
   }
 
   // ---- 5) [STRIPE] Paid path: pre-shaped, activates when the secret exists ----
   if (!STRIPE_SECRET_KEY) {
     // v4.0.1: 200, not 402, for the same reason as claim_required above.
-    return json({
+    return json(req, {
       requires_payment: true,
       total_cents: totalCents,
       message: "This is a priced credential and card payment is not yet enabled.",
@@ -174,6 +189,6 @@ Deno.serve(async (req) => {
     body: params,
   });
   const session = await resp.json();
-  if (!resp.ok) return json({ error: "stripe session failed", detail: session }, 502);
-  return json({ requires_payment: true, checkout_url: session.url, total_cents: totalCents });
+  if (!resp.ok) return json(req, { error: "stripe session failed", detail: session }, 502);
+  return json(req, { requires_payment: true, checkout_url: session.url, total_cents: totalCents });
 });

@@ -30,16 +30,30 @@ const ESIGN_API_TOKEN = Deno.env.get("ESIGN_API_TOKEN") ?? "";
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL") ?? "";
 const SERVICE_ROLE = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "";
 
-const CORS = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+const CORS_BASE = {
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-internal-secret",
   "Access-Control-Allow-Methods": "POST, OPTIONS",
 };
+function allowedOrigin(origin: string | null): string | null {
+  if (!origin) return null;
+  if (origin === "http://localhost:3000") return origin;
+  if (/^https:\/\/([a-z0-9-]+\.)?fathers\.com$/.test(origin)) return origin;
+  if (/^https:\/\/[a-z0-9-]+-strategyanddesign\.vercel\.app$/.test(origin)) return origin;
+  if (/^https:\/\/fathers-com-platform[a-z0-9-]*\.vercel\.app$/.test(origin)) return origin;
+  return null;
+}
+function corsFor(req: Request): Record<string, string> {
+  const allowed = allowedOrigin(req.headers.get("Origin"));
+  return {
+    ...CORS_BASE,
+    "Access-Control-Allow-Origin": allowed ?? "https://fathers.com",
+  };
+}
 
-function json(body: unknown, status = 200) {
+function json(req: Request, body: unknown, status = 200) {
   return new Response(JSON.stringify(body), {
     status,
-    headers: { ...CORS, "Content-Type": "application/json" },
+    headers: { ...corsFor(req), "Content-Type": "application/json" },
   });
 }
 
@@ -60,21 +74,21 @@ async function esign(path: string, init: RequestInit = {}) {
 }
 
 Deno.serve(async (req) => {
-  if (req.method === "OPTIONS") return new Response("ok", { headers: CORS });
-  if (req.method !== "POST") return json({ error: "method not allowed" }, 405);
+  if (req.method === "OPTIONS") return new Response("ok", { headers: corsFor(req) });
+  if (req.method !== "POST") return json(req, { error: "method not allowed" }, 405);
 
   if (!ESIGN_BASE_URL || !ESIGN_API_TOKEN) {
-    return json({ error: "e-sign bridge is not configured yet" }, 503);
+    return json(req, { error: "e-sign bridge is not configured yet" }, 503);
   }
 
   // ---- 1) Authenticate the caller (father) via their Supabase JWT ----
   const authHeader = req.headers.get("Authorization") ?? "";
   const jwt = authHeader.replace(/^Bearer\s+/i, "");
-  if (!jwt) return json({ error: "not signed in" }, 401);
+  if (!jwt) return json(req, { error: "not signed in" }, 401);
 
   const admin = createClient(SUPABASE_URL, SERVICE_ROLE, { auth: { persistSession: false } });
   const { data: userData, error: userErr } = await admin.auth.getUser(jwt);
-  if (userErr || !userData?.user) return json({ error: "invalid session" }, 401);
+  if (userErr || !userData?.user) return json(req, { error: "invalid session" }, 401);
   const userId = userData.user.id;
 
   let payload: { action?: string; award_id?: string } = {};
@@ -82,9 +96,9 @@ Deno.serve(async (req) => {
 
   // ---- 2) Only supported action: self-sign an approved certificate ----
   if (payload.action !== "self_sign_certificate") {
-    return json({ error: "unsupported action" }, 400);
+    return json(req, { error: "unsupported action" }, 400);
   }
-  if (!payload.award_id) return json({ error: "award_id required" }, 400);
+  if (!payload.award_id) return json(req, { error: "award_id required" }, 400);
 
   // ---- 3) Server-side authorization: the award must be this user's AND approved ----
   const { data: award, error: awardErr } = await admin
@@ -93,10 +107,10 @@ Deno.serve(async (req) => {
     .eq("id", payload.award_id)
     .single();
 
-  if (awardErr || !award) return json({ error: "award not found" }, 404);
-  if (award.user_id !== userId) return json({ error: "not your certificate" }, 403);
-  if (award.status !== "approved") return json({ error: "certificate is not approved yet" }, 409);
-  if (award.envelope_id) return json({ error: "already signed", envelope_id: award.envelope_id }, 409);
+  if (awardErr || !award) return json(req, { error: "award not found" }, 404);
+  if (award.user_id !== userId) return json(req, { error: "not your certificate" }, 403);
+  if (award.status !== "approved") return json(req, { error: "certificate is not approved yet" }, 409);
+  if (award.envelope_id) return json(req, { error: "already signed", envelope_id: award.envelope_id }, 409);
 
   // Pull enough to describe the document being signed.
   const { data: course } = await admin
@@ -121,7 +135,7 @@ Deno.serve(async (req) => {
       metadata: { source: "fathers.com", award_id: award.id, course_slug: course?.slug, hours: course?.hours },
     }),
   });
-  if (!selfSign.ok) return json({ error: "e-sign self-sign failed", detail: selfSign.data }, 502);
+  if (!selfSign.ok) return json(req, { error: "e-sign self-sign failed", detail: selfSign.data }, 502);
 
   const result = selfSign.data as Record<string, unknown>;
   const envelopeId = (result?.envelope_id ?? result?.id ?? null) as string | null;
@@ -152,5 +166,5 @@ Deno.serve(async (req) => {
     .update({ envelope_id: envelopeId, signed_at: new Date().toISOString(), status: "signed" })
     .eq("id", award.id);
 
-  return json({ ok: true, envelope_id: envelopeId, verify });
+  return json(req, { ok: true, envelope_id: envelopeId, verify });
 });
