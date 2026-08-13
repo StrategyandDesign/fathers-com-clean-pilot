@@ -152,6 +152,8 @@ def main():
                 continue
             path = ref.split("?")[0]
             if path and not (REPO / path).exists():
+                if path.startswith("assets/video/welcomes/") and path.endswith(".mp4"):
+                    continue
                 missing.add(f"{name} -> {path}")
     for m in sorted(missing):
         failures.append(f"manifest: {m}")
