@@ -43,7 +43,21 @@ window.FC_COURSE_DEMO = {
           }
         ],
         "poster": "assets/img/session-stills/steady-under-pressure/s01.png",
-        "video_url": "assets/video/steady/s01-the-surge-is-a-signal.mp4"
+        "video_url": "assets/video/steady/s01-the-surge-is-a-signal.mp4",
+        "practice": {
+          "title": "Log 3 rising-tension moments",
+          "prompt": "For each, write the trigger and the earliest body cue.",
+          "how": [
+            "Stay inside the rules that govern you.",
+            "Never requires contact with your child.",
+            "Irritation and near-misses count."
+          ],
+          "cols": [
+            "Trigger",
+            "Earliest body cue"
+          ]
+        },
+        "practice_replay": "assets/video/steady/s01-practice-replay.mp4"
       },
       {
         "id": "demo-anger-2",
@@ -81,7 +95,21 @@ window.FC_COURSE_DEMO = {
           }
         ],
         "poster": "assets/img/session-stills/steady-under-pressure/s02.png",
-        "video_url": "assets/video/steady/s02-know-your-early-cues.mp4"
+        "video_url": "assets/video/steady/s02-know-your-early-cues.mp4",
+        "practice": {
+          "title": "Write your top two early cues",
+          "prompt": "Put them on a card. After three hard moments, note whether you caught the cue early or late.",
+          "how": [
+            "One line per cue. Keep the card where you will see it.",
+            "Stay inside the rules that govern you. Never requires contact with your child.",
+            "Irritation and near-misses count."
+          ],
+          "cols": [
+            "Cue or trigger",
+            "Early or late"
+          ]
+        },
+        "practice_replay": "assets/video/steady/s02-practice-replay.mp4"
       },
       {
         "id": "demo-anger-3",
@@ -119,7 +147,21 @@ window.FC_COURSE_DEMO = {
           }
         ],
         "poster": "assets/img/session-stills/steady-under-pressure/s03.png",
-        "video_url": "assets/video/steady/s03-six-seconds.mp4"
+        "video_url": "assets/video/steady/s03-six-seconds.mp4",
+        "practice": {
+          "title": "Take three six-second pauses",
+          "prompt": "For each live pause, write the trigger and what you did after the count.",
+          "how": [
+            "Also run the count once a day in a boring moment so it is there under load.",
+            "Stay inside the rules that govern you. Never requires contact with your child.",
+            "Late still counts if you take the six when you catch yourself."
+          ],
+          "cols": [
+            "Trigger",
+            "After the pause"
+          ]
+        },
+        "practice_replay": "assets/video/steady/s03-practice-replay.mp4"
       },
       {
         "id": "demo-anger-4",
@@ -157,7 +199,21 @@ window.FC_COURSE_DEMO = {
           }
         ],
         "poster": "assets/img/session-stills/steady-under-pressure/s04.png",
-        "video_url": "assets/video/steady/s04-the-long-exhale.mp4"
+        "video_url": "assets/video/steady/s04-the-long-exhale.mp4",
+        "practice": {
+          "title": "Daily long exhale, then one live use",
+          "prompt": "Log five daily drills. Then one live use: trigger, body before, body after.",
+          "how": [
+            "Two minutes is enough. Slow in. Longer out.",
+            "Stay inside the rules that govern you. Never requires contact with your child.",
+            "Flat days still count. They build the groove hard days need."
+          ],
+          "cols": [
+            "When or trigger",
+            "What changed"
+          ]
+        },
+        "practice_replay": "assets/video/steady/s04-practice-replay.mp4"
       },
       {
         "id": "demo-anger-5",
@@ -195,7 +251,21 @@ window.FC_COURSE_DEMO = {
           }
         ],
         "poster": "assets/img/session-stills/steady-under-pressure/s05.png",
-        "video_url": "assets/video/steady/s05-step-away-to-come-back.mp4"
+        "video_url": "assets/video/steady/s05-step-away-to-come-back.mp4",
+        "practice": {
+          "title": "One clean step away and return",
+          "prompt": "Write what you said as you left, and what your voice was like when you came back.",
+          "how": [
+            "The skill is the return, not the exit.",
+            "Stay inside the rules that govern you. Never requires contact with your child.",
+            "If no live conflict shows, rehearse on a low-heat moment."
+          ],
+          "cols": [
+            "The leave line",
+            "The return"
+          ]
+        },
+        "practice_replay": "assets/video/steady/s05-practice-replay.mp4"
       },
       {
         "id": "demo-anger-6",
@@ -233,7 +303,21 @@ window.FC_COURSE_DEMO = {
           }
         ],
         "poster": "assets/img/session-stills/steady-under-pressure/s06.png",
-        "video_url": "assets/video/steady/s06-the-line-you-leave-on.mp4"
+        "video_url": "assets/video/steady/s06-the-line-you-leave-on.mp4",
+        "practice": {
+          "title": "Write your leave-line",
+          "prompt": "Keep it under fifteen words. Note three rehearsals, and one live use if you needed it.",
+          "how": [
+            "Say the line before you leave the room.",
+            "Stay inside the rules that govern you. Never requires contact with your child.",
+            "If you do not need it live, still write it and rehearse."
+          ],
+          "cols": [
+            "Your line",
+            "Rehearsal or live use"
+          ]
+        },
+        "practice_replay": "assets/video/steady/s06-practice-replay.mp4"
       },
       {
         "id": "demo-anger-7",
@@ -271,7 +355,21 @@ window.FC_COURSE_DEMO = {
           }
         ],
         "poster": "assets/img/session-stills/steady-under-pressure/s07.png",
-        "video_url": "assets/video/steady/s07-name-the-feeling.mp4"
+        "video_url": "assets/video/steady/s07-name-the-feeling.mp4",
+        "practice": {
+          "title": "Name the feeling out loud",
+          "prompt": "Log the exact sentence you used in three separate moments.",
+          "how": [
+            "Not a summary. The words.",
+            "Stay inside the rules that govern you. Never requires contact with your child.",
+            "Mild irritation counts. Rehearsal counts if heat does not show."
+          ],
+          "cols": [
+            "Moment",
+            "Exact words"
+          ]
+        },
+        "practice_replay": "assets/video/steady/s07-practice-replay.mp4"
       },
       {
         "id": "demo-anger-8",
@@ -309,7 +407,21 @@ window.FC_COURSE_DEMO = {
           }
         ],
         "poster": "assets/img/session-stills/steady-under-pressure/s08.png",
-        "video_url": "assets/video/steady/s08-feelings-without-weapons.mp4"
+        "video_url": "assets/video/steady/s08-feelings-without-weapons.mp4",
+        "practice": {
+          "title": "Strip the weapon from the sentence",
+          "prompt": "Rewrite two loaded lines into clean feeling statements. Use one live if heat shows.",
+          "how": [
+            "Feelings are allowed. Blame, insults, and history dumps are not.",
+            "Stay inside the rules that govern you. Never requires contact with your child.",
+            "You are not grading their reaction. You are training a sentence that does not reload the fight."
+          ],
+          "cols": [
+            "Loaded line",
+            "Clean line"
+          ]
+        },
+        "practice_replay": "assets/video/steady/s08-practice-replay.mp4"
       },
       {
         "id": "demo-anger-9",
@@ -347,7 +459,21 @@ window.FC_COURSE_DEMO = {
           }
         ],
         "poster": "assets/img/session-stills/steady-under-pressure/s09.png",
-        "video_url": "assets/video/steady/s09-own-it-same-day.mp4"
+        "video_url": "assets/video/steady/s09-own-it-same-day.mp4",
+        "practice": {
+          "title": "Own it same day",
+          "prompt": "Write one ownership line for a recent miss. Note when you delivered it, or who you owned it with where you are now.",
+          "how": [
+            "Out loud, specific, no excuses.",
+            "Stay inside the rules that govern you. Never requires contact with your child.",
+            "If contact is not allowed, own a miss in your present setting with the same standard."
+          ],
+          "cols": [
+            "Ownership line",
+            "When and with whom"
+          ]
+        },
+        "practice_replay": "assets/video/steady/s09-practice-replay.mp4"
       },
       {
         "id": "demo-anger-10",
@@ -385,7 +511,21 @@ window.FC_COURSE_DEMO = {
           }
         ],
         "poster": "assets/img/session-stills/steady-under-pressure/s10.png",
-        "video_url": "assets/video/steady/s10-the-short-apology.mp4"
+        "video_url": "assets/video/steady/s10-the-short-apology.mp4",
+        "practice": {
+          "title": "Write a short apology",
+          "prompt": "Act. Wrong. Next step. Cut every excuse. Note the rehearsal and whether you delivered it.",
+          "how": [
+            "Short and specific lands. Defense undoes it.",
+            "Stay inside the rules that govern you. Never requires contact with your child.",
+            "If delivery is not allowed, still write and rehearse, then deliver a present-setting apology."
+          ],
+          "cols": [
+            "The apology",
+            "Rehearsed or delivered"
+          ]
+        },
+        "practice_replay": "assets/video/steady/s10-practice-replay.mp4"
       },
       {
         "id": "demo-anger-11",
@@ -423,7 +563,21 @@ window.FC_COURSE_DEMO = {
           }
         ],
         "poster": "assets/img/session-stills/steady-under-pressure/s11.png",
-        "video_url": "assets/video/steady/s11-sleep-food-movement.mp4"
+        "video_url": "assets/video/steady/s11-sleep-food-movement.mp4",
+        "practice": {
+          "title": "Sleep, food, movement log",
+          "prompt": "For five days, mark the sleep anchor, the movement block, and a short food-timing note.",
+          "how": [
+            "Steadiness is built in the boring hours.",
+            "Stay inside the rules that govern you. If movement is limited, use what is allowed.",
+            "Never requires contact with your child."
+          ],
+          "cols": [
+            "Day and anchor",
+            "Food timing note"
+          ]
+        },
+        "practice_replay": "assets/video/steady/s11-practice-replay.mp4"
       },
       {
         "id": "demo-anger-12",
@@ -461,7 +615,21 @@ window.FC_COURSE_DEMO = {
           }
         ],
         "poster": "assets/img/session-stills/steady-under-pressure/s12.png",
-        "video_url": "assets/video/steady/s12-your-steady-week.mp4"
+        "video_url": "assets/video/steady/s12-your-steady-week.mp4",
+        "practice": {
+          "title": "Your steady-week plan",
+          "prompt": "Write the page: cues, in-the-moment stack, language and repair, boring-hour anchors, and one weekly marker.",
+          "how": [
+            "Write it today, not someday. Report the marker with honest numbers.",
+            "Stay inside the rules that govern you. Never requires contact with your child.",
+            "If you do not have a facilitator yet, pick someone who will actually ask."
+          ],
+          "cols": [
+            "Plan piece",
+            "Your words"
+          ]
+        },
+        "practice_replay": "assets/video/steady/s12-practice-replay.mp4"
       }
     ],
     "final_qa": [
@@ -521,7 +689,20 @@ window.FC_COURSE_DEMO = {
             "correct_index": 1
           }
         ],
-        "poster": "assets/img/session-stills/coming-home-present/s01.png"
+        "poster": "assets/img/session-stills/coming-home-present/s01.png",
+        "practice": {
+          "title": "Body-state log and two home triggers",
+          "prompt": "Keep a short body-state log. Name two likely home triggers.",
+          "how": [
+            "One word is enough for the body log.",
+            "Never requires contact beyond what a court order or program rule allows.",
+            "Rehearse the sentence you will use to tell family what helps, if contact allows."
+          ],
+          "cols": [
+            "Body state or trigger",
+            "Note"
+          ]
+        }
       },
       {
         "id": "demo-reentry-2",
@@ -558,7 +739,20 @@ window.FC_COURSE_DEMO = {
             "correct_index": 0
           }
         ],
-        "poster": "assets/img/session-stills/coming-home-present/s02.png"
+        "poster": "assets/img/session-stills/coming-home-present/s02.png",
+        "practice": {
+          "title": "New labels for old threat sounds",
+          "prompt": "Name two home sounds that used to mean threat. Write a calm home label for each.",
+          "how": [
+            "Rehearse the labels aloud daily for five days inside program rules.",
+            "Never requires contact beyond what a court order or program rule allows.",
+            "When one of those sounds hits, say the home label once under your breath."
+          ],
+          "cols": [
+            "Sound or scene",
+            "Home label"
+          ]
+        }
       },
       {
         "id": "demo-reentry-3",
@@ -595,7 +789,20 @@ window.FC_COURSE_DEMO = {
             "correct_index": 1
           }
         ],
-        "poster": "assets/img/session-stills/coming-home-present/s03.png"
+        "poster": "assets/img/session-stills/coming-home-present/s03.png",
+        "practice": {
+          "title": "Write a wave-day rule",
+          "prompt": "Sleep anchor, fewer commitments, and one recovery move.",
+          "how": [
+            "Hold one fixed sleep and wake time for five nights if you can.",
+            "Never requires contact beyond what a court order or program rule allows.",
+            "Use the rule on the next hard day. Flat days still count."
+          ],
+          "cols": [
+            "The rule piece",
+            "How you will keep it"
+          ]
+        }
       },
       {
         "id": "demo-reentry-4",
@@ -632,7 +839,20 @@ window.FC_COURSE_DEMO = {
             "correct_index": 1
           }
         ],
-        "poster": "assets/img/session-stills/coming-home-present/s04.png"
+        "poster": "assets/img/session-stills/coming-home-present/s04.png",
+        "practice": {
+          "title": "Few promises, kept",
+          "prompt": "Choose at most three commitments you can keep this week and keep a written record.",
+          "how": [
+            "Small and specific. If no contact is permitted, keep promises to your facilitator or cohort.",
+            "Never requires contact beyond what a court order or program rule allows.",
+            "File any child- or partner-facing list for day one."
+          ],
+          "cols": [
+            "The promise",
+            "Kept or not"
+          ]
+        }
       },
       {
         "id": "demo-reentry-5",
@@ -669,7 +889,20 @@ window.FC_COURSE_DEMO = {
             "correct_index": 0
           }
         ],
-        "poster": "assets/img/session-stills/coming-home-present/s05.png"
+        "poster": "assets/img/session-stills/coming-home-present/s05.png",
+        "practice": {
+          "title": "A current picture, questions only",
+          "prompt": "Build a one-page current picture. Draft questions that are only questions.",
+          "how": [
+            "No advice attached to the questions.",
+            "Never requires contact beyond what a court order or program rule allows.",
+            "Use as many as one permitted call or visit allows. If none, file them for day one."
+          ],
+          "cols": [
+            "What you know now",
+            "Question only"
+          ]
+        }
       },
       {
         "id": "demo-reentry-6",
@@ -706,7 +939,20 @@ window.FC_COURSE_DEMO = {
             "correct_index": 0
           }
         ],
-        "poster": "assets/img/session-stills/coming-home-present/s06.png"
+        "poster": "assets/img/session-stills/coming-home-present/s06.png",
+        "practice": {
+          "title": "Ask before you assume",
+          "prompt": "Ask one real question and reflect one thing you heard without fixing.",
+          "how": [
+            "Listen longer than you talk.",
+            "Never requires contact beyond what a court order or program rule allows.",
+            "Where no contact is permitted, rehearse with a cohort partner and write the question for day one."
+          ],
+          "cols": [
+            "The question",
+            "What you reflected"
+          ]
+        }
       },
       {
         "id": "demo-reentry-7",
@@ -743,7 +989,20 @@ window.FC_COURSE_DEMO = {
             "correct_index": 1
           }
         ],
-        "poster": "assets/img/session-stills/coming-home-present/s07.png"
+        "poster": "assets/img/session-stills/coming-home-present/s07.png",
+        "practice": {
+          "title": "Small deposits",
+          "prompt": "Catch and return three bids, or role-play five exchanges if contact is limited.",
+          "how": [
+            "Use a 60-second settling routine before each call or visit.",
+            "Never requires contact beyond what a court order or program rule allows.",
+            "Role-play with a cohort partner if contact is not allowed this week."
+          ],
+          "cols": [
+            "The bid or exchange",
+            "What you returned"
+          ]
+        }
       },
       {
         "id": "demo-reentry-8",
@@ -780,7 +1039,20 @@ window.FC_COURSE_DEMO = {
             "correct_index": 1
           }
         ],
-        "poster": "assets/img/session-stills/coming-home-present/s08.png"
+        "poster": "assets/img/session-stills/coming-home-present/s08.png",
+        "practice": {
+          "title": "One short contact ritual",
+          "prompt": "Set one repeatable short contact ritual inside the rules that govern you now.",
+          "how": [
+            "Frequency beats intensity. Keep the times exact.",
+            "Never requires contact beyond what a court order or program rule allows.",
+            "Where no contact is permitted, build the ritual on paper and file it for day one."
+          ],
+          "cols": [
+            "The ritual",
+            "When you will run it"
+          ]
+        }
       },
       {
         "id": "demo-reentry-9",
@@ -817,7 +1089,20 @@ window.FC_COURSE_DEMO = {
             "correct_index": 1
           }
         ],
-        "poster": "assets/img/session-stills/coming-home-present/s09.png"
+        "poster": "assets/img/session-stills/coming-home-present/s09.png",
+        "practice": {
+          "title": "Write a repair for one past rupture",
+          "prompt": "Write it in your own words, whether or not it can be sent. Rehearse it aloud.",
+          "how": [
+            "Rehearse with a cohort partner or facilitator.",
+            "Never requires contact beyond what a court order or program rule allows.",
+            "Do not send anything a rule or order forbids."
+          ],
+          "cols": [
+            "The rupture, in brief",
+            "The repair words"
+          ]
+        }
       },
       {
         "id": "demo-reentry-10",
@@ -854,7 +1139,20 @@ window.FC_COURSE_DEMO = {
             "correct_index": 1
           }
         ],
-        "poster": "assets/img/session-stills/coming-home-present/s10.png"
+        "poster": "assets/img/session-stills/coming-home-present/s10.png",
+        "practice": {
+          "title": "Go-first repair, under twenty words",
+          "prompt": "Write it. Rehearse until it is steady. Deliver through a permitted channel, or file it.",
+          "how": [
+            "Short. No pride. No speech.",
+            "Never requires contact beyond what a court order or program rule allows.",
+            "Go first on the next miss you are allowed to name."
+          ],
+          "cols": [
+            "The repair, under 20 words",
+            "Delivered or filed"
+          ]
+        }
       },
       {
         "id": "demo-reentry-11",
@@ -891,7 +1189,20 @@ window.FC_COURSE_DEMO = {
             "correct_index": 0
           }
         ],
-        "poster": "assets/img/session-stills/coming-home-present/s11.png"
+        "poster": "assets/img/session-stills/coming-home-present/s11.png",
+        "practice": {
+          "title": "Low-pressure first-hour plan",
+          "prompt": "Write and rehearse a low-pressure first-hour plan for kids and/or a partner.",
+          "how": [
+            "Keep pressure off the hour. No big talks stacked on the doorstep.",
+            "Never requires contact beyond what a court order or program rule allows.",
+            "Your facilitator can check the plan. Rehearse it aloud."
+          ],
+          "cols": [
+            "First-hour move",
+            "How you will keep it light"
+          ]
+        }
       },
       {
         "id": "demo-reentry-12",
@@ -928,7 +1239,20 @@ window.FC_COURSE_DEMO = {
             "correct_index": 1
           }
         ],
-        "poster": "assets/img/session-stills/coming-home-present/s12.png"
+        "poster": "assets/img/session-stills/coming-home-present/s12.png",
+        "practice": {
+          "title": "One-page return plan",
+          "prompt": "Name an accountability partner and a first checkpoint date.",
+          "how": [
+            "Write it today. Work it after return. Report at the checkpoint.",
+            "Never requires contact beyond what a court order or program rule allows.",
+            "The partner should be someone who will actually ask."
+          ],
+          "cols": [
+            "Plan piece",
+            "Your words"
+          ]
+        }
       }
     ],
     "final_qa": [
@@ -988,7 +1312,20 @@ window.FC_COURSE_DEMO = {
             "correct_index": 0
           }
         ],
-        "poster": "assets/img/session-stills/same-team/s01.png"
+        "poster": "assets/img/session-stills/same-team/s01.png",
+        "practice": {
+          "title": "One child-centered team sentence",
+          "prompt": "Write it. Keep it where you will see it before hard contact.",
+          "how": [
+            "Whatever you are to each other, you are one team for the child.",
+            "Never requires contact beyond what a court order or program rule allows.",
+            "Friendship with the other parent is not required."
+          ],
+          "cols": [
+            "The sentence",
+            "Where you will keep it"
+          ]
+        }
       },
       {
         "id": "demo-coparenting-2",
@@ -1025,7 +1362,20 @@ window.FC_COURSE_DEMO = {
             "correct_index": 1
           }
         ],
-        "poster": "assets/img/session-stills/same-team/s02.png"
+        "poster": "assets/img/session-stills/same-team/s02.png",
+        "practice": {
+          "title": "Write the shared goal",
+          "prompt": "One shared-goal sentence. Send it through a permitted channel, or file it to send when allowed.",
+          "how": [
+            "Child-centered. Short enough to send.",
+            "Never requires contact beyond what a court order or program rule allows.",
+            "Do not work around a court order."
+          ],
+          "cols": [
+            "The goal sentence",
+            "Sent or filed"
+          ]
+        }
       },
       {
         "id": "demo-coparenting-3",
@@ -1062,7 +1412,20 @@ window.FC_COURSE_DEMO = {
             "correct_index": 0
           }
         ],
-        "poster": "assets/img/session-stills/same-team/s03.png"
+        "poster": "assets/img/session-stills/same-team/s03.png",
+        "practice": {
+          "title": "Flooded means pause",
+          "prompt": "Rehearse the pause rule once. Use it on any heated exchange this week and log both ends.",
+          "how": [
+            "Name the pause. Name the resume time.",
+            "Never requires contact beyond what a court order or program rule allows.",
+            "If no heat shows, still rehearse the rule aloud."
+          ],
+          "cols": [
+            "How it started",
+            "How you paused and returned"
+          ]
+        }
       },
       {
         "id": "demo-coparenting-4",
@@ -1099,7 +1462,20 @@ window.FC_COURSE_DEMO = {
             "correct_index": 1
           }
         ],
-        "poster": "assets/img/session-stills/same-team/s04.png"
+        "poster": "assets/img/session-stills/same-team/s04.png",
+        "practice": {
+          "title": "Break clean",
+          "prompt": "Write a clean break-off line with a resume time. Use it once on a heated call or thread.",
+          "how": [
+            "Short. No blame. A time you will come back.",
+            "Never requires contact beyond what a court order or program rule allows.",
+            "If no heat shows, still write the line and rehearse."
+          ],
+          "cols": [
+            "The break-off line",
+            "Used or rehearsed"
+          ]
+        }
       },
       {
         "id": "demo-coparenting-5",
@@ -1136,7 +1512,20 @@ window.FC_COURSE_DEMO = {
             "correct_index": 1
           }
         ],
-        "poster": "assets/img/session-stills/same-team/s05.png"
+        "poster": "assets/img/session-stills/same-team/s05.png",
+        "practice": {
+          "title": "Three businesslike messages",
+          "prompt": "Draft three. Send whichever a permitted channel allows. File the rest.",
+          "how": [
+            "Facts. Times. The child. No history dump.",
+            "Never requires contact beyond what a court order or program rule allows.",
+            "Do not send on a channel a rule forbids."
+          ],
+          "cols": [
+            "The message",
+            "Sent or filed"
+          ]
+        }
       },
       {
         "id": "demo-coparenting-6",
@@ -1173,7 +1562,20 @@ window.FC_COURSE_DEMO = {
             "correct_index": 1
           }
         ],
-        "poster": "assets/img/session-stills/same-team/s06.png"
+        "poster": "assets/img/session-stills/same-team/s06.png",
+        "practice": {
+          "title": "Move one item to a cooler channel",
+          "prompt": "Name your hottest channel and your cooler backup. Move one real logistics item this week.",
+          "how": [
+            "Hottest is usually the one that floods you.",
+            "Never requires contact beyond what a court order or program rule allows.",
+            "One real logistics item is enough."
+          ],
+          "cols": [
+            "Hot vs cooler",
+            "The item you moved"
+          ]
+        }
       },
       {
         "id": "demo-coparenting-7",
@@ -1210,7 +1612,20 @@ window.FC_COURSE_DEMO = {
             "correct_index": 1
           }
         ],
-        "poster": "assets/img/session-stills/same-team/s07.png"
+        "poster": "assets/img/session-stills/same-team/s07.png",
+        "practice": {
+          "title": "One small reliable act",
+          "prompt": "Identify it. Do it consistently for a week. Log it.",
+          "how": [
+            "Reliability buys trust. Small and repeatable beats a speech.",
+            "Never requires contact beyond what a court order or program rule allows.",
+            "Pick something you can keep even on a hard day."
+          ],
+          "cols": [
+            "The act",
+            "Day and kept or missed"
+          ]
+        }
       },
       {
         "id": "demo-coparenting-8",
@@ -1247,7 +1662,20 @@ window.FC_COURSE_DEMO = {
             "correct_index": 0
           }
         ],
-        "poster": "assets/img/session-stills/same-team/s08.png"
+        "poster": "assets/img/session-stills/same-team/s08.png",
+        "practice": {
+          "title": "Never against an order",
+          "prompt": "List the rules that govern you now. Choose one small act of compliance you will keep perfectly this week.",
+          "how": [
+            "Never use the child as a messenger.",
+            "Never requires contact beyond what a court order or program rule allows.",
+            "Do not invent a workaround. Perfect on one small act is the drill."
+          ],
+          "cols": [
+            "The rule",
+            "The act you will keep"
+          ]
+        }
       },
       {
         "id": "demo-coparenting-9",
@@ -1284,7 +1712,20 @@ window.FC_COURSE_DEMO = {
             "correct_index": 0
           }
         ],
-        "poster": "assets/img/session-stills/same-team/s09.png"
+        "poster": "assets/img/session-stills/same-team/s09.png",
+        "practice": {
+          "title": "What the child carries",
+          "prompt": "Ask one open question about moving between homes if contact allows, or file it. Fix one logistics friction on your side.",
+          "how": [
+            "Open question. No cross-exam.",
+            "Never requires contact beyond what a court order or program rule allows.",
+            "The logistics fix is yours, not the child's job."
+          ],
+          "cols": [
+            "The question or friction",
+            "Asked, filed, or fixed"
+          ]
+        }
       },
       {
         "id": "demo-coparenting-10",
@@ -1321,7 +1762,20 @@ window.FC_COURSE_DEMO = {
             "correct_index": 1
           }
         ],
-        "poster": "assets/img/session-stills/same-team/s10.png"
+        "poster": "assets/img/session-stills/same-team/s10.png",
+        "practice": {
+          "title": "Three predictable rules for your time",
+          "prompt": "Write three predictable rules for your parenting time. Post them where you will follow them.",
+          "how": [
+            "Predictable on your side. The child should not have to guess.",
+            "Never requires contact beyond what a court order or program rule allows.",
+            "If you do not have parenting time yet, write the three you will keep when you do."
+          ],
+          "cols": [
+            "The rule",
+            "Where it will live"
+          ]
+        }
       },
       {
         "id": "demo-coparenting-11",
@@ -1358,7 +1812,20 @@ window.FC_COURSE_DEMO = {
             "correct_index": 1
           }
         ],
-        "poster": "assets/img/session-stills/same-team/s11.png"
+        "poster": "assets/img/session-stills/same-team/s11.png",
+        "practice": {
+          "title": "Handoff checklist",
+          "prompt": "Place, time, items, facts, goodbye. Rehearse once.",
+          "how": [
+            "Facts, not a speech. A clean goodbye.",
+            "Never requires contact beyond what a court order or program rule allows.",
+            "If a handoff is not allowed this week, still write and rehearse the checklist."
+          ],
+          "cols": [
+            "Checklist piece",
+            "Your words"
+          ]
+        }
       },
       {
         "id": "demo-coparenting-12",
@@ -1395,7 +1862,20 @@ window.FC_COURSE_DEMO = {
             "correct_index": 1
           }
         ],
-        "poster": "assets/img/session-stills/same-team/s12.png"
+        "poster": "assets/img/session-stills/same-team/s12.png",
+        "practice": {
+          "title": "Handoff ritual plan",
+          "prompt": "Complete a one-page handoff ritual plan. Walk it through with a cohort partner or facilitator.",
+          "how": [
+            "After return, execute one handoff to the plan and log it.",
+            "Never requires contact beyond what a court order or program rule allows.",
+            "If a live handoff is not allowed, still complete the page and walk it through."
+          ],
+          "cols": [
+            "Plan piece",
+            "Your words"
+          ]
+        }
       }
     ],
     "final_qa": [

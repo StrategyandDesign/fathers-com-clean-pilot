@@ -246,14 +246,20 @@
             Promise.all([
               FC.sb.from('course_videos').select('id,course_id').then(function(r){return r;},function(){return {data:[]};}),
               FC.sb.from('video_progress').select('video_id').eq('user_id', uid).eq('completed', true)
+                .then(function(r){return r;},function(){return {data:[]};}),
+              FC.sb.from('practice_completions').select('video_id').eq('user_id', uid)
                 .then(function(r){return r;},function(){return {data:[]};})
             ]).then(function(res){
               var vids = (res[0] && res[0].data) || [];
               var doneIds = {}; ((res[1] && res[1].data) || []).forEach(function(v){ doneIds[v.video_id] = 1; });
+              var pracIds = {}; ((res[2] && res[2].data) || []).forEach(function(v){ pracIds[v.video_id] = 1; });
+              var LOOP = {anger:1, reentry:1, coparenting:1};
               var total = {}, hit = {};
               vids.forEach(function(v){
                 total[v.course_id] = (total[v.course_id] || 0) + 1;
-                if(doneIds[v.id]) hit[v.course_id] = (hit[v.course_id] || 0) + 1;
+                var c = byId[v.course_id];
+                var loop = c && LOOP[c.slug];
+                if(doneIds[v.id] && (!loop || pracIds[v.id])) hit[v.course_id] = (hit[v.course_id] || 0) + 1;
               });
 
               mine.sort(function(a,b){
@@ -275,7 +281,7 @@
                            : n === 0 ? 'Not started' : 'In progress';
                 var meter = finished ? 'All lessons complete'
                           : watched ? 'Final questions left'
-                          : m ? (n + ' of ' + m + ' lesson' + (m===1?'':'s'))
+                          : m ? (n + ' of ' + m + ' session' + (m===1?'':'s'))
                               : 'Lessons open when the course is ready';
                 var call = finished ? 'View your certificate'
                          : watched ? 'Finish and submit'
@@ -327,7 +333,7 @@
           href:'certificates.html', cta:'See your course'});
       } else if(remaining > 0){
         paintNextAction({kicker:'Next action', title:'Resume your course',
-          body:'Continue the film sessions and checkpoints. Honest progress beats perfect weeks.',
+          body:'Continue the film, checkpoint, and this week\'s practice. Honest progress beats perfect weeks.',
           href: resumeHref || 'certificates.html', cta:'Continue'});
       } else {
         paintNextAction({kicker:'Next action', title:'Open your plan for this week',

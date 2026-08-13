@@ -164,8 +164,9 @@ def test_coursework_page_present(page, server):
     for hook in ['id="cw-root"', 'id="cw-stage"', "coursework.js"]:
         assert hook in html
     js = _fetch(server, "assets/js/coursework.js")
-    # the four pillars of the flow exist in the controller
-    assert "video_progress" in js and "quiz_responses" in js and "final_qa_responses" in js
+    # the pillars of the flow exist in the controller
+    assert "video_progress" in js and "final_qa_responses" in js
+    assert "openPractice" in js and "practice_completions" in js
     assert "status:'submitted'" in js or 'status: "submitted"' in js
 
 def test_enroll_begin_button_targets_coursework(page, server):
@@ -176,3 +177,33 @@ def test_coursework_supports_vimeo(page, server):
     assert "player.vimeo.com/video/" in js          # vimeo embed
     assert "Vimeo.Player" in js                      # vimeo player api tracking
     assert "vimeoId" in js                           # accepts bare id or url
+
+
+def test_coursework_twelve_week_loop(page, server):
+    js = _fetch(server, "assets/js/coursework.js")
+    assert "openPractice" in js
+    assert "practice_replay" in js
+    assert "Save this week's practice" in js or "Save this week\\'s practice" in js or "this week" in js.lower()
+    data = _fetch(server, "assets/js/course-demo-data.js")
+    assert '"practice"' in data
+    assert "s01-practice-replay.mp4" in data
+    assert "Log 3 rising-tension moments" in data
+    # Fundamentals stay off the 12-week rewrite
+    assert data.count('"slug": "fundamentals"') >= 1
+    lead = _fetch(server, "assets/js/lead.js")
+    assert "practice log" in lead.lower()
+    assert "answers, scores" in lead or "answers, scores, or practice" in lead
+    docs = _fetch(server, "docs/SHORT-SESSION-COURSES.md")
+    assert "12 weeks" in docs.lower() or "twelve-week" in docs.lower()
+    assert "Fathering Fundamentals" in docs
+    anger = _fetch(server, "content/anger.json")
+    assert '"duration_seconds": 502' in anger   # do not fake duration
+    assert '"practice_replay"' in anger
+
+def test_preview_player_shows_practice_copy(page, server):
+    page.goto(f"{server}/course.html?preview=1&cert=anger", wait_until="load")
+    page.wait_for_timeout(600)
+    assert _no_app_errors(page)
+    body = page.inner_text("body")
+    assert "Steady Under Pressure" in body
+    assert "Week 1" in body or "PRACTICE" in body or "The Surge Is a Signal" in body

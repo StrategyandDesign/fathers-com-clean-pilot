@@ -1684,3 +1684,24 @@ html[data-theme="dark"] .cert-req-mark{color:#141210}
 .cw-lock p{color:var(--ash);line-height:1.55;margin:0 0 22px}
 .cw-lock .cw-lock-mark{width:44px;height:44px;border-radius:50%;border:1px solid var(--brass);color:var(--brass);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:18px}
 
+
+/* Twelve-week loop: film / check / practice pips and lived-practice log */
+.cw-loop-pips{display:flex;align-items:center;gap:6px;margin-top:6px;flex-wrap:wrap}
+.cw-loop-pip{width:8px;height:8px;border-radius:50%;border:1px solid var(--hairline-strong);background:transparent}
+.cw-loop-pip.is-on{background:var(--brass);border-color:var(--brass)}
+.cw-loop-legend{margin-left:4px;letter-spacing:.04em}
+.cw-practice{max-width:560px}
+.cw-how{margin:0 0 18px;padding-left:18px;color:var(--ash);max-width:52ch}
+.cw-how li{margin:0 0 6px;line-height:1.45}
+.cw-log{display:grid;gap:8px;margin:4px 0 0}
+.cw-log-head,.cw-log-row{display:grid;grid-template-columns:28px 1fr 1fr;gap:8px;align-items:center}
+.cw-log-n{font-family:var(--font-mono);font-size:12px;color:var(--ash);text-align:center}
+.cw-log-in{width:100%;background:var(--coal);border:1px solid var(--hairline);border-radius:10px;padding:10px 12px;color:var(--bone);font:inherit;font-size:14px}
+.cw-log-in:focus{outline:none;border-color:var(--ember-btn)}
+.cw-replay-wrap{margin-top:16px}
+.cw-replay-vid{width:100%;border-radius:12px;background:#000;aspect-ratio:16/9}
+@media (max-width:640px){
+  .cw-log-head{display:none}
+  .cw-log-row{grid-template-columns:22px 1fr;gap:6px}
+  .cw-log-row .cw-log-in:last-child{grid-column:2}
+}

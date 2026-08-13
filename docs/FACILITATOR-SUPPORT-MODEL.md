@@ -2,7 +2,7 @@
 
 ## Default: facilitator-supported, self-paced film
 
-Courses are film-first and self-paced. A man watches on his schedule, completes checkpoints, logs time, and earns a verifiable Certificate of Completion when he finishes the work. Courses stay free to the man.
+Courses are film-first and self-paced. A man watches on his schedule, passes the checkpoint, completes that week's lived practice, and earns a verifiable Certificate of Completion when he finishes the work. Completion is film plus checkpoint plus practice, not seat time. Courses stay free to the man.
 
 A Certified Facilitator (or Certified Organization) claims his seat. That claim gates enrollment and certificate accountability. The facilitator is available for questions, further insight, and accountability. The facilitator is not required to sit in session, co-watch on Zoom, or run a live class for the man to complete.
 
@@ -14,7 +14,7 @@ Some organizations may later offer live cohort sessions as an optional layer. Co
 
 - Claim / seat gate (facilitator or org claims the man)
 - Roster visibility for claimed men
-- Progress and completion visibility appropriate to role
+- Progress and completion visibility appropriate to role (film, checkpoint, and practice flags only; never answers, scores, or practice log text)
 - Quiet alerts (for example, inactivity) so a named man can be reached
 - Announcements to the claimed group
 - Review of written finals and certificate approval / attestation

@@ -36,7 +36,20 @@
           "correct_index": 1
         }
       ],
-      "poster": "assets/img/session-stills/coming-home-present/s01.png"
+      "poster": "assets/img/session-stills/coming-home-present/s01.png",
+      "practice": {
+        "title": "Body-state log and two home triggers",
+        "prompt": "Keep a short body-state log. Name two likely home triggers.",
+        "how": [
+          "One word is enough for the body log.",
+          "Never requires contact beyond what a court order or program rule allows.",
+          "Rehearse the sentence you will use to tell family what helps, if contact allows."
+        ],
+        "cols": [
+          "Body state or trigger",
+          "Note"
+        ]
+      }
     },
     {
       "ord": 2,
@@ -72,7 +85,20 @@
           "correct_index": 0
         }
       ],
-      "poster": "assets/img/session-stills/coming-home-present/s02.png"
+      "poster": "assets/img/session-stills/coming-home-present/s02.png",
+      "practice": {
+        "title": "New labels for old threat sounds",
+        "prompt": "Name two home sounds that used to mean threat. Write a calm home label for each.",
+        "how": [
+          "Rehearse the labels aloud daily for five days inside program rules.",
+          "Never requires contact beyond what a court order or program rule allows.",
+          "When one of those sounds hits, say the home label once under your breath."
+        ],
+        "cols": [
+          "Sound or scene",
+          "Home label"
+        ]
+      }
     },
     {
       "ord": 3,
@@ -108,7 +134,20 @@
           "correct_index": 1
         }
       ],
-      "poster": "assets/img/session-stills/coming-home-present/s03.png"
+      "poster": "assets/img/session-stills/coming-home-present/s03.png",
+      "practice": {
+        "title": "Write a wave-day rule",
+        "prompt": "Sleep anchor, fewer commitments, and one recovery move.",
+        "how": [
+          "Hold one fixed sleep and wake time for five nights if you can.",
+          "Never requires contact beyond what a court order or program rule allows.",
+          "Use the rule on the next hard day. Flat days still count."
+        ],
+        "cols": [
+          "The rule piece",
+          "How you will keep it"
+        ]
+      }
     },
     {
       "ord": 4,
@@ -144,7 +183,20 @@
           "correct_index": 1
         }
       ],
-      "poster": "assets/img/session-stills/coming-home-present/s04.png"
+      "poster": "assets/img/session-stills/coming-home-present/s04.png",
+      "practice": {
+        "title": "Few promises, kept",
+        "prompt": "Choose at most three commitments you can keep this week and keep a written record.",
+        "how": [
+          "Small and specific. If no contact is permitted, keep promises to your facilitator or cohort.",
+          "Never requires contact beyond what a court order or program rule allows.",
+          "File any child- or partner-facing list for day one."
+        ],
+        "cols": [
+          "The promise",
+          "Kept or not"
+        ]
+      }
     },
     {
       "ord": 5,
@@ -180,7 +232,20 @@
           "correct_index": 0
         }
       ],
-      "poster": "assets/img/session-stills/coming-home-present/s05.png"
+      "poster": "assets/img/session-stills/coming-home-present/s05.png",
+      "practice": {
+        "title": "A current picture, questions only",
+        "prompt": "Build a one-page current picture. Draft questions that are only questions.",
+        "how": [
+          "No advice attached to the questions.",
+          "Never requires contact beyond what a court order or program rule allows.",
+          "Use as many as one permitted call or visit allows. If none, file them for day one."
+        ],
+        "cols": [
+          "What you know now",
+          "Question only"
+        ]
+      }
     },
     {
       "ord": 6,
@@ -216,7 +281,20 @@
           "correct_index": 0
         }
       ],
-      "poster": "assets/img/session-stills/coming-home-present/s06.png"
+      "poster": "assets/img/session-stills/coming-home-present/s06.png",
+      "practice": {
+        "title": "Ask before you assume",
+        "prompt": "Ask one real question and reflect one thing you heard without fixing.",
+        "how": [
+          "Listen longer than you talk.",
+          "Never requires contact beyond what a court order or program rule allows.",
+          "Where no contact is permitted, rehearse with a cohort partner and write the question for day one."
+        ],
+        "cols": [
+          "The question",
+          "What you reflected"
+        ]
+      }
     },
     {
       "ord": 7,
@@ -252,7 +330,20 @@
           "correct_index": 1
         }
       ],
-      "poster": "assets/img/session-stills/coming-home-present/s07.png"
+      "poster": "assets/img/session-stills/coming-home-present/s07.png",
+      "practice": {
+        "title": "Small deposits",
+        "prompt": "Catch and return three bids, or role-play five exchanges if contact is limited.",
+        "how": [
+          "Use a 60-second settling routine before each call or visit.",
+          "Never requires contact beyond what a court order or program rule allows.",
+          "Role-play with a cohort partner if contact is not allowed this week."
+        ],
+        "cols": [
+          "The bid or exchange",
+          "What you returned"
+        ]
+      }
     },
     {
       "ord": 8,
@@ -288,7 +379,20 @@
           "correct_index": 1
         }
       ],
-      "poster": "assets/img/session-stills/coming-home-present/s08.png"
+      "poster": "assets/img/session-stills/coming-home-present/s08.png",
+      "practice": {
+        "title": "One short contact ritual",
+        "prompt": "Set one repeatable short contact ritual inside the rules that govern you now.",
+        "how": [
+          "Frequency beats intensity. Keep the times exact.",
+          "Never requires contact beyond what a court order or program rule allows.",
+          "Where no contact is permitted, build the ritual on paper and file it for day one."
+        ],
+        "cols": [
+          "The ritual",
+          "When you will run it"
+        ]
+      }
     },
     {
       "ord": 9,
@@ -324,7 +428,20 @@
           "correct_index": 1
         }
       ],
-      "poster": "assets/img/session-stills/coming-home-present/s09.png"
+      "poster": "assets/img/session-stills/coming-home-present/s09.png",
+      "practice": {
+        "title": "Write a repair for one past rupture",
+        "prompt": "Write it in your own words, whether or not it can be sent. Rehearse it aloud.",
+        "how": [
+          "Rehearse with a cohort partner or facilitator.",
+          "Never requires contact beyond what a court order or program rule allows.",
+          "Do not send anything a rule or order forbids."
+        ],
+        "cols": [
+          "The rupture, in brief",
+          "The repair words"
+        ]
+      }
     },
     {
       "ord": 10,
@@ -360,7 +477,20 @@
           "correct_index": 1
         }
       ],
-      "poster": "assets/img/session-stills/coming-home-present/s10.png"
+      "poster": "assets/img/session-stills/coming-home-present/s10.png",
+      "practice": {
+        "title": "Go-first repair, under twenty words",
+        "prompt": "Write it. Rehearse until it is steady. Deliver through a permitted channel, or file it.",
+        "how": [
+          "Short. No pride. No speech.",
+          "Never requires contact beyond what a court order or program rule allows.",
+          "Go first on the next miss you are allowed to name."
+        ],
+        "cols": [
+          "The repair, under 20 words",
+          "Delivered or filed"
+        ]
+      }
     },
     {
       "ord": 11,
@@ -396,7 +526,20 @@
           "correct_index": 0
         }
       ],
-      "poster": "assets/img/session-stills/coming-home-present/s11.png"
+      "poster": "assets/img/session-stills/coming-home-present/s11.png",
+      "practice": {
+        "title": "Low-pressure first-hour plan",
+        "prompt": "Write and rehearse a low-pressure first-hour plan for kids and/or a partner.",
+        "how": [
+          "Keep pressure off the hour. No big talks stacked on the doorstep.",
+          "Never requires contact beyond what a court order or program rule allows.",
+          "Your facilitator can check the plan. Rehearse it aloud."
+        ],
+        "cols": [
+          "First-hour move",
+          "How you will keep it light"
+        ]
+      }
     },
     {
       "ord": 12,
@@ -432,7 +575,20 @@
           "correct_index": 1
         }
       ],
-      "poster": "assets/img/session-stills/coming-home-present/s12.png"
+      "poster": "assets/img/session-stills/coming-home-present/s12.png",
+      "practice": {
+        "title": "One-page return plan",
+        "prompt": "Name an accountability partner and a first checkpoint date.",
+        "how": [
+          "Write it today. Work it after return. Report at the checkpoint.",
+          "Never requires contact beyond what a court order or program rule allows.",
+          "The partner should be someone who will actually ask."
+        ],
+        "cols": [
+          "Plan piece",
+          "Your words"
+        ]
+      }
     }
   ],
   "final_qa": [

@@ -1,7 +1,8 @@
 /* Certificate coursework player. The participant side of the accountability model.
-   Watch videos in order (watch time tracked against known length), pass a Checkpoint
-   after each, answer the final Q&A, submit for admin approval. Signed-in + enrolled.
-   Reads and writes are RLS-gated (certificate_accountability.sql). */
+   Twelve-week loop for Steady / Coming Home / Same Team: watch the film, pass the
+   checkpoint, complete the lived practice. Session complete is those three, not
+   seat time. Fundamentals keep the older film-plus-checkpoint flow.
+   Signed-in + enrolled. Reads and writes are RLS-gated. */
 (function(){
   var root = document.getElementById('cw-root');
   if (!root) return;
@@ -27,6 +28,9 @@
     return page + '#' + prefix + String(n);
   }
   var uid=null, course=null, videos=[], progress={}, awardStatus=null, passes={}, finalQa=[];
+  var practices={}, practiceLogs={};
+  var LOOP_SLUGS = {anger:1, reentry:1, coparenting:1};
+  var PREVIEW_STORE = 'fc-cw-preview-';
 
   // ---------- boot ----------
   function boot(){
@@ -53,17 +57,21 @@
         duration_seconds: v.duration_seconds || 720,
         video_url: v.video_url || null,
         poster: v.poster || null,
-        checkpoint_json: v.checkpoint_json || v.checkpoint || []
+        checkpoint_json: v.checkpoint_json || v.checkpoint || [],
+        practice: v.practice || null,
+        practice_replay: v.practice_replay || null
       };
     });
     finalQa = pack.final_qa || [];
-    progress = {}; passes = {}; awardStatus = null; enrollId = null;
+    progress = {}; passes = {}; practices = {}; practiceLogs = {}; awardStatus = null; enrollId = null;
+    loadPreviewState();
     if($('cw-title')) $('cw-title').textContent = course.title + ' (preview)';
     var signedIn = !!(window.FC && FC.uid && FC.uid());
-    note('<div class="notice brass" style="margin:0 0 14px"><b>Preview player.</b> <span class="fine">Walk the real session flow: play a session, pass the checkpoint, move to the next. Films are not live yet, so play runs a short stand-in.'+(signedIn?'':' No account needed.')+' When you want proof later, a Certified Facilitator claims your seat and you earn a serial.</span></div>');
+    note('<div class="notice brass" style="margin:0 0 14px"><b>Preview player.</b> <span class="fine">Walk the real week: play the film, pass the checkpoint, complete this week\'s practice. Films are not live yet, so play runs a short stand-in.'+(signedIn?'':' No account needed.')+' When you want proof later, a Certified Facilitator claims your seat and you earn a serial.</span></div>');
     renderOutline();
-    /* Land on lesson 1 immediately so preview is not an empty outline. */
-    if(videos.length) openVideo(0);
+    var land = firstUnfinishedIndex();
+    if(land >= 0) openVideo(land);
+    else if(videos.length) renderOutline();
   }
 
   function load(){
@@ -94,12 +102,15 @@
     Promise.all([
       FC.sb.from('course_videos').select('*').eq('course_id',course.id).order('ord'),
       FC.sb.from('video_progress').select('video_id,watched_seconds,completed').eq('user_id',uid),
-      FC.sb.from('checkpoint_passes').select('video_id').eq('user_id',uid)
+      FC.sb.from('checkpoint_passes').select('video_id').eq('user_id',uid),
+      FC.sb.from('practice_completions').select('video_id').eq('user_id',uid)
     ].map(function(p){return p.then(function(r){return r;},function(e){return {error:e};});})).then(function(res){
       if(res[0].error){ stage('<div class="notice brass">Could not load the course right now: '+esc(res[0].error.message)+'. Try again in a moment, or tell your facilitator.</div>'); return; }
       videos = res[0].data || [];
+      attachPracticeFromCatalog();
       progress = {}; (res[1].data||[]).forEach(function(p){ progress[p.video_id]=p; });
       passes = {}; ((res[2]&&res[2].data)||[]).forEach(function(p){ passes[p.video_id]=true; });
+      practices = {}; ((res[3]&&res[3].data)||[]).forEach(function(p){ practices[p.video_id]={completed:true}; });
       if(!videos.length){
         var sp = SESSIONS_PAGE[slug];
         stage(sp
@@ -113,12 +124,64 @@
 
   // ---------- outline ----------
   function hasFilm(v){ return !!(v.duration_seconds && v.duration_seconds > 0); }
-  // A session with a film is done when the server marks measured playback
-  // complete. A placeholder (no Vimeo yet) is done when its checkpoint is
-  // passed. No time is credited until a real film is present.
+  function attachPracticeFromCatalog(){
+    var pack = window.FC_COURSE_DEMO && FC_COURSE_DEMO[slug];
+    if (!pack || !pack.videos) return;
+    var byOrd = {};
+    pack.videos.forEach(function(v){ byOrd[v.ord] = v; });
+    videos.forEach(function(v){
+      var cat = byOrd[v.ord];
+      if (!cat) return;
+      if (!v.practice && cat.practice) v.practice = cat.practice;
+      if (!v.practice_replay && cat.practice_replay) v.practice_replay = cat.practice_replay;
+    });
+  }
+  function hasPractice(v){ return !!(v && v.practice && (v.practice.title || v.practice.prompt)); }
+  function filmDone(v){
+    if (hasFilm(v)) { var p=progress[v.id]; return !!(p && p.completed); }
+    return true;
+  }
+  function checkDone(v){ return !!passes[v.id]; }
+  function practiceDone(v){
+    if (!hasPractice(v)) return true;
+    return !!(practices[v.id] && practices[v.id].completed);
+  }
+  // Loop courses: film + checkpoint + practice. Fundamentals: film (or checkpoint if no film).
   function videoDone(v){
+    if (hasPractice(v) || LOOP_SLUGS[slug]) {
+      return filmDone(v) && checkDone(v) && practiceDone(v);
+    }
     if (hasFilm(v)) { var p=progress[v.id]; return !!(p && p.completed); }
     return !!passes[v.id];
+  }
+  function pipClass(on){ return 'cw-loop-pip'+(on?' is-on':''); }
+  function loopPipsHtml(v){
+    if (!(hasPractice(v) || LOOP_SLUGS[slug])) return '';
+    return '<div class="cw-loop-pips" aria-label="Film, checkpoint, practice">'+
+      '<span class="'+pipClass(filmDone(v))+'" title="Film"></span>'+
+      '<span class="'+pipClass(checkDone(v))+'" title="Checkpoint"></span>'+
+      '<span class="'+pipClass(practiceDone(v))+'" title="Practice"></span>'+
+      '<span class="cw-loop-legend fine">film / check / practice</span></div>';
+  }
+  function loadPreviewState(){
+    if (!demo) return;
+    try {
+      var raw = localStorage.getItem(PREVIEW_STORE + slug);
+      if (!raw) return;
+      var st = JSON.parse(raw);
+      progress = st.progress || progress;
+      passes = st.passes || passes;
+      practices = st.practices || practices;
+      practiceLogs = st.logs || practiceLogs;
+    } catch(e){}
+  }
+  function savePreviewState(){
+    if (!demo) return;
+    try {
+      localStorage.setItem(PREVIEW_STORE + slug, JSON.stringify({
+        progress: progress, passes: passes, practices: practices, logs: practiceLogs
+      }));
+    } catch(e){}
   }
   function firstUnfinishedIndex(){ for(var i=0;i<videos.length;i++){ if(!videoDone(videos[i])) return i; } return -1; }
   function allVideosDone(){ return firstUnfinishedIndex() === -1; }
@@ -134,11 +197,15 @@
       var state = done ? '<span class="cw-badge cw-done">Done</span>'
                 : locked ? '<span class="cw-badge cw-locked">Locked</span>'
                 : '<span class="cw-badge cw-now">Continue</span>';
+      var started = !!(progress[v.id] || passes[v.id] || (practices[v.id] && practices[v.id].completed));
       var action = (!done && !locked)
-        ? '<button class="btn btn-primary btn-sm" data-open="'+i+'">'+(progress[v.id]?'Resume':'Start')+'</button>'
+        ? '<button class="btn btn-primary btn-sm" data-open="'+i+'">'+(started?'Resume':'Start')+'</button>'
         : (done ? '<button class="btn btn-secondary btn-sm" data-open="'+i+'">Rewatch</button>' : '<button class="btn btn-secondary btn-sm" disabled>Locked</button>');
+      var sub = (hasPractice(v) || LOOP_SLUGS[slug])
+        ? ('Week '+(i+1)+' of '+videos.length)
+        : (fmt(v.duration_seconds)+' \u00b7 Checkpoint after');
       return '<div class="cw-row"><div class="cw-row-main"><div class="cw-row-num">'+(i+1)+'</div>'+
-        '<div><div class="cw-row-title">'+esc(v.title)+'</div><div class="fine">'+fmt(v.duration_seconds)+' \u00b7 Checkpoint after</div></div></div>'+
+        '<div><div class="cw-row-title">'+esc(v.title)+'</div><div class="fine">'+sub+'</div>'+loopPipsHtml(v)+'</div></div>'+
         '<div class="cw-row-right">'+state+action+'</div></div>';
     }).join('');
 
@@ -151,7 +218,9 @@
     stage(
       '<div class="cw-progresshead"><div class="eyebrow brass">YOUR PROGRESS</div>'+
       '<div class="cw-bar"><div class="cw-bar-fill" style="width:'+Math.round(done/videos.length*100)+'%"></div></div>'+
-      '<div class="fine" style="margin-top:8px">'+done+' of '+videos.length+' lessons complete</div></div>'+
+      '<div class="fine" style="margin-top:8px">'+(LOOP_SLUGS[slug]
+        ? (done+' of '+videos.length+' weeks complete. Film, checkpoint, and practice each count.')
+        : (done+' of '+videos.length+' lessons complete'))+'</div></div>'+
       '<div class="cw-list">'+rows+finalBlock+'</div>'
     );
     root.querySelectorAll('[data-open]').forEach(function(b){ b.addEventListener('click', function(){ openVideo(parseInt(b.dataset.open,10)); }); });
@@ -170,7 +239,7 @@
   }
 
   // ---------- video + watch tracking ----------
-  var watchTimer=null, watched=0, threshold=0, curVideo=null, passes={};
+  var watchTimer=null, watched=0, threshold=0, curVideo=null;
 
   // Accepts a bare Vimeo ID (e.g. 1198023217), a vimeo.com URL, or a full MP4 URL.
   function vimeoId(ref){
@@ -181,9 +250,13 @@
     return m ? m[1] : null;
   }
 
-  function openVideo(i){
+  function openVideo(i, forceFilm){
     curVideo = videos[i];
     var v = curVideo;
+    if (!forceFilm && hasPractice(v) && filmDone(v) && checkDone(v) && !practiceDone(v)) {
+      openPractice();
+      return;
+    }
     watched = (progress[v.id] && progress[v.id].watched_seconds) || 0;
     // must reach ~95% of known length before the Checkpoint unlocks (min 5s for tiny demos)
     threshold = Math.max(5, Math.floor((v.duration_seconds||0) * 0.95));
@@ -354,7 +427,7 @@
     if(!curVideo) return;
     var completed = done || (progress[curVideo.id] && progress[curVideo.id].completed) || false;
     progress[curVideo.id] = { video_id:curVideo.id, watched_seconds:watched, completed:completed };
-    if (demo) return;
+    if (demo) { savePreviewState(); return; }
     FC.sb.functions.invoke('progress_beat', { body: { video_id: curVideo.id, position_seconds: watched } }).then(function(){}, function(){});
     touchEnrollment();
   }
@@ -374,15 +447,15 @@
           correct_index: (typeof q.correct_index === 'number' ? q.correct_index : 0)
         };
       });
-      if(!qs.length){ markVideoComplete(); note(''); renderOutline(); return; }
+      if(!qs.length){ afterCheckpointPass(); return; }
       renderCheckpoint(qs, 0, {});
       return;
     }
     FC.sb.from('quiz_questions_public').select('id,video_id,ord,prompt,choices').eq('video_id',curVideo.id).order('ord').then(function(r){
       if(r.error){ stage('<div class="notice brass">'+esc(r.error.message)+'</div>'); return; }
       var qs=r.data||[];
-      if(!qs.length){ // no debrief authored: count the lesson done and move on
-        markVideoComplete(); note(''); renderOutline(); return;
+      if(!qs.length){ // no debrief authored: still require practice on loop courses
+        afterCheckpointPass(); return;
       }
       renderCheckpoint(qs, 0, {});
     });
@@ -482,8 +555,22 @@
     return html;
   }
 
+  function afterCheckpointPass(){
+    if (!curVideo) return;
+    passes[curVideo.id] = true;
+    if (demo) savePreviewState();
+    if (hasPractice(curVideo) && !practiceDone(curVideo)) { openPractice(); return; }
+    markVideoComplete(); note(''); renderOutline();
+  }
+
   function showCheckpointResult(pass, right, total){
     if(pass){
+      passes[curVideo.id] = true;
+      if (demo) savePreviewState();
+      if (hasPractice(curVideo) && !practiceDone(curVideo)) {
+        openPractice();
+        return;
+      }
       markVideoComplete();
       var nextIdx = videos.indexOf(curVideo) + 1;
       var hasNext = nextIdx > 0 && nextIdx < videos.length;
@@ -494,7 +581,7 @@
           '<div class="cw-lock-pips" aria-label="Progress">'+lockPipsHtml(curVideo.ord)+'</div>'+
           '<div class="eyebrow brass" style="margin-bottom:10px">SESSION '+curVideo.ord+' OF '+videos.length+'</div>'+
           '<h2>'+esc(lockLine(curVideo))+'</h2>'+
-          '<p>'+right+' of '+total+' correct. Locked in.</p>'+
+          '<p>Checkpoint locked in.</p>'+
           '<button class="btn btn-primary" id="cw-continue">'+esc(btnLabel)+'</button>'+
         '</div>'
       );
@@ -517,8 +604,125 @@
   function markVideoComplete(){
     progress[curVideo.id] = { video_id:curVideo.id, watched_seconds:Math.max(watched,threshold), completed:true };
     passes[curVideo.id] = true;
-    if (demo) return;
+    if (demo) { savePreviewState(); return; }
     FC.sb.functions.invoke('progress_beat', { body: { video_id: curVideo.id, position_seconds: Math.max(watched,threshold) } }).then(function(){}, function(){});
+  }
+
+  function replayUrl(v){
+    var u = v && (v.practice_replay || (v.practice && v.practice.replay));
+    u = (u==null?'':String(u)).trim();
+    return u;
+  }
+
+  function openPractice(){
+    var v = curVideo;
+    var prac = (v && v.practice) || {};
+    var cols = (prac.cols && prac.cols.length) ? prac.cols : ['Trigger', 'What you noticed'];
+    var saved = (practiceLogs[v.id] && practiceLogs[v.id].rows) || [];
+    var rowsHtml = '';
+    for (var r=0; r<3; r++){
+      var row = saved[r] || ['',''];
+      rowsHtml += '<div class="cw-log-row">'+
+        '<span class="cw-log-n">'+(r+1)+'</span>'+
+        '<input class="cw-log-in" data-r="'+r+'" data-c="0" maxlength="240" placeholder="'+esc(cols[0]||'')+'" value="'+esc(row[0]||'')+'">'+
+        '<input class="cw-log-in" data-r="'+r+'" data-c="1" maxlength="240" placeholder="'+esc(cols[1]||cols[0]||'')+'" value="'+esc(row[1]||'')+'">'+
+        '</div>';
+    }
+    var how = (prac.how||[]).map(function(line){ return '<li>'+esc(line)+'</li>'; }).join('');
+    var replay = replayUrl(v);
+    var replayBtn = replay
+      ? '<button class="btn btn-secondary" type="button" id="cw-replay">Practice replay</button>'
+      : '';
+    var already = practiceDone(v);
+    var nextIdx = videos.indexOf(v) + 1;
+    var hasNext = nextIdx > 0 && nextIdx < videos.length;
+    var contLabel = hasNext ? ('Continue to week '+(nextIdx+1)) : 'Continue';
+    stage(
+      '<div class="row between" style="margin-bottom:16px;align-items:center">'+
+        '<button class="link ash" id="cw-back-pr">\u2190 All weeks</button>'+
+        '<button class="link ash" id="cw-rewatch-film">Rewatch film</button>'+
+      '</div>'+
+      '<div class="cw-practice">'+
+        '<div class="eyebrow brass">PRACTICE \u00b7 WEEK '+esc(String(v.ord))+' OF '+videos.length+'</div>'+
+        '<h2 class="cw-lesson-title">'+esc(prac.title || 'This week\'s practice')+'</h2>'+
+        '<p class="small" style="margin:0 0 14px;max-width:52ch">'+esc(prac.prompt || '')+'</p>'+
+        (how ? '<ul class="cw-how">'+how+'</ul>' : '')+
+        '<div class="cw-log" id="cw-log">'+
+          '<div class="cw-log-head fine"><span></span><span>'+esc(cols[0]||'')+'</span><span>'+esc(cols[1]||'')+'</span></div>'+
+          rowsHtml+
+        '</div>'+
+        '<p class="fine" id="cw-prac-msg" style="margin:10px 0 0">'+(already?'Saved. The week counts when film, checkpoint, and practice are all done.':'Your notes stay on this device. The Desk only sees that you finished.')+'</p>'+
+        '<div id="cw-replay-wrap" class="cw-replay-wrap" hidden></div>'+
+        '<div class="cw-video-actions" style="gap:10px;flex-wrap:wrap;margin-top:18px">'+
+          '<button class="btn btn-primary" id="cw-prac-save">'+(already?'Update practice':'Save this week\'s practice')+'</button>'+
+          replayBtn+
+          '<button class="btn btn-secondary" id="cw-prac-next"'+(already?'':' disabled')+'>'+esc(contLabel)+'</button>'+
+        '</div>'+
+      '</div>'
+    );
+    $('cw-back-pr').addEventListener('click', function(){ renderOutline(); });
+    var rw = $('cw-rewatch-film');
+    if (rw) rw.addEventListener('click', function(){ openVideo(videos.indexOf(v), true); });
+    $('cw-prac-save').addEventListener('click', function(){ savePractice(false); });
+    var nx = $('cw-prac-next');
+    if (nx) nx.addEventListener('click', function(){
+      if (!practiceDone(v)) return;
+      if (hasNext) openVideo(nextIdx);
+      else if (demo) openFinal();
+      else renderOutline();
+    });
+    var rb = $('cw-replay');
+    if (rb && replay) rb.addEventListener('click', function(){ showPracticeReplay(replay); });
+  }
+
+  function readPracticeRows(){
+    var rows = [[],[],[]];
+    root.querySelectorAll('.cw-log-in').forEach(function(inp){
+      var r = parseInt(inp.getAttribute('data-r'),10);
+      var c = parseInt(inp.getAttribute('data-c'),10);
+      if (!rows[r]) rows[r] = [];
+      rows[r][c] = (inp.value||'').trim();
+    });
+    return rows.map(function(row){ return [row[0]||'', row[1]||'']; });
+  }
+
+  function savePractice(){
+    if (!curVideo) return;
+    var rows = readPracticeRows();
+    var filled = rows.filter(function(row){ return (row[0]||row[1]); }).length;
+    var msg = $('cw-prac-msg');
+    if (!filled){
+      if (msg) msg.textContent = 'Log at least one row so the week has a real rep.';
+      return;
+    }
+    practiceLogs[curVideo.id] = { rows: rows };
+    practices[curVideo.id] = { completed: true };
+    markVideoComplete();
+    if (demo) savePreviewState();
+    else {
+      FC.sb.from('practice_completions').upsert(
+        { user_id: uid, video_id: curVideo.id },
+        { onConflict: 'user_id,video_id' }
+      ).then(function(){}, function(){});
+    }
+    var nx = $('cw-prac-next'); if (nx) nx.disabled = false;
+    var btn = $('cw-prac-save'); if (btn) btn.textContent = 'Update practice';
+    if (msg) msg.textContent = 'Saved. Film, checkpoint, and practice are done for this week.';
+  }
+
+  function showPracticeReplay(url){
+    var wrap = $('cw-replay-wrap');
+    if (!wrap) return;
+    wrap.hidden = false;
+    wrap.innerHTML = '<video id="cw-replay-vid" class="cw-replay-vid" controls playsinline preload="metadata" src="'+esc(url)+'"></video>'+
+      '<p class="fine" id="cw-replay-miss" hidden>Replay is not available yet.</p>';
+    var vid = $('cw-replay-vid');
+    if (!vid) return;
+    vid.addEventListener('error', function(){
+      vid.style.display = 'none';
+      var miss = $('cw-replay-miss'); if (miss) miss.hidden = false;
+      var rb = $('cw-replay'); if (rb) rb.style.display = 'none';
+    });
   }
 
   // ---------- final Q&A + submit ----------

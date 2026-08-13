@@ -78,6 +78,9 @@ def practice_html(sess: dict) -> str:
             parts.append(f'    <p class="small"><b>After the return:</b> {_e(after)}</p>')
     else:
         parts.append(f'    <p class="small">{_e(sess.get("practice", ""))}</p>')
+    parts.append(
+        '    <p class="fine" style="margin-top:8px;color:var(--ash)">Complete this in the player after you pass the checkpoint. That is when the week counts.</p>'
+    )
     parts.append("  </div>")
     return "\n".join(parts)
 
@@ -108,7 +111,7 @@ def session_article(course: dict, sess: dict) -> str:
         caption = (
             '    <div class="vs-caption">\n'
             '      <p class="eyebrow brass">SESSION FILM</p>\n'
-            '      <p class="fine" style="color:var(--ash)">Scratch cut ready in the player. Watch there, then take the checkpoint.</p>\n'
+            '      <p class="fine" style="color:var(--ash)">Watch there, then take the checkpoint and complete this week's practice.</p>\n'
             f'      <p style="margin-top:10px"><a class="btn btn-yellow btn-sm" href="{demo_href}">Open in the player</a></p>\n'
             '    </div>\n'
         )
@@ -127,7 +130,7 @@ def session_article(course: dict, sess: dict) -> str:
         )
     label = sess.get("session_label") or f"SESSION {ord_}"
     length = sess.get("length_label") or (
-        "part of 1.1h course" if slug == "fundamentals" else "~12 MIN"
+        "part of 1.1h course" if slug == "fundamentals" else "~6 MIN"
     )
     return (
         f'<article class="card" style="padding:26px 28px;margin-bottom:18px" id="{sid}">\n'
@@ -180,7 +183,7 @@ def path_rail_html(course: dict) -> str:
         f'<p class="fine ash" style="margin:0 0 14px;max-width:46ch">{_q(first["quote"])}</p>'
         f'<div class="course-pip-rail" aria-label="Course progress">{pips}</div>'
         '<p class="fine ash" style="margin:10px 0 16px;max-width:46ch">'
-        'One session at a time. Finish it in the player, then the next one opens.</p>'
+        'One week at a time. Watch the film, pass the checkpoint, complete the practice. Then the next one opens.</p>'
         f'<div class="course-focus-cta"><a class="btn btn-yellow" href="{demo_href}">{cta_label}</a></div>'
         f'<details class="course-full-path"><summary class="fine">See the full path ({n} sessions)</summary>'
         + "".join(items)
@@ -190,7 +193,7 @@ def path_rail_html(course: dict) -> str:
 
 def billboard_html(course: dict) -> str:
     n = len(course["sessions"])
-    minutes = "ALREADY FILMED" if course.get("slug") == "fundamentals" else "~12 MINUTES EACH"
+    minutes = "ALREADY FILMED" if course.get("slug") == "fundamentals" else "12 WEEKS · SHORT FILM"
     notes = []
     if course.get("fine2"):
         notes.append(_e(course["fine2"]))
