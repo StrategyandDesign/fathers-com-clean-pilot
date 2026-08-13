@@ -1,6 +1,13 @@
 {
   "slug": "reentry",
   "title": "Coming Home Present",
+  "welcome": {
+    "title": "Start here",
+    "speakers": "Ken Canfield and Micah Canfield",
+    "video": "assets/video/welcomes/reentry.mp4",
+    "ken": "Coming home is not the same as being present. If you are in rehab or treatment, or standing in that stretch before you reconnect with your child or a partner, this is for you. Presence is a skill. It is how you show up without making the people you love pay for the pressure you carried.",
+    "micah": "I built this path so you can finish it. Each week is one short film, a few questions, and a small practice you can do inside the rules that govern you now. This practice never requires contact with your child. I will walk it with you. Here's session one."
+  },
   "videos": [
     {
       "ord": 1,

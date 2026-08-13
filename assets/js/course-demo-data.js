@@ -6,6 +6,13 @@ window.FC_COURSE_DEMO = {
     "title": "Steady Under Pressure",
     "hours": 2.4,
     "published": true,
+    "welcome": {
+      "title": "Start here",
+      "speakers": "Ken Canfield and Micah Canfield",
+      "video": "assets/video/welcomes/anger.mp4",
+      "ken": "If you are a father under pressure, this is for you. Not a speech about never getting angry. Steadiness is a skill. It is how you keep your word when the heat comes, at home, at work, in a program. I have spent my life with men who want to be that father. This course trains the first move: notice the surge before it runs you.",
+      "micah": "I built this path so you can finish it. Each week is one short film, a few questions, and a small practice you can actually do. I will walk it with you. No hour of sitting. One skill, then you go live your week. Here's session one."
+    },
     "videos": [
       {
         "id": "demo-anger-1",
@@ -653,6 +660,13 @@ window.FC_COURSE_DEMO = {
     "title": "Coming Home Present",
     "hours": 2.4,
     "published": true,
+    "welcome": {
+      "title": "Start here",
+      "speakers": "Ken Canfield and Micah Canfield",
+      "video": "assets/video/welcomes/reentry.mp4",
+      "ken": "Coming home is not the same as being present. If you are in rehab or treatment, or standing in that stretch before you reconnect with your child or a partner, this is for you. Presence is a skill. It is how you show up without making the people you love pay for the pressure you carried.",
+      "micah": "I built this path so you can finish it. Each week is one short film, a few questions, and a small practice you can do inside the rules that govern you now. This practice never requires contact with your child. I will walk it with you. Here's session one."
+    },
     "videos": [
       {
         "id": "demo-reentry-1",
@@ -1276,6 +1290,13 @@ window.FC_COURSE_DEMO = {
     "title": "Same Team",
     "hours": 2.4,
     "published": true,
+    "welcome": {
+      "title": "Start here",
+      "speakers": "Ken Canfield and Micah Canfield",
+      "video": "assets/video/welcomes/coparenting.mp4",
+      "ken": "Your child does not need you and their other parent to be a couple. They need you on the same team. That is a skill: keep the child at the center when the old fight wants the mic.",
+      "micah": "I built this path so you can finish it. Each week is one short film, a few questions, and a small practice you can actually do. I will walk it with you. Here's session one."
+    },
     "videos": [
       {
         "id": "demo-coparenting-1",
@@ -1899,6 +1920,13 @@ window.FC_COURSE_DEMO = {
     "title": "Fathering Fundamentals",
     "hours": 1.1,
     "published": true,
+    "welcome": {
+      "title": "Start here",
+      "speakers": "Ken Canfield and Micah Canfield",
+      "video": "assets/video/welcomes/fundamentals.mp4",
+      "ken": "These are the Seven Secrets I have taught fathers for decades. Short sessions you can use the same night. Not a theory class. A way to be the man your child can count on.",
+      "micah": "I built this path so you can start tonight. Each session is short. Watch, take the questions if they are there, try one move at home. I will walk it with you. Here's session one."
+    },
     "videos": [
       {
         "id": "demo-fundamentals-1",

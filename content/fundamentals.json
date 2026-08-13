@@ -1,6 +1,13 @@
 {
   "slug": "fundamentals",
   "title": "Fathering Fundamentals",
+  "welcome": {
+    "title": "Start here",
+    "speakers": "Ken Canfield and Micah Canfield",
+    "video": "assets/video/welcomes/fundamentals.mp4",
+    "ken": "These are the Seven Secrets I have taught fathers for decades. Short sessions you can use the same night. Not a theory class. A way to be the man your child can count on.",
+    "micah": "I built this path so you can start tonight. Each session is short. Watch, take the questions if they are there, try one move at home. I will walk it with you. Here's session one."
+  },
   "subtitle": "The Seven Secrets of Effective Fathers Assessment & Course",
   "hours": 1.1,
   "session_count": 8,

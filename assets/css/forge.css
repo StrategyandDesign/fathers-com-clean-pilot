@@ -1705,3 +1705,21 @@ html[data-theme="dark"] .cert-req-mark{color:#141210}
   .cw-log-row{grid-template-columns:22px 1fr;gap:6px}
   .cw-log-row .cw-log-in:last-child{grid-column:2}
 }
+
+/* Start here: one Ken + Micah face intro per course (not a week) */
+.course-welcome{padding:26px 28px;margin-bottom:22px}
+.course-welcome-media{margin:14px 0 18px;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#000;border:1px solid var(--hairline)}
+.course-welcome-media video{width:100%;height:100%;object-fit:contain;display:block;background:#000}
+.course-welcome-block{margin:0 0 16px;max-width:52ch}
+.course-welcome-block .eyebrow{margin-bottom:6px}
+.course-welcome-block p{margin:0;font-family:var(--font-display);font-weight:500;font-size:17px;line-height:1.45;color:var(--bone)}
+.course-welcome-cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
+.course-welcome-band{padding-top:4px;padding-bottom:8px}
+.sag-welcome .sag-n{color:var(--brass)}
+.cw-welcome-row{border-color:rgba(201,151,59,.35)}
+.cw-welcome-row .cw-row-num{border-radius:6px;font-size:11px;color:var(--brass);border-color:rgba(201,151,59,.45)}
+.cw-welcome-media{margin:0 0 20px;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#000;border:1px solid var(--hairline)}
+.cw-welcome-media video{width:100%;height:100%;object-fit:contain;display:block;background:#000}
+.cw-welcome-copy{margin:4px 0 22px;display:grid;gap:18px}
+.cw-welcome-block p{font-family:var(--font-display);font-weight:500;font-size:clamp(16px,2.2vw,20px);line-height:1.45;color:var(--bone);max-width:48ch;margin:6px 0 0}
+.cw-welcome-actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center}

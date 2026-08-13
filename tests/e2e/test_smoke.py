@@ -199,6 +199,11 @@ def test_coursework_twelve_week_loop(page, server):
     anger = _fetch(server, "content/anger.json")
     assert '"duration_seconds": 502' in anger   # do not fake duration
     assert '"practice_replay"' in anger
+    assert '"welcome"' in anger
+    assert "assets/video/welcomes/anger.mp4" in anger
+    assert "openWelcome" in js
+    assert "shouldOpenWelcome" in js
+    assert "Start here" in data
 
 def test_preview_player_shows_practice_copy(page, server):
     page.goto(f"{server}/course.html?preview=1&cert=anger", wait_until="load")
@@ -206,4 +211,10 @@ def test_preview_player_shows_practice_copy(page, server):
     assert _no_app_errors(page)
     body = page.inner_text("body")
     assert "Steady Under Pressure" in body
+    assert "Start here" in body or "KEN" in body
+    skip = page.query_selector("#cw-welcome-skip")
+    if skip:
+        skip.click()
+        page.wait_for_timeout(400)
+        body = page.inner_text("body")
     assert "Week 1" in body or "PRACTICE" in body or "The Surge Is a Signal" in body

@@ -29,6 +29,7 @@
   }
   var uid=null, course=null, videos=[], progress={}, awardStatus=null, passes={}, finalQa=[];
   var practices={}, practiceLogs={};
+  var courseWelcome=null;
   var LOOP_SLUGS = {anger:1, reentry:1, coparenting:1};
   var PREVIEW_STORE = 'fc-cw-preview-';
 
@@ -51,6 +52,7 @@
       return;
     }
     course = { id: pack.id, slug: pack.slug, title: pack.title, hours: pack.hours, published: true };
+    courseWelcome = pack.welcome || null;
     videos = (pack.videos || []).map(function(v){
       return {
         id: v.id, ord: v.ord, title: v.title, vimeo_id: v.vimeo_id || null,
@@ -68,10 +70,12 @@
     if($('cw-title')) $('cw-title').textContent = course.title + ' (preview)';
     var signedIn = !!(window.FC && FC.uid && FC.uid());
     note('<div class="notice brass" style="margin:0 0 14px"><b>Preview player.</b> <span class="fine">Walk the real week: play the film, pass the checkpoint, complete this week\'s practice. Films are not live yet, so play runs a short stand-in.'+(signedIn?'':' No account needed.')+' When you want proof later, a Certified Facilitator claims your seat and you earn a serial.</span></div>');
-    renderOutline();
-    var land = firstUnfinishedIndex();
-    if(land >= 0) openVideo(land);
-    else if(videos.length) renderOutline();
+    if (shouldOpenWelcome()) openWelcome();
+    else {
+      var land = firstUnfinishedIndex();
+      if(land >= 0) openVideo(land);
+      else renderOutline();
+    }
   }
 
   function load(){
@@ -118,12 +122,18 @@
           : '<div class="notice brass">This course is film-first. Session films play here when ready.</div>');
         return;
       }
-      renderOutline();
+      attachWelcomeFromCatalog();
+      if (shouldOpenWelcome()) openWelcome();
+      else renderOutline();
     });
   }
 
   // ---------- outline ----------
   function hasFilm(v){ return !!(v.duration_seconds && v.duration_seconds > 0); }
+  function attachWelcomeFromCatalog(){
+    var pack = window.FC_COURSE_DEMO && FC_COURSE_DEMO[slug];
+    if (pack && pack.welcome) courseWelcome = pack.welcome;
+  }
   function attachPracticeFromCatalog(){
     var pack = window.FC_COURSE_DEMO && FC_COURSE_DEMO[slug];
     if (!pack || !pack.videos) return;
@@ -186,6 +196,71 @@
   function firstUnfinishedIndex(){ for(var i=0;i<videos.length;i++){ if(!videoDone(videos[i])) return i; } return -1; }
   function allVideosDone(){ return firstUnfinishedIndex() === -1; }
 
+  function welcomeForced(){
+    var h = (location.hash || '').replace('#','');
+    return qs.get('welcome') === '1' || h === 'welcome' || h === 'start-here';
+  }
+  function welcomeSeen(){
+    try { return localStorage.getItem(PREVIEW_STORE + slug + '-welcome') === '1'; } catch(e){ return false; }
+  }
+  function markWelcomeSeen(){
+    try { localStorage.setItem(PREVIEW_STORE + slug + '-welcome', '1'); } catch(e){}
+  }
+  function anySessionStarted(){
+    return videos.some(function(v){
+      return !!(progress[v.id] || passes[v.id] || (practices[v.id] && practices[v.id].completed));
+    });
+  }
+  function shouldOpenWelcome(){
+    if (!courseWelcome) return false;
+    if (welcomeForced()) return true;
+    if (welcomeSeen()) return false;
+    if (anySessionStarted()) return false;
+    return true;
+  }
+  function goSession1FromWelcome(){
+    markWelcomeSeen();
+    if (videos.length) openVideo(0);
+    else renderOutline();
+  }
+  function openWelcome(){
+    var w = courseWelcome || {};
+    var ref = w.video || '';
+    var poster = w.poster || '';
+    var media = '';
+    if (ref) {
+      media = '<div class="cw-welcome-media" id="cw-welcome-media">'+
+        '<video id="cw-welcome-vid" class="cw-html5" controls playsinline preload="metadata"'+
+        (poster ? ' poster="'+esc(poster)+'"' : '')+
+        ' src="'+esc(ref)+'"></video></div>';
+    }
+    stage(
+      '<button class="link ash" id="cw-back-welcome" style="margin-bottom:16px">\u2190 All lessons</button>'+
+      '<div class="eyebrow brass">START HERE \u00b7 OPTIONAL</div>'+
+      '<h2 class="cw-lesson-title">'+esc(w.title || 'Start here')+'</h2>'+
+      '<p class="fine ash" style="margin:0 0 16px">'+esc(w.speakers || 'Ken Canfield and Micah Canfield')+'. Not a week. Skip anytime.</p>'+
+      media+
+      '<div class="cw-welcome-copy">'+
+        '<div class="cw-welcome-block"><div class="eyebrow brass">KEN</div><p>'+esc(w.ken || '')+'</p></div>'+
+        '<div class="cw-welcome-block"><div class="eyebrow brass">MICAH</div><p>'+esc(w.micah || '')+'</p></div>'+
+      '</div>'+
+      '<div class="cw-welcome-actions">'+
+        '<button class="btn btn-primary" id="cw-welcome-go">Continue to session 1</button>'+
+        '<button class="btn btn-secondary" id="cw-welcome-skip">Skip</button>'+
+      '</div>'
+    );
+    var back = $('cw-back-welcome'); if (back) back.addEventListener('click', function(){ markWelcomeSeen(); renderOutline(); });
+    var go = $('cw-welcome-go'); if (go) go.addEventListener('click', goSession1FromWelcome);
+    var sk = $('cw-welcome-skip'); if (sk) sk.addEventListener('click', goSession1FromWelcome);
+    var vid = $('cw-welcome-vid');
+    if (vid){
+      vid.addEventListener('error', function(){
+        var m = $('cw-welcome-media'); if (m) m.style.display = 'none';
+      });
+      vid.addEventListener('ended', goSession1FromWelcome);
+    }
+  }
+
   function renderOutline(){
     if (awardStatus==='submitted' || awardStatus==='approved' || awardStatus==='signed'){
       stage(statusPanel()); return;
@@ -209,6 +284,15 @@
         '<div class="cw-row-right">'+state+action+'</div></div>';
     }).join('');
 
+    var welcomeRow = '';
+    if (courseWelcome) {
+      welcomeRow = '<div class="cw-row cw-welcome-row"><div class="cw-row-main"><div class="cw-row-num">\u2022</div>'+
+        '<div><div class="cw-row-title">'+esc(courseWelcome.title || 'Start here')+'</div>'+
+        '<div class="fine">'+esc(courseWelcome.speakers || 'Ken Canfield and Micah Canfield')+' \u00b7 optional</div></div></div>'+
+        '<div class="cw-row-right"><span class="cw-badge">Optional</span>'+
+        '<button class="btn btn-secondary btn-sm" id="cw-open-welcome">Watch</button></div></div>';
+    }
+
     var finalReady = allVideosDone();
     var finalBlock = '<div class="cw-row cw-final"><div class="cw-row-main"><div class="cw-row-num">\u2691</div>'+
       '<div><div class="cw-row-title">Final Q&amp;A and submit</div><div class="fine">'+(finalReady?'Ready':'Finish all lessons first')+'</div></div></div>'+
@@ -221,9 +305,10 @@
       '<div class="fine" style="margin-top:8px">'+(LOOP_SLUGS[slug]
         ? (done+' of '+videos.length+' weeks complete. Film, checkpoint, and practice each count.')
         : (done+' of '+videos.length+' lessons complete'))+'</div></div>'+
-      '<div class="cw-list">'+rows+finalBlock+'</div>'
+      '<div class="cw-list">'+welcomeRow+rows+finalBlock+'</div>'
     );
     root.querySelectorAll('[data-open]').forEach(function(b){ b.addEventListener('click', function(){ openVideo(parseInt(b.dataset.open,10)); }); });
+    var wb=$('cw-open-welcome'); if(wb) wb.addEventListener('click', openWelcome);
     var fb=$('cw-final-btn'); if(fb) fb.addEventListener('click', openFinal);
   }
 

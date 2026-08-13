@@ -1,6 +1,13 @@
 {
   "slug": "coparenting",
   "title": "Same Team",
+  "welcome": {
+    "title": "Start here",
+    "speakers": "Ken Canfield and Micah Canfield",
+    "video": "assets/video/welcomes/coparenting.mp4",
+    "ken": "Your child does not need you and their other parent to be a couple. They need you on the same team. That is a skill: keep the child at the center when the old fight wants the mic.",
+    "micah": "I built this path so you can finish it. Each week is one short film, a few questions, and a small practice you can actually do. I will walk it with you. Here's session one."
+  },
   "videos": [
     {
       "ord": 1,

@@ -33,8 +33,11 @@ Optional practice replay paths for Steady look like `assets/video/steady/s01-pra
 ## Facilitator surfaces
 Completion flags only: film, checkpoint, practice. No answers, no scores, no practice log text on the Desk.
 
+## Start here
+Each course has one Ken and Micah face intro before Session 1. Optional. Not a week and not counted toward the certificate. The player hides the mp4 slot if the file 404s and still shows the two spoken blocks. After the film ends, or Skip, Session 1. The welcome does not play before weeks 2 through 12.
+
 ## Explicitly unchanged
-**Fathering Fundamentals** (`content/fundamentals.json` and its pages) is untouched. Session count stays as shipped. Do not rewrite it into 12 weeks.
+**Fathering Fundamentals** session count stays as shipped (nine sessions, not the 12-week film loop). It still gets the same Start here welcome. Do not rewrite it into 12 weeks.
 
 ## Source of truth
 - Player JSON: `content/anger.json`, `content/reentry.json`, `content/coparenting.json` (each video carries `practice` `{title, prompt, how}` and optional `practice_replay`)

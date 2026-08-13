@@ -1,6 +1,13 @@
 {
   "slug": "anger",
   "title": "Steady Under Pressure",
+  "welcome": {
+    "title": "Start here",
+    "speakers": "Ken Canfield and Micah Canfield",
+    "video": "assets/video/welcomes/anger.mp4",
+    "ken": "If you are a father under pressure, this is for you. Not a speech about never getting angry. Steadiness is a skill. It is how you keep your word when the heat comes, at home, at work, in a program. I have spent my life with men who want to be that father. This course trains the first move: notice the surge before it runs you.",
+    "micah": "I built this path so you can finish it. Each week is one short film, a few questions, and a small practice you can actually do. I will walk it with you. No hour of sitting. One skill, then you go live your week. Here's session one."
+  },
   "videos": [
     {
       "ord": 1,
