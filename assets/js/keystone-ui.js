@@ -20,6 +20,7 @@
       track = sp.get('track');
     } catch(e){}
     if(!want && track === 'manhood') want = 'keystone-manhood-profile';
+    if(want && String(want).indexOf('manhood') >= 0 && !SHOW_MANHOOD_COURSE) return;
     if(!want) return;
     var data = null;
     if(window.FCReg && FCReg.bySlug){
