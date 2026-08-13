@@ -386,6 +386,11 @@
 
   // Shared Quick Start fork when ?start=quick has no assessment deep link.
   function quickStartGate(){
+    if(!SHOW_MANHOOD_COURSE){
+      activateInstrument('keystone-father-profile');
+      beginQuickStart();
+      return;
+    }
     enterAssessment();
     root.innerHTML = shell(
       '<div class="eyebrow brass" style="margin-bottom:18px">QUICK START</div>'+
