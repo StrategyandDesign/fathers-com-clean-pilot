@@ -107,6 +107,7 @@ HEAD = '''<!DOCTYPE html>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=Poppins:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script>document.documentElement.dataset.theme={THEME};</script>
+<script>window.FC_SHOW_MANHOOD_COURSE={MANHOOD};</script>
 <link rel="stylesheet" href="assets/css/forge.css">
 {meta}
 </head>
@@ -116,7 +117,7 @@ HEAD = '''<!DOCTYPE html>
 def nav(active='', mode='public'):
     if mode=='app':
         # Signed-in chrome: Dashboard + My Plan always present; Account in nav-right.
-        links = [('Dashboard','dashboard.html'),('My Plan','plan.html'),('Courses','certificates.html'),('Circle','circles.html')]
+        links = [('Dashboard','dashboard.html'),('My Plan','plan.html'),('Courses','certificates.html')]
         active = {'Home':'Dashboard','Certificates':'Courses','The Courses':'Courses','Classes':'Courses','Circles':'Circle'}.get(active, active)
     else:
         # Public: father path first; org entry grouped; Log in in drawer (not hide-m).
@@ -559,9 +560,9 @@ PAGES['index.html'] = dict(title='Become the father they can count on', desc='Kn
     <a class="card" href="course-fathering-fundamentals.html" style="padding:0;overflow:hidden;text-decoration:none">
       <div class="slot r-2x3 filled" data-slot="IMG-P1-CAT-1" style="max-height:280px"><img src="assets/img/photos/action-01.jpg" alt="Fathering Fundamentals"></div>
       <div style="padding:20px 22px">
-        <div class="row between" style="margin-bottom:8px"><span class="pill">FREE COURSE</span><span class="fine mono">9 sessions</span></div>
+        <div class="row between" style="margin-bottom:8px"><span class="pill">FREE COURSE</span><span class="fine mono">8 sessions</span></div>
         <h3 style="margin-bottom:6px">Fathering Fundamentals</h3>
-        <p class="fine" style="color:var(--ash)">Dr. Ken Canfield&rsquo;s Seven Secrets. Nine sessions you can use the same night. Free to train.</p>
+        <p class="fine" style="color:var(--ash)">Dr. Ken Canfield&rsquo;s Seven Secrets. Intro + seven secrets. Free to train.</p>
         <span class="card-cta">Start Fundamentals &rarr;</span>
       </div>
     </a>
@@ -600,7 +601,7 @@ PAGES['index.html'] = dict(title='Become the father they can count on', desc='Kn
   <div class="social-proof" aria-label="Trust signals">
     <span>National Center for Fathering &middot; since 1990</span>
     <span>Built with Dr. Ken Canfield</span>
-    <span>Any serial: fathers.com/verify</span>
+    <span>Any serial: /verify.html</span>
     <span>Progress tracked, baseline to finish</span>
   </div>
 </div></section>
@@ -617,7 +618,7 @@ PAGES['index.html'] = dict(title='Become the father they can count on', desc='Kn
     <div class="row" style="gap:20px">
       <div class="slot r-1x1 filled" data-slot="IMG-P0-CARD-03" style="flex:0 0 84px"><img src="assets/img/photos/hero-05.jpg" alt="A father"></div>
       <div><h3 style="margin-bottom:6px">Certificate of Completion &middot; Fathering Fundamentals</h3>
-        <div class="mono small">9 sessions &middot; facilitator-verified</div>
+        <div class="mono small">8 sessions &middot; facilitator-verified</div>
         <div class="mono fine" style="margin-top:8px">FC-2026-000000</div></div>
     </div>
   </div>
@@ -1338,24 +1339,24 @@ PAGES['certificates.html'] = dict(title='The Courses and the Certificate of Comp
   </div>
   <style>#tracks .cert-card{display:flex;flex-direction:column}#tracks .cert-card .sess-peek{margin-top:auto}#tracks .cert-card .cert-card-foot{margin-top:12px}#tracks .cert-card > p{margin-bottom:12px}</style>
   <div class="cert-cards" id="tracks">
-                                                                    <div class="cert-card" style="cursor:default" data-motion="fade-up" data-cert="fundamentals" data-title="Fathering Fundamentals" data-hours="1.1" data-desc="The Seven Secrets of Effective Fathers Assessment and Course. Self-paced sessions with checkpoints, a free assessment, and a Certified Facilitator available for questions.">
+                                                                                <div class="cert-card" style="cursor:default" data-motion="fade-up" data-cert="fundamentals" data-title="Fathering Fundamentals" data-hours="1.1" data-desc="The Seven Secrets of Effective Fathers Assessment and Course. Self-paced sessions with checkpoints, a free assessment, and a Certified Facilitator available for questions.">
       <div class="course-card-media">
         <img src="assets/img/photos/action-01.jpg" alt="">
         <div class="ccm-overlay"></div>
-        <div class="ccm-badges"><span class="pill">Film course</span><span class="ccm-n">9 sessions</span></div>
+        <div class="ccm-badges"><span class="pill">Film course</span><span class="ccm-n">8 sessions</span></div>
       </div>
-      <div class="cert-card-top"><span class="pill">Film course</span><span class="cert-card-hrs">9 sessions</span></div>
+      <div class="cert-card-top"><span class="pill">Film course</span><span class="cert-card-hrs">8 sessions</span></div>
       <h3>Fathering Fundamentals</h3>
-      <p>Seven Secrets assessment and course: intro, seven secrets, and a bonus. Already filmed; shape stills until Vimeo is wired.</p>
+      <p>Seven Secrets assessment and course: intro + seven secrets. Already filmed; shape stills until Vimeo is wired.</p>
       <ol class="sess-visible">
         <li><b>Introduction</b> <span>&middot; &ldquo;Welcome, overview, and take the assessment.&rdquo;</span></li>
         <li><b>First Secret: Commitment</b> <span>&middot; &ldquo;Present physically, emotionally, spiritually; commitment builds trust.&rdquo;</span></li>
         <li><b>Second Secret: Knowing Your Child</b> <span>&middot; &ldquo;Unique personality, needs, and interests open deeper connection.&rdquo;</span></li>
       </ol>
-      <details class="sess-peek" style="margin-top:4px"><summary class="fine" style="cursor:pointer;color:var(--brass,#c9a227)">All 9 sessions</summary><ol class="small" style="margin:8px 0 2px;padding-left:18px"><li style="margin:5px 0"><b>Introduction</b> <span style="color:var(--ash)">&middot; &ldquo;Welcome, overview, and take the assessment.&rdquo;</span></li><li style="margin:5px 0"><b>First Secret: Commitment</b> <span style="color:var(--ash)">&middot; &ldquo;Present physically, emotionally, spiritually; commitment builds trust.&rdquo;</span></li><li style="margin:5px 0"><b>Second Secret: Knowing Your Child</b> <span style="color:var(--ash)">&middot; &ldquo;Unique personality, needs, and interests open deeper connection.&rdquo;</span></li><li style="margin:5px 0"><b>Third Secret: Showing Up Consistently</b> <span style="color:var(--ash)">&middot; &ldquo;Stability through consistent actions, values, and discipline.&rdquo;</span></li><li style="margin:5px 0"><b>Fourth Secret: Protecting and Providing Security</b> <span style="color:var(--ash)">&middot; &ldquo;Physical, emotional, and spiritual safety and provision.&rdquo;</span></li><li style="margin:5px 0"><b>Fifth Secret: Affirming and Encouraging</b> <span style="color:var(--ash)">&middot; &ldquo;Speak life: affirm who they are and encourage who they are becoming.&rdquo;</span></li><li style="margin:5px 0"><b>Sixth Secret: Disciplining with Love</b> <span style="color:var(--ash)">&middot; &ldquo;Correction that trains, bound by love, not anger.&rdquo;</span></li><li style="margin:5px 0"><b>Seventh Secret: Modeling Integrity and Faith</b> <span style="color:var(--ash)">&middot; &ldquo;Lead by example in faith and values.&rdquo;</span></li><li style="margin:5px 0"><b>Bonus Secret  - Honoring the Father Who is Guiding You</b> <span style="color:var(--ash)">&middot; &ldquo;Honor the Father who is guiding you.&rdquo;</span></li></ol><p class="fine" style="margin:6px 0 0"><a class="link" href="course-fathering-fundamentals.html">Open the course &rarr;</a></p></details>
+      <details class="sess-peek" style="margin-top:4px"><summary class="fine" style="cursor:pointer;color:var(--brass,#c9a227)">All 8 sessions</summary><ol class="small" style="margin:8px 0 2px;padding-left:18px"><li style="margin:5px 0"><b>Introduction</b> <span style="color:var(--ash)">&middot; &ldquo;Welcome, overview, and take the assessment.&rdquo;</span></li><li style="margin:5px 0"><b>First Secret: Commitment</b> <span style="color:var(--ash)">&middot; &ldquo;Present physically, emotionally, spiritually; commitment builds trust.&rdquo;</span></li><li style="margin:5px 0"><b>Second Secret: Knowing Your Child</b> <span style="color:var(--ash)">&middot; &ldquo;Unique personality, needs, and interests open deeper connection.&rdquo;</span></li><li style="margin:5px 0"><b>Third Secret: Showing Up Consistently</b> <span style="color:var(--ash)">&middot; &ldquo;Stability through consistent actions, values, and discipline.&rdquo;</span></li><li style="margin:5px 0"><b>Fourth Secret: Protecting and Providing Security</b> <span style="color:var(--ash)">&middot; &ldquo;Physical, emotional, and spiritual safety and provision.&rdquo;</span></li><li style="margin:5px 0"><b>Fifth Secret: Loving Their Mother</b> <span style="color:var(--ash)">&middot; &ldquo;Honor their mother. Civil if you are not together. Never undercut her.&rdquo;</span></li><li style="margin:5px 0"><b>Sixth Secret: Active Listening</b> <span style="color:var(--ash)">&middot; &ldquo;Two-way. Full attention. Not an interrogation.&rdquo;</span></li><li style="margin:5px 0"><b>Seventh Secret: Spiritual Equipping</b> <span style="color:var(--ash)">&middot; &ldquo;Live convictions a child can trust. Faith is welcome. This is not a chapel course.&rdquo;</span></li></ol><p class="fine" style="margin:6px 0 0"><a class="link" href="course-fathering-fundamentals.html">Open the course &rarr;</a></p></details>
       <div class="cert-card-foot"><span class="mono">Free</span><a class="cert-card-go" href="course-fathering-fundamentals.html">Open the course &rarr;</a></div>
     </div>
-                                                                    <div class="cert-card" style="cursor:default" data-motion="fade-up" data-cert="reentry" data-title="Coming Home Present" data-hours="2.4" data-desc="For fathers in rehab or treatment preparing to reconnect with children and/or a significant other; also for service members returning home. Self-paced film with a Certified Facilitator available for questions, checkpoints, and a certificate a court or program can trust.">
+                                                                            <div class="cert-card" style="cursor:default" data-motion="fade-up" data-cert="reentry" data-title="Coming Home Present" data-hours="2.4" data-desc="For fathers in rehab or treatment preparing to reconnect with children and/or a significant other; also for service members returning home. Self-paced film with a Certified Facilitator available for questions, checkpoints, and a certificate a court or program can trust.">
       <div class="course-card-media">
         <img src="assets/img/photos/hero-03.jpg" alt="">
         <div class="ccm-overlay"></div>
@@ -1372,7 +1373,7 @@ PAGES['certificates.html'] = dict(title='The Courses and the Certificate of Comp
       <details class="sess-peek" style="margin-top:4px"><summary class="fine" style="cursor:pointer;color:var(--brass,#c9a227)">All 12 sessions</summary><ol class="small" style="margin:8px 0 2px;padding-left:18px"><li style="margin:5px 0"><b>The Body You Bring Home</b> <span style="color:var(--ash)">&middot; &ldquo;Your body did its job there. Now teach it that home is not there.&rdquo;</span></li><li style="margin:5px 0"><b>Home Is Not There</b> <span style="color:var(--ash)">&middot; &ldquo;Same noise, new meaning. Train the difference.&rdquo;</span></li><li style="margin:5px 0"><b>Plan Around the Wave</b> <span style="color:var(--ash)">&middot; &ldquo;Plan around the wave. Do not grade yourself by it.&rdquo;</span></li><li style="margin:5px 0"><b>Few Promises, Kept</b> <span style="color:var(--ash)">&middot; &ldquo;Few commitments, kept without fail.&rdquo;</span></li><li style="margin:5px 0"><b>The Child Who Grew</b> <span style="color:var(--ash)">&middot; &ldquo;Meet the child in front of you, not the one you left.&rdquo;</span></li><li style="margin:5px 0"><b>Ask Before You Assume</b> <span style="color:var(--ash)">&middot; &ldquo;Ask once. Listen longer than you talk.&rdquo;</span></li><li style="margin:5px 0"><b>Small Deposits</b> <span style="color:var(--ash)">&middot; &ldquo;Small and often beats big and rare.&rdquo;</span></li><li style="margin:5px 0"><b>Frequency Beats Intensity</b> <span style="color:var(--ash)">&middot; &ldquo;Show up short and steady.&rdquo;</span></li><li style="margin:5px 0"><b>When It Breaks</b> <span style="color:var(--ash)">&middot; &ldquo;Rupture is normal. Repair is the skill.&rdquo;</span></li><li style="margin:5px 0"><b>Repair Without Pride</b> <span style="color:var(--ash)">&middot; &ldquo;Go first. Keep it short.&rdquo;</span></li><li style="margin:5px 0"><b>Reunion Day</b> <span style="color:var(--ash)">&middot; &ldquo;If the child pulls away, that is the start, not the answer.&rdquo;</span></li><li style="margin:5px 0"><b>The Season of Return</b> <span style="color:var(--ash)">&middot; &ldquo;The return is a season, not a day.&rdquo;</span></li></ol><p class="fine" style="margin:6px 0 0"><a class="link" href="course-coming-home-present.html">Open the course &rarr;</a></p></details>
       <div class="cert-card-foot"><span class="mono">Free</span><a class="cert-card-go" href="course-coming-home-present.html">Open the course &rarr;</a></div>
     </div>
-                                                                    <div class="cert-card" style="cursor:default" data-motion="fade-up" data-cert="anger" data-title="Steady Under Pressure" data-hours="2.4" data-desc="Steadiness, trained on film: the pause, the repair, and the habits underneath them. Self-paced, with a Certified Facilitator available for questions. Sessions logged, checkpoints, and a final assessment at eighty percent to pass.">
+                                                                            <div class="cert-card" style="cursor:default" data-motion="fade-up" data-cert="anger" data-title="Steady Under Pressure" data-hours="2.4" data-desc="Steadiness, trained on film: the pause, the repair, and the habits underneath them. Self-paced, with a Certified Facilitator available for questions. Sessions logged, checkpoints, and a final assessment at eighty percent to pass.">
       <div class="course-card-media">
         <img src="assets/img/photos/action-01.jpg" alt="">
         <div class="ccm-overlay"></div>
@@ -1390,7 +1391,7 @@ PAGES['certificates.html'] = dict(title='The Courses and the Certificate of Comp
       <details class="sess-peek" style="margin-top:4px"><summary class="fine" style="cursor:pointer;color:var(--brass,#c9a227)">All 12 sessions</summary><ol class="small" style="margin:8px 0 2px;padding-left:18px"><li style="margin:5px 0"><b>The Surge Is a Signal</b> <span style="color:var(--ash)">&middot; &ldquo;The surge is a signal, not an order.&rdquo;</span></li><li style="margin:5px 0"><b>Know Your Early Cues</b> <span style="color:var(--ash)">&middot; &ldquo;Catch it in the jaw, not the shout.&rdquo;</span></li><li style="margin:5px 0"><b>Six Seconds</b> <span style="color:var(--ash)">&middot; &ldquo;Six seconds buy your judgment back.&rdquo;</span></li><li style="margin:5px 0"><b>The Long Exhale</b> <span style="color:var(--ash)">&middot; &ldquo;A long exhale stands the body down.&rdquo;</span></li><li style="margin:5px 0"><b>Step Away to Come Back</b> <span style="color:var(--ash)">&middot; &ldquo;Step away to come back.&rdquo;</span></li><li style="margin:5px 0"><b>The Line You Leave On</b> <span style="color:var(--ash)">&middot; &ldquo;Say the line, then leave the room.&rdquo;</span></li><li style="margin:5px 0"><b>Name the Feeling</b> <span style="color:var(--ash)">&middot; &ldquo;Say the feeling so you do not have to show it.&rdquo;</span></li><li style="margin:5px 0"><b>Feelings Without Weapons</b> <span style="color:var(--ash)">&middot; &ldquo;Name it without loading it.&rdquo;</span></li><li style="margin:5px 0"><b>Own It Same Day</b> <span style="color:var(--ash)">&middot; &ldquo;Own it out loud, same day.&rdquo;</span></li><li style="margin:5px 0"><b>The Short Apology</b> <span style="color:var(--ash)">&middot; &ldquo;Short, specific, no defense.&rdquo;</span></li><li style="margin:5px 0"><b>Sleep, Food, Movement</b> <span style="color:var(--ash)">&middot; &ldquo;Steadiness is built in the boring hours.&rdquo;</span></li><li style="margin:5px 0"><b>Your Steady Week</b> <span style="color:var(--ash)">&middot; &ldquo;Stack the small things until they hold.&rdquo;</span></li></ol><p class="fine" style="margin:6px 0 0"><a class="link" href="course-steady-under-pressure.html">Open the course &rarr;</a></p></details>
       <div class="cert-card-foot"><span class="mono">Free</span><a class="cert-card-go" href="course-steady-under-pressure.html">Open the course &rarr;</a></div>
     </div>
-                                                                    <div class="cert-card" style="cursor:default" data-motion="fade-up" data-cert="coparenting" data-title="Same Team" data-hours="2.4" data-desc="Co-parenting, trained on film. One team for your children, whatever the arrangement between you. Self-paced, with a Certified Facilitator available for questions. Sessions logged, checkpoints, and a final assessment at eighty percent to pass.">
+                                                                            <div class="cert-card" style="cursor:default" data-motion="fade-up" data-cert="coparenting" data-title="Same Team" data-hours="2.4" data-desc="Co-parenting, trained on film. One team for your children, whatever the arrangement between you. Self-paced, with a Certified Facilitator available for questions. Sessions logged, checkpoints, and a final assessment at eighty percent to pass.">
       <div class="course-card-media">
         <img src="assets/img/photos/community-02.jpg" alt="">
         <div class="ccm-overlay"></div>
@@ -1522,7 +1523,7 @@ PAGES['certificates.html'] = dict(title='The Courses and the Certificate of Comp
     c.addEventListener('click', function(e){
       if(e.target.closest('a, summary, details, button')) return;
       title.textContent = c.getAttribute('data-title');
-      var SESS = {fundamentals:'9', reentry:'12', anger:'12', coparenting:'12', manhood:'6'};
+      var SESS = {fundamentals:'8', reentry:'12', anger:'12', coparenting:'12', manhood:'6'};
       hours.textContent = (SESS[c.getAttribute('data-cert')] || '') + ' sessions, facilitator-supported';
       desc.textContent = c.getAttribute('data-desc');
       eyebrow.textContent = c.getAttribute('data-cert')==='fundamentals' ? 'FLAGSHIP COURSE' : 'COURSE';
@@ -1541,7 +1542,7 @@ PAGES['certificates.html'] = dict(title='The Courses and the Certificate of Comp
 ''')
 
 # ================================================== certificate.html (P10 screen 4)
-PAGES['certificate.html'] = dict(title='Certificate of Completion, specimen', desc='What the Certificate of Completion looks like. Every issued certificate carries a live serial verifiable at fathers.com/verify.', active='Certificates', mode='app', body='''
+PAGES['certificate.html'] = dict(title='Certificate of Completion, specimen', desc='What the Certificate of Completion looks like. Every issued certificate carries a live serial verifiable at /verify.html.', active='Certificates', mode='app', body='''
 <section class="tight" style="padding-top:44px"><div class="container">
   <div class="row wrap" style="margin-bottom:28px;justify-content:center">
     <button class="btn btn-primary btn-sm" data-print>Print or save as PDF</button>
@@ -1561,7 +1562,7 @@ PAGES['certificate.html'] = dict(title='Certificate of Completion, specimen', de
         <div class="serial">SPECIMEN &middot; SERIAL FC-2026-&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;</div>
         <div class="serial" style="margin-top:6px">Identity verified at enrollment</div>
         <div class="serial" style="margin-top:6px">Issued by the National Center for Fathering</div>
-        <div class="serial" style="margin-top:14px"><b>Verify at fathers.com/verify</b></div>
+        <div class="serial" style="margin-top:14px"><b>Verify at /verify.html</b></div>
       </div>
       <div class="row" style="gap:18px;align-items:flex-end">
         <div class="qr">QR</div>
@@ -2490,7 +2491,7 @@ PAGES['organizations.html'] = dict(title='Become a Certified Organization', desc
   <div class="grid-3" style="gap:24px">
     <div class="card" style="padding:26px 28px"><p class="fine mono" style="color:var(--ember-ink);margin-bottom:10px">01 &middot; MEASURE</p><h3 style="margin-bottom:8px">One join link tags every man.</h3><p class="small" style="color:var(--ash)">The Keystone Profile at intake: the full instrument, one sitting. The canonical spec lives on the Research page. Four dimensions on every man, zero program required.</p></div>
     <div class="card" style="padding:26px 28px"><p class="fine mono" style="color:var(--ember-ink);margin-bottom:10px">02 &middot; TRAIN</p><h3 style="margin-bottom:8px">Keep the program you trust.</h3><p class="small" style="color:var(--ash)">We make it provable. Or deploy ours: the full course slate is live today, free to every man, film-first and facilitator-supported. Your staff serve as Certified Facilitators for questions, insight, and accountability.</p></div>
-    <div class="card" style="padding:26px 28px"><p class="fine mono" style="color:var(--ember-ink);margin-bottom:10px">03 &middot; PROVE</p><h3 style="margin-bottom:8px">The report and the credential.</h3><p class="small" style="color:var(--ash)">The Efficacy Report, one page per cohort. Certificates of Completion presented by your facilitators, serialed, and verified at fathers.com/verify in ten seconds.</p></div>
+    <div class="card" style="padding:26px 28px"><p class="fine mono" style="color:var(--ember-ink);margin-bottom:10px">03 &middot; PROVE</p><h3 style="margin-bottom:8px">The report and the credential.</h3><p class="small" style="color:var(--ash)">The Efficacy Report, one page per cohort. Certificates of Completion presented by your facilitators, serialed, and verified at /verify.html in ten seconds.</p></div>
   </div>
 </div></section>
 
@@ -2523,7 +2524,7 @@ PAGES['organizations.html'] = dict(title='Become a Certified Organization', desc
   <div>
     <div class="eyebrow" style="margin-bottom:14px">FOR COURTS AND PROBATION</div>
     <h2 class="d-28" style="margin-bottom:8px">Order the class by name. Verify in ten seconds.</h2>
-    <p style="color:var(--ash);max-width:52ch">Some courts and agencies accept Fathering Fundamentals as a supplemental fathering education component; acceptance is at their discretion, so confirm before referring. What travels with it: identity confirmed at enrollment, hours logged not claimed, a final at eighty percent. Completion is confirmed at fathers.com/verify with the serial on the Certificate of Completion. No account, no phone call, no paperwork chase. Coming Home Present and Steady Under Pressure are built for referral. Facilitator-supported film courses, logged sessions, and verifiable certificates. Your caseload can start now. Steady Under Pressure is a fathering skills course, not anger management, batterer intervention, or a substitute for any court-mandated treatment program, and should not be ordered in their place.</p>
+    <p style="color:var(--ash);max-width:52ch">Some courts and agencies accept Fathering Fundamentals as a supplemental fathering education component; acceptance is at their discretion, so confirm before referring. What travels with it: identity confirmed at enrollment, hours logged not claimed, a final at eighty percent. Completion is confirmed at /verify.html with the serial on the Certificate of Completion. No account, no phone call, no paperwork chase. Coming Home Present and Steady Under Pressure are built for referral. Facilitator-supported film courses, logged sessions, and verifiable certificates. Your caseload can start now. Steady Under Pressure is a fathering skills course, not anger management, batterer intervention, or a substitute for any court-mandated treatment program, and should not be ordered in their place.</p>
   </div>
   <div class="card" style="padding:32px">
     <div class="eyebrow" style="margin-bottom:16px">FOR THE MAN YOU REFER</div>
@@ -2975,7 +2976,7 @@ if __name__ == '__main__':
             continue
         FORCED_THEME = {'organizations.html': "'light'", 'index.html': "'dark'", 'profile.html': "'dark'", 'stories.html': "'dark'", 'certificates.html': "'dark'", 'enroll.html': "'dark'", 'class.html': "'dark'", 'course.html': "'dark'", 'player.html': "'dark'", 'checkout.html': "'dark'", 'certificate.html': "'dark'", 'voice.html': "'dark'", 'share.html': "'dark'"}
         theme_js = FORCED_THEME.get(fname, 'localStorage.getItem("fc_theme")||"dark"')
-        html = HEAD.format(title=p['title'], desc=p['desc'], meta=social_meta(fname, p['title'], p['desc']), THEME=theme_js)
+        html = HEAD.format(title=p['title'], desc=p['desc'], meta=social_meta(fname, p['title'], p['desc']), THEME=theme_js, MANHOOD='true' if SHOW_MANHOOD_COURSE else 'false')
         if p.get('nochrome'):
             html += p['body']
             html += '\n<script src="assets/js/config.js"></script>\n<script src="assets/js/supabase-client.js"></script>\n<script src="assets/js/app.js"></script>\n<script src="assets/js/help.js"></script>\n'

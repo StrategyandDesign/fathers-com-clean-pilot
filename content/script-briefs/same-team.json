@@ -1,0 +1,775 @@
+{
+  "slug": "coparenting",
+  "title": "Same Team",
+  "tagline": "Twelve short sessions on co-parenting across two homes: one team, a shared goal, flooded means pause, businesslike messages, reliability, and the handoff ritual.",
+  "session_length_label": "~12 min",
+  "session_count": 12,
+  "course_purpose": "Twelve short film sessions on co-parenting: one team for your children, a shared goal, the flooded pause, businesslike messages, cooler channels, reliability inside every order, and a calm handoff ritual.",
+  "audience": "Built for fathers raising children across two homes. Friendship with the other parent is not required. Practices stay inside the rules and orders that govern him now.",
+  "facilitator_note": "Self-paced film. About twelve minutes each. Watch when you can. A Certified Facilitator is available for questions and accountability when your seat is claimed. Optional live cohorts may be offered by some programs. Logged sessions and a checkable practice. Completion never requires contact with your child, and no practice ever asks you to go beyond the rules that govern you now or any court order.",
+  "source_files": [
+    "course-same-team.html",
+    "content/coparenting.json",
+    "content/short-course-pages.json#coparenting"
+  ],
+  "sessions": [
+    {
+      "number": 1,
+      "id": "c1",
+      "title": "One Team for the Children",
+      "keyline": "Whatever we are to each other, we are one team for the child.",
+      "length": "~12 min",
+      "one_scene": "A parent-teacher meeting. The two adults sit one seat apart, not touching, not fighting, and both sign the same plan for the same child. The child sleeps easier that night.",
+      "in_the_room": "What being on one team means when the adults may not be together, with the child's experience at the center.",
+      "what_you_leave_with": "You can state the shared frame in child-centered terms.",
+      "practice": "Write one child-centered team sentence and keep it where you will see it before hard contact.",
+      "science_or_note": "A child caught between adults carries the load in his body; one shared frame lowers it.",
+      "checkpoint_questions": [
+        {
+          "prompt": "What is the one-sentence frame this course runs on?",
+          "choices": [
+            "Whatever we are to each other, we are one team for the child",
+            "Keep the peace at any cost",
+            "Win the important decisions"
+          ],
+          "correct_index": 0
+        },
+        {
+          "prompt": "Being one team requires what, per this session?",
+          "choices": [
+            "Being friends with the other parent",
+            "Agreeing on everything",
+            "Working the child's interests together, whatever the history between you"
+          ],
+          "correct_index": 2
+        },
+        {
+          "prompt": "What does the child gain when the team holds?",
+          "choices": [
+            "Two households pulling one direction, which lowers the load they carry",
+            "Fewer rules",
+            "A guarantee of no conflict"
+          ],
+          "correct_index": 0
+        }
+      ],
+      "script_aids": {
+        "purpose": "Set the course frame: whatever the adults are to each other, they are one team for the child.",
+        "practical_insight": "Whatever we are to each other, we are one team for the child.",
+        "emotional_beat": "Clarity that drops the friendship requirement; he can still do the job.",
+        "shape_motifs": [
+          "two parallel lines converging on one child-node",
+          "shared plan card signed by two marks",
+          "load on a child-dot lightening as adults align",
+          "team badge without a heart icon"
+        ],
+        "do_not": [
+          "No faces, bodies, photographic people, or culture-specific dress",
+          "Do not invent doctrine that conflicts with keyline, practice, or checkpoints",
+          "Keep practices inside the rules that govern the man now",
+          "Do not require friendship or romance between parents",
+          "Do not teach working around court orders",
+          "Do not use the child as messenger for adult conflict"
+        ],
+        "bridge_from_prev": "Course open: no prior session.",
+        "bridge_to_next": "Frame set; next write one child-centered sentence both can hold."
+      }
+    },
+    {
+      "number": 2,
+      "id": "c2",
+      "title": "Write the Shared Goal",
+      "keyline": "One child-centered sentence you can both hold.",
+      "length": "~12 min",
+      "one_scene": "He wants a ten-point manifesto. He writes one sentence instead: We keep school nights calm so she can sleep and learn. That sentence steers the next hard text.",
+      "in_the_room": "You draft one child-centered goal sentence clear enough to hold when heat rises. Agreement on everything is not required.",
+      "what_you_leave_with": "You have one child-centered sentence you can both hold.",
+      "practice": "Write one shared-goal sentence. Send it through a permitted channel, or file it to send when allowed.",
+      "science_or_note": "One clear goal steers hard moments better than a stack of demands.",
+      "checkpoint_questions": [
+        {
+          "prompt": "What do you write in this session?",
+          "choices": [
+            "A long parenting agreement",
+            "One child-centered sentence you can both hold",
+            "A list of past grievances"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "Which sentence is child-centered?",
+          "choices": [
+            "We keep school nights calm so she can sleep and learn.",
+            "You need to admit what you did.",
+            "We will never disagree again."
+          ],
+          "correct_index": 0
+        },
+        {
+          "prompt": "Why one sentence instead of many?",
+          "choices": [
+            "Courts prefer short documents",
+            "One clear goal steers hard moments; a stack of demands restarts the fight",
+            "Children cannot understand long goals"
+          ],
+          "correct_index": 1
+        }
+      ],
+      "script_aids": {
+        "purpose": "Give the team frame one child-centered sentence that can steer heat.",
+        "practical_insight": "One child-centered sentence you can both hold.",
+        "emotional_beat": "Focus replaces scorekeeping; the sentence is a compass, not a weapon.",
+        "shape_motifs": [
+          "one sentence strip versus stacked demand bars",
+          "compass needle locking to a child-node",
+          "hard-text thread cooled by a sentence overlay",
+          "single card pinned in view"
+        ],
+        "do_not": [
+          "No faces, bodies, photographic people, or culture-specific dress",
+          "Do not invent doctrine that conflicts with keyline, practice, or checkpoints",
+          "Keep practices inside the rules that govern the man now",
+          "Do not require friendship or romance between parents",
+          "Do not teach working around court orders",
+          "Do not use the child as messenger for adult conflict"
+        ],
+        "bridge_from_prev": "He has the one-team frame; now write the sentence that operationalizes it.",
+        "bridge_to_next": "Even with a goal, bodies flood; next install the pause rule."
+      }
+    },
+    {
+      "number": 3,
+      "id": "c3",
+      "title": "Flooded Means Pause",
+      "keyline": "Flooded means pause. Twenty minutes, then resume.",
+      "length": "~12 min",
+      "one_scene": "The message thread heats up and he can feel his heartbeat in his ears. He names the pause, puts the phone face down, and walks. Later he comes back, and the conversation works.",
+      "in_the_room": "When your heart is racing, the thinking brain goes offline. You train recognizing flood and pausing about twenty minutes before you resume.",
+      "what_you_leave_with": "You can recognize flooding in yourself and pause before you make it worse.",
+      "practice": "Rehearse the pause rule once. Use it on any heated exchange this week and log both ends.",
+      "science_or_note": "Past a racing heartbeat nobody absorbs a word; the body needs about twenty minutes to come down.",
+      "checkpoint_questions": [
+        {
+          "prompt": "What does flooded mean in this session?",
+          "choices": [
+            "Being sad",
+            "Your body so activated that judgment is gone; continuing makes it worse",
+            "Disagreeing strongly"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "What is the rule when you notice you are flooded?",
+          "choices": [
+            "Push through to resolution",
+            "Pause, about twenty minutes, then resume",
+            "End all contact for the week"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "Why twenty minutes, roughly?",
+          "choices": [
+            "It is how long the body needs to actually come down; five minutes of silent rehearsing does not count",
+            "It is a rule of the platform",
+            "It gives you time to build your case"
+          ],
+          "correct_index": 0
+        }
+      ],
+      "script_aids": {
+        "purpose": "Install a body-aware pause when flooded so heat does not destroy the goal.",
+        "practical_insight": "Flooded means pause. Twenty minutes, then resume.",
+        "emotional_beat": "Self-control without shutdown: he can leave the heat and still return.",
+        "shape_motifs": [
+          "heartbeat bars rising then a twenty-minute cool arc",
+          "phone face-down mark",
+          "flood fill draining from a message thread",
+          "pause timer ring"
+        ],
+        "do_not": [
+          "No faces, bodies, photographic people, or culture-specific dress",
+          "Do not invent doctrine that conflicts with keyline, practice, or checkpoints",
+          "Keep practices inside the rules that govern the man now",
+          "Do not require friendship or romance between parents",
+          "Do not teach working around court orders",
+          "Do not use the child as messenger for adult conflict"
+        ],
+        "bridge_from_prev": "Shared goal is written; now protect it when the body floods.",
+        "bridge_to_next": "Pause needs a clean exit line; next script break and resume time."
+      }
+    },
+    {
+      "number": 4,
+      "id": "c4",
+      "title": "Break Clean",
+      "keyline": "Break off clean. Name when you will resume.",
+      "length": "~12 min",
+      "one_scene": "He almost ghosts the thread. Instead he writes: I am flooded. Let's resume at 8 tonight. At eight he shows up. The topic survives because the break was clean.",
+      "in_the_room": "You practice a short break-off script that names the pause and the resume time. No speech. No slam.",
+      "what_you_leave_with": "You can break off clean and resume when you said.",
+      "practice": "Write a clean break-off line with a resume time. Use it once on a heated call or thread.",
+      "science_or_note": "Naming the resume turns a pause into a trustworthy reset.",
+      "checkpoint_questions": [
+        {
+          "prompt": "What belongs in a clean break?",
+          "choices": [
+            "A long speech about why you are leaving",
+            "A short line that names the pause and when you will resume",
+            "Silence and a hung-up call"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "Which line is a clean break?",
+          "choices": [
+            "I am flooded. Let's resume at 8 tonight.",
+            "I am done with you.",
+            "Fine. Whatever."
+          ],
+          "correct_index": 0
+        },
+        {
+          "prompt": "Why name when you will resume?",
+          "choices": [
+            "So the other parent feels controlled",
+            "So the pause is a reset, not abandonment of the topic",
+            "So you can skip the topic forever"
+          ],
+          "correct_index": 1
+        }
+      ],
+      "script_aids": {
+        "purpose": "Script a clean break with a named resume time so pause is not abandonment.",
+        "practical_insight": "Break off clean. Name when you will resume.",
+        "emotional_beat": "Reliability under heat: leaving without slamming still keeps the team intact.",
+        "shape_motifs": [
+          "door mark with a clock resume tag",
+          "thread pause bar with a return node",
+          "ghost path blocked; labeled exit path lit",
+          "short script card"
+        ],
+        "do_not": [
+          "No faces, bodies, photographic people, or culture-specific dress",
+          "Do not invent doctrine that conflicts with keyline, practice, or checkpoints",
+          "Keep practices inside the rules that govern the man now",
+          "Do not require friendship or romance between parents",
+          "Do not teach working around court orders",
+          "Do not use the child as messenger for adult conflict"
+        ],
+        "bridge_from_prev": "He knows to pause when flooded; now say it clean and come back.",
+        "bridge_to_next": "With breaks handled, next set the everyday businesslike standard."
+      }
+    },
+    {
+      "number": 5,
+      "id": "c5",
+      "title": "Businesslike",
+      "keyline": "Short, factual, about the child.",
+      "length": "~12 min",
+      "one_scene": "Three lines. Pickup Friday at five. Homework due Sunday. Doctor confirmed Tuesday. Nothing about the past. The reply comes back the same way.",
+      "in_the_room": "Brief, factual, child-focused communication. Where the adults are not together, the low-contact model that keeps heat out of the channel.",
+      "what_you_leave_with": "You can send a businesslike message that carries only what the child needs.",
+      "practice": "Draft three businesslike messages. Send whichever a permitted channel allows; file the rest.",
+      "science_or_note": "Less exposure to adult conflict is a direct gift to a child's nervous system.",
+      "checkpoint_questions": [
+        {
+          "prompt": "What are the three marks of businesslike communication here?",
+          "choices": [
+            "Short, factual, about the child",
+            "Polite, warm, frequent",
+            "Written, formal, copied to others"
+          ],
+          "correct_index": 0
+        },
+        {
+          "prompt": "Which message is businesslike?",
+          "choices": [
+            "Pickup Friday is 5:30 at school; she has her science fair board with her.",
+            "We need to talk about your choices lately.",
+            "Fine. Whatever works for you, as usual."
+          ],
+          "correct_index": 0
+        },
+        {
+          "prompt": "Why keep it to the child?",
+          "choices": [
+            "Because the old disputes are settled",
+            "Because every message that stays on the child is one that cannot reopen the marriage",
+            "Because feelings are wrong"
+          ],
+          "correct_index": 1
+        }
+      ],
+      "script_aids": {
+        "purpose": "Set the everyday message standard: short, factual, about the child.",
+        "practical_insight": "Short, factual, about the child.",
+        "emotional_beat": "Professional calm that protects the kid; the past does not get airtime here.",
+        "shape_motifs": [
+          "three clean fact lines",
+          "past-history block struck through",
+          "child-node as only allowed payload",
+          "message bubble shrinking to essentials"
+        ],
+        "do_not": [
+          "No faces, bodies, photographic people, or culture-specific dress",
+          "Do not invent doctrine that conflicts with keyline, practice, or checkpoints",
+          "Keep practices inside the rules that govern the man now",
+          "Do not require friendship or romance between parents",
+          "Do not teach working around court orders",
+          "Do not use the child as messenger for adult conflict"
+        ],
+        "bridge_from_prev": "Clean breaks protect hard moments; businesslike protects the daily channel.",
+        "bridge_to_next": "Even good wording fails in a hot medium; next choose cooler channels."
+      }
+    },
+    {
+      "number": 6,
+      "id": "c6",
+      "title": "Cooler Channels",
+      "keyline": "Use the channel that lowers heat.",
+      "length": "~12 min",
+      "one_scene": "The text thread is a furnace. He moves the logistics to a written log and saves voice for a scheduled call after a pause. The facts still move. The heat drops.",
+      "in_the_room": "You choose channels on purpose. Some media raise heat before a word is read. Cooler channels protect the child from spillover.",
+      "what_you_leave_with": "You can pick the channel that lowers heat for logistics and hard topics.",
+      "practice": "Name your hottest channel and your cooler backup. Move one real logistics item to the cooler channel this week.",
+      "science_or_note": "Medium matters; channel choice can prevent a fight before content does.",
+      "checkpoint_questions": [
+        {
+          "prompt": "What does this session ask you to choose?",
+          "choices": [
+            "The channel that lowers heat",
+            "The channel that wins arguments",
+            "Only face-to-face conflict"
+          ],
+          "correct_index": 0
+        },
+        {
+          "prompt": "When a text thread heats up, the cooler move is often?",
+          "choices": [
+            "Keep typing faster",
+            "Move to a written log or a scheduled call after a pause",
+            "Bring the child into the thread"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "Why channel choice matters?",
+          "choices": [
+            "Some apps are free",
+            "The medium can raise or lower heat before a word is read",
+            "Courts ban all texts"
+          ],
+          "correct_index": 1
+        }
+      ],
+      "script_aids": {
+        "purpose": "Make channel choice deliberate so medium does not start the fight.",
+        "practical_insight": "Use the channel that lowers heat.",
+        "emotional_beat": "Strategic calm: he can leave the furnace without abandoning logistics.",
+        "shape_motifs": [
+          "hot channel glowing versus cool channel dim",
+          "facts moving on a log rail while heat drops",
+          "thread furnace cooling into a scheduled call node",
+          "child protected behind a channel filter"
+        ],
+        "do_not": [
+          "No faces, bodies, photographic people, or culture-specific dress",
+          "Do not invent doctrine that conflicts with keyline, practice, or checkpoints",
+          "Keep practices inside the rules that govern the man now",
+          "Do not require friendship or romance between parents",
+          "Do not teach working around court orders",
+          "Do not use the child as messenger for adult conflict"
+        ],
+        "bridge_from_prev": "Businesslike content needs a medium that will not reheat it.",
+        "bridge_to_next": "Cooler channels help; next buy trust with reliability."
+      }
+    },
+    {
+      "number": 7,
+      "id": "c7",
+      "title": "Reliability Buys Trust",
+      "keyline": "Trust is bought with reliability.",
+      "length": "~12 min",
+      "one_scene": "For a month he is never once late for the agreed call, never once asks for an exception. Nobody says anything. The tone in the messages changes anyway.",
+      "in_the_room": "How a parent earns caregiving trust through small kept promises over time. Encouragement follows the track record.",
+      "what_you_leave_with": "You can earn trust in steps with small reliability.",
+      "practice": "Identify one small reliable act and do it consistently for a week. Log it.",
+      "science_or_note": "Reliability, repeated, is what reopens the gate.",
+      "checkpoint_questions": [
+        {
+          "prompt": "What buys back a co-parent's trust, per this session?",
+          "choices": [
+            "Reliability, kept small promises, over time",
+            "A sincere conversation about the past",
+            "Generosity with money"
+          ],
+          "correct_index": 0
+        },
+        {
+          "prompt": "Which is the right first promise to rebuild with?",
+          "choices": [
+            "A large one, to prove commitment",
+            "A small one you are certain to keep, then another",
+            "None; let time do it"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "You were late last week. The rebuild move is?",
+          "choices": [
+            "Explain at length",
+            "Be early to the next three agreed times without a speech",
+            "Skip the next handoff"
+          ],
+          "correct_index": 1
+        }
+      ],
+      "script_aids": {
+        "purpose": "Show that co-parent trust reopens through small kept promises over time.",
+        "practical_insight": "Trust is bought with reliability.",
+        "emotional_beat": "Patience with invisible progress: tone changes before anyone says thank you.",
+        "shape_motifs": [
+          "gate opening notch by notch",
+          "on-time ticks filling a month strip",
+          "speech bubble dimming while action bars stay lit",
+          "small promise tokens stacking"
+        ],
+        "do_not": [
+          "No faces, bodies, photographic people, or culture-specific dress",
+          "Do not invent doctrine that conflicts with keyline, practice, or checkpoints",
+          "Keep practices inside the rules that govern the man now",
+          "Do not require friendship or romance between parents",
+          "Do not teach working around court orders",
+          "Do not use the child as messenger for adult conflict"
+        ],
+        "bridge_from_prev": "Cooler channels reduce heat; reliability rebuilds the gate.",
+        "bridge_to_next": "Reliability must stay inside the legal floor next."
+      }
+    },
+    {
+      "number": 8,
+      "id": "c8",
+      "title": "Never Against an Order",
+      "keyline": "Never ask a child to carry an adult fight, and never against an order.",
+      "length": "~12 min",
+      "one_scene": "He wants an exception. He wants the child to pass a message. He does neither. He keeps the written plan exactly. Trust grows inside the line, not against it.",
+      "in_the_room": "Court orders and agreements are the floor. Trust is earned inside them, never against them. Children are never messengers for adult fights.",
+      "what_you_leave_with": "You can operate inside any legal boundary and keep adult conflict off the child.",
+      "practice": "List the rules that govern you now. Choose one small act of compliance you will keep perfectly this week. Never use the child as a messenger.",
+      "science_or_note": "Trust built against an order is not trust; it is risk the child pays for.",
+      "checkpoint_questions": [
+        {
+          "prompt": "How does this session treat court orders and agreements?",
+          "choices": [
+            "As obstacles to work around when unfair",
+            "As the floor you never build against; trust is earned inside them, never against them",
+            "As relevant only to lawyers"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "What must you never ask a child to carry?",
+          "choices": [
+            "A backpack",
+            "An adult fight",
+            "A school folder"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "Which action fits this session?",
+          "choices": [
+            "Keep every commitment exactly as written inside the order",
+            "Ask the child to pass a message about money",
+            "Skip a visit to make a point"
+          ],
+          "correct_index": 0
+        }
+      ],
+      "script_aids": {
+        "purpose": "Hard floor: orders are not optional, and children never carry adult fights.",
+        "practical_insight": "Never ask a child to carry an adult fight, and never against an order.",
+        "emotional_beat": "Integrity under frustration: he can want an exception and still refuse it.",
+        "shape_motifs": [
+          "solid floor line under all action",
+          "message path to child blocked; adult path open",
+          "written plan card held steady",
+          "risk arrow at child-node crossed out"
+        ],
+        "do_not": [
+          "No faces, bodies, photographic people, or culture-specific dress",
+          "Do not invent doctrine that conflicts with keyline, practice, or checkpoints",
+          "Keep practices inside the rules that govern the man now",
+          "Do not require friendship or romance between parents",
+          "Do not teach working around court orders",
+          "Do not use the child as messenger for adult conflict"
+        ],
+        "bridge_from_prev": "Reliability only counts when it stays inside the governing rules.",
+        "bridge_to_next": "With the floor clear, next look at the load the child carries."
+      }
+    },
+    {
+      "number": 9,
+      "id": "c9",
+      "title": "What the Child Carries",
+      "keyline": "The child carries the distance. Lighten the load.",
+      "length": "~12 min",
+      "one_scene": "Every week the child leaves one home with a bag. He learns what is hard about the bag and fixes his end: the charger, the book, the jacket for the colder house.",
+      "in_the_room": "Your child's experience of moving between two homes, the load at the transition, and the warmth that builds resilience regardless of the arrangement.",
+      "what_you_leave_with": "You can see the transition through the child's eyes and lighten one concrete load.",
+      "practice": "Ask one open question about moving between homes if contact allows, or file it. Fix one logistics friction on your side.",
+      "science_or_note": "Transitions are stress points; warm, practical help lightens what the child carries.",
+      "checkpoint_questions": [
+        {
+          "prompt": "Who carries the distance between two homes, per this session?",
+          "choices": [
+            "The parents equally",
+            "The child; your job is to lighten the load",
+            "Nobody, if the schedule is fair"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "Which lightens the child's load?",
+          "choices": [
+            "Asking what happens at the other house to gather ammo",
+            "Letting the child feel free to love both homes out loud",
+            "Keeping the households completely identical"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "Your child praises something at the other home. The session's move is what?",
+          "choices": [
+            "Receive it warmly; their ease is the win",
+            "Match it with something better at yours",
+            "Change the subject"
+          ],
+          "correct_index": 0
+        }
+      ],
+      "script_aids": {
+        "purpose": "Shift empathy to the child's transition load and lighten one concrete piece.",
+        "practical_insight": "The child carries the distance. Lighten the load.",
+        "emotional_beat": "Protective tenderness without competing with the other home.",
+        "shape_motifs": [
+          "bag weight marks dropping one by one",
+          "two house nodes with a child-dot on the path",
+          "simple load icons removed from the bag",
+          "warm receive arc for other-home praise"
+        ],
+        "do_not": [
+          "No faces, bodies, photographic people, or culture-specific dress",
+          "Do not invent doctrine that conflicts with keyline, practice, or checkpoints",
+          "Keep practices inside the rules that govern the man now",
+          "Do not require friendship or romance between parents",
+          "Do not teach working around court orders",
+          "Do not use the child as messenger for adult conflict"
+        ],
+        "bridge_from_prev": "Orders protect the floor; now see what the child still carries.",
+        "bridge_to_next": "Lightening the load pairs next with predictable rules at his place."
+      }
+    },
+    {
+      "number": 10,
+      "id": "c10",
+      "title": "Two Homes, One Child",
+      "keyline": "Predictable rules beat perfect agreement.",
+      "length": "~12 min",
+      "one_scene": "The houses will never match perfectly. He stops fighting for identical rules and makes his own home predictable: bedtime, homework, phone off at dinner. The child stops guessing.",
+      "in_the_room": "Perfect agreement is rare. Predictable rules at your place give the child ground to stand on even when the homes differ.",
+      "what_you_leave_with": "You can run a few clear, predictable rules the child can count on at your place.",
+      "practice": "Write three predictable rules for your parenting time. Post them where you will follow them.",
+      "science_or_note": "A child can adapt to two homes when each home is steady.",
+      "checkpoint_questions": [
+        {
+          "prompt": "What beats perfect agreement, per this session?",
+          "choices": [
+            "Predictable rules",
+            "Identical houses",
+            "No rules at either home"
+          ],
+          "correct_index": 0
+        },
+        {
+          "prompt": "Which helps a child across two homes?",
+          "choices": [
+            "Fighting until every rule matches",
+            "A few clear, predictable rules the child can count on at your place",
+            "Asking the child to choose a side"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "Why predictability matters more than perfection?",
+          "choices": [
+            "Courts require it",
+            "A child can adapt to two homes when each home is steady",
+            "Children dislike agreement"
+          ],
+          "correct_index": 1
+        }
+      ],
+      "script_aids": {
+        "purpose": "End the fight for identical homes; install predictable rules at his place.",
+        "practical_insight": "Predictable rules beat perfect agreement.",
+        "emotional_beat": "Release from control battles; steadiness at his door is enough.",
+        "shape_motifs": [
+          "two house outlines, different interiors, both steady",
+          "three rule posts standing firm",
+          "guessing haze clearing over a child-dot",
+          "identical-match fight crossed out"
+        ],
+        "do_not": [
+          "No faces, bodies, photographic people, or culture-specific dress",
+          "Do not invent doctrine that conflicts with keyline, practice, or checkpoints",
+          "Keep practices inside the rules that govern the man now",
+          "Do not require friendship or romance between parents",
+          "Do not teach working around court orders",
+          "Do not use the child as messenger for adult conflict"
+        ],
+        "bridge_from_prev": "He is lightening the bag; now make his own home countably steady.",
+        "bridge_to_next": "Steady homes meet at the curb; next train the handoff itself."
+      }
+    },
+    {
+      "number": 11,
+      "id": "c11",
+      "title": "The Handoff",
+      "keyline": "Predictable beats perfect.",
+      "length": "~12 min",
+      "one_scene": "Same spot, same time, a calm two-minute handoff. Within a month the child stops going quiet on the ride there. Nothing was said. The routine said it.",
+      "in_the_room": "A predictable handoff carries the child's things, the practical facts, and a calm goodbye. Old disputes stay off the curb.",
+      "what_you_leave_with": "You can run a predictable handoff that keeps adult heat away from the child.",
+      "practice": "Write your handoff checklist: place, time, items, facts, goodbye. Rehearse once.",
+      "science_or_note": "The handoff is where the child feels the team most directly.",
+      "checkpoint_questions": [
+        {
+          "prompt": "What is the standard for handoffs in this session?",
+          "choices": [
+            "Predictable beats perfect",
+            "Quick beats friendly",
+            "Flexible beats scheduled"
+          ],
+          "correct_index": 0
+        },
+        {
+          "prompt": "What belongs at a handoff?",
+          "choices": [
+            "The unresolved topic from last week",
+            "The child's things, the practical facts, a calm goodbye",
+            "A private word with the other parent about concerns"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "Why does predictability matter so much at the handoff moment?",
+          "choices": [
+            "It saves time",
+            "The handoff is where the child feels the team most directly; calm sameness tells them the ground is solid",
+            "It prevents lateness"
+          ],
+          "correct_index": 1
+        }
+      ],
+      "script_aids": {
+        "purpose": "Make the curb transfer a calm team signal: things, facts, goodbye.",
+        "practical_insight": "Predictable beats perfect.",
+        "emotional_beat": "Quiet competence: the routine speaks safety without a lecture.",
+        "shape_motifs": [
+          "same spot pin repeating",
+          "two-minute sand bar",
+          "checklist: bag, facts, goodbye",
+          "dispute cloud held away from the curb line"
+        ],
+        "do_not": [
+          "No faces, bodies, photographic people, or culture-specific dress",
+          "Do not invent doctrine that conflicts with keyline, practice, or checkpoints",
+          "Keep practices inside the rules that govern the man now",
+          "Do not require friendship or romance between parents",
+          "Do not teach working around court orders",
+          "Do not use the child as messenger for adult conflict"
+        ],
+        "bridge_from_prev": "Predictable home rules now meet the other home at a predictable curb.",
+        "bridge_to_next": "Next lock the handoff into a short ritual and checkpoint plan."
+      }
+    },
+    {
+      "number": 12,
+      "id": "c12",
+      "title": "The Handoff Ritual",
+      "keyline": "Same place, same time, same calm script.",
+      "length": "~12 min",
+      "one_scene": "Bag, jacket, homework. See you Thursday at five. Same script every week. The child starts handing over the bag before anyone asks.",
+      "in_the_room": "You lock a short ritual: same place, same time, same calm script. You leave with a one-page plan and a first checkpoint.",
+      "what_you_leave_with": "You leave with a repeatable handoff ritual and a first checkpoint.",
+      "practice": "Complete a one-page handoff ritual plan and walk it through with a cohort partner or facilitator. After return, execute one handoff to the plan and log it.",
+      "science_or_note": "A predictable ritual says what words cannot at the transition.",
+      "checkpoint_questions": [
+        {
+          "prompt": "What is the handoff ritual built from?",
+          "choices": [
+            "Same place, same time, same calm script",
+            "Surprise locations to keep it fresh",
+            "Long talks at every exchange"
+          ],
+          "correct_index": 0
+        },
+        {
+          "prompt": "Which script fits the ritual?",
+          "choices": [
+            "Bag, jacket, homework. See you Thursday at 5.",
+            "We need to talk about last month right now.",
+            "Tell your mother what I said."
+          ],
+          "correct_index": 0
+        },
+        {
+          "prompt": "Why keep the ritual short and same?",
+          "choices": [
+            "So adults can argue later elsewhere",
+            "Sameness lowers the child's stress at the transition",
+            "Children prefer silence always"
+          ],
+          "correct_index": 1
+        }
+      ],
+      "script_aids": {
+        "purpose": "Lock a repeatable handoff ritual and a first accountability checkpoint.",
+        "practical_insight": "Same place, same time, same calm script.",
+        "emotional_beat": "Settled ownership: the child anticipates calm because the adults made it ordinary.",
+        "shape_motifs": [
+          "ritual loop: place, time, script",
+          "bag handed before the ask",
+          "one-page plan with checkpoint date",
+          "surprise-location spark crossed out"
+        ],
+        "do_not": [
+          "No faces, bodies, photographic people, or culture-specific dress",
+          "Do not invent doctrine that conflicts with keyline, practice, or checkpoints",
+          "Keep practices inside the rules that govern the man now",
+          "Do not require friendship or romance between parents",
+          "Do not teach working around court orders",
+          "Do not use the child as messenger for adult conflict"
+        ],
+        "bridge_from_prev": "He has the handoff checklist; now lock the same-every-time ritual.",
+        "bridge_to_next": "Course close: keep the written plan and facilitator or partner check-ins."
+      }
+    }
+  ],
+  "final_qa": [
+    {
+      "prompt": "Write the last message you sent the other parent, then rewrite it businesslike: short, factual, about the child. What changed?"
+    },
+    {
+      "prompt": "Describe one flooded moment this course caught: where you felt it, how you paused, and what resuming later made possible."
+    },
+    {
+      "prompt": "Name the small promise you are using to rebuild trust inside the agreement that governs you, and your record of keeping it so far."
+    },
+    {
+      "prompt": "Write your handoff ritual in four lines: place, time, calm script, and what never gets discussed at the exchange."
+    }
+  ]
+}

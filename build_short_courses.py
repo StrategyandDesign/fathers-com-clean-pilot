@@ -244,12 +244,15 @@ def render_course_body(course: dict) -> str:
     sessions = course["sessions"]
     first = session_article(course, sessions[0])
     rest = "\n".join(session_article(course, s) for s in sessions[1:])
-    n = len(sessions)
     outlines = ""
     if rest:
+        rest_sess = sessions[1:]
+        a = rest_sess[0]["ord"]
+        b = rest_sess[-1]["ord"]
+        label = f"Session outlines ({a}–{b})" if a != b else f"Session outlines ({a})"
         outlines = (
             f'<details class="course-outlines">'
-            f'<summary class="fine">Session outlines (2–{n})</summary>\n'
+            f'<summary class="fine">{label}</summary>\n'
             f'{rest}\n'
             f'</details>\n'
         )
@@ -313,7 +316,7 @@ def cert_card_html(course: dict) -> str:
         blurb = "Steadiness on film: the pause, the repair, and the habits underneath. Twelve short sessions. Facilitator available for questions."
         data_desc = "Steadiness, trained on film: the pause, the repair, and the habits underneath them. Self-paced, with a Certified Facilitator available for questions. Sessions logged, checkpoints, and a final assessment at eighty percent to pass."
     elif slug == "fundamentals":
-        blurb = "Seven Secrets assessment and course: intro, seven secrets, and a bonus. Already filmed; shape stills until Vimeo is wired."
+        blurb = "Seven Secrets assessment and course: intro + seven secrets. Already filmed; shape stills until Vimeo is wired."
         data_desc = "The Seven Secrets of Effective Fathers Assessment and Course. Self-paced sessions with checkpoints, a free assessment, and a Certified Facilitator available for questions."
         hours = "1.1"
     else:
@@ -453,19 +456,19 @@ def apply_to_build_pages(build_pages_path: Path, courses: dict) -> None:
         ('data-cert="coparenting" data-title="Same Team" data-hours="3.0"',
          'data-cert="coparenting" data-title="Same Team" data-hours="2.4"'),
         ("var SESS = {fundamentals:'5', reentry:'8', anger:'6', coparenting:'6', manhood:'6'};",
-         "var SESS = {fundamentals:'9', reentry:'12', anger:'12', coparenting:'12', manhood:'6'};"),
+         "var SESS = {fundamentals:'8', reentry:'12', anger:'12', coparenting:'12', manhood:'6'};"),
         ("var SESS = {fundamentals:'5', reentry:'12', anger:'12', coparenting:'12', manhood:'6'};",
-         "var SESS = {fundamentals:'9', reentry:'12', anger:'12', coparenting:'12', manhood:'6'};"),
-        ("var SESS = {fundamentals:'9', reentry:'12', anger:'12', coparenting:'12', manhood:'6'};",
-         "var SESS = {fundamentals:'9', reentry:'12', anger:'12', coparenting:'12', manhood:'6'};"),
+         "var SESS = {fundamentals:'8', reentry:'12', anger:'12', coparenting:'12', manhood:'6'};"),
+        ("var SESS = {fundamentals:'8', reentry:'12', anger:'12', coparenting:'12', manhood:'6'};",
+         "var SESS = {fundamentals:'8', reentry:'12', anger:'12', coparenting:'12', manhood:'6'};"),
         ('<span class="fine mono">5 sessions</span></div>\n        <h3 style="margin-bottom:6px">Fathering Fundamentals</h3>',
-         '<span class="fine mono">9 sessions</span></div>\n        <h3 style="margin-bottom:6px">Fathering Fundamentals</h3>'),
+         '<span class="fine mono">8 sessions</span></div>\n        <h3 style="margin-bottom:6px">Fathering Fundamentals</h3>'),
         ('<span class="fine mono">6 sessions</span></div>\n        <h3 style="margin-bottom:6px">Steady Under Pressure</h3>',
          '<span class="fine mono">12 sessions</span></div>\n        <h3 style="margin-bottom:6px">Steady Under Pressure</h3>'),
         ('<span class="fine mono">8 sessions</span></div>\n        <h3 style="margin-bottom:6px">Coming Home Present</h3>',
          '<span class="fine mono">12 sessions</span></div>\n        <h3 style="margin-bottom:6px">Coming Home Present</h3>'),
         ('<div class="mono small">5 sessions &middot; facilitator-verified</div>',
-         '<div class="mono small">9 sessions &middot; facilitator-verified</div>'),
+         '<div class="mono small">8 sessions &middot; facilitator-verified</div>'),
         ('enroll.html?cert=fundamentals&amp;title=Fathering%20Fundamentals&amp;hours=10.0',
          'course-fathering-fundamentals.html'),
     ]

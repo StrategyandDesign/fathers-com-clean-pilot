@@ -1,0 +1,788 @@
+{
+  "slug": "anger",
+  "title": "Steady Under Pressure",
+  "tagline": "Twelve short sessions on steadiness: the surge, early cues, six seconds, the exhale, the step away, naming it, the short apology, and steady habits.",
+  "session_length_label": "~12 min",
+  "session_count": 12,
+  "course_purpose": "Twelve short film sessions on steadiness: the surge, early cues, six seconds, the exhale, the step away, naming it, the short apology, and the habits underneath. Consistency, trained where you stand.",
+  "audience": "For every man, on either track. Steadiness skills for pressure at home, work, and in program life. Not anger management, batterer intervention, or a substitute for any court-mandated program.",
+  "facilitator_note": "Self-paced film. About twelve minutes each. Watch when you can. A Certified Facilitator is available for questions and accountability when your seat is claimed. Optional live cohorts may be offered by some programs. Every drill except a live home repair is practicable wherever you are right now. Logged sessions and a checkable practice. Completion never requires contact with your child, and no practice ever asks you to go beyond the rules that govern you now or any court order. Not anger management, batterer intervention, or a substitute for any court-mandated program; not designed or validated for those purposes and never ordered in their place.",
+  "source_files": [
+    "course-steady-under-pressure.html",
+    "content/anger.json",
+    "content/short-course-pages.json#anger"
+  ],
+  "sessions": [
+    {
+      "number": 1,
+      "id": "b1",
+      "title": "The Surge Is a Signal",
+      "keyline": "The surge is a signal, not an order.",
+      "length": "~12 min",
+      "one_scene": "The noise in the meal line rises, trays and voices. His jaw sets before he knows why. That jaw is the earliest cue, and it is not an order to blow.",
+      "in_the_room": "The body's stress response in plain language. You learn that the surge fires before deliberation, and that the skill is what you do in the next few seconds.",
+      "what_you_leave_with": "You can treat the surge as information instead of a command.",
+      "practice": "Log three moments of rising tension this week. For each, write the trigger and the earliest body cue you noticed.",
+      "science_or_note": "The surge chemistry of stress fires before awareness; early cues give you a choice.",
+      "checkpoint_questions": [
+        {
+          "prompt": "What does this session call the surge you feel when anger hits?",
+          "choices": [
+            "A signal, not an order",
+            "A weakness to eliminate",
+            "An order your body must obey"
+          ],
+          "correct_index": 0
+        },
+        {
+          "prompt": "Why does the surge arrive faster than your thinking?",
+          "choices": [
+            "Because you have not trained enough yet",
+            "Because the alarm system fires before deliberation; the skill is what happens next",
+            "Because the situation is always truly dangerous"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "What is the first skill this course builds on top of the alarm?",
+          "choices": [
+            "Avoiding every trigger",
+            "Noticing the surge early enough to choose",
+            "Explaining your anger to others"
+          ],
+          "correct_index": 1
+        }
+      ],
+      "script_aids": {
+        "purpose": "Open by renaming the surge as a signal so the man can choose in the next seconds.",
+        "practical_insight": "The surge is a signal, not an order.",
+        "emotional_beat": "Integrity under frustration: he can want an exception and still refuse it.",
+        "shape_motifs": [
+          "signal pulse rising then labeled SIGNAL not ORDER",
+          "jaw mark lighting before a voice bar",
+          "surge wave with a choice fork",
+          "soft circle with a slow outer breathe"
+        ],
+        "do_not": [
+          "No faces, bodies, photographic people, or culture-specific dress",
+          "Do not present this course as court-ordered anger management or BIP",
+          "Do not require child contact for completion drills",
+          "Keep practices inside the rules that govern the man now",
+          "Do not invent doctrine that conflicts with keyline, practice, or checkpoints",
+          "Do not require friendship or romance between parents",
+          "Do not teach working around court orders"
+        ],
+        "bridge_from_prev": "Course open: no prior session.",
+        "bridge_to_next": "Into session 2 (Know Your Early Cues): the next skill in the arc."
+      }
+    },
+    {
+      "number": 2,
+      "id": "b2",
+      "title": "Know Your Early Cues",
+      "keyline": "Catch it in the jaw, not the shout.",
+      "length": "~12 min",
+      "one_scene": "He used to notice only when his voice was already loud. Now he catches the heat in his face and the locked jaw two beats earlier. That gap is the whole game.",
+      "in_the_room": "You map your personal early warning signs: jaw, fists, breath, tone, tunnel vision. You pick the two that show up first for you.",
+      "what_you_leave_with": "You can name your earliest cues before the shout arrives.",
+      "practice": "Write your top two early cues on a card. Check the card after three hard moments this week.",
+      "science_or_note": "Body cues precede peak anger; naming them early widens the window to choose.",
+      "checkpoint_questions": [
+        {
+          "prompt": "Where does this session tell you to catch the surge?",
+          "choices": [
+            "In the shout",
+            "In the jaw, or your earliest body cue",
+            "After the argument ends"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "Why name your early cues in writing?",
+          "choices": [
+            "So you can prove them to someone else",
+            "So you recognize them under load before the peak",
+            "So you can skip the pause later"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "Which is an early cue, as this session means it?",
+          "choices": [
+            "A long rant",
+            "Jaw set, heat in the face, or a clenched fist before words rise",
+            "Leaving the house for the night"
+          ],
+          "correct_index": 1
+        }
+      ],
+      "script_aids": {
+        "purpose": "Map personal early cues so he catches the rise in the jaw, not the shout.",
+        "practical_insight": "Catch it in the jaw, not the shout.",
+        "emotional_beat": "Recognition that leads to a concrete next move.",
+        "shape_motifs": [
+          "cue icons: jaw, fists, breath, tone",
+          "timeline with early mark before shout mark",
+          "two highlighted early-cue cards",
+          "gap widening between heat and peak"
+        ],
+        "do_not": [
+          "No faces, bodies, photographic people, or culture-specific dress",
+          "Do not present this course as court-ordered anger management or BIP",
+          "Do not require child contact for completion drills",
+          "Keep practices inside the rules that govern the man now",
+          "Do not invent doctrine that conflicts with keyline, practice, or checkpoints",
+          "Do not require friendship or romance between parents",
+          "Do not teach working around court orders"
+        ],
+        "bridge_from_prev": "From session 1 (The Surge Is a Signal): carry the skill forward.",
+        "bridge_to_next": "Into session 3 (Six Seconds): the next skill in the arc."
+      }
+    },
+    {
+      "number": 3,
+      "id": "b3",
+      "title": "Six Seconds",
+      "keyline": "Six seconds buy your judgment back.",
+      "length": "~12 min",
+      "one_scene": "The words are already loaded. He counts six silent seconds instead. The sentence he almost said stays unsaid, and the one he says next is his.",
+      "in_the_room": "What happens in the seconds before a blowup, including the fast pathway that outruns judgment. The tool is a deliberate pause of about six seconds before you speak or act.",
+      "what_you_leave_with": "You can insert six seconds when you feel the surge.",
+      "practice": "Practice a six-second pause three times this week in real moments. Record the trigger and what you did after the pause.",
+      "science_or_note": "A brief pause brings judgment back online after the fast threat pathway fires.",
+      "checkpoint_questions": [
+        {
+          "prompt": "What do six seconds buy you, per this session?",
+          "choices": [
+            "Your judgment back",
+            "The other person's apology",
+            "The end of the feeling"
+          ],
+          "correct_index": 0
+        },
+        {
+          "prompt": "When is the six-second pause practiced so it works under load?",
+          "choices": [
+            "Only in real conflict",
+            "In the boring hours, daily, so it is there when the surge comes",
+            "Once at the start of the course"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "You feel the surge mid-conversation. Which is the session's move?",
+          "choices": [
+            "Push through so they know you care",
+            "Take six silent seconds before you speak",
+            "End the conversation for the night"
+          ],
+          "correct_index": 1
+        }
+      ],
+      "script_aids": {
+        "purpose": "Install a six-second pause that buys judgment back under pressure.",
+        "practical_insight": "Six seconds buy your judgment back.",
+        "emotional_beat": "Recognition that leads to a concrete next move.",
+        "shape_motifs": [
+          "six tick marks between surge and speech",
+          "loaded sentence held behind a pause bar",
+          "judgment light returning after six counts",
+          "silent count ring"
+        ],
+        "do_not": [
+          "No faces, bodies, photographic people, or culture-specific dress",
+          "Do not present this course as court-ordered anger management or BIP",
+          "Do not require child contact for completion drills",
+          "Keep practices inside the rules that govern the man now",
+          "Do not invent doctrine that conflicts with keyline, practice, or checkpoints",
+          "Do not require friendship or romance between parents",
+          "Do not teach working around court orders"
+        ],
+        "bridge_from_prev": "From session 2 (Know Your Early Cues): carry the skill forward.",
+        "bridge_to_next": "Into session 4 (The Long Exhale): the next skill in the arc."
+      }
+    },
+    {
+      "number": 4,
+      "id": "b4",
+      "title": "The Long Exhale",
+      "keyline": "A long exhale stands the body down.",
+      "length": "~12 min",
+      "one_scene": "His chest is high and tight. He lengthens the out-breath once, slow. The shoulders drop a notch. He can hear himself think again.",
+      "in_the_room": "Slow breathing with a longer exhale as a body-down tool you can run anywhere. You pair it with the six-second pause so the skill stacks.",
+      "what_you_leave_with": "You can lower your own charge on demand with one long exhale.",
+      "practice": "Run a daily long-exhale drill for five days. Use it once live under pressure and note what changed.",
+      "science_or_note": "A long slow exhale signals the body to stand down faster than willpower alone.",
+      "checkpoint_questions": [
+        {
+          "prompt": "Why the long exhale specifically?",
+          "choices": [
+            "It looks calm to others",
+            "A long slow exhale stands the body down faster than willpower does",
+            "It gives you something to count"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "What is the drill this session asks you to own?",
+          "choices": [
+            "Hold your breath until the feeling passes",
+            "A daily long-exhale practice you can run anywhere",
+            "A loud sigh in front of the other person"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "The surge hits and you already took six seconds. What next?",
+          "choices": [
+            "Argue harder with a clear head",
+            "Run one long slow exhale to stand the body down",
+            "Skip the exhale if you already paused"
+          ],
+          "correct_index": 1
+        }
+      ],
+      "script_aids": {
+        "purpose": "Pair the pause with a long exhale that stands the body down on demand.",
+        "practical_insight": "A long exhale stands the body down.",
+        "emotional_beat": "Recognition that leads to a concrete next move.",
+        "shape_motifs": [
+          "breath arc longer on the exhale",
+          "shoulders mark dropping one notch",
+          "pause bar stacked with exhale arc",
+          "charge meter settling"
+        ],
+        "do_not": [
+          "No faces, bodies, photographic people, or culture-specific dress",
+          "Do not present this course as court-ordered anger management or BIP",
+          "Do not require child contact for completion drills",
+          "Keep practices inside the rules that govern the man now",
+          "Do not invent doctrine that conflicts with keyline, practice, or checkpoints",
+          "Do not require friendship or romance between parents",
+          "Do not teach working around court orders"
+        ],
+        "bridge_from_prev": "From session 3 (Six Seconds): carry the skill forward.",
+        "bridge_to_next": "Into session 5 (Step Away to Come Back): the next skill in the arc."
+      }
+    },
+    {
+      "number": 5,
+      "id": "b5",
+      "title": "Step Away to Come Back",
+      "keyline": "Step away to come back.",
+      "length": "~12 min",
+      "one_scene": "Mid-argument on a call, his voice is climbing. He says he needs ten minutes and that he is coming back. He does, on time, quieter. The coming back is the skill.",
+      "in_the_room": "Using a time-out on yourself as a reset, not a punishment. You practice leaving without abandoning the person or the topic.",
+      "what_you_leave_with": "You can step away to cool down and return on time.",
+      "practice": "Take one clean self time-out during a hard moment where you are now, then return when you said. Report both ends.",
+      "science_or_note": "A clean break lets the body reset; the return keeps it from becoming abandonment.",
+      "checkpoint_questions": [
+        {
+          "prompt": "What is the purpose of stepping away in this session?",
+          "choices": [
+            "To win the argument by leaving",
+            "To come back; the step away serves the return",
+            "To show how upset you are"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "What makes a step away different from storming out?",
+          "choices": [
+            "Volume",
+            "Saying where you are going and when you are coming back",
+            "Nothing; they are the same"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "You feel yourself flooding mid-conversation with your child. Which is the session's move?",
+          "choices": [
+            "Push through so they know you care",
+            "Name it, step out briefly, return when you said",
+            "End the conversation for the night"
+          ],
+          "correct_index": 1
+        }
+      ],
+      "script_aids": {
+        "purpose": "Train stepping away as a reset that still returns on time.",
+        "practical_insight": "Step away to come back.",
+        "emotional_beat": "Recognition that leads to a concrete next move.",
+        "shape_motifs": [
+          "exit arc and return arc same length",
+          "ten-minute sand bar",
+          "open door that stays open",
+          "call line pausing then reconnecting"
+        ],
+        "do_not": [
+          "No faces, bodies, photographic people, or culture-specific dress",
+          "Do not present this course as court-ordered anger management or BIP",
+          "Do not require child contact for completion drills",
+          "Keep practices inside the rules that govern the man now",
+          "Do not invent doctrine that conflicts with keyline, practice, or checkpoints",
+          "Do not require friendship or romance between parents",
+          "Do not teach working around court orders"
+        ],
+        "bridge_from_prev": "From session 4 (The Long Exhale): carry the skill forward.",
+        "bridge_to_next": "Into session 6 (The Line You Leave On): the next skill in the arc."
+      }
+    },
+    {
+      "number": 6,
+      "id": "b6",
+      "title": "The Line You Leave On",
+      "keyline": "Say the line, then leave the room.",
+      "length": "~12 min",
+      "one_scene": "He almost storms out silent. Instead he says: I need ten minutes. I am coming back. Then he leaves. The room stays safer because the line held the door open.",
+      "in_the_room": "You write and rehearse a short leave-line that names the break and the return time. No speech. No blame. Just the line, then the exit.",
+      "what_you_leave_with": "You have a leave-line ready so a break is a reset, not a disappearance.",
+      "practice": "Write your leave-line in under fifteen words. Rehearse it aloud three times. Use it once this week if needed.",
+      "science_or_note": "Naming the return turns a break into a trustworthy pause.",
+      "checkpoint_questions": [
+        {
+          "prompt": "What belongs in the line you leave on?",
+          "choices": [
+            "A long explanation of why you are right",
+            "A short line that names the break and when you return",
+            "Silence, then disappear"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "Why say the line before you leave the room?",
+          "choices": [
+            "So the other person feels guilty",
+            "So the break is a reset, not abandonment",
+            "So you win the argument"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "Which line fits this session?",
+          "choices": [
+            "I need ten minutes. I am coming back.",
+            "Forget it. I am done talking.",
+            "You always do this."
+          ],
+          "correct_index": 0
+        }
+      ],
+      "script_aids": {
+        "purpose": "Give him a short leave-line so a break is a trustworthy pause, not a disappearance.",
+        "practical_insight": "Say the line, then leave the room.",
+        "emotional_beat": "Recognition that leads to a concrete next move.",
+        "shape_motifs": [
+          "short leave-line card under fifteen words",
+          "door mark with return time lit",
+          "silent storm path crossed out",
+          "trust bridge held by the line"
+        ],
+        "do_not": [
+          "No faces, bodies, photographic people, or culture-specific dress",
+          "Do not present this course as court-ordered anger management or BIP",
+          "Do not require child contact for completion drills",
+          "Keep practices inside the rules that govern the man now",
+          "Do not invent doctrine that conflicts with keyline, practice, or checkpoints",
+          "Do not require friendship or romance between parents",
+          "Do not teach working around court orders"
+        ],
+        "bridge_from_prev": "From session 5 (Step Away to Come Back): carry the skill forward.",
+        "bridge_to_next": "Into session 7 (Name the Feeling): the next skill in the arc."
+      }
+    },
+    {
+      "number": 7,
+      "id": "b7",
+      "title": "Name the Feeling",
+      "keyline": "Say the feeling so you do not have to show it.",
+      "length": "~12 min",
+      "one_scene": "Instead of the slammed cabinet, he says I am frustrated, and not at you. Five words. The temperature drops a degree, and the child hears the words too.",
+      "in_the_room": "Putting feelings into words lowers their intensity. You practice naming your own state in plain language before it becomes a show.",
+      "what_you_leave_with": "You can handle feelings by naming them instead of acting them out.",
+      "practice": "Name one feeling out loud in three separate moments this week. Log the words you used.",
+      "science_or_note": "Naming a feeling out loud measurably lowers its charge.",
+      "checkpoint_questions": [
+        {
+          "prompt": "Why does saying the feeling out loud matter, per this session?",
+          "choices": [
+            "So you do not have to show it instead",
+            "So others feel responsible for it",
+            "It does not; feelings should stay private"
+          ],
+          "correct_index": 0
+        },
+        {
+          "prompt": "Which sentence is naming it, as this session teaches?",
+          "choices": [
+            "You are making me angry.",
+            "I am angry right now, and I need a minute before we keep going.",
+            "Everyone needs to calm down."
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "What does a child learn from a father who names his anger plainly?",
+          "choices": [
+            "That anger is shameful",
+            "That big feelings can be handled with words",
+            "That the father is weak"
+          ],
+          "correct_index": 1
+        }
+      ],
+      "script_aids": {
+        "purpose": "Teach naming the feeling so the body does not have to show it as damage.",
+        "practical_insight": "Say the feeling so you do not have to show it.",
+        "emotional_beat": "Recognition that leads to a concrete next move.",
+        "shape_motifs": [
+          "feeling word bar replacing slam mark",
+          "temperature drop after five words",
+          "name-it path versus show-it path",
+          "small clear label over a heat field"
+        ],
+        "do_not": [
+          "No faces, bodies, photographic people, or culture-specific dress",
+          "Do not present this course as court-ordered anger management or BIP",
+          "Do not require child contact for completion drills",
+          "Keep practices inside the rules that govern the man now",
+          "Do not invent doctrine that conflicts with keyline, practice, or checkpoints",
+          "Do not require friendship or romance between parents",
+          "Do not teach working around court orders"
+        ],
+        "bridge_from_prev": "From session 6 (The Line You Leave On): carry the skill forward.",
+        "bridge_to_next": "Into session 8 (Feelings Without Weapons): the next skill in the arc."
+      }
+    },
+    {
+      "number": 8,
+      "id": "b8",
+      "title": "Feelings Without Weapons",
+      "keyline": "Name it without loading it.",
+      "length": "~12 min",
+      "one_scene": "He almost says you always do this. He swaps it for I am angry and I want to finish this calmly. Same feeling. No weapon attached.",
+      "in_the_room": "You strip blame, insults, and history dumps from the naming sentence. Clean naming lowers heat; loaded naming restarts the fight.",
+      "what_you_leave_with": "You can name hard feelings without arming them.",
+      "practice": "Rewrite two loaded sentences into clean feeling statements. Use one clean line live this week.",
+      "science_or_note": "Blame reloads conflict; clean labeling keeps the skill usable.",
+      "checkpoint_questions": [
+        {
+          "prompt": "What does 'without loading it' mean here?",
+          "choices": [
+            "Never feel anger",
+            "Name the feeling without blame, insults, or history dumps",
+            "Only write feelings, never say them"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "Which line names the feeling without a weapon?",
+          "choices": [
+            "I am frustrated, and I want to finish this calmly.",
+            "You always ruin everything when I am tired.",
+            "Fine. Whatever."
+          ],
+          "correct_index": 0
+        },
+        {
+          "prompt": "Why strip the weapon from the sentence?",
+          "choices": [
+            "Because feelings are wrong",
+            "Because blame reloads the fight; clean naming lowers heat",
+            "Because the other person should guess"
+          ],
+          "correct_index": 1
+        }
+      ],
+      "script_aids": {
+        "purpose": "Separate feeling from weaponized behavior; feelings are allowed, weapons are not.",
+        "practical_insight": "Name it without loading it.",
+        "emotional_beat": "Recognition that leads to a concrete next move.",
+        "shape_motifs": [
+          "feeling circle allowed; weapon spike blocked",
+          "two lanes: feel vs harm",
+          "shield between emotion and damage",
+          "words path open, strike path closed"
+        ],
+        "do_not": [
+          "No faces, bodies, photographic people, or culture-specific dress",
+          "Do not present this course as court-ordered anger management or BIP",
+          "Do not require child contact for completion drills",
+          "Keep practices inside the rules that govern the man now",
+          "Do not invent doctrine that conflicts with keyline, practice, or checkpoints",
+          "Do not require friendship or romance between parents",
+          "Do not teach working around court orders"
+        ],
+        "bridge_from_prev": "From session 7 (Name the Feeling): carry the skill forward.",
+        "bridge_to_next": "Into session 9 (Own It Same Day): the next skill in the arc."
+      }
+    },
+    {
+      "number": 9,
+      "id": "b9",
+      "title": "Own It Same Day",
+      "keyline": "Own it out loud, same day.",
+      "length": "~12 min",
+      "one_scene": "Last night he barked over nothing. This morning, before anything else: I was wrong to raise my voice. You did not deserve that. Same day. No wait.",
+      "in_the_room": "Repair after a rupture protects the relationship. You practice owning the moment out loud the same day, specific and without excuses.",
+      "what_you_leave_with": "You can own a bad moment the same day it happened.",
+      "practice": "Write one ownership line for a recent miss. Deliver it same day if contact is allowed, or deliver a live ownership to someone where you are now.",
+      "science_or_note": "Fast ownership keeps a rupture from hardening into the relationship's normal.",
+      "checkpoint_questions": [
+        {
+          "prompt": "What is the standard for owning it, per this session?",
+          "choices": [
+            "Out loud, same day, without excuses",
+            "A general apology when things are calm next week",
+            "Letting actions speak over time"
+          ],
+          "correct_index": 0
+        },
+        {
+          "prompt": "Why same day instead of waiting?",
+          "choices": [
+            "Children have short memories",
+            "Fast ownership keeps the rupture from hardening into the relationship's normal",
+            "It gets the discomfort over with"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "You barked last night and morning is here. The move is?",
+          "choices": [
+            "Wait until they bring it up",
+            "Own it out loud today, specific and without defense",
+            "Do something fun and move on"
+          ],
+          "correct_index": 1
+        }
+      ],
+      "script_aids": {
+        "purpose": "Require same-day ownership after a miss so rupture does not harden overnight.",
+        "practical_insight": "Own it out loud, same day.",
+        "emotional_beat": "Recognition that leads to a concrete next move.",
+        "shape_motifs": [
+          "same-day clock closing a rupture gap",
+          "ownership bar without overnight delay",
+          "miss mark repaired before midnight",
+          "hardening cloud prevented by early splice"
+        ],
+        "do_not": [
+          "No faces, bodies, photographic people, or culture-specific dress",
+          "Do not present this course as court-ordered anger management or BIP",
+          "Do not require child contact for completion drills",
+          "Keep practices inside the rules that govern the man now",
+          "Do not invent doctrine that conflicts with keyline, practice, or checkpoints",
+          "Do not require friendship or romance between parents",
+          "Do not teach working around court orders"
+        ],
+        "bridge_from_prev": "From session 8 (Feelings Without Weapons): carry the skill forward.",
+        "bridge_to_next": "Into session 10 (The Short Apology): the next skill in the arc."
+      }
+    },
+    {
+      "number": 10,
+      "id": "b10",
+      "title": "The Short Apology",
+      "keyline": "Short, specific, no defense.",
+      "length": "~12 min",
+      "one_scene": "He starts to explain the week. He stops. He says only: I raised my voice at you. That was wrong. I will step away next time. Ten words. It lands.",
+      "in_the_room": "You practice a short apology script: the specific act, that it was wrong, and one next step. Defense stays out.",
+      "what_you_leave_with": "You can apologize short, specific, and without defense.",
+      "practice": "Write a short apology for one real miss. Cut every excuse. Rehearse once aloud, then deliver if allowed.",
+      "science_or_note": "Short specific repair lands; defense undoes it.",
+      "checkpoint_questions": [
+        {
+          "prompt": "Which of these is a repair and not an excuse?",
+          "choices": [
+            "I was tired; you know how my week was.",
+            "I raised my voice at you. That was wrong, and it is mine to fix.",
+            "I am sorry you got upset."
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "What stays out of the short apology?",
+          "choices": [
+            "The specific thing you did",
+            "Defense, blame, and a long story",
+            "A plan for next time"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "Why keep the apology short?",
+          "choices": [
+            "So you can leave faster",
+            "Short and specific lands; defense undoes it",
+            "Children prefer vague words"
+          ],
+          "correct_index": 1
+        }
+      ],
+      "script_aids": {
+        "purpose": "Install a short apology without defense or bargain.",
+        "practical_insight": "Short, specific, no defense.",
+        "emotional_beat": "Recognition that leads to a concrete next move.",
+        "shape_motifs": [
+          "short apology card, excess text falling away",
+          "defense cloud discarded",
+          "clean ownership bar landing",
+          "no-bargain mark"
+        ],
+        "do_not": [
+          "No faces, bodies, photographic people, or culture-specific dress",
+          "Do not present this course as court-ordered anger management or BIP",
+          "Do not require child contact for completion drills",
+          "Keep practices inside the rules that govern the man now",
+          "Do not invent doctrine that conflicts with keyline, practice, or checkpoints",
+          "Do not require friendship or romance between parents",
+          "Do not teach working around court orders"
+        ],
+        "bridge_from_prev": "From session 9 (Own It Same Day): carry the skill forward.",
+        "bridge_to_next": "Into session 11 (Sleep, Food, Movement): the next skill in the arc."
+      }
+    },
+    {
+      "number": 11,
+      "id": "b11",
+      "title": "Sleep, Food, Movement",
+      "keyline": "Steadiness is built in the boring hours.",
+      "length": "~12 min",
+      "one_scene": "Lights out at the same hour five nights straight, a walk or a workout most days, and by day five the fuse is longer. He can see it in his own log.",
+      "in_the_room": "The daily regulators that raise your threshold: sleep, food, and movement. Willpower sits on top of a body that is fed and rested.",
+      "what_you_leave_with": "You can lower baseline reactivity through habits practicable anywhere.",
+      "practice": "Hold one sleep anchor and one movement block for five days. Note food timing on the same log.",
+      "science_or_note": "Sleep, food, and movement raise the threshold where steadiness breaks.",
+      "checkpoint_questions": [
+        {
+          "prompt": "Where does this session say steadiness is actually built?",
+          "choices": [
+            "In dramatic moments of self-control",
+            "In the boring hours: sleep, food, movement",
+            "In willpower alone"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "Why do sleep and routine belong in this course?",
+          "choices": [
+            "They are filler",
+            "A depleted body fires the alarm sooner and louder; the habits raise your threshold",
+            "They replace the need for the pause"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "Which weekly marker fits this session?",
+          "choices": [
+            "Never feel the surge again",
+            "Lights out by a set hour five nights, plus one movement block most days",
+            "A promise to avoid hard conversations"
+          ],
+          "correct_index": 1
+        }
+      ],
+      "script_aids": {
+        "purpose": "Ground steadiness in sleep, food, and movement so the body is not always one spark from fire.",
+        "practical_insight": "Steadiness is built in the boring hours.",
+        "emotional_beat": "Recognition that leads to a concrete next move.",
+        "shape_motifs": [
+          "three pillars: sleep, food, movement",
+          "baseline charge meter lowered",
+          "spark meeting a steadier body",
+          "daily habit ticks"
+        ],
+        "do_not": [
+          "No faces, bodies, photographic people, or culture-specific dress",
+          "Do not present this course as court-ordered anger management or BIP",
+          "Do not require child contact for completion drills",
+          "Keep practices inside the rules that govern the man now",
+          "Do not invent doctrine that conflicts with keyline, practice, or checkpoints",
+          "Do not require friendship or romance between parents",
+          "Do not teach working around court orders"
+        ],
+        "bridge_from_prev": "From session 10 (The Short Apology): carry the skill forward.",
+        "bridge_to_next": "Into session 12 (Your Steady Week): the next skill in the arc."
+      }
+    },
+    {
+      "number": 12,
+      "id": "b12",
+      "title": "Your Steady Week",
+      "keyline": "Stack the small things until they hold.",
+      "length": "~12 min",
+      "one_scene": "Nothing dramatic happened this week. He ran the pause, the leave-line, the short apology, and the sleep anchor. That is what holding looks like from inside.",
+      "in_the_room": "You fold the course into a one-page steady week: cues, six seconds, exhale, leave-line, same-day ownership, and two boring-hour anchors.",
+      "what_you_leave_with": "You leave with a written steady-week plan and one measurable marker.",
+      "practice": "Complete a one-page steady-week plan with one weekly marker you will report to your facilitator or accountability partner.",
+      "science_or_note": "Small repeated anchors outperform rare heroic effort.",
+      "checkpoint_questions": [
+        {
+          "prompt": "What does this course ask you to leave with?",
+          "choices": [
+            "A promise to never feel the surge again",
+            "A trained pause, a named feeling, a fast repair, and daily habits that hold them up",
+            "A list of people who provoke you"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "How do you stack a steady week?",
+          "choices": [
+            "One big heroic day",
+            "Small anchors repeated until they hold",
+            "Waiting until life is less busy"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "The line of this session is?",
+          "choices": [
+            "Stack the small things until they hold.",
+            "White-knuckle every moment.",
+            "Skip the boring hours."
+          ],
+          "correct_index": 0
+        }
+      ],
+      "script_aids": {
+        "purpose": "Close with a written steady week the man can run and check.",
+        "practical_insight": "Stack the small things until they hold.",
+        "emotional_beat": "Recognition that leads to a concrete next move.",
+        "shape_motifs": [
+          "seven-day strip with steady checks",
+          "one-page week plan card",
+          "habit ticks repeating",
+          "checkpoint mark at week end"
+        ],
+        "do_not": [
+          "No faces, bodies, photographic people, or culture-specific dress",
+          "Do not present this course as court-ordered anger management or BIP",
+          "Do not require child contact for completion drills",
+          "Keep practices inside the rules that govern the man now",
+          "Do not invent doctrine that conflicts with keyline, practice, or checkpoints",
+          "Do not require friendship or romance between parents",
+          "Do not teach working around court orders"
+        ],
+        "bridge_from_prev": "From session 11 (Sleep, Food, Movement): carry the skill forward.",
+        "bridge_to_next": "Course close: run the written steady week and facilitator check-ins."
+      }
+    }
+  ],
+  "final_qa": [
+    {
+      "prompt": "Describe one real surge since you started this course: the trigger, where you caught it in your body, what the six seconds and exhale did, and how the moment ended."
+    },
+    {
+      "prompt": "Write the short apology you made or owe from a moment your anger got ahead of you: the exact words, said or planned, without defense."
+    },
+    {
+      "prompt": "Name the two daily habits you are running to raise your threshold, and your honest record of them across the last two weeks."
+    },
+    {
+      "prompt": "Write your steady-week plan in three lines: sleep anchor, movement block, and the line you will use when you need to step away."
+    }
+  ],
+  "disclaimer": "Not anger management, batterer intervention, or a substitute for any court-mandated program; not designed or validated for those purposes and never ordered in their place."
+}

@@ -1443,7 +1443,7 @@ window.FC_COURSE_DEMO = {
             "choices": [
               "Guesswork about fathering",
               "Dr. Ken Canfield's research-based Seven Secrets",
-              "Only military parenting tips"
+              "Advice from one dad's childhood"
             ],
             "correct_index": 1
           },
@@ -1526,7 +1526,7 @@ window.FC_COURSE_DEMO = {
           {
             "prompt": "A practical move for this secret is to:",
             "choices": [
-              "Ask and notice something specific about your child this week",
+              "Write a current profile of the child, with the mother or caregiver if that channel is safe",
               "Assume you already know them",
               "Lead with advice before listening"
             ],
@@ -1565,7 +1565,7 @@ window.FC_COURSE_DEMO = {
             "prompt": "If you must miss a standing time, the strong move is:",
             "choices": [
               "Skip quietly",
-              "Tell them ahead, name the new time, and keep it",
+              "Write the new time down, and keep it",
               "Make it up with a gift only"
             ],
             "correct_index": 1
@@ -1613,36 +1613,36 @@ window.FC_COURSE_DEMO = {
       {
         "id": "demo-fundamentals-6",
         "ord": 6,
-        "title": "Fifth Secret: Affirming and Encouraging",
+        "title": "Fifth Secret: Loving Their Mother",
         "vimeo_id": null,
         "duration_seconds": 480,
         "poster": "assets/img/session-stills/fathering-fundamentals/s05.png",
         "video_url": null,
         "checkpoint_json": [
           {
-            "prompt": "Affirming and Encouraging means:",
+            "prompt": "This secret still applies when you are not a couple. What does it require?",
             "choices": [
-              "Speak life: affirm who they are and encourage who they are becoming",
-              "Praise only grades",
-              "Avoid compliments so they stay humble"
+              "Honor her in how you speak. Never undercut her.",
+              "Win the breakup.",
+              "Pretend you are a couple again."
             ],
             "correct_index": 0
           },
           {
-            "prompt": "Why affirm who they are, not only what they do?",
+            "prompt": "Why does this secret exist?",
             "choices": [
-              "It builds identity and courage, not just performance",
-              "It is easier",
-              "It replaces discipline"
+              "Children should not have to choose a side or hear you tear her down.",
+              "So you win the argument.",
+              "So she likes you more."
             ],
             "correct_index": 0
           },
           {
-            "prompt": "A practice for this secret is:",
+            "prompt": "Which practice matches this session?",
             "choices": [
-              "Speak one specific affirmation and one encouragement this week",
-              "Wait for a big milestone",
-              "Compare them to another child"
+              "One sentence you will not say, and one civil child-only note if the channel is safe",
+              "A speech about the past",
+              "Ask the child to carry a message to her"
             ],
             "correct_index": 0
           }
@@ -1651,112 +1651,74 @@ window.FC_COURSE_DEMO = {
       {
         "id": "demo-fundamentals-7",
         "ord": 7,
-        "title": "Sixth Secret: Disciplining with Love",
+        "title": "Sixth Secret: Active Listening",
         "vimeo_id": null,
         "duration_seconds": 480,
         "poster": "assets/img/session-stills/fathering-fundamentals/s06.png",
         "video_url": null,
         "checkpoint_json": [
           {
-            "prompt": "Disciplining with Love means:",
+            "prompt": "Active listening means:",
             "choices": [
-              "Correction that trains, bound by love, not anger",
-              "Punishment that vents your frustration",
-              "Ignoring problems until they explode"
+              "Two-way, full attention, not an interrogation",
+              "Getting the last word",
+              "Asking until they confess"
             ],
             "correct_index": 0
           },
           {
-            "prompt": "What should bound correction in this session?",
+            "prompt": "The usual rival for your attention is:",
             "choices": [
-              "Anger",
-              "Love and a clear training purpose",
-              "Public shame"
+              "The phone",
+              "Their grades",
+              "The coparent"
             ],
-            "correct_index": 1
+            "correct_index": 0
           },
           {
-            "prompt": "When you correct, the aim is to:",
+            "prompt": "After they talk, the strong move is to:",
             "choices": [
-              "Win the moment",
-              "Train the child while keeping the relationship intact",
-              "Prove you were right"
+              "Say back what you heard",
+              "Give advice immediately",
+              "Change the subject"
             ],
-            "correct_index": 1
+            "correct_index": 0
           }
         ]
       },
       {
         "id": "demo-fundamentals-8",
         "ord": 8,
-        "title": "Seventh Secret: Modeling Integrity and Faith",
+        "title": "Seventh Secret: Spiritual Equipping",
         "vimeo_id": null,
         "duration_seconds": 480,
         "poster": "assets/img/session-stills/fathering-fundamentals/s07.png",
         "video_url": null,
         "checkpoint_json": [
           {
-            "prompt": "Modeling Integrity and Faith means:",
+            "prompt": "Spiritual equipping here means:",
             "choices": [
-              "Lead by example in faith and values",
-              "Tell them what to believe without living it",
-              "Keep faith private and unrelated to home"
+              "Grounded convictions you live, with room for faith",
+              "A required chapel track",
+              "Quoting scripture at your child"
             ],
             "correct_index": 0
           },
           {
-            "prompt": "Why does modeling matter more than lectures?",
+            "prompt": "Why leave room?",
             "choices": [
-              "Children learn what you live more than what you say",
-              "Lectures never work",
-              "Modeling is easier"
+              "Fathers come with faith and without. Kids watch what you live.",
+              "Faith does not belong in fathering.",
+              "Church attendance is the secret."
             ],
             "correct_index": 0
           },
           {
-            "prompt": "A practical move is:",
+            "prompt": "Which practice matches this session?",
             "choices": [
-              "Choose one value you will live visibly this week",
-              "Hide your mistakes",
-              "Outsource faith formation entirely"
-            ],
-            "correct_index": 0
-          }
-        ]
-      },
-      {
-        "id": "demo-fundamentals-9",
-        "ord": 9,
-        "title": "Bonus Secret  - Honoring the Father Who is Guiding You",
-        "vimeo_id": null,
-        "duration_seconds": 480,
-        "poster": "assets/img/session-stills/fathering-fundamentals/s08.png",
-        "video_url": null,
-        "checkpoint_json": [
-          {
-            "prompt": "The Bonus Secret centers on:",
-            "choices": [
-              "Honoring the Father who is guiding you",
-              "Skipping gratitude",
-              "Comparing your fathering to others online"
-            ],
-            "correct_index": 0
-          },
-          {
-            "prompt": "Why close with honor and guidance?",
-            "choices": [
-              "Fathering is received and passed on under guidance, not invented alone",
-              "So the course feels longer",
-              "To replace the seven secrets"
-            ],
-            "correct_index": 0
-          },
-          {
-            "prompt": "A fitting practice is:",
-            "choices": [
-              "Name how you will honor the guidance you have received as you father",
-              "Ignore the past entirely",
-              "Finish without reflection"
+              "One conviction lived in the open this week",
+              "Enroll in a church this week",
+              "Hide what you believe"
             ],
             "correct_index": 0
           }
@@ -1765,13 +1727,16 @@ window.FC_COURSE_DEMO = {
     ],
     "final_qa": [
       {
-        "prompt": "Name one presence commitment (physical, emotional, or spiritual) you will keep this week, and how your child will be able to feel it."
+        "prompt": "Name one Secret you will practice this week, and the concrete move that proves it."
       },
       {
-        "prompt": "Which of the Seven Secrets is your sharpest growth edge right now, and what is one practice you will run for fourteen days?"
+        "prompt": "What did the free assessment show you about where you are strong and where you want to grow?"
       },
       {
-        "prompt": "How will you honor the guidance you have received as you father, in one concrete action this month?"
+        "prompt": "Who will notice the change first if you keep this practice for thirty days?"
+      },
+      {
+        "prompt": "What will you do the next time you break a promise you wrote down?"
       }
     ]
   }
