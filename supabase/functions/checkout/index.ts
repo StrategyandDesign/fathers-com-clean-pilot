@@ -164,8 +164,6 @@ Deno.serve(async (req) => {
       message: "This is a priced credential and card payment is not yet enabled.",
     }, 200);
   }
-  // When STRIPE_SECRET_KEY is set, create a Checkout Session and return its URL.
-  // Fulfillment happens in checkout-webhook on checkout.session.completed.
   const params = new URLSearchParams({
     mode: "payment",
     "line_items[0][price_data][currency]": "usd",
