@@ -11,6 +11,7 @@
   var slug  = (qs('cert') || 'fundamentals').toLowerCase();
   var title = qs('title') || 'Fathering Fundamentals';
   var hours = qs('hours') || 'Facilitator-attested completion';
+  var hasActiveClaim = false;
 
   setText('certTitle', title);
   setText('certTitleSum', title);
@@ -18,10 +19,23 @@
   setText('priceLine', 'Free');
   setText('totalLine', 'Free');
 
-  function showSuccess(){
+  var CLAIM_OPEN = 'Films and your plan stay open. A certificate needs a Certified Facilitator or Organization to claim your seat.';
+  var CLAIM_HELD = 'Your seat is claimed by your program\u2019s Certified Facilitator or Certified Organization. Signed in and claimed, this button enrolls you at no cost.';
+
+  function paintSeat(claimed){
+    var cs = $('claimStatus');
+    if(cs) cs.textContent = claimed ? CLAIM_HELD : CLAIM_OPEN;
+  }
+
+  function showSuccess(claimed){
     var ep = $('enrollPanel'), sp = $('successPanel');
     if(ep) ep.style.display='none';
     if(sp) sp.style.display='';
+    var body = $('successBody');
+    if(body){
+      var extra = claimed ? '' : ' The certificate waits on a claimed seat.';
+      body.innerHTML = 'You are enrolled in <b class="bone" id="successTitle"></b> for training and progress. Start week one now.' + extra;
+    }
     setText('successTitle', title);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
@@ -34,7 +48,7 @@
     var cs = $('claimStatus');
     if(cs){
       cs.className = 'small';
-      cs.innerHTML = 'Films and your plan stay open. A certificate needs a Certified Facilitator or Organization to claim your seat.'+
+      cs.innerHTML = CLAIM_OPEN+
         '<div style="margin-top:12px;display:flex;flex-wrap:wrap;gap:10px;align-items:center">'+
           '<a class="btn btn-primary btn-sm" href="course.html?cert='+encodeURIComponent(slug)+'">Watch the films</a>'+
           '<a class="link ash" href="plan.html">Continue your free plan</a>'+
@@ -44,11 +58,24 @@
     note('You can train now. The certificate waits on a claimed seat.', '');
   }
 
+  function loadClaim(){
+    if(!(window.FC && FC.live && FC.sb)) return;
+    FC.ready.then(function(){
+      var uid = FC.uid && FC.uid();
+      if(!uid) return;
+      FC.sb.from('participant_claims').select('id').eq('user_id', uid).eq('status', 'active').limit(1)
+        .then(function(cr){
+          hasActiveClaim = !!(cr && cr.data && cr.data.length);
+          paintSeat(hasActiveClaim);
+        }, function(){ paintSeat(false); });
+    });
+  }
+
   function enroll(){
     var btn = $('enrollBtn');
 
     if(!(window.FC && FC.live)){
-      showSuccess(); return;
+      showSuccess(false); return;
     }
 
     FC.ready.then(function(){
@@ -67,8 +94,10 @@
         var err = r && r.error;
 
         if(d && d.enrolled){
-          if(d.claim_required_for_certificate) claimNote();
-          showSuccess();
+          var claimed = hasActiveClaim;
+          if(d.claim === true) claimed = true;
+          else if(d.claim === false || d.claim_required_for_certificate) claimed = false;
+          showSuccess(claimed);
           return;
         }
         if(d && (d.claim_required || d.claim_required_for_certificate)){
@@ -92,5 +121,6 @@
   document.addEventListener('DOMContentLoaded', function(){
     var btn = $('enrollBtn'); if(btn) btn.addEventListener('click', function(e){ e.preventDefault(); enroll(); });
     var begin = $('beginBtn'); if(begin) begin.setAttribute('href', 'course.html?cert=' + encodeURIComponent(slug));
+    loadClaim();
   });
 })();
