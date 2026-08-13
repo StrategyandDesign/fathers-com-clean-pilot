@@ -673,7 +673,7 @@ window.FC_COURSE_DEMO = {
         "ord": 1,
         "title": "The Body You Bring Home",
         "vimeo_id": null,
-        "duration_seconds": 720,
+        "duration_seconds": 378,
         "checkpoint_json": [
           {
             "prompt": "The session says your body did its job where you were. What is the work now?",
@@ -704,6 +704,7 @@ window.FC_COURSE_DEMO = {
           }
         ],
         "poster": "assets/img/session-stills/coming-home-present/s01.png",
+        "video_url": "assets/video/coming-home/s01-the-body-you-bring-home.mp4",
         "practice": {
           "title": "Body-state log and two home triggers",
           "prompt": "Keep a short body-state log. Name two likely home triggers.",
@@ -1303,7 +1304,7 @@ window.FC_COURSE_DEMO = {
         "ord": 1,
         "title": "One Team for the Children",
         "vimeo_id": null,
-        "duration_seconds": 720,
+        "duration_seconds": 378,
         "checkpoint_json": [
           {
             "prompt": "What is the one-sentence frame this course runs on?",
@@ -1334,6 +1335,7 @@ window.FC_COURSE_DEMO = {
           }
         ],
         "poster": "assets/img/session-stills/same-team/s01.png",
+        "video_url": "assets/video/same-team/s01-one-team-for-the-child.mp4",
         "practice": {
           "title": "One child-centered team sentence",
           "prompt": "Write it. Keep it where you will see it before hard contact.",
