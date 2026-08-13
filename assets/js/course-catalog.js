@@ -62,7 +62,7 @@
     // The platform is the source of truth for hours and session counts while
     // the database catches up. Slugs match the static data-cert values.
     var HOURS = {fundamentals:'1.1', reentry:'2.4', anger:'2.4', coparenting:'2.4', manhood:'6.0'};
-    var SESSIONS = {fundamentals:9, reentry:12, anger:12, coparenting:12, manhood:6};
+    var SESSIONS = {fundamentals:8, reentry:12, anger:12, coparenting:12, manhood:6};
     var shownHours = HOURS[c.slug] != null ? HOURS[c.slug] : c.hours;
     var sessN = SESSIONS[c.slug];
     var hrs = (sessN != null

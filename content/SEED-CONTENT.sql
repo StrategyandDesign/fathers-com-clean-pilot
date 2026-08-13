@@ -34,9 +34,9 @@ begin
     insert into quiz_questions (video_id, ord, prompt, choices, correct_index) values (vid, 1, 'What should you do before the First Secret sessions?', '["Skip the assessment and jump to Session 1", "Watch the overview and take the free assessment", "Wait until you finish all seven secrets"]'::jsonb, 1);
   end if;
   if exists (select 1 from quiz_questions where video_id = vid and ord = 2) then
-    update quiz_questions set prompt = 'What is this course built on?', choices = '["Guesswork about fathering", "Dr. Ken Canfield''s research-based Seven Secrets", "Only military parenting tips"]'::jsonb, correct_index = 1 where video_id = vid and ord = 2;
+    update quiz_questions set prompt = 'What is this course built on?', choices = '["Guesswork about fathering", "Dr. Ken Canfield''s research-based Seven Secrets", "Advice from one dad's childhood."]'::jsonb, correct_index = 1 where video_id = vid and ord = 2;
   else
-    insert into quiz_questions (video_id, ord, prompt, choices, correct_index) values (vid, 2, 'What is this course built on?', '["Guesswork about fathering", "Dr. Ken Canfield''s research-based Seven Secrets", "Only military parenting tips"]'::jsonb, 1);
+    insert into quiz_questions (video_id, ord, prompt, choices, correct_index) values (vid, 2, 'What is this course built on?', '["Guesswork about fathering", "Dr. Ken Canfield''s research-based Seven Secrets", "Advice from one dad's childhood."]'::jsonb, 1);
   end if;
   if exists (select 1 from quiz_questions where video_id = vid and ord = 3) then
     update quiz_questions set prompt = 'Why take the assessment first?', choices = '["So growth targets are personal, not generic", "So you can skip hard sessions", "So the course can grade your child"]'::jsonb, correct_index = 0 where video_id = vid and ord = 3;
@@ -85,9 +85,9 @@ begin
     insert into quiz_questions (video_id, ord, prompt, choices, correct_index) values (vid, 2, 'Knowing your child means mainly:', '["Tracking grades only", "Entering their world so they feel seen", "Correcting them faster"]'::jsonb, 1);
   end if;
   if exists (select 1 from quiz_questions where video_id = vid and ord = 3) then
-    update quiz_questions set prompt = 'A practical move for this secret is to:', choices = '["Ask and notice something specific about your child this week", "Assume you already know them", "Lead with advice before listening"]'::jsonb, correct_index = 0 where video_id = vid and ord = 3;
+    update quiz_questions set prompt = 'A practical move for this secret is to:', choices = '["Write a one-page profile of who this child is now, with the mother or caregiver if that channel is safe. No visit required.", "Assume you already know them", "Lead with advice before listening"]'::jsonb, correct_index = 0 where video_id = vid and ord = 3;
   else
-    insert into quiz_questions (video_id, ord, prompt, choices, correct_index) values (vid, 3, 'A practical move for this secret is to:', '["Ask and notice something specific about your child this week", "Assume you already know them", "Lead with advice before listening"]'::jsonb, 0);
+    insert into quiz_questions (video_id, ord, prompt, choices, correct_index) values (vid, 3, 'A practical move for this secret is to:', '["Write a one-page profile of who this child is now, with the mother or caregiver if that channel is safe. No visit required.", "Assume you already know them", "Lead with advice before listening"]'::jsonb, 0);
   end if;
 
   -- session 4: Third Secret: Showing Up Consistently
@@ -136,96 +136,73 @@ begin
     insert into quiz_questions (video_id, ord, prompt, choices, correct_index) values (vid, 3, 'A practical focus this week is:', '["Name one way you will protect or provide security this week", "Wait for a crisis", "Outsource all protection"]'::jsonb, 0);
   end if;
 
-  -- session 6: Fifth Secret: Affirming and Encouraging
+  -- session 6: Fifth Secret: Loving Their Mother
   select id into vid from course_videos where course_id = cid and ord = 6;
   if vid is null then
-    insert into course_videos (course_id, ord, title, video_url, duration_seconds) values (cid, 6, 'Fifth Secret: Affirming and Encouraging', 'pending', 480) returning id into vid;
+    insert into course_videos (course_id, ord, title, video_url, duration_seconds) values (cid, 6, 'Fifth Secret: Loving Their Mother', 'pending', 480) returning id into vid;
   else
-    update course_videos set title = 'Fifth Secret: Affirming and Encouraging', video_url = 'pending', duration_seconds = 480 where id = vid;
+    update course_videos set title = 'Fifth Secret: Loving Their Mother', video_url = 'pending', duration_seconds = 480 where id = vid;
   end if;
   if exists (select 1 from quiz_questions where video_id = vid and ord = 1) then
-    update quiz_questions set prompt = 'Affirming and Encouraging means:', choices = '["Speak life: affirm who they are and encourage who they are becoming", "Praise only grades", "Avoid compliments so they stay humble"]'::jsonb, correct_index = 0 where video_id = vid and ord = 1;
+    update quiz_questions set prompt = 'This secret still applies when you are not a couple. What does it require?', choices = '["Honor her in how you speak. Never undercut her.", "Win the breakup.", "Pretend you are a couple again."]'::jsonb, correct_index = 0 where video_id = vid and ord = 1;
   else
-    insert into quiz_questions (video_id, ord, prompt, choices, correct_index) values (vid, 1, 'Affirming and Encouraging means:', '["Speak life: affirm who they are and encourage who they are becoming", "Praise only grades", "Avoid compliments so they stay humble"]'::jsonb, 0);
+    insert into quiz_questions (video_id, ord, prompt, choices, correct_index) values (vid, 1, 'This secret still applies when you are not a couple. What does it require?', '["Honor her in how you speak. Never undercut her.", "Win the breakup.", "Pretend you are a couple again."]'::jsonb, 0);
   end if;
   if exists (select 1 from quiz_questions where video_id = vid and ord = 2) then
-    update quiz_questions set prompt = 'Why affirm who they are, not only what they do?', choices = '["It builds identity and courage, not just performance", "It is easier", "It replaces discipline"]'::jsonb, correct_index = 0 where video_id = vid and ord = 2;
+    update quiz_questions set prompt = 'Why does this secret exist?', choices = '["Children should not have to choose a side or hear you tear her down.", "So court goes easier.", "So she likes you more."]'::jsonb, correct_index = 0 where video_id = vid and ord = 2;
   else
-    insert into quiz_questions (video_id, ord, prompt, choices, correct_index) values (vid, 2, 'Why affirm who they are, not only what they do?', '["It builds identity and courage, not just performance", "It is easier", "It replaces discipline"]'::jsonb, 0);
+    insert into quiz_questions (video_id, ord, prompt, choices, correct_index) values (vid, 2, 'Why does this secret exist?', '["Children should not have to choose a side or hear you tear her down.", "So court goes easier.", "So she likes you more."]'::jsonb, 0);
   end if;
   if exists (select 1 from quiz_questions where video_id = vid and ord = 3) then
-    update quiz_questions set prompt = 'A practice for this secret is:', choices = '["Speak one specific affirmation and one encouragement this week", "Wait for a big milestone", "Compare them to another child"]'::jsonb, correct_index = 0 where video_id = vid and ord = 3;
+    update quiz_questions set prompt = 'Which practice matches this session?', choices = '["One sentence you will not say, and one civil child-only note if the channel is safe", "A speech about the past", "Ask the child to carry a message to her"]'::jsonb, correct_index = 0 where video_id = vid and ord = 3;
   else
-    insert into quiz_questions (video_id, ord, prompt, choices, correct_index) values (vid, 3, 'A practice for this secret is:', '["Speak one specific affirmation and one encouragement this week", "Wait for a big milestone", "Compare them to another child"]'::jsonb, 0);
+    insert into quiz_questions (video_id, ord, prompt, choices, correct_index) values (vid, 3, 'Which practice matches this session?', '["One sentence you will not say, and one civil child-only note if the channel is safe", "A speech about the past", "Ask the child to carry a message to her"]'::jsonb, 0);
   end if;
 
-  -- session 7: Sixth Secret: Disciplining with Love
+  -- session 7: Sixth Secret: Active Listening
   select id into vid from course_videos where course_id = cid and ord = 7;
   if vid is null then
-    insert into course_videos (course_id, ord, title, video_url, duration_seconds) values (cid, 7, 'Sixth Secret: Disciplining with Love', 'pending', 480) returning id into vid;
+    insert into course_videos (course_id, ord, title, video_url, duration_seconds) values (cid, 7, 'Sixth Secret: Active Listening', 'pending', 480) returning id into vid;
   else
-    update course_videos set title = 'Sixth Secret: Disciplining with Love', video_url = 'pending', duration_seconds = 480 where id = vid;
+    update course_videos set title = 'Sixth Secret: Active Listening', video_url = 'pending', duration_seconds = 480 where id = vid;
   end if;
   if exists (select 1 from quiz_questions where video_id = vid and ord = 1) then
-    update quiz_questions set prompt = 'Disciplining with Love means:', choices = '["Correction that trains, bound by love, not anger", "Punishment that vents your frustration", "Ignoring problems until they explode"]'::jsonb, correct_index = 0 where video_id = vid and ord = 1;
+    update quiz_questions set prompt = 'Active listening means:', choices = '["Two-way, full attention, not an interrogation", "Getting the last word", "Asking until they confess"]'::jsonb, correct_index = 0 where video_id = vid and ord = 1;
   else
-    insert into quiz_questions (video_id, ord, prompt, choices, correct_index) values (vid, 1, 'Disciplining with Love means:', '["Correction that trains, bound by love, not anger", "Punishment that vents your frustration", "Ignoring problems until they explode"]'::jsonb, 0);
+    insert into quiz_questions (video_id, ord, prompt, choices, correct_index) values (vid, 1, 'Active listening means:', '["Two-way, full attention, not an interrogation", "Getting the last word", "Asking until they confess"]'::jsonb, 0);
   end if;
   if exists (select 1 from quiz_questions where video_id = vid and ord = 2) then
-    update quiz_questions set prompt = 'What should bound correction in this session?', choices = '["Anger", "Love and a clear training purpose", "Public shame"]'::jsonb, correct_index = 1 where video_id = vid and ord = 2;
+    update quiz_questions set prompt = 'The usual rival for your attention is:', choices = '["The phone", "Their grades", "The coparent"]'::jsonb, correct_index = 0 where video_id = vid and ord = 2;
   else
-    insert into quiz_questions (video_id, ord, prompt, choices, correct_index) values (vid, 2, 'What should bound correction in this session?', '["Anger", "Love and a clear training purpose", "Public shame"]'::jsonb, 1);
+    insert into quiz_questions (video_id, ord, prompt, choices, correct_index) values (vid, 2, 'The usual rival for your attention is:', '["The phone", "Their grades", "The coparent"]'::jsonb, 0);
   end if;
   if exists (select 1 from quiz_questions where video_id = vid and ord = 3) then
-    update quiz_questions set prompt = 'When you correct, the aim is to:', choices = '["Win the moment", "Train the child while keeping the relationship intact", "Prove you were right"]'::jsonb, correct_index = 1 where video_id = vid and ord = 3;
+    update quiz_questions set prompt = 'After they talk, the strong move is to:', choices = '["Say back what you heard", "Give advice immediately", "Change the subject"]'::jsonb, correct_index = 0 where video_id = vid and ord = 3;
   else
-    insert into quiz_questions (video_id, ord, prompt, choices, correct_index) values (vid, 3, 'When you correct, the aim is to:', '["Win the moment", "Train the child while keeping the relationship intact", "Prove you were right"]'::jsonb, 1);
+    insert into quiz_questions (video_id, ord, prompt, choices, correct_index) values (vid, 3, 'After they talk, the strong move is to:', '["Say back what you heard", "Give advice immediately", "Change the subject"]'::jsonb, 0);
   end if;
 
-  -- session 8: Seventh Secret: Modeling Integrity and Faith
+  -- session 8: Seventh Secret: Spiritual Equipping
   select id into vid from course_videos where course_id = cid and ord = 8;
   if vid is null then
-    insert into course_videos (course_id, ord, title, video_url, duration_seconds) values (cid, 8, 'Seventh Secret: Modeling Integrity and Faith', 'pending', 480) returning id into vid;
+    insert into course_videos (course_id, ord, title, video_url, duration_seconds) values (cid, 8, 'Seventh Secret: Spiritual Equipping', 'pending', 480) returning id into vid;
   else
-    update course_videos set title = 'Seventh Secret: Modeling Integrity and Faith', video_url = 'pending', duration_seconds = 480 where id = vid;
+    update course_videos set title = 'Seventh Secret: Spiritual Equipping', video_url = 'pending', duration_seconds = 480 where id = vid;
   end if;
   if exists (select 1 from quiz_questions where video_id = vid and ord = 1) then
-    update quiz_questions set prompt = 'Modeling Integrity and Faith means:', choices = '["Lead by example in faith and values", "Tell them what to believe without living it", "Keep faith private and unrelated to home"]'::jsonb, correct_index = 0 where video_id = vid and ord = 1;
+    update quiz_questions set prompt = 'Spiritual equipping here means:', choices = '["Grounded convictions you live, with room for faith", "A required chapel track", "Quoting scripture at your child"]'::jsonb, correct_index = 0 where video_id = vid and ord = 1;
   else
-    insert into quiz_questions (video_id, ord, prompt, choices, correct_index) values (vid, 1, 'Modeling Integrity and Faith means:', '["Lead by example in faith and values", "Tell them what to believe without living it", "Keep faith private and unrelated to home"]'::jsonb, 0);
+    insert into quiz_questions (video_id, ord, prompt, choices, correct_index) values (vid, 1, 'Spiritual equipping here means:', '["Grounded convictions you live, with room for faith", "A required chapel track", "Quoting scripture at your child"]'::jsonb, 0);
   end if;
   if exists (select 1 from quiz_questions where video_id = vid and ord = 2) then
-    update quiz_questions set prompt = 'Why does modeling matter more than lectures?', choices = '["Children learn what you live more than what you say", "Lectures never work", "Modeling is easier"]'::jsonb, correct_index = 0 where video_id = vid and ord = 2;
+    update quiz_questions set prompt = 'Why leave room?', choices = '["Fathers come with faith and without. Kids watch what you live.", "Faith does not belong in fathering.", "Church attendance is the secret."]'::jsonb, correct_index = 0 where video_id = vid and ord = 2;
   else
-    insert into quiz_questions (video_id, ord, prompt, choices, correct_index) values (vid, 2, 'Why does modeling matter more than lectures?', '["Children learn what you live more than what you say", "Lectures never work", "Modeling is easier"]'::jsonb, 0);
+    insert into quiz_questions (video_id, ord, prompt, choices, correct_index) values (vid, 2, 'Why leave room?', '["Fathers come with faith and without. Kids watch what you live.", "Faith does not belong in fathering.", "Church attendance is the secret."]'::jsonb, 0);
   end if;
   if exists (select 1 from quiz_questions where video_id = vid and ord = 3) then
-    update quiz_questions set prompt = 'A practical move is:', choices = '["Choose one value you will live visibly this week", "Hide your mistakes", "Outsource faith formation entirely"]'::jsonb, correct_index = 0 where video_id = vid and ord = 3;
+    update quiz_questions set prompt = 'Which practice matches this session?', choices = '["One conviction lived in the open this week", "Enroll in a church this week", "Hide what you believe"]'::jsonb, correct_index = 0 where video_id = vid and ord = 3;
   else
-    insert into quiz_questions (video_id, ord, prompt, choices, correct_index) values (vid, 3, 'A practical move is:', '["Choose one value you will live visibly this week", "Hide your mistakes", "Outsource faith formation entirely"]'::jsonb, 0);
-  end if;
-
-  -- session 9: Bonus Secret - Honoring the Father Who is Guiding You
-  select id into vid from course_videos where course_id = cid and ord = 9;
-  if vid is null then
-    insert into course_videos (course_id, ord, title, video_url, duration_seconds) values (cid, 9, 'Bonus Secret - Honoring the Father Who is Guiding You', 'pending', 480) returning id into vid;
-  else
-    update course_videos set title = 'Bonus Secret - Honoring the Father Who is Guiding You', video_url = 'pending', duration_seconds = 480 where id = vid;
-  end if;
-  if exists (select 1 from quiz_questions where video_id = vid and ord = 1) then
-    update quiz_questions set prompt = 'The Bonus Secret centers on:', choices = '["Honoring the Father who is guiding you", "Skipping gratitude", "Comparing your fathering to others online"]'::jsonb, correct_index = 0 where video_id = vid and ord = 1;
-  else
-    insert into quiz_questions (video_id, ord, prompt, choices, correct_index) values (vid, 1, 'The Bonus Secret centers on:', '["Honoring the Father who is guiding you", "Skipping gratitude", "Comparing your fathering to others online"]'::jsonb, 0);
-  end if;
-  if exists (select 1 from quiz_questions where video_id = vid and ord = 2) then
-    update quiz_questions set prompt = 'Why close with honor and guidance?', choices = '["Fathering is received and passed on under guidance, not invented alone", "So the course feels longer", "To replace the seven secrets"]'::jsonb, correct_index = 0 where video_id = vid and ord = 2;
-  else
-    insert into quiz_questions (video_id, ord, prompt, choices, correct_index) values (vid, 2, 'Why close with honor and guidance?', '["Fathering is received and passed on under guidance, not invented alone", "So the course feels longer", "To replace the seven secrets"]'::jsonb, 0);
-  end if;
-  if exists (select 1 from quiz_questions where video_id = vid and ord = 3) then
-    update quiz_questions set prompt = 'A fitting practice is:', choices = '["Name how you will honor the guidance you have received as you father", "Ignore the past entirely", "Finish without reflection"]'::jsonb, correct_index = 0 where video_id = vid and ord = 3;
-  else
-    insert into quiz_questions (video_id, ord, prompt, choices, correct_index) values (vid, 3, 'A fitting practice is:', '["Name how you will honor the guidance you have received as you father", "Ignore the past entirely", "Finish without reflection"]'::jsonb, 0);
+    insert into quiz_questions (video_id, ord, prompt, choices, correct_index) values (vid, 3, 'Which practice matches this session?', '["One conviction lived in the open this week", "Enroll in a church this week", "Hide what you believe"]'::jsonb, 0);
   end if;
   if exists (select 1 from final_qa_questions where course_id = cid and ord = 1) then
     update final_qa_questions set prompt = 'Name one Secret you will practice this week, and the concrete move that proves it.' where course_id = cid and ord = 1;
@@ -541,9 +518,9 @@ begin
     insert into final_qa_questions (course_id, ord, prompt) values (cid, 1, 'Describe your body''s alarm firing at home or in rehearsal since you started this course: the trigger, what the old response would have been, and what you did instead.');
   end if;
   if exists (select 1 from final_qa_questions where course_id = cid and ord = 2) then
-    update final_qa_questions set prompt = 'List the small deposits you have running right now: what you promised, to which child, and your record of keeping each one. What is the next deposit you will add?' where course_id = cid and ord = 2;
+    update final_qa_questions set prompt = 'List the small deposits you have running right now: what you promised, to which child and/or significant other, and your record of keeping each one. What is the next deposit you will add?' where course_id = cid and ord = 2;
   else
-    insert into final_qa_questions (course_id, ord, prompt) values (cid, 2, 'List the small deposits you have running right now: what you promised, to which child, and your record of keeping each one. What is the next deposit you will add?');
+    insert into final_qa_questions (course_id, ord, prompt) values (cid, 2, 'List the small deposits you have running right now: what you promised, to which child and/or significant other, and your record of keeping each one. What is the next deposit you will add?');
   end if;
   if exists (select 1 from final_qa_questions where course_id = cid and ord = 3) then
     update final_qa_questions set prompt = 'Write your first-hour plan for the reunion, or describe how the first hour actually went: the setting, your opening move with kids and/or your significant other, and your plan if a child pulls away.' where course_id = cid and ord = 3;
@@ -571,9 +548,9 @@ begin
   -- session 1: The Surge Is a Signal
   select id into vid from course_videos where course_id = cid and ord = 1;
   if vid is null then
-    insert into course_videos (course_id, ord, title, video_url, duration_seconds) values (cid, 1, 'The Surge Is a Signal', 'pending', 720) returning id into vid;
+    insert into course_videos (course_id, ord, title, video_url, duration_seconds) values (cid, 1, 'The Surge Is a Signal', 'assets/video/steady/s01-the-surge-is-a-signal.mp4', 502) returning id into vid;
   else
-    update course_videos set title = 'The Surge Is a Signal', video_url = 'pending', duration_seconds = 720 where id = vid;
+    update course_videos set title = 'The Surge Is a Signal', video_url = 'assets/video/steady/s01-the-surge-is-a-signal.mp4', duration_seconds = 502 where id = vid;
   end if;
   if exists (select 1 from quiz_questions where video_id = vid and ord = 1) then
     update quiz_questions set prompt = 'What does this session call the surge you feel when anger hits?', choices = '["A signal, not an order", "A weakness to eliminate", "An order your body must obey"]'::jsonb, correct_index = 0 where video_id = vid and ord = 1;
@@ -594,9 +571,9 @@ begin
   -- session 2: Know Your Early Cues
   select id into vid from course_videos where course_id = cid and ord = 2;
   if vid is null then
-    insert into course_videos (course_id, ord, title, video_url, duration_seconds) values (cid, 2, 'Know Your Early Cues', 'pending', 720) returning id into vid;
+    insert into course_videos (course_id, ord, title, video_url, duration_seconds) values (cid, 2, 'Know Your Early Cues', 'assets/video/steady/s02-know-your-early-cues.mp4', 518) returning id into vid;
   else
-    update course_videos set title = 'Know Your Early Cues', video_url = 'pending', duration_seconds = 720 where id = vid;
+    update course_videos set title = 'Know Your Early Cues', video_url = 'assets/video/steady/s02-know-your-early-cues.mp4', duration_seconds = 518 where id = vid;
   end if;
   if exists (select 1 from quiz_questions where video_id = vid and ord = 1) then
     update quiz_questions set prompt = 'Where does this session tell you to catch the surge?', choices = '["In the shout", "In the jaw, or your earliest body cue", "After the argument ends"]'::jsonb, correct_index = 1 where video_id = vid and ord = 1;
@@ -617,9 +594,9 @@ begin
   -- session 3: Six Seconds
   select id into vid from course_videos where course_id = cid and ord = 3;
   if vid is null then
-    insert into course_videos (course_id, ord, title, video_url, duration_seconds) values (cid, 3, 'Six Seconds', 'pending', 720) returning id into vid;
+    insert into course_videos (course_id, ord, title, video_url, duration_seconds) values (cid, 3, 'Six Seconds', 'assets/video/steady/s03-six-seconds.mp4', 498) returning id into vid;
   else
-    update course_videos set title = 'Six Seconds', video_url = 'pending', duration_seconds = 720 where id = vid;
+    update course_videos set title = 'Six Seconds', video_url = 'assets/video/steady/s03-six-seconds.mp4', duration_seconds = 498 where id = vid;
   end if;
   if exists (select 1 from quiz_questions where video_id = vid and ord = 1) then
     update quiz_questions set prompt = 'What do six seconds buy you, per this session?', choices = '["Your judgment back", "The other person''s apology", "The end of the feeling"]'::jsonb, correct_index = 0 where video_id = vid and ord = 1;
@@ -640,9 +617,9 @@ begin
   -- session 4: The Long Exhale
   select id into vid from course_videos where course_id = cid and ord = 4;
   if vid is null then
-    insert into course_videos (course_id, ord, title, video_url, duration_seconds) values (cid, 4, 'The Long Exhale', 'pending', 720) returning id into vid;
+    insert into course_videos (course_id, ord, title, video_url, duration_seconds) values (cid, 4, 'The Long Exhale', 'assets/video/steady/s04-the-long-exhale.mp4', 484) returning id into vid;
   else
-    update course_videos set title = 'The Long Exhale', video_url = 'pending', duration_seconds = 720 where id = vid;
+    update course_videos set title = 'The Long Exhale', video_url = 'assets/video/steady/s04-the-long-exhale.mp4', duration_seconds = 484 where id = vid;
   end if;
   if exists (select 1 from quiz_questions where video_id = vid and ord = 1) then
     update quiz_questions set prompt = 'Why the long exhale specifically?', choices = '["It looks calm to others", "A long slow exhale stands the body down faster than willpower does", "It gives you something to count"]'::jsonb, correct_index = 1 where video_id = vid and ord = 1;
@@ -663,9 +640,9 @@ begin
   -- session 5: Step Away to Come Back
   select id into vid from course_videos where course_id = cid and ord = 5;
   if vid is null then
-    insert into course_videos (course_id, ord, title, video_url, duration_seconds) values (cid, 5, 'Step Away to Come Back', 'pending', 720) returning id into vid;
+    insert into course_videos (course_id, ord, title, video_url, duration_seconds) values (cid, 5, 'Step Away to Come Back', 'assets/video/steady/s05-step-away-to-come-back.mp4', 467) returning id into vid;
   else
-    update course_videos set title = 'Step Away to Come Back', video_url = 'pending', duration_seconds = 720 where id = vid;
+    update course_videos set title = 'Step Away to Come Back', video_url = 'assets/video/steady/s05-step-away-to-come-back.mp4', duration_seconds = 467 where id = vid;
   end if;
   if exists (select 1 from quiz_questions where video_id = vid and ord = 1) then
     update quiz_questions set prompt = 'What is the purpose of stepping away in this session?', choices = '["To win the argument by leaving", "To come back; the step away serves the return", "To show how upset you are"]'::jsonb, correct_index = 1 where video_id = vid and ord = 1;
@@ -686,9 +663,9 @@ begin
   -- session 6: The Line You Leave On
   select id into vid from course_videos where course_id = cid and ord = 6;
   if vid is null then
-    insert into course_videos (course_id, ord, title, video_url, duration_seconds) values (cid, 6, 'The Line You Leave On', 'pending', 720) returning id into vid;
+    insert into course_videos (course_id, ord, title, video_url, duration_seconds) values (cid, 6, 'The Line You Leave On', 'assets/video/steady/s06-the-line-you-leave-on.mp4', 494) returning id into vid;
   else
-    update course_videos set title = 'The Line You Leave On', video_url = 'pending', duration_seconds = 720 where id = vid;
+    update course_videos set title = 'The Line You Leave On', video_url = 'assets/video/steady/s06-the-line-you-leave-on.mp4', duration_seconds = 494 where id = vid;
   end if;
   if exists (select 1 from quiz_questions where video_id = vid and ord = 1) then
     update quiz_questions set prompt = 'What belongs in the line you leave on?', choices = '["A long explanation of why you are right", "A short line that names the break and when you return", "Silence, then disappear"]'::jsonb, correct_index = 1 where video_id = vid and ord = 1;
@@ -709,9 +686,9 @@ begin
   -- session 7: Name the Feeling
   select id into vid from course_videos where course_id = cid and ord = 7;
   if vid is null then
-    insert into course_videos (course_id, ord, title, video_url, duration_seconds) values (cid, 7, 'Name the Feeling', 'pending', 720) returning id into vid;
+    insert into course_videos (course_id, ord, title, video_url, duration_seconds) values (cid, 7, 'Name the Feeling', 'assets/video/steady/s07-name-the-feeling.mp4', 481) returning id into vid;
   else
-    update course_videos set title = 'Name the Feeling', video_url = 'pending', duration_seconds = 720 where id = vid;
+    update course_videos set title = 'Name the Feeling', video_url = 'assets/video/steady/s07-name-the-feeling.mp4', duration_seconds = 481 where id = vid;
   end if;
   if exists (select 1 from quiz_questions where video_id = vid and ord = 1) then
     update quiz_questions set prompt = 'Why does saying the feeling out loud matter, per this session?', choices = '["So you do not have to show it instead", "So others feel responsible for it", "It does not; feelings should stay private"]'::jsonb, correct_index = 0 where video_id = vid and ord = 1;
@@ -732,9 +709,9 @@ begin
   -- session 8: Feelings Without Weapons
   select id into vid from course_videos where course_id = cid and ord = 8;
   if vid is null then
-    insert into course_videos (course_id, ord, title, video_url, duration_seconds) values (cid, 8, 'Feelings Without Weapons', 'pending', 720) returning id into vid;
+    insert into course_videos (course_id, ord, title, video_url, duration_seconds) values (cid, 8, 'Feelings Without Weapons', 'assets/video/steady/s08-feelings-without-weapons.mp4', 528) returning id into vid;
   else
-    update course_videos set title = 'Feelings Without Weapons', video_url = 'pending', duration_seconds = 720 where id = vid;
+    update course_videos set title = 'Feelings Without Weapons', video_url = 'assets/video/steady/s08-feelings-without-weapons.mp4', duration_seconds = 528 where id = vid;
   end if;
   if exists (select 1 from quiz_questions where video_id = vid and ord = 1) then
     update quiz_questions set prompt = 'What does ''without loading it'' mean here?', choices = '["Never feel anger", "Name the feeling without blame, insults, or history dumps", "Only write feelings, never say them"]'::jsonb, correct_index = 1 where video_id = vid and ord = 1;
@@ -755,9 +732,9 @@ begin
   -- session 9: Own It Same Day
   select id into vid from course_videos where course_id = cid and ord = 9;
   if vid is null then
-    insert into course_videos (course_id, ord, title, video_url, duration_seconds) values (cid, 9, 'Own It Same Day', 'pending', 720) returning id into vid;
+    insert into course_videos (course_id, ord, title, video_url, duration_seconds) values (cid, 9, 'Own It Same Day', 'assets/video/steady/s09-own-it-same-day.mp4', 503) returning id into vid;
   else
-    update course_videos set title = 'Own It Same Day', video_url = 'pending', duration_seconds = 720 where id = vid;
+    update course_videos set title = 'Own It Same Day', video_url = 'assets/video/steady/s09-own-it-same-day.mp4', duration_seconds = 503 where id = vid;
   end if;
   if exists (select 1 from quiz_questions where video_id = vid and ord = 1) then
     update quiz_questions set prompt = 'What is the standard for owning it, per this session?', choices = '["Out loud, same day, without excuses", "A general apology when things are calm next week", "Letting actions speak over time"]'::jsonb, correct_index = 0 where video_id = vid and ord = 1;
@@ -778,9 +755,9 @@ begin
   -- session 10: The Short Apology
   select id into vid from course_videos where course_id = cid and ord = 10;
   if vid is null then
-    insert into course_videos (course_id, ord, title, video_url, duration_seconds) values (cid, 10, 'The Short Apology', 'pending', 720) returning id into vid;
+    insert into course_videos (course_id, ord, title, video_url, duration_seconds) values (cid, 10, 'The Short Apology', 'assets/video/steady/s10-the-short-apology.mp4', 502) returning id into vid;
   else
-    update course_videos set title = 'The Short Apology', video_url = 'pending', duration_seconds = 720 where id = vid;
+    update course_videos set title = 'The Short Apology', video_url = 'assets/video/steady/s10-the-short-apology.mp4', duration_seconds = 502 where id = vid;
   end if;
   if exists (select 1 from quiz_questions where video_id = vid and ord = 1) then
     update quiz_questions set prompt = 'Which of these is a repair and not an excuse?', choices = '["I was tired; you know how my week was.", "I raised my voice at you. That was wrong, and it is mine to fix.", "I am sorry you got upset."]'::jsonb, correct_index = 1 where video_id = vid and ord = 1;
@@ -801,9 +778,9 @@ begin
   -- session 11: Sleep, Food, Movement
   select id into vid from course_videos where course_id = cid and ord = 11;
   if vid is null then
-    insert into course_videos (course_id, ord, title, video_url, duration_seconds) values (cid, 11, 'Sleep, Food, Movement', 'pending', 720) returning id into vid;
+    insert into course_videos (course_id, ord, title, video_url, duration_seconds) values (cid, 11, 'Sleep, Food, Movement', 'assets/video/steady/s11-sleep-food-movement.mp4', 509) returning id into vid;
   else
-    update course_videos set title = 'Sleep, Food, Movement', video_url = 'pending', duration_seconds = 720 where id = vid;
+    update course_videos set title = 'Sleep, Food, Movement', video_url = 'assets/video/steady/s11-sleep-food-movement.mp4', duration_seconds = 509 where id = vid;
   end if;
   if exists (select 1 from quiz_questions where video_id = vid and ord = 1) then
     update quiz_questions set prompt = 'Where does this session say steadiness is actually built?', choices = '["In dramatic moments of self-control", "In the boring hours: sleep, food, movement", "In willpower alone"]'::jsonb, correct_index = 1 where video_id = vid and ord = 1;
@@ -824,9 +801,9 @@ begin
   -- session 12: Your Steady Week
   select id into vid from course_videos where course_id = cid and ord = 12;
   if vid is null then
-    insert into course_videos (course_id, ord, title, video_url, duration_seconds) values (cid, 12, 'Your Steady Week', 'pending', 720) returning id into vid;
+    insert into course_videos (course_id, ord, title, video_url, duration_seconds) values (cid, 12, 'Your Steady Week', 'assets/video/steady/s12-your-steady-week.mp4', 524) returning id into vid;
   else
-    update course_videos set title = 'Your Steady Week', video_url = 'pending', duration_seconds = 720 where id = vid;
+    update course_videos set title = 'Your Steady Week', video_url = 'assets/video/steady/s12-your-steady-week.mp4', duration_seconds = 524 where id = vid;
   end if;
   if exists (select 1 from quiz_questions where video_id = vid and ord = 1) then
     update quiz_questions set prompt = 'What does this course ask you to leave with?', choices = '["A promise to never feel the surge again", "A trained pause, a named feeling, a fast repair, and daily habits that hold them up", "A list of people who provoke you"]'::jsonb, correct_index = 1 where video_id = vid and ord = 1;
