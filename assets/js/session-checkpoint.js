@@ -23,6 +23,10 @@
     var course = el.getAttribute('data-course');
     var session = el.getAttribute('data-session');
     var pack = packFor(course, session);
+    var href = 'course.html?preview=1&cert=' + encodeURIComponent(course || '');
+    el.innerHTML = '<p class="fine ash">Take the checkpoint in the player after the film. Answers are not on this page.</p>'+
+      '<p style="margin:8px 0 0"><a class="btn btn-secondary btn-sm" href="'+href+'">Open the player</a></p>';
+    return;
     if (!pack || !pack.questions || !pack.questions.length) {
       el.innerHTML = '<p class="fine ash">Checkpoint questions coming soon.</p>';
       return;

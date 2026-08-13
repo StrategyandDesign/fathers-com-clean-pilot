@@ -20,7 +20,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Watch the overview and take the free assessment",
               "Wait until you finish all seven secrets"
             ],
-            "correct_index": 1,
             "feedback": ""
           },
           {
@@ -30,7 +29,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Dr. Ken Canfield's research-based Seven Secrets",
               "Advice from one dad's childhood"
             ],
-            "correct_index": 1,
             "feedback": ""
           },
           {
@@ -40,7 +38,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "So you can skip hard sessions",
               "So the course can grade your child"
             ],
-            "correct_index": 0,
             "feedback": ""
           }
         ]
@@ -59,7 +56,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Winning every argument at home",
               "Providing money without being present"
             ],
-            "correct_index": 0,
             "feedback": ""
           },
           {
@@ -69,7 +65,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Trust and lasting influence",
               "A perfect schedule"
             ],
-            "correct_index": 1,
             "feedback": ""
           },
           {
@@ -79,7 +74,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Buy a bigger gift",
               "Avoid hard conversations"
             ],
-            "correct_index": 0,
             "feedback": ""
           }
         ]
@@ -98,7 +92,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Comparing them to siblings",
               "Waiting until they are older"
             ],
-            "correct_index": 0,
             "feedback": ""
           },
           {
@@ -108,7 +101,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Entering their world so they feel seen",
               "Correcting them faster"
             ],
-            "correct_index": 1,
             "feedback": ""
           },
           {
@@ -118,7 +110,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Assume you already know them",
               "Lead with advice before listening"
             ],
-            "correct_index": 0,
             "feedback": ""
           }
         ]
@@ -137,7 +128,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Stability through consistent actions, values, and discipline",
               "Flexibility with no patterns"
             ],
-            "correct_index": 1,
             "feedback": ""
           },
           {
@@ -147,7 +137,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Never changing plans",
               "Being perfect every day"
             ],
-            "correct_index": 0,
             "feedback": ""
           },
           {
@@ -157,7 +146,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Write the new time down, and keep it",
               "Make it up with a gift only"
             ],
-            "correct_index": 1,
             "feedback": ""
           }
         ]
@@ -176,7 +164,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Only financial provision",
               "Only physical safety"
             ],
-            "correct_index": 0,
             "feedback": ""
           },
           {
@@ -186,7 +173,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "A father who keeps them safe and provided for across those dimensions",
               "Strict silence about hard topics"
             ],
-            "correct_index": 1,
             "feedback": ""
           },
           {
@@ -196,7 +182,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Wait for a crisis",
               "Outsource all protection"
             ],
-            "correct_index": 0,
             "feedback": ""
           }
         ]
@@ -215,7 +200,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Win the breakup.",
               "Pretend you are a couple again."
             ],
-            "correct_index": 0,
             "feedback": ""
           },
           {
@@ -225,7 +209,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "So you win the argument.",
               "So she likes you more."
             ],
-            "correct_index": 0,
             "feedback": ""
           },
           {
@@ -235,7 +218,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "A speech about the past",
               "Ask the child to carry a message to her"
             ],
-            "correct_index": 0,
             "feedback": ""
           }
         ]
@@ -254,7 +236,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Getting the last word",
               "Asking until they confess"
             ],
-            "correct_index": 0,
             "feedback": ""
           },
           {
@@ -264,7 +245,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Their grades",
               "The coparent"
             ],
-            "correct_index": 0,
             "feedback": ""
           },
           {
@@ -274,7 +254,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Give advice immediately",
               "Change the subject"
             ],
-            "correct_index": 0,
             "feedback": ""
           }
         ]
@@ -293,7 +272,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "A required chapel track",
               "Quoting scripture at your child"
             ],
-            "correct_index": 0,
             "feedback": ""
           },
           {
@@ -303,7 +281,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Faith does not belong in fathering.",
               "Church attendance is the secret."
             ],
-            "correct_index": 0,
             "feedback": ""
           },
           {
@@ -313,7 +290,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Enroll in a church this week",
               "Hide what you believe"
             ],
-            "correct_index": 0,
             "feedback": ""
           }
         ]
@@ -339,7 +315,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Teaching your body that home is not there",
               "Staying on guard, since habits keep you safe"
             ],
-            "correct_index": 1,
             "feedback": ""
           },
           {
@@ -349,7 +324,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "A trained response firing where it is no longer needed",
               "Proof you are not ready"
             ],
-            "correct_index": 1,
             "feedback": ""
           },
           {
@@ -359,7 +333,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "A slow exhale practice that tells your body the threat level here",
               "Pushing through and ignoring the surge"
             ],
-            "correct_index": 1,
             "feedback": ""
           }
         ]
@@ -378,7 +351,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "The difference between there and home",
               "Avoiding every loud room"
             ],
-            "correct_index": 1,
             "feedback": ""
           },
           {
@@ -388,7 +360,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "So you can argue you are fine",
               "It is optional filler"
             ],
-            "correct_index": 0,
             "feedback": ""
           },
           {
@@ -398,7 +369,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Stay silent until reunion day",
               "Only practice after a blowup"
             ],
-            "correct_index": 0,
             "feedback": ""
           }
         ]
@@ -417,7 +387,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Fight it until it passes",
               "Take it as the truth about how the return is going"
             ],
-            "correct_index": 0,
             "feedback": ""
           },
           {
@@ -427,7 +396,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "You are on the wave the session told you to expect",
               "You need to try harder tomorrow to prove it"
             ],
-            "correct_index": 1,
             "feedback": ""
           },
           {
@@ -437,7 +405,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Sleep anchors, fewer commitments, and a written rule for hard days",
               "Waiting to plan until you feel settled"
             ],
-            "correct_index": 1,
             "feedback": ""
           }
         ]
@@ -456,7 +423,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Few commitments, kept without fail",
               "Wait to commit to anything until you feel settled"
             ],
-            "correct_index": 1,
             "feedback": ""
           },
           {
@@ -466,7 +432,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "A kept small promise builds trust; a broken big one costs more",
               "Courts require fewer promises"
             ],
-            "correct_index": 1,
             "feedback": ""
           },
           {
@@ -476,7 +441,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Promise two and keep both",
               "Promise none so you cannot fail"
             ],
-            "correct_index": 1,
             "feedback": ""
           }
         ]
@@ -495,7 +459,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "The child in front of you now",
               "The child you hoped they would become"
             ],
-            "correct_index": 1,
             "feedback": ""
           },
           {
@@ -505,7 +468,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Learn the new world with questions, from the start",
               "Give it time and let them come to you"
             ],
-            "correct_index": 1,
             "feedback": ""
           },
           {
@@ -515,7 +477,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "They fill awkward silence",
               "They test what the child remembers about you"
             ],
-            "correct_index": 0,
             "feedback": ""
           }
         ]
@@ -534,7 +495,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Ask many rapid questions.",
               "Assume you still know them."
             ],
-            "correct_index": 0,
             "feedback": ""
           },
           {
@@ -544,7 +504,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Listen longer than you talk, then reflect one thing you heard",
               "Change the subject to your own story"
             ],
-            "correct_index": 1,
             "feedback": ""
           },
           {
@@ -554,7 +513,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Questions impress the court",
               "Listening is optional"
             ],
-            "correct_index": 0,
             "feedback": ""
           }
         ]
@@ -573,7 +531,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Small and often beats big and rare",
               "Words beat actions early on"
             ],
-            "correct_index": 1,
             "feedback": ""
           },
           {
@@ -583,7 +540,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "A large gift on a birthday",
               "A promise about next year"
             ],
-            "correct_index": 0,
             "feedback": ""
           },
           {
@@ -593,7 +549,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Each kept promise is evidence, and evidence stacks",
               "They cost less"
             ],
-            "correct_index": 1,
             "feedback": ""
           }
         ]
@@ -612,7 +567,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Show up rare and dramatic",
               "Show up only when you feel ready"
             ],
-            "correct_index": 0,
             "feedback": ""
           },
           {
@@ -622,7 +576,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Short, predictable contact kept on schedule",
               "Big speeches about the future"
             ],
-            "correct_index": 1,
             "feedback": ""
           },
           {
@@ -632,7 +585,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Predictable short contact is evidence the child can count on",
               "Intensity is never useful"
             ],
-            "correct_index": 1,
             "feedback": ""
           }
         ]
@@ -651,7 +603,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "As rare if you are careful",
               "As proof the return came too soon"
             ],
-            "correct_index": 0,
             "feedback": ""
           },
           {
@@ -661,7 +612,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Own it out loud, briefly and without excuses, and say what you will do differently",
               "Do something fun together and move on"
             ],
-            "correct_index": 1,
             "feedback": ""
           },
           {
@@ -671,7 +621,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "That being wrong can be handled honestly",
               "That they can get away with things too"
             ],
-            "correct_index": 1,
             "feedback": ""
           }
         ]
@@ -690,7 +639,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Wait until they apologize.",
               "Write a long defense."
             ],
-            "correct_index": 0,
             "feedback": ""
           },
           {
@@ -700,7 +648,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "I am sorry you took it that way.",
               "We both messed up, so we are even."
             ],
-            "correct_index": 0,
             "feedback": ""
           },
           {
@@ -710,7 +657,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Repair protects the bond; pride delays the skill",
               "The child should carry the silence"
             ],
-            "correct_index": 1,
             "feedback": ""
           }
         ]
@@ -729,7 +675,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "A first-hour plan, rehearsed",
               "A list of questions for the child"
             ],
-            "correct_index": 1,
             "feedback": ""
           },
           {
@@ -739,7 +684,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "The start, not the answer",
               "A sign to give the plan up"
             ],
-            "correct_index": 1,
             "feedback": ""
           },
           {
@@ -749,7 +693,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "A big celebration with everyone there",
               "A serious talk about everything that happened"
             ],
-            "correct_index": 0,
             "feedback": ""
           }
         ]
@@ -768,7 +711,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "A season you work, deposit by deposit",
               "A test the child administers"
             ],
-            "correct_index": 1,
             "feedback": ""
           },
           {
@@ -778,7 +720,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "The routines: standing times, kept promises, fast repairs",
               "The child's forgiveness"
             ],
-            "correct_index": 1,
             "feedback": ""
           },
           {
@@ -788,7 +729,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "The line holding, which is what change looks like from inside",
               "A sign the work is finished"
             ],
-            "correct_index": 1,
             "feedback": ""
           }
         ]
@@ -814,7 +754,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "A weakness to eliminate",
               "An order your body must obey"
             ],
-            "correct_index": 0,
             "feedback": ""
           },
           {
@@ -824,7 +763,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Because the alarm system fires before deliberation; the skill is what happens next",
               "Because the situation is always truly dangerous"
             ],
-            "correct_index": 1,
             "feedback": ""
           },
           {
@@ -834,7 +772,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Noticing the surge early enough to choose",
               "Explaining your anger to others"
             ],
-            "correct_index": 1,
             "feedback": ""
           }
         ]
@@ -853,7 +790,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "In the jaw, or your earliest body cue",
               "After the argument ends"
             ],
-            "correct_index": 1,
             "feedback": ""
           },
           {
@@ -863,7 +799,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "So you recognize them under load before the peak",
               "So you can skip the pause later"
             ],
-            "correct_index": 1,
             "feedback": ""
           },
           {
@@ -873,7 +808,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Jaw set, heat in the face, or a clenched fist before words rise",
               "Leaving the house for the night"
             ],
-            "correct_index": 1,
             "feedback": ""
           }
         ]
@@ -892,7 +826,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "The other person's apology",
               "The end of the feeling"
             ],
-            "correct_index": 0,
             "feedback": ""
           },
           {
@@ -902,7 +835,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "In the boring hours, daily, so it is there when the surge comes",
               "Once at the start of the course"
             ],
-            "correct_index": 1,
             "feedback": ""
           },
           {
@@ -912,7 +844,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Take six silent seconds before you speak",
               "End the conversation for the night"
             ],
-            "correct_index": 1,
             "feedback": ""
           }
         ]
@@ -931,7 +862,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "A long slow exhale stands the body down faster than willpower does",
               "It gives you something to count"
             ],
-            "correct_index": 1,
             "feedback": ""
           },
           {
@@ -941,7 +871,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "A daily long-exhale practice you can run anywhere",
               "A loud sigh in front of the other person"
             ],
-            "correct_index": 1,
             "feedback": ""
           },
           {
@@ -951,7 +880,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Run one long slow exhale to stand the body down",
               "Skip the exhale if you already paused"
             ],
-            "correct_index": 1,
             "feedback": ""
           }
         ]
@@ -970,7 +898,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "To come back; the step away serves the return",
               "To show how upset you are"
             ],
-            "correct_index": 1,
             "feedback": ""
           },
           {
@@ -980,7 +907,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Saying where you are going and when you are coming back",
               "Nothing; they are the same"
             ],
-            "correct_index": 1,
             "feedback": ""
           },
           {
@@ -990,7 +916,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Name it, step out briefly, return when you said",
               "End the conversation for the night"
             ],
-            "correct_index": 1,
             "feedback": ""
           }
         ]
@@ -1009,7 +934,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "A short line that names the break and when you return",
               "Silence, then disappear"
             ],
-            "correct_index": 1,
             "feedback": ""
           },
           {
@@ -1019,7 +943,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "So the break is a reset, not abandonment",
               "So you win the argument"
             ],
-            "correct_index": 1,
             "feedback": ""
           },
           {
@@ -1029,7 +952,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Forget it. I am done talking.",
               "You always do this."
             ],
-            "correct_index": 0,
             "feedback": ""
           }
         ]
@@ -1048,7 +970,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "So others feel responsible for it",
               "It does not; feelings should stay private"
             ],
-            "correct_index": 0,
             "feedback": ""
           },
           {
@@ -1058,7 +979,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "I am angry right now, and I need a minute before we keep going.",
               "Everyone needs to calm down."
             ],
-            "correct_index": 1,
             "feedback": ""
           },
           {
@@ -1068,7 +988,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "That big feelings can be handled with words",
               "That the father is weak"
             ],
-            "correct_index": 1,
             "feedback": ""
           }
         ]
@@ -1087,7 +1006,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Name the feeling without blame, insults, or history dumps",
               "Only write feelings, never say them"
             ],
-            "correct_index": 1,
             "feedback": ""
           },
           {
@@ -1097,7 +1015,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "You always ruin everything when I am tired.",
               "Fine. Whatever."
             ],
-            "correct_index": 0,
             "feedback": ""
           },
           {
@@ -1107,7 +1024,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Because blame reloads the fight; clean naming lowers heat",
               "Because the other person should guess"
             ],
-            "correct_index": 1,
             "feedback": ""
           }
         ]
@@ -1126,7 +1042,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "A general apology when things are calm next week",
               "Letting actions speak over time"
             ],
-            "correct_index": 0,
             "feedback": ""
           },
           {
@@ -1136,7 +1051,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Fast ownership keeps the rupture from hardening into the relationship's normal",
               "It gets the discomfort over with"
             ],
-            "correct_index": 1,
             "feedback": ""
           },
           {
@@ -1146,7 +1060,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Own it out loud today, specific and without defense",
               "Do something fun and move on"
             ],
-            "correct_index": 1,
             "feedback": ""
           }
         ]
@@ -1165,7 +1078,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "I raised my voice at you. That was wrong, and it is mine to fix.",
               "I am sorry you got upset."
             ],
-            "correct_index": 1,
             "feedback": ""
           },
           {
@@ -1175,7 +1087,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Defense, blame, and a long story",
               "A plan for next time"
             ],
-            "correct_index": 1,
             "feedback": ""
           },
           {
@@ -1185,7 +1096,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Short and specific lands; defense undoes it",
               "Children prefer vague words"
             ],
-            "correct_index": 1,
             "feedback": ""
           }
         ]
@@ -1204,7 +1114,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "In the boring hours: sleep, food, movement",
               "In willpower alone"
             ],
-            "correct_index": 1,
             "feedback": ""
           },
           {
@@ -1214,7 +1123,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "A depleted body fires the alarm sooner and louder; the habits raise your threshold",
               "They replace the need for the pause"
             ],
-            "correct_index": 1,
             "feedback": ""
           },
           {
@@ -1224,7 +1132,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Lights out by a set hour five nights, plus one movement block most days",
               "A promise to avoid hard conversations"
             ],
-            "correct_index": 1,
             "feedback": ""
           }
         ]
@@ -1243,7 +1150,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "A trained pause, a named feeling, a fast repair, and daily habits that hold them up",
               "A list of people who provoke you"
             ],
-            "correct_index": 1,
             "feedback": ""
           },
           {
@@ -1253,7 +1159,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Small anchors repeated until they hold",
               "Waiting until life is less busy"
             ],
-            "correct_index": 1,
             "feedback": ""
           },
           {
@@ -1263,7 +1168,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "White-knuckle every moment.",
               "Skip the boring hours."
             ],
-            "correct_index": 0,
             "feedback": ""
           }
         ]
@@ -1289,7 +1193,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Keep the peace at any cost",
               "Win the important decisions"
             ],
-            "correct_index": 0,
             "feedback": ""
           },
           {
@@ -1299,7 +1202,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Agreeing on everything",
               "Working the child's interests together, whatever the history between you"
             ],
-            "correct_index": 2,
             "feedback": ""
           },
           {
@@ -1309,7 +1211,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Fewer rules",
               "A guarantee of no conflict"
             ],
-            "correct_index": 0,
             "feedback": ""
           }
         ]
@@ -1328,7 +1229,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "One child-centered sentence you can both hold",
               "A list of past grievances"
             ],
-            "correct_index": 1,
             "feedback": ""
           },
           {
@@ -1338,7 +1238,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "You need to admit what you did.",
               "We will never disagree again."
             ],
-            "correct_index": 0,
             "feedback": ""
           },
           {
@@ -1348,7 +1247,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "One clear goal steers hard moments; a stack of demands restarts the fight",
               "Children cannot understand long goals"
             ],
-            "correct_index": 1,
             "feedback": ""
           }
         ]
@@ -1367,7 +1265,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Your body so activated that judgment is gone; continuing makes it worse",
               "Disagreeing strongly"
             ],
-            "correct_index": 1,
             "feedback": ""
           },
           {
@@ -1377,7 +1274,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Pause, about twenty minutes, then resume",
               "End all contact for the week"
             ],
-            "correct_index": 1,
             "feedback": ""
           },
           {
@@ -1387,7 +1283,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "It is a rule of the platform",
               "It gives you time to build your case"
             ],
-            "correct_index": 0,
             "feedback": ""
           }
         ]
@@ -1406,7 +1301,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "A short line that names the pause and when you will resume",
               "Silence and a hung-up call"
             ],
-            "correct_index": 1,
             "feedback": ""
           },
           {
@@ -1416,7 +1310,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "I am done with you.",
               "Fine. Whatever."
             ],
-            "correct_index": 0,
             "feedback": ""
           },
           {
@@ -1426,7 +1319,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "So the pause is a reset, not abandonment of the topic",
               "So you can skip the topic forever"
             ],
-            "correct_index": 1,
             "feedback": ""
           }
         ]
@@ -1445,7 +1337,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Polite, warm, frequent",
               "Written, formal, copied to others"
             ],
-            "correct_index": 0,
             "feedback": ""
           },
           {
@@ -1455,7 +1346,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "We need to talk about your choices lately.",
               "Fine. Whatever works for you, as usual."
             ],
-            "correct_index": 0,
             "feedback": ""
           },
           {
@@ -1465,7 +1355,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Because every message that stays on the child is one that cannot reopen the marriage",
               "Because feelings are wrong"
             ],
-            "correct_index": 1,
             "feedback": ""
           }
         ]
@@ -1484,7 +1373,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "The channel that wins arguments",
               "Only face-to-face conflict"
             ],
-            "correct_index": 0,
             "feedback": ""
           },
           {
@@ -1494,7 +1382,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Move to a written log or a scheduled call after a pause",
               "Bring the child into the thread"
             ],
-            "correct_index": 1,
             "feedback": ""
           },
           {
@@ -1504,7 +1391,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "The medium can raise or lower heat before a word is read",
               "Courts ban all texts"
             ],
-            "correct_index": 1,
             "feedback": ""
           }
         ]
@@ -1523,7 +1409,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "A sincere conversation about the past",
               "Generosity with money"
             ],
-            "correct_index": 0,
             "feedback": ""
           },
           {
@@ -1533,7 +1418,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "A small one you are certain to keep, then another",
               "None; let time do it"
             ],
-            "correct_index": 1,
             "feedback": ""
           },
           {
@@ -1543,7 +1427,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Be early to the next three agreed times without a speech",
               "Skip the next handoff"
             ],
-            "correct_index": 1,
             "feedback": ""
           }
         ]
@@ -1562,7 +1445,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "As the floor you never build against; trust is earned inside them, never against them",
               "As relevant only to lawyers"
             ],
-            "correct_index": 1,
             "feedback": ""
           },
           {
@@ -1572,7 +1454,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "An adult fight",
               "A school folder"
             ],
-            "correct_index": 1,
             "feedback": ""
           },
           {
@@ -1582,7 +1463,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Ask the child to pass a message about money",
               "Skip a visit to make a point"
             ],
-            "correct_index": 0,
             "feedback": ""
           }
         ]
@@ -1601,7 +1481,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "The child; your job is to lighten the load",
               "Nobody, if the schedule is fair"
             ],
-            "correct_index": 1,
             "feedback": ""
           },
           {
@@ -1611,7 +1490,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Letting the child feel free to love both homes out loud",
               "Keeping the households completely identical"
             ],
-            "correct_index": 1,
             "feedback": ""
           },
           {
@@ -1621,7 +1499,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Match it with something better at yours",
               "Change the subject"
             ],
-            "correct_index": 0,
             "feedback": ""
           }
         ]
@@ -1640,7 +1517,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Identical houses",
               "No rules at either home"
             ],
-            "correct_index": 0,
             "feedback": ""
           },
           {
@@ -1650,7 +1526,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "A few clear, predictable rules the child can count on at your place",
               "Asking the child to choose a side"
             ],
-            "correct_index": 1,
             "feedback": ""
           },
           {
@@ -1660,7 +1535,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "A child can adapt to two homes when each home is steady",
               "Children dislike agreement"
             ],
-            "correct_index": 1,
             "feedback": ""
           }
         ]
@@ -1679,7 +1553,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Quick beats friendly",
               "Flexible beats scheduled"
             ],
-            "correct_index": 0,
             "feedback": ""
           },
           {
@@ -1689,7 +1562,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "The child's things, the practical facts, a calm goodbye",
               "A private word with the other parent about concerns"
             ],
-            "correct_index": 1,
             "feedback": ""
           },
           {
@@ -1699,7 +1571,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "The handoff is where the child feels the team most directly; calm sameness tells them the ground is solid",
               "It prevents lateness"
             ],
-            "correct_index": 1,
             "feedback": ""
           }
         ]
@@ -1718,7 +1589,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Surprise locations to keep it fresh",
               "Long talks at every exchange"
             ],
-            "correct_index": 0,
             "feedback": ""
           },
           {
@@ -1728,7 +1598,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "We need to talk about last month right now.",
               "Tell your mother what I said."
             ],
-            "correct_index": 0,
             "feedback": ""
           },
           {
@@ -1738,7 +1607,6 @@ window.FC_SESSION_CHECKPOINTS = {
               "Sameness lowers the child's stress at the transition",
               "Children prefer silence always"
             ],
-            "correct_index": 1,
             "feedback": ""
           }
         ]
