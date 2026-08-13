@@ -107,6 +107,7 @@ HEAD = '''<!DOCTYPE html>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=Poppins:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script>document.documentElement.dataset.theme={THEME};</script>
+<script>window.FC_SHOW_MANHOOD_COURSE={MANHOOD};</script>
 <link rel="stylesheet" href="assets/css/forge.css">
 {meta}
 </head>
@@ -116,7 +117,7 @@ HEAD = '''<!DOCTYPE html>
 def nav(active='', mode='public'):
     if mode=='app':
         # Signed-in chrome: Dashboard + My Plan always present; Account in nav-right.
-        links = [('Dashboard','dashboard.html'),('My Plan','plan.html'),('Courses','certificates.html'),('Circle','circles.html')]
+        links = [('Dashboard','dashboard.html'),('My Plan','plan.html'),('Courses','certificates.html')]
         active = {'Home':'Dashboard','Certificates':'Courses','The Courses':'Courses','Classes':'Courses','Circles':'Circle'}.get(active, active)
     else:
         # Public: father path first; org entry grouped; Log in in drawer (not hide-m).
@@ -600,7 +601,7 @@ PAGES['index.html'] = dict(title='Become the father they can count on', desc='Kn
   <div class="social-proof" aria-label="Trust signals">
     <span>National Center for Fathering &middot; since 1990</span>
     <span>Built with Dr. Ken Canfield</span>
-    <span>Any serial: fathers.com/verify</span>
+    <span>Any serial: /verify.html</span>
     <span>Progress tracked, baseline to finish</span>
   </div>
 </div></section>
@@ -1541,7 +1542,7 @@ PAGES['certificates.html'] = dict(title='The Courses and the Certificate of Comp
 ''')
 
 # ================================================== certificate.html (P10 screen 4)
-PAGES['certificate.html'] = dict(title='Certificate of Completion, specimen', desc='What the Certificate of Completion looks like. Every issued certificate carries a live serial verifiable at fathers.com/verify.', active='Certificates', mode='app', body='''
+PAGES['certificate.html'] = dict(title='Certificate of Completion, specimen', desc='What the Certificate of Completion looks like. Every issued certificate carries a live serial verifiable at /verify.html.', active='Certificates', mode='app', body='''
 <section class="tight" style="padding-top:44px"><div class="container">
   <div class="row wrap" style="margin-bottom:28px;justify-content:center">
     <button class="btn btn-primary btn-sm" data-print>Print or save as PDF</button>
@@ -1561,7 +1562,7 @@ PAGES['certificate.html'] = dict(title='Certificate of Completion, specimen', de
         <div class="serial">SPECIMEN &middot; SERIAL FC-2026-&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;</div>
         <div class="serial" style="margin-top:6px">Identity verified at enrollment</div>
         <div class="serial" style="margin-top:6px">Issued by the National Center for Fathering</div>
-        <div class="serial" style="margin-top:14px"><b>Verify at fathers.com/verify</b></div>
+        <div class="serial" style="margin-top:14px"><b>Verify at /verify.html</b></div>
       </div>
       <div class="row" style="gap:18px;align-items:flex-end">
         <div class="qr">QR</div>
@@ -2490,7 +2491,7 @@ PAGES['organizations.html'] = dict(title='Become a Certified Organization', desc
   <div class="grid-3" style="gap:24px">
     <div class="card" style="padding:26px 28px"><p class="fine mono" style="color:var(--ember-ink);margin-bottom:10px">01 &middot; MEASURE</p><h3 style="margin-bottom:8px">One join link tags every man.</h3><p class="small" style="color:var(--ash)">The Keystone Profile at intake: the full instrument, one sitting. The canonical spec lives on the Research page. Four dimensions on every man, zero program required.</p></div>
     <div class="card" style="padding:26px 28px"><p class="fine mono" style="color:var(--ember-ink);margin-bottom:10px">02 &middot; TRAIN</p><h3 style="margin-bottom:8px">Keep the program you trust.</h3><p class="small" style="color:var(--ash)">We make it provable. Or deploy ours: the full course slate is live today, free to every man, film-first and facilitator-supported. Your staff serve as Certified Facilitators for questions, insight, and accountability.</p></div>
-    <div class="card" style="padding:26px 28px"><p class="fine mono" style="color:var(--ember-ink);margin-bottom:10px">03 &middot; PROVE</p><h3 style="margin-bottom:8px">The report and the credential.</h3><p class="small" style="color:var(--ash)">The Efficacy Report, one page per cohort. Certificates of Completion presented by your facilitators, serialed, and verified at fathers.com/verify in ten seconds.</p></div>
+    <div class="card" style="padding:26px 28px"><p class="fine mono" style="color:var(--ember-ink);margin-bottom:10px">03 &middot; PROVE</p><h3 style="margin-bottom:8px">The report and the credential.</h3><p class="small" style="color:var(--ash)">The Efficacy Report, one page per cohort. Certificates of Completion presented by your facilitators, serialed, and verified at /verify.html in ten seconds.</p></div>
   </div>
 </div></section>
 
@@ -2523,7 +2524,7 @@ PAGES['organizations.html'] = dict(title='Become a Certified Organization', desc
   <div>
     <div class="eyebrow" style="margin-bottom:14px">FOR COURTS AND PROBATION</div>
     <h2 class="d-28" style="margin-bottom:8px">Order the class by name. Verify in ten seconds.</h2>
-    <p style="color:var(--ash);max-width:52ch">Some courts and agencies accept Fathering Fundamentals as a supplemental fathering education component; acceptance is at their discretion, so confirm before referring. What travels with it: identity confirmed at enrollment, hours logged not claimed, a final at eighty percent. Completion is confirmed at fathers.com/verify with the serial on the Certificate of Completion. No account, no phone call, no paperwork chase. Coming Home Present and Steady Under Pressure are built for referral. Facilitator-supported film courses, logged sessions, and verifiable certificates. Your caseload can start now. Steady Under Pressure is a fathering skills course, not anger management, batterer intervention, or a substitute for any court-mandated treatment program, and should not be ordered in their place.</p>
+    <p style="color:var(--ash);max-width:52ch">Some courts and agencies accept Fathering Fundamentals as a supplemental fathering education component; acceptance is at their discretion, so confirm before referring. What travels with it: identity confirmed at enrollment, hours logged not claimed, a final at eighty percent. Completion is confirmed at /verify.html with the serial on the Certificate of Completion. No account, no phone call, no paperwork chase. Coming Home Present and Steady Under Pressure are built for referral. Facilitator-supported film courses, logged sessions, and verifiable certificates. Your caseload can start now. Steady Under Pressure is a fathering skills course, not anger management, batterer intervention, or a substitute for any court-mandated treatment program, and should not be ordered in their place.</p>
   </div>
   <div class="card" style="padding:32px">
     <div class="eyebrow" style="margin-bottom:16px">FOR THE MAN YOU REFER</div>
@@ -2975,7 +2976,7 @@ if __name__ == '__main__':
             continue
         FORCED_THEME = {'organizations.html': "'light'", 'index.html': "'dark'", 'profile.html': "'dark'", 'stories.html': "'dark'", 'certificates.html': "'dark'", 'enroll.html': "'dark'", 'class.html': "'dark'", 'course.html': "'dark'", 'player.html': "'dark'", 'checkout.html': "'dark'", 'certificate.html': "'dark'", 'voice.html': "'dark'", 'share.html': "'dark'"}
         theme_js = FORCED_THEME.get(fname, 'localStorage.getItem("fc_theme")||"dark"')
-        html = HEAD.format(title=p['title'], desc=p['desc'], meta=social_meta(fname, p['title'], p['desc']), THEME=theme_js)
+        html = HEAD.format(title=p['title'], desc=p['desc'], meta=social_meta(fname, p['title'], p['desc']), THEME=theme_js, MANHOOD='true' if SHOW_MANHOOD_COURSE else 'false')
         if p.get('nochrome'):
             html += p['body']
             html += '\n<script src="assets/js/config.js"></script>\n<script src="assets/js/supabase-client.js"></script>\n<script src="assets/js/app.js"></script>\n<script src="assets/js/help.js"></script>\n'

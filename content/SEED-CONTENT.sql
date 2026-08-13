@@ -34,9 +34,9 @@ begin
     insert into quiz_questions (video_id, ord, prompt, choices, correct_index) values (vid, 1, 'What should you do before the First Secret sessions?', '["Skip the assessment and jump to Session 1", "Watch the overview and take the free assessment", "Wait until you finish all seven secrets"]'::jsonb, 1);
   end if;
   if exists (select 1 from quiz_questions where video_id = vid and ord = 2) then
-    update quiz_questions set prompt = 'What is this course built on?', choices = '["Guesswork about fathering", "Dr. Ken Canfield''s research-based Seven Secrets", "Advice from one dad's childhood."]'::jsonb, correct_index = 1 where video_id = vid and ord = 2;
+    update quiz_questions set prompt = 'What is this course built on?', choices = '["Guesswork about fathering", "Dr. Ken Canfield''s research-based Seven Secrets", "Advice from one dad's childhood"]'::jsonb, correct_index = 1 where video_id = vid and ord = 2;
   else
-    insert into quiz_questions (video_id, ord, prompt, choices, correct_index) values (vid, 2, 'What is this course built on?', '["Guesswork about fathering", "Dr. Ken Canfield''s research-based Seven Secrets", "Advice from one dad's childhood."]'::jsonb, 1);
+    insert into quiz_questions (video_id, ord, prompt, choices, correct_index) values (vid, 2, 'What is this course built on?', '["Guesswork about fathering", "Dr. Ken Canfield''s research-based Seven Secrets", "Advice from one dad's childhood"]'::jsonb, 1);
   end if;
   if exists (select 1 from quiz_questions where video_id = vid and ord = 3) then
     update quiz_questions set prompt = 'Why take the assessment first?', choices = '["So growth targets are personal, not generic", "So you can skip hard sessions", "So the course can grade your child"]'::jsonb, correct_index = 0 where video_id = vid and ord = 3;
@@ -85,9 +85,9 @@ begin
     insert into quiz_questions (video_id, ord, prompt, choices, correct_index) values (vid, 2, 'Knowing your child means mainly:', '["Tracking grades only", "Entering their world so they feel seen", "Correcting them faster"]'::jsonb, 1);
   end if;
   if exists (select 1 from quiz_questions where video_id = vid and ord = 3) then
-    update quiz_questions set prompt = 'A practical move for this secret is to:', choices = '["Write a one-page profile of who this child is now, with the mother or caregiver if that channel is safe. No visit required.", "Assume you already know them", "Lead with advice before listening"]'::jsonb, correct_index = 0 where video_id = vid and ord = 3;
+    update quiz_questions set prompt = 'A practical move for this secret is to:', choices = '["Write a current profile of the child, with the mother or caregiver if that channel is safe", "Assume you already know them", "Lead with advice before listening"]'::jsonb, correct_index = 0 where video_id = vid and ord = 3;
   else
-    insert into quiz_questions (video_id, ord, prompt, choices, correct_index) values (vid, 3, 'A practical move for this secret is to:', '["Write a one-page profile of who this child is now, with the mother or caregiver if that channel is safe. No visit required.", "Assume you already know them", "Lead with advice before listening"]'::jsonb, 0);
+    insert into quiz_questions (video_id, ord, prompt, choices, correct_index) values (vid, 3, 'A practical move for this secret is to:', '["Write a current profile of the child, with the mother or caregiver if that channel is safe", "Assume you already know them", "Lead with advice before listening"]'::jsonb, 0);
   end if;
 
   -- session 4: Third Secret: Showing Up Consistently
@@ -108,9 +108,9 @@ begin
     insert into quiz_questions (video_id, ord, prompt, choices, correct_index) values (vid, 2, 'Consistency here is mainly about:', '["Keeping a rhythm your child can count on", "Never changing plans", "Being perfect every day"]'::jsonb, 0);
   end if;
   if exists (select 1 from quiz_questions where video_id = vid and ord = 3) then
-    update quiz_questions set prompt = 'If you must miss a standing time, the strong move is:', choices = '["Skip quietly", "Tell them ahead, name the new time, and keep it", "Make it up with a gift only"]'::jsonb, correct_index = 1 where video_id = vid and ord = 3;
+    update quiz_questions set prompt = 'If you must miss a standing time, the strong move is:', choices = '["Skip quietly", "Tell the caregiver or the plan ahead, name the new time, and keep it", "Make it up with a gift only"]'::jsonb, correct_index = 1 where video_id = vid and ord = 3;
   else
-    insert into quiz_questions (video_id, ord, prompt, choices, correct_index) values (vid, 3, 'If you must miss a standing time, the strong move is:', '["Skip quietly", "Tell them ahead, name the new time, and keep it", "Make it up with a gift only"]'::jsonb, 1);
+    insert into quiz_questions (video_id, ord, prompt, choices, correct_index) values (vid, 3, 'If you must miss a standing time, the strong move is:', '["Skip quietly", "Tell the caregiver or the plan ahead, name the new time, and keep it", "Make it up with a gift only"]'::jsonb, 1);
   end if;
 
   -- session 5: Fourth Secret: Protecting and Providing Security
@@ -149,9 +149,9 @@ begin
     insert into quiz_questions (video_id, ord, prompt, choices, correct_index) values (vid, 1, 'This secret still applies when you are not a couple. What does it require?', '["Honor her in how you speak. Never undercut her.", "Win the breakup.", "Pretend you are a couple again."]'::jsonb, 0);
   end if;
   if exists (select 1 from quiz_questions where video_id = vid and ord = 2) then
-    update quiz_questions set prompt = 'Why does this secret exist?', choices = '["Children should not have to choose a side or hear you tear her down.", "So court goes easier.", "So she likes you more."]'::jsonb, correct_index = 0 where video_id = vid and ord = 2;
+    update quiz_questions set prompt = 'Why does this secret exist?', choices = '["Children should not have to choose a side or hear you tear her down.", "So you look generous.", "So she likes you more."]'::jsonb, correct_index = 0 where video_id = vid and ord = 2;
   else
-    insert into quiz_questions (video_id, ord, prompt, choices, correct_index) values (vid, 2, 'Why does this secret exist?', '["Children should not have to choose a side or hear you tear her down.", "So court goes easier.", "So she likes you more."]'::jsonb, 0);
+    insert into quiz_questions (video_id, ord, prompt, choices, correct_index) values (vid, 2, 'Why does this secret exist?', '["Children should not have to choose a side or hear you tear her down.", "So you look generous.", "So she likes you more."]'::jsonb, 0);
   end if;
   if exists (select 1 from quiz_questions where video_id = vid and ord = 3) then
     update quiz_questions set prompt = 'Which practice matches this session?', choices = '["One sentence you will not say, and one civil child-only note if the channel is safe", "A speech about the past", "Ask the child to carry a message to her"]'::jsonb, correct_index = 0 where video_id = vid and ord = 3;
@@ -220,9 +220,9 @@ begin
     insert into final_qa_questions (course_id, ord, prompt) values (cid, 3, 'Who will notice the change first if you keep this practice for thirty days?');
   end if;
   if exists (select 1 from final_qa_questions where course_id = cid and ord = 4) then
-    update final_qa_questions set prompt = 'What will you do the next time you break your word with your child?' where course_id = cid and ord = 4;
+    update final_qa_questions set prompt = 'What will you do the next time you break a promise you wrote down?' where course_id = cid and ord = 4;
   else
-    insert into final_qa_questions (course_id, ord, prompt) values (cid, 4, 'What will you do the next time you break your word with your child?');
+    insert into final_qa_questions (course_id, ord, prompt) values (cid, 4, 'What will you do the next time you break a promise you wrote down?');
   end if;
 end $$;
 

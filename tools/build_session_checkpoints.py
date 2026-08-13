@@ -41,7 +41,7 @@ def synth_ff_questions(sess: dict) -> list:
                 "choices": [
                     "Guesswork about fathering",
                     "Dr. Ken Canfield's research-based Seven Secrets",
-                    "Advice from one dad's childhood.",
+                    "Advice from one dad's childhood",
                 ],
                 "correct_index": 1,
             },
@@ -106,7 +106,7 @@ def synth_ff_questions(sess: dict) -> list:
             {
                 "prompt": "A practical move for this secret is to:",
                 "choices": [
-                    "Write a one-page profile of who this child is now, with the mother or caregiver if that channel is safe. No visit required.",
+                    "Write a current profile of the child, with the mother or caregiver if that channel is safe",
                     "Assume you already know them",
                     "Lead with advice before listening",
                 ],
@@ -136,7 +136,7 @@ def synth_ff_questions(sess: dict) -> list:
                 "prompt": "If you must miss a standing time, the strong move is:",
                 "choices": [
                     "Skip quietly",
-                    "Tell them ahead, name the new time, and keep it",
+                    "Tell the caregiver or the plan ahead, name the new time, and keep it",
                     "Make it up with a gift only",
                 ],
                 "correct_index": 1,
@@ -185,7 +185,7 @@ def synth_ff_questions(sess: dict) -> list:
                 "prompt": "Why does this secret exist?",
                 "choices": [
                     "Children should not have to choose a side or hear you tear her down.",
-                    "So court goes easier.",
+                    "So you look generous.",
                     "So she likes you more.",
                 ],
                 "correct_index": 0,

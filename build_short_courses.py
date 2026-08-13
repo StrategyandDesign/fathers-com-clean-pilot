@@ -244,12 +244,15 @@ def render_course_body(course: dict) -> str:
     sessions = course["sessions"]
     first = session_article(course, sessions[0])
     rest = "\n".join(session_article(course, s) for s in sessions[1:])
-    n = len(sessions)
     outlines = ""
     if rest:
+        rest_sess = sessions[1:]
+        a = rest_sess[0]["ord"]
+        b = rest_sess[-1]["ord"]
+        label = f"Session outlines ({a}–{b})" if a != b else f"Session outlines ({a})"
         outlines = (
             f'<details class="course-outlines">'
-            f'<summary class="fine">Session outlines (2–{n})</summary>\n'
+            f'<summary class="fine">{label}</summary>\n'
             f'{rest}\n'
             f'</details>\n'
         )
