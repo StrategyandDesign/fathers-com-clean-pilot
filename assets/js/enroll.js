@@ -76,14 +76,17 @@
           note('Your free plan stays open. When your seat is ready, enrollment is one tap.', 'cpn-err');
           return;
         }
-        if(d && d.checkout_url){ location.href = d.checkout_url; return; }   // Stripe, when live
+        if(d && d.checkout_url){
+          note('This course is free. Enrollment does not go to checkout. Refresh and enroll again, or continue from your plan.', 'cpn-err');
+          return;
+        }
 
         // Function errors surface loudly, never silently.
         var detail = (err && err.message) || (d && (d.message || d.error)) || 'Enrollment is not available right now.';
         note('Could not complete enrollment: ' + detail, 'cpn-err');
       }, function(e){
         if(btn){ btn.disabled = false; btn.textContent = 'Enroll'; }
-        note('Could not reach checkout: ' + (e && e.message || 'network error') + '. If this persists, the checkout function may not be deployed yet.', 'cpn-err');
+        note('Could not complete enrollment: ' + (e && e.message || 'network error') + '. If this persists, try again in a moment.', 'cpn-err');
       });
     });
   }

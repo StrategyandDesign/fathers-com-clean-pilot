@@ -340,7 +340,6 @@
         ['My Report','report.html'+q],
         ['My Plan','plan.html'+q],
         ['Courses','certificates.html'],
-        ['Circles','circles.html'],
         ['Sign out','#signout']
       ];
       list.innerHTML=links.map(function(l){

@@ -11,7 +11,7 @@
   function card(s,flags){
     var fl=(flags||[]).filter(function(f){return f.user_id===s.user_id&&f.course_id===s.course_id;});
     var mins=Math.round((s.snapshot_independent_seconds||0)/60);
-    var cps=s.snapshot_checkpoints||{}; var cpTxt=Object.keys(cps).map(function(k){return cps[k].right+'/'+cps[k].total;}).join(' &middot; ')||'none';
+    var cps=s.snapshot_checkpoints||{}; var cpN=Object.keys(cps).length; var cpTxt=cpN?(cpN+' complete'):'none';
     var id=s.user_id+'::'+s.course_id;
     return '<div class="card" style="padding:18px;margin-bottom:14px" data-id="'+esc(id)+'">'
       +(fl.length?'<p class="fine" style="color:var(--error)">FLAGGED: '+esc(fl[0].reason)+' &middot; clearing required</p>':'')

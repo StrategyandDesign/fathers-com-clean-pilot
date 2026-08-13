@@ -2,6 +2,7 @@
 (function(){
   var root = document.getElementById('keystone');
   if(!root || !window.KEYSTONE || !window.KS) return;
+  var SHOW_MANHOOD_COURSE = window.FC_SHOW_MANHOOD_COURSE === true;
 
   /* Which instrument is this sitting? Chosen by ?assessment=<slug> and resolved
      through the registry, so adding a profile is a registry entry rather than a
@@ -19,6 +20,7 @@
       track = sp.get('track');
     } catch(e){}
     if(!want && track === 'manhood') want = 'keystone-manhood-profile';
+    if(want && String(want).indexOf('manhood') >= 0 && !SHOW_MANHOOD_COURSE) return;
     if(!want) return;
     var data = null;
     if(window.FCReg && FCReg.bySlug){
@@ -226,7 +228,7 @@
       var track = null;
       try { track = new URLSearchParams(window.location.search).get('track'); } catch(e){}
       if(!wantAssessment && track === 'manhood') wantAssessment = 'keystone-manhood-profile';
-      if(wantAssessment === 'keystone-manhood-profile' || isManhoodInstrument()){
+      if(SHOW_MANHOOD_COURSE && (wantAssessment === 'keystone-manhood-profile' || isManhoodInstrument())){
         beginManhoodQuick();
         return;
       }
@@ -235,8 +237,12 @@
         beginQuickStart();
         return;
       }
-      // Shared Quick Start entry with no assessment: fork Father vs Manhood.
-      servedGate(quickStartGate);
+      // Shared Quick Start with no assessment: hide Father vs Manhood fork while SHOW_MANHOOD_COURSE is false.
+      if(SHOW_MANHOOD_COURSE){
+        servedGate(quickStartGate);
+        return;
+      }
+      beginQuickStart();
       return;
     }
     if(startIntent === 'full'){
@@ -346,6 +352,13 @@
   // THE GATE: one question that routes every man to the right starting point.
   // All men are sons; not all are fathers. Both belong here.
   function gate(){
+    if(!SHOW_MANHOOD_COURSE){
+      activateInstrument('keystone-father-profile');
+      KS.setPath('father');
+      KS.clearQuickStart();
+      servedGate(chooseMode);
+      return;
+    }
     root.innerHTML = shell(
       '<div class="eyebrow brass" style="margin-bottom:18px">BEFORE WE BEGIN</div>'+
       '<h2 style="margin:0 0 8px">Where are you in the journey?</h2>'+
@@ -374,6 +387,11 @@
 
   // Shared Quick Start fork when ?start=quick has no assessment deep link.
   function quickStartGate(){
+    if(!SHOW_MANHOOD_COURSE){
+      activateInstrument('keystone-father-profile');
+      beginQuickStart();
+      return;
+    }
     enterAssessment();
     root.innerHTML = shell(
       '<div class="eyebrow brass" style="margin-bottom:18px">QUICK START</div>'+
