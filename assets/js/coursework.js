@@ -13,7 +13,7 @@
   function note(html){ var n=$('cw-note'); if(n) n.innerHTML = html; }
 
   var qs = new URLSearchParams(location.search);
-  var demo = qs.get('preview') === '1' || qs.get('demo') === '1' || !(window.FC && FC.live);
+  var demo = qs.get('preview') === '1' || qs.get('demo') === '1';
   var slug = (qs.get('cert') || 'anger').toLowerCase();
   // Film-first coursework. Session guides remain available as support.
   /* Manhood is an assessment track, not a film course page (no course-the-man-before-you.html). */
@@ -69,7 +69,7 @@
     loadPreviewState();
     if($('cw-title')) $('cw-title').textContent = course.title + ' (preview)';
     var signedIn = !!(window.FC && FC.uid && FC.uid());
-    note('<div class="notice brass" style="margin:0 0 14px"><b>Preview player.</b> <span class="fine">Walk the real week: play the film, pass the checkpoint, complete this week\'s practice. If a session film is not in yet, play runs a short stand-in.'+(signedIn?'':' No account needed.')+' When you want proof later, a Certified Facilitator claims your seat and you earn a serial.</span></div>');
+    note('<div class="notice brass" style="margin:0 0 14px"><b>Preview player.</b> <span class="fine">Walk the real week: play the film, pass the checkpoint, complete this week\'s practice. Films are not live yet, so play runs a short stand-in.'+(signedIn?'':' No account needed.')+' When you want proof later, a Certified Facilitator claims your seat and you earn a serial.</span></div>');
     if (shouldOpenWelcome()) openWelcome();
     else {
       var land = firstUnfinishedIndex();

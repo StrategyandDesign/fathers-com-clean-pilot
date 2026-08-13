@@ -493,7 +493,7 @@
 
   /* 3) The participant\u2019s own dashboard. */
   function showOwn(){
-    if(!(window.FC && FC.live)){ showMarcus(); return; }   // no keys: demonstrate with Marcus
+    if(!(window.FC && FC.live)){ signedOut(); return; }
     loading();
     FC.ready.then(function(){
       var uid = FC.uid && FC.uid();
