@@ -123,14 +123,14 @@ def session_article(course: dict, sess: dict) -> str:
         )
         caption = (
             '    <div class="vs-caption">\n'
-            '      <p class="eyebrow brass">SHAPE PREVIEW · PLACEHOLDER</p>\n'
-            '      <p class="fine" style="color:var(--ash)">Final film goes here. Until then this shape still holds the 16:9 slot.</p>\n'
+            '      <p class="eyebrow brass">THIS WEEK</p>\n'
+            '      <p class="fine" style="color:var(--ash)">The film plays in the player.</p>\n'
             f'      <p style="margin-top:10px"><a class="btn btn-yellow btn-sm" href="{demo_href}">Open in the player</a></p>\n'
             '    </div>\n'
         )
     label = sess.get("session_label") or f"SESSION {ord_}"
     length = sess.get("length_label") or (
-        "part of 1.1h course" if slug == "fundamentals" else "~6 MIN"
+        "one session" if slug == "fundamentals" else "~6 MIN"
     )
     return (
         f'<article class="card" style="padding:26px 28px;margin-bottom:18px" id="{sid}">\n'
@@ -361,7 +361,7 @@ def cert_card_html(course: dict) -> str:
     hours = "2.4"
     if slug == "reentry":
         blurb = "Rehab and treatment reconnect first: body, kids and partner, deposits, reunion. Same skills for service return. Twelve short sessions. Facilitator support when claimed."
-        data_desc = "For fathers in rehab or treatment preparing to reconnect with children and/or a significant other; also for service members returning home. Self-paced film with a Certified Facilitator available for questions, checkpoints, and a certificate a court or program can trust."
+        data_desc = "For fathers preparing to reconnect. Self-paced film with a Certified Facilitator available for questions, checkpoints, and a public serial. Whether a court or program accepts it is their call."
     elif slug == "anger":
         blurb = "Steadiness on film: the pause, the repair, and the habits underneath. Twelve short sessions. Facilitator available for questions."
         data_desc = "Steadiness, trained on film: the pause, the repair, and the habits underneath them. Self-paced, with a Certified Facilitator available for questions. Sessions logged, checkpoints, and a final assessment at eighty percent to pass."
@@ -387,7 +387,6 @@ def cert_card_html(course: dict) -> str:
         <div class="ccm-overlay"></div>
         <div class="ccm-badges"><span class="pill">Film course</span><span class="ccm-n">{n} sessions</span></div>
       </div>
-      <div class="cert-card-top"><span class="pill">Film course</span><span class="cert-card-hrs">{n} sessions</span></div>
       <h3>{_e(title)}</h3>
       <p>{_e(blurb)}</p>
 {disc}      {visible}
