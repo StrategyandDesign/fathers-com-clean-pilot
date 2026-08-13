@@ -201,7 +201,8 @@
     } else {no.style.display='';}
   }
   if(vf){
-    var pre=new URLSearchParams(location.search).get('serial');
+    var qs=new URLSearchParams(location.search);
+    var pre=qs.get('s')||qs.get('serial');
     if(pre) vf.querySelector('input').value=pre;
     vf.addEventListener('submit',function(e){
     e.preventDefault();
@@ -213,7 +214,9 @@
       showCert(r && r.data && r.data.data ? r.data.data : null, s);
     });}
     else showCert(DEMO_CERTS[s]||null,s);
-  });}
+  });
+    if(pre) vf.dispatchEvent(new Event('submit', {cancelable:true, bubbles:true}));
+  }
 
 
 
