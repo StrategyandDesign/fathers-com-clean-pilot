@@ -10,9 +10,16 @@
     "eyebrow_track": "FOR EVERY MAN, ON EITHER TRACK",
     "lead": "Twelve short films on steadiness under pressure: notice the surge early, buy six seconds, repair the same day, and build habits that hold.",
     "desc": "Twelve short sessions on steadiness: the surge, early cues, six seconds, the exhale, the step away, naming it, the short apology, and steady habits.",
-    "fine1": "Self-paced. About twelve minutes each. A Certified Facilitator is available when your seat is claimed.",
+    "fine1": "Self-paced. Twelve weeks. One short film each week, then a checkpoint and a lived practice. A Certified Facilitator is available when your seat is claimed.",
     "fine2": "Completion never requires contact with your child. No practice asks you to go beyond the rules that govern you now or any court order.",
     "disclaimer": "Not anger management, batterer intervention, or a substitute for any court-mandated program. Not designed or validated for those purposes and never ordered in their place.",
+    "welcome": {
+      "title": "Start here",
+      "speakers": "Ken Canfield and Micah Canfield",
+      "video": "assets/video/welcomes/anger.mp4",
+      "ken": "If you are a father under pressure, this is for you. Not a speech about never getting angry. Steadiness is a skill. It is how you keep your word when the heat comes, at home, at work, in a program. I have spent my life with men who want to be that father. This course trains the first move: notice the surge before it runs you.",
+      "micah": "I built this path so you can finish it. Each week is one short film, a few questions, and a small practice you can actually do. I will walk it with you. No hour of sitting. One skill, then you go live your week. Here's session one."
+    },
     "sessions": [
       {
         "ord": 1,
@@ -22,7 +29,8 @@
         "in_room": "The body's stress response in plain language. You learn that the surge fires before deliberation, and that the skill is what you do in the next few seconds.",
         "leave_with": "You can treat the surge as information instead of a command.",
         "practice": "Log three moments of rising tension this week. For each, write the trigger and the earliest body cue you noticed.",
-        "science": "The surge chemistry of stress fires before awareness; early cues give you a choice."
+        "science": "The surge chemistry of stress fires before awareness; early cues give you a choice.",
+        "length_label": "~6 MIN"
       },
       {
         "ord": 2,
@@ -32,7 +40,8 @@
         "in_room": "You map your personal early warning signs: jaw, fists, breath, tone, tunnel vision. You pick the two that show up first for you.",
         "leave_with": "You can name your earliest cues before the shout arrives.",
         "practice": "Write your top two early cues on a card. Check the card after three hard moments this week.",
-        "science": "Body cues precede peak anger; naming them early widens the window to choose."
+        "science": "Body cues precede peak anger; naming them early widens the window to choose.",
+        "length_label": "~6 MIN"
       },
       {
         "ord": 3,
@@ -42,7 +51,8 @@
         "in_room": "What happens in the seconds before a blowup, including the fast pathway that outruns judgment. The tool is a deliberate pause of about six seconds before you speak or act.",
         "leave_with": "You can insert six seconds when you feel the surge.",
         "practice": "Practice a six-second pause three times this week in real moments. Record the trigger and what you did after the pause.",
-        "science": "A brief pause brings judgment back online after the fast threat pathway fires."
+        "science": "A brief pause brings judgment back online after the fast threat pathway fires.",
+        "length_label": "~6 MIN"
       },
       {
         "ord": 4,
@@ -52,7 +62,8 @@
         "in_room": "Slow breathing with a longer exhale as a body-down tool you can run anywhere. You pair it with the six-second pause so the skill stacks.",
         "leave_with": "You can lower your own charge on demand with one long exhale.",
         "practice": "Run a daily long-exhale drill for five days. Use it once live under pressure and note what changed.",
-        "science": "A long slow exhale signals the body to stand down faster than willpower alone."
+        "science": "A long slow exhale signals the body to stand down faster than willpower alone.",
+        "length_label": "~6 MIN"
       },
       {
         "ord": 5,
@@ -62,7 +73,8 @@
         "in_room": "Using a time-out on yourself as a reset, not a punishment. You practice leaving without abandoning the person or the topic.",
         "leave_with": "You can step away to cool down and return on time.",
         "practice": "Take one clean self time-out during a hard moment where you are now, then return when you said. Report both ends.",
-        "science": "A clean break lets the body reset; the return keeps it from becoming abandonment."
+        "science": "A clean break lets the body reset; the return keeps it from becoming abandonment.",
+        "length_label": "~6 MIN"
       },
       {
         "ord": 6,
@@ -72,7 +84,8 @@
         "in_room": "You write and rehearse a short leave-line that names the break and the return time. No speech. No blame. Just the line, then the exit.",
         "leave_with": "You have a leave-line ready so a break is a reset, not a disappearance.",
         "practice": "Write your leave-line in under fifteen words. Rehearse it aloud three times. Use it once this week if needed.",
-        "science": "Naming the return turns a break into a trustworthy pause."
+        "science": "Naming the return turns a break into a trustworthy pause.",
+        "length_label": "~6 MIN"
       },
       {
         "ord": 7,
@@ -82,7 +95,8 @@
         "in_room": "Putting feelings into words lowers their intensity. You practice naming your own state in plain language before it becomes a show.",
         "leave_with": "You can handle feelings by naming them instead of acting them out.",
         "practice": "Name one feeling out loud in three separate moments this week. Log the words you used.",
-        "science": "Naming a feeling out loud measurably lowers its charge."
+        "science": "Naming a feeling out loud measurably lowers its charge.",
+        "length_label": "~6 MIN"
       },
       {
         "ord": 8,
@@ -92,7 +106,8 @@
         "in_room": "You strip blame, insults, and history dumps from the naming sentence. Clean naming lowers heat; loaded naming restarts the fight.",
         "leave_with": "You can name hard feelings without arming them.",
         "practice": "Rewrite two loaded sentences into clean feeling statements. Use one clean line live this week.",
-        "science": "Blame reloads conflict; clean labeling keeps the skill usable."
+        "science": "Blame reloads conflict; clean labeling keeps the skill usable.",
+        "length_label": "~6 MIN"
       },
       {
         "ord": 9,
@@ -102,7 +117,8 @@
         "in_room": "Repair after a rupture protects the relationship. You practice owning the moment out loud the same day, specific and without excuses.",
         "leave_with": "You can own a bad moment the same day it happened.",
         "practice": "Write one ownership line for a recent miss. Deliver it same day if contact is allowed, or deliver a live ownership to someone where you are now.",
-        "science": "Fast ownership keeps a rupture from hardening into the relationship's normal."
+        "science": "Fast ownership keeps a rupture from hardening into the relationship's normal.",
+        "length_label": "~6 MIN"
       },
       {
         "ord": 10,
@@ -112,7 +128,8 @@
         "in_room": "You practice a short apology script: the specific act, that it was wrong, and one next step. Defense stays out.",
         "leave_with": "You can apologize short, specific, and without defense.",
         "practice": "Write a short apology for one real miss. Cut every excuse. Rehearse once aloud, then deliver if allowed.",
-        "science": "Short specific repair lands; defense undoes it."
+        "science": "Short specific repair lands; defense undoes it.",
+        "length_label": "~6 MIN"
       },
       {
         "ord": 11,
@@ -122,7 +139,8 @@
         "in_room": "The daily regulators that raise your threshold: sleep, food, and movement. Willpower sits on top of a body that is fed and rested.",
         "leave_with": "You can lower baseline reactivity through habits practicable anywhere.",
         "practice": "Hold one sleep anchor and one movement block for five days. Note food timing on the same log.",
-        "science": "Sleep, food, and movement raise the threshold where steadiness breaks."
+        "science": "Sleep, food, and movement raise the threshold where steadiness breaks.",
+        "length_label": "~6 MIN"
       },
       {
         "ord": 12,
@@ -132,7 +150,8 @@
         "in_room": "You fold the course into a one-page steady week: cues, six seconds, exhale, leave-line, same-day ownership, and two boring-hour anchors.",
         "leave_with": "You leave with a written steady-week plan and one measurable marker.",
         "practice": "Complete a one-page steady-week plan with one weekly marker you will report to your facilitator or accountability partner.",
-        "science": "Small repeated anchors outperform rare heroic effort."
+        "science": "Small repeated anchors outperform rare heroic effort.",
+        "length_label": "~6 MIN"
       }
     ],
     "stills_dir": "steady-under-pressure"
@@ -148,8 +167,15 @@
     "eyebrow_track": "FOR FATHERS IN REHAB OR TREATMENT RECONNECTING AT HOME",
     "lead": "Twelve short film sessions for fathers in rehab or treatment preparing to reconnect with their children and/or a significant other: the body you bring home, the wave, few promises kept, the child who grew, small deposits, repair, reunion day, and the season after. Built so a man can complete the practices inside the rules that govern him now. Same body skills if you are coming home from service.",
     "desc": "Twelve short sessions on presence after time in a program: reconnect with children and a significant other, with the same skills for service members and anyone returning after time away.",
-    "fine1": "Self-paced film. About twelve minutes each. Watch when you can. A Certified Facilitator is available for questions and accountability when your seat is claimed. Optional live cohorts may be offered by some programs. Lead scenes are the treatment house, program rules, early leave passes, first calls home, first visit, and first night back. The reunion session is a climax: you leave with a first-hour plan for kids and/or a significant other, rehearsed and in hand. Same work if you are coming home from service.",
+    "fine1": "Self-paced film. Twelve weeks. One short film each week, then a checkpoint and a lived practice. Watch when you can. A Certified Facilitator is available when your seat is claimed.",
     "fine2": "Logged sessions and a checkable practice. Completion never requires contact with your child, and no practice ever asks you to go beyond the rules that govern you now or any court order. Where contact is limited, every drill has a before-return option.",
+    "welcome": {
+      "title": "Start here",
+      "speakers": "Ken Canfield and Micah Canfield",
+      "video": "assets/video/welcomes/reentry.mp4",
+      "ken": "Coming home is not the same as being present. If you are in rehab or treatment, or standing in that stretch before you reconnect with your child or a partner, this is for you. Presence is a skill. It is how you show up without making the people you love pay for the pressure you carried.",
+      "micah": "I built this path so you can finish it. Each week is one short film, a few questions, and a small practice you can do inside the rules that govern you now. This practice never requires contact with your child. I will walk it with you. Here's session one."
+    },
     "sessions": [
       {
         "ord": 1,
@@ -161,7 +187,8 @@
         "practice": "Keep a short body-state log and name two likely home triggers.",
         "science": "Fight or flight can outlast the threat; naming the response is the first retraining step.",
         "before_return": "Keep a three-times-daily one-word body-state log where you are now. Name two likely home triggers (kids, partner, kitchen noise). Rehearse the sentence you will use to tell family what helps.",
-        "after_return": "Keep the log at home, agree one signal with a family member if contact allows, and report what happened."
+        "after_return": "Keep the log at home, agree one signal with a family member if contact allows, and report what happened.",
+        "length_label": "~6 MIN"
       },
       {
         "ord": 2,
@@ -173,7 +200,8 @@
         "practice": "Name two home sounds that used to mean threat and rehearse a calm home label for each.",
         "science": "Retraining meaning reduces false alarms when old cues meet a safe setting.",
         "before_return": "List two sounds or scenes from home (kids, partner, street) and write the new meaning next to each. Rehearse the labels aloud daily for five days inside program rules.",
-        "after_return": "When one of those sounds hits, say the home label once under your breath and log whether your body stood down."
+        "after_return": "When one of those sounds hits, say the home label once under your breath and log whether your body stood down.",
+        "length_label": "~6 MIN"
       },
       {
         "ord": 3,
@@ -185,7 +213,8 @@
         "practice": "Write a wave-day rule: sleep anchor, fewer commitments, and one recovery move.",
         "science": "Early-return waves in sleep and mood are common while a body leaves an imposed routine.",
         "before_return": "Hold one fixed sleep and wake time for five nights in the house. Write your wave-day rule on one page for kids and partner contact.",
-        "after_return": "Hold the same sleep anchor at home and use the wave-day rule on the next hard day."
+        "after_return": "Hold the same sleep anchor at home and use the wave-day rule on the next hard day.",
+        "length_label": "~6 MIN"
       },
       {
         "ord": 4,
@@ -197,7 +226,8 @@
         "practice": "Choose at most three commitments you can keep this week and keep a written record.",
         "science": "Reliability beats volume; each kept promise is evidence.",
         "before_return": "Make and keep up to three small promises deliverable inside your current rules. Where no contact is permitted, keep promises to your facilitator or cohort and file the child- and partner-facing list for day one.",
-        "after_return": "Keep three small specific promises in a week at home and log each one."
+        "after_return": "Keep three small specific promises in a week at home and log each one.",
+        "length_label": "~6 MIN"
       },
       {
         "ord": 5,
@@ -209,7 +239,8 @@
         "practice": "Build a one-page current picture and draft questions that are only questions.",
         "science": "Children hit growth milestones on a clock; knowing the present child is the base of attunement.",
         "before_return": "Build a one-page current picture from photos, letters, calls, and what others report. Draft ten questions with no advice attached. Use as many as one permitted call or visit allows.",
-        "after_return": "Hold one ten-minute questions-only conversation. Log three things you learned."
+        "after_return": "Hold one ten-minute questions-only conversation. Log three things you learned.",
+        "length_label": "~6 MIN"
       },
       {
         "ord": 6,
@@ -221,7 +252,8 @@
         "practice": "Ask one real question and reflect one thing you heard without fixing.",
         "science": "Listening longer than you talk rebuilds a current map of the child and the home.",
         "before_return": "On a permitted call or visit, ask one question and listen longer than you talk. Where no contact is permitted, rehearse with a cohort partner and write the question for day one.",
-        "after_return": "Ask one question in person, listen longer than you talk, and log what you reflected back."
+        "after_return": "Ask one question in person, listen longer than you talk, and log what you reflected back.",
+        "length_label": "~6 MIN"
       },
       {
         "ord": 7,
@@ -233,7 +265,8 @@
         "practice": "Catch and return three bids, or role-play five exchanges if contact is limited.",
         "science": "Serve and return: a child's bid met by a steady adult builds trust and brains.",
         "before_return": "Use one 60-second settling routine before each call or visit. Catch and return three bids during one permitted contact. Where no contact is permitted, role-play five exchanges with a cohort partner.",
-        "after_return": "Settle first, then run five exchanges a day for a week and tally them."
+        "after_return": "Settle first, then run five exchanges a day for a week and tally them.",
+        "length_label": "~6 MIN"
       },
       {
         "ord": 8,
@@ -245,7 +278,8 @@
         "practice": "Set one repeatable short contact ritual inside the rules that govern you now.",
         "science": "Predictability lowers a child's background stress more than occasional intensity.",
         "before_return": "Set one repeatable short contact ritual inside current rules. Where no contact is permitted, build the ritual on paper and file it for day one.",
-        "after_return": "Run the short ritual twice from home in one week and keep the times exact."
+        "after_return": "Run the short ritual twice from home in one week and keep the times exact.",
+        "length_label": "~6 MIN"
       },
       {
         "ord": 9,
@@ -257,7 +291,8 @@
         "practice": "Write a repair for one past rupture and rehearse it aloud.",
         "science": "Reliable repair, not perfection, is what builds security.",
         "before_return": "Write the repair for one past rupture in your own words, whether or not it can be sent. Rehearse it aloud with a cohort partner or facilitator.",
-        "after_return": "Perform one deliberate repair after a rupture and record what you said."
+        "after_return": "Perform one deliberate repair after a rupture and record what you said.",
+        "length_label": "~6 MIN"
       },
       {
         "ord": 10,
@@ -269,7 +304,8 @@
         "practice": "Write a go-first repair in under twenty words and deliver or rehearse it.",
         "science": "Going first models responsibility; delay teaches the other person to carry the silence.",
         "before_return": "Write a go-first repair in under twenty words. Rehearse until it is steady. Deliver through a permitted channel if allowed, otherwise file it.",
-        "after_return": "Go first on the next miss. Keep it short. Log the words."
+        "after_return": "Go first on the next miss. Keep it short. Log the words.",
+        "length_label": "~6 MIN"
       },
       {
         "ord": 11,
@@ -281,7 +317,8 @@
         "practice": "Write and rehearse a low-pressure first-hour plan.",
         "science": "Early pull-away at reunions is common and often temporary; patience is a skill.",
         "before_return": "Write the low-pressure first-hour plan (kids and/or partner) and rehearse it aloud. Your facilitator checks the plan.",
-        "after_return": "Run the plan and report how it went."
+        "after_return": "Run the plan and report how it went.",
+        "length_label": "~6 MIN"
       },
       {
         "ord": 12,
@@ -293,7 +330,8 @@
         "practice": "Complete a one-page return plan with a checkpoint date and named accountability partner.",
         "science": "Routines hold gains; steady spaced practice beats bursts.",
         "before_return": "Complete the one-page return plan, name the accountability partner, and set the first after-return checkpoint date.",
-        "after_return": "Work the plan and report at the checkpoint."
+        "after_return": "Work the plan and report at the checkpoint.",
+        "length_label": "~6 MIN"
       }
     ],
     "stills_dir": "coming-home-present",
@@ -310,8 +348,15 @@
     "eyebrow_track": "BUILT FOR FATHERS RAISING CHILDREN ACROSS TWO HOMES",
     "lead": "Twelve short films on co-parenting as one team for your children: cool the heat, keep messages businesslike, and hand off with a calm ritual.",
     "desc": "Twelve short sessions on co-parenting across two homes: one team, a shared goal, flooded means pause, businesslike messages, reliability, and the handoff ritual.",
-    "fine1": "Self-paced. About twelve minutes each. A Certified Facilitator is available when your seat is claimed.",
+    "fine1": "Self-paced. Twelve weeks. One short film each week, then a checkpoint and a lived practice. A Certified Facilitator is available when your seat is claimed.",
     "fine2": "Completion never requires contact with your child. No practice asks you to go beyond the rules that govern you now or any court order.",
+    "welcome": {
+      "title": "Start here",
+      "speakers": "Ken Canfield and Micah Canfield",
+      "video": "assets/video/welcomes/coparenting.mp4",
+      "ken": "Your child does not need you and their other parent to be a couple. They need you on the same team. That is a skill: keep the child at the center when the old fight wants the mic.",
+      "micah": "I built this path so you can finish it. Each week is one short film, a few questions, and a small practice you can actually do. I will walk it with you. Here's session one."
+    },
     "sessions": [
       {
         "ord": 1,
@@ -321,7 +366,8 @@
         "in_room": "What being on one team means when the adults may not be together, with the child's experience at the center.",
         "leave_with": "You can state the shared frame in child-centered terms.",
         "practice": "Write one child-centered team sentence and keep it where you will see it before hard contact.",
-        "science": "A child caught between adults carries the load in his body; one shared frame lowers it."
+        "science": "A child caught between adults carries the load in his body; one shared frame lowers it.",
+        "length_label": "~6 MIN"
       },
       {
         "ord": 2,
@@ -331,7 +377,8 @@
         "in_room": "You draft one child-centered goal sentence clear enough to hold when heat rises. Agreement on everything is not required.",
         "leave_with": "You have one child-centered sentence you can both hold.",
         "practice": "Write one shared-goal sentence. Send it through a permitted channel, or file it to send when allowed.",
-        "science": "One clear goal steers hard moments better than a stack of demands."
+        "science": "One clear goal steers hard moments better than a stack of demands.",
+        "length_label": "~6 MIN"
       },
       {
         "ord": 3,
@@ -341,7 +388,8 @@
         "in_room": "When your heart is racing, the thinking brain goes offline. You train recognizing flood and pausing about twenty minutes before you resume.",
         "leave_with": "You can recognize flooding in yourself and pause before you make it worse.",
         "practice": "Rehearse the pause rule once. Use it on any heated exchange this week and log both ends.",
-        "science": "Past a racing heartbeat nobody absorbs a word; the body needs about twenty minutes to come down."
+        "science": "Past a racing heartbeat nobody absorbs a word; the body needs about twenty minutes to come down.",
+        "length_label": "~6 MIN"
       },
       {
         "ord": 4,
@@ -351,7 +399,8 @@
         "in_room": "You practice a short break-off script that names the pause and the resume time. No speech. No slam.",
         "leave_with": "You can break off clean and resume when you said.",
         "practice": "Write a clean break-off line with a resume time. Use it once on a heated call or thread.",
-        "science": "Naming the resume turns a pause into a trustworthy reset."
+        "science": "Naming the resume turns a pause into a trustworthy reset.",
+        "length_label": "~6 MIN"
       },
       {
         "ord": 5,
@@ -361,7 +410,8 @@
         "in_room": "Brief, factual, child-focused communication. Where the adults are not together, the low-contact model that keeps heat out of the channel.",
         "leave_with": "You can send a businesslike message that carries only what the child needs.",
         "practice": "Draft three businesslike messages. Send whichever a permitted channel allows; file the rest.",
-        "science": "Less exposure to adult conflict is a direct gift to a child's nervous system."
+        "science": "Less exposure to adult conflict is a direct gift to a child's nervous system.",
+        "length_label": "~6 MIN"
       },
       {
         "ord": 6,
@@ -371,7 +421,8 @@
         "in_room": "You choose channels on purpose. Some media raise heat before a word is read. Cooler channels protect the child from spillover.",
         "leave_with": "You can pick the channel that lowers heat for logistics and hard topics.",
         "practice": "Name your hottest channel and your cooler backup. Move one real logistics item to the cooler channel this week.",
-        "science": "Medium matters; channel choice can prevent a fight before content does."
+        "science": "Medium matters; channel choice can prevent a fight before content does.",
+        "length_label": "~6 MIN"
       },
       {
         "ord": 7,
@@ -381,7 +432,8 @@
         "in_room": "How a parent earns caregiving trust through small kept promises over time. Encouragement follows the track record.",
         "leave_with": "You can earn trust in steps with small reliability.",
         "practice": "Identify one small reliable act and do it consistently for a week. Log it.",
-        "science": "Reliability, repeated, is what reopens the gate."
+        "science": "Reliability, repeated, is what reopens the gate.",
+        "length_label": "~6 MIN"
       },
       {
         "ord": 8,
@@ -391,7 +443,8 @@
         "in_room": "Court orders and agreements are the floor. Trust is earned inside them, never against them. Children are never messengers for adult fights.",
         "leave_with": "You can operate inside any legal boundary and keep adult conflict off the child.",
         "practice": "List the rules that govern you now. Choose one small act of compliance you will keep perfectly this week. Never use the child as a messenger.",
-        "science": "Trust built against an order is not trust; it is risk the child pays for."
+        "science": "Trust built against an order is not trust; it is risk the child pays for.",
+        "length_label": "~6 MIN"
       },
       {
         "ord": 9,
@@ -401,7 +454,8 @@
         "in_room": "Your child's experience of moving between two homes, the load at the transition, and the warmth that builds resilience regardless of the arrangement.",
         "leave_with": "You can see the transition through the child's eyes and lighten one concrete load.",
         "practice": "Ask one open question about moving between homes if contact allows, or file it. Fix one logistics friction on your side.",
-        "science": "Transitions are stress points; warm, practical help lightens what the child carries."
+        "science": "Transitions are stress points; warm, practical help lightens what the child carries.",
+        "length_label": "~6 MIN"
       },
       {
         "ord": 10,
@@ -411,7 +465,8 @@
         "in_room": "Perfect agreement is rare. Predictable rules at your place give the child ground to stand on even when the homes differ.",
         "leave_with": "You can run a few clear, predictable rules the child can count on at your place.",
         "practice": "Write three predictable rules for your parenting time. Post them where you will follow them.",
-        "science": "A child can adapt to two homes when each home is steady."
+        "science": "A child can adapt to two homes when each home is steady.",
+        "length_label": "~6 MIN"
       },
       {
         "ord": 11,
@@ -421,7 +476,8 @@
         "in_room": "A predictable handoff carries the child's things, the practical facts, and a calm goodbye. Old disputes stay off the curb.",
         "leave_with": "You can run a predictable handoff that keeps adult heat away from the child.",
         "practice": "Write your handoff checklist: place, time, items, facts, goodbye. Rehearse once.",
-        "science": "The handoff is where the child feels the team most directly."
+        "science": "The handoff is where the child feels the team most directly.",
+        "length_label": "~6 MIN"
       },
       {
         "ord": 12,
@@ -431,7 +487,8 @@
         "in_room": "You lock a short ritual: same place, same time, same calm script. You leave with a one-page plan and a first checkpoint.",
         "leave_with": "You leave with a repeatable handoff ritual and a first checkpoint.",
         "practice": "Complete a one-page handoff ritual plan and walk it through with a cohort partner or facilitator. After return, execute one handoff to the plan and log it.",
-        "science": "A predictable ritual says what words cannot at the transition."
+        "science": "A predictable ritual says what words cannot at the transition.",
+        "length_label": "~6 MIN"
       }
     ],
     "stills_dir": "same-team",
@@ -451,6 +508,13 @@
     "desc": "The Seven Secrets of Effective Fathers: intro + seven secrets, with shape previews and practice checkpoints on the guide page.",
     "fine1": "Self-paced film. A Certified Facilitator is available when your seat is claimed. Shape stills hold the slot until Ken's film URLs are wired.",
     "fine2": "Logged sessions and checkpoints for enrolled learners. Guide-page checkpoints are practice only and never mint a certificate on their own.",
+    "welcome": {
+      "title": "Start here",
+      "speakers": "Ken Canfield and Micah Canfield",
+      "video": "assets/video/welcomes/fundamentals.mp4",
+      "ken": "These are the Seven Secrets I have taught fathers for decades. Short sessions you can use the same night. Not a theory class. A way to be the man your child can count on.",
+      "micah": "I built this path so you can start tonight. Each session is short. Watch, take the questions if they are there, try one move at home. I will walk it with you. Here's session one."
+    },
     "sessions": [
       {
         "ord": 0,

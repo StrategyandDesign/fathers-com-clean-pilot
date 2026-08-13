@@ -1,6 +1,13 @@
 {
   "slug": "anger",
   "title": "Steady Under Pressure",
+  "welcome": {
+    "title": "Start here",
+    "speakers": "Ken Canfield and Micah Canfield",
+    "video": "assets/video/welcomes/anger.mp4",
+    "ken": "If you are a father under pressure, this is for you. Not a speech about never getting angry. Steadiness is a skill. It is how you keep your word when the heat comes, at home, at work, in a program. I have spent my life with men who want to be that father. This course trains the first move: notice the surge before it runs you.",
+    "micah": "I built this path so you can finish it. Each week is one short film, a few questions, and a small practice you can actually do. I will walk it with you. No hour of sitting. One skill, then you go live your week. Here's session one."
+  },
   "videos": [
     {
       "ord": 1,
@@ -36,7 +43,21 @@
           "correct_index": 1
         }
       ],
-      "poster": "assets/img/session-stills/steady-under-pressure/s01.png"
+      "poster": "assets/img/session-stills/steady-under-pressure/s01.png",
+      "practice": {
+        "title": "Log 3 rising-tension moments",
+        "prompt": "For each, write the trigger and the earliest body cue.",
+        "how": [
+          "Stay inside the rules that govern you.",
+          "Never requires contact with your child.",
+          "Irritation and near-misses count."
+        ],
+        "cols": [
+          "Trigger",
+          "Earliest body cue"
+        ]
+      },
+      "practice_replay": "assets/video/steady/s01-practice-replay.mp4"
     },
     {
       "ord": 2,
@@ -72,7 +93,21 @@
           "correct_index": 1
         }
       ],
-      "poster": "assets/img/session-stills/steady-under-pressure/s02.png"
+      "poster": "assets/img/session-stills/steady-under-pressure/s02.png",
+      "practice": {
+        "title": "Write your top two early cues",
+        "prompt": "Put them on a card. After three hard moments, note whether you caught the cue early or late.",
+        "how": [
+          "One line per cue. Keep the card where you will see it.",
+          "Stay inside the rules that govern you. Never requires contact with your child.",
+          "Irritation and near-misses count."
+        ],
+        "cols": [
+          "Cue or trigger",
+          "Early or late"
+        ]
+      },
+      "practice_replay": "assets/video/steady/s02-practice-replay.mp4"
     },
     {
       "ord": 3,
@@ -108,7 +143,21 @@
           "correct_index": 1
         }
       ],
-      "poster": "assets/img/session-stills/steady-under-pressure/s03.png"
+      "poster": "assets/img/session-stills/steady-under-pressure/s03.png",
+      "practice": {
+        "title": "Take three six-second pauses",
+        "prompt": "For each live pause, write the trigger and what you did after the count.",
+        "how": [
+          "Also run the count once a day in a boring moment so it is there under load.",
+          "Stay inside the rules that govern you. Never requires contact with your child.",
+          "Late still counts if you take the six when you catch yourself."
+        ],
+        "cols": [
+          "Trigger",
+          "After the pause"
+        ]
+      },
+      "practice_replay": "assets/video/steady/s03-practice-replay.mp4"
     },
     {
       "ord": 4,
@@ -144,7 +193,21 @@
           "correct_index": 1
         }
       ],
-      "poster": "assets/img/session-stills/steady-under-pressure/s04.png"
+      "poster": "assets/img/session-stills/steady-under-pressure/s04.png",
+      "practice": {
+        "title": "Daily long exhale, then one live use",
+        "prompt": "Log five daily drills. Then one live use: trigger, body before, body after.",
+        "how": [
+          "Two minutes is enough. Slow in. Longer out.",
+          "Stay inside the rules that govern you. Never requires contact with your child.",
+          "Flat days still count. They build the groove hard days need."
+        ],
+        "cols": [
+          "When or trigger",
+          "What changed"
+        ]
+      },
+      "practice_replay": "assets/video/steady/s04-practice-replay.mp4"
     },
     {
       "ord": 5,
@@ -180,7 +243,21 @@
           "correct_index": 1
         }
       ],
-      "poster": "assets/img/session-stills/steady-under-pressure/s05.png"
+      "poster": "assets/img/session-stills/steady-under-pressure/s05.png",
+      "practice": {
+        "title": "One clean step away and return",
+        "prompt": "Write what you said as you left, and what your voice was like when you came back.",
+        "how": [
+          "The skill is the return, not the exit.",
+          "Stay inside the rules that govern you. Never requires contact with your child.",
+          "If no live conflict shows, rehearse on a low-heat moment."
+        ],
+        "cols": [
+          "The leave line",
+          "The return"
+        ]
+      },
+      "practice_replay": "assets/video/steady/s05-practice-replay.mp4"
     },
     {
       "ord": 6,
@@ -216,7 +293,21 @@
           "correct_index": 0
         }
       ],
-      "poster": "assets/img/session-stills/steady-under-pressure/s06.png"
+      "poster": "assets/img/session-stills/steady-under-pressure/s06.png",
+      "practice": {
+        "title": "Write your leave-line",
+        "prompt": "Keep it under fifteen words. Note three rehearsals, and one live use if you needed it.",
+        "how": [
+          "Say the line before you leave the room.",
+          "Stay inside the rules that govern you. Never requires contact with your child.",
+          "If you do not need it live, still write it and rehearse."
+        ],
+        "cols": [
+          "Your line",
+          "Rehearsal or live use"
+        ]
+      },
+      "practice_replay": "assets/video/steady/s06-practice-replay.mp4"
     },
     {
       "ord": 7,
@@ -252,7 +343,21 @@
           "correct_index": 1
         }
       ],
-      "poster": "assets/img/session-stills/steady-under-pressure/s07.png"
+      "poster": "assets/img/session-stills/steady-under-pressure/s07.png",
+      "practice": {
+        "title": "Name the feeling out loud",
+        "prompt": "Log the exact sentence you used in three separate moments.",
+        "how": [
+          "Not a summary. The words.",
+          "Stay inside the rules that govern you. Never requires contact with your child.",
+          "Mild irritation counts. Rehearsal counts if heat does not show."
+        ],
+        "cols": [
+          "Moment",
+          "Exact words"
+        ]
+      },
+      "practice_replay": "assets/video/steady/s07-practice-replay.mp4"
     },
     {
       "ord": 8,
@@ -288,7 +393,21 @@
           "correct_index": 1
         }
       ],
-      "poster": "assets/img/session-stills/steady-under-pressure/s08.png"
+      "poster": "assets/img/session-stills/steady-under-pressure/s08.png",
+      "practice": {
+        "title": "Strip the weapon from the sentence",
+        "prompt": "Rewrite two loaded lines into clean feeling statements. Use one live if heat shows.",
+        "how": [
+          "Feelings are allowed. Blame, insults, and history dumps are not.",
+          "Stay inside the rules that govern you. Never requires contact with your child.",
+          "You are not grading their reaction. You are training a sentence that does not reload the fight."
+        ],
+        "cols": [
+          "Loaded line",
+          "Clean line"
+        ]
+      },
+      "practice_replay": "assets/video/steady/s08-practice-replay.mp4"
     },
     {
       "ord": 9,
@@ -324,7 +443,21 @@
           "correct_index": 1
         }
       ],
-      "poster": "assets/img/session-stills/steady-under-pressure/s09.png"
+      "poster": "assets/img/session-stills/steady-under-pressure/s09.png",
+      "practice": {
+        "title": "Own it same day",
+        "prompt": "Write one ownership line for a recent miss. Note when you delivered it, or who you owned it with where you are now.",
+        "how": [
+          "Out loud, specific, no excuses.",
+          "Stay inside the rules that govern you. Never requires contact with your child.",
+          "If contact is not allowed, own a miss in your present setting with the same standard."
+        ],
+        "cols": [
+          "Ownership line",
+          "When and with whom"
+        ]
+      },
+      "practice_replay": "assets/video/steady/s09-practice-replay.mp4"
     },
     {
       "ord": 10,
@@ -360,7 +493,21 @@
           "correct_index": 1
         }
       ],
-      "poster": "assets/img/session-stills/steady-under-pressure/s10.png"
+      "poster": "assets/img/session-stills/steady-under-pressure/s10.png",
+      "practice": {
+        "title": "Write a short apology",
+        "prompt": "Act. Wrong. Next step. Cut every excuse. Note the rehearsal and whether you delivered it.",
+        "how": [
+          "Short and specific lands. Defense undoes it.",
+          "Stay inside the rules that govern you. Never requires contact with your child.",
+          "If delivery is not allowed, still write and rehearse, then deliver a present-setting apology."
+        ],
+        "cols": [
+          "The apology",
+          "Rehearsed or delivered"
+        ]
+      },
+      "practice_replay": "assets/video/steady/s10-practice-replay.mp4"
     },
     {
       "ord": 11,
@@ -396,7 +543,21 @@
           "correct_index": 1
         }
       ],
-      "poster": "assets/img/session-stills/steady-under-pressure/s11.png"
+      "poster": "assets/img/session-stills/steady-under-pressure/s11.png",
+      "practice": {
+        "title": "Sleep, food, movement log",
+        "prompt": "For five days, mark the sleep anchor, the movement block, and a short food-timing note.",
+        "how": [
+          "Steadiness is built in the boring hours.",
+          "Stay inside the rules that govern you. If movement is limited, use what is allowed.",
+          "Never requires contact with your child."
+        ],
+        "cols": [
+          "Day and anchor",
+          "Food timing note"
+        ]
+      },
+      "practice_replay": "assets/video/steady/s11-practice-replay.mp4"
     },
     {
       "ord": 12,
@@ -432,7 +593,21 @@
           "correct_index": 0
         }
       ],
-      "poster": "assets/img/session-stills/steady-under-pressure/s12.png"
+      "poster": "assets/img/session-stills/steady-under-pressure/s12.png",
+      "practice": {
+        "title": "Your steady-week plan",
+        "prompt": "Write the page: cues, in-the-moment stack, language and repair, boring-hour anchors, and one weekly marker.",
+        "how": [
+          "Write it today, not someday. Report the marker with honest numbers.",
+          "Stay inside the rules that govern you. Never requires contact with your child.",
+          "If you do not have a facilitator yet, pick someone who will actually ask."
+        ],
+        "cols": [
+          "Plan piece",
+          "Your words"
+        ]
+      },
+      "practice_replay": "assets/video/steady/s12-practice-replay.mp4"
     }
   ],
   "final_qa": [

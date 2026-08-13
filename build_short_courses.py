@@ -78,6 +78,9 @@ def practice_html(sess: dict) -> str:
             parts.append(f'    <p class="small"><b>After the return:</b> {_e(after)}</p>')
     else:
         parts.append(f'    <p class="small">{_e(sess.get("practice", ""))}</p>')
+    parts.append(
+        '    <p class="fine" style="margin-top:8px;color:var(--ash)">Complete this in the player after you pass the checkpoint. That is when the week counts.</p>'
+    )
     parts.append("  </div>")
     return "\n".join(parts)
 
@@ -108,7 +111,7 @@ def session_article(course: dict, sess: dict) -> str:
         caption = (
             '    <div class="vs-caption">\n'
             '      <p class="eyebrow brass">SESSION FILM</p>\n'
-            '      <p class="fine" style="color:var(--ash)">Scratch cut ready in the player. Watch there, then take the checkpoint.</p>\n'
+            '      <p class="fine" style="color:var(--ash)">Watch there, then take the checkpoint and complete this week\'s practice.</p>\n'
             f'      <p style="margin-top:10px"><a class="btn btn-yellow btn-sm" href="{demo_href}">Open in the player</a></p>\n'
             '    </div>\n'
         )
@@ -127,7 +130,7 @@ def session_article(course: dict, sess: dict) -> str:
         )
     label = sess.get("session_label") or f"SESSION {ord_}"
     length = sess.get("length_label") or (
-        "part of 1.1h course" if slug == "fundamentals" else "~12 MIN"
+        "part of 1.1h course" if slug == "fundamentals" else "~6 MIN"
     )
     return (
         f'<article class="card" style="padding:26px 28px;margin-bottom:18px" id="{sid}">\n'
@@ -146,6 +149,43 @@ def session_article(course: dict, sess: dict) -> str:
     )
 
 
+
+def welcome_html(course: dict) -> str:
+    w = course.get("welcome") or {}
+    if not (w.get("ken") or w.get("micah") or w.get("title")):
+        return ""
+    slug = course["slug"]
+    demo = f"course.html?preview=1&amp;cert={_e(slug)}&amp;welcome=1"
+    skip = f"course.html?preview=1&amp;cert={_e(slug)}"
+    video = w.get("video") or f"assets/video/welcomes/{slug}.mp4"
+    poster = w.get("poster") or ""
+    poster_attr = f' poster="{_e(poster)}"' if poster else ""
+    return (
+        '<section class="tight course-welcome-band" id="start-here">\n'
+        '  <div class="container" style="max-width:var(--max)">\n'
+        '    <article class="card course-welcome">\n'
+        '      <div class="row between" style="margin-bottom:10px"><span class="pill">START HERE</span><span class="fine mono">OPTIONAL</span></div>\n'
+        f'      <h2 class="d-28" style="margin-bottom:8px">{_e(w.get("title") or "Start here")}</h2>\n'
+        f'      <p class="fine ash" style="margin:0 0 14px;max-width:52ch">{_e(w.get("speakers") or "Ken Canfield and Micah Canfield")}. Not a week. Skip anytime.</p>\n'
+        f'      <div class="course-welcome-media"><video controls playsinline preload="metadata"{poster_attr} src="{_e(video)}" onerror="this.parentNode.hidden=true"></video></div>\n'
+        '      <div class="course-welcome-block">\n'
+        '        <p class="eyebrow brass">KEN</p>\n'
+        f'        <p>{_e(w.get("ken", ""))}</p>\n'
+        '      </div>\n'
+        '      <div class="course-welcome-block">\n'
+        '        <p class="eyebrow brass">MICAH</p>\n'
+        f'        <p>{_e(w.get("micah", ""))}</p>\n'
+        '      </div>\n'
+        '      <div class="course-welcome-cta">\n'
+        f'        <a class="btn btn-yellow" href="{demo}">Open Start here in the player</a>\n'
+        f'        <a class="btn btn-secondary" href="{skip}">Skip to session 1</a>\n'
+        '      </div>\n'
+        '    </article>\n'
+        '  </div>\n'
+        '</section>\n'
+    )
+
+
 def path_rail_html(course: dict) -> str:
     """Quiet progress pips + collapsed full path. Orientation, not a syllabus dump."""
     sessions = course["sessions"]
@@ -158,6 +198,13 @@ def path_rail_html(course: dict) -> str:
         for sess in sessions
     )
     items = []
+    if course.get("welcome"):
+        items.append(
+            '<a class="sag-item sag-welcome" href="#start-here">'
+            '<span class="fine mono sag-n">&bull;</span>'
+            '<span class="small"><b>Start here</b>'
+            ' <span class="ash">&middot; Ken and Micah</span></span></a>'
+        )
     for sess in sessions:
         items.append(
             f'<a class="sag-item" href="#{prefix}{sess["ord"]}">'
@@ -180,7 +227,8 @@ def path_rail_html(course: dict) -> str:
         f'<p class="fine ash" style="margin:0 0 14px;max-width:46ch">{_q(first["quote"])}</p>'
         f'<div class="course-pip-rail" aria-label="Course progress">{pips}</div>'
         '<p class="fine ash" style="margin:10px 0 16px;max-width:46ch">'
-        'One session at a time. Finish it in the player, then the next one opens.</p>'
+        'One week at a time. Watch the film, pass the checkpoint, complete the practice. Then the next one opens.</p>'
+        + (f'<p class="fine" style="margin:0 0 10px"><a class="link" href="{demo_href}&amp;welcome=1">Start here with Ken and Micah</a></p>' if course.get("welcome") else "") +
         f'<div class="course-focus-cta"><a class="btn btn-yellow" href="{demo_href}">{cta_label}</a></div>'
         f'<details class="course-full-path"><summary class="fine">See the full path ({n} sessions)</summary>'
         + "".join(items)
@@ -190,7 +238,7 @@ def path_rail_html(course: dict) -> str:
 
 def billboard_html(course: dict) -> str:
     n = len(course["sessions"])
-    minutes = "ALREADY FILMED" if course.get("slug") == "fundamentals" else "~12 MINUTES EACH"
+    minutes = "ALREADY FILMED" if course.get("slug") == "fundamentals" else "12 WEEKS · SHORT FILM"
     notes = []
     if course.get("fine2"):
         notes.append(_e(course["fine2"]))
@@ -259,8 +307,8 @@ def render_course_body(course: dict) -> str:
     return (
         billboard_html(course)
         + path_rail_html(course)
+        + welcome_html(course)
         + '\n<section><div class="container" style="max-width:var(--max)">\n'
-        + '<div class="eyebrow" style="margin-bottom:12px">START HERE</div>\n'
         + first
         + outlines
         + "</div></section>"

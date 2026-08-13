@@ -180,7 +180,7 @@
       if(!rows.length){
         box.innerHTML =
           '<p class="fine" style="margin-bottom:8px">No men on your Progress strip yet.</p>'+
-          '<p class="fine">Open <strong>Claims</strong>, enter the email he signs in with, then come back here. You will see Profile, sessions, checkpoints, and time. Never answers or scores.</p>';
+          '<p class="fine">Open <strong>Claims</strong>, enter the email he signs in with, then come back here. You will see Profile, film, checkpoint, and practice flags. Never answers, scores, or practice log text.</p>';
         if(!circleId) setConsider('Open Claims to seat a man, then check Progress.');
         else setConsider('Claim a man, then nudge anyone who has not started.');
         return;
@@ -189,24 +189,24 @@
       if(stuck) setConsider(stuck===1 ? 'One man has not started a session yet.' : (stuck+' men have not started a session yet.'));
       else setConsider('Everyone claimed has started. Stay available for questions.');
       box.innerHTML = '<div class="dtable-wrap"><table class="dtable"><thead><tr>'+
-        '<th>Name</th><th>Email</th><th>Profile</th><th>Sessions</th><th>Checkpoints</th><th>Time</th><th>Course state</th><th>Cert</th>'+
+        '<th>Name</th><th>Email</th><th>Profile</th><th>Film</th><th>Check</th><th>Practice</th><th>Course state</th><th>Cert</th>'+
         '</tr></thead><tbody>'+
         rows.map(function(x){
-          var mins = Math.round((x.seconds_logged||0)/60);
           var cert = x.cert_serial ? esc(x.cert_serial) : (x.enroll_state||'claimed');
+          var prac = (typeof x.practices_completed === 'number') ? x.practices_completed : '\u2014';
           return '<tr>'+
             '<td>'+esc(x.participant_name||'\u2014')+'</td>'+
             '<td class="fine">'+esc(x.participant_email||'')+'</td>'+
             '<td>'+(x.profile_complete?'Yes':'No')+'</td>'+
             '<td class="mono">'+(x.sessions_completed||0)+'</td>'+
             '<td class="mono">'+(x.checkpoints_passed||0)+'</td>'+
-            '<td class="fine">'+(mins? (mins+' min') : '\u2014')+'</td>'+
+            '<td class="mono">'+prac+'</td>'+
             '<td class="fine">'+esc(x.course_title? (x.course_title+' \u00b7 '+(x.enroll_state||'')) : (x.enroll_state||'claimed'))+'</td>'+
             '<td class="fine">'+cert+'</td>'+
             '</tr>';
         }).join('')+
         '</tbody></table></div>'+
-        '<p class="fine" style="margin-top:12px">You never see a man\u2019s answers or scores. This strip is enough to know who needs a nudge.</p>';
+        '<p class="fine" style="margin-top:12px">You never see a man\u2019s answers, scores, or practice log. Flags only: film, checkpoint, practice.</p>';
     });
   }
 

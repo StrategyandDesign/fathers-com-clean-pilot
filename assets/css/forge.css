@@ -1684,3 +1684,42 @@ html[data-theme="dark"] .cert-req-mark{color:#141210}
 .cw-lock p{color:var(--ash);line-height:1.55;margin:0 0 22px}
 .cw-lock .cw-lock-mark{width:44px;height:44px;border-radius:50%;border:1px solid var(--brass);color:var(--brass);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:18px}
 
+
+/* Twelve-week loop: film / check / practice pips and lived-practice log */
+.cw-loop-pips{display:flex;align-items:center;gap:6px;margin-top:6px;flex-wrap:wrap}
+.cw-loop-pip{width:8px;height:8px;border-radius:50%;border:1px solid var(--hairline-strong);background:transparent}
+.cw-loop-pip.is-on{background:var(--brass);border-color:var(--brass)}
+.cw-loop-legend{margin-left:4px;letter-spacing:.04em}
+.cw-practice{max-width:560px}
+.cw-how{margin:0 0 18px;padding-left:18px;color:var(--ash);max-width:52ch}
+.cw-how li{margin:0 0 6px;line-height:1.45}
+.cw-log{display:grid;gap:8px;margin:4px 0 0}
+.cw-log-head,.cw-log-row{display:grid;grid-template-columns:28px 1fr 1fr;gap:8px;align-items:center}
+.cw-log-n{font-family:var(--font-mono);font-size:12px;color:var(--ash);text-align:center}
+.cw-log-in{width:100%;background:var(--coal);border:1px solid var(--hairline);border-radius:10px;padding:10px 12px;color:var(--bone);font:inherit;font-size:14px}
+.cw-log-in:focus{outline:none;border-color:var(--ember-btn)}
+.cw-replay-wrap{margin-top:16px}
+.cw-replay-vid{width:100%;border-radius:12px;background:#000;aspect-ratio:16/9}
+@media (max-width:640px){
+  .cw-log-head{display:none}
+  .cw-log-row{grid-template-columns:22px 1fr;gap:6px}
+  .cw-log-row .cw-log-in:last-child{grid-column:2}
+}
+
+/* Start here: one Ken + Micah face intro per course (not a week) */
+.course-welcome{padding:26px 28px;margin-bottom:22px}
+.course-welcome-media{margin:14px 0 18px;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#000;border:1px solid var(--hairline)}
+.course-welcome-media video{width:100%;height:100%;object-fit:contain;display:block;background:#000}
+.course-welcome-block{margin:0 0 16px;max-width:52ch}
+.course-welcome-block .eyebrow{margin-bottom:6px}
+.course-welcome-block p{margin:0;font-family:var(--font-display);font-weight:500;font-size:17px;line-height:1.45;color:var(--bone)}
+.course-welcome-cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
+.course-welcome-band{padding-top:4px;padding-bottom:8px}
+.sag-welcome .sag-n{color:var(--brass)}
+.cw-welcome-row{border-color:rgba(201,151,59,.35)}
+.cw-welcome-row .cw-row-num{border-radius:6px;font-size:11px;color:var(--brass);border-color:rgba(201,151,59,.45)}
+.cw-welcome-media{margin:0 0 20px;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#000;border:1px solid var(--hairline)}
+.cw-welcome-media video{width:100%;height:100%;object-fit:contain;display:block;background:#000}
+.cw-welcome-copy{margin:4px 0 22px;display:grid;gap:18px}
+.cw-welcome-block p{font-family:var(--font-display);font-weight:500;font-size:clamp(16px,2.2vw,20px);line-height:1.45;color:var(--bone);max-width:48ch;margin:6px 0 0}
+.cw-welcome-actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center}

@@ -1,6 +1,13 @@
 {
   "slug": "coparenting",
   "title": "Same Team",
+  "welcome": {
+    "title": "Start here",
+    "speakers": "Ken Canfield and Micah Canfield",
+    "video": "assets/video/welcomes/coparenting.mp4",
+    "ken": "Your child does not need you and their other parent to be a couple. They need you on the same team. That is a skill: keep the child at the center when the old fight wants the mic.",
+    "micah": "I built this path so you can finish it. Each week is one short film, a few questions, and a small practice you can actually do. I will walk it with you. Here's session one."
+  },
   "videos": [
     {
       "ord": 1,
@@ -36,7 +43,20 @@
           "correct_index": 0
         }
       ],
-      "poster": "assets/img/session-stills/same-team/s01.png"
+      "poster": "assets/img/session-stills/same-team/s01.png",
+      "practice": {
+        "title": "One child-centered team sentence",
+        "prompt": "Write it. Keep it where you will see it before hard contact.",
+        "how": [
+          "Whatever you are to each other, you are one team for the child.",
+          "Never requires contact beyond what a court order or program rule allows.",
+          "Friendship with the other parent is not required."
+        ],
+        "cols": [
+          "The sentence",
+          "Where you will keep it"
+        ]
+      }
     },
     {
       "ord": 2,
@@ -72,7 +92,20 @@
           "correct_index": 1
         }
       ],
-      "poster": "assets/img/session-stills/same-team/s02.png"
+      "poster": "assets/img/session-stills/same-team/s02.png",
+      "practice": {
+        "title": "Write the shared goal",
+        "prompt": "One shared-goal sentence. Send it through a permitted channel, or file it to send when allowed.",
+        "how": [
+          "Child-centered. Short enough to send.",
+          "Never requires contact beyond what a court order or program rule allows.",
+          "Do not work around a court order."
+        ],
+        "cols": [
+          "The goal sentence",
+          "Sent or filed"
+        ]
+      }
     },
     {
       "ord": 3,
@@ -108,7 +141,20 @@
           "correct_index": 0
         }
       ],
-      "poster": "assets/img/session-stills/same-team/s03.png"
+      "poster": "assets/img/session-stills/same-team/s03.png",
+      "practice": {
+        "title": "Flooded means pause",
+        "prompt": "Rehearse the pause rule once. Use it on any heated exchange this week and log both ends.",
+        "how": [
+          "Name the pause. Name the resume time.",
+          "Never requires contact beyond what a court order or program rule allows.",
+          "If no heat shows, still rehearse the rule aloud."
+        ],
+        "cols": [
+          "How it started",
+          "How you paused and returned"
+        ]
+      }
     },
     {
       "ord": 4,
@@ -144,7 +190,20 @@
           "correct_index": 1
         }
       ],
-      "poster": "assets/img/session-stills/same-team/s04.png"
+      "poster": "assets/img/session-stills/same-team/s04.png",
+      "practice": {
+        "title": "Break clean",
+        "prompt": "Write a clean break-off line with a resume time. Use it once on a heated call or thread.",
+        "how": [
+          "Short. No blame. A time you will come back.",
+          "Never requires contact beyond what a court order or program rule allows.",
+          "If no heat shows, still write the line and rehearse."
+        ],
+        "cols": [
+          "The break-off line",
+          "Used or rehearsed"
+        ]
+      }
     },
     {
       "ord": 5,
@@ -180,7 +239,20 @@
           "correct_index": 1
         }
       ],
-      "poster": "assets/img/session-stills/same-team/s05.png"
+      "poster": "assets/img/session-stills/same-team/s05.png",
+      "practice": {
+        "title": "Three businesslike messages",
+        "prompt": "Draft three. Send whichever a permitted channel allows. File the rest.",
+        "how": [
+          "Facts. Times. The child. No history dump.",
+          "Never requires contact beyond what a court order or program rule allows.",
+          "Do not send on a channel a rule forbids."
+        ],
+        "cols": [
+          "The message",
+          "Sent or filed"
+        ]
+      }
     },
     {
       "ord": 6,
@@ -216,7 +288,20 @@
           "correct_index": 1
         }
       ],
-      "poster": "assets/img/session-stills/same-team/s06.png"
+      "poster": "assets/img/session-stills/same-team/s06.png",
+      "practice": {
+        "title": "Move one item to a cooler channel",
+        "prompt": "Name your hottest channel and your cooler backup. Move one real logistics item this week.",
+        "how": [
+          "Hottest is usually the one that floods you.",
+          "Never requires contact beyond what a court order or program rule allows.",
+          "One real logistics item is enough."
+        ],
+        "cols": [
+          "Hot vs cooler",
+          "The item you moved"
+        ]
+      }
     },
     {
       "ord": 7,
@@ -252,7 +337,20 @@
           "correct_index": 1
         }
       ],
-      "poster": "assets/img/session-stills/same-team/s07.png"
+      "poster": "assets/img/session-stills/same-team/s07.png",
+      "practice": {
+        "title": "One small reliable act",
+        "prompt": "Identify it. Do it consistently for a week. Log it.",
+        "how": [
+          "Reliability buys trust. Small and repeatable beats a speech.",
+          "Never requires contact beyond what a court order or program rule allows.",
+          "Pick something you can keep even on a hard day."
+        ],
+        "cols": [
+          "The act",
+          "Day and kept or missed"
+        ]
+      }
     },
     {
       "ord": 8,
@@ -288,7 +386,20 @@
           "correct_index": 0
         }
       ],
-      "poster": "assets/img/session-stills/same-team/s08.png"
+      "poster": "assets/img/session-stills/same-team/s08.png",
+      "practice": {
+        "title": "Never against an order",
+        "prompt": "List the rules that govern you now. Choose one small act of compliance you will keep perfectly this week.",
+        "how": [
+          "Never use the child as a messenger.",
+          "Never requires contact beyond what a court order or program rule allows.",
+          "Do not invent a workaround. Perfect on one small act is the drill."
+        ],
+        "cols": [
+          "The rule",
+          "The act you will keep"
+        ]
+      }
     },
     {
       "ord": 9,
@@ -324,7 +435,20 @@
           "correct_index": 0
         }
       ],
-      "poster": "assets/img/session-stills/same-team/s09.png"
+      "poster": "assets/img/session-stills/same-team/s09.png",
+      "practice": {
+        "title": "What the child carries",
+        "prompt": "Ask one open question about moving between homes if contact allows, or file it. Fix one logistics friction on your side.",
+        "how": [
+          "Open question. No cross-exam.",
+          "Never requires contact beyond what a court order or program rule allows.",
+          "The logistics fix is yours, not the child's job."
+        ],
+        "cols": [
+          "The question or friction",
+          "Asked, filed, or fixed"
+        ]
+      }
     },
     {
       "ord": 10,
@@ -360,7 +484,20 @@
           "correct_index": 1
         }
       ],
-      "poster": "assets/img/session-stills/same-team/s10.png"
+      "poster": "assets/img/session-stills/same-team/s10.png",
+      "practice": {
+        "title": "Three predictable rules for your time",
+        "prompt": "Write three predictable rules for your parenting time. Post them where you will follow them.",
+        "how": [
+          "Predictable on your side. The child should not have to guess.",
+          "Never requires contact beyond what a court order or program rule allows.",
+          "If you do not have parenting time yet, write the three you will keep when you do."
+        ],
+        "cols": [
+          "The rule",
+          "Where it will live"
+        ]
+      }
     },
     {
       "ord": 11,
@@ -396,7 +533,20 @@
           "correct_index": 1
         }
       ],
-      "poster": "assets/img/session-stills/same-team/s11.png"
+      "poster": "assets/img/session-stills/same-team/s11.png",
+      "practice": {
+        "title": "Handoff checklist",
+        "prompt": "Place, time, items, facts, goodbye. Rehearse once.",
+        "how": [
+          "Facts, not a speech. A clean goodbye.",
+          "Never requires contact beyond what a court order or program rule allows.",
+          "If a handoff is not allowed this week, still write and rehearse the checklist."
+        ],
+        "cols": [
+          "Checklist piece",
+          "Your words"
+        ]
+      }
     },
     {
       "ord": 12,
@@ -432,7 +582,20 @@
           "correct_index": 1
         }
       ],
-      "poster": "assets/img/session-stills/same-team/s12.png"
+      "poster": "assets/img/session-stills/same-team/s12.png",
+      "practice": {
+        "title": "Handoff ritual plan",
+        "prompt": "Complete a one-page handoff ritual plan. Walk it through with a cohort partner or facilitator.",
+        "how": [
+          "After return, execute one handoff to the plan and log it.",
+          "Never requires contact beyond what a court order or program rule allows.",
+          "If a live handoff is not allowed, still complete the page and walk it through."
+        ],
+        "cols": [
+          "Plan piece",
+          "Your words"
+        ]
+      }
     }
   ],
   "final_qa": [
