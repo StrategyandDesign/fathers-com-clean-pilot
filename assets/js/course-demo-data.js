@@ -1565,7 +1565,7 @@ window.FC_COURSE_DEMO = {
             "prompt": "If you must miss a standing time, the strong move is:",
             "choices": [
               "Skip quietly",
-              "Tell the caregiver or the plan ahead, name the new time, and keep it",
+              "Write the new time down, and keep it",
               "Make it up with a gift only"
             ],
             "correct_index": 1
@@ -1632,7 +1632,7 @@ window.FC_COURSE_DEMO = {
             "prompt": "Why does this secret exist?",
             "choices": [
               "Children should not have to choose a side or hear you tear her down.",
-              "So you look generous.",
+              "So you win the argument.",
               "So she likes you more."
             ],
             "correct_index": 0
