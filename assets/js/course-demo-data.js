@@ -19,7 +19,7 @@ window.FC_COURSE_DEMO = {
         "ord": 1,
         "title": "The Surge Is a Signal",
         "vimeo_id": null,
-        "duration_seconds": 502,
+        "duration_seconds": 378,
         "checkpoint_json": [
           {
             "prompt": "What does this session call the surge you feel when anger hits?",
