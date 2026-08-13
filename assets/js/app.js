@@ -428,13 +428,17 @@
             done();
             if(r.error){ aMsg(r.error.message||'Could not create the account.','err'); return; }
             if(r.data && r.data.session){ location.href = nextPage || 'profile.html'; return; }
-            aMsg('Account created. Check your email to confirm it, then sign in here.');
             setMode('signin');
+            aMsg('Account created. If a confirm email arrives, open it, then sign in here. If not, try signing in now.');
           }, function(){ done(); aMsg('Could not create the account. Try again.','err'); });
         } else {
           FC.signInPassword(email, pass).then(function(r){
             done();
-            if(r.error){ aMsg('Wrong email or password.','err'); return; }
+            if(r.error){
+              var em=(r.error.message||'');
+              aMsg(/confirm/i.test(em) ? 'Confirm the email we sent, then sign in here.' : 'Wrong email or password.','err');
+              return;
+            }
             location.href = nextPage || 'plan.html';
           }, function(){ done(); aMsg('Could not sign in. Try again.','err'); });
         }
