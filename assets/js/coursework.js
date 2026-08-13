@@ -2,7 +2,7 @@
    Twelve-week loop for Steady / Coming Home / Same Team: watch the film, pass the
    checkpoint, complete the lived practice. Session complete is those three, not
    seat time. Fundamentals keep the older film-plus-checkpoint flow.
-   Signed-in + enrolled. Reads and writes are RLS-gated. */
+   Signed-in. Films open without a claim; certificate submit needs enrollment. */
 (function(){
   var root = document.getElementById('cw-root');
   if (!root) return;
@@ -91,9 +91,13 @@
       // must be enrolled
       FC.sb.from('certificate_enrollments').select('id,state').eq('user_id',uid).eq('course_id',course.id).maybeSingle().then(function(er){
         if(er.error){ stage('<div class="notice brass">'+esc(er.error.message)+'</div>'); return; }
-        if(!er.data){ stage('<div class="notice brass">You are not enrolled in this certificate yet. <a class="link" href="enroll.html?cert='+esc(slug)+'">Enroll first</a>.</div>'); return; }
+        if(!er.data){
+          enrollId = null; enrollState = null; awardStatus = null;
+          note('<div class="notice brass" style="margin:0 0 14px"><b>Films are open.</b> <span class="fine">Watch and practice. A certificate needs a facilitator to claim your seat, then enroll.</span></div>');
+          loadContent();
+          return;
+        }
         enrollId = er.data.id; enrollState = er.data.state || 'enrolled';
-        // award status (may already be submitted/approved/signed)
         FC.sb.from('certificate_awards').select('status').eq('user_id',uid).eq('course_id',course.id).maybeSingle().then(function(ar){
           awardStatus = ar.data && ar.data.status;
           loadContent();
@@ -293,10 +297,16 @@
         '<button class="btn btn-secondary btn-sm" id="cw-open-welcome">Watch</button></div></div>';
     }
 
-    var finalReady = allVideosDone();
+    var finalReady = allVideosDone() && !!enrollId;
+    var finalHint = !allVideosDone() ? 'Finish all lessons first' : (!enrollId ? 'Certificate needs a claimed seat' : 'Ready');
+    var finalRight = finalReady
+      ? '<button class="btn btn-primary btn-sm" id="cw-final-btn">Begin final</button>'
+      : (!allVideosDone()
+          ? '<span class="cw-badge cw-locked">Locked</span>'
+          : '<a class="btn btn-secondary btn-sm" href="enroll.html?cert='+esc(slug)+'">Claim seat for certificate</a>');
     var finalBlock = '<div class="cw-row cw-final"><div class="cw-row-main"><div class="cw-row-num">\u2691</div>'+
-      '<div><div class="cw-row-title">Final Q&amp;A and submit</div><div class="fine">'+(finalReady?'Ready':'Finish all lessons first')+'</div></div></div>'+
-      '<div class="cw-row-right">'+(finalReady?'<button class="btn btn-primary btn-sm" id="cw-final-btn">Begin final</button>':'<span class="cw-badge cw-locked">Locked</span>')+'</div></div>';
+      '<div><div class="cw-row-title">Final Q&amp;A and submit</div><div class="fine">'+finalHint+'</div></div></div>'+
+      '<div class="cw-row-right">'+finalRight+'</div></div>';
 
     var done = videos.filter(videoDone).length;
     stage(
@@ -369,7 +379,7 @@
           '<p class="small ash">Final film goes here. Press play for a short stand-in, then take the checkpoint.</p>'+
           '<button class="btn btn-yellow btn-sm" id="cw-sim">Play preview session</button>'+
           '</div>';
-      } else {
+    } else {
         player = '<div class="cw-novid" style="padding:28px 24px;border:1px solid rgba(127,127,127,.28);border-radius:14px;background:rgba(255,255,255,.03)">'+
           '<div class="eyebrow brass" style="margin-bottom:10px">PREVIEW SESSION · PLACEHOLDER</div>'+
           '<h3 style="margin:0 0 8px;font-family:var(--font-display);font-size:26px">'+esc(v.title)+'</h3>'+
@@ -853,6 +863,7 @@
 
   function submitFinal(qs){
     if(!allVideosDone()){ $('cw-submit-msg').textContent='Finish all lessons first.'; return; }
+  if(!enrollId){ $('cw-submit-msg').textContent='A certificate needs a facilitator to claim your seat.'; return; }
     var btn=$('cw-submit'); btn.disabled=true; btn.textContent='Submitting\u2026';
     if (demo){
       awardStatus='submitted';
