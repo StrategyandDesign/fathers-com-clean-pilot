@@ -38,11 +38,11 @@ T.append(('01-welcome', 'Your baseline is saved.', 'Week 1 is ready when you are
   slotimg('IMG-P13-EM1-01 · Week 1 lesson') +
   btn('Start Week 1', 'PLAN_URL')))
 
-T.append(('02-weekly-plan', 'Week 3: show up on schedule.', 'One lesson. Two actions.',
+T.append(('02-weekly-plan', 'Week 3: show up on schedule.', "This week's film, checkpoint, and practice.",
   h1('Week 3: show up on schedule.') +
-  card('<b style="font-size:14px;color:#141210;">Watch: Lesson 5, Repair Fast</b><br><span style="font-size:13px;color:#6b6257;">9 minutes</span>') +
-  card('<b style="font-size:14px;color:#141210;">Eat breakfast with your kids twice this week.</b><br><span style="font-size:12px;color:#6b6257;font-family:Courier,monospace;">CONSISTENCY</span>') +
-  card('<b style="font-size:14px;color:#141210;">Ask each kid one question about their world. No fixing.</b><br><span style="font-size:12px;color:#6b6257;font-family:Courier,monospace;">AWARENESS</span>') +
+  card('<b style="font-size:14px;color:#141210;">Watch this week\'s film on My Plan.</b><br><span style="font-size:13px;color:#6b6257;">Open the plan. Play the session that is next.</span>') +
+  card('<b style="font-size:14px;color:#141210;">Take the checkpoint after the film.</b><br><span style="font-size:12px;color:#6b6257;font-family:Courier,monospace;">CHECKPOINT</span>') +
+  card('<b style="font-size:14px;color:#141210;">Do this week\'s practice. No child visit required.</b><br><span style="font-size:12px;color:#6b6257;font-family:Courier,monospace;">PRACTICE</span>') +
   btn('Open My Plan', 'PLAN_URL')))
 
 T.append(('03-missed-week', 'Week 4 is still on the table.', 'No lecture. Just the plan.',

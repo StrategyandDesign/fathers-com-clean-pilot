@@ -1,0 +1,459 @@
+{
+  "slug": "fundamentals",
+  "title": "The Seven Secrets of Effective Fathers Assessment & Course",
+  "short_title": "Fathering Fundamentals",
+  "tagline": "Dr. Ken Canfield’s research-based Seven Secrets: assess, then grow in commitment, knowing your child, consistency, security, affirmation, loving discipline, and modeling integrity and faith.",
+  "session_length_label": "part of 1.1h course",
+  "session_count": 9,
+  "course_order": 1,
+  "course_purpose": "Live fathers.com course already filmed: Introduction plus seven secrets and a bonus. Includes the free assessment. Wrapper animation only (cold open / keyline cards) for visual consistency with Courses 2–4; Ken’s session film stays as shot.",
+  "audience": "For every dad building stronger connection and purpose. Category: Fathering. Free assessment included. Any device.",
+  "facilitator_note": "FILM ALREADY SHOT · KEEP AS-IS. Course 1 in the Animation Script Bible mirrors the live Seven Secrets assessment course on fathers.com (not the older 5-session Keystone platform pack in content/fundamentals.json). Do not rewrite Ken’s sessions. Produce wrapper stills only.",
+  "bible_note": "Course 1 follows https://fathers.com/courses/the-seven-secrets-of-effective-fathering-assessment-course. Platform content/fundamentals.json may still list 5 Keystone sessions; Bible Course 1 does not. Do not change the live platform repo unless trivial.",
+  "source_url": "https://fathers.com/courses/the-seven-secrets-of-effective-fathering-assessment-course",
+  "source_files": [
+    "fundamentals-scrape/SOURCE.md",
+    "https://fathers.com/courses/the-seven-secrets-of-effective-fathering-assessment-course"
+  ],
+  "film_status": "already_shot",
+  "total_length": "1.1 Hours",
+  "included": "Free Assessment",
+  "category": "Fathering",
+  "author": "Dr. Ken Canfield",
+  "title_body_mismatches": [
+    {
+      "session": 5,
+      "title": "Fifth Secret: Affirming and Encouraging",
+      "page_body": "One of the most powerful things a father can do for his children is to love and honor their mother. Whether married, divorced, or separated, showing respect sets a powerful example.",
+      "handling": "Prefer TITLE. Purpose and insight written from Affirming/Encouraging + Seven Secrets framing. Body kept in summary_page_verbatim for audit only."
+    },
+    {
+      "session": 6,
+      "title": "Sixth Secret: Disciplining with Love",
+      "page_body": "Listening with attention and empathy builds trust and respect. When a father listens well, he invites openness and strengthens the relationship.",
+      "handling": "Prefer TITLE. Purpose and insight written from Disciplining with Love + Seven Secrets framing. Body kept in summary_page_verbatim for audit only."
+    }
+  ],
+  "sessions": [
+    {
+      "number": 0,
+      "id": "ss0",
+      "title": "Introduction",
+      "keyline": "Welcome, overview, and take the assessment.",
+      "length": "part of 1.1h course",
+      "purpose": "Orient the dad to the Seven Secrets journey and send him into the free assessment before Session 1.",
+      "practical_insight": "Start with a clear baseline: watch the overview, then take the assessment.",
+      "summary": "Welcome to The Seven Secrets of Effective Fathers Course, a practical, research-based journey designed to help you lead with strength, consistency, and purpose as a dad. Watch the Overview and take the Assessment.",
+      "summary_page_verbatim": "Welcome to The Seven Secrets of Effective Fathers Course —a practical, research-based journey designed to help you lead with strength, consistency, and purpose as a dad.",
+      "session_sections": [
+        "Watch the Overview & Take the Assessment",
+        "Guiding Thought",
+        "Reflective Questions",
+        "Encouragement from the Word"
+      ],
+      "video_id": "6841edf1ebbd2be256accfae",
+      "film_already_shot": true,
+      "one_scene": "A dad opens the course, hears the welcome, and takes the assessment before the first secret.",
+      "in_the_room": "Course welcome, overview film, and free assessment entry point.",
+      "what_you_leave_with": "You know the arc of the seven secrets and have started the assessment.",
+      "practice": "Complete the free assessment before Session 1.",
+      "science_or_note": "Assessment first so growth targets are personal, not generic.",
+      "checkpoint_questions": [],
+      "script_aids": {
+        "purpose": "Wrapper cold open: welcome the dad and point him to overview plus assessment.",
+        "practical_insight": "Welcome, overview, and take the assessment.",
+        "emotional_beat": "Clear invitation without pressure: this course is for him, starting now.",
+        "cold_open": "Title card: The Seven Secrets of Effective Fathers. Sub: Assessment & Course. Cut to Ken overview.",
+        "keyline_card": "Welcome / Overview & Take the Assessment",
+        "shape_motifs": [
+          "seven marks arranging into a single path",
+          "assessment checklist lighting one node at a time",
+          "doorway ring opening onto a course strip"
+        ],
+        "do_not": [
+          "Film already shot · wrapper stills only",
+          "No faces, bodies, photographic people, or culture-specific dress",
+          "Do not invent doctrine beyond page titles and clear Seven Secrets framing",
+          "Do not replace Ken film with animated teaching"
+        ],
+        "bridge_from_prev": "Course open: no prior session.",
+        "bridge_to_next": "Assessment started; next: First Secret, Commitment.",
+        "film_status": "already_shot"
+      }
+    },
+    {
+      "number": 1,
+      "id": "ss1",
+      "title": "First Secret: Commitment",
+      "keyline": "Present physically, emotionally, spiritually; commitment builds trust.",
+      "length": "part of 1.1h course",
+      "purpose": "Establish commitment as the first secret: being present in body, heart, and spirit so trust can grow.",
+      "practical_insight": "Commitment is presence that your child can count on.",
+      "summary": "A father’s first and most essential role is to be present physically, emotionally, and spiritually. Commitment builds trust and lays the foundation for lasting influence.",
+      "summary_page_verbatim": "A father’s first and most essential role is to be present—physically, emotionally, and spiritually. Commitment builds trust and lays the foundation for lasting influence.",
+      "session_sections": [
+        "Watch the Video",
+        "Guiding Thought",
+        "Reflective Questions",
+        "Encouragement from the Word"
+      ],
+      "video_id": "6841c57a3ee1c8cd3fdd3479",
+      "film_already_shot": true,
+      "one_scene": "He chooses to be present in the room, in the conversation, and in the spiritual lead of the home.",
+      "in_the_room": "Commitment as physical, emotional, and spiritual presence; trust as the fruit.",
+      "what_you_leave_with": "You treat presence as a commitment your child can feel across all three dimensions.",
+      "practice": "Name one physical, one emotional, and one spiritual way you will show up this week.",
+      "science_or_note": "Commitment builds trust and lays the foundation for lasting influence.",
+      "checkpoint_questions": [],
+      "script_aids": {
+        "purpose": "Wrapper cold open and keyline card for Commitment.",
+        "practical_insight": "Present physically, emotionally, spiritually; commitment builds trust.",
+        "emotional_beat": "Steady resolve: presence is a choice he can renew today.",
+        "cold_open": "Three presence marks (body / heart / spirit) lock into one commitment bar.",
+        "keyline_card": "First Secret: Commitment",
+        "shape_motifs": [
+          "three rings locking into one filled circle",
+          "presence beam holding steady",
+          "trust bridge forming under a kept stance"
+        ],
+        "do_not": [
+          "Film already shot · wrapper stills only",
+          "No faces, bodies, photographic people, or culture-specific dress",
+          "Do not invent doctrine beyond page titles and clear Seven Secrets framing",
+          "Do not replace Ken film with animated teaching"
+        ],
+        "bridge_from_prev": "Assessment and overview done; begin with Commitment.",
+        "bridge_to_next": "Commitment set; next know the unique child you are committed to.",
+        "film_status": "already_shot"
+      }
+    },
+    {
+      "number": 2,
+      "id": "ss2",
+      "title": "Second Secret: Knowing Your Child",
+      "keyline": "Unique personality, needs, and interests open deeper connection.",
+      "length": "part of 1.1h course",
+      "purpose": "Train the dad to study his child’s uniqueness so parenting becomes personal, not generic.",
+      "practical_insight": "Knowing your child is the door to deeper connection.",
+      "summary": "Every child is unique. Understanding your child’s personality, needs, and interests opens the door to deeper connection and more meaningful parenting.",
+      "summary_page_verbatim": "Every child is unique. Understanding your child’s personality, needs, and interests opens the door to deeper connection and more meaningful parenting.",
+      "session_sections": [
+        "Watch the Video",
+        "Guiding Thought",
+        "Reflective Questions",
+        "Encouragement from the Word"
+      ],
+      "video_id": "6841db3669d0d07af4a49b95",
+      "film_already_shot": true,
+      "one_scene": "He names what makes this child different and asks a question that fits that child, not a script.",
+      "in_the_room": "Personality, needs, and interests as the path to meaningful connection.",
+      "what_you_leave_with": "You can name concrete traits, needs, and interests for each child.",
+      "practice": "Write three specifics: one personality trait, one need, one interest for your child.",
+      "science_or_note": "Understanding uniqueness opens the door to deeper connection.",
+      "checkpoint_questions": [],
+      "script_aids": {
+        "purpose": "Wrapper cold open and keyline card for Knowing Your Child.",
+        "practical_insight": "Unique personality, needs, and interests open deeper connection.",
+        "emotional_beat": "Curiosity and warmth: this child is worth studying.",
+        "cold_open": "A generic silhouette splits into distinct personal marks.",
+        "keyline_card": "Second Secret: Knowing Your Child",
+        "shape_motifs": [
+          "map of a child’s world filling with named dots",
+          "three trait marks (personality / needs / interests)",
+          "door path opening from knowledge to connection"
+        ],
+        "do_not": [
+          "Film already shot · wrapper stills only",
+          "No faces, bodies, photographic people, or culture-specific dress",
+          "Do not invent doctrine beyond page titles and clear Seven Secrets framing",
+          "Do not replace Ken film with animated teaching"
+        ],
+        "bridge_from_prev": "Commitment holds; now learn the child you are committed to.",
+        "bridge_to_next": "Knowledge grows; next make showing up consistent.",
+        "film_status": "already_shot"
+      }
+    },
+    {
+      "number": 3,
+      "id": "ss3",
+      "title": "Third Secret: Showing Up Consistently",
+      "keyline": "Stability through consistent actions, values, and discipline.",
+      "length": "part of 1.1h course",
+      "purpose": "Show that children thrive on stability when a father’s actions, values, and discipline stay steady.",
+      "practical_insight": "Consistency creates the secure environment where confidence grows.",
+      "summary": "Children thrive on stability. Consistent actions, values, and discipline help create a secure environment where your child can grow with confidence.",
+      "summary_page_verbatim": "Children thrive on stability. Consistent actions, values, and discipline help create a secure environment where your child can grow with confidence.",
+      "session_sections": [
+        "Watch the Video",
+        "Guiding Thought",
+        "Reflective Questions",
+        "Encouragement from the Word"
+      ],
+      "video_id": "6841e0c17ce1ed1f1058c94d",
+      "film_already_shot": true,
+      "one_scene": "Week after week he keeps the same actions and values so the home feels steady.",
+      "in_the_room": "Stability via consistent actions, values, and discipline.",
+      "what_you_leave_with": "You treat consistency as security your child can feel.",
+      "practice": "Pick one action, one value, and one discipline habit you will keep the same this week.",
+      "science_or_note": "Children thrive on stability; consistency builds confidence.",
+      "checkpoint_questions": [],
+      "script_aids": {
+        "purpose": "Wrapper cold open and keyline card for Showing Up Consistently.",
+        "practical_insight": "Stability through consistent actions, values, and discipline.",
+        "emotional_beat": "Quiet confidence: the child stops wondering if dad will hold.",
+        "cold_open": "Calendar cells light on the same cadence, week after week.",
+        "keyline_card": "Third Secret: Showing Up Consistently",
+        "shape_motifs": [
+          "calendar cells lighting on a standing cadence",
+          "three steady ticks: actions, values, discipline",
+          "secure field forming under repeated marks"
+        ],
+        "do_not": [
+          "Film already shot · wrapper stills only",
+          "No faces, bodies, photographic people, or culture-specific dress",
+          "Do not invent doctrine beyond page titles and clear Seven Secrets framing",
+          "Do not replace Ken film with animated teaching"
+        ],
+        "bridge_from_prev": "You know the child; now show up the same way they can trust.",
+        "bridge_to_next": "Consistency set; next protect and provide security.",
+        "film_status": "already_shot"
+      }
+    },
+    {
+      "number": 4,
+      "id": "ss4",
+      "title": "Fourth Secret: Protecting and Providing Security",
+      "keyline": "Physical, emotional, and spiritual safety and provision.",
+      "length": "part of 1.1h course",
+      "purpose": "Frame protection and provision as meeting needs and ensuring safety across physical, emotional, and spiritual life.",
+      "practical_insight": "Protection and provision show your child they are valued.",
+      "summary": "Fatherhood includes meeting needs and ensuring safety, not just physically, but emotionally and spiritually. Protection and provision show your child they are valued.",
+      "summary_page_verbatim": "Fatherhood includes meeting needs and ensuring safety—not just physically, but emotionally and spiritually. Protection and provision show your child they are valued.",
+      "session_sections": [
+        "Watch the Video",
+        "Guiding Thought",
+        "Reflective Questions",
+        "Encouragement from the Word"
+      ],
+      "video_id": "6841e356122f3f61f62d3f24",
+      "film_already_shot": true,
+      "one_scene": "He meets a need and removes a threat so the child feels safe and valued.",
+      "in_the_room": "Safety and provision across physical, emotional, and spiritual dimensions.",
+      "what_you_leave_with": "You can name how you protect and provide in each of the three dimensions.",
+      "practice": "Name one protective move and one provision move you will make this week.",
+      "science_or_note": "Protection and provision communicate value to the child.",
+      "checkpoint_questions": [],
+      "script_aids": {
+        "purpose": "Wrapper cold open and keyline card for Protecting and Providing Security.",
+        "practical_insight": "Physical, emotional, and spiritual safety and provision.",
+        "emotional_beat": "Covered and valued: the child can rest.",
+        "cold_open": "Shield ring expands around a small center node while provision marks arrive.",
+        "keyline_card": "Fourth Secret: Protecting and Providing Security",
+        "shape_motifs": [
+          "protective ring around a center node",
+          "three safety bands: physical, emotional, spiritual",
+          "provision marks landing inside a secure field"
+        ],
+        "do_not": [
+          "Film already shot · wrapper stills only",
+          "No faces, bodies, photographic people, or culture-specific dress",
+          "Do not invent doctrine beyond page titles and clear Seven Secrets framing",
+          "Do not replace Ken film with animated teaching"
+        ],
+        "bridge_from_prev": "Consistency creates stability; now guard and provide within it.",
+        "bridge_to_next": "Security held; next affirm and encourage.",
+        "film_status": "already_shot"
+      }
+    },
+    {
+      "number": 5,
+      "id": "ss5",
+      "title": "Fifth Secret: Affirming and Encouraging",
+      "keyline": "Speak life: affirm who they are and encourage who they are becoming.",
+      "length": "part of 1.1h course",
+      "purpose": "Help fathers practice affirmation and encouragement so children hear strength and belonging from dad.",
+      "practical_insight": "Affirmation names worth; encouragement fuels the next step.",
+      "summary": "TITLE-LED (page body mismatched): Affirming and Encouraging as a Seven Secret means speaking life over your child, naming strengths, and cheering growth. Live page body instead discusses loving and honoring their mother; that copy is retained in summary_page_verbatim for audit and is not used as Affirming doctrine here.",
+      "summary_page_verbatim": "One of the most powerful things a father can do for his children is to love and honor their mother. Whether married, divorced, or separated, showing respect sets a powerful example.",
+      "title_body_mismatch": true,
+      "session_sections": [
+        "Watch the Video",
+        "Guiding Thought",
+        "Reflective Questions",
+        "Encouragement from the Word"
+      ],
+      "video_id": "6841e5e7ae874d5d9b458893",
+      "film_already_shot": true,
+      "one_scene": "He names something true and good about his child out loud, then encourages the next faithful step.",
+      "in_the_room": "Affirmation and encouragement as a core Seven Secret (title-led; see mismatch note).",
+      "what_you_leave_with": "You leave ready to speak specific affirmation and practical encouragement this week.",
+      "practice": "Speak one specific affirmation and one forward-looking encouragement to your child.",
+      "science_or_note": "TITLE/BODY MISMATCH on live page: body describes honoring mother; structure follows title Affirming and Encouraging.",
+      "checkpoint_questions": [],
+      "script_aids": {
+        "purpose": "Wrapper cold open and keyline card for Affirming and Encouraging (title-led).",
+        "practical_insight": "Speak life: affirm who they are and encourage who they are becoming.",
+        "emotional_beat": "Warm lift: the child hears they matter and can keep going.",
+        "cold_open": "Dim marks brighten as affirmation sparks land on a growing path.",
+        "keyline_card": "Fifth Secret: Affirming and Encouraging",
+        "shape_motifs": [
+          "upward sparks on a growth path",
+          "spoken-word marks landing on a child node",
+          "encouragement arrow pointing forward without pressure spike"
+        ],
+        "do_not": [
+          "Film already shot · wrapper stills only",
+          "No faces, bodies, photographic people, or culture-specific dress",
+          "Do not invent doctrine beyond page titles and clear Seven Secrets framing",
+          "Do not treat mismatched mother-honoring body copy as Affirming session doctrine",
+          "Do not replace Ken film with animated teaching"
+        ],
+        "bridge_from_prev": "Security is in place; now speak life into the child.",
+        "bridge_to_next": "Affirmation given; next discipline with love.",
+        "film_status": "already_shot"
+      }
+    },
+    {
+      "number": 6,
+      "id": "ss6",
+      "title": "Sixth Secret: Disciplining with Love",
+      "keyline": "Correction that trains, bound by love, not anger.",
+      "length": "part of 1.1h course",
+      "purpose": "Teach discipline as loving formation: clear boundaries and correction that build the child rather than wound them.",
+      "practical_insight": "Love sets the tone; discipline shapes the path.",
+      "summary": "TITLE-LED (page body mismatched): Disciplining with Love means guiding behavior with firmness and care so correction trains character. Live page body instead discusses listening with attention and empathy; that copy is retained in summary_page_verbatim for audit and is not used as Discipline doctrine here.",
+      "summary_page_verbatim": "Listening with attention and empathy builds trust and respect. When a father listens well, he invites openness and strengthens the relationship.",
+      "title_body_mismatch": true,
+      "session_sections": [
+        "Watch the Video",
+        "Guiding Thought",
+        "Reflective Questions",
+        "Encouragement from the Word"
+      ],
+      "video_id": "6841e821ace3d9d9fad20724",
+      "film_already_shot": true,
+      "one_scene": "He corrects with a calm voice, names the value, and stays connected while the boundary holds.",
+      "in_the_room": "Loving discipline as a core Seven Secret (title-led; see mismatch note).",
+      "what_you_leave_with": "You can correct with clarity and love in the same move.",
+      "practice": "Prepare one loving correction script: what happened, the value, the next step.",
+      "science_or_note": "TITLE/BODY MISMATCH on live page: body describes listening; structure follows title Disciplining with Love.",
+      "checkpoint_questions": [],
+      "script_aids": {
+        "purpose": "Wrapper cold open and keyline card for Disciplining with Love (title-led).",
+        "practical_insight": "Correction that trains, bound by love, not anger.",
+        "emotional_beat": "Firm warmth: the child feels guided, not discarded.",
+        "cold_open": "A boundary line holds while a warm bridge stays connected across it.",
+        "keyline_card": "Sixth Secret: Disciplining with Love",
+        "shape_motifs": [
+          "boundary line with a warm connecting bridge",
+          "correction arc that returns to relationship",
+          "love mark under a clear standard post"
+        ],
+        "do_not": [
+          "Film already shot · wrapper stills only",
+          "No faces, bodies, photographic people, or culture-specific dress",
+          "Do not invent doctrine beyond page titles and clear Seven Secrets framing",
+          "Do not treat mismatched listening body copy as Discipline session doctrine",
+          "Do not replace Ken film with animated teaching"
+        ],
+        "bridge_from_prev": "Affirmation softens the soil; now correct with love.",
+        "bridge_to_next": "Discipline held in love; next model integrity and faith.",
+        "film_status": "already_shot"
+      }
+    },
+    {
+      "number": 7,
+      "id": "ss7",
+      "title": "Seventh Secret: Modeling Integrity and Faith",
+      "keyline": "Lead by example in faith and values.",
+      "length": "part of 1.1h course",
+      "purpose": "Call fathers to lead by example so integrity and faith become visible, livable patterns for their children.",
+      "practical_insight": "What you model becomes the path your children can see.",
+      "summary": "Fathers are called to lead by example in faith and values. Guiding your children spiritually shapes their worldview and grounds them in lasting truth.",
+      "summary_page_verbatim": "Fathers are called to lead by example in faith and values. Guiding your children spiritually shapes their worldview and grounds them in lasting truth.",
+      "session_sections": [
+        "Watch the Video",
+        "Guiding Thought",
+        "Reflective Questions",
+        "Encouragement from the Word"
+      ],
+      "video_id": "6841e9e9cdfa371ca30b5885",
+      "film_already_shot": true,
+      "one_scene": "He lives a value out loud so his child can watch faith and integrity in motion.",
+      "in_the_room": "Modeling faith and values; spiritual guidance that grounds worldview.",
+      "what_you_leave_with": "You identify one faith or integrity practice your child can observe this week.",
+      "practice": "Choose one visible practice of faith or integrity and keep it where your child can see it.",
+      "science_or_note": "Guiding children spiritually shapes worldview and grounds them in lasting truth.",
+      "checkpoint_questions": [],
+      "script_aids": {
+        "purpose": "Wrapper cold open and keyline card for Modeling Integrity and Faith.",
+        "practical_insight": "Lead by example in faith and values.",
+        "emotional_beat": "Quiet conviction: example speaks louder than lecture.",
+        "cold_open": "A lead path lights; a second path follows the same marks.",
+        "keyline_card": "Seventh Secret: Modeling Integrity and Faith",
+        "shape_motifs": [
+          "leader path with a following path matching marks",
+          "faith and values posts planted in a calm field",
+          "integrity line held straight under load"
+        ],
+        "do_not": [
+          "Film already shot · wrapper stills only",
+          "No faces, bodies, photographic people, or culture-specific dress",
+          "Do not invent doctrine beyond page titles and clear Seven Secrets framing",
+          "Do not replace Ken film with animated teaching"
+        ],
+        "bridge_from_prev": "Loving discipline is in place; now let them watch your example.",
+        "bridge_to_next": "Seven secrets covered; bonus: honor the Father guiding you.",
+        "film_status": "already_shot"
+      }
+    },
+    {
+      "number": 8,
+      "id": "ssb",
+      "title": "Bonus Secret — Honoring the Father Who is Guiding You",
+      "keyline": "Honor the Father who is guiding you.",
+      "length": "part of 1.1h course",
+      "purpose": "Close the course by pointing the dad upward: honor the Father who guides him as he fathers.",
+      "practical_insight": "You father under guidance; honor the One leading you.",
+      "summary": "Bonus Secret: Honoring the Father Who is Guiding You. Page lists the heading without a longer blurb; framing follows the title as a closing posture of gratitude and deference to God’s guidance in fathering.",
+      "summary_page_verbatim": "Bonus Secret / Honoring the Father Who is Guiding You",
+      "session_sections": [
+        "Watch the Video",
+        "Guiding Thought",
+        "Reflective Questions",
+        "Encouragement from the Word"
+      ],
+      "video_id": "6841eb49729458261f867e3d",
+      "film_already_shot": true,
+      "one_scene": "After the seven secrets, he pauses to honor the Father guiding his own fathering.",
+      "in_the_room": "Bonus close: honor the Father who guides you.",
+      "what_you_leave_with": "You end with gratitude and a posture of being guided, not self-made.",
+      "practice": "Name one way you will honor God’s guidance in your fathering this week.",
+      "science_or_note": "Page provides title only for bonus body; keep framing title-led and modest.",
+      "checkpoint_questions": [],
+      "script_aids": {
+        "purpose": "Wrapper cold open and keyline card for the Bonus Secret.",
+        "practical_insight": "Honor the Father who is guiding you.",
+        "emotional_beat": "Humility and gratitude at the close of the arc.",
+        "cold_open": "Seven marks settle; an upward guide mark crowns the path.",
+        "keyline_card": "Bonus Secret — Honoring the Father Who is Guiding You",
+        "shape_motifs": [
+          "seven completed marks under one upward guide",
+          "path receiving light from above",
+          "bowed node beneath a steady crown mark"
+        ],
+        "do_not": [
+          "Film already shot · wrapper stills only",
+          "No faces, bodies, photographic people, or culture-specific dress",
+          "Do not invent doctrine beyond page titles and clear Seven Secrets framing",
+          "Do not replace Ken film with animated teaching"
+        ],
+        "bridge_from_prev": "Integrity and faith modeled; close by honoring the Father who guides you.",
+        "bridge_to_next": "Course close: live the secrets; revisit the assessment as you grow.",
+        "film_status": "already_shot"
+      }
+    }
+  ],
+  "final_qa": [],
+  "gaps_note": "Live fathers.com page is source of truth. Sessions 5 and 6 have title/body mismatches on the live page (Affirming body talks about honoring mother; Disciplining body talks about listening). Bible uses titles for structure. Platform content/fundamentals.json still has the older 5 Keystone sessions; Bible Course 1 now follows the Seven Secrets assessment course. Do not change the live platform repo unless trivial."
+}
