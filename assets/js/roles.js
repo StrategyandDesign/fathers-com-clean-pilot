@@ -32,6 +32,10 @@ window.FCR = window.FCR || {};
       var ok = FCR.isAdmin() || allowed.some(function(r){ return FCR.has(r); });
       if(!ok){
         if(!(window.FC && FC.live)){ /* demo mode: show a notice, do not redirect */ return false; }
+        if(!FC.uid()){
+          location.href = 'login.html?next='+encodeURIComponent(location.pathname+location.search);
+          return false;
+        }
         location.href = 'plan.html'; return false;
       }
       return true;
