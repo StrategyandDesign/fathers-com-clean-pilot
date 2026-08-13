@@ -433,7 +433,7 @@ PAGES['index.html'] = dict(title='Become the father they can count on', desc='Kn
     <div class="hero-cta" data-motion="hero-cta">
       <div class="hero-cta-primary">
         <a class="btn btn-yellow btn-lg" href="profile.html?start=quick">Quick start &middot; about 8 min</a>
-        <a class="btn btn-secondary btn-lg" href="profile.html?start=full" style="margin-top:10px">Full Keystone &middot; about 20 min</a>
+        <p class="fine" style="margin:10px 0 0"><a class="link ash" href="profile.html?start=full">Full Keystone &middot; about 20 min</a></p>
         <div class="progress-rail" aria-hidden="true">
           <span class="pr-step is-here"><span class="pr-n">1</span> Profile</span><span class="pr-join"></span>
           <span class="pr-step"><span class="pr-n">2</span> Plan</span><span class="pr-join"></span>
@@ -513,12 +513,11 @@ PAGES['index.html'] = dict(title='Become the father they can count on', desc='Kn
   </div>
   <div class="card" style="padding:32px">
     <div class="eyebrow" style="margin-bottom:16px">THE FOUR DIMENSIONS</div>
-    <div class="bigscore" style="font-size:72px;margin-bottom:24px">71</div>
-    <div class="domain"><div class="row1"><span>Involvement</span><span class="score">78</span></div><div class="bar"><span style="width:78%"></span></div></div>
-    <div class="domain gap"><div class="row1"><span>Consistency</span><span class="score">55</span></div><div class="bar"><span style="width:55%"></span></div></div>
-    <div class="domain"><div class="row1"><span>Awareness</span><span class="score">74</span></div><div class="bar"><span style="width:74%"></span></div></div>
-    <div class="domain" style="margin-bottom:0"><div class="row1"><span>Nurturance</span><span class="score">77</span></div><div class="bar"><span style="width:77%"></span></div></div>
-    <p class="fine" style="color:var(--ash);margin:20px 0 0">A sample baseline, for illustration. Your numbers will be your own.</p>
+    <div class="domain"><div class="row1"><span>Involvement</span></div><p class="fine" style="color:var(--ash);margin-top:4px">Showing up in the hours that count.</p></div>
+    <div class="domain"><div class="row1"><span>Consistency</span></div><p class="fine" style="color:var(--ash);margin-top:4px">Being the man they can predict.</p></div>
+    <div class="domain"><div class="row1"><span>Awareness</span></div><p class="fine" style="color:var(--ash);margin-top:4px">Knowing who your child is today.</p></div>
+    <div class="domain" style="margin-bottom:0"><div class="row1"><span>Nurturance</span></div><p class="fine" style="color:var(--ash);margin-top:4px">Warmth they can feel and hear.</p></div>
+    <p class="fine" style="color:var(--ash);margin:20px 0 0">Your scores appear after you take the Profile. Nothing here is a sample number.</p>
   </div>
 </div></section>
 
@@ -601,7 +600,7 @@ PAGES['index.html'] = dict(title='Become the father they can count on', desc='Kn
   <div class="social-proof" aria-label="Trust signals">
     <span>National Center for Fathering &middot; since 1990</span>
     <span>Built with Dr. Ken Canfield</span>
-    <span>Any serial: /verify.html</span>
+    <span>Any serial: <a class="link ash" href="verify.html">verify on this site</a></span>
     <span>Progress tracked, baseline to finish</span>
   </div>
 </div></section>
@@ -656,6 +655,13 @@ PAGES['index.html'] = dict(title='Become the father they can count on', desc='Kn
 ''')
 
 # ================================================== profile.html (P2)
+if not SHOW_MANHOOD_COURSE:
+    _mh = '''        <span class="fine" aria-hidden="true">&middot;</span>
+        <a class="link ash" href="profile.html?assessment=keystone-manhood-profile&start=quick">Manhood track</a>
+'''
+    assert PAGES['index.html']['body'].count(_mh) == 1, 'homepage Manhood track strip'
+    PAGES['index.html']['body'] = PAGES['index.html']['body'].replace(_mh, '')
+
 PAGES['report.html'] = dict(title='Your Written Report', desc='Every dimension: what it measures, where you stand, and your first moves.', active='', mode='public', body='''
 <section class="tight" style="padding-top:36px"><div class="container">
   <div data-journey="report" data-journey-done="profile" style="margin-bottom:18px"></div>
@@ -1147,7 +1153,7 @@ PAGES['checkout.html'] = dict(title='Support film production', desc='Founding Li
     <div style="display:grid;grid-template-columns:1.2fr .9fr;gap:48px;align-items:start">
       <div>
         <h1 class="d-36" style="margin-bottom:14px">Support film production.</h1>
-        <p class="small" style="color:var(--ash);margin-bottom:24px;max-width:50ch">Library membership is optional support for film production while the library grows. Founding pricing while films are in production. Fundamentals plays today; the three new courses are live as written sessions, films uploading as they finish. Your Profile, plan, retakes, the courses, and your Certificate of Completion stay free either way. Library membership funds film production; it never gates a course.</p>
+        <p class="small" style="color:var(--ash);margin-bottom:24px;max-width:50ch">Optional. Courses are $0. Founding Library Member is $79 a year while films are in production, then $120. Your Profile, plan, courses, and Certificate of Completion stay free either way. This never gates a course.</p>
 
         <div class="field"><label>Card number</label><input class="input" inputmode="numeric" placeholder="4242 4242 4242 4242"></div>
         <div class="grid-2" style="gap:16px">
@@ -1159,19 +1165,19 @@ PAGES['checkout.html'] = dict(title='Support film production', desc='Founding Li
           <div class="field"><label>ZIP</label><input class="input" inputmode="numeric" placeholder="72712"></div>
         </div>
         <button class="btn btn-primary" id="paybtn" style="width:100%;margin-top:10px" data-next>Become a Founding Library Member</button>
-        <p class="fine" style="margin-top:14px">Payment processing wires to Stripe at deploy. No card is charged in this prototype.</p>
+        <p class="fine" style="margin-top:14px">Payment is not live in this prototype. No card is charged.</p>
       </div>
       <aside class="card" style="padding:28px">
-        <div class="row between" style="margin-bottom:4px"><b>Founding Library Member &middot; annual</b><b class="mono">$120.00</b></div>
-        <p class="small" style="margin-bottom:14px">$10 a month, billed once a year</p>
+        <div class="row between" style="margin-bottom:4px"><b>Founding Library Member &middot; annual</b><b class="mono">$79</b></div>
+        <p class="small" style="margin-bottom:14px">Then $120 a year after founding pricing. Courses stay $0.</p>
         <div class="row between" style="margin-bottom:18px;padding:10px 12px;border:1px solid var(--hairline);border-radius:6px">
-          <span class="small"><s class="ash">$120</s> <b class="bone">$79 Founding Library Member</b></span><span class="pill pill-new">Beta pricing</span></div>
+          <span class="small"><s class="ash">$120</s> <b class="bone">$79 Founding Library Member</b></span><span class="pill pill-new">Optional</span></div>
         <div class="row" style="gap:10px;margin-bottom:18px"><span class="checkmark">&check;</span><span class="small">30-day money-back guarantee, no questions</span></div>
         <hr class="hr" style="margin-bottom:18px">
         <div class="stack-8">
-          <div class="check"><span class="checkmark">&check;</span><span class="small">Every film, class, and workbook as they publish; the library is in production, films uploading as they finish</span></div>
-          <div class="check"><span class="checkmark">&check;</span><span class="small">Your baseline and twelve-week plan</span></div>
-          <div class="check"><span class="checkmark">&check;</span><span class="small">Funds film production as the library grows</span></div>
+          <div class="check"><span class="checkmark">&check;</span><span class="small">Optional support for film production as the library grows</span></div>
+          <div class="check"><span class="checkmark">&check;</span><span class="small">Courses stay $0 either way. The father never pays.</span></div>
+          <div class="check"><span class="checkmark">&check;</span><span class="small">Profile, plan, and Certificate of Completion stay free</span></div>
         </div>
         <p class="fine" style="margin-top:18px">By continuing you agree to the <a class="link ash" href="terms.html" style="font-size:12px">terms</a>. Current pricing for organizations and facilitators is published on the <a class="link ash" href="organizations.html" style="font-size:12px">Organizations page</a>.</p>
       </aside>
@@ -1293,11 +1299,10 @@ PAGES['certificates.html'] = dict(title='The Courses and the Certificate of Comp
     <div class="cert-hero-copy">
       <div class="eyebrow brass" style="margin-bottom:18px">FILM TRAINING FOR FATHERS</div>
       <h1 class="cert-h1" data-motion="fade-up">Train what matters.<br>On your own time.</h1>
-      <p class="lead" style="margin:22px 0 18px" data-motion="fade-up">Self-paced film courses on presence, steadiness, coming home, and co-parenting. Start free with the Keystone Profile. A Certified Facilitator is available for questions, insight, and accountability when your seat is claimed.</p>
+      <p class="lead" style="margin:22px 0 18px" data-motion="fade-up">Self-paced film courses on presence, steadiness, coming home, and co-parenting. A Certified Facilitator is available for questions when your seat is claimed. Courses are $0.</p>
       <div class="row wrap" style="gap:12px;margin-bottom:14px">
-        <a class="btn btn-yellow btn-lg" href="profile.html">Start free Profile &middot; about 20 min</a>
-        <a class="btn btn-secondary" href="#catalog">Browse courses</a>
-        <a class="btn btn-ghost" href="verify.html">Verify a certificate</a>
+        <a class="btn btn-yellow btn-lg" href="#catalog">See the film courses</a>
+        <a class="btn btn-secondary" href="verify.html">Verify a certificate</a>
       </div>
       <p class="fine" style="color:var(--ash);max-width:54ch;margin:0">Finish the work and hold a Certificate of Completion: logged sessions, a serial anyone can confirm, at no cost to you.</p>
     </div>
@@ -1311,7 +1316,7 @@ PAGES['certificates.html'] = dict(title='The Courses and the Certificate of Comp
 <!-- Short path strip -->
 <section class="tight" style="padding-top:8px"><div class="container">
   <div class="grid-3">
-    <div class="card" style="padding:22px" data-motion="fade-up"><div class="mono ash" style="margin-bottom:10px">01</div><b>Know where you stand</b><p class="small" style="margin-top:8px">Free Profile, about twenty minutes. Four scores and a twelve-week plan.</p></div>
+    <div class="card" style="padding:22px" data-motion="fade-up"><div class="mono ash" style="margin-bottom:10px">01</div><b>Know where you stand</b><p class="small" style="margin-top:8px">A free Profile if you want a baseline. Then train on film.</p></div>
     <div class="card" style="padding:22px" data-motion="fade-up"><div class="mono ash" style="margin-bottom:10px">02</div><b>Train on film</b><p class="small" style="margin-top:8px">Self-paced sessions. Watch when you can. Practice what the film teaches.</p></div>
     <div class="card" style="padding:22px" data-motion="fade-up"><div class="mono ash" style="margin-bottom:10px">03</div><b>Finish with proof</b><p class="small" style="margin-top:8px">Checkpoints, logged sessions, and a certificate a court or program can confirm.</p></div>
   </div>
@@ -1466,7 +1471,37 @@ PAGES['certificates.html'] = dict(title='The Courses and the Certificate of Comp
       <p>Every certificate carries a unique serial with a public page. A court, employer, or program can confirm it instantly.</p>
     </div>
   </div>
-  <div class="row wrap" style="gap:12px;margin-top:28px">
+  <figure class="cert-sample" aria-labelledby="cert-sample-caption">
+    <div class="cert-sample-stage" data-motion="fade-up">
+      <div class="cert-doc-3d">
+        <div class="cert-doc" role="img" aria-label="Sample Certificate of Completion for Your name, Fathering Fundamentals. Serial marked SAMPLE. Not a live award.">
+          <div class="cert-doc-brass" aria-hidden="true"></div>
+          <div class="cert-seal" aria-hidden="true">
+            <img src="assets/img/logomark-dark.png" alt="">
+          </div>
+          <div class="cert-doc-kicker">Certificate of Completion &middot; Fathers.com</div>
+          <div class="cert-doc-name">Your name</div>
+          <p class="cert-doc-course">has completed Fathering Fundamentals</p>
+          <p class="cert-doc-meta">8 sessions &middot; Facilitator-supported &middot; SAMPLE</p>
+          <div class="cert-doc-rule" aria-hidden="true"></div>
+          <div class="cert-doc-foot">
+            <div class="cert-doc-serial">
+              Serial SAMPLE<br>
+              National Center for Fathering<br>
+              <a href="verify.html"><b>Verify at verify.html</b></a>
+            </div>
+            <div class="cert-doc-qr" aria-hidden="true">SAMPLE</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <figcaption id="cert-sample-caption" class="cert-sample-caption">
+      <span class="eyebrow brass">SAMPLE ONLY</span>
+      <p class="small">What the finished document looks like. Serials on real certificates are unique and publicly checkable. This one is a demo.</p>
+    </figcaption>
+  </figure>
+
+  <div class="cert-proof-actions">
     <a class="btn btn-secondary" href="verify.html">Verify a serial</a>
     <a class="btn btn-ghost" href="certificate.html">See a specimen</a>
   </div>
@@ -1498,8 +1533,8 @@ PAGES['certificates.html'] = dict(title='The Courses and the Certificate of Comp
         <div class="cert-free-line">
           <span class="fine">Not sure yet?</span>
           <b>Start with the free Profile.</b>
-          <p class="fine" style="margin-top:6px">About twenty minutes. Scores, a plan, then the right film course. No cost, no card.</p>
-          <a class="btn btn-yellow" href="profile.html" style="width:100%;margin-top:12px">Start free Profile</a>
+          <p class="fine" style="margin-top:6px">Courses are $0. The Profile and plan stay free if you want them.</p>
+          <a class="link" href="profile.html" style="display:inline-block;margin-top:12px">Take the Profile &rarr;</a>
         </div>
       </div>
       <div class="cert-req-note">
@@ -1542,7 +1577,7 @@ PAGES['certificates.html'] = dict(title='The Courses and the Certificate of Comp
 ''')
 
 # ================================================== certificate.html (P10 screen 4)
-PAGES['certificate.html'] = dict(title='Certificate of Completion, specimen', desc='What the Certificate of Completion looks like. Every issued certificate carries a live serial verifiable at /verify.html.', active='Certificates', mode='app', body='''
+PAGES['certificate.html'] = dict(title='Certificate of Completion, specimen', desc='What the Certificate of Completion looks like. Every issued certificate carries a live serial verifiable at verify.html.', active='Certificates', mode='app', body='''
 <section class="tight" style="padding-top:44px"><div class="container">
   <div class="row wrap" style="margin-bottom:28px;justify-content:center">
     <button class="btn btn-primary btn-sm" data-print>Print or save as PDF</button>
@@ -1555,14 +1590,14 @@ PAGES['certificate.html'] = dict(title='Certificate of Completion, specimen', de
     <div class="head">Certificate of Completion &middot; National Center for Fathering</div>
     <div class="name">Your Name</div>
     <div class="course">has completed the Fathering Fundamentals Certificate</div>
-    <div class="hours">Facilitator-attested completion &middot; 5 sessions &middot; Completed June 2, 2026</div>
+    <div class="hours">Facilitator-attested completion &middot; 8 sessions &middot; Completed June 2, 2026</div>
     <div class="rule"></div>
     <div class="sealrow">
       <div>
         <div class="serial">SPECIMEN &middot; SERIAL FC-2026-&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;</div>
         <div class="serial" style="margin-top:6px">Identity verified at enrollment</div>
         <div class="serial" style="margin-top:6px">Issued by the National Center for Fathering</div>
-        <div class="serial" style="margin-top:14px"><b>Verify at /verify.html</b></div>
+        <div class="serial" style="margin-top:14px"><a href="verify.html"><b>Verify at verify.html</b></a></div>
       </div>
       <div class="row" style="gap:18px;align-items:flex-end">
         <div class="qr">QR</div>
@@ -2491,7 +2526,7 @@ PAGES['organizations.html'] = dict(title='Become a Certified Organization', desc
   <div class="grid-3" style="gap:24px">
     <div class="card" style="padding:26px 28px"><p class="fine mono" style="color:var(--ember-ink);margin-bottom:10px">01 &middot; MEASURE</p><h3 style="margin-bottom:8px">One join link tags every man.</h3><p class="small" style="color:var(--ash)">The Keystone Profile at intake: the full instrument, one sitting. The canonical spec lives on the Research page. Four dimensions on every man, zero program required.</p></div>
     <div class="card" style="padding:26px 28px"><p class="fine mono" style="color:var(--ember-ink);margin-bottom:10px">02 &middot; TRAIN</p><h3 style="margin-bottom:8px">Keep the program you trust.</h3><p class="small" style="color:var(--ash)">We make it provable. Or deploy ours: the full course slate is live today, free to every man, film-first and facilitator-supported. Your staff serve as Certified Facilitators for questions, insight, and accountability.</p></div>
-    <div class="card" style="padding:26px 28px"><p class="fine mono" style="color:var(--ember-ink);margin-bottom:10px">03 &middot; PROVE</p><h3 style="margin-bottom:8px">The report and the credential.</h3><p class="small" style="color:var(--ash)">The Efficacy Report, one page per cohort. Certificates of Completion presented by your facilitators, serialed, and verified at /verify.html in ten seconds.</p></div>
+    <div class="card" style="padding:26px 28px"><p class="fine mono" style="color:var(--ember-ink);margin-bottom:10px">03 &middot; PROVE</p><h3 style="margin-bottom:8px">The report and the credential.</h3><p class="small" style="color:var(--ash)">The Efficacy Report, one page per cohort. Certificates of Completion presented by your facilitators, serialed, and verified at verify.html in ten seconds.</p></div>
   </div>
 </div></section>
 
@@ -2524,7 +2559,7 @@ PAGES['organizations.html'] = dict(title='Become a Certified Organization', desc
   <div>
     <div class="eyebrow" style="margin-bottom:14px">FOR COURTS AND PROBATION</div>
     <h2 class="d-28" style="margin-bottom:8px">Order the class by name. Verify in ten seconds.</h2>
-    <p style="color:var(--ash);max-width:52ch">Some courts and agencies accept Fathering Fundamentals as a supplemental fathering education component; acceptance is at their discretion, so confirm before referring. What travels with it: identity confirmed at enrollment, hours logged not claimed, a final at eighty percent. Completion is confirmed at /verify.html with the serial on the Certificate of Completion. No account, no phone call, no paperwork chase. Coming Home Present and Steady Under Pressure are built for referral. Facilitator-supported film courses, logged sessions, and verifiable certificates. Your caseload can start now. Steady Under Pressure is a fathering skills course, not anger management, batterer intervention, or a substitute for any court-mandated treatment program, and should not be ordered in their place.</p>
+    <p style="color:var(--ash);max-width:52ch">Some courts and agencies accept Fathering Fundamentals as a supplemental fathering education component; acceptance is at their discretion, so confirm before referring. What travels with it: identity confirmed at enrollment, hours logged not claimed, a final at eighty percent. Completion is confirmed at verify.html with the serial on the Certificate of Completion. No account, no phone call, no paperwork chase. Coming Home Present and Steady Under Pressure are built for referral. Facilitator-supported film courses, logged sessions, and verifiable certificates. Your caseload can start now. Steady Under Pressure is a fathering skills course, not anger management, batterer intervention, or a substitute for any court-mandated treatment program, and should not be ordered in their place.</p>
   </div>
   <div class="card" style="padding:32px">
     <div class="eyebrow" style="margin-bottom:16px">FOR THE MAN YOU REFER</div>

@@ -204,8 +204,10 @@
      For a man coming out of treatment, that matters more than it does for a
      product demo. The point is that he always knows the single next thing. */
 
-  var OTHER = { 'keystone-father-profile': 'keystone-manhood-profile',
-                'keystone-manhood-profile': 'keystone-father-profile' };
+  var OTHER = (window.FC_SHOW_MANHOOD_COURSE === true)
+    ? { 'keystone-father-profile': 'keystone-manhood-profile',
+        'keystone-manhood-profile': 'keystone-father-profile' }
+    : {};
 
   /* ---------- YOUR COURSES ----------
 

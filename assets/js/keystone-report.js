@@ -502,7 +502,7 @@
           '<a class="rp-reslink" href="course-fathering-fundamentals.html">The free course</a>'+
           '<a class="rp-reslink" href="certificates.html">All courses</a>'+
           /* SHOW_STORIES: restore when Stories return: '<a class="rp-reslink" href="stories.html">Stories from fathers</a>'+ */
-          '<a class="rp-reslink" href="circles.html">Find a circle</a></div>'+
+          '</div>'+
       '</div></section>';
   }
 
