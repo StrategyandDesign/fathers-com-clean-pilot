@@ -224,7 +224,7 @@
       var rows=r.data||[];
       fillOrgSelect(rows);
       var html='<p class="fine" style="margin:0 0 12px">Mint a join code here. Grant both roles on the same person for Returning Home (Org + Desk). Do not mail Team@ for setup.</p>';
-      html+='<table class="dtable"><thead><tr><th>Organization</th><th>Seats</th><th>Renews</th><th></th></tr></thead><tbody>';
+      html+='<table class="dtable"><thead><tr><th>Organization</th><th>Cohort</th><th>Renews</th><th></th></tr></thead><tbody>';
       rows.forEach(function(o){
         html+='<tr><td>'+esc(o.name)+'</td><td class="mono">'+o.seats+'</td><td class="fine">'+(o.renews_on||'-')+'</td>'+
           '<td class="inline-actions">'+
