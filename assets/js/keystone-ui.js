@@ -757,7 +757,7 @@
     var courseHref = rh ? FCPath.deskHref() : "";
     var nextBlock = rh
       ? "<div class=\"stack-16\" style=\"margin-top:24px\">"+
-          "<a class=\"btn btn-yellow\" style=\"width:100%\" href=\""+courseHref+"\">Open your films</a>"+
+          "<a class=\"btn btn-yellow\" style=\"width:100%\" href=\""+courseHref+"\">Open your trainings</a>"+
           "<p class=\"fine\" style=\"text-align:center;margin-top:4px\"><a class=\"link ash\" href=\"report.html\" style=\"font-size:12px\">Read the full report</a></p>"+
           "<p class=\"fine\" style=\"text-align:center;margin-top:2px\"><button class=\"link ash\" id=\"ksContFull\" style=\"background:none;border:0;padding:0;font:inherit;color:inherit;cursor:pointer;text-decoration:underline;text-underline-offset:3px;font-size:12px\">Or continue the full "+esc(fullLabel)+"</button></p>"+
         "</div>"
@@ -771,7 +771,7 @@
         "<div class=\"ks-check\" style=\"margin-bottom:10px\">\u2713</div>"+
         "<div class=\"eyebrow brass\" style=\"margin-bottom:10px\">"+(rh?"YOUR REPORT":("STARTING BASELINE \u00b7 "+esc(dimLabel.toUpperCase())))+"</div>"+
         "<h2 style=\"margin:0 0 6px\">"+(rh?"Your report is ready.":"Starting baseline locked.")+"</h2>"+
-        "<p class=\"helper\" style=\"margin:0\">"+(rh?"Here is where you stand. Next, pick a film.":"Dimensions only, not the full "+esc(fullLabel)+". Your plan can start from this.")+"</p>"+
+        "<p class=\"helper\" style=\"margin:0\">"+(rh?"Here is where you stand. Next, pick a training.":"Dimensions only, not the full "+esc(fullLabel)+". Your plan can start from this.")+"</p>"+
       "</div>"+
       "<div class=\"ks-strength-hero\">"+
         "<div class=\"eyebrow\" style=\"margin-bottom:12px\">YOUR STRONGEST GROUND</div>"+
@@ -859,7 +859,7 @@
       ? FCPath.deskHref()
       : 'plan.html?assessment=' + encodeURIComponent(slug) + '&reveal=1';
     try { var t = localStorage.getItem('fc_claim_token'); if(t){ dest += (dest.indexOf('?')>=0?'&':'?') + 'claim=' + encodeURIComponent(t); } } catch(e){}
-    var saveLabel = rh ? 'Open your films' : 'Start my plan';
+    var saveLabel = rh ? 'Open your trainings' : 'Start my plan';
     if(!(window.FC && FC.signUpPassword)){ msg.textContent='Sign-in is not available right now.'; msg.style.color='var(--error)'; btn.disabled=false; btn.textContent=saveLabel; return; }
     FC.signUpPassword(email, pass, '', dest).then(function(r){
       function go(){ location.href = dest; }
@@ -871,7 +871,7 @@
       }
       if(r.data && r.data.session){ go(); return; }
       msg.textContent = rh
-        ? 'Account created. Check your email to confirm it, then sign in to start the films.'
+        ? 'Account created. Check your email to confirm it, then sign in to start the trainings.'
         : 'Account created. Check your email to confirm it, then sign in to open your plan.';
       msg.style.color = '';
       btn.disabled = false; btn.textContent = saveLabel;
@@ -935,15 +935,15 @@
     var courseHref = rh ? FCPath.deskHref() : '';
     var accountCard = rh
       ? (signedIn
-        ? '<a class="btn btn-yellow" style="width:100%" href="'+courseHref+'">Open your films</a>'+
+        ? '<a class="btn btn-yellow" style="width:100%" href="'+courseHref+'">Open your trainings</a>'+
           '<p class="fine" style="text-align:center;margin-top:12px"><a class="link ash" href="report.html" style="font-size:12px">Or read your full written report</a></p>'
-        : '<a class="btn btn-yellow" style="width:100%" href="'+courseHref+'">Open your films</a>'+
+        : '<a class="btn btn-yellow" style="width:100%" href="'+courseHref+'">Open your trainings</a>'+
           '<div class="ks-save-card" style="margin-top:18px">'+
             '<h3 class="ks-save-h">Save this so you can come back.</h3>'+
-            '<p class="helper" style="margin-bottom:16px">Optional. The films are open now. An account keeps your report with you.</p>'+
+            '<p class="helper" style="margin-bottom:16px">Optional. The trainings are open now. An account keeps your report with you.</p>'+
             '<input class="input" type="email" id="ksEmail" placeholder="you@email.com" autocomplete="email" style="margin-bottom:10px">'+
             '<input class="input" type="password" id="ksPass" placeholder="Password (8+ characters)" autocomplete="new-password">'+
-            '<button class="btn btn-secondary" id="ksSavePlan" style="width:100%;margin-top:10px">Save and start the films</button>'+
+            '<button class="btn btn-secondary" id="ksSavePlan" style="width:100%;margin-top:10px">Save and start the trainings</button>'+
             '<p class="ksmsg fine" id="ksMsg" style="margin-top:10px;text-align:center"></p>'+
             '<p class="fine" style="margin-top:8px;text-align:center">Already have an account? <a class="link ash" href="login.html?next='+encodeURIComponent(courseHref)+'" style="font-size:12px">Sign in</a></p>'+
           '</div>'+

@@ -500,7 +500,7 @@
       '<div class="rp-inner">'+practical+rows+
         '<div class="rp-resources rp-noprint"><span class="rp-res-h">Train this section</span>'+
           '<a class="rp-reslink" href="course-fathering-fundamentals.html">The free course</a>'+
-          '<a class="rp-reslink" href="'+(window.FCPath && FCPath.catalogHref ? FCPath.catalogHref() : 'certificates.html')+'">'+(window.FCPath && FCPath.isRH() ? 'Your films' : 'All courses')+'</a>'+
+          '<a class="rp-reslink" href="'+(window.FCPath && FCPath.catalogHref ? FCPath.catalogHref() : 'certificates.html')+'">'+(window.FCPath && FCPath.isRH() ? 'Your trainings' : 'All courses')+'</a>'+
           /* SHOW_STORIES: restore when Stories return: '<a class="rp-reslink" href="stories.html">Stories from fathers</a>'+ */
           '</div>'+
       '</div></section>';
@@ -624,7 +624,7 @@
       if(state!=='sample'){
         var rhGo = (window.FCPath && FCPath.isRH());
         actions += rhGo
-          ? '<a class="rp-btn rp-btn-yellow" href="'+FCPath.deskHref()+'">Open your films</a>'
+          ? '<a class="rp-btn rp-btn-yellow" href="'+FCPath.deskHref()+'">Open your trainings</a>'
           : '<a class="rp-btn rp-btn-yellow" href="plan.html'+q+'">Open my plan</a>';
       }
       actions+='<button class="rp-btn rp-btn-ghost" id="rpPrint">Download as PDF</button>';
@@ -700,7 +700,7 @@
           (state==='sample'
             ? '<a class="rp-btn rp-btn-yellow" href="profile.html">Start your plan</a>'
             : ((window.FCPath && FCPath.isRH())
-              ? '<a class="rp-btn rp-btn-yellow" href="'+FCPath.deskHref()+'">Open your films</a>'+
+              ? '<a class="rp-btn rp-btn-yellow" href="'+FCPath.deskHref()+'">Open your trainings</a>'+
                 '<a class="rp-btn rp-btn-ghost" style="margin-left:10px" href="report.html'+((A&&A.slug)?'?assessment='+encodeURIComponent(A.slug):'')+'">Stay with the report</a>'
               : '<a class="rp-btn rp-btn-yellow" href="plan.html'+((A&&A.slug)?'?assessment='+encodeURIComponent(A.slug):'')+'">Open my plan</a>'+
                 '<a class="rp-btn rp-btn-ghost" style="margin-left:10px" href="dashboard.html'+((A&&A.slug)?'?assessment='+encodeURIComponent(A.slug):'')+'">Everything else is on your Home</a>'))+

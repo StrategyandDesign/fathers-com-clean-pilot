@@ -91,7 +91,7 @@
     if(start) start.setAttribute('href','profile.html?start=quick&path=rh');
     var list=document.querySelector('.nav-links');
     if(list && !list.dataset.fcParticipant && !list.dataset.fcRhPublic && !list.querySelector('a[data-role]')){
-      list.innerHTML='<li><a href="rh-desk.html">Films</a></li>'+
+      list.innerHTML='<li><a href="rh-desk.html">Trainings</a></li>'+
         '<li><a href="profile.html?start=quick&amp;path=rh">Profile</a></li>'+
         '<li><a href="login.html?path=rh&amp;next=rh-desk.html">Log in</a></li>';
       list.dataset.fcRhPublic='1';
@@ -99,7 +99,7 @@
     document.querySelectorAll('a').forEach(function(a){
       var t=(a.textContent||'').replace(/\s+/g,' ').trim();
       if(/Back to Fathers\.com/i.test(t)) a.textContent='Back to Returning Home';
-      else if(/All courses/i.test(t) && /rh-desk\.html/.test(a.getAttribute('href')||'')) a.textContent=t.replace(/All courses/i,'Your films');
+      else if(/All courses/i.test(t) && /rh-desk\.html/.test(a.getAttribute('href')||'')) a.textContent=t.replace(/All courses/i,'Your trainings');
     });
   }
   document.addEventListener('click', function(e){
@@ -150,7 +150,7 @@
       }).join('');
       return;
     }
-    root.innerHTML='Your films, free: '+RH_COURSES.map(function(c,i){
+    root.innerHTML='Your trainings, free: '+RH_COURSES.map(function(c,i){
       var name='<a href="'+playerHref(c.slug)+'">'+c.title+'</a>';
       if(i===RH_COURSES.length-1) return 'and '+name+'.';
       return name+', ';
@@ -537,7 +537,7 @@
       var q=slug?('?assessment='+slug):'';
       var rh=window.FCPath && FCPath.isRhSurface();
       var links=rh
-        ? [['Films','rh-desk.html'],['Report','report.html'+q],['Profile','profile.html?start=quick&path=rh'],['Sign out','#signout']]
+        ? [['Trainings','rh-desk.html'],['Report','report.html'+q],['Profile','profile.html?start=quick&path=rh'],['Sign out','#signout']]
         : [['Home','dashboard.html'],['My Report','report.html'+q],['My Plan','plan.html'+q],['Courses','certificates.html'],['Sign out','#signout']];
       list.innerHTML=links.map(function(l){
         var target=l[1].split('?')[0];
@@ -596,10 +596,10 @@
         if(authTitle) authTitle.textContent=up?'Create your account':'Sign in';
         if(authSub) authSub.textContent=up
           ? ((window.FCPath && FCPath.isRH())
-            ? 'Free. Your films and your report stay with you.'
+            ? 'Free. Your trainings and your report stay with you.'
             : 'Free, always. Your Profile, your plan, and your progress live here.')
           : ((window.FCPath && FCPath.isRH())
-            ? 'Welcome back. Your films are waiting.'
+            ? 'Welcome back. Your trainings are waiting.'
             : 'Welcome back. Pick up your plan where you left off.');
         if(authNameField) authNameField.style.display=up?'':'none';
         if(authSignin) authSignin.textContent=up?'Create account':'Sign in';
