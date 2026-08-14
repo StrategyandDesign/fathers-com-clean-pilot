@@ -1,6 +1,6 @@
 /* FORGE shared behaviors + live wiring : Fathers.com */
 (function(){
-  /* Returning Home is a closed path: the door, then the four films.
+  /* Returning Home is a closed path: the door, then the films.
      Mark it on the door, the desk, or ?path=rh. Clear it if he types a
      public-root URL so the generic site stays intact. */
   var RH_PUBLIC_ROOTS = {
@@ -50,25 +50,6 @@
   }
   function rhHome(){ return 'returning-home.html'; }
   function rhDesk(){ return 'rh-desk.html'; }
-  function rhBaselineTicker(){
-    try{
-      if(!pathIsRH()) return;
-      var here=pageName();
-      if(here!=='rh-desk.html' && here!=='course.html') return;
-      if(sessionStorage.getItem('rh_tick_off')==='1') return;
-      if(document.getElementById('rh-tick')) return;
-      var bar=document.createElement('div');
-      bar.id='rh-tick';
-      bar.setAttribute('role','note');
-      bar.style.cssText='display:flex;gap:12px;align-items:center;justify-content:center;padding:10px 16px;background:#15120e;border-bottom:1px solid #2c2620;font-size:13px;letter-spacing:.02em;';
-      bar.innerHTML='<span class="ash">See where you stand as a father · 8 minutes. It tunes your path to you.</span> <a class="brass" href="profile.html?start=quick&path=rh" style="text-decoration:underline">Start</a> <button id="rh-tick-x" aria-label="Dismiss" style="background:none;border:0;color:#8a8177;cursor:pointer;font-size:15px;line-height:1">×</button>';
-      var hd=document.querySelector('header');
-      if(hd && hd.parentNode) hd.parentNode.insertBefore(bar, hd.nextSibling); else document.body.insertBefore(bar, document.body.firstChild);
-      var x=document.getElementById('rh-tick-x');
-      if(x) x.addEventListener('click', function(){ try{sessionStorage.setItem('rh_tick_off','1');}catch(e){} var b=document.getElementById('rh-tick'); if(b) b.remove(); });
-    }catch(e){}
-  }
-  rhBaselineTicker();
   function rhMapHref(href){
     if(!href) return null;
     var raw=String(href).trim();
@@ -147,9 +128,9 @@
   }
 
   var RH_COURSES = [
-    { slug:'reentry', title:'Coming Home Present', line:'Presence after time away.' },
+    { slug:'fundamentals', title:'Fathering Fundamentals', line:'See your child clearly.' },
     { slug:'anger', title:'Steady Under Pressure', line:'Steadiness when the week gets loud.' },
-    { slug:'fundamentals', title:'Fathering Fundamentals', line:'See your child clearly.' }
+    { slug:'reentry', title:'Coming Home Present', line:'Presence after time away.' }
   ];
 
   function playerHref(slug){
@@ -169,11 +150,27 @@
       }).join('');
       return;
     }
-    root.innerHTML='All four courses are yours, free: '+RH_COURSES.map(function(c,i){
+    root.innerHTML='Your films, free: '+RH_COURSES.map(function(c,i){
       var name='<a href="'+playerHref(c.slug)+'">'+c.title+'</a>';
       if(i===RH_COURSES.length-1) return 'and '+name+'.';
       return name+', ';
     }).join('');
+  }
+
+  function rhTickerHtml(){
+    return '<div class="rh-ticker" role="region" aria-label="Profile">'+
+      '<p class="rh-ticker-copy">See where you stand. Eight minutes. Honest. Nobody is grading you.</p>'+
+      '<a class="rh-ticker-go" href="profile.html?start=quick&amp;path=rh">Start</a></div>';
+  }
+  function paintRhTicker(){
+    if(!isRhSurface()) return;
+    var here=pageName();
+    if(here!=='course.html') return;
+    if(document.querySelector('.rh-ticker')) return;
+    var wrap=document.createElement('div');
+    wrap.innerHTML=rhTickerHtml();
+    var bar=wrap.firstChild;
+    document.body.insertBefore(bar, document.body.firstChild);
   }
 
   window.FCPath = {
@@ -183,7 +180,7 @@
     playerHref: playerHref,
     deskHref: rhDesk,
     homeHref: rhHome,
-    courseHref: function(slug){ return playerHref(slug||'reentry'); },
+    courseHref: function(slug){ return playerHref(slug||'fundamentals'); },
     reportHref: function(){ return 'report.html'; },
     catalogHref: function(){ return pathIsRH() ? rhDesk() : 'certificates.html'; },
     afterSignOut: rhAfterSignOut,
@@ -192,6 +189,7 @@
   };
 
   document.querySelectorAll('[data-rh-courses]').forEach(paintRhCourses);
+  paintRhTicker();
 
   // Nav
   var nav=document.querySelector('.nav');
@@ -526,6 +524,7 @@
        and are left alone. */
     if(session) applyParticipantNav();
     document.querySelectorAll('[data-rh-courses]').forEach(paintRhCourses);
+    paintRhTicker();
     lockRhPath();
 
     function applyParticipantNav(){
@@ -600,7 +599,7 @@
             ? 'Free. Your films and your report stay with you.'
             : 'Free, always. Your Profile, your plan, and your progress live here.')
           : ((window.FCPath && FCPath.isRH())
-            ? 'Welcome back. Your four courses are waiting.'
+            ? 'Welcome back. Your films are waiting.'
             : 'Welcome back. Pick up your plan where you left off.');
         if(authNameField) authNameField.style.display=up?'':'none';
         if(authSignin) authSignin.textContent=up?'Create account':'Sign in';
@@ -651,22 +650,10 @@
 
     if(!session) return;
 
-    // Returning Home: baseline as benefit. Ticker retires once a baseline exists;
-    // the first finished film sharpens the invitation once.
     if(pathIsRH()){
       FC.getBaseline().then(function(r){
-        var has = r && r.data;
-        var b=document.getElementById('rh-tick');
-        if(has && b) b.remove();
-        if(!has){
-          var armed=false;
-          document.addEventListener('ended', function(ev){
-            if(armed) return;
-            if(!(ev.target && ev.target.tagName==='VIDEO')) return;
-            armed=true;
-            var t=document.getElementById('rh-tick');
-            if(t){ var s=t.querySelector('span'); if(s) s.textContent='First film done. Eight minutes now makes the rest yours: see where you stand.'; }
-          }, true);
+        if(r && r.data){
+          document.querySelectorAll('.rh-ticker').forEach(function(el){ el.remove(); });
         }
       }).catch(function(){});
     }

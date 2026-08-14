@@ -771,7 +771,7 @@
         "<div class=\"ks-check\" style=\"margin-bottom:10px\">\u2713</div>"+
         "<div class=\"eyebrow brass\" style=\"margin-bottom:10px\">"+(rh?"YOUR REPORT":("STARTING BASELINE \u00b7 "+esc(dimLabel.toUpperCase())))+"</div>"+
         "<h2 style=\"margin:0 0 6px\">"+(rh?"Your report is ready.":"Starting baseline locked.")+"</h2>"+
-        "<p class=\"helper\" style=\"margin:0\">"+(rh?"Here is where you stand. Next, pick any of the four films.":"Dimensions only, not the full "+esc(fullLabel)+". Your plan can start from this.")+"</p>"+
+        "<p class=\"helper\" style=\"margin:0\">"+(rh?"Here is where you stand. Next, pick a film.":"Dimensions only, not the full "+esc(fullLabel)+". Your plan can start from this.")+"</p>"+
       "</div>"+
       "<div class=\"ks-strength-hero\">"+
         "<div class=\"eyebrow\" style=\"margin-bottom:12px\">YOUR STRONGEST GROUND</div>"+

@@ -60,12 +60,12 @@
   };
 
   if (rh) {
-    FIRST['returning-home.html'] = { s: 'Eight honest minutes. You get a private report of where you stand.', a: 'Start the Profile', h: 'profile.html?start=quick&path=rh' };
-    FIRST['rh-desk.html'] = { s: 'Pick any of the four courses. Watch. No order.', a: 'Watch', h: '.rh-film' };
+    FIRST['returning-home.html'] = { s: 'Your films are open. Pick one and watch.', a: 'Watch the films', h: 'rh-desk.html' };
+    FIRST['rh-desk.html'] = { s: 'Pick a film. Watch. No order.', a: 'Watch', h: '.rh-film' };
     FIRST['profile.html'] = { s: 'Answer honestly. About eight minutes. Nobody is grading you.', a: 'Begin', h: '#ks-start' };
-    FIRST['report.html'] = { s: 'This is where you stand. Next, pick any of the four films.', a: 'Open your films', h: 'rh-desk.html' };
+    FIRST['report.html'] = { s: 'This is where you stand. Next, pick a film.', a: 'Open your films', h: 'rh-desk.html' };
     FIRST['login.html'] = { s: 'Sign in to keep your films and your report with you.', a: 'Sign in', h: '#authEmail' };
-    FIRST['course.html'] = { s: 'Watch this session. When you are done, all four films are still yours.', a: 'Play', h: '#player, [data-play], .btn-primary' };
+    FIRST['course.html'] = { s: 'Watch this session. Your films are still yours when you are done.', a: 'Play', h: '#player, [data-play], .btn-primary' };
     FIRST['privacy.html'] = { s: 'Your answers stay private. This page is the policy.', a: 'Back to your films', h: 'rh-desk.html' };
     FIRST['account.html'] = { s: 'Your account. Sign out returns you to Returning Home.', a: 'Open your films', h: 'rh-desk.html' };
   }
@@ -73,8 +73,8 @@
   function coursePage(){ return page.indexOf('course-') === 0; }
   var first = FIRST[page] || (rh
     ? (coursePage()
-      ? { s: 'Watch this session. When you are done, all four films are still yours.', a: 'Play', h: '#player, [data-play], .btn-primary' }
-      : { s: 'This is your Returning Home path. The four films are open.', a: 'Open your films', h: 'rh-desk.html' })
+      ? { s: 'Watch this session. Your films are still yours when you are done.', a: 'Play', h: '#player, [data-play], .btn-primary' }
+      : { s: 'This is your Returning Home path. Your films are open.', a: 'Open your films', h: 'rh-desk.html' })
     : (coursePage()
       ? { s: 'One session: watch, checkpoint, practice. Passing unlocks the next.', a: 'Start this session', h: 'course.html' }
       : { s: 'This trains four things you can practice: involvement, consistency, awareness, and nurturance.', a: 'Start your Profile', h: 'profile.html' }));
@@ -94,7 +94,7 @@
 
   var MORE = rh ? [
     'The Profile is eight minutes. Honest answers. You get a private report of where you stand.',
-    'All four films are open. No order. Pick one and watch.',
+    'Your films are open. No order. Pick one and watch.',
     'Your answers stay yours. Your facilitator sees that you showed up, not what you wrote.',
     'Being present from where you are is enough. Nobody has to walk through a door.',
     'A certificate needs a claimed seat later. You can watch now.',

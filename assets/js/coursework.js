@@ -67,9 +67,12 @@
     finalQa = pack.final_qa || [];
     progress = {}; passes = {}; practices = {}; practiceLogs = {}; awardStatus = null; enrollId = null;
     loadPreviewState();
-    if($('cw-title')) $('cw-title').textContent = course.title + ' (preview)';
-    var signedIn = !!(window.FC && FC.uid && FC.uid());
-    note('<div class="notice brass" style="margin:0 0 14px"><b>Preview player.</b> <span class="fine">Walk the real week: play the film, pass the checkpoint, complete this week\'s practice. Films are not live yet, so play runs a short stand-in.'+(signedIn?'':' No account needed.')+' When you want proof later, a Certified Facilitator claims your seat and you earn a serial.</span></div>');
+    if($('cw-title')) $('cw-title').textContent = course.title;
+    var rh = window.FCPath && FCPath.isRH();
+    var eye = document.querySelector('.cw-head .eyebrow');
+    if (eye && rh) eye.textContent = 'YOUR FILM';
+    if (rh) note('');
+    else note('<div class="notice brass" style="margin:0 0 14px"><b>Preview.</b> <span class="fine">Play the film. No account needed.</span></div>');
     if (shouldOpenWelcome()) openWelcome();
     else {
       var land = firstUnfinishedIndex();
@@ -88,12 +91,16 @@
         stage('<div class="notice brass">This course is not open yet. <a class="link" href="'+(window.FCPath && FCPath.catalogHref ? FCPath.catalogHref() : 'certificates.html')+'">See the courses that are</a>.</div>'); return; }
       course = cr.data;
       $('cw-title').textContent = course.title;
+      var rh = window.FCPath && FCPath.isRH();
+      var eye = document.querySelector('.cw-head .eyebrow');
+      if (eye && rh) eye.textContent = 'YOUR FILM';
       // must be enrolled
       FC.sb.from('certificate_enrollments').select('id,state').eq('user_id',uid).eq('course_id',course.id).maybeSingle().then(function(er){
         if(er.error){ stage('<div class="notice brass">'+esc(er.error.message)+'</div>'); return; }
         if(!er.data){
           enrollId = null; enrollState = null; awardStatus = null;
-          note('<div class="notice brass" style="margin:0 0 14px"><b>Films are open.</b> <span class="fine">Watch and practice. A certificate needs a facilitator to claim your seat, then enroll.</span></div>');
+          if (rh) note('');
+          else note('<div class="notice brass" style="margin:0 0 14px"><b>Films are open.</b> <span class="fine">Watch and practice. A certificate needs a facilitator to claim your seat, then enroll.</span></div>');
           loadContent();
           return;
         }
@@ -364,30 +371,27 @@
     } else if (isMp4) {
       player = '<div class="cw-poster-wrap"><video id="cw-video" class="cw-html5" controls playsinline preload="metadata"'+(poster?' poster="'+esc(poster)+'"':'')+' src="'+esc(ref)+'"></video></div>';
     } else if (demo) {
-      /* Preview must stay playable even when Supabase is live. Prefer a shape
-         still poster when present; otherwise keep the short stand-in sim. */
-      if (poster) {
-        /* Media stays a clean 16:9 still. Labels + Play sit below, never on the image. */
+      /* Fundamentals stills carry faculty production notes (wrapper still,
+         Seven Secrets, film-already-shot). Hide those from the participant
+         and give the same 16:9 play frame the other courses use. */
+      var hideFacultyStill = (slug === 'fundamentals');
+      if (poster && !hideFacultyStill) {
         player = '<div class="cw-poster-wrap">'+
           '<img src="'+esc(poster)+'" alt="">'+
           '</div>'+
           '<div class="cw-sim-below">'+
-          '<div class="eyebrow brass">SHAPE PREVIEW · PLACEHOLDER</div>'+
-          '<p class="small ash">Final film goes here. Press play for a short stand-in, then take the checkpoint.</p>'+
-          '<button class="btn btn-yellow btn-sm" id="cw-sim">Play preview session</button>'+
+          '<button class="btn btn-yellow btn-sm" id="cw-sim">Play</button>'+
           '</div>';
-    } else {
-        player = '<div class="cw-novid" style="padding:28px 24px;border:1px solid rgba(127,127,127,.28);border-radius:14px;background:rgba(255,255,255,.03)">'+
-          '<div class="eyebrow brass" style="margin-bottom:10px">PREVIEW SESSION · PLACEHOLDER</div>'+
-          '<h3 style="margin:0 0 8px;font-family:var(--font-display);font-size:26px">'+esc(v.title)+'</h3>'+
-          '<p class="small ash" style="margin:0 0 16px;max-width:48ch">Press play to run this session the way the live player will. About eight seconds stands in for the film. Then take the checkpoint.</p>'+
-          '<button class="btn btn-yellow" id="cw-sim">Play preview session</button></div>';
+      } else {
+        player = '<div class="cw-poster-wrap cw-film-slot">'+
+          '<button class="btn btn-yellow" id="cw-sim">Play</button></div>';
       }
     } else {
       var sessHref = sessionGuideHref(i);
       var sessLink = sessHref ? '<a class="btn btn-secondary btn-sm" style="margin-top:12px" href="'+sessHref+'">Read this session\u2019s outline \u2192</a>' : '';
-      var posterBlock = poster ? '<div class="cw-poster-wrap" style="margin-bottom:14px"><img src="'+esc(poster)+'" alt=""></div>' : '';
-      player = '<div class="cw-novid">'+posterBlock+'<div class="eyebrow brass" style="margin-bottom:10px">Film loading soon</div><p class="small">This session plays on Vimeo here when the film is live. For now, read the outline, then take the checkpoint below.</p>'+sessLink+'</div>';
+      var showStill = poster && slug !== 'fundamentals';
+      var posterBlock = showStill ? '<div class="cw-poster-wrap" style="margin-bottom:14px"><img src="'+esc(poster)+'" alt=""></div>' : '';
+      player = '<div class="cw-novid">'+posterBlock+'<div class="eyebrow brass" style="margin-bottom:10px">Film loading soon</div><p class="small">This session plays here when the film is live. For now, take the checkpoint below.</p>'+sessLink+'</div>';
     }
 
     var prevOk = i > 0;
@@ -865,7 +869,7 @@
     if (demo){
       awardStatus='submitted';
       stage((window.FCPath && FCPath.isRH())
-        ? '<div class="cw-status"><div class="cw-status-icon">\u2713</div><h2>Preview finished</h2><p>You walked the session. A certificate needs a claimed seat later. You can keep watching now.</p><a class="btn btn-primary" href="'+FCPath.deskHref()+'">Back to your films</a></div>'
+        ? '<div class="cw-status"><div class="cw-status-icon">\u2713</div><h2>Session finished</h2><p>You can keep watching.</p><a class="btn btn-primary" href="'+FCPath.deskHref()+'">Back to your films</a></div>'
         : '<div class="cw-status"><div class="cw-status-icon">\u2713</div><h2>Preview finished</h2><p>You walked the session flow. This is not a Certificate of Completion and does not create a serial. To earn proof, a Certified Facilitator claims your seat through a Certified Organization.</p><a class="btn btn-primary" href="organizations.html">How organizations verify men</a> <a class="btn btn-secondary" style="margin-left:8px" href="certificates.html">Back to courses</a></div>');
       return;
     }
