@@ -245,7 +245,9 @@ def test_preview_player_shows_practice_copy(page, server):
 
 def test_returning_home_is_one_door(page, server):
     html = _fetch(server, "returning-home.html")
-    assert "Come home present" in html
+    assert "Present from here" in html
+    assert "A call counts" in html
+    assert "Come home present" not in html
     assert "profile.html?start=quick" in html
     assert "path=rh" in html
     assert "When you are ready for more" not in html
@@ -256,7 +258,8 @@ def test_returning_home_is_one_door(page, server):
     page.goto(f"{server}/returning-home.html", wait_until="load")
     page.wait_for_timeout(400)
     body = page.inner_text("body")
-    assert "Come home present" in body
+    assert "Present from here" in body
+    assert "A call counts" in body
     assert "Profile" in body and "Report" in body and "Films" in body
     cta = page.query_selector("a.rh-door-cta")
     assert cta is not None
