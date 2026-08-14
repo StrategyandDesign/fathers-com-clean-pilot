@@ -12,7 +12,7 @@ OG_IMAGE = SITE_URL + "/assets/img/og-image.jpg"
 # changelog.html. Bump BOTH constants on every release, add a CHANGELOG entry
 # below, regenerate, and upload. The stamp is the answer to "what version is
 # live": read any page footer.
-PLATFORM_VERSION = "4.16.10"
+PLATFORM_VERSION = "4.16.11"
 VERSION_DATE = "2026-08-14"
 
 # v4.0 reposition flags (ADR-4: rollout is a data change, not a redesign).
@@ -174,6 +174,8 @@ PAGES = {}
 # Release notes rendered on changelog.html. Newest first. Public copy:
 # POSITIONING.md section 9 language rules apply.
 CHANGELOG = [
+    ("4.16.11", "2026-08-14",
+     "Returning Home desk: the Profile ticker is quieter, and the three films have more room."),
     ("4.16.10", "2026-08-14",
      "Returning Home speaks plainly: three films, Fundamentals first. The Profile ticker is readable. Same Team stays off this path until the film is ready."),
     ("4.16.9", "2026-08-14",
