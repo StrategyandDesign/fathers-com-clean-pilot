@@ -149,8 +149,7 @@
   var RH_COURSES = [
     { slug:'reentry', title:'Coming Home Present', line:'Presence after time away.' },
     { slug:'anger', title:'Steady Under Pressure', line:'Steadiness when the week gets loud.' },
-    { slug:'fundamentals', title:'Fathering Fundamentals', line:'See your child clearly.' },
-    { slug:'coparenting', title:'Same Team', line:'One team for the children.' }
+    { slug:'fundamentals', title:'Fathering Fundamentals', line:'See your child clearly.' }
   ];
 
   function playerHref(slug){
