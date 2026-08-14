@@ -35,8 +35,14 @@
     return page + '#' + prefix + String(n);
   }
   var uid=null, course=null, videos=[], progress={}, awardStatus=null, passes={}, finalQa=[];
-  var practices={}, practiceLogs={};
+  var practices={}, practiceLogs={}, writings={};
   var courseWelcome=null;
+  var WRITE_PROMPTS = [
+    { key:'learned', label:'What did you learn?', required:true },
+    { key:'meaning', label:'What does that mean to you?', required:true },
+    { key:'apply', label:'How can you apply this moving forward?', required:true },
+    { key:'share', label:'What else would you like to share?', required:false }
+  ];
   var LOOP_SLUGS = {anger:1, reentry:1, coparenting:1};
   var PREVIEW_STORE = 'fc-cw-preview-';
 
@@ -72,8 +78,9 @@
       };
     });
     finalQa = pack.final_qa || [];
-    progress = {}; passes = {}; practices = {}; practiceLogs = {}; awardStatus = null; enrollId = null;
+    progress = {}; passes = {}; practices = {}; practiceLogs = {}; writings = {}; awardStatus = null; enrollId = null;
     loadPreviewState();
+    loadWritingsLocal();
     if($('cw-title')) $('cw-title').textContent = course.title;
     var rh = window.FCPath && FCPath.isRH();
     var eye = document.querySelector('.cw-head .eyebrow');
@@ -120,7 +127,8 @@
       FC.sb.from('course_videos').select('*').eq('course_id',course.id).order('ord'),
       FC.sb.from('video_progress').select('video_id,watched_seconds,completed').eq('user_id',uid),
       FC.sb.from('checkpoint_passes').select('video_id').eq('user_id',uid),
-      FC.sb.from('practice_completions').select('video_id').eq('user_id',uid)
+      FC.sb.from('practice_completions').select('video_id').eq('user_id',uid),
+      FC.sb.from('session_writings').select('video_id,session_ord,session_title,learned,meaning,apply,share,saved_at').eq('user_id',uid).eq('course_slug',slug)
     ].map(function(p){return p.then(function(r){return r;},function(e){return {error:e};});})).then(function(res){
       if(res[0].error){ stage('<div class="notice brass">Could not load the course right now: '+esc(res[0].error.message)+'. Try again in a moment, or tell your facilitator.</div>'); return; }
       videos = res[0].data || [];
@@ -128,6 +136,14 @@
       progress = {}; (res[1].data||[]).forEach(function(p){ progress[p.video_id]=p; });
       passes = {}; ((res[2]&&res[2].data)||[]).forEach(function(p){ passes[p.video_id]=true; });
       practices = {}; ((res[3]&&res[3].data)||[]).forEach(function(p){ practices[p.video_id]={completed:true}; });
+      loadWritingsLocal();
+      ((res[4]&&res[4].data)||[]).forEach(function(row){
+        writings[row.video_id] = {
+          learned: row.learned||'', meaning: row.meaning||'', apply: row.apply||'',
+          share: row.share||'', savedAt: row.saved_at||new Date().toISOString()
+        };
+      });
+      saveWritingsLocal();
       if(!videos.length){
         var sp = SESSIONS_PAGE[slug];
         stage(sp
@@ -160,9 +176,41 @@
       if (!cat) return;
       if (!v.practice && cat.practice) v.practice = cat.practice;
       if (!v.practice_replay && cat.practice_replay) v.practice_replay = cat.practice_replay;
+      if (!v.keyline && cat.keyline) v.keyline = cat.keyline;
     });
   }
   function hasPractice(v){ return !!(v && v.practice && (v.practice.title || v.practice.prompt)); }
+  function sessionKeyline(v){
+    if (v && v.keyline) return String(v.keyline);
+    var pack = window.FC_COURSE_DEMO && FC_COURSE_DEMO[slug];
+    if (pack && pack.videos && v){
+      for (var i=0;i<pack.videos.length;i++){
+        var cat = pack.videos[i];
+        if ((cat.id === v.id || cat.ord === v.ord) && cat.keyline) return String(cat.keyline);
+      }
+    }
+    return '';
+  }
+  function sessionIndexOf(v){
+    var i = videos.indexOf(v);
+    return i >= 0 ? i : Math.max(0, (v && v.ord ? v.ord : 1) - 1);
+  }
+  function sessionProgressLabel(v){
+    return 'Session '+(sessionIndexOf(v)+1)+' of '+videos.length;
+  }
+  function writingDone(v){ return !!(v && writings[v.id] && writings[v.id].savedAt); }
+  function writingsStoreKey(){ return PREVIEW_STORE + slug + '-writings'; }
+  function loadWritingsLocal(){
+    try {
+      var raw = localStorage.getItem(writingsStoreKey());
+      if (!raw) return;
+      var st = JSON.parse(raw);
+      if (st && typeof st === 'object') writings = Object.assign({}, writings, st);
+    } catch(e){}
+  }
+  function saveWritingsLocal(){
+    try { localStorage.setItem(writingsStoreKey(), JSON.stringify(writings)); } catch(e){}
+  }
   function filmDone(v){
     if (hasFilm(v)) { var p=progress[v.id]; return !!(p && p.completed); }
     return true;
@@ -175,10 +223,10 @@
   // Loop courses: film + checkpoint + practice. Fundamentals: film (or checkpoint if no film).
   function videoDone(v){
     if (hasPractice(v) || LOOP_SLUGS[slug]) {
-      return filmDone(v) && checkDone(v) && practiceDone(v);
+      return filmDone(v) && checkDone(v) && writingDone(v) && practiceDone(v);
     }
-    if (hasFilm(v)) { var p=progress[v.id]; return !!(p && p.completed); }
-    return !!passes[v.id];
+    if (hasFilm(v)) { var p=progress[v.id]; return !!(p && p.completed) && writingDone(v); }
+    return !!passes[v.id] && writingDone(v);
   }
   function pipClass(on){ return 'cw-loop-pip'+(on?' is-on':''); }
   function loopPipsHtml(v){
@@ -199,13 +247,14 @@
       passes = st.passes || passes;
       practices = st.practices || practices;
       practiceLogs = st.logs || practiceLogs;
+      writings = st.writings || writings;
     } catch(e){}
   }
   function savePreviewState(){
     if (!demo) return;
     try {
       localStorage.setItem(PREVIEW_STORE + slug, JSON.stringify({
-        progress: progress, passes: passes, practices: practices, logs: practiceLogs
+        progress: progress, passes: passes, practices: practices, logs: practiceLogs, writings: writings
       }));
     } catch(e){}
   }
@@ -234,7 +283,7 @@
   }
   function anySessionStarted(){
     return videos.some(function(v){
-      return !!(progress[v.id] || passes[v.id] || (practices[v.id] && practices[v.id].completed));
+      return !!(progress[v.id] || passes[v.id] || writingDone(v) || (practices[v.id] && practices[v.id].completed));
     });
   }
   function shouldOpenWelcome(){
@@ -299,7 +348,7 @@
       var state = done ? '<span class="cw-badge cw-done">Done</span>'
                 : locked ? '<span class="cw-badge cw-locked">Locked</span>'
                 : '<span class="cw-badge cw-now">Continue</span>';
-      var started = !!(progress[v.id] || passes[v.id] || (practices[v.id] && practices[v.id].completed));
+      var started = !!(progress[v.id] || passes[v.id] || writingDone(v) || (practices[v.id] && practices[v.id].completed));
       var action = (!done && !locked)
         ? '<button class="btn btn-primary btn-sm" data-open="'+i+'">'+(started?'Resume':'Start')+'</button>'
         : (done ? '<button class="btn btn-secondary btn-sm" data-open="'+i+'">Rewatch</button>' : '<button class="btn btn-secondary btn-sm" disabled>Locked</button>');
@@ -335,15 +384,35 @@
     }
 
     var done = videos.filter(videoDone).length;
+    var writeCards = videos.filter(writingDone).map(function(v){
+      var w = writings[v.id] || {};
+      var when = w.savedAt ? new Date(w.savedAt).toLocaleDateString() : '';
+      return '<div class="cw-write-card">'+
+        '<h3>'+esc(v.title)+'</h3>'+
+        '<p class="fine" style="margin:0 0 10px">'+esc(sessionProgressLabel(v))+(when?' \u00b7 '+esc(when):'')+'</p>'+
+        WRITE_PROMPTS.map(function(p){
+          var ans = (w[p.key]||'').trim();
+          if (!ans) return '';
+          return '<p class="small" style="margin:0 0 8px"><b>'+esc(p.label)+'</b><br>'+esc(ans)+'</p>';
+        }).join('')+
+        '<button class="btn btn-secondary btn-sm" data-write="'+videos.indexOf(v)+'">Edit</button></div>';
+    }).join('');
+    var writeBlock = writeCards
+      ? '<div class="cw-write-list" style="margin-top:28px"><div class="eyebrow brass">YOUR WRITING</div>'+writeCards+'</div>'
+      : '';
     stage(
       '<div class="cw-progresshead"><div class="eyebrow brass">YOUR PROGRESS</div>'+
       '<div class="cw-bar"><div class="cw-bar-fill" style="width:'+Math.round(done/videos.length*100)+'%"></div></div>'+
       '<div class="fine" style="margin-top:8px">'+(isLoopCourse()
-        ? (done+' of '+videos.length+' weeks complete. '+unit('cap')+', checkpoint, and practice each count.')
-        : (done+' of '+videos.length+' lessons complete'))+'</div></div>'+
-      '<div class="cw-list">'+welcomeRow+rows+finalBlock+'</div>'
+        ? (done+' of '+videos.length+' weeks complete. '+unit('cap')+', checkpoint, writing, and practice each count.')
+        : (done+' of '+videos.length+' sessions complete'))+'</div></div>'+
+      '<div class="cw-list">'+welcomeRow+rows+finalBlock+'</div>'+writeBlock
     );
     root.querySelectorAll('[data-open]').forEach(function(b){ b.addEventListener('click', function(){ openVideo(parseInt(b.dataset.open,10)); }); });
+    root.querySelectorAll('[data-write]').forEach(function(b){ b.addEventListener('click', function(){
+      curVideo = videos[parseInt(b.dataset.write,10)];
+      if (curVideo) openWriting();
+    }); });
     var wb=$('cw-open-welcome'); if(wb) wb.addEventListener('click', openWelcome);
     var fb=$('cw-final-btn'); if(fb) fb.addEventListener('click', openFinal);
   }
@@ -435,9 +504,11 @@
       player = '<div class="cw-poster-wrap cw-film-slot">'+
         '<button class="btn btn-yellow" id="cw-sim">Play</button></div>';
     } else {
-      var sessHref = sessionGuideHref(i);
-      var sessLink = sessHref ? '<a class="btn btn-secondary btn-sm" style="margin-top:12px" href="'+sessHref+'">Read this session\u2019s outline \u2192</a>' : '';
-      player = '<div class="cw-novid"><p class="small" style="margin:0">This lesson plays here when the training is live. Take the checkpoint when you are ready.</p>'+sessLink+'</div>';
+      var line = sessionKeyline(v);
+      var outline = line
+        ? '<div class="cw-sess-outline"><div class="eyebrow brass">THIS SESSION</div><p class="small">'+esc(line)+'</p></div>'
+        : '';
+      player = '<div class="cw-novid"><p class="small" style="margin:0">Take the checkpoint when you are ready.</p>'+outline+'</div>';
     }
     var voiceNote = (slug === 'anger' && isMp4)
       ? '<p class="fine ash" style="margin:10px 0 0">This voice is a stand-in. A person still has to read it.</p>'
@@ -617,6 +688,8 @@
   }
   function openEmptyCheckpoint(){
     stage(
+      '<div class="eyebrow brass">CHECKPOINT</div>'+
+      '<div class="fine" style="margin:6px 0 12px">'+esc(sessionProgressLabel(curVideo))+'</div>'+
       '<div class="notice brass">This checkpoint is not written yet. No score was recorded. You can continue the training.</div>'+
       '<div class="cw-video-actions"><button class="btn btn-primary" id="cw-empty-next">Continue</button></div>'
     );
@@ -624,10 +697,7 @@
     if (b) b.addEventListener('click', function(){
       passes[curVideo.id] = true;
       if (demo) savePreviewState();
-      if (hasPractice(curVideo) && !practiceDone(curVideo)) { openPractice(); return; }
-      var i = videos.indexOf(curVideo);
-      if (i >= 0 && i + 1 < videos.length) openVideo(i + 1);
-      else renderOutline();
+      openWriting();
     });
   }
   function openCheckpoint(){
@@ -664,8 +734,8 @@
       return '<button class="cw-choice" data-ci="'+ci+'"><span class="cw-choice-dot"></span>'+esc(ch)+'</button>';
     }).join('');
     stage(
-      '<div class="eyebrow brass">DEBRIEF \u00b7 '+esc(curVideo.title)+'</div>'+
-      '<div class="fine" style="margin:6px 0 18px">Question '+(idx+1)+' of '+qs.length+'</div>'+
+      '<div class="eyebrow brass">DEBRIEF</div>'+
+      '<div class="fine" style="margin:6px 0 18px">'+esc(sessionProgressLabel(curVideo))+' \u00b7 Question '+(idx+1)+' of '+qs.length+' \u00b7 '+esc(curVideo.title)+'</div>'+
       '<h2 class="cw-q">'+esc(q.prompt)+'</h2>'+
       '<div class="cw-choices">'+choices+'</div>'+
       '<div class="cw-q-actions"><button class="btn btn-primary" id="cw-q-next" disabled>'+(idx===qs.length-1?'Finish Checkpoint':'Next')+'</button></div>'
@@ -756,43 +826,16 @@
     if (!curVideo) return;
     passes[curVideo.id] = true;
     if (demo) savePreviewState();
-    if (hasPractice(curVideo) && !practiceDone(curVideo)) { openPractice(); return; }
-    markVideoComplete(); note(''); renderOutline();
+    openWriting();
   }
 
   function showCheckpointResult(pass, right, total){
     if(pass){
       passes[curVideo.id] = true;
       if (demo) savePreviewState();
-      if (hasPractice(curVideo) && !practiceDone(curVideo)) {
-        openPractice();
-        return;
-      }
-      markVideoComplete();
-      var nextIdx = videos.indexOf(curVideo) + 1;
-      var hasNext = nextIdx > 0 && nextIdx < videos.length;
-      var btnLabel = hasNext ? ('Continue to Session '+(nextIdx+1)) : 'Continue';
-      stage(
-        '<div class="cw-lock" data-motion="fade-up">'+
-          '<div class="cw-lock-mark" aria-hidden="true">\u2713</div>'+
-          '<div class="cw-lock-pips" aria-label="Progress">'+lockPipsHtml(curVideo.ord)+'</div>'+
-          '<div class="eyebrow brass" style="margin-bottom:10px">SESSION '+curVideo.ord+' OF '+videos.length+'</div>'+
-          '<h2>'+esc(lockLine(curVideo))+'</h2>'+
-          '<p>Checkpoint locked in.</p>'+
-          '<button class="btn btn-primary" id="cw-continue">'+esc(btnLabel)+'</button>'+
-        '</div>'
-      );
-      if (window.FCMotion && FCMotion.pulseSuccess){
-        var mark = root.querySelector('.cw-lock-mark');
-        if (mark) FCMotion.pulseSuccess(mark);
-      }
-      $('cw-continue').addEventListener('click', function(){
-        if (hasNext) openVideo(nextIdx);
-        else if (demo) openFinal();
-        else renderOutline();
-      });
+      openWriting();
     } else {
-      stage('<div class="cw-status"><div class="cw-status-icon cw-warn">!</div><h2>Not quite</h2><p>'+right+' of '+total+' correct. Review the lesson and try the Checkpoint again.</p><div class="row" style="gap:12px;justify-content:center"><button class="btn btn-secondary" id="cw-rewatch">Rewatch lesson</button><button class="btn btn-primary" id="cw-retry">Retry Checkpoint</button></div></div>');
+      stage('<div class="fine" style="margin:0 0 12px">'+esc(sessionProgressLabel(curVideo))+'</div><div class="cw-status"><div class="cw-status-icon cw-warn">!</div><h2>Not quite</h2><p>'+right+' of '+total+' correct. Review the lesson and try the Checkpoint again.</p><div class="row" style="gap:12px;justify-content:center"><button class="btn btn-secondary" id="cw-rewatch">Rewatch lesson</button><button class="btn btn-primary" id="cw-retry">Retry Checkpoint</button></div></div>');
       $('cw-rewatch').addEventListener('click', function(){ var i=videos.indexOf(curVideo); openVideo(i); });
       $('cw-retry').addEventListener('click', openCheckpoint);
     }
@@ -803,6 +846,81 @@
     passes[curVideo.id] = true;
     if (demo) { savePreviewState(); return; }
     FC.sb.functions.invoke('progress_beat', { body: { video_id: curVideo.id, position_seconds: Math.max(watched,threshold) } }).then(function(){}, function(){});
+  }
+
+  function persistWriting(payload){
+    if (!curVideo) return;
+    writings[curVideo.id] = payload;
+    saveWritingsLocal();
+    if (demo) savePreviewState();
+    if (isGuestPlay()) return;
+    if (!uid || !FC.sb) return;
+    FC.sb.from('session_writings').upsert({
+      user_id: uid,
+      course_slug: slug,
+      video_id: String(curVideo.id),
+      session_ord: curVideo.ord || (sessionIndexOf(curVideo)+1),
+      session_title: curVideo.title || '',
+      learned: payload.learned,
+      meaning: payload.meaning,
+      apply: payload.apply,
+      share: payload.share,
+      saved_at: payload.savedAt
+    }, { onConflict: 'user_id,course_slug,video_id' }).then(function(){}, function(){});
+  }
+
+  function continueAfterWriting(){
+    markVideoComplete();
+    if (hasPractice(curVideo) && !practiceDone(curVideo)) { openPractice(); return; }
+    var nextIdx = videos.indexOf(curVideo) + 1;
+    if (nextIdx > 0 && nextIdx < videos.length) openVideo(nextIdx);
+    else if (demo) openFinal();
+    else renderOutline();
+  }
+
+  function openWriting(){
+    var v = curVideo;
+    if (!v) { renderOutline(); return; }
+    var saved = writings[v.id] || {};
+    var fields = WRITE_PROMPTS.map(function(p){
+      return '<div class="cw-write-item"><label for="cw-w-'+p.key+'">'+esc(p.label)+'</label>'+
+        '<textarea class="cw-qa-input" id="cw-w-'+p.key+'" data-wk="'+p.key+'" rows="3" maxlength="2000">'+esc(saved[p.key]||'')+'</textarea></div>';
+    }).join('');
+    var keep = isGuestPlay()
+      ? 'Saved on this device. An account keeps it.'
+      : 'Saved to your account and this device.';
+    var already = writingDone(v);
+    stage(
+      '<button class="link ash" id="cw-back-w" style="margin-bottom:16px">'+esc(backLabel())+'</button>'+
+      '<div class="cw-write">'+
+        '<div class="eyebrow brass">WRITE</div>'+
+        '<div class="fine" style="margin:6px 0 12px">'+esc(sessionProgressLabel(v))+'</div>'+
+        '<h2 class="cw-lesson-title">Write this session.</h2>'+
+        '<p class="small" style="margin:0 0 18px;max-width:52ch">Four answers. You save them. Your case worker can see you finished.</p>'+
+        fields+
+        '<p class="fine" id="cw-w-msg" style="margin:8px 0 0">'+(already?keep:'')+'</p>'+
+        '<div class="cw-video-actions" style="margin-top:18px">'+
+          '<button class="btn btn-primary" id="cw-w-save">'+(already?'Update and continue':'Save and continue')+'</button>'+
+        '</div>'+
+      '</div>'
+    );
+    $('cw-back-w').addEventListener('click', renderOutline);
+    $('cw-w-save').addEventListener('click', function(){
+      var payload = { learned:'', meaning:'', apply:'', share:'', savedAt: new Date().toISOString() };
+      WRITE_PROMPTS.forEach(function(p){
+        var t = $('cw-w-'+p.key);
+        payload[p.key] = t ? (t.value||'').trim() : '';
+      });
+      var msg = $('cw-w-msg');
+      var missing = WRITE_PROMPTS.filter(function(p){ return p.required && !payload[p.key]; });
+      if (missing.length){
+        if (msg) msg.textContent = 'Write the first three. The last one is yours if you want it.';
+        return;
+      }
+      persistWriting(payload);
+      if (msg) msg.textContent = keep;
+      continueAfterWriting();
+    });
   }
 
   function replayUrl(v){
@@ -840,7 +958,8 @@
         '<button class="link ash" id="cw-rewatch-film">Rewatch '+unit()+'</button>'+
       '</div>'+
       '<div class="cw-practice">'+
-        '<div class="eyebrow brass">PRACTICE \u00b7 WEEK '+esc(String(v.ord))+' OF '+videos.length+'</div>'+
+        '<div class="eyebrow brass">PRACTICE</div>'+
+        '<div class="fine" style="margin:6px 0 12px">'+esc(sessionProgressLabel(v))+'</div>'+
         '<h2 class="cw-lesson-title">'+esc(prac.title || 'This week\'s practice')+'</h2>'+
         '<p class="small" style="margin:0 0 14px;max-width:52ch">'+esc(prac.prompt || '')+'</p>'+
         (how ? '<ul class="cw-how">'+how+'</ul>' : '')+

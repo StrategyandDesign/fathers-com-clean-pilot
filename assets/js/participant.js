@@ -68,6 +68,7 @@
     // Activity counts (best effort; tables may not exist yet).
     var pCircle = FC.sb.from('circle_posts').select('id',{count:'exact',head:true}).eq('user_id',uid);
     var pCourses= FC.sb.from('certificate_courses').select('id,title');
+    var pWrite = FC.sb.from('session_writings').select('course_slug,session_ord,session_title,learned,meaning,apply,share,saved_at').eq('user_id',uid).order('saved_at',{ascending:false});
 
     function pretty(k){ if(!k) return '\u2014'; return String(k).replace(/_/g,' ').replace(/\b\w/g,function(c){return c.toUpperCase();}); }
     function pbar(label,pct,accent){
@@ -76,9 +77,9 @@
         '<div class="rail-track"><span style="width:'+v+'%'+(accent?';background:'+accent:'')+'"></span></div></div>';
     }
 
-    Promise.all([pSession,pBaseline,pEnroll,pAward,pCircle,pCourses].map(function(pr){return pr.then(function(r){return r;},function(e2){return {error:e2};});}))
+    Promise.all([pSession,pBaseline,pEnroll,pAward,pCircle,pCourses,pWrite].map(function(pr){return pr.then(function(r){return r;},function(e2){return {error:e2};});}))
     .then(function(res){
-      var sesRes=res[0], baseRes=res[1], enrRes=res[2], awRes=res[3], cRes=res[4], coRes=res[5];
+      var sesRes=res[0], baseRes=res[1], enrRes=res[2], awRes=res[3], cRes=res[4], coRes=res[5], wrRes=res[6];
       var ses = (sesRes.data||[])[0];
       var pResult = ses
         ? FC.sb.from('keystone_results').select('overall_pct,scale_scores,strength_scale,gap_scale').eq('session_id',ses.id).maybeSingle().then(function(r){return r;},function(e2){return {error:e2};})
@@ -149,6 +150,24 @@
               '<td><span class="chip">'+esc(a.status||'\u2014')+'</span></td>'+
               '<td class="fine">'+(a.envelope_id?'yes':'no')+'</td></tr>';
           }).join('')+'</tbody></table>';
+      }
+
+      // Session writings (deliverables for the man and the case worker)
+      html += '<div class="eyebrow" style="margin:8px 0 12px">SESSION WRITING</div>';
+      var writes = (wrRes && wrRes.data) || [];
+      if(wrRes && wrRes.error){ html += '<p class="fine" style="margin-bottom:20px">Writings load when the session_writings table is live.</p>'; }
+      else if(!writes.length){ html += '<p class="fine" style="margin-bottom:20px">No session writing yet.</p>'; }
+      else {
+        html += writes.map(function(w){
+          var when = w.saved_at ? new Date(w.saved_at).toLocaleDateString() : '';
+          return '<div class="card" style="padding:16px 18px;margin-bottom:10px">'+
+            '<p class="small" style="margin:0 0 8px"><b>'+esc(w.session_title||('Session '+(w.session_ord||'')))+'</b>'+(when?' \u00b7 '+esc(when):'')+' \u00b7 '+esc(w.course_slug||'')+'</p>'+
+            '<p class="small" style="margin:0 0 6px"><b>What did you learn?</b><br>'+esc(w.learned||'')+'</p>'+
+            '<p class="small" style="margin:0 0 6px"><b>What does that mean to you?</b><br>'+esc(w.meaning||'')+'</p>'+
+            '<p class="small" style="margin:0 0 6px"><b>How can you apply this moving forward?</b><br>'+esc(w.apply||'')+'</p>'+
+            ((w.share||'').trim()?'<p class="small" style="margin:0"><b>What else would you like to share?</b><br>'+esc(w.share)+'</p>':'')+
+            '</div>';
+        }).join('');
       }
 
       // Activity

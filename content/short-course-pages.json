@@ -603,12 +603,12 @@
       {
         "ord": 7,
         "title": "Seventh Secret: Spiritual Equipping",
-        "quote": "Live convictions a child can trust. Faith is welcome. This is not a chapel course.",
-        "scene": "He names one conviction and lives it in the open at work, in the program, or at home. If faith is his, he lives it. If it is not, he keeps his word anyway. No chapel track.",
-        "in_room": "Spiritual equipping here means grounded convictions you live, with room for faith. Fathers come with faith and without. Kids watch what you live. This is not a chapel course.",
+        "quote": "Live convictions a child can trust. Faith is welcome. Fathers come with a faith community and without.",
+        "scene": "He names one conviction and lives it in the open at work, in the program, or at home. If faith is his, he lives it. If it is not, he keeps his word anyway.",
+        "in_room": "Spiritual equipping here means grounded convictions you live, with room for faith. Fathers come with faith and without. Kids watch what you live.",
         "leave_with": "You leave with one conviction you will live in the open this week.",
         "practice": "Name one conviction you will live in the open this week at work, in the program, or at home. If faith is yours, live it. If it is not, keep your word anyway.",
-        "science": "Kids watch what you live. This is not a required chapel track.",
+        "science": "Kids watch what you live, with room for a faith community or none.",
         "session_label": "SESSION 7",
         "length_label": "one session"
       }

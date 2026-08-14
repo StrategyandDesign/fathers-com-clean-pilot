@@ -1,5 +1,5 @@
 /* Facilitator Desk: one board of claimed men and this week's film.
-   Progress flags only. Never answers, scores, or practice log text. */
+   Profile answers and scores stay private. Session writings are deliverables. */
 (function(){
   var demo=!(window.FC&&FC.live);
   var circleId=null;
@@ -7,6 +7,10 @@
   var weekIndex=0;
   var lastProgress=[];
   var lastClaims=[];
+  var lastWritings=[];
+  var DEMO_WRITINGS=[
+    {participant_name:'James Whitaker',participant_email:'james.whitaker@example.com',session_title:'The Body You Bring Home',session_ord:1,saved_at:'2026-08-14T12:00:00Z',learned:'My body is still on duty.',meaning:'Home is a different place than where I was.',apply:'I will name the spike and sit for one minute.',share:''}
+  ];
 
   var FILMS=[
     'The Body You Bring Home',
@@ -25,9 +29,9 @@
   var COURSE_SLUG='reentry';
 
   var DEMO_ROWS=[
-    {participant_name:'James Whitaker',participant_email:'james.whitaker@example.com',film_yn:true,check_yn:true,practice_yn:false,sessions_completed:1,checkpoints_passed:1,practices_completed:0,cert_serial:'FC-2026-104221'},
-    {participant_name:'Marcus Hale',participant_email:'marcus.hale@example.com',film_yn:true,check_yn:false,practice_yn:false,sessions_completed:1,checkpoints_passed:0,practices_completed:0,cert_serial:''},
-    {participant_name:'Andre Cole',participant_email:'andre.cole@example.com',film_yn:false,check_yn:false,practice_yn:false,sessions_completed:0,checkpoints_passed:0,practices_completed:0,cert_serial:''}
+    {participant_name:'James Whitaker',participant_email:'james.whitaker@example.com',film_yn:true,check_yn:true,practice_yn:false,sessions_completed:1,checkpoints_passed:1,practices_completed:0,writings_completed:1,cert_serial:'FC-2026-104221'},
+    {participant_name:'Marcus Hale',participant_email:'marcus.hale@example.com',film_yn:true,check_yn:false,practice_yn:false,sessions_completed:1,checkpoints_passed:0,practices_completed:0,writings_completed:0,cert_serial:''},
+    {participant_name:'Andre Cole',participant_email:'andre.cole@example.com',film_yn:false,check_yn:false,practice_yn:false,sessions_completed:0,checkpoints_passed:0,practices_completed:0,writings_completed:0,cert_serial:''}
   ];
 
   function el(id){return document.getElementById(id);}
@@ -44,7 +48,8 @@
       return Object.assign({}, x, {
         film_yn: (x.sessions_completed||0) > weekIndex,
         check_yn: (x.checkpoints_passed||0) > weekIndex,
-        practice_yn: (x.practices_completed||0) > weekIndex
+        practice_yn: (x.practices_completed||0) > weekIndex,
+        write_yn: (x.writings_completed||0) > weekIndex
       });
     });
   }
@@ -290,10 +295,11 @@
       box.innerHTML='<div class="dash-empty"><h3>No men claimed yet</h3><p>Claim a man by the email he signs in with. He can train without you. This board stays up even if you have no Circle.</p></div>';
       return;
     }
-    var head = '<th>Name</th><th>Week</th><th>Film</th><th>Check</th><th>Practice</th><th>Serial</th><th></th>';
+    var head = '<th>Name</th><th>Week</th><th>Film</th><th>Check</th><th>Writing</th><th>Practice</th><th>Serial</th><th></th>';
     var body = rows.map(function(x){
       var filmCell='<td class="lead-yn">'+(x.film_yn?'Y':'N')+'</td>';
       var checkCell='<td class="lead-yn">'+(x.check_yn?'Y':'N')+'</td>';
+      var writeCell='<td class="lead-yn">'+(x.write_yn?'Y':'N')+'</td>';
       var pracCell='<td class="lead-yn">'+(x.practice_yn?'Y':'N')+'</td>';
       var serial=x.cert_serial
         ? '<a class="link" href="'+esc(verifyHref(x.cert_serial))+'">'+esc(x.cert_serial)+'</a>'
@@ -303,13 +309,42 @@
       return '<tr>'+
         '<td>'+esc(displayName(x))+'</td>'+
         '<td class="fine">'+esc(title)+'</td>'+
-        filmCell+checkCell+pracCell+
+        filmCell+checkCell+writeCell+pracCell+
         '<td class="fine">'+serial+'</td>'+
         '<td>'+reach+'</td>'+
         '</tr>';
     }).join('');
-    var note = '<p class="fine" style="margin-top:12px">You never see a man\u2019s answers, scores, or practice log.</p>';
+    var note = '<p class="fine" style="margin-top:12px">You never see a man\u2019s Profile answers, scores, or practice log. Session writings are below so you can measure the work.</p>';
     box.innerHTML='<div class="dtable-wrap"><table class="dtable"><thead><tr>'+head+'</tr></thead><tbody>'+body+'</tbody></table></div>'+note;
+    renderWritings(lastWritings.length?lastWritings:(demo?DEMO_WRITINGS:[]));
+  }
+
+  function renderWritings(rows){
+    var host=el('lead-thisweek');
+    if(!host) return;
+    var old=el('lead-writings');
+    if(old) old.remove();
+    var wrap=document.createElement('div');
+    wrap.id='lead-writings';
+    wrap.style.marginTop='22px';
+    if(!rows || !rows.length){
+      wrap.innerHTML='<div class="eyebrow" style="margin:0 0 10px">SESSION WRITING</div><p class="fine">No session writing yet. When he saves the four answers, they land here.</p>';
+      host.appendChild(wrap);
+      return;
+    }
+    wrap.innerHTML='<div class="eyebrow" style="margin:0 0 10px">SESSION WRITING</div>'+rows.map(function(w){
+      var when=w.saved_at? new Date(w.saved_at).toLocaleDateString() : '';
+      var who=esc(displayName(w));
+      var title=esc(w.session_title||('Session '+(w.session_ord||'')));
+      return '<div class="card" style="padding:16px 18px;margin-bottom:10px">'+
+        '<p class="small" style="margin:0 0 8px"><b>'+who+'</b> \u00b7 '+title+(when?' \u00b7 '+esc(when):'')+'</p>'+
+        '<p class="small" style="margin:0 0 6px"><b>What did you learn?</b><br>'+esc(w.learned||'')+'</p>'+
+        '<p class="small" style="margin:0 0 6px"><b>What does that mean to you?</b><br>'+esc(w.meaning||'')+'</p>'+
+        '<p class="small" style="margin:0 0 6px"><b>How can you apply this moving forward?</b><br>'+esc(w.apply||'')+'</p>'+
+        ((w.share||'').trim()?'<p class="small" style="margin:0"><b>What else would you like to share?</b><br>'+esc(w.share)+'</p>':'')+
+        '</div>';
+    }).join('');
+    host.appendChild(wrap);
   }
 
   function pickNudge(rows, opts){
@@ -432,8 +467,11 @@
       setGlance('lead-men', String(rows.length));
       setGlance('lead-watched', String(watched));
       updateSeatChip(rows.length);
-      paintBoard(rows);
       if(note) note.innerHTML='';
+      FC.sb.rpc('facilitator_session_writings').then(function(wr){
+        lastWritings=(wr && !wr.error && wr.data)||[];
+        paintBoard(lastProgress);
+      }, function(){ lastWritings=[]; paintBoard(lastProgress); });
     });
   }
 

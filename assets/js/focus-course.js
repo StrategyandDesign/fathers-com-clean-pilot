@@ -20,7 +20,7 @@
       href: 'course-steady-under-pressure.html',
       enroll: 'enroll.html?cert=anger&title=Steady%20Under%20Pressure&hours=2.4',
       photo: 'assets/img/photos/hero-04.jpg',
-      line: 'Steadiness when the week gets loud. Twelve short film sessions (~12 min each) with checkpoints that prove the work.',
+      line: 'Steadiness when the moments get loud. Twelve short film sessions (~12 min each) with checkpoints that prove the work.',
       minutes: 12
     },
     awareness: {
