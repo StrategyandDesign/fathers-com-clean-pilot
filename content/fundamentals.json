@@ -2,9 +2,10 @@
   "slug": "fundamentals",
   "title": "Fathering Fundamentals",
   "welcome": {
-    "title": "Start here",
+    "title": "Ken and Micah",
     "speakers": "Ken Canfield and Micah Canfield",
-    "video": "assets/video/welcomes/fundamentals.mp4",
+    "video": "https://www.youtube.com/watch?v=ib2up4VhWdo",
+    "poster": "assets/img/ken-and-micah.jpg",
     "ken": "These are the Seven Secrets I have taught fathers for decades. Short sessions you can use the same night. Not a theory class. A way to be the man your child can count on.",
     "micah": "I built this path so you can start tonight. Each session is short. Watch, take the questions if they are there, try one move at home. I will walk it with you. Here's session one."
   },

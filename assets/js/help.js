@@ -97,7 +97,6 @@
     'Your trainings are open. Start the one your report named, or pick another.',
     'Your answers stay yours. Your facilitator sees that you showed up, not what you wrote.',
     'Being present from where you are is enough. Nobody has to walk through a door.',
-    'A certificate needs a claimed seat later. You can watch now.',
     'Stuck? Use this guide, or read Privacy.'
   ] : [
     'This is free to you. Sponsors certify orgs and facilitators, not your seat.',

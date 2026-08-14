@@ -128,9 +128,9 @@
   }
 
   var RH_COURSES = [
-    { slug:'fundamentals', title:'Fathering Fundamentals', line:'See your child clearly.' },
-    { slug:'anger', title:'Steady Under Pressure', line:'Steadiness when the week gets loud.' },
-    { slug:'reentry', title:'Coming Home Present', line:'Presence after time away.' }
+    { slug:'fundamentals', title:'Fathering Fundamentals', line:'See your child clearly.', span:'8 lessons', offer:'Training and a certificate.' },
+    { slug:'anger', title:'Steady Under Pressure', line:'Steadiness when the week gets loud.', span:'12 weeks', offer:'Training and a certificate.' },
+    { slug:'reentry', title:'Coming Home Present', line:'Presence after time away.', span:'12 weeks', offer:'Training and a certificate.' }
   ];
 
   function playerHref(slug){
@@ -228,9 +228,17 @@
           (start?'<span class="rh-film-mark">Start here</span>':'')+
           '<span class="rh-film-t">'+c.title+'</span>'+
           '<span class="rh-film-l">'+c.line+'</span>'+
+          '<span class="rh-film-meta">'+(c.span||'')+'. '+(c.offer||'Training and a certificate.')+'</span>'+
           '<span class="rh-film-go">'+(start?'Start':'Watch')+'</span></a>';
       }).join('');
       paintRhDeskCopy(rec);
+      var row = root.parentNode;
+      if (row && !row.querySelector('.rh-desk-cert')){
+        var cert = document.createElement('p');
+        cert.className = 'rh-desk-cert';
+        cert.textContent = 'A certificate needs a claimed seat later.';
+        root.insertAdjacentElement('afterend', cert);
+      }
       return;
     }
     root.innerHTML='Your trainings, free: '+list.map(function(c,i){
@@ -242,7 +250,7 @@
 
   function rhTickerHtml(){
     return '<div class="rh-ticker" role="region" aria-label="Profile">'+
-      '<p class="rh-ticker-copy">See where you stand. Eight minutes. Honest. Nobody is grading you.</p>'+
+      '<p class="rh-ticker-copy">See where you stand. The Profile takes eight minutes. Nobody is grading you.</p>'+
       '<a class="rh-ticker-go" href="profile.html?start=quick&amp;path=rh">Start</a></div>';
   }
   function paintRhTicker(){

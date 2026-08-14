@@ -79,13 +79,8 @@
     var eye = document.querySelector('.cw-head .eyebrow');
     if (eye && rh) eye.textContent = 'YOUR TRAINING';
     if (rh) note('');
-    else note('<div class="notice brass" style="margin:0 0 14px"><b>Preview.</b> <span class="fine">Play the film. No account needed.</span></div>');
-    if (shouldOpenWelcome()) openWelcome();
-    else {
-      var land = firstUnfinishedIndex();
-      if(land >= 0) openVideo(land);
-      else renderOutline();
-    }
+    else note('<div class="notice brass" style="margin:0 0 14px"><b>Preview.</b> <span class="fine">Play the training. No account needed.</span></div>');
+    landPlayer();
   }
 
   function load(){
@@ -141,13 +136,16 @@
         return;
       }
       attachWelcomeFromCatalog();
-      if (shouldOpenWelcome()) openWelcome();
-      else renderOutline();
+      landPlayer();
     });
   }
 
   // ---------- outline ----------
-  function hasFilm(v){ return !!(v.duration_seconds && v.duration_seconds > 0); }
+  function hasFilm(v){
+    var ref = (v && (v.video_url || v.vimeo_id)) || '';
+    if (v && v.vimeo_id && /^\d+$/.test(String(v.vimeo_id))) return true;
+    return !!(vimeoId(ref) || youtubeId(ref) || /\.mp4($|\?)/i.test(String(ref)));
+  }
   function attachWelcomeFromCatalog(){
     var pack = window.FC_COURSE_DEMO && FC_COURSE_DEMO[slug];
     if (pack && pack.welcome) courseWelcome = pack.welcome;
@@ -213,6 +211,16 @@
   }
   function firstUnfinishedIndex(){ for(var i=0;i<videos.length;i++){ if(!videoDone(videos[i])) return i; } return -1; }
   function allVideosDone(){ return firstUnfinishedIndex() === -1; }
+  function isGuestPlay(){ return demo || !uid; }
+  function isLoopCourse(){ return !!LOOP_SLUGS[slug]; }
+  function sessionWord(form){
+    if (isLoopCourse()) return form==='plural' ? 'weeks' : 'week';
+    return form==='plural' ? 'lessons' : 'lesson';
+  }
+  function backLabel(){
+    var name = (course && course.title) ? course.title : ('All '+sessionWord('plural'));
+    return '\u2190 '+name;
+  }
 
   function welcomeForced(){
     var h = (location.hash || '').replace('#','');
@@ -232,9 +240,18 @@
   function shouldOpenWelcome(){
     if (!courseWelcome) return false;
     if (welcomeForced()) return true;
+    if (qs.get('welcome') === '0') return false;
+    /* Unsigned / preview: do not resume a stranger into the middle.
+       Fundamentals opens on the Ken preview. The week trainings open at week 1. */
+    if (isGuestPlay()) return slug === 'fundamentals';
     if (welcomeSeen()) return false;
     if (anySessionStarted()) return false;
     return true;
+  }
+  function landPlayer(){
+    if (shouldOpenWelcome()) { openWelcome(); return; }
+    if (isGuestPlay() && videos.length) { openVideo(0); return; }
+    renderOutline();
   }
   function goSession1FromWelcome(){
     markWelcomeSeen();
@@ -244,23 +261,18 @@
   function openWelcome(){
     var w = courseWelcome || {};
     var ref = w.video || '';
-    var poster = w.poster || '';
-    var media = '';
-    if (ref) {
-      media = '<div class="cw-welcome-media" id="cw-welcome-media">'+
-        '<video id="cw-welcome-vid" class="cw-html5" controls playsinline preload="metadata"'+
-        (poster ? ' poster="'+esc(poster)+'"' : '')+
-        ' src="'+esc(ref)+'"></video></div>';
-    }
+    var poster = w.poster || 'assets/img/ken-and-micah.jpg';
+    var media = mediaFrame(ref, poster, 'cw-welcome-vid');
+    var nextWord = isLoopCourse() ? 'week 1' : 'lesson 1';
     stage(
-      '<button class="link ash" id="cw-back-welcome" style="margin-bottom:16px">\u2190 All lessons</button>'+
-      '<div class="eyebrow brass">START HERE \u00b7 OPTIONAL</div>'+
-      '<h2 class="cw-lesson-title">'+esc(w.title || 'Start here')+'</h2>'+
-      '<p class="fine ash" style="margin:0 0 16px">'+esc(w.speakers || 'Ken Canfield and Micah Canfield')+'. Not a week. Skip anytime.</p>'+
+      '<button class="link ash" id="cw-back-welcome" style="margin-bottom:16px">'+esc(backLabel())+'</button>'+
+      '<div class="eyebrow brass">PREVIEW</div>'+
+      '<h2 class="cw-lesson-title">'+esc(w.title || 'Ken and Micah')+'</h2>'+
+      '<p class="fine ash" style="margin:0 0 16px">'+esc(w.speakers || 'Ken Canfield and Micah Canfield')+' open this training. Then '+nextWord+'.</p>'+
       media+
-      '<div class="cw-placeholder" id="cw-welcome-ph"'+(ref ? ' hidden' : '')+'><p class="eyebrow brass">Welcome '+unit()+'</p><p class="fine ash">Ken and Micah Canfield. In production. Skip ahead anytime.</p></div>'+
+      '<div class="cw-placeholder" id="cw-welcome-ph"'+(ref ? ' hidden' : '')+'><p class="small" style="margin:0">Ken and Micah open this training. Then you start lesson 1.</p></div>'+
       '<div class="cw-welcome-actions">'+
-        '<button class="btn btn-primary" id="cw-welcome-go">Continue to session 1</button>'+
+        '<button class="btn btn-primary" id="cw-welcome-go">Continue to '+nextWord+'</button>'+
         '<button class="btn btn-secondary" id="cw-welcome-skip">Skip</button>'+
       '</div>'
     );
@@ -291,9 +303,9 @@
       var action = (!done && !locked)
         ? '<button class="btn btn-primary btn-sm" data-open="'+i+'">'+(started?'Resume':'Start')+'</button>'
         : (done ? '<button class="btn btn-secondary btn-sm" data-open="'+i+'">Rewatch</button>' : '<button class="btn btn-secondary btn-sm" disabled>Locked</button>');
-      var sub = (hasPractice(v) || LOOP_SLUGS[slug])
+      var sub = (hasPractice(v) || isLoopCourse())
         ? ('Week '+(i+1)+' of '+videos.length)
-        : (fmt(v.duration_seconds)+' \u00b7 Checkpoint after');
+        : ('Lesson '+(i+1)+' of '+videos.length);
       return '<div class="cw-row"><div class="cw-row-main"><div class="cw-row-num">'+(i+1)+'</div>'+
         '<div><div class="cw-row-title">'+esc(v.title)+'</div><div class="fine">'+sub+'</div>'+loopPipsHtml(v)+'</div></div>'+
         '<div class="cw-row-right">'+state+action+'</div></div>';
@@ -302,28 +314,31 @@
     var welcomeRow = '';
     if (courseWelcome) {
       welcomeRow = '<div class="cw-row cw-welcome-row"><div class="cw-row-main"><div class="cw-row-num">\u2022</div>'+
-        '<div><div class="cw-row-title">'+esc(courseWelcome.title || 'Start here')+'</div>'+
-        '<div class="fine">'+esc(courseWelcome.speakers || 'Ken Canfield and Micah Canfield')+' \u00b7 optional</div></div></div>'+
-        '<div class="cw-row-right"><span class="cw-badge">Optional</span>'+
+        '<div><div class="cw-row-title">'+esc(courseWelcome.title || 'Ken and Micah')+'</div>'+
+        '<div class="fine">'+esc(courseWelcome.speakers || 'Ken Canfield and Micah Canfield')+' \u00b7 preview</div></div></div>'+
+        '<div class="cw-row-right"><span class="cw-badge">Preview</span>'+
         '<button class="btn btn-secondary btn-sm" id="cw-open-welcome">Watch</button></div></div>';
     }
 
-    var finalReady = allVideosDone() && !!enrollId;
-    var finalHint = !allVideosDone() ? 'Finish all lessons first' : (!enrollId ? 'Certificate needs a claimed seat' : 'Ready');
-    var finalRight = finalReady
-      ? '<button class="btn btn-primary btn-sm" id="cw-final-btn">Begin final</button>'
-      : (!allVideosDone()
-          ? '<span class="cw-badge cw-locked">Locked</span>'
-          : '<a class="btn btn-secondary btn-sm" href="enroll.html?cert='+esc(slug)+'">Claim seat for certificate</a>');
-    var finalBlock = '<div class="cw-row cw-final"><div class="cw-row-main"><div class="cw-row-num">\u2691</div>'+
-      '<div><div class="cw-row-title">Final Q&amp;A and submit</div><div class="fine">'+finalHint+'</div></div></div>'+
-      '<div class="cw-row-right">'+finalRight+'</div></div>';
+    var finalBlock = '';
+    if (!onRh()) {
+      var finalReady = allVideosDone() && !!enrollId;
+      var finalHint = !allVideosDone() ? 'Finish all lessons first' : (!enrollId ? 'Certificate needs a claimed seat' : 'Ready');
+      var finalRight = finalReady
+        ? '<button class="btn btn-primary btn-sm" id="cw-final-btn">Begin final</button>'
+        : (!allVideosDone()
+            ? '<span class="cw-badge cw-locked">Locked</span>'
+            : '<a class="btn btn-secondary btn-sm" href="enroll.html?cert='+esc(slug)+'">Claim seat for certificate</a>');
+      finalBlock = '<div class="cw-row cw-final"><div class="cw-row-main"><div class="cw-row-num">\u2691</div>'+
+        '<div><div class="cw-row-title">Final Q&amp;A and submit</div><div class="fine">'+finalHint+'</div></div></div>'+
+        '<div class="cw-row-right">'+finalRight+'</div></div>';
+    }
 
     var done = videos.filter(videoDone).length;
     stage(
       '<div class="cw-progresshead"><div class="eyebrow brass">YOUR PROGRESS</div>'+
       '<div class="cw-bar"><div class="cw-bar-fill" style="width:'+Math.round(done/videos.length*100)+'%"></div></div>'+
-      '<div class="fine" style="margin-top:8px">'+(LOOP_SLUGS[slug]
+      '<div class="fine" style="margin-top:8px">'+(isLoopCourse()
         ? (done+' of '+videos.length+' weeks complete. '+unit('cap')+', checkpoint, and practice each count.')
         : (done+' of '+videos.length+' lessons complete'))+'</div></div>'+
       '<div class="cw-list">'+welcomeRow+rows+finalBlock+'</div>'
@@ -345,7 +360,7 @@
   }
 
   // ---------- video + watch tracking ----------
-  var watchTimer=null, watched=0, threshold=0, curVideo=null;
+  var watchTimer=null, watched=0, threshold=0, curVideo=null, needWatch=true, gradeLocal=false;
 
   // Accepts a bare Vimeo ID (e.g. 1198023217), a vimeo.com URL, or a full MP4 URL.
   function vimeoId(ref){
@@ -354,6 +369,33 @@
     if(/^\d+$/.test(ref)) return ref;                                  // bare id
     var m = ref.match(/vimeo\.com\/(?:video\/)?(\d+)/i);               // vimeo url
     return m ? m[1] : null;
+  }
+  function youtubeId(ref){
+    if(!ref) return null;
+    ref = String(ref).trim();
+    var m = ref.match(/(?:youtube\.com\/(?:watch\?(?:.*&)?v=|embed\/|shorts\/)|youtu\.be\/)([A-Za-z0-9_-]{6,})/i);
+    return m ? m[1] : null;
+  }
+  function mediaFrame(ref, poster, videoId){
+    var vid = vimeoId(ref);
+    var yt = youtubeId(ref);
+    var isMp4 = !!(ref && /\.mp4($|\?)/i.test(ref));
+    var vidEl = videoId || 'cw-video';
+    if (vid) {
+      return '<div class="cw-embed" id="cw-welcome-media">'+
+        '<iframe id="cw-vimeo" src="https://player.vimeo.com/video/'+esc(vid)+'?title=0&byline=0&portrait=0&pip=0&speed=0&dnt=1" allow="autoplay; fullscreen" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;border:0"></iframe></div>';
+    }
+    if (yt) {
+      return '<div class="cw-embed" id="cw-welcome-media">'+
+        '<iframe id="cw-youtube" src="https://www.youtube.com/embed/'+esc(yt)+'?rel=0&modestbranding=1&playsinline=1" allow="autoplay; fullscreen; encrypted-media" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;border:0"></iframe></div>';
+    }
+    if (isMp4) {
+      return '<div class="cw-welcome-media" id="cw-welcome-media">'+
+        '<video id="'+esc(vidEl)+'" class="cw-html5" controls playsinline preload="metadata"'+
+        (poster ? ' poster="'+esc(poster)+'"' : '')+
+        ' src="'+esc(ref)+'"></video></div>';
+    }
+    return '';
   }
 
   function openVideo(i, forceFilm){
@@ -364,57 +406,57 @@
       return;
     }
     watched = (progress[v.id] && progress[v.id].watched_seconds) || 0;
+    needWatch = true;
     // must reach ~95% of known length before the Checkpoint unlocks (min 5s for tiny demos)
     threshold = Math.max(5, Math.floor((v.duration_seconds||0) * 0.95));
 
     var ref = v.video_url || '';
     var vid = vimeoId(ref);
+    var yt = youtubeId(ref);
     var isMp4 = !!(ref && /\.mp4($|\?)/i.test(ref));
     var poster = v.poster || '';
+    var hasMedia = !!(vid || yt || isMp4);
 
     var player;
     if (vid) {
       player = '<div class="cw-embed"><iframe id="cw-vimeo" src="https://player.vimeo.com/video/'+esc(vid)+'?title=0&byline=0&portrait=0&pip=0&speed=0&dnt=1" allow="autoplay; fullscreen" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;border:0"></iframe></div>';
+    } else if (yt) {
+      player = '<div class="cw-embed"><iframe id="cw-youtube" src="https://www.youtube.com/embed/'+esc(yt)+'?rel=0&modestbranding=1&playsinline=1" allow="autoplay; fullscreen; encrypted-media" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;border:0"></iframe></div>';
     } else if (isMp4) {
       player = '<div class="cw-poster-wrap"><video id="cw-video" class="cw-html5" controls playsinline preload="metadata"'+(poster?' poster="'+esc(poster)+'"':'')+' src="'+esc(ref)+'"></video></div>';
-    } else if (demo) {
-      /* Fundamentals stills carry faculty production notes (wrapper still,
-         Seven Secrets, film-already-shot). Hide those from the participant
-         and give the same 16:9 play frame the other courses use. */
-      var hideFacultyStill = (slug === 'fundamentals');
-      if (poster && !hideFacultyStill) {
-        player = '<div class="cw-poster-wrap">'+
-          '<img src="'+esc(poster)+'" alt="">'+
-          '</div>'+
-          '<div class="cw-sim-below">'+
-          '<button class="btn btn-yellow btn-sm" id="cw-sim">Play</button>'+
-          '</div>';
-      } else {
-        player = '<div class="cw-poster-wrap cw-film-slot">'+
-          '<button class="btn btn-yellow" id="cw-sim">Play</button></div>';
-      }
+    } else if (demo && slug !== 'fundamentals' && poster) {
+      player = '<div class="cw-poster-wrap">'+
+        '<img src="'+esc(poster)+'" alt="">'+
+        '</div>'+
+        '<div class="cw-sim-below">'+
+        '<button class="btn btn-yellow btn-sm" id="cw-sim">Play</button>'+
+        '</div>';
+    } else if (demo && slug !== 'fundamentals') {
+      player = '<div class="cw-poster-wrap cw-film-slot">'+
+        '<button class="btn btn-yellow" id="cw-sim">Play</button></div>';
     } else {
       var sessHref = sessionGuideHref(i);
       var sessLink = sessHref ? '<a class="btn btn-secondary btn-sm" style="margin-top:12px" href="'+sessHref+'">Read this session\u2019s outline \u2192</a>' : '';
-      var showStill = poster && slug !== 'fundamentals';
-      var posterBlock = showStill ? '<div class="cw-poster-wrap" style="margin-bottom:14px"><img src="'+esc(poster)+'" alt=""></div>' : '';
-      player = '<div class="cw-novid">'+posterBlock+'<div class="eyebrow brass" style="margin-bottom:10px">'+unit('cap')+' loading soon</div><p class="small">This session plays here when the '+unit()+' is live. For now, take the checkpoint below.</p>'+sessLink+'</div>';
+      player = '<div class="cw-novid"><p class="small" style="margin:0">This lesson plays here when the training is live. Take the checkpoint when you are ready.</p>'+sessLink+'</div>';
     }
+    var voiceNote = (slug === 'anger' && isMp4)
+      ? '<p class="fine ash" style="margin:10px 0 0">This voice is a stand-in. A person still has to read it.</p>'
+      : '';
 
     var prevOk = i > 0;
     var nextExists = i + 1 < videos.length;
     stage(
       '<div class="row between" style="margin-bottom:16px;align-items:center">'+
-        '<button class="link ash" id="cw-back">\u2190 All lessons</button>'+
+        '<button class="link ash" id="cw-back">'+esc(backLabel())+'</button>'+
         '<div class="row" style="gap:10px">'+
           '<button class="btn btn-secondary btn-sm" id="cw-prev"'+(prevOk?'':' disabled')+'>\u2190 Previous</button>'+
           '<button class="btn btn-secondary btn-sm" id="cw-next"'+((nextExists && videoDone(v))?'':' disabled')+
             (nextExists && !videoDone(v) ? ' title="Finish this session to unlock the next"' : '')+'>Next \u2192</button>'+
         '</div>'+
       '</div>'+
-      '<div class="eyebrow brass">LESSON '+(i+1)+' OF '+videos.length+'</div>'+
+      '<div class="eyebrow brass">'+(isLoopCourse()?'WEEK':'LESSON')+' '+(i+1)+' OF '+videos.length+'</div>'+
       '<h2 class="cw-lesson-title">'+esc(v.title)+'</h2>'+
-      '<div class="cw-video-wrap">'+player+'</div>'+
+      '<div class="cw-video-wrap">'+player+'</div>'+voiceNote+
       '<div class="cw-watch"><div class="cw-watch-bar"><div class="cw-watch-fill" id="cw-watch-fill"></div></div>'+
       '<div class="fine" id="cw-watch-txt"></div></div>'+
       '<div class="cw-video-actions"><button class="btn btn-primary" id="cw-to-debrief" disabled>Continue to Checkpoint</button></div>'
@@ -438,43 +480,58 @@
     document.addEventListener('keydown', window.__cwKeys);
     updateWatchUI();
 
+    var cont=$('cw-to-debrief');
+    function unlockFilmlessCheckpoint(){
+      if (!cont) return;
+      hasMedia = false;
+      needWatch = false;
+      cont.disabled = false;
+      cont.textContent = passes[v.id] ? 'Retake the checkpoint' : 'Take the checkpoint';
+      var wb = root.querySelector('.cw-watch'); if (wb) wb.style.display = 'none';
+    }
+    if (!hasMedia) unlockFilmlessCheckpoint();
+    if (cont) cont.addEventListener('click', function(){
+      if (hasMedia && watched < threshold) return;
+      stopWatch(); teardownVimeo();
+      if (hasMedia) saveProgress(watched>=threshold);
+      openCheckpoint();
+    });
+
     if (vid) {
       wireVimeo();
+    } else if (yt) {
+      unlockFilmlessCheckpoint();
+      var ytxt=$('cw-watch-txt');
+      if (ytxt) ytxt.textContent = 'This player cannot measure watch time. Take the checkpoint when you have watched.';
     } else {
       var el5 = $('cw-video');
       if (el5){
-        el5.addEventListener('timeupdate', function(){ watched = Math.max(watched, Math.floor(el5.currentTime)); updateWatchUI(); });
+        function syncFromMedia(){
+          watched = Math.max(watched, Math.floor(el5.currentTime || 0));
+          var real = el5.duration && isFinite(el5.duration) ? el5.duration : 0;
+          if (real > 0) threshold = Math.max(5, Math.floor(real * 0.95));
+          updateWatchUI();
+        }
+        el5.addEventListener('loadedmetadata', syncFromMedia);
+        el5.addEventListener('timeupdate', syncFromMedia);
+        el5.addEventListener('seeked', syncFromMedia);
         el5.addEventListener('play', startWatch);
         el5.addEventListener('pause', stopWatch);
         el5.addEventListener('ended', function(){ watched=Math.max(watched, threshold); stopWatch(); updateWatchUI(); });
+        el5.addEventListener('error', function(){ unlockFilmlessCheckpoint(); });
+        if (el5.error) unlockFilmlessCheckpoint();
+        setTimeout(function(){
+          if (!needWatch) return;
+          var real = el5.duration && isFinite(el5.duration) ? el5.duration : 0;
+          if (real <= 0) unlockFilmlessCheckpoint();
+        }, 4000);
       }
     }
     var sim=$('cw-sim');
     if (sim){
       sim.addEventListener('click', function(){
-        sim.disabled=true; sim.textContent='Playing preview\u2026';
-        startWatch();
-        // Stakeholder demo: advance a 12-min session in ~8 seconds
-        var tick = setInterval(function(){
-          watched = Math.min(threshold, watched + Math.max(1, Math.ceil(threshold/8)));
-          updateWatchUI();
-          if(watched >= threshold){
-            clearInterval(tick); stopWatch();
-            sim.textContent='Watched (preview)';
-          }
-        }, 1000);
+        sim.disabled=true; sim.textContent='No film here yet';
       });
-    }
-
-    var cont=$('cw-to-debrief');
-    var filmless = !demo && !vid && !!(window.FC && FC.live);
-    if (filmless) {
-      cont.disabled = false;
-      cont.textContent = passes[v.id] ? 'Retake the checkpoint' : 'Take the checkpoint';
-      var wb = root.querySelector('.cw-watch'); if (wb) wb.style.display = 'none';
-      cont.addEventListener('click', function(){ openCheckpoint(); });
-    } else {
-      cont.addEventListener('click', function(){ stopWatch(); teardownVimeo(); saveProgress(true); openCheckpoint(); });
     }
   }
 
@@ -511,7 +568,7 @@
     var pct = threshold ? Math.min(100, Math.round(watched/threshold*100)) : 100;
     var fill=$('cw-watch-fill'); if(fill) fill.style.width = pct+'%';
     var txt=$('cw-watch-txt'); if(txt) txt.textContent = watched>=threshold ? 'Watched. Checkpoint unlocked.' : ('Watched '+fmt(watched)+' of about '+fmt(threshold)+' needed');
-    var cont=$('cw-to-debrief'); if(cont) cont.disabled = watched < threshold;
+    var cont=$('cw-to-debrief'); if(cont) cont.disabled = needWatch && watched < threshold;
   }
 
   var enrollId=null, enrollState=null, lastTouch=0;
@@ -528,7 +585,8 @@
   }
   function saveProgress(done){
     if(!curVideo) return;
-    var completed = done || (progress[curVideo.id] && progress[curVideo.id].completed) || false;
+    var earned = !!(done && hasFilm(curVideo) && watched >= 5);
+    var completed = earned || (progress[curVideo.id] && progress[curVideo.id].completed) || false;
     progress[curVideo.id] = { video_id:curVideo.id, watched_seconds:watched, completed:completed };
     if (demo) { savePreviewState(); return; }
     FC.sb.functions.invoke('progress_beat', { body: { video_id: curVideo.id, position_seconds: watched } }).then(function(){}, function(){});
@@ -536,31 +594,67 @@
   }
 
   // ---------- debrief ----------
+  function catalogQuestions(video){
+    var pack = window.FC_COURSE_DEMO && FC_COURSE_DEMO[slug];
+    if (!pack || !pack.videos || !video) return [];
+    var cat = null;
+    pack.videos.forEach(function(x){
+      if (x.ord === video.ord || x.id === video.id) cat = x;
+    });
+    var raw = (video.checkpoint_json && video.checkpoint_json.length)
+      ? video.checkpoint_json
+      : ((cat && (cat.checkpoint_json || cat.checkpoint)) || []);
+    return raw.map(function(q, i){
+      return {
+        id: 'demo-q-'+video.id+'-'+i,
+        video_id: video.id,
+        ord: i+1,
+        prompt: q.prompt,
+        choices: q.choices,
+        correct_index: (typeof q.correct_index === 'number' ? q.correct_index : 0)
+      };
+    });
+  }
+  function openEmptyCheckpoint(){
+    stage(
+      '<div class="notice brass">This checkpoint is not written yet. No score was recorded. You can continue the training.</div>'+
+      '<div class="cw-video-actions"><button class="btn btn-primary" id="cw-empty-next">Continue</button></div>'
+    );
+    var b=$('cw-empty-next');
+    if (b) b.addEventListener('click', function(){
+      passes[curVideo.id] = true;
+      if (demo) savePreviewState();
+      if (hasPractice(curVideo) && !practiceDone(curVideo)) { openPractice(); return; }
+      var i = videos.indexOf(curVideo);
+      if (i >= 0 && i + 1 < videos.length) openVideo(i + 1);
+      else renderOutline();
+    });
+  }
   function openCheckpoint(){
     stage('<p class="ash">Loading the Checkpoint\u2026</p>');
+    gradeLocal = false;
     if (demo){
-      var raw = curVideo.checkpoint_json || [];
-      var qs = raw.map(function(q, i){
-        return {
-          id: 'demo-q-'+curVideo.id+'-'+i,
-          video_id: curVideo.id,
-          ord: i+1,
-          prompt: q.prompt,
-          choices: q.choices,
-          correct_index: (typeof q.correct_index === 'number' ? q.correct_index : 0)
-        };
-      });
-      if(!qs.length){ afterCheckpointPass(); return; }
+      var qs = catalogQuestions(curVideo);
+      if(!qs.length){ openEmptyCheckpoint(); return; }
+      gradeLocal = true;
       renderCheckpoint(qs, 0, {});
       return;
     }
     FC.sb.from('quiz_questions_public').select('id,video_id,ord,prompt,choices').eq('video_id',curVideo.id).order('ord').then(function(r){
-      if(r.error){ stage('<div class="notice brass">'+esc(r.error.message)+'</div>'); return; }
       var qs=r.data||[];
-      if(!qs.length){ // no debrief authored: still require practice on loop courses
-        afterCheckpointPass(); return;
+      if(!r.error && qs.length){ renderCheckpoint(qs, 0, {}); return; }
+      var fallback = catalogQuestions(curVideo);
+      if (fallback.length){
+        gradeLocal = true;
+        renderCheckpoint(fallback, 0, {});
+        return;
       }
-      renderCheckpoint(qs, 0, {});
+      if(r.error){ stage('<div class="notice brass">'+esc(r.error.message)+' Log in again if this keeps happening, then retry the checkpoint.</div>'); return; }
+      openEmptyCheckpoint();
+    }, function(){
+      var fallback = catalogQuestions(curVideo);
+      if (fallback.length){ gradeLocal = true; renderCheckpoint(fallback, 0, {}); return; }
+      stage('<div class="notice brass">Could not load the checkpoint. Check your connection and try again. If you are signed out, log in and reopen this training.</div>');
     });
   }
 
@@ -593,7 +687,7 @@
   }
 
   function submitCheckpointAnswers(qs, answers){
-    if (demo){
+    if (demo || gradeLocal){
       var right = 0;
       qs.forEach(function(q){
         var a = answers[q.id];
@@ -742,7 +836,7 @@
     var contLabel = hasNext ? ('Continue to week '+(nextIdx+1)) : 'Continue';
     stage(
       '<div class="row between" style="margin-bottom:16px;align-items:center">'+
-        '<button class="link ash" id="cw-back-pr">\u2190 All weeks</button>'+
+        '<button class="link ash" id="cw-back-pr">'+esc(backLabel())+'</button>'+
         '<button class="link ash" id="cw-rewatch-film">Rewatch '+unit()+'</button>'+
       '</div>'+
       '<div class="cw-practice">'+
@@ -852,7 +946,7 @@
     }).join('') : '<p class="fine">This certificate has no final questions. You can submit for approval.</p>';
 
     stage(
-      '<button class="link ash" id="cw-back2" style="margin-bottom:16px">\u2190 All lessons</button>'+
+      '<button class="link ash" id="cw-back2" style="margin-bottom:16px">'+esc(backLabel())+'</button>'+
       '<div class="eyebrow brass">FINAL Q&amp;A</div>'+
       '<h2 class="cw-lesson-title">Put it in your own words.</h2>'+
       '<p class="small" style="margin-bottom:22px">Answer honestly and in full. An administrator reads these when approving your certificate.</p>'+
