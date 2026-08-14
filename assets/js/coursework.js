@@ -12,6 +12,11 @@
   function stage(html){ $('cw-stage').innerHTML = html; window.scrollTo({top:0,behavior:'smooth'}); }
   function note(html){ var n=$('cw-note'); if(n) n.innerHTML = html; }
   function onRh(){ return !!(window.FCPath && FCPath.isRH()); }
+  function rhReturnHref(){
+    if(window.FCPath && FCPath.homebaseHref && uid) return FCPath.homebaseHref();
+    if(window.FCPath && FCPath.deskHref) return FCPath.deskHref();
+    return 'rh-desk.html';
+  }
   function unit(form){
     var rh = onRh();
     if(form==='cap') return rh ? 'Training' : 'Film';
@@ -425,7 +430,7 @@
     };
     var m = map[awardStatus] || ['In progress',''];
     return '<div class="cw-status"><div class="cw-status-icon">\u2713</div><h2>'+esc(m[0])+'</h2><p>'+esc(m[1])+'</p>'+
-      '<a class="btn btn-secondary" href="'+(onRh() ? FCPath.deskHref() : 'plan.html')+'">'+(onRh() ? 'Back to your trainings' : 'Back to My Plan')+'</a></div>';
+      '<a class="btn btn-secondary" href="'+(onRh() ? rhReturnHref() : 'plan.html')+'">'+(onRh() ? 'Back to your home' : 'Back to My Plan')+'</a></div>';
   }
 
   // ---------- video + watch tracking ----------
@@ -1089,7 +1094,7 @@
     if (demo){
       awardStatus='submitted';
       stage((window.FCPath && FCPath.isRH())
-        ? '<div class="cw-status"><div class="cw-status-icon">\u2713</div><h2>Session finished</h2><p>You can keep watching.</p><a class="btn btn-primary" href="'+FCPath.deskHref()+'">Back to your trainings</a></div>'
+        ? '<div class="cw-status"><div class="cw-status-icon">\u2713</div><h2>Session finished</h2><p>You can keep watching.</p><a class="btn btn-primary" href="'+rhReturnHref()+'">Back to your home</a></div>'
         : '<div class="cw-status"><div class="cw-status-icon">\u2713</div><h2>Preview finished</h2><p>You walked the session flow. This is not a Certificate of Completion and does not create a serial. To earn proof, a Certified Facilitator claims your seat through a Certified Organization.</p><a class="btn btn-primary" href="organizations.html">How organizations verify men</a> <a class="btn btn-secondary" style="margin-left:8px" href="certificates.html">Back to courses</a></div>');
       return;
     }

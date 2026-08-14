@@ -407,7 +407,7 @@ def test_returning_home_path_opens_films(page, server):
     assert "Start \"+esc(rec.title)" in ui
     assert "Here is where you stand. Start " in ui
     assert "Saved on this device. An account keeps it." in ui
-    assert "All three trainings" in ui
+    assert "Your home" in ui
     assert "Open your trainings" not in ui
     assert "Open your films" not in ui
     assert "Next, pick a training." not in ui
@@ -415,6 +415,9 @@ def test_returning_home_path_opens_films(page, server):
     assert "fc_path" in app
     assert "safeNext" in app
     assert "rh-desk.html" in app
+    assert "rh-home.html" in app
+    assert "homebaseHref" in app
+    assert "rhRoom" in app
     assert "lockRhPath" in app
     assert "rhAfterSignOut" in app
     assert "fc_rh_profile_done" in app
@@ -424,9 +427,9 @@ def test_returning_home_path_opens_films(page, server):
     assert "awareness: { slug:'fundamentals', title:'Fathering Fundamentals' }" in app
     journey = _fetch(server, "assets/js/journey.js")
     assert "RH_STAGES" in journey
-    assert "rh-desk.html" in journey
+    assert "rh-home.html" in journey
     help = _fetch(server, "assets/js/help.js")
-    assert "['Profile', 'Report', 'Trainings']" in help
+    assert "['Profile', 'Report', 'Home']" in help
     assert "Your trainings are open. Pick one and watch." in help
     assert "Start the training your report named. The other two stay open." in help
     assert "Pick a training. Watch. No order." not in help
@@ -461,6 +464,7 @@ def test_returning_home_path_opens_films(page, server):
     assert ".rh-films{display:grid;grid-template-columns:repeat(3,1fr);gap:20px" in css
     assert "padding:28px 22px" in css
     assert ".rh-film.is-start" in css
+    assert "body:has(.rh-door) .themeswitch.floating{display:none}" in css
     block = app.split("var RH_COURSES")[1].split("function playerHref")[0]
     assert "slug:'fundamentals'" in block
     assert block.find("slug:'fundamentals'") < block.find("slug:'anger'") < block.find("slug:'reentry'")
@@ -507,6 +511,31 @@ def test_returning_home_path_opens_films(page, server):
         assert fits, f"subtitle wraps on desktop: {el.inner_text()!r}"
     assert _no_app_errors(page)
 
+def test_rh_homebase_is_the_room(page, server):
+    home = _fetch(server, "rh-home.html")
+    assert "Welcome back." in home
+    assert "This is your room." in home
+    assert "rh-home.js" in home
+    assert "next=rh-home.html" in home
+    door = _fetch(server, "returning-home.html")
+    assert "next=rh-home.html" in door
+    app = _fetch(server, "assets/js/app.js")
+    assert "homebaseHref" in app
+    assert "[['Home','rh-home.html']" in app
+    page.add_init_script("localStorage.setItem('fc_path','returning-home');")
+    page.goto(f"{server}/rh-home.html", wait_until="load")
+    page.wait_for_timeout(500)
+    body = page.inner_text("body")
+    assert "Welcome back." in body
+    assert "Your trainings" in body
+    assert "Fathering Fundamentals" in body
+    assert "Steady Under Pressure" in body
+    assert "Coming Home Present" in body
+    assert "Same Team" not in body
+    assert "Finish a session. The four answers live here." in body
+    assert page.query_selector_all("a.rh-home-row")
+    assert _no_app_errors(page)
+
 def test_rh_desk_after_report_names_training(page, server):
     page.add_init_script("""
       localStorage.setItem('fc_path','returning-home');
@@ -551,16 +580,19 @@ def test_fundamentals_intro_has_real_outline(page, server):
     assert "Session 1 of" in body
     assert "Question 1" in body
 
-def test_faith_language_is_inclusive(page, server):
+def test_no_church_language_on_fundamentals(page, server):
     demo = _fetch(server, "assets/js/course-demo-data.js")
     checks = _fetch(server, "assets/js/session-checkpoints-data.js")
     fund = _fetch(server, "content/fundamentals.json")
     for blob in (demo, checks, fund):
-        assert "Church attendance is the secret." not in blob
-        assert "Enroll in a church this week" not in blob
-        assert "A required chapel track" not in blob
-        assert "Attendance at a religious institution is the secret." in blob
-        assert "Enroll in a religious institution this week" in blob
+        low = blob.lower()
+        assert "church" not in low
+        assert "chapel" not in low
+        assert "scripture" not in low
+        assert "religious institution" not in low
+        assert "faith community" not in low
+        assert "Grounded convictions you live" in blob
+        assert "What do kids actually watch?" in blob
 
 def test_session_writing_saves_on_device(page, server):
     page.add_init_script("localStorage.setItem('fc_path','returning-home');")
