@@ -7,7 +7,7 @@
    in a single place so the vocabulary and the order cannot drift again.
 
      Profile  ->  Report  ->  Plan  ->  Courses
-     Returning Home: Profile -> Report -> Films
+     Returning Home: Profile -> Report -> Trainings
 
    The dashboard is not a stage. It is the home that holds all four, so the
    rail renders there with no current step and acts as a directory.
@@ -29,7 +29,7 @@
   var RH_STAGES = [
     { key:'profile',  label:'Profile',  href:'profile.html?start=quick&path=rh', carries:true  },
     { key:'report',   label:'Report',   href:'report.html',                      carries:true  },
-    { key:'courses',  label:'Films',    href:'rh-desk.html',                     carries:false }
+    { key:'courses',  label:'Trainings', href:'rh-desk.html',                    carries:false }
   ];
   function stages(){
     return (window.FCPath && FCPath.isRH()) ? RH_STAGES : STAGES;

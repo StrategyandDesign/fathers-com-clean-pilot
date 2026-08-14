@@ -263,7 +263,9 @@ def test_returning_home_is_one_door(page, server):
     assert "Twelve weeks of small moves" not in html
     assert "Eight minutes" in html
     assert "private report" in html
-    assert "Watch the films" in html
+    assert "Start the trainings" in html
+    assert "Watch the films" not in html
+    assert "Your trainings are open." in html
     page.goto(f"{server}/returning-home.html", wait_until="load")
     page.wait_for_timeout(400)
     body = page.inner_text("body")
@@ -285,7 +287,8 @@ def test_returning_home_is_one_door(page, server):
 
 def test_returning_home_path_opens_films(page, server):
     ui = _fetch(server, "assets/js/keystone-ui.js")
-    assert "Open your films" in ui
+    assert "Open your trainings" in ui
+    assert "Open your films" not in ui
     app = _fetch(server, "assets/js/app.js")
     assert "fc_path" in app
     assert "safeNext" in app
@@ -296,9 +299,10 @@ def test_returning_home_path_opens_films(page, server):
     assert "RH_STAGES" in journey
     assert "rh-desk.html" in journey
     help = _fetch(server, "assets/js/help.js")
-    assert "['Profile', 'Report', 'Films']" in help
-    assert "Your films are open. Pick one and watch." in help
-    assert "Pick a film. Watch. No order." in help
+    assert "['Profile', 'Report', 'Trainings']" in help
+    assert "Your trainings are open. Pick one and watch." in help
+    assert "Pick a training. Watch. No order." in help
+    assert "Open your films" not in help
     assert "Answer honestly. About eight minutes" in help
     assert "Same Team" not in help
     assert "all four" not in help.lower()
@@ -308,6 +312,8 @@ def test_returning_home_path_opens_films(page, server):
     assert "organizations.html" not in help
     desk = _fetch(server, "rh-desk.html")
     assert "Pick a course. Watch." in desk
+    assert "Your trainings" in desk
+    assert "Your films" not in desk
     assert "data-rh-courses=\"cards\"" in desk
     assert "Coming Home Present first" not in desk
     assert "Walk in" not in desk

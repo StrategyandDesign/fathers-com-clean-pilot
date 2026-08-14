@@ -12,7 +12,7 @@ OG_IMAGE = SITE_URL + "/assets/img/og-image.jpg"
 # changelog.html. Bump BOTH constants on every release, add a CHANGELOG entry
 # below, regenerate, and upload. The stamp is the answer to "what version is
 # live": read any page footer.
-PLATFORM_VERSION = "4.16.10"
+PLATFORM_VERSION = "4.16.11"
 VERSION_DATE = "2026-08-14"
 
 # v4.0 reposition flags (ADR-4: rollout is a data change, not a redesign).
@@ -174,6 +174,8 @@ PAGES = {}
 # Release notes rendered on changelog.html. Newest first. Public copy:
 # POSITIONING.md section 9 language rules apply.
 CHANGELOG = [
+    ("4.16.11", "2026-08-14",
+     "Returning Home calls them trainings. The Profile ticker is quieter, and the three cards have more room."),
     ("4.16.10", "2026-08-14",
      "Returning Home speaks plainly: three films, Fundamentals first. The Profile ticker is readable. Same Team stays off this path until the film is ready."),
     ("4.16.9", "2026-08-14",
@@ -1606,8 +1608,8 @@ PAGES['returning-home.html'] = dict(title='Returning Home', desc='A private path
     <p class="rh-door-eye">Returning Home · Huntsville, Arkansas</p>
     <h1 class="rh-door-h">Present from here.</h1>
     <p class="rh-door-lead">They are not waiting for a perfect man. They are waiting for you.</p>
-    <p class="rh-door-next">Your films are open.</p>
-    <a class="btn btn-yellow rh-door-cta" href="rh-desk.html">Watch the films</a>
+    <p class="rh-door-next">Your trainings are open.</p>
+    <a class="btn btn-yellow rh-door-cta" href="rh-desk.html">Start the trainings</a>
     <p class="rh-door-resume">Already here? <a href="login.html?path=rh&amp;next=rh-desk.html">Log in</a></p>
     <p class="rh-door-side">Eight minutes. A private report of where you stand. Nobody is grading you. <a href="profile.html?start=quick&amp;path=rh">Take the Profile</a></p>
     <p class="rh-door-courses" data-rh-courses="line"></p>
@@ -1622,7 +1624,7 @@ PAGES['returning-home.html'] = dict(title='Returning Home', desc='A private path
 </div>
 ''')
 
-PAGES['rh-desk.html'] = dict(title='Your films', desc='Your films, open now for the men of Returning Home.', active='', mode='public', nochrome=True, body='''
+PAGES['rh-desk.html'] = dict(title='Your trainings', desc='Your trainings, open now for the men of Returning Home.', active='', mode='public', nochrome=True, body='''
 <script>try{localStorage.setItem("fc_path","returning-home")}catch(e){}</script>
 <div class="rh-door rh-desk">
   <header class="rh-door-bar">
@@ -1638,7 +1640,7 @@ PAGES['rh-desk.html'] = dict(title='Your films', desc='Your films, open now for 
     <a class="rh-ticker-go" href="profile.html?start=quick&amp;path=rh">Start</a>
   </div>
   <main class="rh-desk-main">
-    <p class="rh-door-eye">Returning Home · Your films</p>
+    <p class="rh-door-eye">Returning Home · Your trainings</p>
     <h1 class="rh-desk-h">Pick a course. Watch.</h1>
     <p class="rh-desk-lead">No order. Tap one.</p>
     <div class="rh-films" data-rh-courses="cards"></div>

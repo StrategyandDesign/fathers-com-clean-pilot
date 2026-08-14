@@ -11,6 +11,13 @@
   function fmt(sec){ sec=Math.max(0,Math.floor(sec||0)); var m=Math.floor(sec/60), s=sec%60; return m+':'+(s<10?'0':'')+s; }
   function stage(html){ $('cw-stage').innerHTML = html; window.scrollTo({top:0,behavior:'smooth'}); }
   function note(html){ var n=$('cw-note'); if(n) n.innerHTML = html; }
+  function onRh(){ return !!(window.FCPath && FCPath.isRH()); }
+  function unit(form){
+    var rh = onRh();
+    if(form==='cap') return rh ? 'Training' : 'Film';
+    if(form==='plural') return rh ? 'trainings' : 'films';
+    return rh ? 'training' : 'film';
+  }
 
   var qs = new URLSearchParams(location.search);
   var demo = qs.get('preview') === '1' || qs.get('demo') === '1';
@@ -70,7 +77,7 @@
     if($('cw-title')) $('cw-title').textContent = course.title;
     var rh = window.FCPath && FCPath.isRH();
     var eye = document.querySelector('.cw-head .eyebrow');
-    if (eye && rh) eye.textContent = 'YOUR FILM';
+    if (eye && rh) eye.textContent = 'YOUR TRAINING';
     if (rh) note('');
     else note('<div class="notice brass" style="margin:0 0 14px"><b>Preview.</b> <span class="fine">Play the film. No account needed.</span></div>');
     if (shouldOpenWelcome()) openWelcome();
@@ -93,7 +100,7 @@
       $('cw-title').textContent = course.title;
       var rh = window.FCPath && FCPath.isRH();
       var eye = document.querySelector('.cw-head .eyebrow');
-      if (eye && rh) eye.textContent = 'YOUR FILM';
+      if (eye && rh) eye.textContent = 'YOUR TRAINING';
       // must be enrolled
       FC.sb.from('certificate_enrollments').select('id,state').eq('user_id',uid).eq('course_id',course.id).maybeSingle().then(function(er){
         if(er.error){ stage('<div class="notice brass">'+esc(er.error.message)+'</div>'); return; }
@@ -129,8 +136,8 @@
       if(!videos.length){
         var sp = SESSIONS_PAGE[slug];
         stage(sp
-          ? '<div class="notice brass">This course is film-first. When session films are ready they play here. Until then use <a class="link" href="course.html?preview=1&amp;cert='+esc(slug)+'">the preview player</a> or the written outline on the course page.</div>'
-          : '<div class="notice brass">This course is film-first. Session films play here when ready.</div>');
+          ? '<div class="notice brass">This course is '+unit()+'-first. When session '+unit('plural')+' are ready they play here. Until then use <a class="link" href="course.html?preview=1&amp;cert='+esc(slug)+'">the preview player</a> or the written outline on the course page.</div>'
+          : '<div class="notice brass">This course is '+unit()+'-first. Session '+unit('plural')+' play here when ready.</div>');
         return;
       }
       attachWelcomeFromCatalog();
@@ -178,11 +185,11 @@
   function pipClass(on){ return 'cw-loop-pip'+(on?' is-on':''); }
   function loopPipsHtml(v){
     if (!(hasPractice(v) || LOOP_SLUGS[slug])) return '';
-    return '<div class="cw-loop-pips" aria-label="Film, checkpoint, practice">'+
-      '<span class="'+pipClass(filmDone(v))+'" title="Film"></span>'+
+    return '<div class="cw-loop-pips" aria-label="'+unit('cap')+', checkpoint, practice">'+
+      '<span class="'+pipClass(filmDone(v))+'" title="'+unit('cap')+'"></span>'+
       '<span class="'+pipClass(checkDone(v))+'" title="Checkpoint"></span>'+
       '<span class="'+pipClass(practiceDone(v))+'" title="Practice"></span>'+
-      '<span class="cw-loop-legend fine">film / check / practice</span></div>';
+      '<span class="cw-loop-legend fine">'+unit()+' / check / practice</span></div>';
   }
   function loadPreviewState(){
     if (!demo) return;
@@ -251,7 +258,7 @@
       '<h2 class="cw-lesson-title">'+esc(w.title || 'Start here')+'</h2>'+
       '<p class="fine ash" style="margin:0 0 16px">'+esc(w.speakers || 'Ken Canfield and Micah Canfield')+'. Not a week. Skip anytime.</p>'+
       media+
-      '<div class="cw-placeholder" id="cw-welcome-ph"'+(ref ? ' hidden' : '')+'><p class="eyebrow brass">Welcome film</p><p class="fine ash">Ken and Micah Canfield. In production. Skip ahead anytime.</p></div>'+
+      '<div class="cw-placeholder" id="cw-welcome-ph"'+(ref ? ' hidden' : '')+'><p class="eyebrow brass">Welcome '+unit()+'</p><p class="fine ash">Ken and Micah Canfield. In production. Skip ahead anytime.</p></div>'+
       '<div class="cw-welcome-actions">'+
         '<button class="btn btn-primary" id="cw-welcome-go">Continue to session 1</button>'+
         '<button class="btn btn-secondary" id="cw-welcome-skip">Skip</button>'+
@@ -317,7 +324,7 @@
       '<div class="cw-progresshead"><div class="eyebrow brass">YOUR PROGRESS</div>'+
       '<div class="cw-bar"><div class="cw-bar-fill" style="width:'+Math.round(done/videos.length*100)+'%"></div></div>'+
       '<div class="fine" style="margin-top:8px">'+(LOOP_SLUGS[slug]
-        ? (done+' of '+videos.length+' weeks complete. Film, checkpoint, and practice each count.')
+        ? (done+' of '+videos.length+' weeks complete. '+unit('cap')+', checkpoint, and practice each count.')
         : (done+' of '+videos.length+' lessons complete'))+'</div></div>'+
       '<div class="cw-list">'+welcomeRow+rows+finalBlock+'</div>'
     );
@@ -334,7 +341,7 @@
     };
     var m = map[awardStatus] || ['In progress',''];
     return '<div class="cw-status"><div class="cw-status-icon">\u2713</div><h2>'+esc(m[0])+'</h2><p>'+esc(m[1])+'</p>'+
-      '<a class="btn btn-secondary" href="'+(window.FCPath && FCPath.isRH() ? FCPath.deskHref() : 'plan.html')+'">'+(window.FCPath && FCPath.isRH() ? 'Back to your films' : 'Back to My Plan')+'</a></div>';
+      '<a class="btn btn-secondary" href="'+(onRh() ? FCPath.deskHref() : 'plan.html')+'">'+(onRh() ? 'Back to your trainings' : 'Back to My Plan')+'</a></div>';
   }
 
   // ---------- video + watch tracking ----------
@@ -391,7 +398,7 @@
       var sessLink = sessHref ? '<a class="btn btn-secondary btn-sm" style="margin-top:12px" href="'+sessHref+'">Read this session\u2019s outline \u2192</a>' : '';
       var showStill = poster && slug !== 'fundamentals';
       var posterBlock = showStill ? '<div class="cw-poster-wrap" style="margin-bottom:14px"><img src="'+esc(poster)+'" alt=""></div>' : '';
-      player = '<div class="cw-novid">'+posterBlock+'<div class="eyebrow brass" style="margin-bottom:10px">Film loading soon</div><p class="small">This session plays here when the film is live. For now, take the checkpoint below.</p>'+sessLink+'</div>';
+      player = '<div class="cw-novid">'+posterBlock+'<div class="eyebrow brass" style="margin-bottom:10px">'+unit('cap')+' loading soon</div><p class="small">This session plays here when the '+unit()+' is live. For now, take the checkpoint below.</p>'+sessLink+'</div>';
     }
 
     var prevOk = i > 0;
@@ -486,7 +493,7 @@
       var iframe=$('cw-vimeo');
       if(!iframe || !(window.Vimeo && window.Vimeo.Player)){
         // SDK blocked: fall back to a manual "I watched it" affordance so a father is never stuck.
-        var txt=$('cw-watch-txt'); if(txt) txt.innerHTML='Player could not report progress on this network; hours are credited only from measured playback, so this button alone cannot complete the session. Tell your facilitator, and share docs/NETWORK-REQUIREMENTS.md with the IT desk. <button class="link brass" id="cw-manual">Show my place in the film</button>';
+        var txt=$('cw-watch-txt'); if(txt) txt.innerHTML='Player could not report progress on this network; hours are credited only from measured playback, so this button alone cannot complete the session. Tell your facilitator, and share docs/NETWORK-REQUIREMENTS.md with the IT desk. <button class="link brass" id="cw-manual">Show my place in the '+unit()+'</button>';
         var mb=document.getElementById('cw-manual'); if(mb) mb.addEventListener('click', function(){ watched=threshold; updateWatchUI(); });
         return;
       }
@@ -736,7 +743,7 @@
     stage(
       '<div class="row between" style="margin-bottom:16px;align-items:center">'+
         '<button class="link ash" id="cw-back-pr">\u2190 All weeks</button>'+
-        '<button class="link ash" id="cw-rewatch-film">Rewatch film</button>'+
+        '<button class="link ash" id="cw-rewatch-film">Rewatch '+unit()+'</button>'+
       '</div>'+
       '<div class="cw-practice">'+
         '<div class="eyebrow brass">PRACTICE \u00b7 WEEK '+esc(String(v.ord))+' OF '+videos.length+'</div>'+
@@ -747,7 +754,7 @@
           '<div class="cw-log-head fine"><span></span><span>'+esc(cols[0]||'')+'</span><span>'+esc(cols[1]||'')+'</span></div>'+
           rowsHtml+
         '</div>'+
-        '<p class="fine" id="cw-prac-msg" style="margin:10px 0 0">'+(already?'Saved. The week counts when film, checkpoint, and practice are all done.':'Your notes stay on this device. The Desk only sees that you finished.')+'</p>'+
+        '<p class="fine" id="cw-prac-msg" style="margin:10px 0 0">'+(already?'Saved. The week counts when '+unit()+', checkpoint, and practice are all done.':'Your notes stay on this device. The Desk only sees that you finished.')+'</p>'+
         '<div id="cw-replay-wrap" class="cw-replay-wrap" hidden></div>'+
         '<div class="cw-video-actions" style="gap:10px;flex-wrap:wrap;margin-top:18px">'+
           '<button class="btn btn-primary" id="cw-prac-save">'+(already?'Update practice':'Save this week\'s practice')+'</button>'+
@@ -803,7 +810,7 @@
     }
     var nx = $('cw-prac-next'); if (nx) nx.disabled = false;
     var btn = $('cw-prac-save'); if (btn) btn.textContent = 'Update practice';
-    if (msg) msg.textContent = 'Saved. Film, checkpoint, and practice are done for this week.';
+    if (msg) msg.textContent = 'Saved. '+unit('cap')+', checkpoint, and practice are done for this week.';
   }
 
   function showPracticeReplay(url){
@@ -869,7 +876,7 @@
     if (demo){
       awardStatus='submitted';
       stage((window.FCPath && FCPath.isRH())
-        ? '<div class="cw-status"><div class="cw-status-icon">\u2713</div><h2>Session finished</h2><p>You can keep watching.</p><a class="btn btn-primary" href="'+FCPath.deskHref()+'">Back to your films</a></div>'
+        ? '<div class="cw-status"><div class="cw-status-icon">\u2713</div><h2>Session finished</h2><p>You can keep watching.</p><a class="btn btn-primary" href="'+FCPath.deskHref()+'">Back to your trainings</a></div>'
         : '<div class="cw-status"><div class="cw-status-icon">\u2713</div><h2>Preview finished</h2><p>You walked the session flow. This is not a Certificate of Completion and does not create a serial. To earn proof, a Certified Facilitator claims your seat through a Certified Organization.</p><a class="btn btn-primary" href="organizations.html">How organizations verify men</a> <a class="btn btn-secondary" style="margin-left:8px" href="certificates.html">Back to courses</a></div>');
       return;
     }
