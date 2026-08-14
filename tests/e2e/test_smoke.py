@@ -308,7 +308,7 @@ def test_fundamentals_preview_starts_at_ken(page, server):
 
 def test_returning_home_is_one_door(page, server):
     html = _fetch(server, "returning-home.html")
-    assert "Show up for your family." in html
+    assert "Show up for your kids." in html
     assert "Present from here" not in html
     assert "They are waiting for you." in html
     assert "Walk in" not in html
@@ -335,7 +335,7 @@ def test_returning_home_is_one_door(page, server):
     page.goto(f"{server}/returning-home.html", wait_until="load")
     page.wait_for_timeout(400)
     body = page.inner_text("body")
-    assert "Show up for your family." in body
+    assert "Show up for your kids." in body
     assert "They are waiting for you." in body
     assert "Walk in" not in body
     assert "A call counts" not in body
@@ -349,6 +349,33 @@ def test_returning_home_is_one_door(page, server):
     assert cta is not None
     href = cta.get_attribute("href") or ""
     assert "rh-desk.html" in href
+    css = _fetch(server, "assets/css/forge.css")
+    door = css.split(".rh-door-main{")[1].split("}")[0]
+    assert "max-width:640px" not in door
+    assert "max-width:none" in door
+    h1 = css.split(".rh-door-h{")[1].split("}")[0]
+    assert "max-width:none" in h1
+    assert _no_app_errors(page)
+
+def test_rh_profile_opens_with_a_beat(page, server):
+    page.goto(f"{server}/profile.html?start=quick&path=rh", wait_until="load")
+    page.wait_for_timeout(500)
+    body = page.inner_text("body")
+    assert "Give your kids eight minutes." in body
+    assert "private report of where you stand" in body
+    assert "Nobody is grading you." in body
+    assert "An account keeps the report, the trainings, and the work." in body
+    assert "Start the questions now" in body
+    assert "Walk in" not in body
+    assert "tunes your path" not in body.lower()
+    assert "not a " not in body.lower()
+    begin = page.query_selector("#ks-rh-begin")
+    assert begin is not None and begin.inner_text().strip() == "Begin"
+    assert page.query_selector(".ks-prompt") is None
+    begin.click()
+    page.wait_for_timeout(500)
+    assert page.query_selector(".ks-prompt") is not None
+    assert "Give your kids eight minutes." not in page.inner_text("body")
     assert _no_app_errors(page)
 
 def test_returning_home_path_opens_films(page, server):
