@@ -118,7 +118,7 @@ def session_article(course: dict, sess: dict) -> str:
     else:
         media = (
             '    <div class="vs-media" data-motion="media-fade">\n'
-            f'      <img src="{_e(still_src)}" alt="Shape preview for {_e(sess["title"])}">\n'
+            f'      <img src="{_e(still_src)}" alt="{_e(sess["title"])}">\n'
             '    </div>\n'
         )
         caption = (
@@ -166,8 +166,8 @@ def welcome_html(course: dict) -> str:
         '    <article class="card course-welcome">\n'
         '      <div class="row between" style="margin-bottom:10px"><span class="pill">START HERE</span><span class="fine mono">OPTIONAL</span></div>\n'
         f'      <h2 class="d-28" style="margin-bottom:8px">{_e(w.get("title") or "Start here")}</h2>\n'
-        f'      <p class="fine ash" style="margin:0 0 14px;max-width:52ch">{_e(w.get("speakers") or "Ken Canfield and Micah Canfield")}. Not a week. Skip anytime.</p>\n'
-        f'      <div class="course-welcome-media"><video controls playsinline preload="metadata"{poster_attr} src="{_e(video)}" onerror="this.hidden=true;this.nextElementSibling.hidden=false"></video><div class="cw-placeholder" hidden><p class="eyebrow brass">Welcome film</p><p class="fine ash">Ken and Micah Canfield. In production. Skip ahead anytime.</p></div></div>\n'
+        f'      <p class="fine ash" style="margin:0 0 14px;max-width:52ch">{_e(w.get("speakers") or "Ken Canfield and Micah Canfield")} open this training. You can skip ahead.</p>\n'
+        f'      <div class="course-welcome-media"><video controls playsinline preload="metadata"{poster_attr} src="{_e(video)}" onerror="this.hidden=true;this.nextElementSibling.hidden=false"></video><div class="cw-placeholder" hidden><p class="small">Ken and Micah open this training when the file is ready.</p></div></div>\n'
         '      <div class="course-welcome-cta">\n'
         f'        <a class="btn btn-yellow" href="{demo}">Open Start here in the player</a>\n'
         f'        <a class="btn btn-secondary" href="{skip}">Skip to session 1</a>\n'
@@ -232,7 +232,7 @@ def path_rail_html(course: dict) -> str:
 
 def billboard_html(course: dict) -> str:
     n = len(course["sessions"])
-    minutes = "ALREADY FILMED" if course.get("slug") == "fundamentals" else "12 WEEKS · SHORT FILM"
+    minutes = "8 LESSONS" if course.get("slug") == "fundamentals" else "12 WEEKS"
     notes = []
     if course.get("fine2"):
         notes.append(_e(course["fine2"]))

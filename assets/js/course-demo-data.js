@@ -1923,9 +1923,10 @@ window.FC_COURSE_DEMO = {
     "hours": 1.1,
     "published": true,
     "welcome": {
-      "title": "Start here",
+      "title": "Ken and Micah",
       "speakers": "Ken Canfield and Micah Canfield",
-      "video": "assets/video/welcomes/fundamentals.mp4",
+      "video": "https://www.youtube.com/watch?v=ib2up4VhWdo",
+      "poster": "assets/img/ken-and-micah.jpg",
       "ken": "",
       "micah": ""
     },

@@ -4,7 +4,10 @@ depending on live data. Run locally with: python3 -m pytest tests/e2e -q"""
 
 def _no_app_errors(page):
     # supabase import is aborted by design; ignore module-load noise only.
-    return [e for e in page.errors if "supabase" not in e.lower()] == []
+    # YouTube preview iframes are also aborted offline; that can throw a
+    # localStorage Access is denied from the empty frame, not from our app.
+    ignore = ("supabase", "access is denied")
+    return [e for e in page.errors if not any(s in e.lower() for s in ignore)] == []
 
 def test_homepage_renders(page, server):
     page.goto(f"{server}/index.html", wait_until="load"); page.wait_for_timeout(500)
@@ -201,6 +204,8 @@ def test_coursework_supports_vimeo(page, server):
     assert "player.vimeo.com/video/" in js          # vimeo embed
     assert "Vimeo.Player" in js                      # vimeo player api tracking
     assert "vimeoId" in js                           # accepts bare id or url
+    assert "youtubeId" in js
+    assert "youtube.com/embed/" in js
 
 
 def test_coursework_twelve_week_loop(page, server):
@@ -235,19 +240,80 @@ def test_preview_player_shows_practice_copy(page, server):
     assert _no_app_errors(page)
     body = page.inner_text("body")
     assert "Steady Under Pressure" in body
-    assert "Start here" in body or "KEN" in body
     skip = page.query_selector("#cw-welcome-skip")
     if skip:
         skip.click()
         page.wait_for_timeout(400)
         body = page.inner_text("body")
-    assert "Week 1" in body or "PRACTICE" in body or "The Surge Is a Signal" in body
+    assert "The Surge Is a Signal" in body
+    assert "WEEK 1" in body or "Week 1" in body
+    assert "← Steady Under Pressure" in body
+    assert "All weeks" not in body
+    page.evaluate(
+        """() => {
+          const v = document.getElementById('cw-video');
+          if (!v) return;
+          try { v.currentTime = (v.duration && isFinite(v.duration)) ? v.duration : 999; } catch (e) {}
+          v.dispatchEvent(new Event('ended'));
+        }"""
+    )
+    page.wait_for_timeout(400)
+    go = page.query_selector("#cw-to-debrief")
+    assert go is not None
+    assert go.get_attribute("disabled") is None
+    go.click()
+    page.wait_for_timeout(500)
+    body = page.inner_text("body")
+    assert "Question 1" in body
+    assert "DEBRIEF" in body or "The Surge Is a Signal" in body
+    choice = page.query_selector(".cw-choice")
+    assert choice is not None
+    choice.click()
+    page.wait_for_timeout(200)
+    nxt = page.query_selector("#cw-q-next")
+    assert nxt is not None
+    assert nxt.get_attribute("disabled") is None
+
+def test_fundamentals_preview_starts_at_ken(page, server):
+    page.add_init_script("""
+      localStorage.setItem('fc_path','returning-home');
+      localStorage.setItem('fc-cw-preview-fundamentals-welcome','1');
+      localStorage.setItem('fc-cw-preview-fundamentals', JSON.stringify({
+        progress: {
+          'demo-fundamentals-1': {video_id:'demo-fundamentals-1', watched_seconds:480, completed:true},
+          'demo-fundamentals-2': {video_id:'demo-fundamentals-2', watched_seconds:480, completed:true},
+          'demo-fundamentals-3': {video_id:'demo-fundamentals-3', watched_seconds:480, completed:true}
+        },
+        passes: {'demo-fundamentals-1':true,'demo-fundamentals-2':true,'demo-fundamentals-3':true},
+        practices: {}, logs: {}
+      }));
+    """)
+    page.goto(f"{server}/course.html?preview=1&cert=fundamentals", wait_until="load")
+    page.wait_for_timeout(700)
+    assert _no_app_errors(page)
+    body = page.inner_text("body")
+    assert "Fathering Fundamentals" in body
+    assert "Third Secret" not in body
+    assert "LESSON 4" not in body
+    assert "Ken Canfield" in body
+    assert "PREVIEW" in body
+    assert "Then lesson 1." in body
+    assert "← Fathering Fundamentals" in body
+    assert "All lessons" not in body
+    assert "Not a week" not in body
+    assert "In production" not in body
+    js = _fetch(server, "assets/js/course-demo-data.js")
+    assert "ib2up4VhWdo" in js
+    assert "youtube.com/watch?v=ib2up4VhWdo" in _fetch(server, "content/fundamentals.json")
 
 def test_returning_home_is_one_door(page, server):
     html = _fetch(server, "returning-home.html")
-    assert "Present from here" in html
+    assert "Show up for your family." in html
+    assert "Present from here" not in html
     assert "They are waiting for you." in html
     assert "Walk in" not in html
+    assert "Not a week" not in html
+    assert "In production" not in html
     assert "A call counts" not in html
     assert "Come home present" not in html
     assert "Coming Home Present first" not in html
@@ -261,7 +327,7 @@ def test_returning_home_is_one_door(page, server):
     assert "For organizations" not in html
     assert "Start Profile" not in html
     assert "Twelve weeks of small moves" not in html
-    assert "Eight minutes" in html
+    assert "The Profile takes eight minutes." in html
     assert "private report" in html
     assert "Start the trainings" in html
     assert "Watch the films" not in html
@@ -269,13 +335,13 @@ def test_returning_home_is_one_door(page, server):
     page.goto(f"{server}/returning-home.html", wait_until="load")
     page.wait_for_timeout(400)
     body = page.inner_text("body")
-    assert "Present from here" in body
+    assert "Show up for your family." in body
     assert "They are waiting for you." in body
     assert "Walk in" not in body
     assert "A call counts" not in body
     assert "Same Team" not in body
     assert "all four" not in body.lower()
-    assert "Eight minutes" in body
+    assert "The Profile takes eight minutes." in body
     assert "private report" in body
     names = [a.inner_text() for a in page.query_selector_all("[data-rh-courses] a")]
     assert names == ["Fathering Fundamentals", "Steady Under Pressure", "Coming Home Present"]
@@ -322,7 +388,7 @@ def test_returning_home_path_opens_films(page, server):
     assert "sponsor.html" not in help
     assert "organizations.html" not in help
     desk = _fetch(server, "rh-desk.html")
-    assert "Pick a training. Watch." in desk
+    assert "Pick a training and watch." in desk
     assert "Your trainings" in desk
     assert "Your films" not in desk
     assert "data-rh-courses=\"cards\"" in desk
@@ -331,7 +397,7 @@ def test_returning_home_path_opens_films(page, server):
     assert "Want a baseline" not in desk
     assert "all four" not in desk.lower()
     assert "Same Team" not in desk
-    assert "See where you stand. Eight minutes. Honest. Nobody is grading you." in desk
+    assert "See where you stand. The Profile takes eight minutes. Nobody is grading you." in desk
     assert "rh-ticker" in desk
     assert "Watch first. An account keeps your progress." in desk
     assert "rh-door-login" in desk
@@ -352,13 +418,21 @@ def test_returning_home_path_opens_films(page, server):
     page.goto(f"{server}/rh-desk.html", wait_until="load")
     page.wait_for_timeout(400)
     desk_body = page.inner_text("body")
-    assert "Pick a training. Watch." in desk_body
+    assert "Pick a training and watch." in desk_body
     assert "Same Team" not in desk_body
     assert "all four" not in desk_body.lower()
     assert "See where you stand" in desk_body
     cards = [a.query_selector(".rh-film-t").inner_text() for a in page.query_selector_all("a.rh-film")]
     assert cards == ["Fathering Fundamentals", "Steady Under Pressure", "Coming Home Present"]
     assert page.query_selector("a.rh-film .rh-film-go") is not None
+    metas = [el.inner_text() for el in page.query_selector_all(".rh-film-meta")]
+    assert metas == [
+        "8 lessons. Training and a certificate.",
+        "12 weeks. Training and a certificate.",
+        "12 weeks. Training and a certificate.",
+    ]
+    assert "A certificate needs a claimed seat later." in desk_body
+    assert "Not a week" not in desk_body
     assert "Watch first. An account keeps your progress." in desk_body
     for el in page.query_selector_all(".rh-film-l"):
         fits = el.evaluate(

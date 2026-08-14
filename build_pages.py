@@ -12,7 +12,7 @@ OG_IMAGE = SITE_URL + "/assets/img/og-image.jpg"
 # changelog.html. Bump BOTH constants on every release, add a CHANGELOG entry
 # below, regenerate, and upload. The stamp is the answer to "what version is
 # live": read any page footer.
-PLATFORM_VERSION = "4.16.13"
+PLATFORM_VERSION = "4.16.14"
 VERSION_DATE = "2026-08-14"
 
 # v4.0 reposition flags (ADR-4: rollout is a data change, not a redesign).
@@ -174,6 +174,8 @@ PAGES = {}
 # Release notes rendered on changelog.html. Newest first. Public copy:
 # POSITIONING.md section 9 language rules apply.
 CHANGELOG = [
+    ("4.16.14", "2026-08-14",
+     "Returning Home says show up for your family. Desk cards name how long each training is, and that a man gets the training and a certificate. Fundamentals opens on Ken's preview, then lesson 1. A first visit no longer lands a stranger on lesson 4, and Play without a film no longer marks a lesson watched. The first Steady checkpoint can be taken. Back controls name the training."),
     ("4.16.13", "2026-08-14",
      "After the Profile, the report names the training to start, the desk marks it Start here, and the eight-minute ticker steps aside. The report says it was saved: on this device, or to his account if he is signed in."),
     ("4.16.12", "2026-08-14",
@@ -1610,12 +1612,12 @@ PAGES['returning-home.html'] = dict(title='Returning Home', desc='A private path
   </header>
   <main class="rh-door-main">
     <p class="rh-door-eye">Returning Home · Huntsville, Arkansas</p>
-    <h1 class="rh-door-h">Present from here.</h1>
+    <h1 class="rh-door-h">Show up for your family.</h1>
     <p class="rh-door-lead">They are not waiting for a perfect man. They are waiting for you.</p>
     <p class="rh-door-next">Your trainings are open.</p>
     <a class="btn btn-yellow rh-door-cta" href="rh-desk.html">Start the trainings</a>
     <p class="rh-door-resume">Already here? <a href="login.html?path=rh&amp;next=rh-desk.html">Log in</a></p>
-    <p class="rh-door-side">Eight minutes. A private report of where you stand. Nobody is grading you. <a href="profile.html?start=quick&amp;path=rh">Take the Profile</a></p>
+    <p class="rh-door-side">The Profile takes eight minutes. You get a private report of where you stand. Nobody is grading you. <a href="profile.html?start=quick&amp;path=rh">Take the Profile</a></p>
     <p class="rh-door-courses" data-rh-courses="line"></p>
   </main>
   <footer class="rh-door-foot">
@@ -1640,14 +1642,14 @@ PAGES['rh-desk.html'] = dict(title='Your trainings', desc='Your trainings, open 
     <a class="rh-door-login" href="login.html?path=rh&amp;next=rh-desk.html">Log in</a>
   </header>
   <div class="rh-ticker" role="region" aria-label="Profile">
-    <p class="rh-ticker-copy">See where you stand. Eight minutes. Honest. Nobody is grading you.</p>
+    <p class="rh-ticker-copy">See where you stand. The Profile takes eight minutes. Nobody is grading you.</p>
     <a class="rh-ticker-go" href="profile.html?start=quick&amp;path=rh">Start</a>
   </div>
   <script>try{if(localStorage.getItem("fc_rh_profile_done")==="1"||localStorage.getItem("fc_pending_result")){var t=document.querySelector(".rh-ticker");if(t)t.remove();}}catch(e){}</script>
   <main class="rh-desk-main">
     <p class="rh-door-eye">Returning Home · Your trainings</p>
-    <h1 class="rh-desk-h">Pick a training. Watch.</h1>
-    <p class="rh-desk-lead">Tap one.</p>
+    <h1 class="rh-desk-h">Pick a training and watch.</h1>
+    <p class="rh-desk-lead">Open one and start.</p>
     <div class="rh-films" data-rh-courses="cards"></div>
     <p class="rh-desk-side" data-rh-guest>Watch first. An account keeps your progress. <a href="login.html?path=rh&amp;next=rh-desk.html">Log in</a> · <a href="login.html?path=rh&amp;mode=signup&amp;next=rh-desk.html">Create account</a></p>
   </main>
@@ -2326,7 +2328,7 @@ PAGES['share.html'] = dict(title='A message for you', desc='A private voice mess
 ''')
 
 
-PAGES['course.html'] = dict(title='Your Certificate', desc='Watch the lessons, pass each Checkpoint, answer the final Q&A, and submit for approval.', active='Courses', mode='public', auth=False, body='''
+PAGES['course.html'] = dict(title='Your training', desc='Watch the training, pass each checkpoint, and keep going.', active='Courses', mode='public', auth=False, body='''
 <section class="cw-wrap" id="cw-root">
   <div class="cw-head">
     <a class="link ash" href="certificates.html" style="display:inline-block;margin-bottom:16px">&larr; All courses</a>
