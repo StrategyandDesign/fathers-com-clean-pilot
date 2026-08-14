@@ -322,6 +322,16 @@ def test_returning_home_path_opens_films(page, server):
     assert "Same Team" not in desk
     assert "See where you stand. Eight minutes. Honest. Nobody is grading you." in desk
     assert "rh-ticker" in desk
+    assert "Watch first. An account keeps your progress." in desk
+    assert "rh-door-login" in desk
+    assert "mode=signup" in desk
+    assert "Create account" in desk
+    assert "get the most out of this" not in desk.lower()
+    assert "unlock your potential" not in desk.lower()
+    css = _fetch(server, "assets/css/forge.css")
+    assert "max-width:1160px" in css
+    assert ".rh-films{display:grid;grid-template-columns:repeat(3,1fr);gap:20px" in css
+    assert "padding:28px 22px" in css
     block = app.split("var RH_COURSES")[1].split("function playerHref")[0]
     assert "slug:'fundamentals'" in block
     assert block.find("slug:'fundamentals'") < block.find("slug:'anger'") < block.find("slug:'reentry'")
@@ -336,4 +346,20 @@ def test_returning_home_path_opens_films(page, server):
     assert "See where you stand" in desk_body
     cards = [a.query_selector(".rh-film-t").inner_text() for a in page.query_selector_all("a.rh-film")]
     assert cards == ["Fathering Fundamentals", "Steady Under Pressure", "Coming Home Present"]
+    assert page.query_selector("a.rh-film .rh-film-go") is not None
+    assert "Watch first. An account keeps your progress." in desk_body
+    for el in page.query_selector_all(".rh-film-l"):
+        fits = el.evaluate(
+            """el => {
+              const cs = getComputedStyle(el);
+              const probe = document.createElement('span');
+              probe.style.cssText = 'position:absolute;visibility:hidden;white-space:nowrap;font:' + cs.font;
+              probe.textContent = el.textContent;
+              document.body.appendChild(probe);
+              const need = probe.offsetWidth;
+              probe.remove();
+              return need <= el.clientWidth + 1;
+            }"""
+        )
+        assert fits, f"subtitle wraps on desktop: {el.inner_text()!r}"
     assert _no_app_errors(page)

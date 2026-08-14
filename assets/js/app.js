@@ -650,6 +650,16 @@
 
     if(!session) return;
 
+    document.querySelectorAll('[data-rh-guest]').forEach(function(el){ el.remove(); });
+    document.querySelectorAll('a.rh-door-login').forEach(function(a){
+      a.textContent='Sign out';
+      a.setAttribute('href','#signout');
+      a.addEventListener('click',function(e){
+        e.preventDefault();
+        FC.signOut().then(function(){ location.href=rhAfterSignOut(); });
+      });
+    });
+
     if(pathIsRH()){
       FC.getBaseline().then(function(r){
         if(r && r.data){
