@@ -1355,11 +1355,6 @@ html[data-theme="dark"] .cert-req-mark{color:#141210}
 /* ============================================================
    FLAGSHIP utilities: activation, trust, dual IA, org density
    ============================================================ */
-.trust-bar{border-bottom:1px solid var(--hairline);background:var(--coal);font-size:12.5px;color:var(--ash)}
-.trust-bar-inner{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px 18px;min-height:36px;padding:8px 0;font-family:var(--font-mono);letter-spacing:.04em}
-.trust-bar .tb-dot{opacity:.45}
-.trust-bar a{color:var(--brass);text-decoration:none;font-weight:600}
-.trust-bar a:hover{color:var(--bone)}
 
 .next-action{position:sticky;top:72px;z-index:40;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
   padding:14px 18px;margin-bottom:22px;border-radius:var(--r-card);background:var(--coal);border:1px solid var(--hairline-strong);

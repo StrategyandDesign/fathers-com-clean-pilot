@@ -142,13 +142,6 @@ def nav(active='', mode='public'):
 '''
 
 
-TRUST_BAR = '''<div class="trust-bar" role="note"><div class="container trust-bar-inner">
-  <span>Free Profile &amp; courses</span><span class="tb-dot" aria-hidden="true">&middot;</span>
-  <span>Facilitator-supported</span><span class="tb-dot" aria-hidden="true">&middot;</span>
-  <span>Certificate anyone can verify</span><span class="tb-dot" aria-hidden="true">&middot;</span>
-  <a href="verify.html">Verify a serial</a>
-</div></div>
-'''
 
 FOOT = '''<footer><div class="container">
 <div class="footgrid">
@@ -459,12 +452,9 @@ PAGES['index.html'] = dict(title='Become the father they can count on', desc='Kn
     <div class="hm-col hm-col-a">
       <div class="hm-track">
         <figure class="hm-card"><img src="assets/img/photos/hero-01.jpg" alt=""></figure>
-        <figure class="hm-card"><img src="assets/img/photos/hero-03.jpg" alt=""></figure>
         <figure class="hm-card"><img src="assets/img/photos/hero-05.jpg" alt=""></figure>
         <figure class="hm-card"><img src="assets/img/photos/testimonial-01.jpg" alt=""></figure>
-        <figure class="hm-card"><img src="assets/img/photos/hero-07.jpg" alt=""></figure>
         <figure class="hm-card"><img src="assets/img/photos/hero-01.jpg" alt=""></figure>
-        <figure class="hm-card"><img src="assets/img/photos/hero-03.jpg" alt=""></figure>
         <figure class="hm-card"><img src="assets/img/photos/hero-05.jpg" alt=""></figure>
         <figure class="hm-card"><img src="assets/img/photos/testimonial-01.jpg" alt=""></figure>
       </div>
@@ -909,7 +899,7 @@ PAGES['circles.html'] = dict(title='My Circle', desc='Tuesday Group. One film, o
         <div class="card" style="padding:28px;margin-bottom:26px">
           <div class="eyebrow" style="margin-bottom:14px">THIS WEEK IN CIRCLE</div>
           <div class="row" style="gap:18px;align-items:flex-start;margin-bottom:20px">
-            <div class="slot r-16x9 filled" data-slot="IMG-P7-CIR-01" style="flex:0 0 200px"><img src="assets/img/photos/hero-07.jpg" alt="Film still"></div>
+            <div class="slot r-16x9 filled" data-slot="IMG-P7-CIR-01" style="flex:0 0 200px"><img src="assets/img/photos/hero-01.jpg" alt="Film still"></div>
             <div><b style="font-size:15px">Watch before Tuesday: After the Sentence &middot; 22 min</b></div>
           </div>
           <p class="quote" style="font-size:20px;margin-bottom:18px">"Where did your father's absence still shape your hand?"</p>
@@ -1197,7 +1187,7 @@ PAGES['certificates.html'] = dict(title='The Courses and the Certificate of Comp
       <p class="fine" style="color:var(--ash);max-width:54ch;margin:0">Finish the work and hold a Certificate of Completion: logged sessions, a serial anyone can confirm, at no cost to you.</p>
     </div>
     <div class="ks-intro-visual" style="aspect-ratio:4/5;max-height:none">
-      <img src="assets/img/photos/hero-03.jpg" alt="Fathers in training">
+      <img src="assets/img/photos/hero-01.jpg" alt="Fathers in training">
       <div class="ks-intro-caption">Film courses. Real practice.</div>
     </div>
   </div>
@@ -1234,13 +1224,12 @@ PAGES['certificates.html'] = dict(title='The Courses and the Certificate of Comp
   </div>
   <style>#tracks .cert-card{display:flex;flex-direction:column}#tracks .cert-card .sess-peek{margin-top:auto}#tracks .cert-card .cert-card-foot{margin-top:12px}#tracks .cert-card > p{margin-bottom:12px}</style>
   <div class="cert-cards" id="tracks">
-                                                                                    <div class="cert-card" style="cursor:default" data-motion="fade-up" data-cert="fundamentals" data-title="Fathering Fundamentals" data-hours="1.1" data-desc="The Seven Secrets of Effective Fathers Assessment and Course. Self-paced sessions with checkpoints, a free assessment, and a Certified Facilitator available for questions.">
+                                                                                            <div class="cert-card" style="cursor:default" data-motion="fade-up" data-cert="fundamentals" data-title="Fathering Fundamentals" data-hours="1.1" data-desc="The Seven Secrets of Effective Fathers Assessment and Course. Self-paced sessions with checkpoints, a free assessment, and a Certified Facilitator available for questions.">
       <div class="course-card-media">
         <img src="assets/img/photos/action-01.jpg" alt="">
         <div class="ccm-overlay"></div>
         <div class="ccm-badges"><span class="pill">Film course</span><span class="ccm-n">8 sessions</span></div>
       </div>
-      <div class="cert-card-top"><span class="pill">Film course</span><span class="cert-card-hrs">8 sessions</span></div>
       <h3>Fathering Fundamentals</h3>
       <p>Seven Secrets assessment and course: intro plus seven secrets. Self-paced film, checkpoints, and a Certified Facilitator available for questions.</p>
       <ol class="sess-visible">
@@ -1251,13 +1240,12 @@ PAGES['certificates.html'] = dict(title='The Courses and the Certificate of Comp
       <details class="sess-peek" style="margin-top:4px"><summary class="fine" style="cursor:pointer;color:var(--brass,#c9a227)">All 8 sessions</summary><ol class="small" style="margin:8px 0 2px;padding-left:18px"><li style="margin:5px 0"><b>Introduction</b> <span style="color:var(--ash)">&middot; &ldquo;Welcome, overview, and take the assessment.&rdquo;</span></li><li style="margin:5px 0"><b>First Secret: Commitment</b> <span style="color:var(--ash)">&middot; &ldquo;Present physically, emotionally, spiritually; commitment builds trust.&rdquo;</span></li><li style="margin:5px 0"><b>Second Secret: Knowing Your Child</b> <span style="color:var(--ash)">&middot; &ldquo;Unique personality, needs, and interests open deeper connection.&rdquo;</span></li><li style="margin:5px 0"><b>Third Secret: Showing Up Consistently</b> <span style="color:var(--ash)">&middot; &ldquo;Stability through consistent actions, values, and discipline.&rdquo;</span></li><li style="margin:5px 0"><b>Fourth Secret: Protecting and Providing Security</b> <span style="color:var(--ash)">&middot; &ldquo;Physical, emotional, and spiritual safety and provision.&rdquo;</span></li><li style="margin:5px 0"><b>Fifth Secret: Loving Their Mother</b> <span style="color:var(--ash)">&middot; &ldquo;Honor their mother. Civil if you are not together. Never undercut her.&rdquo;</span></li><li style="margin:5px 0"><b>Sixth Secret: Active Listening</b> <span style="color:var(--ash)">&middot; &ldquo;Two-way. Full attention. Not an interrogation.&rdquo;</span></li><li style="margin:5px 0"><b>Seventh Secret: Spiritual Equipping</b> <span style="color:var(--ash)">&middot; &ldquo;Live convictions a child can trust. Faith is welcome. This is not a chapel course.&rdquo;</span></li></ol><p class="fine" style="margin:6px 0 0"><a class="link" href="course-fathering-fundamentals.html">Open the course &rarr;</a></p></details>
       <div class="cert-card-foot"><span class="mono">Free</span><a class="cert-card-go" href="course-fathering-fundamentals.html">Open the course &rarr;</a></div>
     </div>
-                                                                                <div class="cert-card" style="cursor:default" data-motion="fade-up" data-cert="reentry" data-title="Coming Home Present" data-hours="2.4" data-desc="For fathers in rehab or treatment preparing to reconnect with children and/or a significant other; also for service members returning home. Self-paced film with a Certified Facilitator available for questions, checkpoints, and a certificate a court or program can trust.">
+                                                                                        <div class="cert-card" style="cursor:default" data-motion="fade-up" data-cert="reentry" data-title="Coming Home Present" data-hours="2.4" data-desc="For fathers preparing to reconnect. Self-paced film with a Certified Facilitator available for questions, checkpoints, and a public serial. Whether a court or program accepts it is their call.">
       <div class="course-card-media">
-        <img src="assets/img/photos/hero-03.jpg" alt="">
+        <img src="assets/img/photos/hero-01.jpg" alt="">
         <div class="ccm-overlay"></div>
         <div class="ccm-badges"><span class="pill">Film course</span><span class="ccm-n">12 sessions</span></div>
       </div>
-      <div class="cert-card-top"><span class="pill">Film course</span><span class="cert-card-hrs">12 sessions</span></div>
       <h3>Coming Home Present</h3>
       <p>Rehab and treatment reconnect first: body, kids and partner, deposits, reunion. Same skills for service return. Twelve short sessions. Facilitator support when claimed.</p>
       <ol class="sess-visible">
@@ -1268,13 +1256,12 @@ PAGES['certificates.html'] = dict(title='The Courses and the Certificate of Comp
       <details class="sess-peek" style="margin-top:4px"><summary class="fine" style="cursor:pointer;color:var(--brass,#c9a227)">All 12 sessions</summary><ol class="small" style="margin:8px 0 2px;padding-left:18px"><li style="margin:5px 0"><b>The Body You Bring Home</b> <span style="color:var(--ash)">&middot; &ldquo;Your body did its job there. Now teach it that home is not there.&rdquo;</span></li><li style="margin:5px 0"><b>Home Is Not There</b> <span style="color:var(--ash)">&middot; &ldquo;Same noise, new meaning. Train the difference.&rdquo;</span></li><li style="margin:5px 0"><b>Plan Around the Wave</b> <span style="color:var(--ash)">&middot; &ldquo;Plan around the wave. Do not grade yourself by it.&rdquo;</span></li><li style="margin:5px 0"><b>Few Promises, Kept</b> <span style="color:var(--ash)">&middot; &ldquo;Few commitments, kept without fail.&rdquo;</span></li><li style="margin:5px 0"><b>The Child Who Grew</b> <span style="color:var(--ash)">&middot; &ldquo;Meet the child in front of you, not the one you left.&rdquo;</span></li><li style="margin:5px 0"><b>Ask Before You Assume</b> <span style="color:var(--ash)">&middot; &ldquo;Ask once. Listen longer than you talk.&rdquo;</span></li><li style="margin:5px 0"><b>Small Deposits</b> <span style="color:var(--ash)">&middot; &ldquo;Small and often beats big and rare.&rdquo;</span></li><li style="margin:5px 0"><b>Frequency Beats Intensity</b> <span style="color:var(--ash)">&middot; &ldquo;Show up short and steady.&rdquo;</span></li><li style="margin:5px 0"><b>When It Breaks</b> <span style="color:var(--ash)">&middot; &ldquo;Rupture is normal. Repair is the skill.&rdquo;</span></li><li style="margin:5px 0"><b>Repair Without Pride</b> <span style="color:var(--ash)">&middot; &ldquo;Go first. Keep it short.&rdquo;</span></li><li style="margin:5px 0"><b>Reunion Day</b> <span style="color:var(--ash)">&middot; &ldquo;If the child pulls away, that is the start, not the answer.&rdquo;</span></li><li style="margin:5px 0"><b>The Season of Return</b> <span style="color:var(--ash)">&middot; &ldquo;The return is a season, not a day.&rdquo;</span></li></ol><p class="fine" style="margin:6px 0 0"><a class="link" href="course-coming-home-present.html">Open the course &rarr;</a></p></details>
       <div class="cert-card-foot"><span class="mono">Free</span><a class="cert-card-go" href="course-coming-home-present.html">Open the course &rarr;</a></div>
     </div>
-                                                                                <div class="cert-card" style="cursor:default" data-motion="fade-up" data-cert="anger" data-title="Steady Under Pressure" data-hours="2.4" data-desc="Steadiness, trained on film: the pause, the repair, and the habits underneath them. Self-paced, with a Certified Facilitator available for questions. Sessions logged, checkpoints, and a final assessment at eighty percent to pass.">
+                                                                                        <div class="cert-card" style="cursor:default" data-motion="fade-up" data-cert="anger" data-title="Steady Under Pressure" data-hours="2.4" data-desc="Steadiness, trained on film: the pause, the repair, and the habits underneath them. Self-paced, with a Certified Facilitator available for questions. Sessions logged, checkpoints, and a final assessment at eighty percent to pass.">
       <div class="course-card-media">
         <img src="assets/img/photos/action-01.jpg" alt="">
         <div class="ccm-overlay"></div>
         <div class="ccm-badges"><span class="pill">Film course</span><span class="ccm-n">12 sessions</span></div>
       </div>
-      <div class="cert-card-top"><span class="pill">Film course</span><span class="cert-card-hrs">12 sessions</span></div>
       <h3>Steady Under Pressure</h3>
       <p>Steadiness on film: the pause, the repair, and the habits underneath. Twelve short sessions. Facilitator available for questions.</p>
       <p class="fine" style="color:var(--ash);margin-top:0;margin-bottom:10px">Not anger management, batterer intervention, or a substitute for any court-mandated program. Not designed or validated for those purposes and never ordered in their place.</p>
@@ -1286,21 +1273,20 @@ PAGES['certificates.html'] = dict(title='The Courses and the Certificate of Comp
       <details class="sess-peek" style="margin-top:4px"><summary class="fine" style="cursor:pointer;color:var(--brass,#c9a227)">All 12 sessions</summary><ol class="small" style="margin:8px 0 2px;padding-left:18px"><li style="margin:5px 0"><b>The Surge Is a Signal</b> <span style="color:var(--ash)">&middot; &ldquo;The surge is a signal, not an order.&rdquo;</span></li><li style="margin:5px 0"><b>Know Your Early Cues</b> <span style="color:var(--ash)">&middot; &ldquo;Catch it in the jaw, not the shout.&rdquo;</span></li><li style="margin:5px 0"><b>Six Seconds</b> <span style="color:var(--ash)">&middot; &ldquo;Six seconds buy your judgment back.&rdquo;</span></li><li style="margin:5px 0"><b>The Long Exhale</b> <span style="color:var(--ash)">&middot; &ldquo;A long exhale stands the body down.&rdquo;</span></li><li style="margin:5px 0"><b>Step Away to Come Back</b> <span style="color:var(--ash)">&middot; &ldquo;Step away to come back.&rdquo;</span></li><li style="margin:5px 0"><b>The Line You Leave On</b> <span style="color:var(--ash)">&middot; &ldquo;Say the line, then leave the room.&rdquo;</span></li><li style="margin:5px 0"><b>Name the Feeling</b> <span style="color:var(--ash)">&middot; &ldquo;Say the feeling so you do not have to show it.&rdquo;</span></li><li style="margin:5px 0"><b>Feelings Without Weapons</b> <span style="color:var(--ash)">&middot; &ldquo;Name it without loading it.&rdquo;</span></li><li style="margin:5px 0"><b>Own It Same Day</b> <span style="color:var(--ash)">&middot; &ldquo;Own it out loud, same day.&rdquo;</span></li><li style="margin:5px 0"><b>The Short Apology</b> <span style="color:var(--ash)">&middot; &ldquo;Short, specific, no defense.&rdquo;</span></li><li style="margin:5px 0"><b>Sleep, Food, Movement</b> <span style="color:var(--ash)">&middot; &ldquo;Steadiness is built in the boring hours.&rdquo;</span></li><li style="margin:5px 0"><b>Your Steady Week</b> <span style="color:var(--ash)">&middot; &ldquo;Stack the small things until they hold.&rdquo;</span></li></ol><p class="fine" style="margin:6px 0 0"><a class="link" href="course-steady-under-pressure.html">Open the course &rarr;</a></p></details>
       <div class="cert-card-foot"><span class="mono">Free</span><a class="cert-card-go" href="course-steady-under-pressure.html">Open the course &rarr;</a></div>
     </div>
-                                                                                <div class="cert-card" style="cursor:default" data-motion="fade-up" data-cert="coparenting" data-title="Same Team" data-hours="2.4" data-desc="Co-parenting, trained on film. One team for your children, whatever the arrangement between you. Self-paced, with a Certified Facilitator available for questions. Sessions logged, checkpoints, and a final assessment at eighty percent to pass.">
+                                                                                        <div class="cert-card" style="cursor:default" data-motion="fade-up" data-cert="coparenting" data-title="Same Team" data-hours="2.4" data-desc="Co-parenting, trained on film. One team for your children, whatever the arrangement between you. Self-paced, with a Certified Facilitator available for questions. Sessions logged, checkpoints, and a final assessment at eighty percent to pass.">
       <div class="course-card-media">
         <img src="assets/img/photos/community-02.jpg" alt="">
         <div class="ccm-overlay"></div>
         <div class="ccm-badges"><span class="pill">Film course</span><span class="ccm-n">12 sessions</span></div>
       </div>
-      <div class="cert-card-top"><span class="pill">Film course</span><span class="cert-card-hrs">12 sessions</span></div>
       <h3>Same Team</h3>
       <p>Co-parenting on film. One team for your children, whatever the arrangement. Twelve short sessions. Facilitator available for questions.</p>
       <ol class="sess-visible">
         <li><b>One Team for the Children</b> <span>&middot; &ldquo;Whatever we are to each other, we are one team for the child.&rdquo;</span></li>
         <li><b>Write the Shared Goal</b> <span>&middot; &ldquo;One child-centered sentence you can both hold.&rdquo;</span></li>
-        <li><b>Flooded Means Pause</b> <span>&middot; &ldquo;Flooded means pause. Twenty minutes, then resume.&rdquo;</span></li>
+        <li><b>Flooded Means Pause</b> <span>&middot; &ldquo;Flooded means pause. Then come back.&rdquo;</span></li>
       </ol>
-      <details class="sess-peek" style="margin-top:4px"><summary class="fine" style="cursor:pointer;color:var(--brass,#c9a227)">All 12 sessions</summary><ol class="small" style="margin:8px 0 2px;padding-left:18px"><li style="margin:5px 0"><b>One Team for the Children</b> <span style="color:var(--ash)">&middot; &ldquo;Whatever we are to each other, we are one team for the child.&rdquo;</span></li><li style="margin:5px 0"><b>Write the Shared Goal</b> <span style="color:var(--ash)">&middot; &ldquo;One child-centered sentence you can both hold.&rdquo;</span></li><li style="margin:5px 0"><b>Flooded Means Pause</b> <span style="color:var(--ash)">&middot; &ldquo;Flooded means pause. Twenty minutes, then resume.&rdquo;</span></li><li style="margin:5px 0"><b>Break Clean</b> <span style="color:var(--ash)">&middot; &ldquo;Break off clean. Name when you will resume.&rdquo;</span></li><li style="margin:5px 0"><b>Businesslike</b> <span style="color:var(--ash)">&middot; &ldquo;Short, factual, about the child.&rdquo;</span></li><li style="margin:5px 0"><b>Cooler Channels</b> <span style="color:var(--ash)">&middot; &ldquo;Use the channel that lowers heat.&rdquo;</span></li><li style="margin:5px 0"><b>Reliability Buys Trust</b> <span style="color:var(--ash)">&middot; &ldquo;Trust is bought with reliability.&rdquo;</span></li><li style="margin:5px 0"><b>Never Against an Order</b> <span style="color:var(--ash)">&middot; &ldquo;Never ask a child to carry an adult fight, and never against an order.&rdquo;</span></li><li style="margin:5px 0"><b>What the Child Carries</b> <span style="color:var(--ash)">&middot; &ldquo;The child carries the distance. Lighten the load.&rdquo;</span></li><li style="margin:5px 0"><b>Two Homes, One Child</b> <span style="color:var(--ash)">&middot; &ldquo;Predictable rules beat perfect agreement.&rdquo;</span></li><li style="margin:5px 0"><b>The Handoff</b> <span style="color:var(--ash)">&middot; &ldquo;Predictable beats perfect.&rdquo;</span></li><li style="margin:5px 0"><b>The Handoff Ritual</b> <span style="color:var(--ash)">&middot; &ldquo;Same place, same time, same calm script.&rdquo;</span></li></ol><p class="fine" style="margin:6px 0 0"><a class="link" href="course-same-team.html">Open the course &rarr;</a></p></details>
+      <details class="sess-peek" style="margin-top:4px"><summary class="fine" style="cursor:pointer;color:var(--brass,#c9a227)">All 12 sessions</summary><ol class="small" style="margin:8px 0 2px;padding-left:18px"><li style="margin:5px 0"><b>One Team for the Children</b> <span style="color:var(--ash)">&middot; &ldquo;Whatever we are to each other, we are one team for the child.&rdquo;</span></li><li style="margin:5px 0"><b>Write the Shared Goal</b> <span style="color:var(--ash)">&middot; &ldquo;One child-centered sentence you can both hold.&rdquo;</span></li><li style="margin:5px 0"><b>Flooded Means Pause</b> <span style="color:var(--ash)">&middot; &ldquo;Flooded means pause. Then come back.&rdquo;</span></li><li style="margin:5px 0"><b>Break Clean</b> <span style="color:var(--ash)">&middot; &ldquo;Break off clean. Name when you will resume.&rdquo;</span></li><li style="margin:5px 0"><b>Businesslike</b> <span style="color:var(--ash)">&middot; &ldquo;Short, factual, about the child.&rdquo;</span></li><li style="margin:5px 0"><b>Cooler Channels</b> <span style="color:var(--ash)">&middot; &ldquo;Use the channel that lowers heat.&rdquo;</span></li><li style="margin:5px 0"><b>Reliability Buys Trust</b> <span style="color:var(--ash)">&middot; &ldquo;Trust is bought with reliability.&rdquo;</span></li><li style="margin:5px 0"><b>Never Against an Order</b> <span style="color:var(--ash)">&middot; &ldquo;Never ask a child to carry an adult fight, and never against an order.&rdquo;</span></li><li style="margin:5px 0"><b>What the Child Carries</b> <span style="color:var(--ash)">&middot; &ldquo;The child carries the distance. Lighten the load.&rdquo;</span></li><li style="margin:5px 0"><b>Two Homes, One Child</b> <span style="color:var(--ash)">&middot; &ldquo;Predictable rules beat perfect agreement.&rdquo;</span></li><li style="margin:5px 0"><b>The Handoff</b> <span style="color:var(--ash)">&middot; &ldquo;Predictable beats perfect.&rdquo;</span></li><li style="margin:5px 0"><b>The Handoff Ritual</b> <span style="color:var(--ash)">&middot; &ldquo;Same place, same time, same calm script.&rdquo;</span></li></ol><p class="fine" style="margin:6px 0 0"><a class="link" href="course-same-team.html">Open the course &rarr;</a></p></details>
       <div class="cert-card-foot"><span class="mono">Free</span><a class="cert-card-go" href="course-same-team.html">Open the course &rarr;</a></div>
     </div>
       </div>
@@ -1310,7 +1296,7 @@ PAGES['certificates.html'] = dict(title='The Courses and the Certificate of Comp
 
   <div class="sess-preview-row">
     <a class="sess-preview" href="course-coming-home-present.html#a1">
-      <div class="sess-preview-media"><img src="assets/img/photos/hero-03.jpg" alt=""></div>
+      <div class="sess-preview-media"><img src="assets/img/photos/hero-01.jpg" alt=""></div>
       <div class="sess-preview-body">
         <div class="eyebrow brass">PREVIEW A SESSION &middot; COMING HOME PRESENT</div>
         <h3>The Body You Bring Home</h3>
@@ -1928,7 +1914,7 @@ PAGES['veterans-hub.html'] = dict(title='The Homefront', desc='Train for the mis
   <div class="vet-stories">
     <a class="vet-story" href="veterans-module.html?m=reconnecting"><img src="assets/img/photos/hero-01.jpg" alt=""><div class="vet-story-body"><div class="vet-story-min">Film &middot; 6 min</div><h3>When your kid feels like a stranger</h3><p>Rebuilding closeness after time away</p></div></a>
     <a class="vet-story" href="veterans-module.html?m=temper"><img src="assets/img/photos/hero-02.jpg" alt=""><div class="vet-story-body"><div class="vet-story-min">Film &middot; 6 min</div><h3>Staying steady, and the way back</h3><p>Anger, the pause, and the repair</p></div></a>
-    <a class="vet-story" href="veterans-module.html?m=emotion"><img src="assets/img/photos/hero-03.jpg" alt=""><div class="vet-story-body"><div class="vet-story-min">Film &middot; 5 min</div><h3>Saying what you feel</h3><p>Breaking through the numbness</p></div></a>
+    <a class="vet-story" href="veterans-module.html?m=emotion"><img src="assets/img/photos/hero-01.jpg" alt=""><div class="vet-story-body"><div class="vet-story-min">Film &middot; 5 min</div><h3>Saying what you feel</h3><p>Breaking through the numbness</p></div></a>
     <a class="vet-story" href="veterans-module.html?m=command"><img src="assets/img/photos/hero-04.jpg" alt=""><div class="vet-story-body"><div class="vet-story-min">Read &middot; 5 min</div><h3>From command to connection</h3><p>Leading a family is a different job</p></div></a>
     <a class="vet-story" href="veterans-module.html?m=coparenting"><img src="assets/img/photos/hero-05.jpg" alt=""><div class="vet-story-body"><div class="vet-story-min">Read &middot; 5 min</div><h3>Fathering across two homes</h3><p>Presence when you are not the only house</p></div></a>
     <a class="vet-story" href="veterans-module.html?m=nurturing"><img src="assets/img/photos/hero-06.jpg" alt=""><div class="vet-story-body"><div class="vet-story-min">Read &middot; 4 min</div><h3>Small acts, every day</h3><p>Nurturing is a set of habits</p></div></a>
@@ -1943,7 +1929,7 @@ PAGES['veterans-hub.html'] = dict(title='The Homefront', desc='Train for the mis
       <p>Record a story or a message your kids can replay when they miss you. Private to you, secured, and yours alone. It is the most personal tool here, and it has its own home.</p>
       <a class="btn btn-yellow" href="voice.html">Open Voice</a>
     </div>
-    <img class="vet-split-img" src="assets/img/photos/hero-07.jpg" alt="">
+    <img class="vet-split-img" src="assets/img/photos/hero-01.jpg" alt="">
   </div>
 </section>
 
@@ -2053,7 +2039,7 @@ PAGES['veterans.html'] = dict(title='Present at Home', desc='For fathers who ser
       <div class="vet-film-meta"><h3>When your kid feels like a stranger</h3><p>Rebuilding closeness after time away</p></div>
     </button>
     <button class="vet-film" data-key="emotion" data-title="Saying what you feel">
-      <div class="vet-film-thumb"><img src="assets/img/photos/hero-03.jpg" alt=""><span class="vet-film-play"></span><span class="vet-film-dur">Watch</span></div>
+      <div class="vet-film-thumb"><img src="assets/img/photos/hero-01.jpg" alt=""><span class="vet-film-play"></span><span class="vet-film-dur">Watch</span></div>
       <div class="vet-film-meta"><h3>Saying what you feel</h3><p>Breaking through the numbness, out loud</p></div>
     </button>
     <button class="vet-film" data-key="temper" data-title="Staying steady, and the way back">
@@ -2929,8 +2915,6 @@ if __name__ == '__main__':
         else:
             mode = p.get('mode','public')
             html += nav(p.get('active',''), mode)
-            if mode == 'public':
-                html += TRUST_BAR
             html += p['body']
             html += FOOT
             # Per-page scripts. certificates.html reads the real published course

@@ -552,7 +552,7 @@ def _chrome_from_existing(sample_path: Path):
     """Reuse head/nav/trust-bar/footer from an existing forged course page."""
     raw = sample_path.read_text(encoding="utf-8")
     # Split: head through trust-bar end, then footer through scripts
-    m = re.search(r"(?s)(.*?</div></div>\n)\n<section class=\"band\">", raw)
+    m = re.search(r"(?s)^(.*?)(?=<section class=\"band\">)", raw)
     if not m:
         # trust-bar closes then blank line then section
         m = re.search(r"(?s)(^.*?<div class=\"trust-bar\"[\s\S]*?</div></div>\n)", raw)
