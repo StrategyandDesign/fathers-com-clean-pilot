@@ -12,7 +12,7 @@ OG_IMAGE = SITE_URL + "/assets/img/og-image.jpg"
 # changelog.html. Bump BOTH constants on every release, add a CHANGELOG entry
 # below, regenerate, and upload. The stamp is the answer to "what version is
 # live": read any page footer.
-PLATFORM_VERSION = "4.16.12"
+PLATFORM_VERSION = "4.16.13"
 VERSION_DATE = "2026-08-14"
 
 # v4.0 reposition flags (ADR-4: rollout is a data change, not a redesign).
@@ -174,6 +174,8 @@ PAGES = {}
 # Release notes rendered on changelog.html. Newest first. Public copy:
 # POSITIONING.md section 9 language rules apply.
 CHANGELOG = [
+    ("4.16.13", "2026-08-14",
+     "After the Profile, the report names the training to start, the desk marks it Start here, and the eight-minute ticker steps aside. The report says it was saved: on this device, or to his account if he is signed in."),
     ("4.16.12", "2026-08-14",
      "Returning Home desk cards fit their subtitles on one line. A quiet line tells him an account keeps his progress, without standing in front of Watch."),
     ("4.16.11", "2026-08-14",
@@ -1641,10 +1643,11 @@ PAGES['rh-desk.html'] = dict(title='Your trainings', desc='Your trainings, open 
     <p class="rh-ticker-copy">See where you stand. Eight minutes. Honest. Nobody is grading you.</p>
     <a class="rh-ticker-go" href="profile.html?start=quick&amp;path=rh">Start</a>
   </div>
+  <script>try{if(localStorage.getItem("fc_rh_profile_done")==="1"||localStorage.getItem("fc_pending_result")){var t=document.querySelector(".rh-ticker");if(t)t.remove();}}catch(e){}</script>
   <main class="rh-desk-main">
     <p class="rh-door-eye">Returning Home · Your trainings</p>
-    <h1 class="rh-desk-h">Pick a course. Watch.</h1>
-    <p class="rh-desk-lead">No order. Tap one.</p>
+    <h1 class="rh-desk-h">Pick a training. Watch.</h1>
+    <p class="rh-desk-lead">Tap one.</p>
     <div class="rh-films" data-rh-courses="cards"></div>
     <p class="rh-desk-side" data-rh-guest>Watch first. An account keeps your progress. <a href="login.html?path=rh&amp;next=rh-desk.html">Log in</a> · <a href="login.html?path=rh&amp;mode=signup&amp;next=rh-desk.html">Create account</a></p>
   </main>
