@@ -12,7 +12,7 @@ OG_IMAGE = SITE_URL + "/assets/img/og-image.jpg"
 # changelog.html. Bump BOTH constants on every release, add a CHANGELOG entry
 # below, regenerate, and upload. The stamp is the answer to "what version is
 # live": read any page footer.
-PLATFORM_VERSION = "4.16.15"
+PLATFORM_VERSION = "4.16.16"
 VERSION_DATE = "2026-08-14"
 
 # v4.0 reposition flags (ADR-4: rollout is a data change, not a redesign).
@@ -174,6 +174,8 @@ PAGES = {}
 # Release notes rendered on changelog.html. Newest first. Public copy:
 # POSITIONING.md section 9 language rules apply.
 CHANGELOG = [
+    ("4.16.16", "2026-08-14",
+     "The Profile start drops the gift-to-the-kids line. It says this takes eight minutes, then you know where you stand. On the Returning Home door, the Profile sits in its own quiet block and is named before the ask: honest questions, a private report of where you stand as a father."),
     ("4.16.15", "2026-08-14",
      "Returning Home says show up for your kids, on one line. The Profile opens with a short beat before the questions: eight minutes, a private report, and an account that keeps the work without gating the start."),
     ("4.16.14", "2026-08-14",
@@ -1619,7 +1621,11 @@ PAGES['returning-home.html'] = dict(title='Returning Home', desc='A private path
     <p class="rh-door-next">Your trainings are open.</p>
     <a class="btn btn-yellow rh-door-cta" href="rh-desk.html">Start the trainings</a>
     <p class="rh-door-resume">Already here? <a href="login.html?path=rh&amp;next=rh-desk.html">Log in</a></p>
-    <p class="rh-door-side">The Profile takes eight minutes. You get a private report of where you stand. Nobody is grading you. <a href="profile.html?start=quick&amp;path=rh">Take the Profile</a></p>
+    <aside class="rh-door-profile">
+      <p class="rh-door-profile-label">Where you stand</p>
+      <p class="rh-door-profile-copy">The Profile is a short set of honest questions. You get a private report of where you stand as a father. It takes eight minutes. Nobody is grading you.</p>
+      <a class="rh-door-profile-go" href="profile.html?start=quick&amp;path=rh">Take the Profile</a>
+    </aside>
     <p class="rh-door-courses" data-rh-courses="line"></p>
   </main>
   <footer class="rh-door-foot">

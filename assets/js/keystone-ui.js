@@ -224,7 +224,7 @@
     root.innerHTML =
       '<div class="ks-rh-beat" id="ks-start">'+
         '<p class="rh-door-eye">The Keystone Father Profile</p>'+
-        '<h1 class="ks-rh-beat-h">Give your kids eight minutes.</h1>'+
+        '<h1 class="ks-rh-beat-h">This takes eight minutes. Then you know where you stand.</h1>'+
         '<p class="ks-rh-beat-lead">You answer honest questions and get a private report of where you stand. Nobody is grading you.</p>'+
         '<p class="ks-rh-beat-keep">An account keeps the report, the trainings, and the work. You can start the questions now and make an account when you want one.</p>'+
         '<button class="btn btn-yellow btn-lg" id="ks-rh-begin" type="button">Begin</button>'+
