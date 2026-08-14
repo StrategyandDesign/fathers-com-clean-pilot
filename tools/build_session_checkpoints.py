@@ -233,18 +233,18 @@ def synth_ff_questions(sess: dict) -> list:
             {
                 "prompt": "Spiritual equipping here means:",
                 "choices": [
-                    "Grounded convictions you live, with room for faith",
-                    "A required religious-institution track",
-                    "Quoting scripture at your child",
+                    "Grounded convictions you live",
+                    "A required class you sit through",
+                    "Telling your child what to believe",
                 ],
                 "correct_index": 0,
             },
             {
-                "prompt": "Why leave room?",
+                "prompt": "What do kids actually watch?",
                 "choices": [
-                    "Fathers come with faith and without. Kids watch what you live.",
-                    "Faith does not belong in fathering.",
-                    "Attendance at a religious institution is the secret.",
+                    "What you live",
+                    "What you say you believe",
+                    "How often you attend a meeting",
                 ],
                 "correct_index": 0,
             },
@@ -252,7 +252,7 @@ def synth_ff_questions(sess: dict) -> list:
                 "prompt": "Which practice matches this session?",
                 "choices": [
                     "One conviction lived in the open this week",
-                    "Enroll in a religious institution this week",
+                    "Sign up for a group this week",
                     "Hide what you believe",
                 ],
                 "correct_index": 0,

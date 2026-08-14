@@ -630,7 +630,7 @@
         var rhGo = (window.FCPath && FCPath.isRH());
         actions += rhGo
           ? '<a class="rp-btn rp-btn-yellow" href="'+FCPath.playerHref(rhRec.slug)+'">Start '+esc(rhRec.title)+'</a>'+
-            '<a class="rp-btn rp-btn-ghost" href="'+FCPath.deskHref()+'">All three trainings</a>'
+            '<a class="rp-btn rp-btn-ghost" href="'+(FCPath.homebaseHref?FCPath.homebaseHref():FCPath.deskHref())+'">Your home</a>'
           : '<a class="rp-btn rp-btn-yellow" href="plan.html'+q+'">Open my plan</a>';
       }
       actions+='<button class="rp-btn rp-btn-ghost" id="rpPrint">Download as PDF</button>';
@@ -707,7 +707,7 @@
             ? '<a class="rp-btn rp-btn-yellow" href="profile.html">Start your plan</a>'
             : ((window.FCPath && FCPath.isRH())
               ? '<a class="rp-btn rp-btn-yellow" href="'+FCPath.playerHref(rhRec.slug)+'">Start '+esc(rhRec.title)+'</a>'+
-                '<a class="rp-btn rp-btn-ghost" style="margin-left:10px" href="'+FCPath.deskHref()+'">All three trainings</a>'
+                '<a class="rp-btn rp-btn-ghost" style="margin-left:10px" href="'+(FCPath.homebaseHref?FCPath.homebaseHref():FCPath.deskHref())+'">Your home</a>'
               : '<a class="rp-btn rp-btn-yellow" href="plan.html'+((A&&A.slug)?'?assessment='+encodeURIComponent(A.slug):'')+'">Open my plan</a>'+
                 '<a class="rp-btn rp-btn-ghost" style="margin-left:10px" href="dashboard.html'+((A&&A.slug)?'?assessment='+encodeURIComponent(A.slug):'')+'">Everything else is on your Home</a>'))+
         '</p>'+

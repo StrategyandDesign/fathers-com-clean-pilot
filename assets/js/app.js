@@ -12,7 +12,7 @@
   var RH_AWAY = {
     'index.html':'home','certificates.html':'desk','organizations.html':'desk',
     'sponsor.html':'home','research.html':'home','stories.html':'home',
-    'story.html':'home','plan.html':'desk','dashboard.html':'desk',
+    'story.html':'home','plan.html':'base','dashboard.html':'base',
     'about.html':'home','facilitators.html':'home','groups.html':'desk',
     'circles.html':'desk','employers.html':'home','changelog.html':'home',
     'enroll.html':'desk','checkout.html':'desk','find-a-program.html':'home',
@@ -25,7 +25,7 @@
     try {
       var here=pageName();
       var qs=new URLSearchParams(location.search);
-      if(here==='returning-home.html' || here==='rh-desk.html' || qs.get('path')==='rh'){
+      if(here==='returning-home.html' || here==='rh-desk.html' || here==='rh-home.html' || qs.get('path')==='rh'){
         localStorage.setItem('fc_path','returning-home');
       } else if(RH_PUBLIC_ROOTS[here]){
         localStorage.removeItem('fc_path');
@@ -40,7 +40,7 @@
     var here=pageName();
     var qs;
     try { qs=new URLSearchParams(location.search); } catch(e){ qs=new URLSearchParams(); }
-    if(here==='returning-home.html' || here==='rh-desk.html' || qs.get('path')==='rh') return true;
+    if(here==='returning-home.html' || here==='rh-desk.html' || here==='rh-home.html' || qs.get('path')==='rh') return true;
     if(!pathIsRH()) return false;
     if(here==='profile.html'||here==='report.html'||here==='login.html'||here==='course.html'||
        here==='privacy.html'||here==='terms.html'||here==='account.html'||here==='recover.html'||
@@ -50,6 +50,7 @@
   }
   function rhHome(){ return 'returning-home.html'; }
   function rhDesk(){ return 'rh-desk.html'; }
+  function rhHomebase(){ return 'rh-home.html'; }
   function rhMapHref(href){
     if(!href) return null;
     var raw=String(href).trim();
@@ -58,7 +59,9 @@
     var file=raw.split('#')[0].split('?')[0].replace(/^\.\//,'').split('/').pop();
     var dest=RH_AWAY[file];
     if(!dest) return null;
-    return dest==='desk' ? rhDesk() : rhHome();
+    if(dest==='desk') return rhDesk();
+    if(dest==='base') return rhHomebase();
+    return rhHome();
   }
   function rhAfterSignOut(){
     return isRhSurface() || pathIsRH() ? rhHome() : 'index.html';
@@ -70,7 +73,7 @@
       var mapped=rhMapHref(a.getAttribute('href'));
       if(mapped) a.setAttribute('href', mapped);
     });
-    var brandTo = (window.FC && FC.live && FC.uid && FC.uid()) ? rhDesk() : rhHome();
+    var brandTo = (window.FC && FC.live && FC.uid && FC.uid()) ? rhHomebase() : rhHome();
     document.querySelectorAll('a.brand, a.auth-brand, a.rh-door-brand').forEach(function(a){
       a.setAttribute('href', brandTo);
     });
@@ -93,7 +96,7 @@
     if(list && !list.dataset.fcParticipant && !list.dataset.fcRhPublic && !list.querySelector('a[data-role]')){
       list.innerHTML='<li><a href="rh-desk.html">Trainings</a></li>'+
         '<li><a href="profile.html?start=quick&amp;path=rh">Profile</a></li>'+
-        '<li><a href="login.html?path=rh&amp;next=rh-desk.html">Log in</a></li>';
+        '<li><a href="login.html?path=rh&amp;next=rh-home.html">Log in</a></li>';
       list.dataset.fcRhPublic='1';
     }
     document.querySelectorAll('a').forEach(function(a){
@@ -205,7 +208,7 @@
     h.textContent = 'Start here.';
     if(lead) lead.textContent = 'Your report named '+rec.title+'.';
     if(side){
-      side.innerHTML = 'Your report is on this device. An account keeps it. <a href="login.html?path=rh&amp;next=rh-desk.html">Log in</a> · <a href="login.html?path=rh&amp;mode=signup&amp;next=rh-desk.html">Create account</a>';
+      side.innerHTML = 'Your report is on this device. An account keeps it. <a href="login.html?path=rh&amp;next=rh-home.html">Log in</a> · <a href="login.html?path=rh&amp;mode=signup&amp;next=rh-home.html">Create account</a>';
     }
   }
 
@@ -272,6 +275,8 @@
     playerHref: playerHref,
     deskHref: rhDesk,
     homeHref: rhHome,
+    homebaseHref: rhHomebase,
+    focusKey: rhFocusKey,
     courseHref: function(slug){ return playerHref(slug||'fundamentals'); },
     courseForFocus: courseForFocus,
     hasReport: hasRhReport,
@@ -435,12 +440,17 @@
   /* Palette switch : black default, light option, persisted */
   function applyTheme(t){document.documentElement.dataset.theme=t;try{localStorage.setItem('fc_theme',t)}catch(e){}}
   var switches=document.querySelectorAll('[data-themeswitch]');
-  if(!switches.length){
+  var rhRoom=!!(document.querySelector('.rh-door')||(window.FCPath&&FCPath.isRhSurface&&FCPath.isRhSurface()));
+  if(!switches.length && !rhRoom){
     var b=document.createElement('button');
     b.className='themeswitch floating';b.setAttribute('data-themeswitch','');
     b.setAttribute('aria-label','Switch palette');b.title='Switch palette';
     b.innerHTML='<span class="tsw-dot"></span>';
     document.body.appendChild(b);switches=[b];
+  }
+  if(rhRoom){
+    document.querySelectorAll('.themeswitch.floating').forEach(function(el){ el.remove(); });
+    switches=document.querySelectorAll('[data-themeswitch]');
   }
   switches.forEach(function(s){s.addEventListener('click',function(){
     applyTheme(document.documentElement.dataset.theme==='light'?'dark':'light');
@@ -633,7 +643,7 @@
       var q=slug?('?assessment='+slug):'';
       var rh=window.FCPath && FCPath.isRhSurface();
       var links=rh
-        ? [['Trainings','rh-desk.html'],['Report','report.html'+q],['Profile','profile.html?start=quick&path=rh'],['Sign out','#signout']]
+        ? [['Home','rh-home.html'],['Report','report.html'+q],['Profile','profile.html?start=quick&path=rh'],['Sign out','#signout']]
         : [['Home','dashboard.html'],['My Report','report.html'+q],['My Plan','plan.html'+q],['Courses','certificates.html'],['Sign out','#signout']];
       list.innerHTML=links.map(function(l){
         var target=l[1].split('?')[0];
@@ -683,7 +693,7 @@
       var qs=new URLSearchParams(location.search);
       var mode=qs.get('mode')==='signup'?'signup':'signin';
       var nextPage=safeNext(qs.get('next'));
-      var afterAuth=nextPage || (qs.get('path')==='rh' ? rhDesk() : null);
+      var afterAuth=nextPage || (qs.get('path')==='rh' ? rhHomebase() : null);
 
       function aMsg(t,kind){ authMsg.textContent=t||''; authMsg.style.color=kind==='err'?'var(--error)':'var(--ash)'; }
       function setMode(m){

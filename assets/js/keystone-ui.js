@@ -803,8 +803,8 @@
     var rec = (rh && window.FCPath.courseForFocus) ? FCPath.courseForFocus(gapK) : { slug:'fundamentals', title:'Fathering Fundamentals' };
     var planHref = "plan.html?assessment="+encodeURIComponent(slug)+"&reveal=1";
     var courseHref = rh ? FCPath.playerHref(rec.slug) : "";
-    var deskHref = rh ? FCPath.deskHref() : "";
-    var loginNext = encodeURIComponent(courseHref || deskHref);
+    var deskHref = rh ? (FCPath.homebaseHref ? FCPath.homebaseHref() : FCPath.deskHref()) : "";
+    var loginNext = encodeURIComponent(deskHref || courseHref);
     var saveLine = rh
       ? (signedIn
         ? "<p class=\"ks-saved\" id=\"ksSaved\">Saved on this device.</p>"
@@ -814,7 +814,7 @@
       ? "<div class=\"stack-16\" style=\"margin-top:24px\">"+
           "<a class=\"btn btn-yellow\" style=\"width:100%\" href=\""+courseHref+"\">Start "+esc(rec.title)+"</a>"+
           saveLine+
-          "<p class=\"fine\" style=\"text-align:center;margin-top:8px\"><a class=\"link ash\" href=\""+deskHref+"\" style=\"font-size:12px\">All three trainings</a></p>"+
+          "<p class=\"fine\" style=\"text-align:center;margin-top:8px\"><a class=\"link ash\" href=\""+deskHref+"\" style=\"font-size:12px\">Your home</a></p>"+
           "<p class=\"fine\" style=\"text-align:center;margin-top:4px\"><a class=\"link ash\" href=\"report.html\" style=\"font-size:12px\">Read the full report</a></p>"+
           "<p class=\"fine\" style=\"text-align:center;margin-top:2px\"><button class=\"link ash\" id=\"ksContFull\" style=\"background:none;border:0;padding:0;font:inherit;color:inherit;cursor:pointer;text-decoration:underline;text-underline-offset:3px;font-size:12px\">Or continue the full "+esc(fullLabel)+"</button></p>"+
         "</div>"
@@ -999,8 +999,8 @@
     var rh = window.FCPath && FCPath.isRH();
     var rec = (rh && window.FCPath.courseForFocus) ? FCPath.courseForFocus(gapK) : { slug:'fundamentals', title:'Fathering Fundamentals' };
     var courseHref = rh ? FCPath.playerHref(rec.slug) : '';
-    var deskHref = rh ? FCPath.deskHref() : '';
-    var loginNext = encodeURIComponent(courseHref || deskHref);
+    var deskHref = rh ? (FCPath.homebaseHref ? FCPath.homebaseHref() : FCPath.deskHref()) : '';
+    var loginNext = encodeURIComponent(deskHref || courseHref);
     var rhSave = signedIn
       ? '<p class="ks-saved" id="ksSaved">Saved on this device.</p>'
       : '<p class="ks-saved" id="ksSaved">Saved on this device. An account keeps it. <a class="link ash" href="login.html?path=rh&amp;next='+loginNext+'">Log in</a> · <a class="link ash" href="login.html?path=rh&amp;mode=signup&amp;next='+loginNext+'">Create account</a></p>';
@@ -1008,11 +1008,11 @@
       ? (signedIn
         ? '<a class="btn btn-yellow" style="width:100%" href="'+courseHref+'">Start '+esc(rec.title)+'</a>'+
           rhSave+
-          '<p class="fine" style="text-align:center;margin-top:8px"><a class="link ash" href="'+deskHref+'" style="font-size:12px">All three trainings</a></p>'+
+          '<p class="fine" style="text-align:center;margin-top:8px"><a class="link ash" href="'+deskHref+'" style="font-size:12px">Your home</a></p>'+
           '<p class="fine" style="text-align:center;margin-top:12px"><a class="link ash" href="report.html" style="font-size:12px">Or read your full written report</a></p>'
         : '<a class="btn btn-yellow" style="width:100%" href="'+courseHref+'">Start '+esc(rec.title)+'</a>'+
           rhSave+
-          '<p class="fine" style="text-align:center;margin-top:8px"><a class="link ash" href="'+deskHref+'" style="font-size:12px">All three trainings</a></p>'+
+          '<p class="fine" style="text-align:center;margin-top:8px"><a class="link ash" href="'+deskHref+'" style="font-size:12px">Your home</a></p>'+
           '<div class="ks-save-card" style="margin-top:18px">'+
             '<h3 class="ks-save-h">Save this so you can come back.</h3>'+
             '<p class="helper" style="margin-bottom:16px">Optional. The trainings are open now. An account keeps your report with you.</p>'+

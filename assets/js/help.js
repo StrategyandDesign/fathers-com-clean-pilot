@@ -12,7 +12,7 @@
 
   var rh = false;
   try {
-    rh = localStorage.getItem('fc_path')==='returning-home' || page==='returning-home.html' || page==='rh-desk.html';
+    rh = localStorage.getItem('fc_path')==='returning-home' || page==='returning-home.html' || page==='rh-desk.html' || page==='rh-home.html';
   } catch(e){}
   try {
     if (new URLSearchParams(location.search).get('path')==='rh') rh = true;
@@ -62,26 +62,27 @@
   if (rh) {
     FIRST['returning-home.html'] = { s: 'Your trainings are open. Pick one and watch.', a: 'Start the trainings', h: 'rh-desk.html' };
     FIRST['rh-desk.html'] = { s: 'Start the training your report named. The other two stay open.', a: 'Start here', h: '.rh-film.is-start, .rh-film' };
+    FIRST['rh-home.html'] = { s: 'This is your home. The report, the trainings, and the work you have written.', a: 'Open a training', h: '.rh-home-row' };
     FIRST['profile.html'] = { s: 'This takes eight minutes. Then you know where you stand. Nobody is grading you.', a: 'Begin', h: '#ks-rh-begin' };
     FIRST['report.html'] = { s: 'This is where you stand. Start the training it named.', a: 'Start the training', h: '.btn-yellow, .rp-btn-yellow' };
     FIRST['login.html'] = { s: 'Sign in to keep your trainings and your report with you.', a: 'Sign in', h: '#authEmail' };
     FIRST['course.html'] = { s: 'Watch this session. Your trainings are still yours when you are done.', a: 'Play', h: '#player, [data-play], .btn-primary' };
-    FIRST['privacy.html'] = { s: 'Your answers stay private. This page is the policy.', a: 'Back to your trainings', h: 'rh-desk.html' };
-    FIRST['account.html'] = { s: 'Your account. Sign out returns you to Returning Home.', a: 'Open your trainings', h: 'rh-desk.html' };
+    FIRST['privacy.html'] = { s: 'Your answers stay private. This page is the policy.', a: 'Back to your home', h: 'rh-home.html' };
+    FIRST['account.html'] = { s: 'Your account. Sign out returns you to Returning Home.', a: 'Open your home', h: 'rh-home.html' };
   }
 
   function coursePage(){ return page.indexOf('course-') === 0; }
   var first = FIRST[page] || (rh
     ? (coursePage()
       ? { s: 'Watch this session. Your trainings are still yours when you are done.', a: 'Play', h: '#player, [data-play], .btn-primary' }
-      : { s: 'This is your Returning Home path. Your trainings are open.', a: 'Open your trainings', h: 'rh-desk.html' })
+      : { s: 'This is your Returning Home path. Your home holds the work.', a: 'Open your home', h: 'rh-home.html' })
     : (coursePage()
       ? { s: 'One session: watch, checkpoint, practice. Passing unlocks the next.', a: 'Start this session', h: 'course.html' }
       : { s: 'This trains four things you can practice: involvement, consistency, awareness, and nurturance.', a: 'Start your Profile', h: 'profile.html' }));
 
   function pathHere(){
     if (rh) {
-      if (page === 'course.html' || page.indexOf('course-') === 0 || page === 'rh-desk.html') return 2;
+      if (page === 'course.html' || page.indexOf('course-') === 0 || page === 'rh-desk.html' || page === 'rh-home.html') return 2;
       if (page === 'report.html') return 1;
       if (page === 'profile.html' || page === 'returning-home.html') return 0;
       return -1;
@@ -95,7 +96,7 @@
   var MORE = rh ? [
     'The Profile is a short set of honest questions. You get a private report of where you stand.',
     'Your trainings are open. Start the one your report named, or pick another.',
-    'Your answers stay yours. Your facilitator sees that you showed up, not what you wrote.',
+    'Profile answers stay private. The four answers you write after a session are the proof your case worker can see.',
     'Being present from where you are is enough. Nobody has to walk through a door.',
     'Stuck? Use this guide, or read Privacy.'
   ] : [
@@ -108,7 +109,7 @@
 
   var RH_LINKS = ''
     + '<p class="fh-links">'
-    + '<a href="rh-desk.html">Open the trainings</a> · '
+    + '<a href="rh-home.html">Open your home</a> · '
     + '<a href="profile.html?start=quick&amp;path=rh">Start the Profile</a> · '
     + '<a href="privacy.html">Privacy</a>'
     + '</p>';
@@ -116,7 +117,7 @@
   var open = false, panel = null, moreOpen = false, btn = null;
 
   function actionHref(){
-    if (!first.h) return rh ? 'rh-desk.html' : 'profile.html';
+    if (!first.h) return rh ? 'rh-home.html' : 'profile.html';
     if (first.h.charAt(0) === '#' || first.h.charAt(0) === '.') return first.h;
     if (!rh && page === 'enroll.html') {
       var q = new URLSearchParams(location.search).get('cert');
@@ -147,7 +148,7 @@
     panel.setAttribute('role', 'dialog');
     panel.setAttribute('aria-label', 'Guide');
     var here = pathHere();
-    var steps = rh ? ['Profile', 'Report', 'Trainings'] : ['Profile', 'Plan', 'Course'];
+    var steps = rh ? ['Profile', 'Report', 'Home'] : ['Profile', 'Plan', 'Course'];
     var path = steps.map(function(name, i){
       var cls = (i === here) ? ' here' : '';
       var sep = i < 2 ? '<span class="fh-dot" aria-hidden="true">·</span>' : '';

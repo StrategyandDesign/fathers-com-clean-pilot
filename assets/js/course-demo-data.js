@@ -2208,7 +2208,7 @@ window.FC_COURSE_DEMO = {
         "id": "demo-fundamentals-8",
         "ord": 8,
         "title": "Seventh Secret: Spiritual Equipping",
-        "keyline": "Live convictions a child can trust. Faith is welcome. Fathers come with a faith community and without.",
+        "keyline": "Live convictions a child can trust.",
         "vimeo_id": null,
         "duration_seconds": 480,
         "poster": "assets/img/session-stills/fathering-fundamentals/s07.png",
@@ -2217,18 +2217,18 @@ window.FC_COURSE_DEMO = {
           {
             "prompt": "Spiritual equipping here means:",
             "choices": [
-              "Grounded convictions you live, with room for faith",
-              "A required religious-institution track",
-              "Quoting scripture at your child"
+              "Grounded convictions you live",
+              "A required class you sit through",
+              "Telling your child what to believe"
             ],
             "correct_index": 0
           },
           {
-            "prompt": "Why leave room?",
+            "prompt": "What do kids actually watch?",
             "choices": [
-              "Fathers come with faith and without. Kids watch what you live.",
-              "Faith does not belong in fathering.",
-              "Attendance at a religious institution is the secret."
+              "What you live",
+              "What you say you believe",
+              "How often you attend a meeting"
             ],
             "correct_index": 0
           },
@@ -2236,7 +2236,7 @@ window.FC_COURSE_DEMO = {
             "prompt": "Which practice matches this session?",
             "choices": [
               "One conviction lived in the open this week",
-              "Enroll in a religious institution this week",
+              "Sign up for a group this week",
               "Hide what you believe"
             ],
             "correct_index": 0

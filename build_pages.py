@@ -12,7 +12,7 @@ OG_IMAGE = SITE_URL + "/assets/img/og-image.jpg"
 # changelog.html. Bump BOTH constants on every release, add a CHANGELOG entry
 # below, regenerate, and upload. The stamp is the answer to "what version is
 # live": read any page footer.
-PLATFORM_VERSION = "4.16.17"
+PLATFORM_VERSION = "4.16.20"
 VERSION_DATE = "2026-08-14"
 
 # v4.0 reposition flags (ADR-4: rollout is a data change, not a redesign).
@@ -60,7 +60,7 @@ MILITARY_PAGES = {
 }
 
 # Private / transactional pages: keep them out of Google's index. Everything else is indexable.
-NOINDEX = {'dashboard.html', 'recover.html', 'report.html', 'organizations.html', 'share.html', 'account.html', 'plan.html', 'circles.html', 'player.html', 'checkout.html', 'enroll.html', 'login.html', 'returning-home.html', 'rh-desk.html', 'veterans-hub.html', 'veterans-start.html', 'veterans-checkin.html', 'voice.html', 'find-a-program.html', 'classes.html', 'veterans-resources.html'}
+NOINDEX = {'dashboard.html', 'recover.html', 'report.html', 'organizations.html', 'share.html', 'account.html', 'plan.html', 'circles.html', 'player.html', 'checkout.html', 'enroll.html', 'login.html', 'returning-home.html', 'rh-desk.html', 'rh-home.html', 'veterans-hub.html', 'veterans-start.html', 'veterans-checkin.html', 'voice.html', 'find-a-program.html', 'classes.html', 'veterans-resources.html'}
 
 
 def _esc(s):
@@ -174,8 +174,14 @@ PAGES = {}
 # Release notes rendered on changelog.html. Newest first. Public copy:
 # POSITIONING.md section 9 language rules apply.
 CHANGELOG = [
+    ("4.16.20", "2026-08-14",
+     "Returning Home no longer drops a light-dark switch on the header. Log in and Sign out stay visible."),
+    ("4.16.19", "2026-08-14",
+     "After login, Returning Home opens a home. His name, the report, the three trainings with Session N of N, and the writings he has saved."),
+    ("4.16.18", "2026-08-14",
+     "Fathering Fundamentals drops church language. The Seventh Secret is live your convictions. Kids watch what you live."),
     ("4.16.17", "2026-08-14",
-     "Returning Home desk cards name the work: connect with meaning, stay steady when the moments get loud, and improve the relationships that matter. The player shows Session N of N on every checkpoint, drops the dead outline, and asks four written answers after each session. Those writings stay on the device, attach to an account when he has one, and show on the facilitator desk. Faith language names a religious institution or faith community, not a church."),
+     "Returning Home desk cards name the work: connect with meaning, stay steady when the moments get loud, and improve the relationships that matter. The player shows Session N of N on every checkpoint, drops the dead outline, and asks four written answers after each session. Those writings stay on the device, attach to an account when he has one, and show on the facilitator desk."),
     ("4.16.16", "2026-08-14",
      "The Profile start drops the gift-to-the-kids line. It says this takes eight minutes, then you know where you stand. On the Returning Home door, the Profile sits in its own quiet block and is named before the ask: honest questions, a private report of where you stand as a father."),
     ("4.16.15", "2026-08-14",
@@ -1187,6 +1193,7 @@ PAGES['account.html'] = dict(title='Your settings', desc='Your name, how we reac
 
 # ================================================== certificates.html (P10 screens 1-3)
 PAGE_SCRIPTS = {'index.html': ['vendor/anime.min.js', 'motion.js'],
+                'rh-home.html': ['course-demo-data.js', 'rh-home.js'],
                 'certificates.html': ['vendor/anime.min.js', 'motion.js', 'course-catalog.js'],
                 'account.html': ['account-prefs.js'],
                 'plan.html': ['journey.js'],
@@ -1261,7 +1268,7 @@ PAGES['certificates.html'] = dict(title='The Courses and the Certificate of Comp
         <li><b>First Secret: Commitment</b> <span>&middot; &ldquo;Present physically, emotionally, spiritually; commitment builds trust.&rdquo;</span></li>
         <li><b>Second Secret: Knowing Your Child</b> <span>&middot; &ldquo;Unique personality, needs, and interests open deeper connection.&rdquo;</span></li>
       </ol>
-      <details class="sess-peek" style="margin-top:4px"><summary class="fine" style="cursor:pointer;color:var(--brass,#c9a227)">All 8 sessions</summary><ol class="small" style="margin:8px 0 2px;padding-left:18px"><li style="margin:5px 0"><b>Introduction</b> <span style="color:var(--ash)">&middot; &ldquo;Welcome, overview, and take the assessment.&rdquo;</span></li><li style="margin:5px 0"><b>First Secret: Commitment</b> <span style="color:var(--ash)">&middot; &ldquo;Present physically, emotionally, spiritually; commitment builds trust.&rdquo;</span></li><li style="margin:5px 0"><b>Second Secret: Knowing Your Child</b> <span style="color:var(--ash)">&middot; &ldquo;Unique personality, needs, and interests open deeper connection.&rdquo;</span></li><li style="margin:5px 0"><b>Third Secret: Showing Up Consistently</b> <span style="color:var(--ash)">&middot; &ldquo;Stability through consistent actions, values, and discipline.&rdquo;</span></li><li style="margin:5px 0"><b>Fourth Secret: Protecting and Providing Security</b> <span style="color:var(--ash)">&middot; &ldquo;Physical, emotional, and spiritual safety and provision.&rdquo;</span></li><li style="margin:5px 0"><b>Fifth Secret: Loving Their Mother</b> <span style="color:var(--ash)">&middot; &ldquo;Honor their mother. Civil if you are not together. Never undercut her.&rdquo;</span></li><li style="margin:5px 0"><b>Sixth Secret: Active Listening</b> <span style="color:var(--ash)">&middot; &ldquo;Two-way. Full attention. Not an interrogation.&rdquo;</span></li><li style="margin:5px 0"><b>Seventh Secret: Spiritual Equipping</b> <span style="color:var(--ash)">&middot; &ldquo;Live convictions a child can trust. Faith is welcome. Fathers come with a faith community and without.&rdquo;</span></li></ol><p class="fine" style="margin:6px 0 0"><a class="link" href="course-fathering-fundamentals.html">Open the course &rarr;</a></p></details>
+      <details class="sess-peek" style="margin-top:4px"><summary class="fine" style="cursor:pointer;color:var(--brass,#c9a227)">All 8 sessions</summary><ol class="small" style="margin:8px 0 2px;padding-left:18px"><li style="margin:5px 0"><b>Introduction</b> <span style="color:var(--ash)">&middot; &ldquo;Welcome, overview, and take the assessment.&rdquo;</span></li><li style="margin:5px 0"><b>First Secret: Commitment</b> <span style="color:var(--ash)">&middot; &ldquo;Present physically, emotionally, spiritually; commitment builds trust.&rdquo;</span></li><li style="margin:5px 0"><b>Second Secret: Knowing Your Child</b> <span style="color:var(--ash)">&middot; &ldquo;Unique personality, needs, and interests open deeper connection.&rdquo;</span></li><li style="margin:5px 0"><b>Third Secret: Showing Up Consistently</b> <span style="color:var(--ash)">&middot; &ldquo;Stability through consistent actions, values, and discipline.&rdquo;</span></li><li style="margin:5px 0"><b>Fourth Secret: Protecting and Providing Security</b> <span style="color:var(--ash)">&middot; &ldquo;Physical, emotional, and spiritual safety and provision.&rdquo;</span></li><li style="margin:5px 0"><b>Fifth Secret: Loving Their Mother</b> <span style="color:var(--ash)">&middot; &ldquo;Honor their mother. Civil if you are not together. Never undercut her.&rdquo;</span></li><li style="margin:5px 0"><b>Sixth Secret: Active Listening</b> <span style="color:var(--ash)">&middot; &ldquo;Two-way. Full attention. Not an interrogation.&rdquo;</span></li><li style="margin:5px 0"><b>Seventh Secret: Spiritual Equipping</b> <span style="color:var(--ash)">&middot; &ldquo;Live convictions a child can trust.&rdquo;</span></li></ol><p class="fine" style="margin:6px 0 0"><a class="link" href="course-fathering-fundamentals.html">Open the course &rarr;</a></p></details>
       <div class="cert-card-foot"><span class="mono">Free</span><a class="cert-card-go" href="course-fathering-fundamentals.html">Open the course &rarr;</a></div>
     </div>
                                                                                                 <div class="cert-card" style="cursor:default" data-motion="fade-up" data-cert="reentry" data-title="Coming Home Present" data-hours="2.4" data-desc="For fathers preparing to reconnect. Self-paced film with a Certified Facilitator available for questions, checkpoints, and a public serial. Whether a court or program accepts it is their call.">
@@ -1614,7 +1621,7 @@ PAGES['returning-home.html'] = dict(title='Returning Home', desc='A private path
       <img class="lg-light" src="assets/img/logomark-dark.png" alt="Fathers.com">
       <b>Fathers.com</b>
     </a>
-    <a class="rh-door-login" href="login.html?path=rh&amp;next=rh-desk.html">Log in</a>
+    <a class="rh-door-login" href="login.html?path=rh&amp;next=rh-home.html">Log in</a>
   </header>
   <main class="rh-door-main">
     <p class="rh-door-eye">Returning Home · Huntsville, Arkansas</p>
@@ -1622,7 +1629,7 @@ PAGES['returning-home.html'] = dict(title='Returning Home', desc='A private path
     <p class="rh-door-lead">They are not waiting for a perfect man. They are waiting for you.</p>
     <p class="rh-door-next">Your trainings are open.</p>
     <a class="btn btn-yellow rh-door-cta" href="rh-desk.html">Start the trainings</a>
-    <p class="rh-door-resume">Already here? <a href="login.html?path=rh&amp;next=rh-desk.html">Log in</a></p>
+    <p class="rh-door-resume">Already here? <a href="login.html?path=rh&amp;next=rh-home.html">Log in</a></p>
     <aside class="rh-door-profile">
       <p class="rh-door-profile-label">Where you stand</p>
       <p class="rh-door-profile-copy">The Profile is a short set of honest questions. You get a private report of where you stand as a father. It takes eight minutes. Nobody is grading you.</p>
@@ -1649,7 +1656,7 @@ PAGES['rh-desk.html'] = dict(title='Your trainings', desc='Your trainings, open 
       <img class="lg-light" src="assets/img/logomark-dark.png" alt="Fathers.com">
       <b>Fathers.com</b>
     </a>
-    <a class="rh-door-login" href="login.html?path=rh&amp;next=rh-desk.html">Log in</a>
+    <a class="rh-door-login" href="login.html?path=rh&amp;next=rh-home.html">Log in</a>
   </header>
   <div class="rh-ticker" role="region" aria-label="Profile">
     <p class="rh-ticker-copy">See where you stand. The Profile takes eight minutes. Nobody is grading you.</p>
@@ -1661,7 +1668,37 @@ PAGES['rh-desk.html'] = dict(title='Your trainings', desc='Your trainings, open 
     <h1 class="rh-desk-h">Pick a training and watch.</h1>
     <p class="rh-desk-lead">Open one and start.</p>
     <div class="rh-films" data-rh-courses="cards"></div>
-    <p class="rh-desk-side" data-rh-guest>Watch first. An account keeps your progress. <a href="login.html?path=rh&amp;next=rh-desk.html">Log in</a> · <a href="login.html?path=rh&amp;mode=signup&amp;next=rh-desk.html">Create account</a></p>
+    <p class="rh-desk-side" data-rh-guest>Watch first. An account keeps your progress. <a href="login.html?path=rh&amp;next=rh-home.html">Log in</a> · <a href="login.html?path=rh&amp;mode=signup&amp;next=rh-home.html">Create account</a></p>
+  </main>
+  <footer class="rh-door-foot">
+    <a href="#" onclick="if(window.FCHelp){FCHelp.show();return false;}">Help</a>
+    <span aria-hidden="true">·</span>
+    <a href="privacy.html">Privacy</a>
+    <span aria-hidden="true">·</span>
+    <a href="login.html?next=org.html" data-rh-keep>Staff</a>
+  </footer>
+</div>
+''')
+
+PAGES['rh-home.html'] = dict(title='Your home', desc='Your Returning Home. The report, the trainings, and the work you have written.', active='', mode='public', nochrome=True, body='''
+<script>try{localStorage.setItem("fc_path","returning-home")}catch(e){}</script>
+<div class="rh-door rh-home">
+  <header class="rh-door-bar">
+    <a class="rh-door-brand" href="returning-home.html">
+      <img class="lg-dark" src="assets/img/logomark-light.png" alt="Fathers.com">
+      <img class="lg-light" src="assets/img/logomark-dark.png" alt="Fathers.com">
+      <b>Fathers.com</b>
+    </a>
+    <a class="rh-door-login" href="login.html?path=rh&amp;next=rh-home.html">Log in</a>
+  </header>
+  <main class="rh-home-main" id="rhHome">
+    <p class="rh-door-eye">Returning Home · Home</p>
+    <h1 class="rh-home-h" id="rhHomeH">Welcome back.</h1>
+    <p class="rh-home-lead">This is your room. The report, the trainings, and the work.</p>
+    <div class="rh-home-block" id="rhHomeReport"></div>
+    <div class="rh-home-block" id="rhHomeTrainings"></div>
+    <div class="rh-home-block" id="rhHomeWork"></div>
+    <p class="rh-home-guest" id="rhHomeGuest"></p>
   </main>
   <footer class="rh-door-foot">
     <a href="#" onclick="if(window.FCHelp){FCHelp.show();return false;}">Help</a>
@@ -2656,7 +2693,7 @@ PAGES['gatherings.html'] = dict(title='Gatherings', desc='Fathers, in real life.
       <input class="input" name="email" type="email" required placeholder="Email address">
       <button class="btn btn-primary">Notify me</button>
     </form>
-    <p class="fine" style="margin-top:12px">Want to bring a gathering to your church, base, or city? Same form. Say so when we reply.</p>
+    <p class="fine" style="margin-top:12px">Want to bring a gathering to your town, base, or city? Same form. Say so when we reply.</p>
   </div>
 </div></section>
 ''')
@@ -2991,12 +3028,14 @@ if __name__ == '__main__':
             continue
         if not SHOW_EMPLOYERS and fname in EMPLOYERS_PAGES:
             continue
-        FORCED_THEME = {'organizations.html': "'light'", 'index.html': "'dark'", 'profile.html': "'dark'", 'stories.html': "'dark'", 'certificates.html': "'dark'", 'enroll.html': "'dark'", 'class.html': "'dark'", 'course.html': "'dark'", 'player.html': "'dark'", 'checkout.html': "'dark'", 'certificate.html': "'dark'", 'voice.html': "'dark'", 'share.html': "'dark'", 'returning-home.html': "'dark'", 'rh-desk.html': "'dark'"}
+        FORCED_THEME = {'organizations.html': "'light'", 'index.html': "'dark'", 'profile.html': "'dark'", 'stories.html': "'dark'", 'certificates.html': "'dark'", 'enroll.html': "'dark'", 'class.html': "'dark'", 'course.html': "'dark'", 'player.html': "'dark'", 'checkout.html': "'dark'", 'certificate.html': "'dark'", 'voice.html': "'dark'", 'share.html': "'dark'", 'returning-home.html': "'dark'", 'rh-desk.html': "'dark'", 'rh-home.html': "'dark'"}
         theme_js = FORCED_THEME.get(fname, 'localStorage.getItem("fc_theme")||"dark"')
         html = HEAD.format(title=p['title'], desc=p['desc'], meta=social_meta(fname, p['title'], p['desc']), THEME=theme_js, MANHOOD='true' if SHOW_MANHOOD_COURSE else 'false')
         if p.get('nochrome'):
             html += p['body']
             html += '\n<script src="assets/js/config.js"></script>\n<script src="assets/js/supabase-client.js"></script>\n<script src="assets/js/app.js"></script>\n<script src="assets/js/help.js"></script>\n'
+            for extra in PAGE_SCRIPTS.get(fname, []):
+                html += '<script src="assets/js/%s"></script>\n' % extra
             if fname == 'profile.html':
                 html += '<script src="assets/js/keystone-data.js"></script>\n'
                 if SHOW_MANHOOD_COURSE:
