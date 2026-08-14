@@ -650,6 +650,15 @@
 
     if(!session) return;
 
+    if(pathIsRH()){
+      FC.getBaseline().then(function(r){
+        if(r && r.data){
+          document.querySelectorAll('.rh-ticker').forEach(function(el){ el.remove(); });
+        }
+      }).catch(function(){});
+    }
+
+
     // One-time: push a locally finished Keystone to the account
     FC.syncKeystone().then(function(did){if(did)toast('Baseline and plan saved to your account.')}).catch(function(e){console.error(e)});
 
