@@ -244,10 +244,7 @@
       '<h2 class="cw-lesson-title">'+esc(w.title || 'Start here')+'</h2>'+
       '<p class="fine ash" style="margin:0 0 16px">'+esc(w.speakers || 'Ken Canfield and Micah Canfield')+'. Not a week. Skip anytime.</p>'+
       media+
-      '<div class="cw-welcome-copy">'+
-        '<div class="cw-welcome-block"><div class="eyebrow brass">KEN</div><p>'+esc(w.ken || '')+'</p></div>'+
-        '<div class="cw-welcome-block"><div class="eyebrow brass">MICAH</div><p>'+esc(w.micah || '')+'</p></div>'+
-      '</div>'+
+      '<div class="cw-placeholder" id="cw-welcome-ph"'+(ref ? ' hidden' : '')+'><p class="eyebrow brass">Welcome film</p><p class="fine ash">Ken and Micah Canfield. In production. Skip ahead anytime.</p></div>'+
       '<div class="cw-welcome-actions">'+
         '<button class="btn btn-primary" id="cw-welcome-go">Continue to session 1</button>'+
         '<button class="btn btn-secondary" id="cw-welcome-skip">Skip</button>'+
@@ -259,7 +256,7 @@
     var vid = $('cw-welcome-vid');
     if (vid){
       vid.addEventListener('error', function(){
-        var m = $('cw-welcome-media'); if (m) m.style.display = 'none';
+        var m = $('cw-welcome-media'); if (m) m.style.display = 'none'; var ph = $('cw-welcome-ph'); if (ph) ph.hidden = false;
       });
       vid.addEventListener('ended', goSession1FromWelcome);
     }
