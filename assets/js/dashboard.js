@@ -331,7 +331,7 @@
       if(!enrolled && !hasClaim){
         if(window.FCPath && FCPath.isRH()){
           paintNextAction({kicker:'Next action', title:'Open your films',
-            body:'All four courses are open. Pick one and watch.',
+            body:'Your films are open. Pick one and watch.',
             href:FCPath.deskHref(), cta:'Open your films'});
         } else {
         paintNextAction({kicker:'Next action', title:'Do this week on your plan',

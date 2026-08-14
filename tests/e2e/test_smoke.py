@@ -247,9 +247,12 @@ def test_returning_home_is_one_door(page, server):
     html = _fetch(server, "returning-home.html")
     assert "Present from here" in html
     assert "They are waiting for you." in html
+    assert "Walk in" not in html
     assert "A call counts" not in html
     assert "Come home present" not in html
     assert "Coming Home Present first" not in html
+    assert "all four" not in html.lower()
+    assert "Same Team" not in html
     assert "data-rh-courses" in html
     assert "profile.html?start=quick" in html
     assert "path=rh" in html
@@ -260,21 +263,24 @@ def test_returning_home_is_one_door(page, server):
     assert "Twelve weeks of small moves" not in html
     assert "Eight minutes" in html
     assert "private report" in html
+    assert "Watch the films" in html
     page.goto(f"{server}/returning-home.html", wait_until="load")
     page.wait_for_timeout(400)
     body = page.inner_text("body")
     assert "Present from here" in body
     assert "They are waiting for you." in body
+    assert "Walk in" not in body
     assert "A call counts" not in body
-    assert "Coming Home Present" in body
-    assert "Same Team" in body
+    assert "Same Team" not in body
+    assert "all four" not in body.lower()
     assert "Eight minutes" in body
     assert "private report" in body
+    names = [a.inner_text() for a in page.query_selector_all("[data-rh-courses] a")]
+    assert names == ["Fathering Fundamentals", "Steady Under Pressure", "Coming Home Present"]
     cta = page.query_selector("a.rh-door-cta")
     assert cta is not None
     href = cta.get_attribute("href") or ""
-    assert "profile.html?start=quick" in href
-    assert "path=rh" in href
+    assert "rh-desk.html" in href
     assert _no_app_errors(page)
 
 def test_returning_home_path_opens_films(page, server):
@@ -291,12 +297,37 @@ def test_returning_home_path_opens_films(page, server):
     assert "rh-desk.html" in journey
     help = _fetch(server, "assets/js/help.js")
     assert "['Profile', 'Report', 'Films']" in help
-    assert "Eight honest minutes" in help
-    assert "Pick any of the four courses" in help
+    assert "Your films are open. Pick one and watch." in help
+    assert "Pick a film. Watch. No order." in help
     assert "Answer honestly. About eight minutes" in help
+    assert "Same Team" not in help
+    assert "all four" not in help.lower()
+    assert "four courses" not in help
+    assert "four films" not in help
     assert "sponsor.html" not in help
     assert "organizations.html" not in help
     desk = _fetch(server, "rh-desk.html")
     assert "Pick a course. Watch." in desk
     assert "data-rh-courses=\"cards\"" in desk
     assert "Coming Home Present first" not in desk
+    assert "Walk in" not in desk
+    assert "Want a baseline" not in desk
+    assert "all four" not in desk.lower()
+    assert "Same Team" not in desk
+    assert "See where you stand. Eight minutes. Honest. Nobody is grading you." in desk
+    assert "rh-ticker" in desk
+    block = app.split("var RH_COURSES")[1].split("function playerHref")[0]
+    assert "slug:'fundamentals'" in block
+    assert block.find("slug:'fundamentals'") < block.find("slug:'anger'") < block.find("slug:'reentry'")
+    assert "slug:'coparenting'" not in block
+    assert "Same Team" not in block
+    page.goto(f"{server}/rh-desk.html", wait_until="load")
+    page.wait_for_timeout(400)
+    desk_body = page.inner_text("body")
+    assert "Pick a course. Watch." in desk_body
+    assert "Same Team" not in desk_body
+    assert "all four" not in desk_body.lower()
+    assert "See where you stand" in desk_body
+    cards = [a.query_selector(".rh-film-t").inner_text() for a in page.query_selector_all("a.rh-film")]
+    assert cards == ["Fathering Fundamentals", "Steady Under Pressure", "Coming Home Present"]
+    assert _no_app_errors(page)

@@ -1,6 +1,6 @@
 /* FORGE shared behaviors + live wiring : Fathers.com */
 (function(){
-  /* Returning Home is a closed path: the door, then the four films.
+  /* Returning Home is a closed path: the door, then the films.
      Mark it on the door, the desk, or ?path=rh. Clear it if he types a
      public-root URL so the generic site stays intact. */
   var RH_PUBLIC_ROOTS = {
@@ -128,10 +128,9 @@
   }
 
   var RH_COURSES = [
-    { slug:'reentry', title:'Coming Home Present', line:'Presence after time away.' },
-    { slug:'anger', title:'Steady Under Pressure', line:'Steadiness when the week gets loud.' },
     { slug:'fundamentals', title:'Fathering Fundamentals', line:'See your child clearly.' },
-    { slug:'coparenting', title:'Same Team', line:'One team for the children.' }
+    { slug:'anger', title:'Steady Under Pressure', line:'Steadiness when the week gets loud.' },
+    { slug:'reentry', title:'Coming Home Present', line:'Presence after time away.' }
   ];
 
   function playerHref(slug){
@@ -151,11 +150,27 @@
       }).join('');
       return;
     }
-    root.innerHTML='All four courses are yours, free: '+RH_COURSES.map(function(c,i){
+    root.innerHTML='Your films, free: '+RH_COURSES.map(function(c,i){
       var name='<a href="'+playerHref(c.slug)+'">'+c.title+'</a>';
       if(i===RH_COURSES.length-1) return 'and '+name+'.';
       return name+', ';
     }).join('');
+  }
+
+  function rhTickerHtml(){
+    return '<div class="rh-ticker" role="region" aria-label="Profile">'+
+      '<p class="rh-ticker-copy">See where you stand. Eight minutes. Honest. Nobody is grading you.</p>'+
+      '<a class="rh-ticker-go" href="profile.html?start=quick&amp;path=rh">Start</a></div>';
+  }
+  function paintRhTicker(){
+    if(!isRhSurface()) return;
+    var here=pageName();
+    if(here!=='course.html') return;
+    if(document.querySelector('.rh-ticker')) return;
+    var wrap=document.createElement('div');
+    wrap.innerHTML=rhTickerHtml();
+    var bar=wrap.firstChild;
+    document.body.insertBefore(bar, document.body.firstChild);
   }
 
   window.FCPath = {
@@ -165,7 +180,7 @@
     playerHref: playerHref,
     deskHref: rhDesk,
     homeHref: rhHome,
-    courseHref: function(slug){ return playerHref(slug||'reentry'); },
+    courseHref: function(slug){ return playerHref(slug||'fundamentals'); },
     reportHref: function(){ return 'report.html'; },
     catalogHref: function(){ return pathIsRH() ? rhDesk() : 'certificates.html'; },
     afterSignOut: rhAfterSignOut,
@@ -174,6 +189,7 @@
   };
 
   document.querySelectorAll('[data-rh-courses]').forEach(paintRhCourses);
+  paintRhTicker();
 
   // Nav
   var nav=document.querySelector('.nav');
@@ -508,6 +524,7 @@
        and are left alone. */
     if(session) applyParticipantNav();
     document.querySelectorAll('[data-rh-courses]').forEach(paintRhCourses);
+    paintRhTicker();
     lockRhPath();
 
     function applyParticipantNav(){
@@ -582,7 +599,7 @@
             ? 'Free. Your films and your report stay with you.'
             : 'Free, always. Your Profile, your plan, and your progress live here.')
           : ((window.FCPath && FCPath.isRH())
-            ? 'Welcome back. Your four courses are waiting.'
+            ? 'Welcome back. Your films are waiting.'
             : 'Welcome back. Pick up your plan where you left off.');
         if(authNameField) authNameField.style.display=up?'':'none';
         if(authSignin) authSignin.textContent=up?'Create account':'Sign in';
