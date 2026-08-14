@@ -1721,6 +1721,13 @@ html[data-theme="dark"] .cert-req-mark{color:#141210}
 .cw-welcome-block p{font-family:var(--font-display);font-weight:500;font-size:clamp(16px,2.2vw,20px);line-height:1.45;color:var(--bone);max-width:48ch;margin:6px 0 0}
 .cw-welcome-actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
 
+/* RH Profile first beat. Headline as wide as the words. Body keeps a readable measure. */
+.ks-rh-beat{min-height:70vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:48px 28px 64px}
+.ks-rh-beat-h{font-family:var(--font-display);font-weight:600;font-size:clamp(32px,5.2vw,56px);line-height:1.08;letter-spacing:-.02em;margin:0 0 18px;color:var(--bone);max-width:none}
+.ks-rh-beat-lead{font-size:18px;line-height:1.5;color:var(--ash);margin:0 0 16px;max-width:42ch}
+.ks-rh-beat-keep{font-size:16px;line-height:1.5;color:var(--bone);margin:0 0 28px;max-width:42ch}
+.ks-rh-beat .btn{min-width:200px}
+
 /* Returning Home door. One screen, one action. Not a brochure. */
 .rh-door{min-height:100vh;display:flex;flex-direction:column;background:var(--ink);color:var(--bone)}
 .rh-door-bar{display:flex;align-items:center;justify-content:space-between;padding:22px 28px;flex-shrink:0}
@@ -1729,9 +1736,9 @@ html[data-theme="dark"] .cert-req-mark{color:#141210}
 .rh-door-brand b{font-family:var(--font-display);font-size:18px;font-weight:700;letter-spacing:-.01em}
 .rh-door-login{font-size:14px;font-weight:500;color:var(--ash);text-decoration:none}
 .rh-door-login:hover{color:var(--bone)}
-.rh-door-main{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:12px 28px 48px;max-width:640px;margin:0 auto;width:100%}
+.rh-door-main{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:12px 28px 48px;max-width:none;margin:0 auto;width:100%}
 .rh-door-eye{font-family:var(--font-mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--brass);margin:0 0 22px}
-.rh-door-h{font-family:var(--font-display);font-weight:600;font-size:clamp(40px,6.4vw,68px);line-height:1.05;letter-spacing:-.02em;margin:0 0 18px;color:var(--bone)}
+.rh-door-h{font-family:var(--font-display);font-weight:600;font-size:clamp(40px,6.4vw,68px);line-height:1.05;letter-spacing:-.02em;margin:0 0 18px;color:var(--bone);max-width:none}
 .rh-door-lead{font-size:18px;line-height:1.5;color:var(--ash);margin:0 0 18px;max-width:34ch}
 .rh-door-next{font-size:16px;line-height:1.5;color:var(--bone);margin:0 0 28px;max-width:34ch}
 .rh-door-assess{font-size:16px;line-height:1.5;color:var(--bone);margin:0 0 28px;max-width:34ch}

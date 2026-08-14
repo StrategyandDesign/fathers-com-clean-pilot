@@ -198,7 +198,45 @@
     return !!(ACTIVE_INS && ACTIVE_INS.slug === 'keystone-manhood-profile');
   }
 
-  function beginQuickStart(){
+  function isRhPath(){
+    try {
+      if (new URLSearchParams(location.search).get('path') === 'rh') return true;
+      if (localStorage.getItem('fc_path') === 'returning-home') return true;
+    } catch(e){}
+    return false;
+  }
+
+  function rhBeatDone(){
+    try { return sessionStorage.getItem('ks_rh_beat_done') === '1'; } catch(e){ return false; }
+  }
+
+  function rhHasProgress(){
+    try {
+      var raw = localStorage.getItem('fc_inprogress');
+      if(!raw) return false;
+      var st = JSON.parse(raw);
+      return !!(st && st.answers && Object.keys(st.answers).length);
+    } catch(e){ return false; }
+  }
+
+  function showRhProfileBeat(){
+    enterAssessment();
+    root.innerHTML =
+      '<div class="ks-rh-beat" id="ks-start">'+
+        '<p class="rh-door-eye">The Keystone Father Profile</p>'+
+        '<h1 class="ks-rh-beat-h">Give your kids eight minutes.</h1>'+
+        '<p class="ks-rh-beat-lead">You answer honest questions and get a private report of where you stand. Nobody is grading you.</p>'+
+        '<p class="ks-rh-beat-keep">An account keeps the report, the trainings, and the work. You can start the questions now and make an account when you want one.</p>'+
+        '<button class="btn btn-yellow btn-lg" id="ks-rh-begin" type="button">Begin</button>'+
+      '</div>';
+    var go = document.getElementById('ks-rh-begin');
+    if(go) go.onclick = function(){
+      try { sessionStorage.setItem('ks_rh_beat_done','1'); } catch(e){}
+      launchQuickStart();
+    };
+  }
+
+  function launchQuickStart(){
     KS.setPath('father');
     KS.setQuickStart(true);
     servedGate(function(){
@@ -206,6 +244,14 @@
       ksStart();
       KS.resumeOrStart('by_section').then(function(){ runSection('dimensions'); });
     });
+  }
+
+  function beginQuickStart(){
+    if(isRhPath() && !rhBeatDone() && !rhHasProgress()){
+      showRhProfileBeat();
+      return;
+    }
+    launchQuickStart();
   }
 
   function beginManhoodQuick(){

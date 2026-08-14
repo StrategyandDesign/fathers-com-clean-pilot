@@ -12,7 +12,7 @@ OG_IMAGE = SITE_URL + "/assets/img/og-image.jpg"
 # changelog.html. Bump BOTH constants on every release, add a CHANGELOG entry
 # below, regenerate, and upload. The stamp is the answer to "what version is
 # live": read any page footer.
-PLATFORM_VERSION = "4.16.14"
+PLATFORM_VERSION = "4.16.15"
 VERSION_DATE = "2026-08-14"
 
 # v4.0 reposition flags (ADR-4: rollout is a data change, not a redesign).
@@ -174,6 +174,8 @@ PAGES = {}
 # Release notes rendered on changelog.html. Newest first. Public copy:
 # POSITIONING.md section 9 language rules apply.
 CHANGELOG = [
+    ("4.16.15", "2026-08-14",
+     "Returning Home says show up for your kids, on one line. The Profile opens with a short beat before the questions: eight minutes, a private report, and an account that keeps the work without gating the start."),
     ("4.16.14", "2026-08-14",
      "Returning Home says show up for your family. Desk cards name how long each training is, and that a man gets the training and a certificate. Fundamentals opens on Ken's preview, then lesson 1. A first visit no longer lands a stranger on lesson 4, and Play without a film no longer marks a lesson watched. The first Steady checkpoint can be taken. Back controls name the training."),
     ("4.16.13", "2026-08-14",
@@ -1612,7 +1614,7 @@ PAGES['returning-home.html'] = dict(title='Returning Home', desc='A private path
   </header>
   <main class="rh-door-main">
     <p class="rh-door-eye">Returning Home · Huntsville, Arkansas</p>
-    <h1 class="rh-door-h">Show up for your family.</h1>
+    <h1 class="rh-door-h">Show up for your kids.</h1>
     <p class="rh-door-lead">They are not waiting for a perfect man. They are waiting for you.</p>
     <p class="rh-door-next">Your trainings are open.</p>
     <a class="btn btn-yellow rh-door-cta" href="rh-desk.html">Start the trainings</a>
