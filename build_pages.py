@@ -60,7 +60,7 @@ MILITARY_PAGES = {
 }
 
 # Private / transactional pages: keep them out of Google's index. Everything else is indexable.
-NOINDEX = {'dashboard.html', 'recover.html', 'report.html', 'organizations.html', 'share.html', 'account.html', 'plan.html', 'circles.html', 'player.html', 'checkout.html', 'enroll.html', 'login.html', 'veterans-hub.html', 'veterans-start.html', 'veterans-checkin.html', 'voice.html', 'find-a-program.html', 'classes.html', 'veterans-resources.html'}
+NOINDEX = {'dashboard.html', 'recover.html', 'report.html', 'organizations.html', 'share.html', 'account.html', 'plan.html', 'circles.html', 'player.html', 'checkout.html', 'enroll.html', 'login.html', 'returning-home.html', 'veterans-hub.html', 'veterans-start.html', 'veterans-checkin.html', 'voice.html', 'find-a-program.html', 'classes.html', 'veterans-resources.html'}
 
 
 def _esc(s):
@@ -1579,6 +1579,30 @@ PAGES['security.html'] = dict(title='Security', desc='How Fathers.com protects y
     <p>Access to member data is limited by role. Administrative access is restricted and logged.</p>
     <h2>Reporting a concern</h2>
     <p>If you believe you have found a security issue, contact Team@Fathers.com. We take reports seriously and will respond.</p>
+  </div>
+</div></section>
+''')
+
+PAGES['returning-home.html'] = dict(title='Returning Home', desc='A private path for the men of Returning Home in Huntsville, Arkansas. Built with Fathers.com.', active='', mode='public', body='''
+<section class="legal"><div class="container" style="max-width:760px">
+  <div class="eyebrow brass" style="margin-bottom:14px">RETURNING HOME · HUNTSVILLE, ARKANSAS</div>
+  <h1 class="d-48" style="margin-bottom:8px">Come home present.</h1>
+  <p class="fine" style="margin-bottom:8px">A private path for the men of Returning Home, built with Fathers.com.</p>
+  <div class="legal-body">
+    <p>Your family is not waiting for a perfect man. They are waiting for you. This path starts tonight, from where you are.</p>
+    <h2>How it works</h2>
+    <p>01 · Know where you stand. The Profile takes about eight minutes. Your answers are private.</p>
+    <p>02 · Work a plan. Twelve weeks of small moves, built from your answers.</p>
+    <p>03 · Train on film. Coming Home Present: one short film each week, then a checkpoint and a lived practice, with your facilitator available for questions.</p>
+    <p>When you finish, you hold a Certificate of Completion with a serial and a public page anyone can check. It is yours, and it is free.</p>
+    <h2>Private and free</h2>
+    <p>Your results belong to you. Your facilitator sees your progress, never your private answers. Every course and the certificate cost you nothing.</p>
+    <h2>Start</h2>
+    <p><a class="btn btn-yellow" href="profile.html?start=quick">Start now · about 8 min</a></p>
+    <p class="fine">Already started? <a href="login.html">Log in</a> and pick up where you left off.</p>
+    <h2>When you are ready for more</h2>
+    <p><a href="course-steady-under-pressure.html">Steady Under Pressure</a> · <a href="course-fathering-fundamentals.html">Fathering Fundamentals</a> · <a href="course-same-team.html">Same Team</a></p>
+    <p class="fine">Returning Home staff: after you log in, your desk is under Dashboards.</p>
   </div>
 </div></section>
 ''')
