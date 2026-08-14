@@ -224,7 +224,7 @@
         return FC.sb.from('profiles').delete().eq('id', uid);
       }).then(function(){
         say('acDeleteMsg', 'Deleted. Signing you out.');
-        setTimeout(function(){ if(FC.signOut) FC.signOut(); window.location.href='index.html'; }, 1200);
+        setTimeout(function(){ if(FC.signOut) FC.signOut(); window.location.href=(window.FCPath && FCPath.afterSignOut)?FCPath.afterSignOut():'index.html'; }, 1200);
       }, function(e){ say('acDeleteMsg', (e && e.message) || 'Could not delete. Contact your facilitator.', true); });
     });
   }

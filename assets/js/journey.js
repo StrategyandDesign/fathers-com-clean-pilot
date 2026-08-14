@@ -29,7 +29,7 @@
   var RH_STAGES = [
     { key:'profile',  label:'Profile',  href:'profile.html?start=quick&path=rh', carries:true  },
     { key:'report',   label:'Report',   href:'report.html',                      carries:true  },
-    { key:'courses',  label:'Films',    href:'course.html?cert=reentry',         carries:false }
+    { key:'courses',  label:'Films',    href:'rh-desk.html',                     carries:false }
   ];
   function stages(){
     return (window.FCPath && FCPath.isRH()) ? RH_STAGES : STAGES;

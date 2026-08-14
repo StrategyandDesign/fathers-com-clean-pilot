@@ -246,8 +246,11 @@ def test_preview_player_shows_practice_copy(page, server):
 def test_returning_home_is_one_door(page, server):
     html = _fetch(server, "returning-home.html")
     assert "Present from here" in html
-    assert "A call counts" in html
+    assert "They are waiting for you." in html
+    assert "A call counts" not in html
     assert "Come home present" not in html
+    assert "Coming Home Present first" not in html
+    assert "data-rh-courses" in html
     assert "profile.html?start=quick" in html
     assert "path=rh" in html
     assert "When you are ready for more" not in html
@@ -255,12 +258,18 @@ def test_returning_home_is_one_door(page, server):
     assert "For organizations" not in html
     assert "Start Profile" not in html
     assert "Twelve weeks of small moves" not in html
+    assert "Eight minutes" in html
+    assert "private report" in html
     page.goto(f"{server}/returning-home.html", wait_until="load")
     page.wait_for_timeout(400)
     body = page.inner_text("body")
     assert "Present from here" in body
-    assert "A call counts" in body
-    assert "Profile" in body and "Report" in body and "Films" in body
+    assert "They are waiting for you." in body
+    assert "A call counts" not in body
+    assert "Coming Home Present" in body
+    assert "Same Team" in body
+    assert "Eight minutes" in body
+    assert "private report" in body
     cta = page.query_selector("a.rh-door-cta")
     assert cta is not None
     href = cta.get_attribute("href") or ""
@@ -270,10 +279,24 @@ def test_returning_home_is_one_door(page, server):
 
 def test_returning_home_path_opens_films(page, server):
     ui = _fetch(server, "assets/js/keystone-ui.js")
-    assert "Start Coming Home Present" in ui
+    assert "Open your films" in ui
     app = _fetch(server, "assets/js/app.js")
     assert "fc_path" in app
     assert "safeNext" in app
+    assert "rh-desk.html" in app
+    assert "lockRhPath" in app
+    assert "rhAfterSignOut" in app
     journey = _fetch(server, "assets/js/journey.js")
     assert "RH_STAGES" in journey
-    assert "Films" in journey
+    assert "rh-desk.html" in journey
+    help = _fetch(server, "assets/js/help.js")
+    assert "['Profile', 'Report', 'Films']" in help
+    assert "Eight honest minutes" in help
+    assert "Pick any of the four courses" in help
+    assert "Answer honestly. About eight minutes" in help
+    assert "sponsor.html" not in help
+    assert "organizations.html" not in help
+    desk = _fetch(server, "rh-desk.html")
+    assert "Pick a course. Watch." in desk
+    assert "data-rh-courses=\"cards\"" in desk
+    assert "Coming Home Present first" not in desk
