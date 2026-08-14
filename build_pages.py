@@ -1604,8 +1604,8 @@ PAGES['returning-home.html'] = dict(title='Returning Home', desc='A private path
     <p class="rh-door-eye">Returning Home · Huntsville, Arkansas</p>
     <h1 class="rh-door-h">Present from here.</h1>
     <p class="rh-door-lead">They are not waiting for a perfect man. They are waiting for you.</p>
-    <p class="rh-door-assess">Eight minutes. Honest answers. A private report of where you stand.</p>
-    <a class="btn btn-yellow rh-door-cta" href="profile.html?start=quick&amp;path=rh">Start · about 8 min</a>
+    <p class="rh-door-assess">Your films are ready now. Eight minutes, when you choose, adds a private report of where you stand.</p>
+    <a class="btn btn-yellow rh-door-cta" href="rh-desk.html">Walk in · your films are ready</a>
     <p class="rh-door-resume">Already here? <a href="login.html?path=rh&amp;next=rh-desk.html">Log in</a></p>
     <p class="rh-door-courses" data-rh-courses="line"></p>
   </main>

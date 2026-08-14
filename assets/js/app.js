@@ -50,6 +50,25 @@
   }
   function rhHome(){ return 'returning-home.html'; }
   function rhDesk(){ return 'rh-desk.html'; }
+  function rhBaselineTicker(){
+    try{
+      if(!pathIsRH()) return;
+      var here=pageName();
+      if(here!=='rh-desk.html' && here!=='course.html') return;
+      if(sessionStorage.getItem('rh_tick_off')==='1') return;
+      if(document.getElementById('rh-tick')) return;
+      var bar=document.createElement('div');
+      bar.id='rh-tick';
+      bar.setAttribute('role','note');
+      bar.style.cssText='display:flex;gap:12px;align-items:center;justify-content:center;padding:10px 16px;background:#15120e;border-bottom:1px solid #2c2620;font-size:13px;letter-spacing:.02em;';
+      bar.innerHTML='<span class="ash">See where you stand as a father · 8 minutes. It tunes your path to you.</span> <a class="brass" href="profile.html?start=quick&path=rh" style="text-decoration:underline">Start</a> <button id="rh-tick-x" aria-label="Dismiss" style="background:none;border:0;color:#8a8177;cursor:pointer;font-size:15px;line-height:1">×</button>';
+      var hd=document.querySelector('header');
+      if(hd && hd.parentNode) hd.parentNode.insertBefore(bar, hd.nextSibling); else document.body.insertBefore(bar, document.body.firstChild);
+      var x=document.getElementById('rh-tick-x');
+      if(x) x.addEventListener('click', function(){ try{sessionStorage.setItem('rh_tick_off','1');}catch(e){} var b=document.getElementById('rh-tick'); if(b) b.remove(); });
+    }catch(e){}
+  }
+  rhBaselineTicker();
   function rhMapHref(href){
     if(!href) return null;
     var raw=String(href).trim();
@@ -632,6 +651,27 @@
     }
 
     if(!session) return;
+
+    // Returning Home: baseline as benefit. Ticker retires once a baseline exists;
+    // the first finished film sharpens the invitation once.
+    if(pathIsRH()){
+      FC.getBaseline().then(function(r){
+        var has = r && r.data;
+        var b=document.getElementById('rh-tick');
+        if(has && b) b.remove();
+        if(!has){
+          var armed=false;
+          document.addEventListener('ended', function(ev){
+            if(armed) return;
+            if(!(ev.target && ev.target.tagName==='VIDEO')) return;
+            armed=true;
+            var t=document.getElementById('rh-tick');
+            if(t){ var s=t.querySelector('span'); if(s) s.textContent='First film done. Eight minutes now makes the rest yours: see where you stand.'; }
+          }, true);
+        }
+      }).catch(function(){});
+    }
+
 
     // One-time: push a locally finished Keystone to the account
     FC.syncKeystone().then(function(did){if(did)toast('Baseline and plan saved to your account.')}).catch(function(e){console.error(e)});
