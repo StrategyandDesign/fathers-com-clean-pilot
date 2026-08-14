@@ -85,7 +85,7 @@
       // A draft is not open to participants. It used to be reachable by typing
       // the slug into the URL, which meant unfinished material could be taken.
       if(cr.data.published === false){
-        stage('<div class="notice brass">This course is not open yet. <a class="link" href="certificates.html">See the courses that are</a>.</div>'); return; }
+        stage('<div class="notice brass">This course is not open yet. <a class="link" href="'+(window.FCPath && FCPath.catalogHref ? FCPath.catalogHref() : 'certificates.html')+'">See the courses that are</a>.</div>'); return; }
       course = cr.data;
       $('cw-title').textContent = course.title;
       // must be enrolled
@@ -330,7 +330,7 @@
     };
     var m = map[awardStatus] || ['In progress',''];
     return '<div class="cw-status"><div class="cw-status-icon">\u2713</div><h2>'+esc(m[0])+'</h2><p>'+esc(m[1])+'</p>'+
-      '<a class="btn btn-secondary" href="plan.html">Back to My Plan</a></div>';
+      '<a class="btn btn-secondary" href="'+(window.FCPath && FCPath.isRH() ? FCPath.deskHref() : 'plan.html')+'">'+(window.FCPath && FCPath.isRH() ? 'Back to your films' : 'Back to My Plan')+'</a></div>';
   }
 
   // ---------- video + watch tracking ----------
@@ -867,7 +867,9 @@
     var btn=$('cw-submit'); btn.disabled=true; btn.textContent='Submitting\u2026';
     if (demo){
       awardStatus='submitted';
-      stage('<div class="cw-status"><div class="cw-status-icon">\u2713</div><h2>Preview finished</h2><p>You walked the session flow. This is not a Certificate of Completion and does not create a serial. To earn proof, a Certified Facilitator claims your seat through a Certified Organization.</p><a class="btn btn-primary" href="organizations.html">How organizations verify men</a> <a class="btn btn-secondary" style="margin-left:8px" href="certificates.html">Back to courses</a></div>');
+      stage((window.FCPath && FCPath.isRH())
+        ? '<div class="cw-status"><div class="cw-status-icon">\u2713</div><h2>Preview finished</h2><p>You walked the session. A certificate needs a claimed seat later. You can keep watching now.</p><a class="btn btn-primary" href="'+FCPath.deskHref()+'">Back to your films</a></div>'
+        : '<div class="cw-status"><div class="cw-status-icon">\u2713</div><h2>Preview finished</h2><p>You walked the session flow. This is not a Certificate of Completion and does not create a serial. To earn proof, a Certified Facilitator claims your seat through a Certified Organization.</p><a class="btn btn-primary" href="organizations.html">How organizations verify men</a> <a class="btn btn-secondary" style="margin-left:8px" href="certificates.html">Back to courses</a></div>');
       return;
     }
 

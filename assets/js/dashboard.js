@@ -178,7 +178,7 @@
     bar.innerHTML = chooser +
       '<div class="row wrap" style="gap:10px">' +
         ((window.FCPath && FCPath.isRH())
-          ? '<a class="btn btn-primary btn-sm" href="' + FCPath.courseHref() + '">Start Coming Home Present</a>' +
+          ? '<a class="btn btn-primary btn-sm" href="' + FCPath.deskHref() + '">Open your films</a>' +
             '<a class="btn btn-secondary btn-sm" href="report.html?assessment=' + encodeURIComponent(activeSlug) + '">Open the full report</a>'
           : '<a class="btn btn-primary btn-sm" href="plan.html?assessment=' + encodeURIComponent(activeSlug) + '">Open your plan</a>' +
             '<a class="btn btn-secondary btn-sm" href="report.html?assessment=' + encodeURIComponent(activeSlug) + '">Open the full report</a>' +
@@ -330,9 +330,9 @@
       /* Sticky primary next action (one loud calm CTA). */
       if(!enrolled && !hasClaim){
         if(window.FCPath && FCPath.isRH()){
-          paintNextAction({kicker:'Next action', title:'Start Coming Home Present',
-            body:'Your report is ready. Session one is open. Watch, then the checkpoint.',
-            href:FCPath.courseHref(), cta:'Start the films'});
+          paintNextAction({kicker:'Next action', title:'Open your films',
+            body:'All four courses are open. Pick one and watch.',
+            href:FCPath.deskHref(), cta:'Open your films'});
         } else {
         paintNextAction({kicker:'Next action', title:'Do this week on your plan',
           body:'One or two moves. Then preview the film course matched to your focus. A facilitator claims your seat so enrollment stays free.',

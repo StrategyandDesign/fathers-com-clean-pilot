@@ -12,7 +12,7 @@ OG_IMAGE = SITE_URL + "/assets/img/og-image.jpg"
 # changelog.html. Bump BOTH constants on every release, add a CHANGELOG entry
 # below, regenerate, and upload. The stamp is the answer to "what version is
 # live": read any page footer.
-PLATFORM_VERSION = "4.16.8"
+PLATFORM_VERSION = "4.16.9"
 VERSION_DATE = "2026-08-14"
 
 # v4.0 reposition flags (ADR-4: rollout is a data change, not a redesign).
@@ -60,7 +60,7 @@ MILITARY_PAGES = {
 }
 
 # Private / transactional pages: keep them out of Google's index. Everything else is indexable.
-NOINDEX = {'dashboard.html', 'recover.html', 'report.html', 'organizations.html', 'share.html', 'account.html', 'plan.html', 'circles.html', 'player.html', 'checkout.html', 'enroll.html', 'login.html', 'returning-home.html', 'veterans-hub.html', 'veterans-start.html', 'veterans-checkin.html', 'voice.html', 'find-a-program.html', 'classes.html', 'veterans-resources.html'}
+NOINDEX = {'dashboard.html', 'recover.html', 'report.html', 'organizations.html', 'share.html', 'account.html', 'plan.html', 'circles.html', 'player.html', 'checkout.html', 'enroll.html', 'login.html', 'returning-home.html', 'rh-desk.html', 'veterans-hub.html', 'veterans-start.html', 'veterans-checkin.html', 'voice.html', 'find-a-program.html', 'classes.html', 'veterans-resources.html'}
 
 
 def _esc(s):
@@ -174,6 +174,8 @@ PAGES = {}
 # Release notes rendered on changelog.html. Newest first. Public copy:
 # POSITIONING.md section 9 language rules apply.
 CHANGELOG = [
+    ("4.16.9", "2026-08-14",
+     "Returning Home is a closed path. The door, the desk, and the films stay inside Returning Home. Login lands on the four films. The Guide speaks only to this path."),
     ("4.16.8", "2026-08-14",
      "Returning Home copy tells the truth of reconnection: a call counts, the first time counts, and nobody has to be walking through a door."),
     ("4.16.7", "2026-08-14",
@@ -1596,27 +1598,51 @@ PAGES['returning-home.html'] = dict(title='Returning Home', desc='A private path
       <img class="lg-light" src="assets/img/logomark-dark.png" alt="Fathers.com">
       <b>Fathers.com</b>
     </a>
-    <a class="rh-door-login" href="login.html?path=rh">Log in</a>
+    <a class="rh-door-login" href="login.html?path=rh&amp;next=rh-desk.html">Log in</a>
   </header>
   <main class="rh-door-main">
     <p class="rh-door-eye">Returning Home · Huntsville, Arkansas</p>
     <h1 class="rh-door-h">Present from here.</h1>
-    <p class="rh-door-lead">They are not waiting for a perfect man. They are waiting for you. A call counts.</p>
-    <ol class="rh-door-path" aria-label="Your path">
-      <li>Profile</li>
-      <li>Report</li>
-      <li>Films</li>
-    </ol>
+    <p class="rh-door-lead">They are not waiting for a perfect man. They are waiting for you.</p>
+    <p class="rh-door-assess">Eight minutes. Honest answers. A private report of where you stand.</p>
     <a class="btn btn-yellow rh-door-cta" href="profile.html?start=quick&amp;path=rh">Start · about 8 min</a>
-    <p class="rh-door-fine">Then your report. Then Coming Home Present. Private and free.</p>
-    <p class="rh-door-resume">Already here? <a href="login.html?path=rh">Log in</a></p>
+    <p class="rh-door-resume">Already here? <a href="login.html?path=rh&amp;next=rh-desk.html">Log in</a></p>
+    <p class="rh-door-courses" data-rh-courses="line"></p>
   </main>
   <footer class="rh-door-foot">
     <a href="#" onclick="if(window.FCHelp){FCHelp.show();return false;}">Help</a>
     <span aria-hidden="true">·</span>
     <a href="privacy.html">Privacy</a>
     <span aria-hidden="true">·</span>
-    <a href="login.html?next=org.html">Staff</a>
+    <a href="login.html?next=org.html" data-rh-keep>Staff</a>
+  </footer>
+</div>
+''')
+
+PAGES['rh-desk.html'] = dict(title='Your films', desc='All four Fathers.com courses, open now for the men of Returning Home.', active='', mode='public', nochrome=True, body='''
+<script>try{localStorage.setItem("fc_path","returning-home")}catch(e){}</script>
+<div class="rh-door rh-desk">
+  <header class="rh-door-bar">
+    <a class="rh-door-brand" href="returning-home.html">
+      <img class="lg-dark" src="assets/img/logomark-light.png" alt="Fathers.com">
+      <img class="lg-light" src="assets/img/logomark-dark.png" alt="Fathers.com">
+      <b>Fathers.com</b>
+    </a>
+    <a class="rh-door-login" href="login.html?path=rh&amp;next=rh-desk.html">Log in</a>
+  </header>
+  <main class="rh-desk-main">
+    <p class="rh-door-eye">Returning Home · Your films</p>
+    <h1 class="rh-desk-h">Pick a course. Watch.</h1>
+    <p class="rh-desk-lead">All four are yours. No order. Tap one and the film starts.</p>
+    <div class="rh-films" data-rh-courses="cards"></div>
+    <p class="rh-desk-side">Want a baseline first? <a href="profile.html?start=quick&amp;path=rh">Take the Profile</a> · about 8 min</p>
+  </main>
+  <footer class="rh-door-foot">
+    <a href="#" onclick="if(window.FCHelp){FCHelp.show();return false;}">Help</a>
+    <span aria-hidden="true">·</span>
+    <a href="privacy.html">Privacy</a>
+    <span aria-hidden="true">·</span>
+    <a href="login.html?next=org.html" data-rh-keep>Staff</a>
   </footer>
 </div>
 ''')
@@ -2939,7 +2965,7 @@ if __name__ == '__main__':
             continue
         if not SHOW_EMPLOYERS and fname in EMPLOYERS_PAGES:
             continue
-        FORCED_THEME = {'organizations.html': "'light'", 'index.html': "'dark'", 'profile.html': "'dark'", 'stories.html': "'dark'", 'certificates.html': "'dark'", 'enroll.html': "'dark'", 'class.html': "'dark'", 'course.html': "'dark'", 'player.html': "'dark'", 'checkout.html': "'dark'", 'certificate.html': "'dark'", 'voice.html': "'dark'", 'share.html': "'dark'", 'returning-home.html': "'dark'"}
+        FORCED_THEME = {'organizations.html': "'light'", 'index.html': "'dark'", 'profile.html': "'dark'", 'stories.html': "'dark'", 'certificates.html': "'dark'", 'enroll.html': "'dark'", 'class.html': "'dark'", 'course.html': "'dark'", 'player.html': "'dark'", 'checkout.html': "'dark'", 'certificate.html': "'dark'", 'voice.html': "'dark'", 'share.html': "'dark'", 'returning-home.html': "'dark'", 'rh-desk.html': "'dark'"}
         theme_js = FORCED_THEME.get(fname, 'localStorage.getItem("fc_theme")||"dark"')
         html = HEAD.format(title=p['title'], desc=p['desc'], meta=social_meta(fname, p['title'], p['desc']), THEME=theme_js, MANHOOD='true' if SHOW_MANHOOD_COURSE else 'false')
         if p.get('nochrome'):

@@ -1,6 +1,7 @@
 /* The guide. Corner ?. One sentence for this screen, one action.
-   More behind a fold. Path is Profile · Plan · Course. Never auto-open.
-   Speaks to one person: the father. Desk does not load this file. */
+   More behind a fold. Public path is Profile · Plan · Course.
+   Returning Home uses Profile · Report · Films and never points at the
+   public catalog. Never auto-open. Speaks to one person: the father. */
 (function(){
   var page = (location.pathname.split('/').pop() || 'index.html');
   if (page === 'lead.html' || page === 'review.html') return;
@@ -8,6 +9,14 @@
 
   var reduced = false;
   try { reduced = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches); } catch(e){}
+
+  var rh = false;
+  try {
+    rh = localStorage.getItem('fc_path')==='returning-home' || page==='returning-home.html' || page==='rh-desk.html';
+  } catch(e){}
+  try {
+    if (new URLSearchParams(location.search).get('path')==='rh') rh = true;
+  } catch(e){}
 
   var css = ''
   + '#fc-help-launcher{position:fixed;right:22px;bottom:22px;z-index:9998;width:52px;height:52px;border-radius:50%;border:1px solid rgba(255,255,255,.28);background:#0b0a08;color:#ffffff;font-size:22px;font-family:inherit;cursor:pointer;box-shadow:0 6px 24px rgba(0,0,0,.45);transform-origin:center center}'
@@ -30,13 +39,15 @@
   + '#fc-help-panel .fh-path .here{background:#f6f1e2;color:#1a1710;font-weight:600}'
   + '#fc-help-panel .fh-dot{color:#c4bba8}'
   + '#fc-help-panel .fh-more p{margin:0 0 8px;font-size:13.5px;line-height:1.5;color:#3a3426}'
+  + '#fc-help-panel .fh-links{margin:12px 0 4px;font-size:13px;line-height:1.6}'
+  + '#fc-help-panel .fh-links a{color:#1a1710}'
   + '#fc-help-panel .fh-hide{background:none;border:0;color:#5f584a;cursor:pointer;font-size:13px;font-family:inherit;margin-top:8px;padding:0}';
 
   var style = document.createElement('style'); style.textContent = css; document.head.appendChild(style);
 
   var FIRST = {
     'index.html': { s: 'This trains four things you can practice: involvement, consistency, awareness, and nurturance.', a: 'Start your Profile', h: 'profile.html' },
-    'login.html': { s: 'Welcome back. Pick up your plan.', a: 'Sign in', h: '#email' },
+    'login.html': { s: 'Welcome back. Pick up your plan.', a: 'Sign in', h: '#authEmail' },
     'profile.html': { s: 'Honest questions about your fathering. Nobody is grading you.', a: 'Begin', h: '#ks-start' },
     'report.html': { s: 'Your Keystone is yours. Strength, a focus, and the rest behind a fold.', a: 'Open your plan', h: 'plan.html' },
     'plan.html': { s: 'One next thing for this season, from the Profile you took.', a: 'Open your course', h: 'certificates.html' },
@@ -45,25 +56,32 @@
     'course.html': { s: 'Watch, then the checkpoint. One next step.', a: 'Play', h: '#player, [data-play], .btn-primary' },
     'enroll.html': { s: 'You can train now. The certificate waits on a claimed seat.', a: 'Watch the films', h: 'course.html' },
     'certificate.html': { s: 'Your name, the work, a serial anyone can check.', a: 'Copy the verification link', h: '#copy-verify, [data-copy], .btn-primary' },
-    'verify.html': { s: 'Public proof: name, course, serial. Nothing else.', a: 'Send this link where it counts', h: '#vf, form' },
-    'returning-home.html': { s: 'Reconnect from where you are. A call counts. Start with the Profile.', a: 'Start the Profile', h: 'profile.html?start=quick&path=rh' }
+    'verify.html': { s: 'Public proof: name, course, serial. Nothing else.', a: 'Send this link where it counts', h: '#vf, form' }
   };
-  var rh = false;
-  try { rh = localStorage.getItem('fc_path')==='returning-home' || page==='returning-home.html'; } catch(e){}
+
   if (rh) {
-    FIRST['profile.html'] = { s: 'About eight minutes. Then your report. Then Coming Home Present.', a: 'Begin', h: '#ks-start' };
-    FIRST['report.html'] = { s: 'This is your report. Next you start the films.', a: 'Start Coming Home Present', h: 'course.html?preview=1&cert=reentry' };
-    FIRST['login.html'] = { s: 'Welcome back. Pick up Coming Home Present.', a: 'Sign in', h: '#authEmail' };
+    FIRST['returning-home.html'] = { s: 'Eight honest minutes. You get a private report of where you stand.', a: 'Start the Profile', h: 'profile.html?start=quick&path=rh' };
+    FIRST['rh-desk.html'] = { s: 'Pick any of the four courses. Watch. No order.', a: 'Watch', h: '.rh-film' };
+    FIRST['profile.html'] = { s: 'Answer honestly. About eight minutes. Nobody is grading you.', a: 'Begin', h: '#ks-start' };
+    FIRST['report.html'] = { s: 'This is where you stand. Next, pick any of the four films.', a: 'Open your films', h: 'rh-desk.html' };
+    FIRST['login.html'] = { s: 'Sign in to keep your films and your report with you.', a: 'Sign in', h: '#authEmail' };
+    FIRST['course.html'] = { s: 'Watch this session. When you are done, all four films are still yours.', a: 'Play', h: '#player, [data-play], .btn-primary' };
+    FIRST['privacy.html'] = { s: 'Your answers stay private. This page is the policy.', a: 'Back to your films', h: 'rh-desk.html' };
+    FIRST['account.html'] = { s: 'Your account. Sign out returns you to Returning Home.', a: 'Open your films', h: 'rh-desk.html' };
   }
 
   function coursePage(){ return page.indexOf('course-') === 0; }
-  var first = FIRST[page] || (coursePage()
-    ? { s: 'One session: watch, checkpoint, practice. Passing unlocks the next.', a: 'Start this session', h: 'course.html' }
-    : { s: 'This trains four things you can practice: involvement, consistency, awareness, and nurturance.', a: 'Start your Profile', h: 'profile.html' });
+  var first = FIRST[page] || (rh
+    ? (coursePage()
+      ? { s: 'Watch this session. When you are done, all four films are still yours.', a: 'Play', h: '#player, [data-play], .btn-primary' }
+      : { s: 'This is your Returning Home path. The four films are open.', a: 'Open your films', h: 'rh-desk.html' })
+    : (coursePage()
+      ? { s: 'One session: watch, checkpoint, practice. Passing unlocks the next.', a: 'Start this session', h: 'course.html' }
+      : { s: 'This trains four things you can practice: involvement, consistency, awareness, and nurturance.', a: 'Start your Profile', h: 'profile.html' }));
 
   function pathHere(){
     if (rh) {
-      if (page === 'course.html' || page.indexOf('course-') === 0) return 2;
+      if (page === 'course.html' || page.indexOf('course-') === 0 || page === 'rh-desk.html') return 2;
       if (page === 'report.html') return 1;
       if (page === 'profile.html' || page === 'returning-home.html') return 0;
       return -1;
@@ -74,7 +92,14 @@
     return -1;
   }
 
-  var MORE = [
+  var MORE = rh ? [
+    'The Profile is eight minutes. Honest answers. You get a private report of where you stand.',
+    'All four films are open. No order. Pick one and watch.',
+    'Your answers stay yours. Your facilitator sees that you showed up, not what you wrote.',
+    'Being present from where you are is enough. Nobody has to walk through a door.',
+    'A certificate needs a claimed seat later. You can watch now.',
+    'Stuck? Use this guide, or read Privacy.'
+  ] : [
     'This is free to you. Sponsors certify orgs and facilitators, not your seat.',
     'Your answers stay yours. Programs see group totals, never your scores.',
     'Checkpoints pass at eighty percent. Three tries an hour, then a pause.',
@@ -82,12 +107,19 @@
     'The certificate is a public serial. Send the link. We certify the work.'
   ];
 
+  var RH_LINKS = ''
+    + '<p class="fh-links">'
+    + '<a href="rh-desk.html">Open the films</a> · '
+    + '<a href="profile.html?start=quick&amp;path=rh">Start the Profile</a> · '
+    + '<a href="privacy.html">Privacy</a>'
+    + '</p>';
+
   var open = false, panel = null, moreOpen = false, btn = null;
 
   function actionHref(){
-    if (!first.h) return 'profile.html';
+    if (!first.h) return rh ? 'rh-desk.html' : 'profile.html';
     if (first.h.charAt(0) === '#' || first.h.charAt(0) === '.') return first.h;
-    if (page === 'enroll.html') {
+    if (!rh && page === 'enroll.html') {
       var q = new URLSearchParams(location.search).get('cert');
       return q ? ('course.html?cert=' + encodeURIComponent(q)) : 'course.html';
     }
@@ -135,6 +167,7 @@
       + '<div class="fh-more'+(moreOpen?' is-open':'')+'">'
       + '<div class="fh-path">'+path+'</div>'
       + moreHtml
+      + (rh ? RH_LINKS : '')
       + '<button type="button" class="fh-hide">Close</button>'
       + '</div>';
     document.body.appendChild(panel);

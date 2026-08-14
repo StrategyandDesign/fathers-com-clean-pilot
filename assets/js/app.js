@@ -1,17 +1,122 @@
 /* FORGE shared behaviors + live wiring : Fathers.com */
 (function(){
-  /* Returning Home is a closed path: Profile, report, films.
-     Mark it when a man enters the door or carries ?path=rh. */
+  /* Returning Home is a closed path: the door, then the four films.
+     Mark it on the door, the desk, or ?path=rh. Clear it if he types a
+     public-root URL so the generic site stays intact. */
+  var RH_PUBLIC_ROOTS = {
+    'index.html':1,'certificates.html':1,'organizations.html':1,'sponsor.html':1,
+    'research.html':1,'stories.html':1,'story.html':1,'about.html':1,
+    'facilitators.html':1,'groups.html':1,'circles.html':1,'employers.html':1,
+    'changelog.html':1,'efficacy-report.html':1
+  };
+  var RH_AWAY = {
+    'index.html':'home','certificates.html':'desk','organizations.html':'desk',
+    'sponsor.html':'home','research.html':'home','stories.html':'home',
+    'story.html':'home','plan.html':'desk','dashboard.html':'desk',
+    'about.html':'home','facilitators.html':'home','groups.html':'desk',
+    'circles.html':'desk','employers.html':'home','changelog.html':'home',
+    'enroll.html':'desk','checkout.html':'desk','find-a-program.html':'home',
+    'gatherings.html':'home','efficacy-report.html':'home'
+  };
+  function pageName(){
+    return (location.pathname.split('/').pop()||'').toLowerCase();
+  }
   function markPath(){
     try {
-      var here=(location.pathname.split('/').pop()||'').toLowerCase();
+      var here=pageName();
       var qs=new URLSearchParams(location.search);
-      if(here==='returning-home.html' || qs.get('path')==='rh'){
+      if(here==='returning-home.html' || here==='rh-desk.html' || qs.get('path')==='rh'){
         localStorage.setItem('fc_path','returning-home');
+      } else if(RH_PUBLIC_ROOTS[here]){
+        localStorage.removeItem('fc_path');
       }
     } catch(e){}
   }
   markPath();
+  function pathIsRH(){
+    try { return localStorage.getItem('fc_path')==='returning-home'; } catch(e){ return false; }
+  }
+  function isRhSurface(){
+    var here=pageName();
+    var qs;
+    try { qs=new URLSearchParams(location.search); } catch(e){ qs=new URLSearchParams(); }
+    if(here==='returning-home.html' || here==='rh-desk.html' || qs.get('path')==='rh') return true;
+    if(!pathIsRH()) return false;
+    if(here==='profile.html'||here==='report.html'||here==='login.html'||here==='course.html'||
+       here==='privacy.html'||here==='terms.html'||here==='account.html'||here==='recover.html'||
+       here==='security.html') return true;
+    if(here.indexOf('course-')===0) return true;
+    return false;
+  }
+  function rhHome(){ return 'returning-home.html'; }
+  function rhDesk(){ return 'rh-desk.html'; }
+  function rhMapHref(href){
+    if(!href) return null;
+    var raw=String(href).trim();
+    if(!raw || raw.charAt(0)==='#' || raw.indexOf('mailto:')===0 || raw.indexOf('javascript:')===0) return null;
+    if(/login\.html/.test(raw) && /next=org\.html/.test(raw)) return null;
+    var file=raw.split('#')[0].split('?')[0].replace(/^\.\//,'').split('/').pop();
+    var dest=RH_AWAY[file];
+    if(!dest) return null;
+    return dest==='desk' ? rhDesk() : rhHome();
+  }
+  function rhAfterSignOut(){
+    return isRhSurface() || pathIsRH() ? rhHome() : 'index.html';
+  }
+  function lockRhPath(){
+    if(!isRhSurface()) return;
+    document.querySelectorAll('a[href]').forEach(function(a){
+      if(a.hasAttribute('data-rh-keep')) return;
+      var mapped=rhMapHref(a.getAttribute('href'));
+      if(mapped) a.setAttribute('href', mapped);
+    });
+    var brandTo = (window.FC && FC.live && FC.uid && FC.uid()) ? rhDesk() : rhHome();
+    document.querySelectorAll('a.brand, a.auth-brand, a.rh-door-brand').forEach(function(a){
+      a.setAttribute('href', brandTo);
+    });
+    var grid=document.querySelector('footer .footgrid');
+    if(grid && !grid.dataset.rhSlim){
+      grid.dataset.rhSlim='1';
+      grid.innerHTML='<div><a class="brand" href="'+brandTo+'"><img class="lg-dark" src="assets/img/logomark-light.png" alt="" style="height:34px"><img class="lg-light" src="assets/img/logomark-dark.png" alt="" style="height:34px"><b>Fathers.com</b></a>'+
+        '<p class="small" style="margin-top:14px;max-width:32ch">Returning Home. Private and free.</p></div>';
+    }
+    var news=document.querySelector('footer form[data-lead="newsletter"]');
+    if(news){
+      var wrap=news.parentElement;
+      if(wrap) wrap.style.display='none';
+    }
+    var sponsor=document.querySelector('.nav-right a[href="sponsor.html"], .nav-right a[href="'+rhHome()+'"]');
+    if(sponsor && /sponsor/i.test(sponsor.textContent||'')) sponsor.remove();
+    var start=document.querySelector('.nav-right a.btn-yellow[href="profile.html"]');
+    if(start) start.setAttribute('href','profile.html?start=quick&path=rh');
+    var list=document.querySelector('.nav-links');
+    if(list && !list.dataset.fcParticipant && !list.dataset.fcRhPublic && !list.querySelector('a[data-role]')){
+      list.innerHTML='<li><a href="rh-desk.html">Films</a></li>'+
+        '<li><a href="profile.html?start=quick&amp;path=rh">Profile</a></li>'+
+        '<li><a href="login.html?path=rh&amp;next=rh-desk.html">Log in</a></li>';
+      list.dataset.fcRhPublic='1';
+    }
+    document.querySelectorAll('a').forEach(function(a){
+      var t=(a.textContent||'').replace(/\s+/g,' ').trim();
+      if(/Back to Fathers\.com/i.test(t)) a.textContent='Back to Returning Home';
+      else if(/All courses/i.test(t) && /rh-desk\.html/.test(a.getAttribute('href')||'')) a.textContent=t.replace(/All courses/i,'Your films');
+    });
+  }
+  document.addEventListener('click', function(e){
+    if(!isRhSurface()) return;
+    var a=e.target && e.target.closest ? e.target.closest('a[href]') : null;
+    if(!a || a.hasAttribute('data-rh-keep')) return;
+    var mapped=rhMapHref(a.getAttribute('href'));
+    if(mapped && mapped!==a.getAttribute('href')){
+      e.preventDefault();
+      location.href=mapped;
+    }
+  }, true);
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded', lockRhPath);
+  } else {
+    lockRhPath();
+  }
 
   function safeNext(raw){
     if(!raw) return null;
@@ -22,17 +127,53 @@
     return raw;
   }
 
+  var RH_COURSES = [
+    { slug:'reentry', title:'Coming Home Present', line:'Presence after time away.' },
+    { slug:'anger', title:'Steady Under Pressure', line:'Steadiness when the week gets loud.' },
+    { slug:'fundamentals', title:'Fathering Fundamentals', line:'See your child clearly.' },
+    { slug:'coparenting', title:'Same Team', line:'One team for the children.' }
+  ];
+
+  function playerHref(slug){
+    var signed=window.FC && FC.live && FC.uid && FC.uid();
+    return signed ? 'course.html?cert='+encodeURIComponent(slug) : 'course.html?preview=1&cert='+encodeURIComponent(slug);
+  }
+
+  function paintRhCourses(root){
+    if(!root) return;
+    var mode=root.getAttribute('data-rh-courses')||'line';
+    if(mode==='cards'){
+      root.innerHTML=RH_COURSES.map(function(c){
+        return '<a class="rh-film" href="'+playerHref(c.slug)+'">'+
+          '<span class="rh-film-t">'+c.title+'</span>'+
+          '<span class="rh-film-l">'+c.line+'</span>'+
+          '<span class="rh-film-go">Watch</span></a>';
+      }).join('');
+      return;
+    }
+    root.innerHTML='All four courses are yours, free: '+RH_COURSES.map(function(c,i){
+      var name='<a href="'+playerHref(c.slug)+'">'+c.title+'</a>';
+      if(i===RH_COURSES.length-1) return 'and '+name+'.';
+      return name+', ';
+    }).join('');
+  }
+
   window.FCPath = {
-    isRH: function(){
-      try { return localStorage.getItem('fc_path')==='returning-home'; } catch(e){ return false; }
-    },
-    courseHref: function(){
-      var signed=window.FC && FC.live && FC.uid && FC.uid();
-      return signed ? 'course.html?cert=reentry' : 'course.html?preview=1&cert=reentry';
-    },
+    isRH: pathIsRH,
+    isRhSurface: isRhSurface,
+    courses: RH_COURSES,
+    playerHref: playerHref,
+    deskHref: rhDesk,
+    homeHref: rhHome,
+    courseHref: function(slug){ return playerHref(slug||'reentry'); },
     reportHref: function(){ return 'report.html'; },
+    catalogHref: function(){ return pathIsRH() ? rhDesk() : 'certificates.html'; },
+    afterSignOut: rhAfterSignOut,
+    lock: lockRhPath,
     safeNext: safeNext
   };
+
+  document.querySelectorAll('[data-rh-courses]').forEach(paintRhCourses);
 
   // Nav
   var nav=document.querySelector('.nav');
@@ -366,6 +507,8 @@
        nav at all. Role dashboards (admin, studio, org) carry data-role links
        and are left alone. */
     if(session) applyParticipantNav();
+    document.querySelectorAll('[data-rh-courses]').forEach(paintRhCourses);
+    lockRhPath();
 
     function applyParticipantNav(){
       var list=document.querySelector('.nav-links');
@@ -375,9 +518,9 @@
       var here=(location.pathname.split('/').pop()||'index.html').toLowerCase();
       var slug=(/[?&]assessment=([^&]+)/.exec(location.search)||[])[1];
       var q=slug?('?assessment='+slug):'';
-      var rh=window.FCPath && FCPath.isRH();
+      var rh=window.FCPath && FCPath.isRhSurface();
       var links=rh
-        ? [['Home','dashboard.html'],['Report','report.html'+q],['Films',FCPath.courseHref()],['Sign out','#signout']]
+        ? [['Films','rh-desk.html'],['Report','report.html'+q],['Profile','profile.html?start=quick&path=rh'],['Sign out','#signout']]
         : [['Home','dashboard.html'],['My Report','report.html'+q],['My Plan','plan.html'+q],['Courses','certificates.html'],['Sign out','#signout']];
       list.innerHTML=links.map(function(l){
         var target=l[1].split('?')[0];
@@ -389,7 +532,7 @@
       if(so){
         so.addEventListener('click',function(e){
           e.preventDefault();
-          FC.signOut().then(function(){ location.href='index.html'; });
+          FC.signOut().then(function(){ location.href=rhAfterSignOut(); });
         });
       }
 
@@ -427,7 +570,7 @@
       var qs=new URLSearchParams(location.search);
       var mode=qs.get('mode')==='signup'?'signup':'signin';
       var nextPage=safeNext(qs.get('next'));
-      var afterAuth=nextPage || ((window.FCPath && FCPath.isRH()) ? FCPath.courseHref() : null);
+      var afterAuth=nextPage || (qs.get('path')==='rh' ? rhDesk() : null);
 
       function aMsg(t,kind){ authMsg.textContent=t||''; authMsg.style.color=kind==='err'?'var(--error)':'var(--ash)'; }
       function setMode(m){
@@ -436,10 +579,10 @@
         if(authTitle) authTitle.textContent=up?'Create your account':'Sign in';
         if(authSub) authSub.textContent=up
           ? ((window.FCPath && FCPath.isRH())
-            ? 'Free. Your report and Coming Home Present stay with you.'
+            ? 'Free. Your films and your report stay with you.'
             : 'Free, always. Your Profile, your plan, and your progress live here.')
           : ((window.FCPath && FCPath.isRH())
-            ? 'Welcome back. Pick up Coming Home Present where you left off.'
+            ? 'Welcome back. Your four courses are waiting.'
             : 'Welcome back. Pick up your plan where you left off.');
         if(authNameField) authNameField.style.display=up?'':'none';
         if(authSignin) authSignin.textContent=up?'Create account':'Sign in';
@@ -573,7 +716,7 @@
 
     // Sign out hook
     document.querySelectorAll('[data-signout]').forEach(function(b){
-      b.addEventListener('click',function(e){e.preventDefault();FC.signOut().then(function(){location.href='index.html'})});
+      b.addEventListener('click',function(e){e.preventDefault();FC.signOut().then(function(){location.href=rhAfterSignOut()})});
     });
 
     // Share links: [data-share="copy|sms|email|native|report"]. Every share click does its job.
