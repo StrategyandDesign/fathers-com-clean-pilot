@@ -12,7 +12,7 @@ OG_IMAGE = SITE_URL + "/assets/img/og-image.jpg"
 # changelog.html. Bump BOTH constants on every release, add a CHANGELOG entry
 # below, regenerate, and upload. The stamp is the answer to "what version is
 # live": read any page footer.
-PLATFORM_VERSION = "4.16.7"
+PLATFORM_VERSION = "4.16.8"
 VERSION_DATE = "2026-08-14"
 
 # v4.0 reposition flags (ADR-4: rollout is a data change, not a redesign).
@@ -174,6 +174,8 @@ PAGES = {}
 # Release notes rendered on changelog.html. Newest first. Public copy:
 # POSITIONING.md section 9 language rules apply.
 CHANGELOG = [
+    ("4.16.8", "2026-08-14",
+     "Returning Home copy tells the truth of reconnection: a call counts, the first time counts, and nobody has to be walking through a door."),
     ("4.16.7", "2026-08-14",
      "Returning Home is one door. A man takes the Profile, reads his report, and starts Coming Home Present. The plan, the catalog, and the extra courses step aside until he asks for them."),
     ("4.16.6", "2026-08-14",
@@ -1585,7 +1587,7 @@ PAGES['security.html'] = dict(title='Security', desc='How Fathers.com protects y
 </div></section>
 ''')
 
-PAGES['returning-home.html'] = dict(title='Returning Home', desc='A private path for the men of Returning Home in Huntsville, Arkansas. Built with Fathers.com.', active='', mode='public', nochrome=True, body='''
+PAGES['returning-home.html'] = dict(title='Returning Home', desc='A private path for the men of Returning Home in Huntsville, Arkansas. Reconnect from where you are.', active='', mode='public', nochrome=True, body='''
 <script>try{localStorage.setItem("fc_path","returning-home")}catch(e){}</script>
 <div class="rh-door">
   <header class="rh-door-bar">
@@ -1598,15 +1600,15 @@ PAGES['returning-home.html'] = dict(title='Returning Home', desc='A private path
   </header>
   <main class="rh-door-main">
     <p class="rh-door-eye">Returning Home · Huntsville, Arkansas</p>
-    <h1 class="rh-door-h">Come home present.</h1>
-    <p class="rh-door-lead">Your family is not waiting for a perfect man. They are waiting for you.</p>
+    <h1 class="rh-door-h">Present from here.</h1>
+    <p class="rh-door-lead">They are not waiting for a perfect man. They are waiting for you. A call counts.</p>
     <ol class="rh-door-path" aria-label="Your path">
       <li>Profile</li>
       <li>Report</li>
       <li>Films</li>
     </ol>
     <a class="btn btn-yellow rh-door-cta" href="profile.html?start=quick&amp;path=rh">Start · about 8 min</a>
-    <p class="rh-door-fine">Then your report. Then Coming Home Present, tonight. Private and free.</p>
+    <p class="rh-door-fine">Then your report. Then Coming Home Present. Private and free.</p>
     <p class="rh-door-resume">Already here? <a href="login.html?path=rh">Log in</a></p>
   </main>
   <footer class="rh-door-foot">

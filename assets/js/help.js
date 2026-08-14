@@ -46,7 +46,7 @@
     'enroll.html': { s: 'You can train now. The certificate waits on a claimed seat.', a: 'Watch the films', h: 'course.html' },
     'certificate.html': { s: 'Your name, the work, a serial anyone can check.', a: 'Copy the verification link', h: '#copy-verify, [data-copy], .btn-primary' },
     'verify.html': { s: 'Public proof: name, course, serial. Nothing else.', a: 'Send this link where it counts', h: '#vf, form' },
-    'returning-home.html': { s: 'Three steps. Profile, report, then the films. Start tonight.', a: 'Start the Profile', h: 'profile.html?start=quick&path=rh' }
+    'returning-home.html': { s: 'Reconnect from where you are. A call counts. Start with the Profile.', a: 'Start the Profile', h: 'profile.html?start=quick&path=rh' }
   };
   var rh = false;
   try { rh = localStorage.getItem('fc_path')==='returning-home' || page==='returning-home.html'; } catch(e){}
