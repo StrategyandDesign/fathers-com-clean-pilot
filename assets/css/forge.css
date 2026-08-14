@@ -1748,17 +1748,17 @@ html[data-theme="dark"] .cert-req-mark{color:#141210}
 .rh-door-resume a{color:var(--bone);text-underline-offset:3px}
 .rh-door-courses{font-size:14px;line-height:1.6;color:var(--ash);margin:28px 0 0;max-width:46ch}
 .rh-door-courses a{color:var(--bone);text-underline-offset:3px}
-.rh-desk .rh-door-main,.rh-desk-main{flex:1;width:100%;max-width:1080px;margin:0 auto;padding:32px 32px 64px;text-align:center}
+.rh-desk .rh-door-main,.rh-desk-main{flex:1;width:100%;max-width:1160px;margin:0 auto;padding:32px 32px 64px;text-align:center}
 .rh-desk .rh-door-eye{margin-bottom:16px}
 .rh-desk-h{font-family:var(--font-display);font-weight:600;font-size:clamp(32px,5vw,48px);line-height:1.1;letter-spacing:-.02em;margin:0 0 10px}
 .rh-desk-lead{font-size:16px;line-height:1.5;color:var(--ash);margin:0 0 48px}
-.rh-films{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;text-align:left}
-.rh-film{display:flex;flex-direction:column;gap:12px;padding:32px 26px;background:var(--coal);border:1px solid var(--hairline);border-radius:16px;text-decoration:none;color:var(--bone);min-height:200px}
+.rh-films{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;text-align:left}
+.rh-film{display:flex;flex-direction:column;gap:12px;padding:28px 22px;background:var(--coal);border:1px solid var(--hairline);border-radius:16px;text-decoration:none;color:var(--bone);min-height:200px}
 .rh-film:hover{border-color:var(--hairline-strong)}
 .rh-film-t{font-family:var(--font-display);font-size:26px;font-weight:600;letter-spacing:-.015em}
 .rh-film-l{font-size:15px;line-height:1.5;color:var(--ash);flex:1}
 .rh-film-go{font-size:14px;font-weight:600;color:var(--ink);background:var(--yellow);align-self:flex-start;padding:8px 16px;border-radius:999px}
-.rh-desk-side{font-size:14px;color:var(--ash);margin:28px 0 0}
+.rh-desk-side{font-size:14px;line-height:1.5;color:var(--ash);margin:28px auto 0;max-width:46ch}
 .rh-desk-side a{color:var(--bone);text-underline-offset:3px}
 @media(max-width:800px){
   .rh-films{grid-template-columns:1fr;gap:18px}

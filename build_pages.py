@@ -12,7 +12,7 @@ OG_IMAGE = SITE_URL + "/assets/img/og-image.jpg"
 # changelog.html. Bump BOTH constants on every release, add a CHANGELOG entry
 # below, regenerate, and upload. The stamp is the answer to "what version is
 # live": read any page footer.
-PLATFORM_VERSION = "4.16.11"
+PLATFORM_VERSION = "4.16.12"
 VERSION_DATE = "2026-08-14"
 
 # v4.0 reposition flags (ADR-4: rollout is a data change, not a redesign).
@@ -174,6 +174,8 @@ PAGES = {}
 # Release notes rendered on changelog.html. Newest first. Public copy:
 # POSITIONING.md section 9 language rules apply.
 CHANGELOG = [
+    ("4.16.12", "2026-08-14",
+     "Returning Home desk cards fit their subtitles on one line. A quiet line tells him an account keeps his progress, without standing in front of Watch."),
     ("4.16.11", "2026-08-14",
      "Returning Home calls them trainings. The Profile ticker is quieter, and the three cards have more room."),
     ("4.16.10", "2026-08-14",
@@ -1644,6 +1646,7 @@ PAGES['rh-desk.html'] = dict(title='Your trainings', desc='Your trainings, open 
     <h1 class="rh-desk-h">Pick a course. Watch.</h1>
     <p class="rh-desk-lead">No order. Tap one.</p>
     <div class="rh-films" data-rh-courses="cards"></div>
+    <p class="rh-desk-side" data-rh-guest>Watch first. An account keeps your progress. <a href="login.html?path=rh&amp;next=rh-desk.html">Log in</a> · <a href="login.html?path=rh&amp;mode=signup&amp;next=rh-desk.html">Create account</a></p>
   </main>
   <footer class="rh-door-foot">
     <a href="#" onclick="if(window.FCHelp){FCHelp.show();return false;}">Help</a>
