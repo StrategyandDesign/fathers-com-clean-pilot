@@ -327,7 +327,15 @@ def test_returning_home_is_one_door(page, server):
     assert "For organizations" not in html
     assert "Start Profile" not in html
     assert "Twelve weeks of small moves" not in html
-    assert "The Profile takes eight minutes." in html
+    assert "The Profile is a short set of honest questions." in html
+    assert "where you stand as a father" in html
+    assert "It takes eight minutes." in html
+    assert "Nobody is grading you." in html
+    assert "Take the Profile" in html
+    assert "rh-door-profile" in html
+    assert "Where you stand" in html
+    assert "The Profile takes eight minutes." not in html
+    assert "Give your kids eight minutes." not in html
     assert "private report" in html
     assert "Start the trainings" in html
     assert "Watch the films" not in html
@@ -341,8 +349,13 @@ def test_returning_home_is_one_door(page, server):
     assert "A call counts" not in body
     assert "Same Team" not in body
     assert "all four" not in body.lower()
-    assert "The Profile takes eight minutes." in body
+    assert "The Profile is a short set of honest questions." in body
+    assert "where you stand as a father" in body
+    assert "It takes eight minutes." in body
+    assert "Give your kids eight minutes." not in body
     assert "private report" in body
+    assert page.query_selector("a.rh-door-profile-go") is not None
+    assert page.query_selector("aside.rh-door-profile a.btn-yellow") is None
     names = [a.inner_text() for a in page.query_selector_all("[data-rh-courses] a")]
     assert names == ["Fathering Fundamentals", "Steady Under Pressure", "Coming Home Present"]
     cta = page.query_selector("a.rh-door-cta")
@@ -355,18 +368,24 @@ def test_returning_home_is_one_door(page, server):
     assert "max-width:none" in door
     h1 = css.split(".rh-door-h{")[1].split("}")[0]
     assert "max-width:none" in h1
+    prof = css.split(".rh-door-profile{")[1].split("}")[0]
+    assert "border-top" in prof
+    assert "yellow" not in prof.lower()
     assert _no_app_errors(page)
 
 def test_rh_profile_opens_with_a_beat(page, server):
     page.goto(f"{server}/profile.html?start=quick&path=rh", wait_until="load")
     page.wait_for_timeout(500)
     body = page.inner_text("body")
-    assert "Give your kids eight minutes." in body
+    assert "This takes eight minutes. Then you know where you stand." in body
+    assert "Give your kids eight minutes." not in body
     assert "private report of where you stand" in body
     assert "Nobody is grading you." in body
     assert "An account keeps the report, the trainings, and the work." in body
     assert "Start the questions now" in body
     assert "Walk in" not in body
+    assert "Present from here" not in body
+    assert "Show up for your kids" not in body
     assert "tunes your path" not in body.lower()
     assert "not a " not in body.lower()
     begin = page.query_selector("#ks-rh-begin")
@@ -375,7 +394,7 @@ def test_rh_profile_opens_with_a_beat(page, server):
     begin.click()
     page.wait_for_timeout(500)
     assert page.query_selector(".ks-prompt") is not None
-    assert "Give your kids eight minutes." not in page.inner_text("body")
+    assert "This takes eight minutes. Then you know where you stand." not in page.inner_text("body")
     assert _no_app_errors(page)
 
 def test_returning_home_path_opens_films(page, server):

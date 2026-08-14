@@ -1744,6 +1744,11 @@ html[data-theme="dark"] .cert-req-mark{color:#141210}
 .rh-door-assess{font-size:16px;line-height:1.5;color:var(--bone);margin:0 0 28px;max-width:34ch}
 .rh-door-side{font-size:14px;line-height:1.5;color:var(--ash);margin:22px 0 0;max-width:38ch}
 .rh-door-side a{color:var(--bone);text-underline-offset:3px}
+.rh-door-profile{margin:40px 0 0;padding:22px 8px 0;border-top:1px solid var(--hairline);max-width:40ch;width:100%}
+.rh-door-profile-label{font-family:var(--font-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ash);margin:0 0 10px}
+.rh-door-profile-copy{font-size:14px;line-height:1.5;color:var(--ash);margin:0 0 12px}
+.rh-door-profile-go{color:var(--bone);font-size:14px;font-weight:500;text-underline-offset:3px}
+.rh-door-profile-go:hover{color:var(--bone)}
 .rh-ticker{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;padding:9px 18px;background:var(--yellow);color:var(--ink);text-align:center}
 .rh-ticker-copy{margin:0;font-size:14px;font-weight:600;line-height:1.35;letter-spacing:-.01em}
 .rh-ticker-go{font-size:14px;font-weight:700;color:var(--ink);text-decoration:underline;text-underline-offset:3px;padding:2px 2px}
