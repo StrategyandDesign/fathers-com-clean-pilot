@@ -621,7 +621,12 @@
       /* One obvious next step. The plan is the stage after the report, so it
          carries the only primary weight here. Three equal ghost buttons told a
          man nothing about what to do next. */
-      if(state!=='sample') actions+='<a class="rp-btn rp-btn-yellow" href="plan.html'+q+'">Open my plan</a>';
+      if(state!=='sample'){
+        var rhGo = (window.FCPath && FCPath.isRH());
+        actions += rhGo
+          ? '<a class="rp-btn rp-btn-yellow" href="'+FCPath.courseHref()+'">Start Coming Home Present</a>'
+          : '<a class="rp-btn rp-btn-yellow" href="plan.html'+q+'">Open my plan</a>';
+      }
       actions+='<button class="rp-btn rp-btn-ghost" id="rpPrint">Download as PDF</button>';
       if(state!=='sample') actions+='<a class="rp-btn rp-btn-ghost" href="dashboard.html'+q+'">Home</a>';
       if(state==='pending') actions+='<span class="rp-mailrow" style="flex-wrap:wrap">'+
@@ -694,8 +699,11 @@
         '<p class="rp-noprint" style="margin:24px 0 0">'+
           (state==='sample'
             ? '<a class="rp-btn rp-btn-yellow" href="profile.html">Start your plan</a>'
-            : '<a class="rp-btn rp-btn-yellow" href="plan.html'+((A&&A.slug)?'?assessment='+encodeURIComponent(A.slug):'')+'">Open my plan</a>'+
-              '<a class="rp-btn rp-btn-ghost" style="margin-left:10px" href="dashboard.html'+((A&&A.slug)?'?assessment='+encodeURIComponent(A.slug):'')+'">Everything else is on your Home</a>')+
+            : ((window.FCPath && FCPath.isRH())
+              ? '<a class="rp-btn rp-btn-yellow" href="'+FCPath.courseHref()+'">Start Coming Home Present</a>'+
+                '<a class="rp-btn rp-btn-ghost" style="margin-left:10px" href="report.html'+((A&&A.slug)?'?assessment='+encodeURIComponent(A.slug):'')+'">Stay with the report</a>'
+              : '<a class="rp-btn rp-btn-yellow" href="plan.html'+((A&&A.slug)?'?assessment='+encodeURIComponent(A.slug):'')+'">Open my plan</a>'+
+                '<a class="rp-btn rp-btn-ghost" style="margin-left:10px" href="dashboard.html'+((A&&A.slug)?'?assessment='+encodeURIComponent(A.slug):'')+'">Everything else is on your Home</a>'))+
         '</p>'+
         '<p class="rp-printonly rp-plan-url">Your live plan: fathers-com-platform.vercel.app/plan.html</p></section>';
 

@@ -45,8 +45,16 @@
     'course.html': { s: 'Watch, then the checkpoint. One next step.', a: 'Play', h: '#player, [data-play], .btn-primary' },
     'enroll.html': { s: 'You can train now. The certificate waits on a claimed seat.', a: 'Watch the films', h: 'course.html' },
     'certificate.html': { s: 'Your name, the work, a serial anyone can check.', a: 'Copy the verification link', h: '#copy-verify, [data-copy], .btn-primary' },
-    'verify.html': { s: 'Public proof: name, course, serial. Nothing else.', a: 'Send this link where it counts', h: '#vf, form' }
+    'verify.html': { s: 'Public proof: name, course, serial. Nothing else.', a: 'Send this link where it counts', h: '#vf, form' },
+    'returning-home.html': { s: 'Three steps. Profile, report, then the films. Start tonight.', a: 'Start the Profile', h: 'profile.html?start=quick&path=rh' }
   };
+  var rh = false;
+  try { rh = localStorage.getItem('fc_path')==='returning-home' || page==='returning-home.html'; } catch(e){}
+  if (rh) {
+    FIRST['profile.html'] = { s: 'About eight minutes. Then your report. Then Coming Home Present.', a: 'Begin', h: '#ks-start' };
+    FIRST['report.html'] = { s: 'This is your report. Next you start the films.', a: 'Start Coming Home Present', h: 'course.html?preview=1&cert=reentry' };
+    FIRST['login.html'] = { s: 'Welcome back. Pick up Coming Home Present.', a: 'Sign in', h: '#authEmail' };
+  }
 
   function coursePage(){ return page.indexOf('course-') === 0; }
   var first = FIRST[page] || (coursePage()
@@ -54,6 +62,12 @@
     : { s: 'This trains four things you can practice: involvement, consistency, awareness, and nurturance.', a: 'Start your Profile', h: 'profile.html' });
 
   function pathHere(){
+    if (rh) {
+      if (page === 'course.html' || page.indexOf('course-') === 0) return 2;
+      if (page === 'report.html') return 1;
+      if (page === 'profile.html' || page === 'returning-home.html') return 0;
+      return -1;
+    }
     if (page === 'course.html' || page === 'class.html' || page.indexOf('course-') === 0 || page === 'certificates.html' || page === 'enroll.html' || page === 'certificate.html') return 2;
     if (page === 'plan.html' || page === 'report.html') return 1;
     if (page === 'profile.html') return 0;
@@ -102,7 +116,7 @@
     panel.setAttribute('role', 'dialog');
     panel.setAttribute('aria-label', 'Guide');
     var here = pathHere();
-    var steps = ['Profile', 'Plan', 'Course'];
+    var steps = rh ? ['Profile', 'Report', 'Films'] : ['Profile', 'Plan', 'Course'];
     var path = steps.map(function(name, i){
       var cls = (i === here) ? ' here' : '';
       var sep = i < 2 ? '<span class="fh-dot" aria-hidden="true">·</span>' : '';

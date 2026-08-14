@@ -177,9 +177,12 @@
 
     bar.innerHTML = chooser +
       '<div class="row wrap" style="gap:10px">' +
-        '<a class="btn btn-primary btn-sm" href="plan.html?assessment=' + encodeURIComponent(activeSlug) + '">Open your plan</a>' +
-        '<a class="btn btn-secondary btn-sm" href="report.html?assessment=' + encodeURIComponent(activeSlug) + '">Open the full report</a>' +
-        '<a class="btn btn-secondary btn-sm" href="certificates.html">Browse the courses</a>' +
+        ((window.FCPath && FCPath.isRH())
+          ? '<a class="btn btn-primary btn-sm" href="' + FCPath.courseHref() + '">Start Coming Home Present</a>' +
+            '<a class="btn btn-secondary btn-sm" href="report.html?assessment=' + encodeURIComponent(activeSlug) + '">Open the full report</a>'
+          : '<a class="btn btn-primary btn-sm" href="plan.html?assessment=' + encodeURIComponent(activeSlug) + '">Open your plan</a>' +
+            '<a class="btn btn-secondary btn-sm" href="report.html?assessment=' + encodeURIComponent(activeSlug) + '">Open the full report</a>' +
+            '<a class="btn btn-secondary btn-sm" href="certificates.html">Browse the courses</a>') +
       '</div>';
 
     bar.querySelectorAll('[data-profile]').forEach(function(b){
@@ -326,9 +329,15 @@
       var remaining = Math.max(0, courseCount - enrolled);
       /* Sticky primary next action (one loud calm CTA). */
       if(!enrolled && !hasClaim){
+        if(window.FCPath && FCPath.isRH()){
+          paintNextAction({kicker:'Next action', title:'Start Coming Home Present',
+            body:'Your report is ready. Session one is open. Watch, then the checkpoint.',
+            href:FCPath.courseHref(), cta:'Start the films'});
+        } else {
         paintNextAction({kicker:'Next action', title:'Do this week on your plan',
           body:'One or two moves. Then preview the film course matched to your focus. A facilitator claims your seat so enrollment stays free.',
           href:'plan.html', cta:'Open My Plan'});
+        }
       } else if(!enrolled){
         paintNextAction({kicker:'Next action', title:'Start your matched film course',
           body:'Your seat is ready. Self-paced film, facilitator available for questions, certificate when you finish.',

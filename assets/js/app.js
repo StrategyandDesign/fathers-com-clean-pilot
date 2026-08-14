@@ -1,5 +1,39 @@
 /* FORGE shared behaviors + live wiring : Fathers.com */
 (function(){
+  /* Returning Home is a closed path: Profile, report, films.
+     Mark it when a man enters the door or carries ?path=rh. */
+  function markPath(){
+    try {
+      var here=(location.pathname.split('/').pop()||'').toLowerCase();
+      var qs=new URLSearchParams(location.search);
+      if(here==='returning-home.html' || qs.get('path')==='rh'){
+        localStorage.setItem('fc_path','returning-home');
+      }
+    } catch(e){}
+  }
+  markPath();
+
+  function safeNext(raw){
+    if(!raw) return null;
+    try { raw=decodeURIComponent(raw); } catch(e){}
+    raw=String(raw).replace(/^\/+/, '');
+    if(/^[a-z]+:/i.test(raw) || raw.indexOf('//')===0) return null;
+    if(!/^[a-z0-9\-]+\.html(\?[-a-z0-9._~%&=+]*)?(#.*)?$/i.test(raw)) return null;
+    return raw;
+  }
+
+  window.FCPath = {
+    isRH: function(){
+      try { return localStorage.getItem('fc_path')==='returning-home'; } catch(e){ return false; }
+    },
+    courseHref: function(){
+      var signed=window.FC && FC.live && FC.uid && FC.uid();
+      return signed ? 'course.html?cert=reentry' : 'course.html?preview=1&cert=reentry';
+    },
+    reportHref: function(){ return 'report.html'; },
+    safeNext: safeNext
+  };
+
   // Nav
   var nav=document.querySelector('.nav');
   var tog=document.querySelector('.nav-toggle');
@@ -341,13 +375,10 @@
       var here=(location.pathname.split('/').pop()||'index.html').toLowerCase();
       var slug=(/[?&]assessment=([^&]+)/.exec(location.search)||[])[1];
       var q=slug?('?assessment='+slug):'';
-      var links=[
-        ['Home','dashboard.html'],
-        ['My Report','report.html'+q],
-        ['My Plan','plan.html'+q],
-        ['Courses','certificates.html'],
-        ['Sign out','#signout']
-      ];
+      var rh=window.FCPath && FCPath.isRH();
+      var links=rh
+        ? [['Home','dashboard.html'],['Report','report.html'+q],['Films',FCPath.courseHref()],['Sign out','#signout']]
+        : [['Home','dashboard.html'],['My Report','report.html'+q],['My Plan','plan.html'+q],['Courses','certificates.html'],['Sign out','#signout']];
       list.innerHTML=links.map(function(l){
         var target=l[1].split('?')[0];
         var on=(target===here)?' class="active"':'';
@@ -395,7 +426,8 @@
       var authForgot=document.getElementById('authForgot');
       var qs=new URLSearchParams(location.search);
       var mode=qs.get('mode')==='signup'?'signup':'signin';
-      var nextPage=/^[a-z\-]+\.html$/.test(qs.get('next')||'')?qs.get('next'):null;
+      var nextPage=safeNext(qs.get('next'));
+      var afterAuth=nextPage || ((window.FCPath && FCPath.isRH()) ? FCPath.courseHref() : null);
 
       function aMsg(t,kind){ authMsg.textContent=t||''; authMsg.style.color=kind==='err'?'var(--error)':'var(--ash)'; }
       function setMode(m){
@@ -403,8 +435,12 @@
         var up=(m==='signup');
         if(authTitle) authTitle.textContent=up?'Create your account':'Sign in';
         if(authSub) authSub.textContent=up
-          ? 'Free, always. Your Profile, your plan, and your progress live here.'
-          : 'Welcome back. Pick up your plan where you left off.';
+          ? ((window.FCPath && FCPath.isRH())
+            ? 'Free. Your report and Coming Home Present stay with you.'
+            : 'Free, always. Your Profile, your plan, and your progress live here.')
+          : ((window.FCPath && FCPath.isRH())
+            ? 'Welcome back. Pick up Coming Home Present where you left off.'
+            : 'Welcome back. Pick up your plan where you left off.');
         if(authNameField) authNameField.style.display=up?'':'none';
         if(authSignin) authSignin.textContent=up?'Create account':'Sign in';
         if(authAltTxt) authAltTxt.textContent=up?'Already have an account? ':'New here? ';
@@ -424,10 +460,10 @@
         var lbl=authSignin.textContent; authSignin.disabled=true; authSignin.textContent=mode==='signup'?'Creating\u2026':'Signing in\u2026';
         var done=function(){ authSignin.disabled=false; authSignin.textContent=lbl; };
         if(mode==='signup'){
-          FC.signUpPassword(email, pass, (authName&&authName.value||'').trim(), 'plan.html').then(function(r){
+          FC.signUpPassword(email, pass, (authName&&authName.value||'').trim(), afterAuth || 'plan.html').then(function(r){
             done();
             if(r.error){ aMsg(r.error.message||'Could not create the account.','err'); return; }
-            if(r.data && r.data.session){ location.href = nextPage || 'profile.html'; return; }
+            if(r.data && r.data.session){ location.href = afterAuth || 'profile.html'; return; }
             setMode('signin');
             aMsg('Account created. If a confirm email arrives, open it, then sign in here. If not, try signing in now.');
           }, function(){ done(); aMsg('Could not create the account. Try again.','err'); });
@@ -439,7 +475,7 @@
               aMsg(/confirm/i.test(em) ? 'Confirm the email we sent, then sign in here.' : 'Wrong email or password.','err');
               return;
             }
-            location.href = nextPage || 'plan.html';
+            location.href = afterAuth || 'plan.html';
           }, function(){ done(); aMsg('Could not sign in. Try again.','err'); });
         }
       });
