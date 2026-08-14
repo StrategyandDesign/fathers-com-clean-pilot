@@ -242,3 +242,35 @@ def test_preview_player_shows_practice_copy(page, server):
         page.wait_for_timeout(400)
         body = page.inner_text("body")
     assert "Week 1" in body or "PRACTICE" in body or "The Surge Is a Signal" in body
+
+def test_returning_home_is_one_door(page, server):
+    html = _fetch(server, "returning-home.html")
+    assert "Come home present" in html
+    assert "profile.html?start=quick" in html
+    assert "path=rh" in html
+    assert "When you are ready for more" not in html
+    assert "Steady Under Pressure" not in html
+    assert "For organizations" not in html
+    assert "Start Profile" not in html
+    assert "Twelve weeks of small moves" not in html
+    page.goto(f"{server}/returning-home.html", wait_until="load")
+    page.wait_for_timeout(400)
+    body = page.inner_text("body")
+    assert "Come home present" in body
+    assert "Profile" in body and "Report" in body and "Films" in body
+    cta = page.query_selector("a.rh-door-cta")
+    assert cta is not None
+    href = cta.get_attribute("href") or ""
+    assert "profile.html?start=quick" in href
+    assert "path=rh" in href
+    assert _no_app_errors(page)
+
+def test_returning_home_path_opens_films(page, server):
+    ui = _fetch(server, "assets/js/keystone-ui.js")
+    assert "Start Coming Home Present" in ui
+    app = _fetch(server, "assets/js/app.js")
+    assert "fc_path" in app
+    assert "safeNext" in app
+    journey = _fetch(server, "assets/js/journey.js")
+    assert "RH_STAGES" in journey
+    assert "Films" in journey

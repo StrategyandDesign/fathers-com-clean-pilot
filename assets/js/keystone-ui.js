@@ -752,13 +752,26 @@
     var sCopy = COPY[strK] || {s:"You showed up and did the honest work.",g:"",m:[]};
     var gCopy = COPY[gapK] || {s:"",g:"This is the one to build first.",m:[]};
     var sameScale = (strK === gapK);
+    var rh = window.FCPath && FCPath.isRH();
     var planHref = "plan.html?assessment="+encodeURIComponent(slug)+"&reveal=1";
+    var courseHref = rh ? FCPath.courseHref() : "";
+    var nextBlock = rh
+      ? "<div class=\"stack-16\" style=\"margin-top:24px\">"+
+          "<a class=\"btn btn-yellow\" style=\"width:100%\" href=\""+courseHref+"\">Start Coming Home Present</a>"+
+          "<p class=\"fine\" style=\"text-align:center;margin-top:4px\"><a class=\"link ash\" href=\"report.html\" style=\"font-size:12px\">Read the full report</a></p>"+
+          "<p class=\"fine\" style=\"text-align:center;margin-top:2px\"><button class=\"link ash\" id=\"ksContFull\" style=\"background:none;border:0;padding:0;font:inherit;color:inherit;cursor:pointer;text-decoration:underline;text-underline-offset:3px;font-size:12px\">Or continue the full "+esc(fullLabel)+"</button></p>"+
+        "</div>"
+      : "<div class=\"stack-16\" style=\"margin-top:24px\">"+
+          "<a class=\"btn btn-primary\" style=\"width:100%\" href=\""+planHref+"\">Start my plan</a>"+
+          "<button class=\"btn btn-secondary\" style=\"width:100%\" id=\"ksContFull\">Continue full "+esc(fullLabel)+"</button>"+
+          "<p class=\"fine\" style=\"text-align:center;margin-top:4px\"><a class=\"link ash\" href=\"certificates.html\" style=\"font-size:12px\">Browse courses</a></p>"+
+        "</div>";
     root.innerHTML = shell(
       "<div class=\"center\" style=\"margin-bottom:24px\">"+
         "<div class=\"ks-check\" style=\"margin-bottom:10px\">\u2713</div>"+
-        "<div class=\"eyebrow brass\" style=\"margin-bottom:10px\">STARTING BASELINE \u00b7 "+esc(dimLabel.toUpperCase())+"</div>"+
-        "<h2 style=\"margin:0 0 6px\">Starting baseline locked.</h2>"+
-        "<p class=\"helper\" style=\"margin:0\">Dimensions only, not the full "+esc(fullLabel)+". Your plan can start from this.</p>"+
+        "<div class=\"eyebrow brass\" style=\"margin-bottom:10px\">"+(rh?"YOUR REPORT":("STARTING BASELINE \u00b7 "+esc(dimLabel.toUpperCase())))+"</div>"+
+        "<h2 style=\"margin:0 0 6px\">"+(rh?"Your report is ready.":"Starting baseline locked.")+"</h2>"+
+        "<p class=\"helper\" style=\"margin:0\">"+(rh?"Here is where you stand. Next you start Coming Home Present.":"Dimensions only, not the full "+esc(fullLabel)+". Your plan can start from this.")+"</p>"+
       "</div>"+
       "<div class=\"ks-strength-hero\">"+
         "<div class=\"eyebrow\" style=\"margin-bottom:12px\">YOUR STRONGEST GROUND</div>"+
@@ -771,11 +784,7 @@
           "<div class=\"ks-next-name\">"+esc(gap ? gap.label : "")+"</div>"+
           (gCopy.g ? "<p class=\"ks-next-line\">"+esc(gCopy.g)+"</p>" : "")+
         "</div>")+
-      "<div class=\"stack-16\" style=\"margin-top:24px\">"+
-        "<a class=\"btn btn-primary\" style=\"width:100%\" href=\""+planHref+"\">Start my plan</a>"+
-        "<button class=\"btn btn-secondary\" style=\"width:100%\" id=\"ksContFull\">Continue full "+esc(fullLabel)+"</button>"+
-        "<p class=\"fine\" style=\"text-align:center;margin-top:4px\"><a class=\"link ash\" href=\"certificates.html\" style=\"font-size:12px\">Browse courses</a></p>"+
-      "</div>"
+      nextBlock
     );
     try {
       if(window.FCMotion && FCMotion.pulseSuccess){
@@ -842,25 +851,31 @@
   function savePlanAccount(email, pass, btn, msg){
     if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ msg.textContent='Enter a valid email.'; msg.style.color='var(--error)'; return; }
     if(!pass || pass.length < 8){ msg.textContent='Password needs at least 8 characters.'; msg.style.color='var(--error)'; return; }
-    btn.disabled=true; btn.textContent='Saving your plan\u2026'; msg.textContent='';
+    btn.disabled=true; btn.textContent=(window.FCPath && FCPath.isRH()) ? 'Saving\u2026' : 'Saving your plan\u2026'; msg.textContent='';
     ksEv('plan_email_submitted', {});
     var slug = (ACTIVE_INS && ACTIVE_INS.slug) || 'keystone-father-profile';
-    var dest = 'plan.html?assessment=' + encodeURIComponent(slug) + '&reveal=1';
-    try { var t = localStorage.getItem('fc_claim_token'); if(t){ dest += '&claim=' + encodeURIComponent(t); } } catch(e){}
-    if(!(window.FC && FC.signUpPassword)){ msg.textContent='Sign-in is not available right now.'; msg.style.color='var(--error)'; btn.disabled=false; btn.textContent='Start my plan'; return; }
+    var rh = window.FCPath && FCPath.isRH();
+    var dest = rh
+      ? FCPath.courseHref()
+      : 'plan.html?assessment=' + encodeURIComponent(slug) + '&reveal=1';
+    try { var t = localStorage.getItem('fc_claim_token'); if(t){ dest += (dest.indexOf('?')>=0?'&':'?') + 'claim=' + encodeURIComponent(t); } } catch(e){}
+    var saveLabel = rh ? 'Start Coming Home Present' : 'Start my plan';
+    if(!(window.FC && FC.signUpPassword)){ msg.textContent='Sign-in is not available right now.'; msg.style.color='var(--error)'; btn.disabled=false; btn.textContent=saveLabel; return; }
     FC.signUpPassword(email, pass, '', dest).then(function(r){
       function go(){ location.href = dest; }
       if(r && r.error){
         return FC.signInPassword(email, pass).then(function(r2){
-          if(r2 && r2.error){ msg.textContent=r.error.message||'Could not create the account.'; msg.style.color='var(--error)'; btn.disabled=false; btn.textContent='Start my plan'; return; }
+          if(r2 && r2.error){ msg.textContent=r.error.message||'Could not create the account.'; msg.style.color='var(--error)'; btn.disabled=false; btn.textContent=saveLabel; return; }
           go();
         });
       }
       if(r.data && r.data.session){ go(); return; }
-      msg.textContent = 'Account created. Check your email to confirm it, then sign in to open your plan.';
+      msg.textContent = rh
+        ? 'Account created. Check your email to confirm it, then sign in to start the films.'
+        : 'Account created. Check your email to confirm it, then sign in to open your plan.';
       msg.style.color = '';
-      btn.disabled = false; btn.textContent = 'Start my plan';
-    }, function(){ msg.textContent='Could not create the account. Try again.'; msg.style.color='var(--error)'; btn.disabled=false; btn.textContent='Start my plan'; });
+      btn.disabled = false; btn.textContent = saveLabel;
+    }, function(){ msg.textContent='Could not create the account. Try again.'; msg.style.color='var(--error)'; btn.disabled=false; btn.textContent=saveLabel; });
   }
 
   // ---------- full results: shown free to everyone, all 26 dimensions ----------
@@ -916,7 +931,24 @@
       return '<div class="ks-move"><span class="ks-move-n">'+(i+1)+'</span><span class="ks-move-t">'+esc(mv)+'</span></div>';
     }).join('');
 
-    var accountCard = signedIn
+    var rh = window.FCPath && FCPath.isRH();
+    var courseHref = rh ? FCPath.courseHref() : '';
+    var accountCard = rh
+      ? (signedIn
+        ? '<a class="btn btn-yellow" style="width:100%" href="'+courseHref+'">Start Coming Home Present</a>'+
+          '<p class="fine" style="text-align:center;margin-top:12px"><a class="link ash" href="report.html" style="font-size:12px">Or read your full written report</a></p>'
+        : '<a class="btn btn-yellow" style="width:100%" href="'+courseHref+'">Start Coming Home Present</a>'+
+          '<div class="ks-save-card" style="margin-top:18px">'+
+            '<h3 class="ks-save-h">Save this so you can come back.</h3>'+
+            '<p class="helper" style="margin-bottom:16px">Optional. The films are open now. An account keeps your report with you.</p>'+
+            '<input class="input" type="email" id="ksEmail" placeholder="you@email.com" autocomplete="email" style="margin-bottom:10px">'+
+            '<input class="input" type="password" id="ksPass" placeholder="Password (8+ characters)" autocomplete="new-password">'+
+            '<button class="btn btn-secondary" id="ksSavePlan" style="width:100%;margin-top:10px">Save and start the films</button>'+
+            '<p class="ksmsg fine" id="ksMsg" style="margin-top:10px;text-align:center"></p>'+
+            '<p class="fine" style="margin-top:8px;text-align:center">Already have an account? <a class="link ash" href="login.html?next='+encodeURIComponent(courseHref)+'" style="font-size:12px">Sign in</a></p>'+
+          '</div>'+
+          '<p class="fine" style="text-align:center;margin-top:14px"><a class="link ash" href="report.html" style="font-size:12px">Or read your full written report first</a></p>')
+      : (signedIn
       ? '<a class="btn btn-yellow" style="width:100%" href="plan.html?reveal=1">Start my plan</a>'+
         '<p class="fine" style="text-align:center;margin-top:12px"><a class="link ash" href="report.html" style="font-size:12px">Or read your full written report</a></p>'
       : '<div class="ks-save-card">'+
@@ -929,7 +961,7 @@
           '<p class="ksmsg fine" id="ksMsg" style="margin-top:10px;text-align:center"></p>'+
           '<p class="fine" style="margin-top:8px;text-align:center">Free account. We never share your email. Already have one? <a class="link ash" href="login.html?next=plan.html" style="font-size:12px">Sign in</a></p>'+
         '</div>'+
-        '<p class="fine" style="text-align:center;margin-top:14px"><a class="link ash" href="report.html" style="font-size:12px">Or read your full written report first</a></p>';
+        '<p class="fine" style="text-align:center;margin-top:14px"><a class="link ash" href="report.html" style="font-size:12px">Or read your full written report first</a></p>');
 
     root.innerHTML = shell(
       '<div class="center" style="margin-bottom:30px">'+
