@@ -1755,7 +1755,11 @@ html[data-theme="dark"] .cert-req-mark{color:#141210}
 .rh-films{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;text-align:left}
 .rh-film{display:flex;flex-direction:column;gap:12px;padding:28px 22px;background:var(--coal);border:1px solid var(--hairline);border-radius:16px;text-decoration:none;color:var(--bone);min-height:200px}
 .rh-film:hover{border-color:var(--hairline-strong)}
+.rh-film.is-start{border-color:var(--yellow)}
+.rh-film-mark{font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--yellow)}
 .rh-film-t{font-family:var(--font-display);font-size:26px;font-weight:600;letter-spacing:-.015em}
+.ks-saved{font-size:13px;line-height:1.5;color:var(--ash);text-align:center;margin:12px 0 0}
+.ks-saved a{color:var(--bone);text-underline-offset:3px}
 .rh-film-l{font-size:15px;line-height:1.5;color:var(--ash);flex:1}
 .rh-film-go{font-size:14px;font-weight:600;color:var(--ink);background:var(--yellow);align-self:flex-start;padding:8px 16px;border-radius:999px}
 .rh-desk-side{font-size:14px;line-height:1.5;color:var(--ash);margin:28px auto 0;max-width:46ch}

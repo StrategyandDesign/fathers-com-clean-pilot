@@ -287,21 +287,32 @@ def test_returning_home_is_one_door(page, server):
 
 def test_returning_home_path_opens_films(page, server):
     ui = _fetch(server, "assets/js/keystone-ui.js")
-    assert "Open your trainings" in ui
+    assert "Start \"+esc(rec.title)" in ui
+    assert "Here is where you stand. Start " in ui
+    assert "Saved on this device. An account keeps it." in ui
+    assert "All three trainings" in ui
+    assert "Open your trainings" not in ui
     assert "Open your films" not in ui
+    assert "Next, pick a training." not in ui
     app = _fetch(server, "assets/js/app.js")
     assert "fc_path" in app
     assert "safeNext" in app
     assert "rh-desk.html" in app
     assert "lockRhPath" in app
     assert "rhAfterSignOut" in app
+    assert "fc_rh_profile_done" in app
+    assert "courseForFocus" in app
+    assert "involvement: { slug:'reentry', title:'Coming Home Present' }" in app
+    assert "consistency: { slug:'anger', title:'Steady Under Pressure' }" in app
+    assert "awareness: { slug:'fundamentals', title:'Fathering Fundamentals' }" in app
     journey = _fetch(server, "assets/js/journey.js")
     assert "RH_STAGES" in journey
     assert "rh-desk.html" in journey
     help = _fetch(server, "assets/js/help.js")
     assert "['Profile', 'Report', 'Trainings']" in help
     assert "Your trainings are open. Pick one and watch." in help
-    assert "Pick a training. Watch. No order." in help
+    assert "Start the training your report named. The other two stay open." in help
+    assert "Pick a training. Watch. No order." not in help
     assert "Open your films" not in help
     assert "Answer honestly. About eight minutes" in help
     assert "Same Team" not in help
@@ -311,7 +322,7 @@ def test_returning_home_path_opens_films(page, server):
     assert "sponsor.html" not in help
     assert "organizations.html" not in help
     desk = _fetch(server, "rh-desk.html")
-    assert "Pick a course. Watch." in desk
+    assert "Pick a training. Watch." in desk
     assert "Your trainings" in desk
     assert "Your films" not in desk
     assert "data-rh-courses=\"cards\"" in desk
@@ -332,6 +343,7 @@ def test_returning_home_path_opens_films(page, server):
     assert "max-width:1160px" in css
     assert ".rh-films{display:grid;grid-template-columns:repeat(3,1fr);gap:20px" in css
     assert "padding:28px 22px" in css
+    assert ".rh-film.is-start" in css
     block = app.split("var RH_COURSES")[1].split("function playerHref")[0]
     assert "slug:'fundamentals'" in block
     assert block.find("slug:'fundamentals'") < block.find("slug:'anger'") < block.find("slug:'reentry'")
@@ -340,7 +352,7 @@ def test_returning_home_path_opens_films(page, server):
     page.goto(f"{server}/rh-desk.html", wait_until="load")
     page.wait_for_timeout(400)
     desk_body = page.inner_text("body")
-    assert "Pick a course. Watch." in desk_body
+    assert "Pick a training. Watch." in desk_body
     assert "Same Team" not in desk_body
     assert "all four" not in desk_body.lower()
     assert "See where you stand" in desk_body
@@ -362,4 +374,29 @@ def test_returning_home_path_opens_films(page, server):
             }"""
         )
         assert fits, f"subtitle wraps on desktop: {el.inner_text()!r}"
+    assert _no_app_errors(page)
+
+def test_rh_desk_after_report_names_training(page, server):
+    page.add_init_script("""
+      localStorage.setItem('fc_path','returning-home');
+      localStorage.setItem('fc_rh_profile_done','1');
+      localStorage.setItem('fc_rh_next_focus','involvement');
+    """)
+    page.goto(f"{server}/rh-desk.html", wait_until="load")
+    page.wait_for_timeout(400)
+    body = page.inner_text("body")
+    assert page.query_selector(".rh-ticker") is None
+    assert "See where you stand" not in body
+    assert "Eight minutes" not in body
+    assert "No order" not in body
+    assert "Start here." in body
+    assert "Your report named Coming Home Present." in body
+    assert "Your report is on this device. An account keeps it." in body
+    cards = [a.query_selector(".rh-film-t").inner_text() for a in page.query_selector_all("a.rh-film")]
+    assert cards[0] == "Coming Home Present"
+    mark = page.query_selector("a.rh-film.is-start .rh-film-mark")
+    assert mark is not None and mark.inner_text().strip().lower() == "start here"
+    href = page.query_selector("a.rh-film.is-start").get_attribute("href") or ""
+    assert "cert=reentry" in href
+    assert "preview=1" in href
     assert _no_app_errors(page)

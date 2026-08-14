@@ -138,21 +138,104 @@
     return signed ? 'course.html?cert='+encodeURIComponent(slug) : 'course.html?preview=1&cert='+encodeURIComponent(slug);
   }
 
+  /* RH-safe view of FCFocusCourse (focus-course.js). Same four I-CAN keys.
+     Nurturance maps to Same Team there; Same Team is off this path, so it
+     uses the existing Fundamentals fallback. */
+  var RH_FOCUS = {
+    involvement: { slug:'reentry', title:'Coming Home Present' },
+    consistency: { slug:'anger', title:'Steady Under Pressure' },
+    awareness: { slug:'fundamentals', title:'Fathering Fundamentals' },
+    nurturance: { slug:'fundamentals', title:'Fathering Fundamentals' }
+  };
+  function rhNormalizeFocus(key){
+    key = String(key || '').toLowerCase();
+    if(RH_FOCUS[key]) return key;
+    if(key.indexOf('involv') >= 0) return 'involvement';
+    if(key.indexOf('consist') >= 0) return 'consistency';
+    if(key.indexOf('aware') >= 0) return 'awareness';
+    if(key.indexOf('nurtur') >= 0) return 'nurturance';
+    return null;
+  }
+  function courseForFocus(focusKey){
+    var mapped = null;
+    if(window.FCFocusCourse && FCFocusCourse.forFocus){
+      mapped = FCFocusCourse.forFocus(focusKey);
+    } else {
+      var k = rhNormalizeFocus(focusKey);
+      mapped = (k && RH_FOCUS[k]) || { slug:'fundamentals', title:'Fathering Fundamentals' };
+    }
+    if(mapped.slug === 'coparenting'){
+      return { slug:'fundamentals', title:'Fathering Fundamentals' };
+    }
+    return { slug: mapped.slug, title: mapped.title };
+  }
+  function hasRhReport(){
+    try {
+      if(localStorage.getItem('fc_rh_profile_done') === '1') return true;
+      if(localStorage.getItem('fc_pending_result')) return true;
+    } catch(e){}
+    return false;
+  }
+  function rhFocusKey(){
+    try {
+      var k = localStorage.getItem('fc_rh_next_focus');
+      if(k) return k;
+      var raw = localStorage.getItem('fc_pending_result');
+      if(raw){
+        var p = JSON.parse(raw);
+        if(p && p.scored && p.scored.gap) return p.scored.gap;
+      }
+    } catch(e){}
+    return null;
+  }
+  function markRhReport(focusKey){
+    try {
+      localStorage.setItem('fc_rh_profile_done', '1');
+      if(focusKey) localStorage.setItem('fc_rh_next_focus', String(focusKey));
+    } catch(e){}
+  }
+  function retireRhTicker(){
+    document.querySelectorAll('.rh-ticker').forEach(function(el){ el.remove(); });
+  }
+  function paintRhDeskCopy(rec){
+    var h = document.querySelector('.rh-desk-h');
+    var lead = document.querySelector('.rh-desk-lead');
+    var side = document.querySelector('.rh-desk-side[data-rh-guest]');
+    if(!h || !rec) return;
+    h.textContent = 'Start here.';
+    if(lead) lead.textContent = 'Your report named '+rec.title+'.';
+    if(side){
+      side.innerHTML = 'Your report is on this device. An account keeps it. <a href="login.html?path=rh&amp;next=rh-desk.html">Log in</a> · <a href="login.html?path=rh&amp;mode=signup&amp;next=rh-desk.html">Create account</a>';
+    }
+  }
+
   function paintRhCourses(root){
     if(!root) return;
     var mode=root.getAttribute('data-rh-courses')||'line';
+    var rec = hasRhReport() ? courseForFocus(rhFocusKey()) : null;
+    var list = RH_COURSES.slice();
+    if(rec){
+      list.sort(function(a,b){
+        if(a.slug===rec.slug) return -1;
+        if(b.slug===rec.slug) return 1;
+        return 0;
+      });
+    }
     if(mode==='cards'){
-      root.innerHTML=RH_COURSES.map(function(c){
-        return '<a class="rh-film" href="'+playerHref(c.slug)+'">'+
+      root.innerHTML=list.map(function(c){
+        var start = !!(rec && c.slug===rec.slug);
+        return '<a class="rh-film'+(start?' is-start':'')+'" href="'+playerHref(c.slug)+'">'+
+          (start?'<span class="rh-film-mark">Start here</span>':'')+
           '<span class="rh-film-t">'+c.title+'</span>'+
           '<span class="rh-film-l">'+c.line+'</span>'+
-          '<span class="rh-film-go">Watch</span></a>';
+          '<span class="rh-film-go">'+(start?'Start':'Watch')+'</span></a>';
       }).join('');
+      paintRhDeskCopy(rec);
       return;
     }
-    root.innerHTML='Your trainings, free: '+RH_COURSES.map(function(c,i){
+    root.innerHTML='Your trainings, free: '+list.map(function(c,i){
       var name='<a href="'+playerHref(c.slug)+'">'+c.title+'</a>';
-      if(i===RH_COURSES.length-1) return 'and '+name+'.';
+      if(i===list.length-1) return 'and '+name+'.';
       return name+', ';
     }).join('');
   }
@@ -164,6 +247,7 @@
   }
   function paintRhTicker(){
     if(!isRhSurface()) return;
+    if(hasRhReport()){ retireRhTicker(); return; }
     var here=pageName();
     if(here!=='course.html') return;
     if(document.querySelector('.rh-ticker')) return;
@@ -181,6 +265,9 @@
     deskHref: rhDesk,
     homeHref: rhHome,
     courseHref: function(slug){ return playerHref(slug||'fundamentals'); },
+    courseForFocus: courseForFocus,
+    hasReport: hasRhReport,
+    markReport: markRhReport,
     reportHref: function(){ return 'report.html'; },
     catalogHref: function(){ return pathIsRH() ? rhDesk() : 'certificates.html'; },
     afterSignOut: rhAfterSignOut,
@@ -188,6 +275,7 @@
     safeNext: safeNext
   };
 
+  if(hasRhReport()) retireRhTicker();
   document.querySelectorAll('[data-rh-courses]').forEach(paintRhCourses);
   paintRhTicker();
 
@@ -661,11 +749,27 @@
     });
 
     if(pathIsRH()){
+      if(hasRhReport()){
+        retireRhTicker();
+        document.querySelectorAll('[data-rh-courses]').forEach(paintRhCourses);
+      }
       FC.getBaseline().then(function(r){
         if(r && r.data){
-          document.querySelectorAll('.rh-ticker').forEach(function(el){ el.remove(); });
+          markRhReport(r.data.gap_domain);
+          retireRhTicker();
+          document.querySelectorAll('[data-rh-courses]').forEach(paintRhCourses);
         }
       }).catch(function(){});
+      if(FC.sb){
+        FC.sb.from('keystone_results').select('gap_scale').eq('user_id', FC.uid()).limit(1).maybeSingle()
+          .then(function(r){
+            if(r && r.data){
+              markRhReport(r.data.gap_scale);
+              retireRhTicker();
+              document.querySelectorAll('[data-rh-courses]').forEach(paintRhCourses);
+            }
+          }).catch(function(){});
+      }
     }
 
 

@@ -568,6 +568,9 @@
       var band = KS.bandFor(result.overall_pct != null ? result.overall_pct : 0);
       var gapCopy = (RC||R)[result.gap_scale] || {g:'This is the one to build first.', m:[]};
       var strCopy = (RC||R)[result.strength_scale] || {s:'You showed up and did the honest work.'};
+      var rhRec = (window.FCPath && FCPath.isRH() && FCPath.courseForFocus)
+        ? FCPath.courseForFocus(result.gap_scale)
+        : { slug:'fundamentals', title:'Fathering Fundamentals' };
 
       if(brand.accent){ rootEl.style.setProperty('--rpa', brand.accent); }
       if(brand.accent2){ rootEl.style.setProperty('--rpb', brand.accent2); }
@@ -611,7 +614,9 @@
         '</div>';
       }
       if(state==='sample') stateLine+='<div class="rp-sample-note rp-noprint">A sample report. <a href="profile.html">Take your Profile</a> and this becomes yours, free.</div>';
-      if(state==='pending') stateLine='<div class="rp-sample-note rp-noprint">Not saved yet. Email yourself a secure link below and this report and your plan are kept.</div>';
+      if(state==='pending') stateLine=(window.FCPath && FCPath.isRH())
+        ? '<div class="rp-sample-note rp-noprint">Saved on this device. An account keeps it.</div>'
+        : '<div class="rp-sample-note rp-noprint">Not saved yet. Email yourself a secure link below and this report and your plan are kept.</div>';
 
       /* Carry the profile through, so a man who holds two lands on the plan
          for the one he is reading rather than the newest. */
@@ -624,7 +629,8 @@
       if(state!=='sample'){
         var rhGo = (window.FCPath && FCPath.isRH());
         actions += rhGo
-          ? '<a class="rp-btn rp-btn-yellow" href="'+FCPath.deskHref()+'">Open your trainings</a>'
+          ? '<a class="rp-btn rp-btn-yellow" href="'+FCPath.playerHref(rhRec.slug)+'">Start '+esc(rhRec.title)+'</a>'+
+            '<a class="rp-btn rp-btn-ghost" href="'+FCPath.deskHref()+'">All three trainings</a>'
           : '<a class="rp-btn rp-btn-yellow" href="plan.html'+q+'">Open my plan</a>';
       }
       actions+='<button class="rp-btn rp-btn-ghost" id="rpPrint">Download as PDF</button>';
@@ -700,8 +706,8 @@
           (state==='sample'
             ? '<a class="rp-btn rp-btn-yellow" href="profile.html">Start your plan</a>'
             : ((window.FCPath && FCPath.isRH())
-              ? '<a class="rp-btn rp-btn-yellow" href="'+FCPath.deskHref()+'">Open your trainings</a>'+
-                '<a class="rp-btn rp-btn-ghost" style="margin-left:10px" href="report.html'+((A&&A.slug)?'?assessment='+encodeURIComponent(A.slug):'')+'">Stay with the report</a>'
+              ? '<a class="rp-btn rp-btn-yellow" href="'+FCPath.playerHref(rhRec.slug)+'">Start '+esc(rhRec.title)+'</a>'+
+                '<a class="rp-btn rp-btn-ghost" style="margin-left:10px" href="'+FCPath.deskHref()+'">All three trainings</a>')
               : '<a class="rp-btn rp-btn-yellow" href="plan.html'+((A&&A.slug)?'?assessment='+encodeURIComponent(A.slug):'')+'">Open my plan</a>'+
                 '<a class="rp-btn rp-btn-ghost" style="margin-left:10px" href="dashboard.html'+((A&&A.slug)?'?assessment='+encodeURIComponent(A.slug):'')+'">Everything else is on your Home</a>'))+
         '</p>'+

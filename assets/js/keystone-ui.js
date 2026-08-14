@@ -743,7 +743,7 @@
     }
 
     var signedIn = window.FC && FC.live && FC.uid();
-    if(signedIn){ KS.saveResult(scored, "quick"); }
+    var saveP = signedIn ? KS.saveResult(scored, "quick") : null;
 
     enterAssessment();
     var strK = scored.strength, gapK = scored.gap;
@@ -753,11 +753,22 @@
     var gCopy = COPY[gapK] || {s:"",g:"This is the one to build first.",m:[]};
     var sameScale = (strK === gapK);
     var rh = window.FCPath && FCPath.isRH();
+    if(rh && window.FCPath.markReport) FCPath.markReport(gapK);
+    var rec = (rh && window.FCPath.courseForFocus) ? FCPath.courseForFocus(gapK) : { slug:'fundamentals', title:'Fathering Fundamentals' };
     var planHref = "plan.html?assessment="+encodeURIComponent(slug)+"&reveal=1";
-    var courseHref = rh ? FCPath.deskHref() : "";
+    var courseHref = rh ? FCPath.playerHref(rec.slug) : "";
+    var deskHref = rh ? FCPath.deskHref() : "";
+    var loginNext = encodeURIComponent(courseHref || deskHref);
+    var saveLine = rh
+      ? (signedIn
+        ? "<p class=\"ks-saved\" id=\"ksSaved\">Saved on this device.</p>"
+        : "<p class=\"ks-saved\" id=\"ksSaved\">Saved on this device. An account keeps it. <a class=\"link ash\" href=\"login.html?path=rh&amp;next="+loginNext+"\">Log in</a> · <a class=\"link ash\" href=\"login.html?path=rh&amp;mode=signup&amp;next="+loginNext+"\">Create account</a></p>")
+      : "";
     var nextBlock = rh
       ? "<div class=\"stack-16\" style=\"margin-top:24px\">"+
-          "<a class=\"btn btn-yellow\" style=\"width:100%\" href=\""+courseHref+"\">Open your trainings</a>"+
+          "<a class=\"btn btn-yellow\" style=\"width:100%\" href=\""+courseHref+"\">Start "+esc(rec.title)+"</a>"+
+          saveLine+
+          "<p class=\"fine\" style=\"text-align:center;margin-top:8px\"><a class=\"link ash\" href=\""+deskHref+"\" style=\"font-size:12px\">All three trainings</a></p>"+
           "<p class=\"fine\" style=\"text-align:center;margin-top:4px\"><a class=\"link ash\" href=\"report.html\" style=\"font-size:12px\">Read the full report</a></p>"+
           "<p class=\"fine\" style=\"text-align:center;margin-top:2px\"><button class=\"link ash\" id=\"ksContFull\" style=\"background:none;border:0;padding:0;font:inherit;color:inherit;cursor:pointer;text-decoration:underline;text-underline-offset:3px;font-size:12px\">Or continue the full "+esc(fullLabel)+"</button></p>"+
         "</div>"
@@ -771,7 +782,7 @@
         "<div class=\"ks-check\" style=\"margin-bottom:10px\">\u2713</div>"+
         "<div class=\"eyebrow brass\" style=\"margin-bottom:10px\">"+(rh?"YOUR REPORT":("STARTING BASELINE \u00b7 "+esc(dimLabel.toUpperCase())))+"</div>"+
         "<h2 style=\"margin:0 0 6px\">"+(rh?"Your report is ready.":"Starting baseline locked.")+"</h2>"+
-        "<p class=\"helper\" style=\"margin:0\">"+(rh?"Here is where you stand. Next, pick a training.":"Dimensions only, not the full "+esc(fullLabel)+". Your plan can start from this.")+"</p>"+
+        "<p class=\"helper\" style=\"margin:0\">"+(rh?"Here is where you stand. Start "+esc(rec.title)+".":"Dimensions only, not the full "+esc(fullLabel)+". Your plan can start from this.")+"</p>"+
       "</div>"+
       "<div class=\"ks-strength-hero\">"+
         "<div class=\"eyebrow\" style=\"margin-bottom:12px\">YOUR STRONGEST GROUND</div>"+
@@ -796,6 +807,13 @@
       KS.clearQuickStart();
       routeNext();
     };
+    if(saveP && saveP.then){
+      saveP.then(function(r){
+        var el = document.getElementById("ksSaved");
+        if(!el) return;
+        if(r && !r.error && !r.demo) el.textContent = "Saved to your account.";
+      });
+    }
   }
 
   // ---------- results: all 26 scales ----------
@@ -835,14 +853,15 @@
     }
 
     var signedIn = window.FC && FC.live && FC.uid();
-    if(signedIn){ KS.saveResult(scored, finishTier); }
+    var saveP = signedIn ? KS.saveResult(scored, finishTier) : null;
+    if(window.FCPath && FCPath.isRH() && FCPath.markReport) FCPath.markReport(scored.gap);
 
     if(KS.isPreparing()){
       return finishPreparing(scored);
     }
     // Full results show to everyone. Account creation is a save action below
     // the results, not a gate in front of them.
-    return showResults(scored);
+    return showResults(scored, saveP);
   }
 
   // ---------- SAVE THE PLAN (password account, same as login.html) ----------
@@ -859,7 +878,7 @@
       ? FCPath.deskHref()
       : 'plan.html?assessment=' + encodeURIComponent(slug) + '&reveal=1';
     try { var t = localStorage.getItem('fc_claim_token'); if(t){ dest += (dest.indexOf('?')>=0?'&':'?') + 'claim=' + encodeURIComponent(t); } } catch(e){}
-    var saveLabel = rh ? 'Open your trainings' : 'Start my plan';
+    var saveLabel = rh ? 'Save and start the trainings' : 'Start my plan';
     if(!(window.FC && FC.signUpPassword)){ msg.textContent='Sign-in is not available right now.'; msg.style.color='var(--error)'; btn.disabled=false; btn.textContent=saveLabel; return; }
     FC.signUpPassword(email, pass, '', dest).then(function(r){
       function go(){ location.href = dest; }
@@ -880,7 +899,7 @@
 
   // ---------- full results: shown free to everyone, all 26 dimensions ----------
   window.__showResults = function(sc){ return showResults(sc); };  // test seam
-  function showResults(scored){
+  function showResults(scored, saveP){
     enterAssessment();
     if(KS.isPreparing()){ return finishPreparing(scored); }
     var strK = scored.strength, gapK = scored.gap;
@@ -932,20 +951,30 @@
     }).join('');
 
     var rh = window.FCPath && FCPath.isRH();
-    var courseHref = rh ? FCPath.deskHref() : '';
+    var rec = (rh && window.FCPath.courseForFocus) ? FCPath.courseForFocus(gapK) : { slug:'fundamentals', title:'Fathering Fundamentals' };
+    var courseHref = rh ? FCPath.playerHref(rec.slug) : '';
+    var deskHref = rh ? FCPath.deskHref() : '';
+    var loginNext = encodeURIComponent(courseHref || deskHref);
+    var rhSave = signedIn
+      ? '<p class="ks-saved" id="ksSaved">Saved on this device.</p>'
+      : '<p class="ks-saved" id="ksSaved">Saved on this device. An account keeps it. <a class="link ash" href="login.html?path=rh&amp;next='+loginNext+'">Log in</a> · <a class="link ash" href="login.html?path=rh&amp;mode=signup&amp;next='+loginNext+'">Create account</a></p>';
     var accountCard = rh
       ? (signedIn
-        ? '<a class="btn btn-yellow" style="width:100%" href="'+courseHref+'">Open your trainings</a>'+
+        ? '<a class="btn btn-yellow" style="width:100%" href="'+courseHref+'">Start '+esc(rec.title)+'</a>'+
+          rhSave+
+          '<p class="fine" style="text-align:center;margin-top:8px"><a class="link ash" href="'+deskHref+'" style="font-size:12px">All three trainings</a></p>'+
           '<p class="fine" style="text-align:center;margin-top:12px"><a class="link ash" href="report.html" style="font-size:12px">Or read your full written report</a></p>'
-        : '<a class="btn btn-yellow" style="width:100%" href="'+courseHref+'">Open your trainings</a>'+
+        : '<a class="btn btn-yellow" style="width:100%" href="'+courseHref+'">Start '+esc(rec.title)+'</a>'+
+          rhSave+
+          '<p class="fine" style="text-align:center;margin-top:8px"><a class="link ash" href="'+deskHref+'" style="font-size:12px">All three trainings</a></p>'+
           '<div class="ks-save-card" style="margin-top:18px">'+
             '<h3 class="ks-save-h">Save this so you can come back.</h3>'+
             '<p class="helper" style="margin-bottom:16px">Optional. The trainings are open now. An account keeps your report with you.</p>'+
             '<input class="input" type="email" id="ksEmail" placeholder="you@email.com" autocomplete="email" style="margin-bottom:10px">'+
             '<input class="input" type="password" id="ksPass" placeholder="Password (8+ characters)" autocomplete="new-password">'+
-            '<button class="btn btn-secondary" id="ksSavePlan" style="width:100%;margin-top:10px">Save and start the trainings</button>'+
+            '<button class="btn btn-secondary" id="ksSavePlan" style="width:100%;margin-top:10px">Save and start '+esc(rec.title)+'</button>'+
             '<p class="ksmsg fine" id="ksMsg" style="margin-top:10px;text-align:center"></p>'+
-            '<p class="fine" style="margin-top:8px;text-align:center">Already have an account? <a class="link ash" href="login.html?next='+encodeURIComponent(courseHref)+'" style="font-size:12px">Sign in</a></p>'+
+            '<p class="fine" style="margin-top:8px;text-align:center">Already have an account? <a class="link ash" href="login.html?path=rh&amp;next='+loginNext+'" style="font-size:12px">Sign in</a></p>'+
           '</div>'+
           '<p class="fine" style="text-align:center;margin-top:14px"><a class="link ash" href="report.html" style="font-size:12px">Or read your full written report first</a></p>')
       : (signedIn
@@ -1012,6 +1041,13 @@
       if(sb) sb.addEventListener('click', goSave);
       if(se) se.addEventListener('keydown', function(e){ if(e.key==='Enter'){ goSave(); } });
       if(sp) sp.addEventListener('keydown', function(e){ if(e.key==='Enter'){ goSave(); } });
+    }
+    if(saveP && saveP.then){
+      saveP.then(function(r){
+        var el = document.getElementById('ksSaved');
+        if(!el) return;
+        if(r && !r.error && !r.demo) el.textContent = 'Saved to your account.';
+      });
     }
   }
 
