@@ -194,7 +194,11 @@ def test_coursework_page_present(page, server):
     # the pillars of the flow exist in the controller
     assert "video_progress" in js and "final_qa_responses" in js
     assert "openPractice" in js and "practice_completions" in js
-    assert "status:'submitted'" in js or 'status: "submitted"' in js
+    assert "openWriting" in js and "session_writings" in js
+    assert "What did you learn?" in js
+    assert "when the training is live" not in js
+    assert "Read this session" not in js
+    assert "awardStatus='submitted'" in js or "status:'submitted'" in js or 'status: "submitted"' in js
 
 def test_enroll_begin_button_targets_coursework(page, server):
     assert "course.html?cert=" in _fetch(server, "assets/js/enroll.js")
@@ -265,6 +269,7 @@ def test_preview_player_shows_practice_copy(page, server):
     page.wait_for_timeout(500)
     body = page.inner_text("body")
     assert "Question 1" in body
+    assert "Session 1 of" in body
     assert "DEBRIEF" in body or "The Surge Is a Signal" in body
     choice = page.query_selector(".cw-choice")
     assert choice is not None
@@ -426,7 +431,7 @@ def test_returning_home_path_opens_films(page, server):
     assert "Start the training your report named. The other two stay open." in help
     assert "Pick a training. Watch. No order." not in help
     assert "Open your films" not in help
-    assert "Answer honestly. About eight minutes" in help
+    assert "This takes eight minutes. Then you know where you stand." in help
     assert "Same Team" not in help
     assert "all four" not in help.lower()
     assert "four courses" not in help
@@ -477,6 +482,12 @@ def test_returning_home_path_opens_films(page, server):
         "12 weeks. Training and a certificate.",
         "12 weeks. Training and a certificate.",
     ]
+    lines = [el.inner_text() for el in page.query_selector_all(".rh-film-l")]
+    assert lines == [
+        "Connect with your child with meaning and impact.",
+        "Steadiness when the moments get loud.",
+        "Improving your most important relationships.",
+    ]
     assert "A certificate needs a claimed seat later." in desk_body
     assert "Not a week" not in desk_body
     assert "Watch first. An account keeps your progress." in desk_body
@@ -520,3 +531,65 @@ def test_rh_desk_after_report_names_training(page, server):
     assert "cert=reentry" in href
     assert "preview=1" in href
     assert _no_app_errors(page)
+
+def test_fundamentals_intro_has_real_outline(page, server):
+    page.add_init_script("localStorage.setItem('fc_path','returning-home');")
+    page.goto(f"{server}/course.html?preview=1&cert=fundamentals&welcome=0", wait_until="load")
+    page.wait_for_timeout(700)
+    assert _no_app_errors(page)
+    body = page.inner_text("body")
+    assert "when the training is live" not in body
+    assert "Read this session" not in body
+    assert "Take the checkpoint when you are ready." in body
+    assert "THIS SESSION" in body
+    assert "Welcome, overview, and take the assessment." in body
+    go = page.query_selector("#cw-to-debrief")
+    assert go is not None
+    go.click()
+    page.wait_for_timeout(500)
+    body = page.inner_text("body")
+    assert "Session 1 of" in body
+    assert "Question 1" in body
+
+def test_faith_language_is_inclusive(page, server):
+    demo = _fetch(server, "assets/js/course-demo-data.js")
+    checks = _fetch(server, "assets/js/session-checkpoints-data.js")
+    fund = _fetch(server, "content/fundamentals.json")
+    for blob in (demo, checks, fund):
+        assert "Church attendance is the secret." not in blob
+        assert "Enroll in a church this week" not in blob
+        assert "A required chapel track" not in blob
+        assert "Attendance at a religious institution is the secret." in blob
+        assert "Enroll in a religious institution this week" in blob
+
+def test_session_writing_saves_on_device(page, server):
+    page.add_init_script("localStorage.setItem('fc_path','returning-home');")
+    page.goto(f"{server}/course.html?preview=1&cert=fundamentals&welcome=0", wait_until="load")
+    page.wait_for_timeout(700)
+    go = page.query_selector("#cw-to-debrief")
+    assert go is not None
+    go.click()
+    page.wait_for_timeout(400)
+    for pick in (1, 1, 0):
+        choices = page.query_selector_all(".cw-choice")
+        assert len(choices) > pick
+        choices[pick].click()
+        page.wait_for_timeout(150)
+        nxt = page.query_selector("#cw-q-next")
+        assert nxt is not None
+        nxt.click()
+        page.wait_for_timeout(350)
+    body = page.inner_text("body")
+    assert "What did you learn?" in body
+    assert "What does that mean to you?" in body
+    assert "How can you apply this moving forward?" in body
+    assert "What else would you like to share?" in body
+    assert "Session 1 of" in body
+    page.fill("#cw-w-learned", "Presence is the work.")
+    page.fill("#cw-w-meaning", "My child feels it.")
+    page.fill("#cw-w-apply", "I will sit with him tonight.")
+    page.click("#cw-w-save")
+    page.wait_for_timeout(400)
+    stored = page.evaluate("() => localStorage.getItem('fc-cw-preview-fundamentals-writings')")
+    assert stored and "Presence is the work." in stored
+    assert "An account keeps it." in page.inner_text("body") or "Your writing" in page.inner_text("body").lower() or "First Secret" in page.inner_text("body")

@@ -128,9 +128,9 @@
   }
 
   var RH_COURSES = [
-    { slug:'fundamentals', title:'Fathering Fundamentals', line:'See your child clearly.', span:'8 lessons', offer:'Training and a certificate.' },
-    { slug:'anger', title:'Steady Under Pressure', line:'Steadiness when the week gets loud.', span:'12 weeks', offer:'Training and a certificate.' },
-    { slug:'reentry', title:'Coming Home Present', line:'Presence after time away.', span:'12 weeks', offer:'Training and a certificate.' }
+    { slug:'fundamentals', title:'Fathering Fundamentals', line:'Connect with your child with meaning and impact.', span:'8 lessons', offer:'Training and a certificate.' },
+    { slug:'anger', title:'Steady Under Pressure', line:'Steadiness when the moments get loud.', span:'12 weeks', offer:'Training and a certificate.' },
+    { slug:'reentry', title:'Coming Home Present', line:'Improving your most important relationships.', span:'12 weeks', offer:'Training and a certificate.' }
   ];
 
   function playerHref(slug){

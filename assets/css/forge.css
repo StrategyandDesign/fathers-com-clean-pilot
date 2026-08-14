@@ -1687,6 +1687,14 @@ html[data-theme="dark"] .cert-req-mark{color:#141210}
 .cw-loop-pip.is-on{background:var(--brass);border-color:var(--brass)}
 .cw-loop-legend{margin-left:4px;letter-spacing:.04em}
 .cw-practice{max-width:560px}
+.cw-write{max-width:560px}
+.cw-write-item{margin:0 0 16px}
+.cw-write-item label{display:block;font-weight:600;color:var(--bone);margin:0 0 8px;line-height:1.4}
+.cw-write-list{display:grid;gap:16px;margin:18px 0 0}
+.cw-write-card{background:var(--coal);border:1px solid var(--hairline);border-radius:12px;padding:16px 18px}
+.cw-write-card h3{font-size:16px;margin:0 0 6px}
+.cw-sess-outline{margin:18px 0 0;text-align:left;max-width:46ch;margin-left:auto;margin-right:auto}
+.cw-sess-outline p{margin:8px 0 0}
 .cw-how{margin:0 0 18px;padding-left:18px;color:var(--ash);max-width:52ch}
 .cw-how li{margin:0 0 6px;line-height:1.45}
 .cw-log{display:grid;gap:8px;margin:4px 0 0}
@@ -1773,7 +1781,7 @@ html[data-theme="dark"] .cert-req-mark{color:#141210}
 .rh-film-t{font-family:var(--font-display);font-size:26px;font-weight:600;letter-spacing:-.015em}
 .ks-saved{font-size:13px;line-height:1.5;color:var(--ash);text-align:center;margin:12px 0 0}
 .ks-saved a{color:var(--bone);text-underline-offset:3px}
-.rh-film-l{font-size:15px;line-height:1.5;color:var(--ash);flex:1}
+.rh-film-l{font-size:12px;line-height:1.45;color:var(--ash);flex:1;letter-spacing:-.01em}
 .rh-film-meta{font-size:13px;line-height:1.45;color:var(--bone)}
 .rh-film-go{font-size:14px;font-weight:600;color:var(--ink);background:var(--yellow);align-self:flex-start;padding:8px 16px;border-radius:999px}
 .rh-desk-cert{font-size:13px;line-height:1.5;color:var(--ash);margin:16px auto 0;max-width:46ch}

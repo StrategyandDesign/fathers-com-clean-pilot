@@ -190,19 +190,19 @@ begin
     update course_videos set title = 'Seventh Secret: Spiritual Equipping', video_url = 'pending', duration_seconds = 480 where id = vid;
   end if;
   if exists (select 1 from quiz_questions where video_id = vid and ord = 1) then
-    update quiz_questions set prompt = 'Spiritual equipping here means:', choices = '["Grounded convictions you live, with room for faith", "A required chapel track", "Quoting scripture at your child"]'::jsonb, correct_index = 0 where video_id = vid and ord = 1;
+    update quiz_questions set prompt = 'Spiritual equipping here means:', choices = '["Grounded convictions you live, with room for faith", "A required religious-institution track", "Quoting scripture at your child"]'::jsonb, correct_index = 0 where video_id = vid and ord = 1;
   else
-    insert into quiz_questions (video_id, ord, prompt, choices, correct_index) values (vid, 1, 'Spiritual equipping here means:', '["Grounded convictions you live, with room for faith", "A required chapel track", "Quoting scripture at your child"]'::jsonb, 0);
+    insert into quiz_questions (video_id, ord, prompt, choices, correct_index) values (vid, 1, 'Spiritual equipping here means:', '["Grounded convictions you live, with room for faith", "A required religious-institution track", "Quoting scripture at your child"]'::jsonb, 0);
   end if;
   if exists (select 1 from quiz_questions where video_id = vid and ord = 2) then
-    update quiz_questions set prompt = 'Why leave room?', choices = '["Fathers come with faith and without. Kids watch what you live.", "Faith does not belong in fathering.", "Church attendance is the secret."]'::jsonb, correct_index = 0 where video_id = vid and ord = 2;
+    update quiz_questions set prompt = 'Why leave room?', choices = '["Fathers come with faith and without. Kids watch what you live.", "Faith does not belong in fathering.", "Attendance at a religious institution is the secret."]'::jsonb, correct_index = 0 where video_id = vid and ord = 2;
   else
-    insert into quiz_questions (video_id, ord, prompt, choices, correct_index) values (vid, 2, 'Why leave room?', '["Fathers come with faith and without. Kids watch what you live.", "Faith does not belong in fathering.", "Church attendance is the secret."]'::jsonb, 0);
+    insert into quiz_questions (video_id, ord, prompt, choices, correct_index) values (vid, 2, 'Why leave room?', '["Fathers come with faith and without. Kids watch what you live.", "Faith does not belong in fathering.", "Attendance at a religious institution is the secret."]'::jsonb, 0);
   end if;
   if exists (select 1 from quiz_questions where video_id = vid and ord = 3) then
-    update quiz_questions set prompt = 'Which practice matches this session?', choices = '["One conviction lived in the open this week", "Enroll in a church this week", "Hide what you believe"]'::jsonb, correct_index = 0 where video_id = vid and ord = 3;
+    update quiz_questions set prompt = 'Which practice matches this session?', choices = '["One conviction lived in the open this week", "Enroll in a religious institution this week", "Hide what you believe"]'::jsonb, correct_index = 0 where video_id = vid and ord = 3;
   else
-    insert into quiz_questions (video_id, ord, prompt, choices, correct_index) values (vid, 3, 'Which practice matches this session?', '["One conviction lived in the open this week", "Enroll in a church this week", "Hide what you believe"]'::jsonb, 0);
+    insert into quiz_questions (video_id, ord, prompt, choices, correct_index) values (vid, 3, 'Which practice matches this session?', '["One conviction lived in the open this week", "Enroll in a religious institution this week", "Hide what you believe"]'::jsonb, 0);
   end if;
   if exists (select 1 from final_qa_questions where course_id = cid and ord = 1) then
     update final_qa_questions set prompt = 'Name one Secret you will practice this week, and the concrete move that proves it.' where course_id = cid and ord = 1;

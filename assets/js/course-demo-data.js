@@ -1935,6 +1935,7 @@ window.FC_COURSE_DEMO = {
         "id": "demo-fundamentals-1",
         "ord": 1,
         "title": "Introduction",
+        "keyline": "Welcome, overview, and take the assessment.",
         "vimeo_id": null,
         "duration_seconds": 480,
         "poster": "assets/img/session-stills/fathering-fundamentals/s00.png",
@@ -1973,6 +1974,7 @@ window.FC_COURSE_DEMO = {
         "id": "demo-fundamentals-2",
         "ord": 2,
         "title": "First Secret: Commitment",
+        "keyline": "Present physically, emotionally, spiritually; commitment builds trust.",
         "vimeo_id": null,
         "duration_seconds": 480,
         "poster": "assets/img/session-stills/fathering-fundamentals/s01.png",
@@ -2011,6 +2013,7 @@ window.FC_COURSE_DEMO = {
         "id": "demo-fundamentals-3",
         "ord": 3,
         "title": "Second Secret: Knowing Your Child",
+        "keyline": "Unique personality, needs, and interests open deeper connection.",
         "vimeo_id": null,
         "duration_seconds": 480,
         "poster": "assets/img/session-stills/fathering-fundamentals/s02.png",
@@ -2049,6 +2052,7 @@ window.FC_COURSE_DEMO = {
         "id": "demo-fundamentals-4",
         "ord": 4,
         "title": "Third Secret: Showing Up Consistently",
+        "keyline": "Stability through consistent actions, values, and discipline.",
         "vimeo_id": null,
         "duration_seconds": 480,
         "poster": "assets/img/session-stills/fathering-fundamentals/s03.png",
@@ -2087,6 +2091,7 @@ window.FC_COURSE_DEMO = {
         "id": "demo-fundamentals-5",
         "ord": 5,
         "title": "Fourth Secret: Protecting and Providing Security",
+        "keyline": "Physical, emotional, and spiritual safety and provision.",
         "vimeo_id": null,
         "duration_seconds": 480,
         "poster": "assets/img/session-stills/fathering-fundamentals/s04.png",
@@ -2125,6 +2130,7 @@ window.FC_COURSE_DEMO = {
         "id": "demo-fundamentals-6",
         "ord": 6,
         "title": "Fifth Secret: Loving Their Mother",
+        "keyline": "Honor their mother. Civil if you are not together. Never undercut her.",
         "vimeo_id": null,
         "duration_seconds": 480,
         "poster": "assets/img/session-stills/fathering-fundamentals/s05.png",
@@ -2163,6 +2169,7 @@ window.FC_COURSE_DEMO = {
         "id": "demo-fundamentals-7",
         "ord": 7,
         "title": "Sixth Secret: Active Listening",
+        "keyline": "Two-way. Full attention. Not an interrogation.",
         "vimeo_id": null,
         "duration_seconds": 480,
         "poster": "assets/img/session-stills/fathering-fundamentals/s06.png",
@@ -2201,6 +2208,7 @@ window.FC_COURSE_DEMO = {
         "id": "demo-fundamentals-8",
         "ord": 8,
         "title": "Seventh Secret: Spiritual Equipping",
+        "keyline": "Live convictions a child can trust. Faith is welcome. Fathers come with a faith community and without.",
         "vimeo_id": null,
         "duration_seconds": 480,
         "poster": "assets/img/session-stills/fathering-fundamentals/s07.png",
@@ -2210,7 +2218,7 @@ window.FC_COURSE_DEMO = {
             "prompt": "Spiritual equipping here means:",
             "choices": [
               "Grounded convictions you live, with room for faith",
-              "A required chapel track",
+              "A required religious-institution track",
               "Quoting scripture at your child"
             ],
             "correct_index": 0
@@ -2220,7 +2228,7 @@ window.FC_COURSE_DEMO = {
             "choices": [
               "Fathers come with faith and without. Kids watch what you live.",
               "Faith does not belong in fathering.",
-              "Church attendance is the secret."
+              "Attendance at a religious institution is the secret."
             ],
             "correct_index": 0
           },
@@ -2228,7 +2236,7 @@ window.FC_COURSE_DEMO = {
             "prompt": "Which practice matches this session?",
             "choices": [
               "One conviction lived in the open this week",
-              "Enroll in a church this week",
+              "Enroll in a religious institution this week",
               "Hide what you believe"
             ],
             "correct_index": 0
