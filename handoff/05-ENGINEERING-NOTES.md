@@ -43,7 +43,7 @@ To send reminders or run `/api/cron/*`: `CRON_SECRET` and `SUPABASE_SERVICE_ROLE
 1. Point a Vercel preview at this PR (base `clean-pilot`).
 2. Invite reviewers to Supabase project **Pilot** only.
 3. Walk `handoff/06-VERIFICATION-CHECKLIST.md`.
-4. Keep `main` PRs (103–108, 93–399) off this review.
+4. Keep `main` PRs (103–108, 93–99) off this review.
 5. If you want one public pilot URL, redeploy `clean-pilot` to the **fathers-com-pilot** Vercel project only.
 
 ## What this environment could not fully exercise
