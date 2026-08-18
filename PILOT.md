@@ -2,6 +2,20 @@
 
 This Next.js app lives on the `clean-pilot` branch and talks to the **Pilot** Supabase project. It is not the old static HTML site.
 
+## Current hosts (probed 18 August 2026)
+
+Use this table. Do not guess from project names.
+
+| Host | What it actually serves today | Use for clean-pilot review? |
+|---|---|---|
+| Git branch `clean-pilot` | Source of the Next.js pilot app | Yes — this is the code |
+| https://fathers-com-pilot.vercel.app | Next.js, **stale** build. Login still says “Official Fathers.com training pilot.” | No — not current `clean-pilot` HEAD |
+| https://fathers-com-platform.vercel.app | Next.js from **`main`**. Login says “The Fathers Performance Platform”. Paths like `/admin.html` return 404. | **No** — that is `main`, not this review |
+| Supabase `koeplcybddrvbliuepsy` (name: **Pilot**) | Auth + Postgres + Storage for the Next.js app | Yes |
+| Supabase `kemqpiboqeqhbuuldmls` (name: fathers-com-platform) | **INACTIVE** | No |
+
+Reviewers should run the app from this branch locally, or from a Vercel preview of a PR that targets `clean-pilot`. Do not treat either of the two public Vercel URLs above as “the review build.”
+
 ## 1. Create a Manager
 
 Signup (`/signup`) is for fathers and requires an invite code. The first Manager cannot use that form.
