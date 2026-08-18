@@ -1,12 +1,13 @@
 # Fathers.com — clean-pilot (Next.js)
 
-This repository is the **Next.js clean-pilot app** for review and hardening. It is not production, and it is not the old static Fathers.com site.
+This repository is the **Next.js clean-pilot app** for review and hardening. It is not the older static HTML Fathers.com site, and it is not a production cutover of `fathers.com`.
 
-**If `app/` is not here yet:** the tree is still unpacking. Wait a few minutes and pull again. Or run:
-
-```bash
-cat export/part-* | base64 -d | tar -xzf -
-```
+| What | Where |
+|---|---|
+| Runbook | `PILOT.md` |
+| App | `app/` — Next.js 15 App Router |
+| Auth / data | Pilot Supabase project `koeplcybddrvbliuepsy` |
+| Handoff for reviewers | `handoff/` |
 
 ```bash
 npm install
@@ -14,6 +15,12 @@ npm install
 npm run dev
 ```
 
-Start with `handoff/00-SUBMISSION-GUIDE.md`.
+Open http://localhost:3000
 
-Do **not** use https://fathers-com-platform.vercel.app to judge this repo.
+- Lint: `npm run lint`
+- Unit tests: `npx tsx --test tests/*.test.ts`
+- Typecheck: `npx tsc --noEmit`
+
+Start here: `handoff/00-SUBMISSION-GUIDE.md`
+
+This repo is the review line. Do not use https://fathers-com-platform.vercel.app to judge it. That host serves a different line.
