@@ -16,7 +16,7 @@ This guide is written from a completed audit of `origin/clean-pilot` plus the cl
 |---|---|
 | Pull request **against `clean-pilot`**: the audit/cleanup PR from branch `cursor/clean-pilot-handoff-audit-7c78` | `main` |
 | If that PR is not up yet: branch `cursor/clean-pilot-handoff-audit-7c78` | Any `cursor/*-7c78` PR that lists **base = `main`** (PRs 103–108) |
-| Base commit of the line: `b950131` on `origin/clean-pilot` | Draft PR **#92** (`cursor/cloud-agent-1786970093610-bdqgf` → `clean-pilot`) — 532 files, `mergeable_state: dirty` |
+| Base of the line: `b950131` on `origin/clean-pilot` | Draft PR **#92** (`cursor/cloud-agent-1786970093610-bdqgf` → `clean-pilot`) — 532 files, `mergeable_state: dirty` |
 | | The `0b8c` stack (PRs 93–99) — those target `main` or each other, not `clean-pilot` |
 
 **Use one PR targeting `clean-pilot`.** Do not open a PR to `main`. Do not ask them to review a pile of stacked PRs.
