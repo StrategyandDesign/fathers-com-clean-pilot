@@ -1,13 +1,34 @@
 import { DEFAULT_LOCALE, type Locale } from "@/lib/i18n/config";
 import { en } from "@/lib/i18n/messages/en";
-import { he } from "@/lib/i18n/messages/he";
+import { he as heBase } from "@/lib/i18n/messages/he";
+import { heOverlay } from "@/lib/i18n/messages/he-overlay";
 import type { Messages } from "@/lib/i18n/messages/types";
 
 export type { Messages };
 
+function mergeMessages(base: Messages, extra: unknown): Messages {
+  const out = structuredClone(base) as Record<string, unknown>;
+  const walk = (target: Record<string, unknown>, source: Record<string, unknown>) => {
+    for (const [key, value] of Object.entries(source)) {
+      if (value && typeof value === "object" && !Array.isArray(value)) {
+        const current = target[key];
+        if (current && typeof current === "object") {
+          walk(current as Record<string, unknown>, value as Record<string, unknown>);
+        } else {
+          target[key] = value;
+        }
+      } else {
+        target[key] = value;
+      }
+    }
+  };
+  walk(out, extra as Record<string, unknown>);
+  return out as Messages;
+}
+
 const CATALOG: Record<Locale, Messages> = {
-  en,
-  he,
+  en: en as Messages,
+  he: mergeMessages(heBase as Messages, heOverlay),
 };
 
 export type TranslateVars = Record<string, string | number>;
