@@ -1,1 +1,26 @@
-PLACEHOLDER
+export const en = {
+  localeName: "English",
+  nav: {
+    home: "Home",
+    trainings: "Trainings",
+    profile: "Assessment",
+    dashboard: "Dashboard",
+    participants: "Participants",
+    assessments: "Assessments",
+    reports: "Reports",
+    impact: "Impact Snapshot",
+    compare: "Compare",
+    dashboardMenu: "Dashboard views",
+    photos: "Org Photos",
+    account: "Account",
+    insights: "Insights",
+    impactSummary: "Impact Summary",
+    certificates: "Certificates",
+    organizations: "Organizations",
+    users: "Users",
+    inbox: "Inbox",
+    gathering: "Gathering",
+    openMenu: "Open menu",
+    closeMenu: "Close menu",
+  },
+} as const;
