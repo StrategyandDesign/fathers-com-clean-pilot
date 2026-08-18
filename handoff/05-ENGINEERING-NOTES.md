@@ -4,7 +4,9 @@
 
 ```bash
 git fetch origin
-git checkout cursor/clean-pilot-handoff-audit-7c78
+git clone https://github.com/StrategyandDesign/fathers-com-clean-pilot.git
+cd fathers-com-clean-pilot
+# default branch is review
 npm install
 cp .env.example .env.local
 # Optional: fill Pilot URL/keys. If left blank, lib/supabase/env.ts uses Pilot.
@@ -41,7 +43,7 @@ To send reminders or run `/api/cron/*`: `CRON_SECRET` and `SUPABASE_SERVICE_ROLE
 1. Point a Vercel preview at this PR (base `clean-pilot`).
 2. Invite reviewers to Supabase project **Pilot** only.
 3. Walk `handoff/06-VERIFICATION-CHECKLIST.md`.
-4. Keep `main` PRs (103–108, 93–99) off this review.
+4. Keep `main` PRs (103–108, 93–399) off this review.
 5. If you want one public pilot URL, redeploy `clean-pilot` to the **fathers-com-pilot** Vercel project only.
 
 ## What this environment could not fully exercise
@@ -58,4 +60,4 @@ Signed-out HTTP after cleanup (`npm run dev`, 18 Aug 2026):
 | `/privacy` | 200 |
 | `/this-page-does-not-exist` | 404 |
 
-Public hosts probed the same day (see `PILOT.md`). Father/manager/admin **authenticated** click-throughs were not run here. `npx tsx --test tests/*.test.ts`: 154 passed. `npx tsc --noEmit` and `npm run lint` were clean.
+Public hosts probed the same day (see `PILOT.md`). Father/manager/admin **authenticated** click-throughs were not run here. Unit tests, `tsc`, and lint were re-run after the UX port.
