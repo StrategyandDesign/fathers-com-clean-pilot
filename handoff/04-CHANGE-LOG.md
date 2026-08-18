@@ -1,9 +1,10 @@
 # Change log
 
-Branch: `cursor/clean-pilot-handoff-audit-7c78`  
-Base: `origin/clean-pilot` @ `b950131`
+Internal branch: `cursor/clean-pilot-handoff-audit-7c78`  
+Base: `origin/clean-pilot` @ `b950131`  
+Review copy: `https://github.com/StrategyandDesign/fathers-com-clean-pilot` (`main`)
 
-No changes were made on `main`.
+No changes were made on `fathers-com-platform` `main`.
 
 ## Deleted
 
@@ -19,10 +20,11 @@ No changes were made on `main`.
 
 | Path | Why |
 |---|---|
-| `README.md` | This branch is Next.js clean-pilot, not the static site |
+| `README.md` | Next.js clean-pilot; isolated-repo note |
 | `PILOT.md` | Live-host table from 18 Aug 2026 probes |
 | `.env.example` | Cron schedule matches `vercel.json` |
 | `.gitignore` | Ignore local static-builder stub HTML |
+| `.github/workflows/ci.yml` | Next.js typecheck / lint / unit tests (replaces static-site checker) |
 
 ## Added
 

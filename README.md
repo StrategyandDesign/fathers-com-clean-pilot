@@ -1,6 +1,6 @@
 # Fathers.com — clean-pilot (Next.js)
 
-This branch is the **Next.js clean-pilot app**. It is not the older static HTML Fathers.com site, and it is not a production cutover of `fathers.com`.
+This repository is the **Next.js clean-pilot app** for review and hardening. It is not the older static HTML Fathers.com site, and it is not a production cutover of `fathers.com`.
 
 | What | Where |
 |---|---|
@@ -21,6 +21,6 @@ Open http://localhost:3000
 - Unit tests: `npx tsx --test tests/*.test.ts`
 - Typecheck: `npx tsc --noEmit`
 
-Root `*.html`, `assets/`, `build_*.py`, `content/`, and `tools/` are leftover static-site source. `.vercelignore` keeps them out of the Next.js deploy. `npm run dev` does not serve them.
+Start here: `handoff/00-SUBMISSION-GUIDE.md`
 
-Do **not** merge this branch to `main` unless a human explicitly decides that. `main` is a separate line.
+This repo is the review line. Do not use https://fathers-com-platform.vercel.app to judge it. That host serves a different line.

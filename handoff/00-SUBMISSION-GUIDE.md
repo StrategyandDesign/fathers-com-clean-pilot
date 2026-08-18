@@ -2,9 +2,11 @@
 
 **Audience:** you (the submitter)  
 **Date:** 18 August 2026  
-**Rule:** send only the clean-pilot line. Do not send `main`. Do not send PRs that target `main`.
+**Rule:** send only the isolated clean-pilot repository. Do not send `fathers-com-platform`. Do not send `main`.
 
 This guide is written from a completed audit of `origin/clean-pilot` plus the cleanup on `cursor/clean-pilot-handoff-audit-7c78`. Probe evidence is from the same day.
+
+GitHub collaborator access is **per repository**, not per branch. Anyone invited to `fathers-com-platform` can see `main` and every other branch. That is why the review copy lives in a **separate private repo**.
 
 ---
 
@@ -14,77 +16,36 @@ This guide is written from a completed audit of `origin/clean-pilot` plus the cl
 
 | Point them here | Do not point them here |
 |---|---|
-| Pull request **#109** against `clean-pilot`: https://github.com/StrategyandDesign/fathers-com-platform/pull/109 | `main` |
-| If that PR is not up yet: branch `cursor/clean-pilot-handoff-audit-7c78` | Any `cursor/*-7c78` PR that lists **base = `main`** (PRs 103–108) |
-| Base of the line: `b950131` on `origin/clean-pilot` | Draft PR **#92** (`cursor/cloud-agent-1786970093610-bdqgf` → `clean-pilot`) — 532 files, `mergeable_state: dirty` |
-| | The `0b8c` stack (PRs 93–99) — those target `main` or each other, not `clean-pilot` |
+| Isolated repo: https://github.com/StrategyandDesign/fathers-com-clean-pilot | https://github.com/StrategyandDesign/fathers-com-platform |
+| That repo’s `main` (clean-pilot Next.js app only) | `main` on `fathers-com-platform` |
+| `handoff/` in the isolated repo | Pull request **#109** on the old repo (internal only) |
+| | Any `cursor/*-7c78` PR whose **base is `main`** (PRs 103–108) |
+| | Draft PR **#92** (532 files, dirty) |
+| | The `0b8c` stack (PRs 93–99) |
 
-**Use one PR targeting `clean-pilot`.** Do not open a PR to `main`. Do not ask them to review a pile of stacked PRs.
+**Send one repository.** Do not also send the old repo “for context.” Do not ask them to review a pile of stacked PRs.
 
-Recommended PR title:
+### How to invite (this repo only)
 
-```
-clean-pilot handoff: audit cleanup (do not merge to main)
-```
+1. Open https://github.com/StrategyandDesign/fathers-com-clean-pilot
+2. **Settings → Collaborators → Add people**
+3. Invite each engineer as **Write** (or **Read** if they should not push)
+4. Do **not** invite them to `fathers-com-platform`
 
-Recommended PR description (paste as the body):
-
-```markdown
-## Scope
-
-Next.js clean-pilot app only. Base is `clean-pilot`, not `main`.
-
-This PR deletes unused Next.js modules, corrects the branch README / runbook
-so reviewers are not sent to the wrong host, and adds the `handoff/` package.
-
-## This is not production
-
-- Do **not** merge this to `main`.
-- Do **not** treat https://fathers-com-platform.vercel.app as this review.
-- That host currently serves Next.js from **`main`**. It is a separate line.
-
-## What to read first
-
-1. `handoff/00-SUBMISSION-GUIDE.md`
-2. `handoff/01-EXECUTIVE-SUMMARY.md`
-3. `handoff/02-INVENTORY.md`
-4. `handoff/03-AUDIT-FINDINGS.md`
-
-## Cleaned in this PR
-
-- Removed unused Next.js modules (no remaining importers).
-- README and PILOT.md now state the live-host facts from 18 Aug 2026 probes.
-- Cron comment in `.env.example` matches `vercel.json`.
-- Local static-builder HTML stubs are gitignored.
-
-## Still incomplete / out of scope
-
-- Root `*.html`, `assets/`, `build_*.py` remain in the tree (leftover static
-  source; excluded from Next deploy by `.vercelignore`). Left in place so a
-  future merge to `main` cannot wipe that history by accident.
-- Email, web-push, Sentry, YouTube duration backfill, and Vercel cron are
-  optional and degrade when unset.
-- Pilot DB has `platform_assessments*` tables that this branch does not query.
-- Draft PR #92 is not part of this submission.
-```
-
-Label the PR (GitHub labels or the first line of the body):
-
-- `do-not-merge-to-main`
-- `clean-pilot-only`
-- `not-production`
+You need their GitHub usernames to send the invite. Access is repo-wide on the isolated repo; that is intended, because that repo has only the clean-pilot line.
 
 ### Files to call out
 
-**Cleaned (this PR)**
+**Cleaned on the submitted line**
 
 - Deleted: `components/assessments/assigned-list.tsx`, `components/father/group-membership.tsx`, `components/father/session-steps.tsx`, `components/father/session-complete-mark.tsx`, `lib/father/evaluate.ts`
 - Updated: `README.md`, `PILOT.md`, `.env.example`, `.gitignore`
 - Added: `handoff/*`
 
-**Present but not the Next.js app** (tell reviewers to ignore for behavior review)
+**Omitted from the isolated repo on purpose**
 
-- Root `*.html`, `assets/`, `content/`, `emails/`, `partner-kit/`, `build_*.py`, `tools/`, `docs/` (except this `handoff/` set and `PILOT.md`)
+- Root `*.html`, `assets/`, `content/`, `emails/`, `partner-kit/`, `build_*.py`, `tools/`
+- Those are leftover static-site source from the old platform. They are not the Next.js app. They were left on the internal `clean-pilot` branch so a later merge to `fathers-com-platform` `main` could not wipe that history. The isolated review copy does not include them.
 
 ---
 
@@ -154,13 +115,13 @@ Probed 18 August 2026:
 | https://fathers-com-pilot.vercel.app | Next.js, **old** build. Title “Fathers.com Pilot”. Login copy: “Official Fathers.com training pilot.” | **No** |
 | https://fathers-com-platform.vercel.app | Next.js from **`main`**. Login copy: “The Fathers Performance Platform”. `/admin.html` → 404. | **No** |
 
-Both hosts 307 `/` and `/father` to `/login` when signed out. Both are Next.js. Neither is a preview of `cursor/clean-pilot-handoff-audit-7c78`.
+Both hosts 307 `/` and `/father` to `/login` when signed out. Both are Next.js. Neither is this isolated handoff.
 
 ### What to share instead
 
-1. After the cleanup PR exists, share **that PR’s Vercel preview URL** (the one Vercel comments on the PR). That is the only public URL that matches the submitted SHA.
-2. Until that preview exists, tell the team to run `npm run dev` from the PR branch.
-3. Write this sentence in the email: “Do not use fathers-com-platform.vercel.app or fathers-com-pilot.vercel.app to judge this handoff. The first is `main`. The second is a stale Pilot deploy.”
+1. Tell the team to clone the isolated repo and run `npm run dev` (`PILOT.md`).
+2. If they create their own Vercel project from **this** repo, that preview is in scope. A preview attached to `fathers-com-platform` is not.
+3. Write this sentence in the email: “Do not use fathers-com-platform.vercel.app or fathers-com-pilot.vercel.app to judge this handoff. The first is `main` on the old repo. The second is a stale Pilot deploy.”
 
 ### Env / project settings to mention
 
@@ -172,24 +133,24 @@ Required for a faithful preview:
 
 Optional (app degrades without them): `SUPABASE_SERVICE_ROLE_KEY`, `CRON_SECRET`, `RESEND_API_KEY`, `YOUTUBE_API_KEY`, VAPID keys, Sentry DSN.
 
-If the preview project has no Supabase env, this branch falls back to the hardcoded Pilot keys in `lib/supabase/env.ts`. That is intentional for this line. It is **not** a production pattern.
+If the preview project has no Supabase env, this line falls back to the hardcoded Pilot keys in `lib/supabase/env.ts`. That is intentional for this line. It is **not** a production pattern.
 
 ---
 
 ## 4. Supporting documents (order)
 
-Attach or link these from the PR, in this order:
+Point the team at these in the isolated repo, in this order:
 
-1. `handoff/00-SUBMISSION-GUIDE.md` — this file  
-2. `handoff/01-EXECUTIVE-SUMMARY.md`  
-3. `handoff/02-INVENTORY.md`  
-4. `handoff/03-AUDIT-FINDINGS.md`  
-5. `handoff/04-CHANGE-LOG.md`  
-6. `handoff/05-ENGINEERING-NOTES.md`  
-7. `handoff/06-VERIFICATION-CHECKLIST.md`  
-8. `PILOT.md` — how to create seats and run locally  
+1. `handoff/00-SUBMISSION-GUIDE.md` — this file
+2. `handoff/01-EXECUTIVE-SUMMARY.md`
+3. `handoff/02-INVENTORY.md`
+4. `handoff/03-AUDIT-FINDINGS.md`
+5. `handoff/04-CHANGE-LOG.md`
+6. `handoff/05-ENGINEERING-NOTES.md`
+7. `handoff/06-VERIFICATION-CHECKLIST.md`
+8. `PILOT.md` — how to create seats and run locally
 
-Do not send `README.md` from `main`. Do not send `ARCHITECTURE.md` as the system description of this app (it still describes the static site).
+Do not send `README.md` from `fathers-com-platform` `main`. Do not send `ARCHITECTURE.md` as the system description of this app (it still describes the static site).
 
 ---
 
@@ -198,41 +159,37 @@ Do not send `README.md` from `main`. Do not send `ARCHITECTURE.md` as the system
 ```text
 Subject: Fathers.com clean-pilot handoff — Next.js review only (not production)
 
-We are submitting the clean-pilot Next.js application for review. This is not
-a production release and it is not the old static Fathers.com site.
+Repo (clean-pilot only):
+https://github.com/StrategyandDesign/fathers-com-clean-pilot
 
-Please treat these as two different things:
+Clone:
+git clone https://github.com/StrategyandDesign/fathers-com-clean-pilot.git
 
-1) Production line — git branch `main`.
-   The public host https://fathers-com-platform.vercel.app currently serves
-   Next.js from `main`. It is out of scope. Do not merge this work into main
-   as part of this review. Do not use that URL to evaluate this handoff.
+Start with handoff/00-SUBMISSION-GUIDE.md
 
-2) Review line — git branch `clean-pilot` and the PR that targets it
-   (cursor/clean-pilot-handoff-audit-7c78). That is the only code we are
-   submitting. Data is the Supabase project named Pilot
-   (ref koeplcybddrvbliuepsy). The Supabase project named
-   fathers-com-platform is inactive and is not this review.
+This is the Next.js clean-pilot app for hardening.
+It is not production. Do not use fathers-com-platform.vercel.app.
+
+Data is the Supabase project named Pilot (ref koeplcybddrvbliuepsy).
+The Supabase project named fathers-com-platform is inactive and is
+not this review.
 
 What is being submitted
-- The Next.js 15 app in app/, with the audit cleanup in the PR
-- The handoff/ documents on that branch
+- The Next.js 15 app in app/
+- The handoff/ documents
 - Access to the Pilot Supabase project (invite to follow)
 
 What is not being submitted
-- main, and any open PR whose base is main
-- Draft PR #92 (dirty, not part of this package)
+- The fathers-com-platform repository (that contains main)
 - Email, push, Sentry, and cron (optional; degrade when unset)
-- A claim that either public Vercel URL is this SHA
+- A claim that either public Vercel URL is this code
 
 Preferred review order
 1) handoff/00-SUBMISSION-GUIDE.md
 2) handoff/01-EXECUTIVE-SUMMARY.md
-3) The PR diff
-4) handoff/02-INVENTORY.md and handoff/03-AUDIT-FINDINGS.md
-5) Run locally from the PR branch (PILOT.md) or use the PR’s Vercel preview
-   once it exists — not fathers-com-pilot.vercel.app (stale) and not
-   fathers-com-platform.vercel.app (main)
+3) handoff/02-INVENTORY.md and handoff/03-AUDIT-FINDINGS.md
+4) Run locally (PILOT.md) — not fathers-com-pilot.vercel.app (stale)
+   and not fathers-com-platform.vercel.app (old-repo main)
 
 This app is a signed-in pilot. It is not live on fathers.com.
 ```
@@ -241,10 +198,11 @@ This app is a signed-in pilot. It is not live on fathers.com.
 
 ## 6. Final checklist before you hit send
 
-- [ ] The GitHub link is a PR (or branch) whose **base is `clean-pilot`**, not `main`.
-- [ ] You are not including PRs 103–108, 93–99, or 92.
-- [ ] The Vercel link, if any, is the **PR preview**, not `fathers-com-platform.vercel.app` and not `fathers-com-pilot.vercel.app`.
-- [ ] The Supabase link is project **Pilot** / `koeplcybddrvbliuepsy`, not `kemqpiboqeqhbuuldmls`.
-- [ ] The message says this is **not production** and **must not be merged to main**.
-- [ ] `handoff/` is on the same branch you are sending.
-- [ ] You have not attached service-role keys.
+- [ ] The GitHub link is **https://github.com/StrategyandDesign/fathers-com-clean-pilot**
+- [ ] You invited them to **that** repo only, not `fathers-com-platform`
+- [ ] You are not including PRs 103–109, 93–99, or 92
+- [ ] The Vercel link, if any, is a preview **of the isolated repo**, not `fathers-com-platform.vercel.app` and not `fathers-com-pilot.vercel.app`
+- [ ] The Supabase link is project **Pilot** / `koeplcybddrvbliuepsy`, not `kemqpiboqeqhbuuldmls`
+- [ ] The message says this is **not production**
+- [ ] `handoff/` is in the isolated repo
+- [ ] You have not attached service-role keys

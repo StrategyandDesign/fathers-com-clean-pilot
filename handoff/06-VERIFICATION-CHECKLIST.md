@@ -1,12 +1,12 @@
 # Verification checklist
 
-Run these on `cursor/clean-pilot-handoff-audit-7c78`. Do not use `fathers-com-platform.vercel.app` or the stale `fathers-com-pilot.vercel.app` to confirm this SHA.
+Run these on a clone of `fathers-com-clean-pilot` (`main`). Do not use `fathers-com-platform.vercel.app` or the stale `fathers-com-pilot.vercel.app` to confirm this tree.
 
 ## A. Identity
 
-- [ ] `git rev-parse --abbrev-ref HEAD` is `cursor/clean-pilot-handoff-audit-7c78` (or the PR branch that targets `clean-pilot`).
-- [ ] `git merge-base HEAD origin/main` is **not** the only story you tell — confirm `origin/clean-pilot` is an ancestor: `git merge-base --is-ancestor origin/clean-pilot HEAD`.
-- [ ] The PR base on GitHub is `clean-pilot`.
+- [ ] `git remote -v` points at `StrategyandDesign/fathers-com-clean-pilot`, not `fathers-com-platform`.
+- [ ] `git rev-parse --abbrev-ref HEAD` is `main`.
+- [ ] There is no `main` from the old platform in this clone.
 
 ## B. Cleanup
 
