@@ -14,3 +14,4 @@ Submit 2 stays frozen on `submit/2`. The next official submit is still 4.
 | **3** | 2026-08-19 | `shared/3` | `10ff5eb` | Point Shared marks at the organized review tree. |
 | **4** | 2026-08-19 | `shared/4` | `ff51557` | Pull the current sync script before numbering a Shared mark. |
 | **5** | 2026-08-19 | `shared/5` | `6c01c42` | Keep the Shared ledger when overlaying review, and name leftover assets. |
+| **6** | 2026-08-19 | `shared/6` | `947b178` | Make the shared repo landing page the current tree. |

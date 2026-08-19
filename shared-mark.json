@@ -1,9 +1,9 @@
 {
-  "mark": 5,
-  "tag": "shared/5",
-  "at": "2026-08-19T16:32:51.604Z",
-  "internalSha": "6c01c4226dd0d27466d62f551a262879e4473af6",
+  "mark": 6,
+  "tag": "shared/6",
+  "at": "2026-08-19T16:38:39.589Z",
+  "internalSha": "947b17841fe78aeb3e7feee739d205fea6f8c307",
   "sharedSha": "",
-  "title": "Keep the Shared ledger when overlaying review, and name leftover assets.",
-  "url": "https://github.com/StrategyandDesign/fathers-com-clean-pilot/releases/tag/shared/5"
+  "title": "Make the shared repo landing page the current tree.",
+  "url": "https://github.com/StrategyandDesign/fathers-com-clean-pilot/releases/tag/shared/6"
 }
