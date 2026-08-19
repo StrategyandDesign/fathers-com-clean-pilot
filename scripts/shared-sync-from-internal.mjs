@@ -47,7 +47,7 @@ function parseSharedLedger(markdown) {
   const rows = [];
   for (const line of String(markdown ?? "").split("\n")) {
     const match = line.match(
-      /^\|\s*\*\*(\d+)\*\*\s*\|\s*([^|]+)\|\s*`([^`]+)`\s*\|\s*`([^`]+)`\s*\|\s*(.*?)\s*\|\s*$/
+      /^\|\s*\*\*(\d+)\*\*\s*\|\s*([^|]+)\|\s*`([^`]+)`\s*\|\s*`([^`]+)`\s*\|\s*(.*?)\s*\|$/
     );
     if (!match) continue;
     rows.push({

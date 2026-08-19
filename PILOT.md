@@ -13,12 +13,12 @@ git checkout submit/2          # frozen official copy
 # git checkout review          # moving draft, if you are iterating
 cp .env.example .env.local
 # Leave Supabase keys blank. The app falls back to Pilot.
-# NEXT_PUBLIC_SITE_URL=http://localhost:3000 is already in .env.example
+# NEXT_PUBLIC_SITE_URL=http://127.0.0.1:3000 is already in .env.example
 npm install
 npm run dev
 ```
 
-Open http://localhost:3000/login
+Open http://127.0.0.1:3000/login
 
 To keep working on this internal line instead:
 
@@ -195,7 +195,7 @@ Do **not** change the existing production Vercel project (`fathers-com-platform.
 2. Import this GitHub repo
 3. Settings:
    - **Project name:** `fathers-com-pilot` (or similar — not the production project name)
-   - **Branch:** `review` only
+   - **Branch:** `clean-pilot` only
    - **Framework Preset:** Next.js
    - **Build command:** `npm run build`
    - **Install command:** `npm install`
@@ -228,4 +228,4 @@ npm install
 npm run dev
 ```
 
-Open http://localhost:3000
+Open http://127.0.0.1:3000/login

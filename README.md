@@ -2,27 +2,24 @@
 
 This repository is the **Next.js clean-pilot app** for review and hardening. It is not the older static HTML Fathers.com site, and it is not a production cutover of `fathers.com`.
 
-Official copies are even-numbered and date-stamped. See `SUBMITS.md`. The first official stamp is **Submit 2** (19 Aug 2026) on frozen branch `submit/2`. `review` is the moving draft.
+Official copies for Erik are even-numbered and date-stamped in the isolated repo. See `SUBMITS.md`. The first official stamp is **Submit 2** (19 Aug 2026) on frozen branch `submit/2`.
 
 | What | Where |
 |---|---|
 | Official submit record | `SUBMITS.md` |
-| Frozen copy to review | branch `submit/2` |
+| Isolated frozen copy | https://github.com/StrategyandDesign/fathers-com-clean-pilot/tree/submit/2 |
 | Runbook | `PILOT.md` |
 | App | `app/` — Next.js 15 App Router |
 | Auth / data | Pilot Supabase project `koeplcybddrvbliuepsy` |
 | Handoff for reviewers | `handoff/` |
 
 ```bash
-git clone https://github.com/StrategyandDesign/fathers-com-clean-pilot.git
-cd fathers-com-clean-pilot
-git checkout submit/2
 npm install
 # Copy .env.example to .env.local. Missing Supabase keys fall back to the Pilot project.
 npm run dev
 ```
 
-Open http://localhost:3000/login
+Open http://127.0.0.1:3000/login
 
 Pilot seats (password `12345` on local and Vercel): `father@nwa`, `manager@nwa`, `reviewer@nwa`, plus the Unit 8200 `*@il` seats and `admin@fathers`. See `PILOT.md`.
 
@@ -32,4 +29,4 @@ Pilot seats (password `12345` on local and Vercel): `father@nwa`, `manager@nwa`,
 
 Start here: `handoff/00-SUBMISSION-GUIDE.md`
 
-This repo is the review line. https://fathers-com-platform.vercel.app is current `main` with the same Pilot seats. It is not the Submit 2 tree.
+This repo is the review line. Do not use https://fathers-com-platform.vercel.app to judge it. That host serves a different line.

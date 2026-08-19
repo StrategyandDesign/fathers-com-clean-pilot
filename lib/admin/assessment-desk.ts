@@ -1,5 +1,6 @@
+import type { PlatformAssessmentRow } from "@/lib/admin/assessment-sourcing-data";
 import type { DevelopmentStatus } from "@/lib/admin/development";
-import { formatEditedAt } from "@/lib/admin/development";
+import { asDevelopmentStatus, formatEditedAt } from "@/lib/admin/development";
 import type { TrainingReleaseState } from "@/lib/admin/release";
 import type { AdminReviewStatus } from "@/lib/admin/types";
 import { KEYSTONE_ASSESSMENT_KEY } from "@/lib/assessments/availability";
@@ -12,9 +13,9 @@ export type AdminAssessmentDeskItem = {
   actionHref: string;
   actionLabel: string;
   questionCount: number;
-  subtitle: string;
-  editedLabel: string;
-  note: string | null;
+  kindLabel: string;
+  editedAt: string | null;
+  archived: boolean;
   developmentStatus: DevelopmentStatus;
   releaseState: TrainingReleaseState;
 };
@@ -49,20 +50,18 @@ export function assessmentDeskNote(input: {
   return "Not in Leader review yet. Every organization can already offer it.";
 }
 
+export function assessmentEditedAt(input: {
+  releasedAt: string | null;
+  firstReleasedAt: string | null;
+}): string | null {
+  return input.releasedAt ?? input.firstReleasedAt ?? null;
+}
+
 export function assessmentEditedLabel(input: {
   releasedAt: string | null;
   firstReleasedAt: string | null;
 }): string {
-  if (input.releasedAt) return `Released ${formatEditedAt(input.releasedAt)}`;
-  if (input.firstReleasedAt) return `Last released ${formatEditedAt(input.firstReleasedAt)}`;
-  return "Not released yet";
-}
-
-function countReviews(
-  targets: Array<{ reviewStatus: AdminReviewStatus | null }>,
-  status: AdminReviewStatus
-) {
-  return targets.filter((row) => row.reviewStatus === status).length;
+  return `Edited ${formatEditedAt(assessmentEditedAt(input))}`;
 }
 
 export function keystoneDeskItem(keystone: {
@@ -71,8 +70,6 @@ export function keystoneDeskItem(keystone: {
   firstReleasedAt: string | null;
   releaseTargets: Array<{ reviewStatus: AdminReviewStatus | null }>;
 }): AdminAssessmentDeskItem {
-  const accepted = countReviews(keystone.releaseTargets, "accepted");
-  const pending = countReviews(keystone.releaseTargets, "pending");
   const release = {
     releasedAt: keystone.releasedAt,
     firstReleasedAt: keystone.firstReleasedAt,
@@ -85,10 +82,31 @@ export function keystoneDeskItem(keystone: {
     actionHref: "/admin/assessments/keystone#release",
     actionLabel: "Release",
     questionCount: PROFILE_QUESTION_COUNT,
-    subtitle: `${PROFILE_QUESTION_COUNT} questions · Platform assessment`,
-    editedLabel: assessmentEditedLabel(release),
-    note: assessmentDeskNote({ ...release, accepted, pending }),
+    kindLabel: "Platform assessment",
+    editedAt: assessmentEditedAt(release),
+    archived: false,
     developmentStatus: assessmentDevelopmentStatus(release),
     releaseState: assessmentReleaseState(release),
+  };
+}
+
+export function sourcedAssessmentDeskItem(row: PlatformAssessmentRow): AdminAssessmentDeskItem {
+  const questionCount = row.instrument?.items.length ?? 0;
+  return {
+    key: row.assessmentKey,
+    title: row.title,
+    href: row.intakeId
+      ? `/admin/assessments/intakes/${row.intakeId}`
+      : "/admin/assessments/sources",
+    actionHref: row.intakeId
+      ? `/admin/assessments/intakes/${row.intakeId}`
+      : "/admin/assessments/sources",
+    actionLabel: "Desk",
+    questionCount,
+    kindLabel: row.attribution ? `From ${row.attribution}` : "Brought in",
+    editedAt: row.lastEditedAt,
+    archived: row.archived || asDevelopmentStatus(row.developmentStatus) === "archived",
+    developmentStatus: asDevelopmentStatus(row.developmentStatus),
+    releaseState: row.developmentStatus === "released" ? "released" : "draft",
   };
 }
