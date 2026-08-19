@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verify a credential | Fathers.com</title>
+<meta name="description" content="Enter a serial. Confirm a Certificate of Completion, a Certified Facilitator, or a Certified Organization in the public registry.">
+<link rel="icon" type="image/png" href="assets/img/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=Poppins:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>document.documentElement.dataset.theme=localStorage.getItem("fc_theme")||"dark";</script>
+<script>window.FC_SHOW_MANHOOD_COURSE=false;</script>
+<link rel="stylesheet" href="assets/css/forge.css">
+<link rel="canonical" href="https://fathers-com-platform.vercel.app/verify.html">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<meta name="theme-color" content="#000000">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Fathers.com">
+<meta property="og:title" content="Verify a credential | Fathers.com">
+<meta property="og:description" content="Enter a serial. Confirm a Certificate of Completion, a Certified Facilitator, or a Certified Organization in the public registry.">
+<meta property="og:url" content="https://fathers-com-platform.vercel.app/verify.html">
+<meta property="og:image" content="https://fathers-com-platform.vercel.app/assets/img/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Fathers.com, know where you stand as a father">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Verify a credential | Fathers.com">
+<meta name="twitter:description" content="Enter a serial. Confirm a Certificate of Completion, a Certified Facilitator, or a Certified Organization in the public registry.">
+<meta name="twitter:image" content="https://fathers-com-platform.vercel.app/assets/img/og-image.jpg">
+</head>
+<body>
+<div class="verify-shell">
+  <a class="brand" href="index.html" style="margin-bottom:40px"><img class="lg-dark" src="assets/img/logomark-light.png" alt="Fathers.com logomark" style="height:34px"><img class="lg-light" src="assets/img/logomark-dark.png" alt="Fathers.com logomark" style="height:34px"><b style="font-family:var(--font-display);font-size:20px">Fathers.com</b></a>
+  <div class="verify-card">
+    <div class="eyebrow brass" style="margin-bottom:12px">PUBLIC REGISTRY</div>
+    <h1 class="d-36" style="margin-bottom:10px">Verify a credential</h1>
+    <p class="small" style="margin-bottom:28px;max-width:46ch">Enter the serial on the document. Ten seconds. No login. Issued, suspended, or revoked, stated plainly.</p>
+    <form id="verifyForm" class="verify-form">
+      <input class="input mono verify-input" placeholder="FC-2026-000000" aria-label="Certificate serial" autocomplete="off" spellcheck="false">
+      <button class="btn btn-yellow">Verify</button>
+    </form>
+    <div id="v-ok" class="verify-status is-ok" style="display:none">
+      <div class="vs-label" style="color:var(--pine-hi)">Valid</div>
+      <div class="stack-8">
+        <div class="row between"><span class="fine">Recipient</span><b class="small" data-f="name"></b></div>
+        <div class="row between"><span class="fine">Course</span><b class="small" data-f="course"></b></div>
+        <div class="row between"><span class="fine">Record</span><b class="small mono" data-f="hours"></b></div>
+        <div class="row between"><span class="fine">Identity</span><b class="small" data-f="identity"></b></div>
+        <div class="row between"><span class="fine">Date</span><b class="small" data-f="date"></b></div>
+        <div class="row between"><span class="fine">Serial</span><b class="small mono" data-f="serial"></b></div>
+        <div class="row between"><span class="fine">Issuer</span><b class="small">National Center for Fathering</b></div>
+      </div>
+      <hr class="hr" style="margin:18px 0">
+      <p class="small" style="margin-bottom:12px">Logged sessions, identity confirmed at enrollment, final reviewed by a Certified Facilitator. <a class="link" href="organizations.html">Issue these in your program &rarr;</a></p>
+      <a class="link ash" href="#" data-share="report" style="font-size:13px">Report a concern</a>
+    </div>
+    <div id="v-susp" class="verify-status is-warn" style="display:none">
+      <div class="vs-label" style="color:var(--brass)">Suspended</div>
+      <p class="small" style="margin:0">This serial exists and is suspended pending review. It does not currently verify. Questions: Team@Fathers.com.</p>
+    </div>
+    <div id="v-rev" class="verify-status is-bad" style="display:none">
+      <div class="vs-label" style="color:var(--error)">Revoked</div>
+      <p class="small" style="margin:0">This serial was issued and has been revoked. It does not verify. Names can come off the registry. That is what makes staying on it mean something.</p>
+    </div>
+    <div id="v-no" class="verify-status is-bad" style="display:none">
+      <div class="vs-label" style="color:var(--error)">Not found</div>
+      <p class="small" style="margin:0">Check the serial and try again. Anything that does not resolve is not a Fathers.com credential.</p>
+    </div>
+    <p class="fine" style="margin-top:32px;color:var(--ash)">Serials begin <span class="mono">FC-2026-</span> followed by six characters. Facilitator and organization status also resolve here when printed on their credentials.</p>
+  </div>
+</div>
+
+<script src="assets/js/config.js"></script>
+<script src="assets/js/supabase-client.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/help.js"></script>
+</body>
+</html>

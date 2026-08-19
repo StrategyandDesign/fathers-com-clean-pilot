@@ -1,0 +1,518 @@
+#!/usr/bin/env python3
+"""Generates the role dashboards. Each is a real Supabase-backed page.
+   Permissions are enforced by RLS; these pages shape the UI and call the API."""
+import os
+import re
+
+# Keep in sync with build_pages.py. CHANGE THIS if the site moves to a custom domain.
+SITE_URL = "https://fathers-com-platform.vercel.app"
+OG_IMAGE = SITE_URL + "/assets/img/og-image.jpg"
+
+
+def _esc(s):
+    s = re.sub(r'&(?!#?\w+;)', '&amp;', s)
+    return s.replace('"', '&quot;').replace('<', '&lt;').replace('>', '&gt;')
+
+
+def social_meta(page, title):
+    """Dashboards are private, so every one is noindex. Full card + icon still emitted for consistency."""
+    url = SITE_URL + "/" + page + ".html"
+    ttl = _esc(title + " | Fathers.com")
+    return (
+        '<meta name="robots" content="noindex,follow">\n'
+        + f'<link rel="canonical" href="{url}">\n'
+        + '<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">\n'
+        + '<meta name="theme-color" content="#000000">\n'
+        + '<meta property="og:type" content="website">\n'
+        + '<meta property="og:site_name" content="Fathers.com">\n'
+        + f'<meta property="og:title" content="{ttl}">\n'
+        + f'<meta property="og:url" content="{url}">\n'
+        + f'<meta property="og:image" content="{OG_IMAGE}">\n'
+        + '<meta property="og:image:width" content="1200">\n'
+        + '<meta property="og:image:height" content="630">\n'
+        + '<meta name="twitter:card" content="summary_large_image">\n'
+        + f'<meta name="twitter:image" content="{OG_IMAGE}">'
+    )
+
+HEAD = '''<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{title} | Fathers.com</title>
+<link rel="icon" type="image/png" href="assets/img/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>document.documentElement.dataset.theme=localStorage.getItem("fc_theme")||"dark";</script>
+<link rel="stylesheet" href="assets/css/forge.css">
+<link rel="stylesheet" href="assets/css/dash.css">
+{meta}
+</head>
+<body data-auth="required">
+<nav class="nav"><div class="container nav-inner">
+<a class="brand" href="index.html"><img class="lg-dark" src="assets/img/logomark-light.png" alt=""><img class="lg-light" src="assets/img/logomark-dark.png" alt=""><b>Fathers.com</b></a>
+<ul class="nav-links">
+<li><a href="admin.html" data-role="admin">Admin</a></li>
+<li><a href="participant.html" data-role="admin">Participant</a></li>
+<li><a href="studio.html" data-role="author">Studio</a></li>
+<li><a href="org.html" data-role="org">Org</a></li>
+<li><a href="lead.html" data-role="leader">Desk</a></li>
+</ul>
+<div class="nav-right">
+<a href="plan.html">My Plan</a>
+<button class="themeswitch" data-themeswitch aria-label="Switch palette"><span class="tsw-dot"></span></button>
+<a href="#" data-signout>Sign out</a>
+<button class="nav-toggle">MENU</button>
+</div>
+</div></nav>
+<div id="denied" class="container" style="display:none;padding:80px 0"><div class="card" style="max-width:520px;margin:0 auto;text-align:center">
+<h2 class="d-28" style="margin-bottom:10px">Not your dashboard</h2>
+<p class="small" style="margin-bottom:20px">This area needs a role you do not have. If that is wrong, ask an admin to grant it.</p>
+<a class="btn btn-primary" href="plan.html">Back to My Plan</a></div></div>
+<div id="demo-note" class="container" style="display:none;padding:24px 0"><div class="notice brass" style="max-width:900px;margin:0 auto">Demo mode. Add Supabase keys in <code>assets/js/config.js</code> to load live data. The controls below show the real interface; writes activate once connected.</div></div>
+<main id="app" class="container" style="padding:40px 0 96px;display:none">
+'''
+
+FOOT = '''</main>
+<div class="toast"></div>
+{pre_scripts}<script src="assets/js/config.js"></script>
+<script src="assets/js/supabase-client.js"></script>
+<script src="assets/js/roles.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/{page}.js"></script>
+{post_scripts}</body></html>
+'''
+
+# Scripts a page needs loaded before its own controller. Studio's Assessments
+# tab lists the instruments participants actually take, which are defined in
+# code and served through the registry, so it needs the instrument data and the
+# registry in scope.
+REVIEW_BODY = '<div class="wrap" style="max-width:980px;margin:0 auto;padding:32px 20px">\n  <div class="eyebrow" style="margin-bottom:10px">FACILITATOR REVIEW</div>\n  <h1 style="margin-bottom:6px">The review queue</h1>\n  <p class="small" style="color:var(--ash);max-width:62ch;margin-bottom:26px">Every submitted award, with the evidence frozen at submission: independent minutes, checkpoint completion (yes or counts), and how many final answers were submitted. No answers and no right/total scores. Approve with contact hours and attestation, return with a note, or sign to mint the serial. Flagged records name their reason and require clearing before approval.</p>\n  <div id="rv-queue"><p class="fine">Loading the queue&hellip;</p></div>\n  <h2 style="margin:38px 0 8px">No activity in 72 hours</h2>\n  <p class="small" style="color:var(--ash);margin-bottom:14px">The retention lever: a named man, noticed early. Reach him from Desk.</p>\n  <div id="rv-absent"><p class="fine">Loading&hellip;</p></div>\n</div>'
+REVIEW_JS = '<script>\n(function(){\n  var qEl=document.getElementById(\'rv-queue\'), aEl=document.getElementById(\'rv-absent\');\n  if(!qEl) return;\n  var m=document.createElement(\'meta\'); m.name=\'robots\'; m.content=\'noindex,nofollow\'; document.head.appendChild(m);\n  function esc(s){return String(s==null?\'\':s).replace(/[&<>]/g,function(c){return {\'&\':\'&amp;\',\'<\':\'&lt;\',\'>\':\'&gt;\'}[c];});}\n  function act(u,c,action,extra){\n    return FC.sb.functions.invoke(\'review_award\',{body:Object.assign({user_id:u,course_id:c,action:action},extra||{})})\n      .then(function(r){ if(r&&r.error){alert(\'Failed: \'+(r.error.message||\'error\'));} load(); });\n  }\n  function card(s,flags){\n    var fl=(flags||[]).filter(function(f){return f.user_id===s.user_id&&f.course_id===s.course_id;});\n    var mins=Math.round((s.snapshot_independent_seconds||0)/60);\n    var cps=s.snapshot_checkpoints||{}; var cpN=Object.keys(cps).length; var cpTxt=cpN?(cpN+\' complete\'):\'none\';\n    var id=s.user_id+\'::\'+s.course_id;\n    return \'<div class="card" style="padding:18px;margin-bottom:14px" data-id="\'+esc(id)+\'">\'\n      +(fl.length?\'<p class="fine" style="color:var(--error)">FLAGGED: \'+esc(fl[0].reason)+\' &middot; clearing required</p>\':\'\')\n      +\'<p class="small"><b>\'+esc(s.user_id).slice(0,8)+\'&hellip;</b> &middot; independent time \'+mins+\' min &middot; checkpoints \'+cpTxt+\' &middot; final answers \'+esc(s.snapshot_final_answers_count)+\'</p>\'\n      +\'<div class="row wrap" style="gap:8px;align-items:center;margin:6px 0 8px"><span class="fine">NAME ON THE CERTIFICATE</span><input class="input" style="flex:1;min-width:180px" data-f="name" value="\'+esc(s.recipient_display||\'\')+\'" placeholder="Confirm the man\\\'s name"></div>\'\n      +\'<div class="row wrap" style="gap:8px;margin-top:10px;align-items:center">\'\n      +\'<input class="input" type="number" step="0.5" min="0" placeholder="Contact hours" style="width:130px" data-f="hours">\'\n      +\'<select class="input" style="width:190px" data-f="att"><option value="facilitator">Attested by facilitator</option><option value="id">Confirmed by ID</option></select>\'\n      +\'<input class="input" placeholder="Note (for return)" style="flex:1;min-width:140px" data-f="note">\'\n      +(fl.length?\'<label class="fine"><input type="checkbox" data-f="clear"> Integrity cleared</label>\':\'\')\n      +\'<button class="btn btn-primary btn-sm" data-a="approve">Approve</button>\'\n      +\'<button class="btn btn-secondary btn-sm" data-a="return">Return</button>\'\n      +\'<button class="btn btn-secondary btn-sm" data-a="sign">Sign</button>\'\n      +\'</div></div>\';\n  }\n  function load(){\n    FC.ready.then(function(){\n      if(!(FC.uid&&FC.uid())){ location.href=\'login.html?next=review.html\'; return; }\n      FC.sb.functions.invoke(\'review_award\',{body:{action:\'queue\'}}).then(function(r){\n        var d=r&&r.data&&r.data.data; var err=r&&r.error;\n        if(err||!d){ qEl.innerHTML=\'<p class="fine">\'+esc((err&&err.message)||\'Reviewer role required, or the review function is not deployed yet.\')+\'</p>\'; aEl.innerHTML=\'\'; return; }\n        qEl.innerHTML=(d.submitted&&d.submitted.length)?d.submitted.map(function(s){return card(s,d.flags);}).join(\'\'):\'<p class="fine">Nothing waiting. Good.</p>\';\n        aEl.innerHTML=(d.absent&&d.absent.length)?d.absent.map(function(e){var who=e.email?(\'<a href="mailto:\'+esc(e.email)+\'">\'+esc(e.email)+\'</a>\'):(esc(e.user_id).slice(0,8)+\'&hellip;\');return \'<p class="small">\'+who+\' &middot; last activity \'+esc(e.last_activity_at||\'never\')+\'</p>\';}).join(\'\'):\'<p class="fine">Every enrolled man has been active inside 72 hours.</p>\';\n        qEl.querySelectorAll(\'[data-a]\').forEach(function(b){ b.addEventListener(\'click\',function(){\n          var host=b.closest(\'[data-id]\'); var parts=host.getAttribute(\'data-id\').split(\'::\');\n          var extra={};\n          if(b.getAttribute(\'data-a\')===\'approve\'){\n            extra.contact_hours=parseFloat(host.querySelector(\'[data-f=hours]\').value||\'0\');\n            extra.recipient_display=(host.querySelector(\'[data-f=name]\').value||\'\').trim();\n            if(!extra.recipient_display){ alert(\'Confirm the man\\\'s name before approving; it is what the certificate will carry.\'); return; }\n            extra.attestation_method=host.querySelector(\'[data-f=att]\').value;\n            var cl=host.querySelector(\'[data-f=clear]\'); if(cl&&cl.checked) extra.integrity_cleared=true;\n          }\n          if(b.getAttribute(\'data-a\')===\'return\'){ extra.note=host.querySelector(\'[data-f=note]\').value; }\n          act(parts[0],parts[1],b.getAttribute(\'data-a\'),extra);\n        });});\n      });\n    });\n  }\n  load();\n})();\n</script>'
+
+PRE_SCRIPTS = {
+    'studio': (
+        '<script src="assets/js/keystone-data.js"></script>\n'
+        '<script src="assets/js/keystone-manhood-data.js"></script>\n'
+        '<script src="assets/js/assessment-registry.js"></script>\n'
+    ),
+    # The participant page embeds the real report component so an admin sees a
+    # father's dashboard exactly as he does. Same stack the dashboard uses.
+    'participant': (
+        '<script src="assets/js/keystone-data.js"></script>\n'
+        '<script src="assets/js/keystone-full.js"></script>\n'
+        '<script src="assets/js/keystone-manhood-data.js"></script>\n'
+        '<script src="assets/js/assessment-registry.js"></script>\n'
+        '<script src="assets/js/plan-engine.js"></script>\n'
+        '<script src="assets/js/keystone-report.js"></script>\n'
+    ),
+}
+
+# Scripts a page needs after its own controller.
+POST_SCRIPTS = {
+    'participant': '<script src="assets/js/participant-preview.js"></script>\n',
+}
+
+PAGES = {
+'participant': ('Participant', '''
+<div class="dash-head"><h1 class="d-36">Participant</h1><p class="lead">Search a father and open his individual snapshot. This is private data; handle with care.</p></div>
+<div id="pt-denied" style="display:none"><div class="notice brass">This area needs the admin role.</div></div>
+<div id="pt-root">
+  <div class="card" style="margin-bottom:20px">
+    <div class="row" style="gap:10px;align-items:end;flex-wrap:wrap">
+      <div class="field" style="margin:0;flex:1;min-width:240px"><label>Find a father</label><input class="input" id="pt-search" placeholder="Name or email"></div>
+      <button class="btn btn-primary btn-sm" id="pt-search-btn">Search</button>
+    </div>
+    <div id="pt-results" style="margin-top:16px"><p class="fine">Search by name or email to begin.</p></div>
+  </div>
+  <div class="card" id="pt-detail" style="display:none"></div>
+
+  <div class="card" id="pt-preview-card" style="margin-top:20px">
+    <div class="row between wrap" style="gap:12px;margin-bottom:6px">
+      <h3 id="pt-preview-title" style="margin:0">The participant dashboard</h3>
+      <span class="chip" id="pt-preview-tag">Sample participant</span>
+    </div>
+    <p class="fine" id="pt-preview-note" style="margin-bottom:18px">This is the live dashboard component, not a picture of one. It renders from the same code a father sees, so it cannot fall out of date. Open a father above to see his in this same place.</p>
+    <div id="pt-preview"></div>
+  </div>
+</div>
+'''),
+
+
+'admin': ('Admin', '''
+
+<div class="dash-head"><h1 class="d-36">Admin</h1><p class="lead">People, roles, content, and the audit trail.</p></div><div class="glance"><div class="glance-card"><div class="glance-lbl">YOUR WORLD</div><div class="glance-big" data-glance="admin-people">--</div><div class="glance-sub">people on the platform</div></div><div class="glance-card"><div class="glance-lbl">THIS WEEK</div><div class="glance-big" data-glance="admin-new">--</div><div class="glance-sub">new sign-ups</div></div><div class="glance-card"><div class="glance-lbl">CONTENT</div><div class="glance-big" data-glance="admin-content">--</div><div class="glance-sub">courses live</div></div><div class="glance-card glance-next"><div class="glance-lbl">CONSIDER NEXT</div><div class="glance-next-txt" data-glance="admin-next">Review pending role requests and new content awaiting approval.</div></div></div>
+<div data-tabs>
+  <div class="tabs"><button class="active">People &amp; roles</button><button>Content</button><button>Orgs</button><button>Certification</button><button>Audit</button></div>
+
+  <div class="tabpanel active">
+    <div class="card" style="margin-bottom:20px">
+      <h3 style="margin-bottom:14px">Grant a role</h3>
+      <div class="grid-3" style="gap:12px;align-items:end">
+        <div class="field" style="margin:0"><label>User email</label><input class="input" id="gr-email" placeholder="man@example.com"></div>
+        <div class="field" style="margin:0"><label>Role</label><select class="input" id="gr-role">
+          <option value="member">member</option><option value="circle_leader">circle_leader</option><option value="org_admin">org_admin</option><option value="researcher">researcher</option><option value="content_reviewer">content_reviewer</option><option value="instructor">instructor</option><option value="admin">admin</option></select></div>
+        <button class="btn btn-primary" id="gr-go">Grant</button>
+      </div>
+      <p class="fine" id="gr-msg" style="margin-top:10px">org_admin, circle_leader, and researcher need an org; pick one under Orgs first, then grant there.</p>
+    </div>
+    <div class="card"><h3 style="margin-bottom:14px">Everyone</h3><div id="people-table">Loading people…</div></div>
+  </div>
+
+  <div class="tabpanel">
+    <div class="row between" style="margin-bottom:16px"><h3>Courses and classes</h3><a class="btn btn-primary btn-sm" href="studio.html">Open Studio</a></div>
+    <div id="content-table">Loading content…</div>
+    <div class="card" style="margin-top:20px"><h3 style="margin-bottom:14px">Instruments</h3><div id="instr-table">Loading instruments…</div></div>
+
+    <div class="eyebrow" style="margin:30px 0 12px">CERTIFICATE COURSES</div>
+    <div class="card" style="margin-bottom:20px">
+      <div class="row between wrap" style="margin-bottom:18px;gap:12px">
+        <h3>Build a course</h3>
+        <div class="row" style="gap:10px;align-items:center">
+          <select class="input" id="cert-course-select" style="min-width:200px"></select>
+          <span class="chip" id="cert-publish-state">Draft</span>
+          <button class="btn btn-secondary btn-sm" id="cert-publish">Publish</button>
+        </div>
+      </div>
+      <div id="certs-build">
+        <p class="fine" style="margin:0 0 14px">Sessions follow the live course shapes: 9 for Fathering Fundamentals (Seven Secrets), 12 for Coming Home Present, Steady Under Pressure, and Same Team. Each session ends in a Checkpoint; the course closes with the Final Q&amp;A. Completion issues the Certificate of Completion, signed by Dr. Canfield and the Certified Facilitator who sponsored the seat, at no cost to the man.</p>
+        <div class="eyebrow" style="margin:0 0 12px">VIDEOS, WITH LENGTH SO WE KNOW IF THEY WATCHED</div>
+        <div id="cert-videos" class="fine">Loading&hellip;</div>
+        <div class="row wrap" style="gap:10px;margin-top:16px;align-items:end">
+          <div class="field" style="margin:0;flex:2;min-width:180px"><label>Video title</label><input class="input" id="cv-title"></div>
+          <div class="field" style="margin:0;flex:2;min-width:180px"><label>Vimeo link or ID</label><input class="input" id="cv-url" placeholder="vimeo.com/1198023217 or 1198023217"></div>
+          <div class="field" style="margin:0;flex:1;min-width:110px"><label>Length (min)</label><input class="input" id="cv-mins" type="number" min="0" step="0.1"></div>
+          <button class="btn btn-primary btn-sm" id="cv-add">Add video</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" id="cert-debrief-card" style="margin-bottom:20px;display:none">
+      <h3 id="cert-debrief-title" style="margin-bottom:8px">Checkpoint</h3>
+      <p class="fine" style="margin-bottom:12px">Ten questions after this video. Fathers see it as a Checkpoint, not a quiz.</p>
+      <div id="cert-questions" class="fine">&nbsp;</div>
+      <div style="margin-top:16px;border-top:1px solid var(--hairline);padding-top:16px">
+        <div class="field" style="margin:0 0 10px"><label>Question</label><input class="input" id="cq-prompt"></div>
+        <div class="row wrap" style="gap:10px"><input class="input" id="cq-a" placeholder="Choice A" style="flex:1;min-width:140px"><input class="input" id="cq-b" placeholder="Choice B" style="flex:1;min-width:140px"><input class="input" id="cq-c" placeholder="Choice C" style="flex:1;min-width:140px"><input class="input" id="cq-d" placeholder="Choice D" style="flex:1;min-width:140px"></div>
+        <div class="row" style="gap:10px;margin-top:10px;align-items:end"><div class="field" style="margin:0"><label>Correct answer</label><select class="input" id="cq-correct"><option value="0">A</option><option value="1">B</option><option value="2">C</option><option value="3">D</option></select></div><button class="btn btn-primary btn-sm" id="cq-add">Add question</button></div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:20px">
+      <h3 style="margin-bottom:6px">Final Q&amp;A</h3>
+      <p class="fine" style="margin-bottom:14px">Longform prompts after the fifth video. A man writes his answers and submits them; his facilitator reads them at approval.</p>
+      <div id="cert-qa" class="fine">Loading&hellip;</div>
+      <div class="row" style="gap:10px;margin-top:14px;align-items:end"><div class="field" style="margin:0;flex:1"><label>Prompt</label><input class="input" id="qa-prompt"></div><button class="btn btn-primary btn-sm" id="qa-add">Add prompt</button></div>
+    </div>
+  </div>
+
+  <div class="tabpanel">
+    <div class="card" style="margin-bottom:20px"><h3 style="margin-bottom:14px">Create an organization</h3>
+      <div class="grid-3" style="gap:12px;align-items:end">
+        <div class="field" style="margin:0"><label>Name</label><input class="input" id="org-name" placeholder="Sample Organization"></div>
+        <div class="field" style="margin:0"><label>Seats</label><input class="input" id="org-seats" type="number" value="25"></div>
+        <button class="btn btn-primary" id="org-go">Create</button>
+      </div></div>
+    <div class="card"><h3 style="margin-bottom:14px">Organizations</h3><div id="orgs-table">Loading orgs…</div></div>
+    <div class="card" style="margin-top:20px">
+      <h3 style="margin-bottom:6px">Partner course assignment</h3>
+      <p class="fine" style="margin-bottom:14px">Which courses each partner offers. Courses are authored once under Content; this decides who gets them.</p>
+      <div class="row wrap" style="gap:10px;margin-bottom:14px;align-items:end">
+        <div class="field" style="margin:0;flex:1;min-width:170px"><label>Partner</label><select class="input" id="oc-org"></select></div>
+        <div class="field" style="margin:0;flex:1;min-width:170px"><label>Course</label><select class="input" id="oc-course"></select></div>
+        <button class="btn btn-primary btn-sm" id="oc-add">Assign</button>
+      </div>
+      <div id="oc-table" class="fine">Loading&hellip;</div>
+    </div>
+  </div>
+
+  <div class="tabpanel">
+    <div class="card">
+      <h3 style="margin-bottom:6px">Completions to approve</h3>
+      <p class="fine" style="margin-bottom:14px">Men who finished. Approve to issue the Certificate of Completion, signed and serialed.</p>
+      <div id="cert-approvals" class="fine">Loading&hellip;</div>
+    </div>
+    <div class="card" style="margin-bottom:20px">
+      <h3 style="margin-bottom:6px">Certified organizations</h3>
+      <p class="fine" style="margin-bottom:14px">The institutional layer. An organization earns Certified status against a published standard. Serials run NCF-O.</p>
+      <div id="reg-orgs" class="fine">Loading&hellip;</div>
+    </div>
+
+    <div class="card" style="margin-bottom:20px">
+      <h3 style="margin-bottom:6px">Certified facilitators</h3>
+      <p class="fine" style="margin-bottom:14px">Training, an exam, and a supervised first cohort. Serials run NCF-F.</p>
+      <div id="reg-facilitators" class="fine">Loading&hellip;</div>
+    </div>
+
+    <div class="card">
+      <div class="row between wrap" style="margin-bottom:6px;gap:12px">
+        <h3>Issued Certificates of Completion</h3>
+        <input class="input" id="reg-cert-search" placeholder="Search serial or name" style="max-width:250px">
+      </div>
+      <p class="fine" style="margin-bottom:14px">His, not the institution’s. Serials run FC. Revoking is a server-side action and is deliberately not offered here.</p>
+      <div id="reg-certs" class="fine">Loading&hellip;</div>
+    </div>
+  </div>
+
+  <div class="tabpanel"><div class="card"><h3 style="margin-bottom:14px">Audit log</h3><div id="audit-table">Loading audit…</div></div></div>
+</div>
+<script src="assets/js/admin-certs.js"></script>
+<script src="assets/js/admin-registry.js"></script>
+
+<div class="eyebrow" style="margin:34px 0 12px">EVERY ROLE VIEW</div>
+<p class="fine" style="color:var(--ash);margin-bottom:16px">Open any dashboard on the platform, exactly as that role sees it.</p>
+<div class="grid-3">
+  <a class="card" href="org.html" style="padding:18px 22px;text-decoration:none"><h3 style="margin-bottom:4px">Organization</h3><p class="fine" style="color:var(--ash)">The service window: join link, movement, cohorts, roster.</p></a>
+  <a class="card" href="studio.html" style="padding:18px 22px;text-decoration:none"><h3 style="margin-bottom:4px">Studio</h3><p class="fine" style="color:var(--ash)">Courses, films, and publishing.</p></a>
+  <a class="card" href="lead.html" style="padding:18px 22px;text-decoration:none"><h3 style="margin-bottom:4px">Facilitator Desk</h3><p class="fine" style="color:var(--ash)">Roster, claims, progress, and quiet alerts.</p></a>
+  <a class="card" href="participant.html" style="padding:18px 22px;text-decoration:none"><h3 style="margin-bottom:4px">Participant snapshot</h3><p class="fine" style="color:var(--ash)">One man at a time, handled with care.</p></a>
+  <a class="card" href="plan.html" style="padding:18px 22px;text-decoration:none"><h3 style="margin-bottom:4px">Father&rsquo;s Home</h3><p class="fine" style="color:var(--ash)">What every father sees: his baseline, plan, and feed.</p></a>
+
+  <a class="card" href="efficacy-report.html" style="padding:18px 22px;text-decoration:none"><h3 style="margin-bottom:4px">The Efficacy Report</h3><p class="fine" style="color:var(--ash)">What a funder sees: cohort movement, never a man.</p></a>
+</div>
+'''),
+
+'studio': ('Studio', '''
+<div class="dash-head"><h1 class="d-36">Studio</h1><p class="lead">Build courses and assessments. Publish when ready.</p></div><div class="glance"><div class="glance-card"><div class="glance-lbl">YOUR WORLD</div><div class="glance-big" data-glance="studio-courses">--</div><div class="glance-sub">courses you own</div></div><div class="glance-card"><div class="glance-lbl">PUBLISHED</div><div class="glance-big" data-glance="studio-live">--</div><div class="glance-sub">live to members</div></div><div class="glance-card"><div class="glance-lbl">IN DRAFT</div><div class="glance-big" data-glance="studio-draft">--</div><div class="glance-sub">not yet published</div></div><div class="glance-card glance-next"><div class="glance-lbl">CONSIDER NEXT</div><div class="glance-next-txt" data-glance="studio-next">Finish a draft, or add lessons to a published course to keep it fresh.</div></div></div>
+<div data-tabs>
+  <div class="tabs"><button class="active">Courses</button><button>Assessments</button><button>Report</button></div>
+
+  <div class="tabpanel active">
+    <div class="row between" style="margin-bottom:16px">
+      <h3>Your courses</h3>
+      <button class="btn btn-primary btn-sm" id="new-course">New course</button>
+    </div>
+    <div id="course-list">Loading…</div>
+    <div id="course-editor" class="card" style="display:none;margin-top:20px"></div>
+  </div>
+
+  <div class="tabpanel">
+    <div class="row between" style="margin-bottom:16px">
+      <h3>Assessment instruments</h3>
+      <button class="btn btn-primary btn-sm" id="new-instr">New instrument</button>
+    </div>
+    <div id="instr-list">Loading…</div>
+    <div id="instr-editor" class="card" style="display:none;margin-top:20px"></div>
+  </div>
+
+  <div class="tabpanel">
+<div class="card" id="rb-card" style="padding:26px">
+  <div class="eyebrow" style="margin-bottom:6px">REPORT BRANDING</div>
+  <h3 style="margin-bottom:6px">The written report, in your program&rsquo;s colors</h3>
+  <p class="fine" style="color:var(--ash);margin-bottom:16px;max-width:64ch">This is what a course creator can change on the participant report: two logos, the highlight colors, one photo per section, and optional hero and footer backgrounds. Changes apply the moment you save.</p>
+  <div class="field" style="max-width:360px;margin-bottom:22px">
+    <label>Which report</label>
+    <select class="input" id="rb-scope"></select>
+    <p class="fine" style="margin-top:6px;color:var(--ash)">Each assessment can carry its own look. The default covers any report that has none of its own.</p>
+  </div>
+  <div class="grid-2" style="gap:20px;align-items:start">
+    <div>
+      <div class="eyebrow" style="font-size:10px;margin-bottom:8px">PRIMARY LOGO</div>
+      <div style="border:1px dashed var(--hairline-strong);border-radius:8px;padding:14px;min-height:64px;display:flex;align-items:center;gap:12px;margin-bottom:8px">
+        <img id="rb-prev1" alt="" style="display:none;max-height:40px;max-width:180px;object-fit:contain">
+        <span id="rb-empty1" class="fine" style="color:var(--ash)">PNG, JPG, SVG, or WebP. Max 300 KB.</span>
+      </div>
+      <input type="file" id="rb-logo1" accept="image/png,image/jpeg,image/svg+xml,image/webp" class="fine">
+      <button class="link ash fine" id="rb-clear1" type="button" style="margin-left:10px;background:none;border:0;cursor:pointer">Remove</button>
+    </div>
+    <div>
+      <div class="eyebrow" style="font-size:10px;margin-bottom:8px">PARTNER LOGO</div>
+      <div style="border:1px dashed var(--hairline-strong);border-radius:8px;padding:14px;min-height:64px;display:flex;align-items:center;gap:12px;margin-bottom:8px">
+        <img id="rb-prev2" alt="" style="display:none;max-height:40px;max-width:180px;object-fit:contain">
+        <span id="rb-empty2" class="fine" style="color:var(--ash)">Optional. Shown top right.</span>
+      </div>
+      <input type="file" id="rb-logo2" accept="image/png,image/jpeg,image/svg+xml,image/webp" class="fine">
+      <button class="link ash fine" id="rb-clear2" type="button" style="margin-left:10px;background:none;border:0;cursor:pointer">Remove</button>
+    </div>
+  </div>
+  <div class="row wrap" style="gap:22px;margin-top:20px;align-items:center">
+    <label class="fine" style="display:flex;align-items:center;gap:10px">HIGHLIGHT <input type="color" id="rb-accent" value="#E8E84A" style="width:44px;height:30px;border:1px solid var(--hairline-strong);border-radius:6px;background:none;padding:2px"></label>
+    <label class="fine" style="display:flex;align-items:center;gap:10px">SECOND HIGHLIGHT <input type="color" id="rb-accent2" value="#B08D57" style="width:44px;height:30px;border:1px solid var(--hairline-strong);border-radius:6px;background:none;padding:2px"></label>
+    <a class="link" id="rb-preview" href="report.html?preview=1" target="_blank" rel="noopener">Preview the report &rarr;</a>
+  </div>
+  <div class="eyebrow" style="font-size:10px;margin:26px 0 8px">SECTION PHOTOS (OPTIONAL)</div>
+  <p class="fine" style="color:var(--ash);margin-bottom:14px;max-width:64ch">One image across the top of each chapter. A blank slot shows a designed default, so you can add these anytime. Use web-optimized images. Max 500 KB each.</p>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:16px">
+    <div>
+      <div class="eyebrow" style="font-size:10px;margin-bottom:8px">DIMENSIONS</div>
+      <div style="border:1px dashed var(--hairline-strong);border-radius:8px;min-height:92px;display:flex;align-items:center;justify-content:center;overflow:hidden;margin-bottom:8px;background:var(--coal)">
+        <img id="rb-pprev-dim" alt="" style="display:none;width:100%;height:92px;object-fit:cover">
+        <span id="rb-pempty-dim" class="fine" style="color:var(--ash);padding:12px;text-align:center">JPG, PNG, or WebP. Max 500 KB.</span>
+      </div>
+      <input type="file" id="rb-photo-dim" accept="image/png,image/jpeg,image/webp" class="fine">
+      <button class="link ash fine" id="rb-pclear-dim" type="button" style="margin-left:8px;background:none;border:0;cursor:pointer">Remove</button>
+    </div>
+    <div>
+      <div class="eyebrow" style="font-size:10px;margin-bottom:8px">PRACTICES</div>
+      <div style="border:1px dashed var(--hairline-strong);border-radius:8px;min-height:92px;display:flex;align-items:center;justify-content:center;overflow:hidden;margin-bottom:8px;background:var(--coal)">
+        <img id="rb-pprev-prac" alt="" style="display:none;width:100%;height:92px;object-fit:cover">
+        <span id="rb-pempty-prac" class="fine" style="color:var(--ash);padding:12px;text-align:center">JPG, PNG, or WebP. Max 500 KB.</span>
+      </div>
+      <input type="file" id="rb-photo-prac" accept="image/png,image/jpeg,image/webp" class="fine">
+      <button class="link ash fine" id="rb-pclear-prac" type="button" style="margin-left:8px;background:none;border:0;cursor:pointer">Remove</button>
+    </div>
+    <div>
+      <div class="eyebrow" style="font-size:10px;margin-bottom:8px">SATISFACTION</div>
+      <div style="border:1px dashed var(--hairline-strong);border-radius:8px;min-height:92px;display:flex;align-items:center;justify-content:center;overflow:hidden;margin-bottom:8px;background:var(--coal)">
+        <img id="rb-pprev-sat" alt="" style="display:none;width:100%;height:92px;object-fit:cover">
+        <span id="rb-pempty-sat" class="fine" style="color:var(--ash);padding:12px;text-align:center">JPG, PNG, or WebP. Max 500 KB.</span>
+      </div>
+      <input type="file" id="rb-photo-sat" accept="image/png,image/jpeg,image/webp" class="fine">
+      <button class="link ash fine" id="rb-pclear-sat" type="button" style="margin-left:8px;background:none;border:0;cursor:pointer">Remove</button>
+    </div>
+  </div>
+  <div class="eyebrow" style="font-size:10px;margin:26px 0 8px">PAGE BACKGROUNDS (OPTIONAL)</div>
+  <p class="fine" style="color:var(--ash);margin-bottom:14px;max-width:64ch">A full-bleed photo behind the cover and behind the closing panel. A dark overlay is applied automatically so the headline stays readable. A blank slot keeps the solid green. Use web-optimized images. Max 500 KB each.</p>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px">
+    <div>
+      <div class="eyebrow" style="font-size:10px;margin-bottom:8px">HERO BACKGROUND</div>
+      <div style="border:1px dashed var(--hairline-strong);border-radius:8px;min-height:92px;display:flex;align-items:center;justify-content:center;overflow:hidden;margin-bottom:8px;background:var(--coal)">
+        <img id="rb-pprev-cover" alt="" style="display:none;width:100%;height:92px;object-fit:cover">
+        <span id="rb-pempty-cover" class="fine" style="color:var(--ash);padding:12px;text-align:center">JPG, PNG, or WebP. Max 500 KB.</span>
+      </div>
+      <input type="file" id="rb-photo-cover" accept="image/png,image/jpeg,image/webp" class="fine">
+      <button class="link ash fine" id="rb-pclear-cover" type="button" style="margin-left:8px;background:none;border:0;cursor:pointer">Remove</button>
+    </div>
+    <div>
+      <div class="eyebrow" style="font-size:10px;margin-bottom:8px">FOOTER BACKGROUND</div>
+      <div style="border:1px dashed var(--hairline-strong);border-radius:8px;min-height:92px;display:flex;align-items:center;justify-content:center;overflow:hidden;margin-bottom:8px;background:var(--coal)">
+        <img id="rb-pprev-footer" alt="" style="display:none;width:100%;height:92px;object-fit:cover">
+        <span id="rb-pempty-footer" class="fine" style="color:var(--ash);padding:12px;text-align:center">JPG, PNG, or WebP. Max 500 KB.</span>
+      </div>
+      <input type="file" id="rb-photo-footer" accept="image/png,image/jpeg,image/webp" class="fine">
+      <button class="link ash fine" id="rb-pclear-footer" type="button" style="margin-left:8px;background:none;border:0;cursor:pointer">Remove</button>
+    </div>
+  </div>
+  <div class="row" style="gap:14px;margin-top:24px;align-items:center">
+    <button class="btn btn-yellow btn-sm" id="rb-save">Save branding</button>
+    <span class="fine" id="rb-msg"></span>
+  </div>
+</div>
+  </div>
+</div>
+'''),
+
+'org': ('Organization', '''
+<div class="dash-head"><h1 class="d-36">Your program</h1><p class="lead">Your window on the service: men measured, movement, completions. You never see a man's answers or scores.</p></div>
+<div id="org-picker" class="row" style="margin-bottom:24px"></div>
+<div id="org-body">
+  <div class="home-grid">
+    <aside>
+      <div class="card" style="padding:22px 24px;margin-bottom:16px">
+        <div class="eyebrow" style="margin-bottom:8px">YOUR ORGANIZATION</div>
+        <div class="d-28" id="orgName">&nbsp;</div>
+        <p class="fine" id="orgMeta" style="color:var(--ash);margin-top:4px"></p>
+      </div>
+      <div class="card" style="padding:22px 24px;margin-bottom:16px">
+        <div class="eyebrow" style="margin-bottom:10px">YOUR JOIN LINK</div>
+        <div id="orgJoin"><p class="fine" style="color:var(--ash)">Loading&hellip;</p></div>
+      </div>
+      <div class="card" style="padding:22px 24px">
+        <div class="eyebrow" style="margin-bottom:14px">STATISTICS</div>
+        <div id="orgStats"><p class="fine" style="color:var(--ash)">Loading&hellip;</p></div>
+      </div>
+    </aside>
+    <div>
+      <div id="orgNext"></div>
+      <div class="eyebrow" style="margin:6px 0 12px">YOUR COHORTS</div>
+      <div id="orgCohorts"><p class="fine" style="color:var(--ash)">Loading&hellip;</p></div>
+      <div class="card" style="margin:22px 0 20px;padding:24px 26px">
+        <div class="row between" style="margin-bottom:12px"><h3>Invite a man directly</h3></div>
+        <p class="fine" style="color:var(--ash);margin-bottom:12px">The join link does this at scale; direct invites are for the one-offs.</p>
+        <div class="row" style="max-width:520px"><input class="input" id="inv-email" placeholder="man@example.com"><button class="btn btn-primary btn-sm" id="inv-go">Send invite</button></div>
+        <p class="fine" id="inv-msg" style="margin-top:8px"></p>
+      </div>
+      <details class="card" style="padding:20px 26px">
+        <summary style="cursor:pointer"><b>Roster</b> <span class="fine" style="color:var(--ash)">seat-by-seat participation</span></summary>
+        <div id="roster-table" style="margin-top:16px"><p class="fine">Loading&hellip;</p></div>
+      </details>
+    </div>
+  </div>
+</div>
+'''),
+
+'lead': ('Facilitator Desk', '''
+<div class="dash-head">
+  <h1 class="d-36">Facilitator Desk</h1>
+  <p class="lead">He can train without you. Claiming a seat means you stay available for questions and accountability, not that you sit the films with him. Your Certified Facilitator status lives in the public registry.</p>
+  <div class="row wrap" id="lead-head-chips" style="gap:8px;margin-top:14px">
+    <span class="chip selected" id="lead-seat-chip">Seating for Returning Home</span>
+    <a class="chip" id="lead-serial-chip" href="verify.html">Serial &rarr; verify</a>
+  </div>
+</div>
+<div class="glance">
+  <div class="glance-card"><div class="glance-lbl">YOUR WORLD</div><div class="glance-big" data-glance="lead-men">--</div><div class="glance-sub">men you claimed</div></div>
+  <div class="glance-card"><div class="glance-lbl">THIS WEEK</div><div class="glance-big" data-glance="lead-watched">--</div><div class="glance-sub">watched the film</div></div>
+  <div class="glance-card"><div class="glance-lbl">THIS SESSION</div><div class="glance-big glance-sm" data-glance="lead-next-meet">--</div><div class="glance-sub">this week&rsquo;s film</div></div>
+  <div class="glance-card glance-next"><div class="glance-lbl">CONSIDER NEXT</div><div class="glance-next-txt" data-glance="lead-next">Claim a man, then reach the one who has not started.</div></div>
+</div>
+<div id="lead-week-chips" class="chiprow" style="margin-bottom:18px"></div>
+<div class="dash-panel">
+  <div class="dash-panel-h">
+    <h3>This week&rsquo;s board</h3>
+    <p class="fine">Men you claimed. This session&rsquo;s film, checkpoint, and practice flags only. Never answers or scores.</p>
+  </div>
+  <div id="lead-thisweek"><p class="fine">Loading&hellip;</p></div>
+  <div id="lead-progress" class="fine" style="margin-top:10px"></div>
+</div>
+<div class="dash-panel">
+  <div class="dash-panel-h"><h3>Claim a man</h3></div>
+  <p class="fine" style="margin-bottom:14px">He can train without you. Claiming him means you stay available. Enter the email he signs in with. He pays nothing. A Circle is optional; an empty Circle does not empty this desk.</p>
+  <div class="row wrap" style="gap:10px;align-items:end">
+    <div class="field" style="margin:0;flex:2;min-width:220px"><label>Participant email</label><input class="input" id="claim-email" type="email" placeholder="him@example.com"></div>
+    <button class="btn btn-primary btn-sm" id="claim-add">Claim</button>
+  </div>
+  <p class="fine" id="claim-msg" style="margin-top:10px;min-height:16px"></p>
+  <div class="eyebrow" style="margin:20px 0 10px">MEN YOU CLAIMED</div>
+  <div id="claim-list" class="fine">Loading&hellip;</div>
+  <div class="eyebrow" style="margin:26px 0 10px">VERIFICATION SHEET</div>
+  <p class="fine" style="margin-bottom:12px">One sheet for the coordinator who requires proof: every man you claimed, his certificate serial, and its status. Hand it over yourself; the public verification page never names your organization.</p>
+  <button class="btn btn-secondary btn-sm" id="lead-export">Download verification sheet (CSV)</button>
+  <p class="fine" id="lead-export-msg" style="margin-top:10px;min-height:16px"></p>
+</div>
+<div id="lead-live">
+  <div id="circle-picker" class="row" style="margin-bottom:24px"></div>
+  <div class="dash-panel">
+    <div class="dash-panel-h"><h3>Plan weeks</h3><p class="fine">Live cohort only. Film title, not a class slug.</p></div>
+    <div class="grid-3" style="gap:12px;align-items:end">
+      <div class="field" style="margin:0"><label>Week</label><input class="input" id="cw-week" type="number" value="1" min="1" max="12"></div>
+      <div class="field" style="margin:0"><label>Film</label><select class="input" id="cw-film"></select></div>
+      <div class="field" style="margin:0"><label>Meets on</label><input class="input" id="cw-date" type="date"></div>
+    </div>
+    <div class="field" style="margin-top:12px"><label>Discussion question</label><input class="input" id="cw-q"></div>
+    <div class="field"><label>Shared action</label><input class="input" id="cw-action"></div>
+    <button class="btn btn-primary btn-sm" id="cw-go">Save week</button>
+    <div id="cw-list" style="margin-top:20px"></div>
+  </div>
+  <div class="dash-panel">
+    <div class="dash-panel-h"><h3>Announce</h3><p class="fine">Live cohort only.</p></div>
+    <textarea class="input" id="ann-body" placeholder="Say it straight."></textarea>
+    <button class="btn btn-primary btn-sm" id="ann-go" style="margin-top:12px">Post announcement</button>
+    <div id="ann-list" style="margin-top:20px"></div>
+  </div>
+  <div class="dash-panel">
+    <div class="dash-panel-h"><h3>Circle roster</h3><p class="fine">Live cohort members. The board above is men you claimed.</p></div>
+    <div id="lead-roster"></div>
+  </div>
+</div>
+'''),
+    'review': ('Review Queue', REVIEW_BODY),
+}
+
+if __name__ == '__main__':
+    out = os.path.dirname(os.path.abspath(__file__))
+    # PL-3: the footer template loads assets/js/<page>.js for every dashboard,
+    # so the review engine ships as that real file, not as inline script.
+    review_js_body = REVIEW_JS
+    if review_js_body.strip().startswith('<script>'):
+        review_js_body = review_js_body.strip()[len('<script>'):]
+    if review_js_body.strip().endswith('</script>'):
+        review_js_body = review_js_body.strip()[:-len('</script>')]
+    with open(os.path.join(out, 'assets', 'js', 'review.js'), 'w') as f:
+        f.write('/* Generated by build_dashboards.py from REVIEW_JS. Edit there. */\n' + review_js_body.strip() + '\n')
+    print('wrote assets/js/review.js')
+    for page, (title, body) in PAGES.items():
+        html = HEAD.format(title=title, meta=social_meta(page, title)) + body + FOOT.format(
+            page=page, pre_scripts=PRE_SCRIPTS.get(page, ''), post_scripts=POST_SCRIPTS.get(page, ''))
+        with open(os.path.join(out, page + '.html'), 'w') as f:
+            f.write(html)
+        print('wrote', page + '.html')

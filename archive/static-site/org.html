@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Organization | Fathers.com</title>
+<link rel="icon" type="image/png" href="assets/img/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>document.documentElement.dataset.theme=localStorage.getItem("fc_theme")||"dark";</script>
+<link rel="stylesheet" href="assets/css/forge.css">
+<link rel="stylesheet" href="assets/css/dash.css">
+<meta name="robots" content="noindex,follow">
+<link rel="canonical" href="https://fathers-com-platform.vercel.app/org.html">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<meta name="theme-color" content="#000000">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Fathers.com">
+<meta property="og:title" content="Organization | Fathers.com">
+<meta property="og:url" content="https://fathers-com-platform.vercel.app/org.html">
+<meta property="og:image" content="https://fathers-com-platform.vercel.app/assets/img/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://fathers-com-platform.vercel.app/assets/img/og-image.jpg">
+</head>
+<body data-auth="required">
+<nav class="nav"><div class="container nav-inner">
+<a class="brand" href="index.html"><img class="lg-dark" src="assets/img/logomark-light.png" alt=""><img class="lg-light" src="assets/img/logomark-dark.png" alt=""><b>Fathers.com</b></a>
+<ul class="nav-links">
+<li><a href="admin.html" data-role="admin">Admin</a></li>
+<li><a href="participant.html" data-role="admin">Participant</a></li>
+<li><a href="studio.html" data-role="author">Studio</a></li>
+<li><a href="org.html" data-role="org">Org</a></li>
+<li><a href="lead.html" data-role="leader">Desk</a></li>
+</ul>
+<div class="nav-right">
+<a href="plan.html">My Plan</a>
+<button class="themeswitch" data-themeswitch aria-label="Switch palette"><span class="tsw-dot"></span></button>
+<a href="#" data-signout>Sign out</a>
+<button class="nav-toggle">MENU</button>
+</div>
+</div></nav>
+<div id="denied" class="container" style="display:none;padding:80px 0"><div class="card" style="max-width:520px;margin:0 auto;text-align:center">
+<h2 class="d-28" style="margin-bottom:10px">Not your dashboard</h2>
+<p class="small" style="margin-bottom:20px">This area needs a role you do not have. If that is wrong, ask an admin to grant it.</p>
+<a class="btn btn-primary" href="plan.html">Back to My Plan</a></div></div>
+<div id="demo-note" class="container" style="display:none;padding:24px 0"><div class="notice brass" style="max-width:900px;margin:0 auto">Demo mode. Add Supabase keys in <code>assets/js/config.js</code> to load live data. The controls below show the real interface; writes activate once connected.</div></div>
+<main id="app" class="container" style="padding:40px 0 96px;display:none">
+
+<div class="dash-head"><h1 class="d-36">Your program</h1><p class="lead">Your window on the service: men measured, movement, completions. You never see a man's answers or scores.</p></div>
+<div id="org-picker" class="row" style="margin-bottom:24px"></div>
+<div id="org-body">
+  <div class="home-grid">
+    <aside>
+      <div class="card" style="padding:22px 24px;margin-bottom:16px">
+        <div class="eyebrow" style="margin-bottom:8px">YOUR ORGANIZATION</div>
+        <div class="d-28" id="orgName">&nbsp;</div>
+        <p class="fine" id="orgMeta" style="color:var(--ash);margin-top:4px"></p>
+      </div>
+      <div class="card" style="padding:22px 24px;margin-bottom:16px">
+        <div class="eyebrow" style="margin-bottom:10px">YOUR JOIN LINK</div>
+        <div id="orgJoin"><p class="fine" style="color:var(--ash)">Loading&hellip;</p></div>
+      </div>
+      <div class="card" style="padding:22px 24px">
+        <div class="eyebrow" style="margin-bottom:14px">STATISTICS</div>
+        <div id="orgStats"><p class="fine" style="color:var(--ash)">Loading&hellip;</p></div>
+      </div>
+    </aside>
+    <div>
+      <div id="orgNext"></div>
+      <div class="eyebrow" style="margin:6px 0 12px">YOUR COHORTS</div>
+      <div id="orgCohorts"><p class="fine" style="color:var(--ash)">Loading&hellip;</p></div>
+      <div class="card" style="margin:22px 0 20px;padding:24px 26px">
+        <div class="row between" style="margin-bottom:12px"><h3>Invite a man directly</h3></div>
+        <p class="fine" style="color:var(--ash);margin-bottom:12px">The join link does this at scale; direct invites are for the one-offs.</p>
+        <div class="row" style="max-width:520px"><input class="input" id="inv-email" placeholder="man@example.com"><button class="btn btn-primary btn-sm" id="inv-go">Send invite</button></div>
+        <p class="fine" id="inv-msg" style="margin-top:8px"></p>
+      </div>
+      <details class="card" style="padding:20px 26px">
+        <summary style="cursor:pointer"><b>Roster</b> <span class="fine" style="color:var(--ash)">seat-by-seat participation</span></summary>
+        <div id="roster-table" style="margin-top:16px"><p class="fine">Loading&hellip;</p></div>
+      </details>
+    </div>
+  </div>
+</div>
+</main>
+<div class="toast"></div>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/supabase-client.js"></script>
+<script src="assets/js/roles.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/org.js"></script>
+</body></html>
