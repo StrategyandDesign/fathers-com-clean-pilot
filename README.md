@@ -22,7 +22,9 @@ npm install
 npm run dev
 ```
 
-Open http://localhost:3000
+Open http://localhost:3000/login
+
+Pilot seats (password `12345` on local and Vercel): `father@nwa`, `manager@nwa`, `reviewer@nwa`, plus the Unit 8200 `*@il` seats and `admin@fathers`. See `PILOT.md`.
 
 - Lint: `npm run lint`
 - Unit tests: `npx tsx --test tests/*.test.ts`
@@ -30,4 +32,4 @@ Open http://localhost:3000
 
 Start here: `handoff/00-SUBMISSION-GUIDE.md`
 
-This repo is the review line. Do not use https://fathers-com-platform.vercel.app to judge it. That host serves a different line.
+This repo is the review line. https://fathers-com-platform.vercel.app is current `main` with the same Pilot seats. It is not the Submit 2 tree.
