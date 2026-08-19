@@ -1,9 +1,9 @@
 {
-  "mark": 3,
-  "tag": "shared/3",
-  "at": "2026-08-19T16:24:37.946Z",
-  "internalSha": "10ff5eb7d334dae80ae69a2c7238844a78c15ebf",
+  "mark": 4,
+  "tag": "shared/4",
+  "at": "2026-08-19T16:28:40.018Z",
+  "internalSha": "ff515570310c8752106be44a8e9979be98ae679f",
   "sharedSha": "",
-  "title": "Point Shared marks at the organized review tree.",
-  "url": "https://github.com/StrategyandDesign/fathers-com-clean-pilot/releases/tag/shared/3"
+  "title": "Pull the current sync script before numbering a Shared mark.",
+  "url": "https://github.com/StrategyandDesign/fathers-com-clean-pilot/releases/tag/shared/4"
 }
