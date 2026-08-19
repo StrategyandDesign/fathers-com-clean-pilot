@@ -1,9 +1,9 @@
 {
-  "mark": 4,
-  "tag": "shared/4",
-  "at": "2026-08-19T16:28:40.018Z",
-  "internalSha": "ff515570310c8752106be44a8e9979be98ae679f",
+  "mark": 5,
+  "tag": "shared/5",
+  "at": "2026-08-19T16:32:51.604Z",
+  "internalSha": "6c01c4226dd0d27466d62f551a262879e4473af6",
   "sharedSha": "",
-  "title": "Pull the current sync script before numbering a Shared mark.",
-  "url": "https://github.com/StrategyandDesign/fathers-com-clean-pilot/releases/tag/shared/4"
+  "title": "Keep the Shared ledger when overlaying review, and name leftover assets.",
+  "url": "https://github.com/StrategyandDesign/fathers-com-clean-pilot/releases/tag/shared/5"
 }
