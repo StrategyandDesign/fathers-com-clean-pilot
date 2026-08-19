@@ -1,9 +1,9 @@
 {
-  "mark": 1,
-  "tag": "shared/1",
-  "at": "2026-08-19T15:48:57.108Z",
-  "internalSha": "2549c76e6a4c530cb34ef92650fa639c2d67d4ac",
+  "mark": 2,
+  "tag": "shared/2",
+  "at": "2026-08-19T16:17:50.058Z",
+  "internalSha": "875bcdccff2762757b6024e7bccc0fefc095a118",
   "sharedSha": "",
-  "title": "Make the shared-repo sync script run on its own.",
-  "url": "https://github.com/StrategyandDesign/fathers-com-clean-pilot/releases/tag/shared/1"
+  "title": "Stamp Shared 1 on the local desk.",
+  "url": "https://github.com/StrategyandDesign/fathers-com-clean-pilot/releases/tag/shared/2"
 }
