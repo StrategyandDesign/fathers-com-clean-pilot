@@ -18,18 +18,6 @@ const PRESERVE_PATHS = [
   "lib/i18n/translate.ts",
 ];
 
-function normalizeRepoPath(filePath) {
-  return String(filePath || "").replace(/\\/g, "/").replace(/\/$/, "");
-}
-
-function staleOverlayPaths(existingPaths, incomingPaths) {
-  const incoming = new Set([...incomingPaths].map(normalizeRepoPath).filter(Boolean));
-  const preserve = new Set(PRESERVE_PATHS);
-  return [...existingPaths]
-    .map(normalizeRepoPath)
-    .filter((filePath) => filePath && !incoming.has(filePath) && !preserve.has(filePath));
-}
-
 function run(cmd, args, cwd = ROOT) {
   return spawnSync(cmd, args, { cwd, encoding: "utf8" });
 }
@@ -73,7 +61,7 @@ function parseSharedLedger(markdown) {
   return rows;
 }
 
-function renderSharedLedger(rows) {
+function renderSharedLedger(rows, mark = {}) {
   const lines = [
     "# Shared marks",
     "",
@@ -93,15 +81,22 @@ function renderSharedLedger(rows) {
     );
   }
   lines.push("");
-  return lines.join("\n");
-}
-
-function mergeLedgerMarkdown(...markdowns) {
-  const byMark = new Map();
-  for (const markdown of markdowns) {
-    for (const row of parseSharedLedger(markdown)) byMark.set(row.mark, row);
+  const revisions = mark.revisions ?? [];
+  if (!revisions.length) return lines.join("\n");
+  const current = revisions[revisions.length - 1];
+  lines.push(
+    "## Desk revisions",
+    "",
+    `The badge on this checkout is **${current.label || `Shared ${current.revision}`}**. It ticks on each push of the Shared 1 desk. This does not create Shared 2. Submit 2 stays frozen.`,
+    "",
+    "| Revision | Date (UTC) | What landed |",
+    "|---|---|---|",
+  );
+  for (const row of revisions) {
+    lines.push(`| **${row.revision}** | ${row.date || row.at} | ${row.title} |`);
   }
-  return renderSharedLedger([...byMark.values()].sort((a, b) => a.mark - b.mark));
+  lines.push("");
+  return lines.join("\n");
 }
 
 function writeMark(dir, mark, existingMarkdown) {
@@ -114,7 +109,7 @@ function writeMark(dir, mark, existingMarkdown) {
     title: mark.title,
   });
   const rows = [...byMark.values()].sort((a, b) => a.mark - b.mark);
-  writeFileSync(path.join(dir, SHARED_LEDGER), renderSharedLedger(rows));
+  writeFileSync(path.join(dir, SHARED_LEDGER), renderSharedLedger(rows, mark));
   writeFileSync(path.join(dir, SHARED_MARK_FILE), `${JSON.stringify(mark, null, 2)}\n`);
 }
 
@@ -143,22 +138,6 @@ export async function syncFromInternal() {
     return { ok: true, skipped: true, reason: "already-published" };
   }
 
-  const ledgerBefore = existsSync(path.join(ROOT, SHARED_LEDGER))
-    ? readFileSync(path.join(ROOT, SHARED_LEDGER), "utf8")
-    : "";
-
-  const incoming = requireRun("git", ["ls-tree", "-r", "--name-only", "HEAD"], cloneDir)
-    .split("\n")
-    .map((line) => line.trim())
-    .filter(Boolean);
-  const existing = requireRun("git", ["ls-files"], ROOT)
-    .split("\n")
-    .map((line) => line.trim())
-    .filter(Boolean);
-  for (const file of staleOverlayPaths(existing, incoming)) {
-    rmSync(path.join(ROOT, file), { force: true });
-  }
-
   const archivePath = path.join(os.tmpdir(), `fathers-shared-${internalSha.slice(0, 12)}.tar`);
   requireRun("git", ["archive", "--format=tar", "-o", archivePath, "HEAD"], cloneDir);
   requireRun("tar", ["-xf", archivePath], ROOT);
@@ -174,19 +153,26 @@ export async function syncFromInternal() {
     .map((line) => line.trim())
     .filter(Boolean);
   const markNumber = nextSharedMark(tags);
+  const overlaid = existsSync(path.join(ROOT, SHARED_MARK_FILE))
+    ? JSON.parse(readFileSync(path.join(ROOT, SHARED_MARK_FILE), "utf8"))
+    : {};
   const mark = {
     mark: markNumber,
+    patch: Number(overlaid.patch) || 0,
+    label: typeof overlaid.label === "string" ? overlaid.label : `Shared ${markNumber}`,
     tag: `${SHARED_TAG_PREFIX}${markNumber}`,
     at: new Date().toISOString(),
     internalSha,
     sharedSha: "",
     title,
     url: `https://github.com/StrategyandDesign/fathers-com-clean-pilot/releases/tag/shared/${markNumber}`,
+    revisions: Array.isArray(overlaid.revisions) ? overlaid.revisions : [],
   };
-  const ledgerIncoming = existsSync(path.join(ROOT, SHARED_LEDGER))
-    ? readFileSync(path.join(ROOT, SHARED_LEDGER), "utf8")
-    : "";
-  writeMark(ROOT, mark, mergeLedgerMarkdown(ledgerBefore, ledgerIncoming));
+  writeMark(
+    ROOT,
+    mark,
+    existsSync(path.join(ROOT, SHARED_LEDGER)) ? readFileSync(path.join(ROOT, SHARED_LEDGER), "utf8") : ""
+  );
   requireRun("git", ["add", "-A"], ROOT);
   const dirty = run("git", ["diff", "--cached", "--quiet"], ROOT);
   if (dirty.status === 0) {

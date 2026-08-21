@@ -20,7 +20,7 @@ import { loadAdminTraining, loadTrainingUsage } from "@/lib/admin/data";
 import { loadIntakeForTraining } from "@/lib/admin/sourcing-data";
 import { sourcedReleaseBlocker } from "@/lib/admin/sourcing";
 import { IntakeStatusBadge, RightsStatusBadge } from "@/components/admin/sourcing-status";
-import { asDevelopmentStatus, isArchivedTraining } from "@/lib/admin/development";
+import { asDevelopmentStatus, isArchivedTraining, LEADER_SUMMARY_MAX } from "@/lib/admin/development";
 import {
   isLegacyCatalogTraining,
   RELEASE_CONFIRM,
@@ -38,6 +38,8 @@ import { checkboxOptionClassName, fieldClassName, interactiveLinkClassName, text
 import { cn } from "@/lib/utils";
 import { AdminFilmFlags, AdminSessionFilmFlags } from "@/components/admin/film-flags";
 import { hasHostedVideo } from "@/lib/media/hosted-video";
+import { TrainingHandoutDesk } from "@/components/admin/training-handout-desk";
+import { loadTrainingHandouts } from "@/lib/training-handouts/data";
 
 export default async function AdminTrainingDetailPage({
   params,
@@ -50,6 +52,7 @@ export default async function AdminTrainingDetailPage({
   const flash = await searchParams;
   await requireRole("admin");
   const training = await loadAdminTraining(id);
+  const handouts = training ? await loadTrainingHandouts(training.id) : [];
 
   if (!training) notFound();
 
@@ -153,6 +156,24 @@ export default async function AdminTrainingDetailPage({
             name="description"
             defaultValue={training.description ?? ""}
           />
+          <span className="block text-sm text-muted-foreground">
+            Short catalog blurb. Leaders see this on the training card.
+          </span>
+        </label>
+        <label className="block space-y-2">
+          <span className="text-sm text-muted-foreground">Training Summary</span>
+          <textarea
+            className={textareaClassName}
+            name="leader_summary"
+            defaultValue={training.leader_summary ?? ""}
+            maxLength={LEADER_SUMMARY_MAX}
+            rows={8}
+            placeholder="The complete summary the leader reads first."
+          />
+          <span className="block text-sm text-muted-foreground">
+            This is what the leader (Org Manager) reads before the session
+            information or films.
+          </span>
         </label>
         <label className="block space-y-2">
           <span className="text-sm text-muted-foreground">Overview video</span>
@@ -175,6 +196,7 @@ export default async function AdminTrainingDetailPage({
             ) : null}
           </span>
         </label>
+        <TrainingHandoutDesk trainingId={training.id} handouts={handouts} />
         <label className="block space-y-2">
           <span className="text-sm text-muted-foreground">Credit (Leaders see this)</span>
           <input

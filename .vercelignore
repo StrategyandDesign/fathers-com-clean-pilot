@@ -1,6 +1,7 @@
 # Old static HTML platform — do not upload to the Next.js pilot project.
 *.html
 assets/
+archive/
 content/
 emails/
 partner-kit/

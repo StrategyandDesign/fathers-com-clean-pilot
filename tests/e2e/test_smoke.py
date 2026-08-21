@@ -1,5 +1,4 @@
-"""Smoke tests for the archived static site in archive/static-site/.
-Current CI does not run this file. Structural assertions only:
+"""Smoke tests for the critical public flows. Structural assertions only:
 they verify the pages our users depend on are present and wired, without
 depending on live data. Run locally with: python3 -m pytest tests/e2e -q"""
 
@@ -81,7 +80,7 @@ def test_no_dead_buttons(page, server):
     # The audit rule: no placeholder toasts that promise wiring later, and no
     # magic-link path on sign-in. Structural greps across the shipped pages.
     import glob, os
-    for f in glob.glob(os.path.join(os.path.dirname(__file__), "..", "..", "*.html")):
+    for f in glob.glob(os.path.join(os.path.dirname(__file__), "..", "..", "archive", "static-site", "*.html")):
         html = open(f).read()
         assert "wires at deploy" not in html, f
         assert "wires to Supabase" not in html, f

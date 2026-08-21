@@ -14,6 +14,7 @@ import { buildQuietSuggestion } from "@/lib/manager/companion";
 import { loadNudgeHistory, loadReminderPrefs } from "@/lib/manager/nudge-data";
 import { latestSentAt, needsNudge } from "@/lib/manager/nudges";
 import { formatShortDate } from "@/lib/manager/types";
+import { participationModeFromGroups } from "@/lib/participation";
 import { interactiveLinkClassName } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 
@@ -27,6 +28,7 @@ export default async function ManagerParticipantsPage({
   const { t } = await getI18n();
   const { participants, trainings, sessions, groups, reviews, trainingProgressFor } =
     await loadManagerWorkspace(user.id);
+  const participationMode = participationModeFromGroups(groups);
   const certificateDesk = buildCertificateDesk({
     participants,
     trainingProgressFor,
@@ -101,6 +103,7 @@ export default async function ManagerParticipantsPage({
                       cooldownDays={suggestion.cooldownDays}
                       returnTo="list"
                       compact
+                      mode={participationMode}
                     />
                   </div>
                 </li>

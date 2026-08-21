@@ -55,21 +55,51 @@ export function shouldPreserve(filePath) {
   return PRESERVE_PATHS.includes(filePath.replace(/\\/g, "/"));
 }
 
-export function normalizeRepoPath(filePath) {
-  return String(filePath || "").replace(/\\/g, "/").replace(/\/$/, "");
-}
-
-/** Files on review that the incoming tree dropped — leftover HTML, moved docs. */
-export function staleOverlayPaths(existingPaths, incomingPaths, preservePaths = PRESERVE_PATHS) {
-  const incoming = new Set([...incomingPaths].map(normalizeRepoPath).filter(Boolean));
-  const preserve = new Set([...preservePaths].map(normalizeRepoPath));
-  return [...existingPaths]
-    .map(normalizeRepoPath)
-    .filter((filePath) => filePath && !incoming.has(filePath) && !preserve.has(filePath));
-}
-
 export function markUrl(mark) {
   return `${SHARED_REPO_URL}/releases/tag/shared/${mark}`;
+}
+
+export function formatSharedRevision(mark, patch) {
+  const n = Number(patch);
+  if (!Number.isInteger(n) || n < 1) return "";
+  return `${Number(mark)}.${String(n).padStart(2, "0")}`;
+}
+
+export function formatSharedLabel(mark, patch) {
+  const revision = formatSharedRevision(mark, patch);
+  return revision ? `Shared ${mark}-${revision}` : `Shared ${mark}`;
+}
+
+export function parseDeskRevisions(markdown) {
+  const rows = [];
+  for (const line of String(markdown ?? "").split("\n")) {
+    const match = line.match(/^\|\s*\*\*(\d+\.\d+)\*\*\s*\|\s*([^|]+)\|\s*(.*?)\s*\|$/);
+    if (!match) continue;
+    rows.push({
+      revision: match[1].trim(),
+      date: match[2].trim(),
+      title: match[3].trim(),
+    });
+  }
+  return rows;
+}
+
+export function renderDeskRevisionsSection(revisions = []) {
+  if (!revisions.length) return "";
+  const current = revisions[revisions.length - 1];
+  const lines = [
+    "## Desk revisions",
+    "",
+    `The badge on this checkout is **${current.label || `Shared ${current.revision}`}**. It ticks on each push of the Shared 1 desk. This does not create Shared 2. Submit 2 stays frozen.`,
+    "",
+    "| Revision | Date (UTC) | What landed |",
+    "|---|---|---|",
+  ];
+  for (const row of revisions) {
+    lines.push(`| **${row.revision}** | ${row.date} | ${row.title} |`);
+  }
+  lines.push("");
+  return `\n${lines.join("\n")}`;
 }
 
 export function upsertLedgerRow(rows, next) {
@@ -78,7 +108,7 @@ export function upsertLedgerRow(rows, next) {
   return [...byMark.values()].sort((a, b) => a.mark - b.mark);
 }
 
-export function renderSharedLedger(rows) {
+export function renderSharedLedger(rows, revisions = []) {
   const lines = [
     "# Shared marks",
     "",
@@ -98,7 +128,7 @@ export function renderSharedLedger(rows) {
     );
   }
   lines.push("");
-  return lines.join("\n");
+  return `${lines.join("\n")}${renderDeskRevisionsSection(revisions)}`;
 }
 
 export function parseSharedLedger(markdown) {
@@ -124,14 +154,24 @@ export function readSharedMark(source = "{}") {
     const parsed = JSON.parse(source);
     const mark = Number(parsed.mark);
     if (!Number.isInteger(mark) || mark < 1) return null;
+    const patch = Number(parsed.patch);
+    const revisions = Array.isArray(parsed.revisions)
+      ? parsed.revisions.filter((row) => row && typeof row === "object")
+      : [];
     return {
       mark,
+      patch: Number.isInteger(patch) && patch > 0 ? patch : 0,
+      label:
+        typeof parsed.label === "string" && parsed.label
+          ? parsed.label
+          : formatSharedLabel(mark, Number.isInteger(patch) ? patch : 0),
       tag: typeof parsed.tag === "string" ? parsed.tag : `${SHARED_TAG_PREFIX}${mark}`,
       at: typeof parsed.at === "string" ? parsed.at : "",
       internalSha: typeof parsed.internalSha === "string" ? parsed.internalSha : "",
       sharedSha: typeof parsed.sharedSha === "string" ? parsed.sharedSha : "",
       title: typeof parsed.title === "string" ? parsed.title : "",
       url: typeof parsed.url === "string" ? parsed.url : markUrl(mark),
+      revisions,
     };
   } catch {
     return null;
@@ -193,32 +233,31 @@ function subjectFor(sha) {
   return subject.replace(/^Shared \d+\.\s*/, "") || "Update";
 }
 
-function writeMarkFiles(dir, mark, extraRows = []) {
+function writeMarkFiles(dir, mark) {
   const ledgerPath = path.join(dir, SHARED_LEDGER);
+  const markPath = path.join(dir, SHARED_MARK_FILE);
+  const existingMark = existsSync(markPath) ? readSharedMark(readFileSync(markPath, "utf8")) : null;
+  const patch = existingMark?.patch ?? mark.patch ?? 0;
+  const revisions = existingMark?.revisions ?? mark.revisions ?? [];
+  const payload = {
+    ...mark,
+    patch,
+    label: formatSharedLabel(mark.mark, patch),
+    revisions,
+  };
   const existing = existsSync(ledgerPath) ? parseSharedLedger(readFileSync(ledgerPath, "utf8")) : [];
-  const rows = upsertLedgerRow([...extraRows, ...existing], {
+  const rows = upsertLedgerRow(existing, {
     mark: mark.mark,
     date: mark.at.slice(0, 10),
     tag: mark.tag,
     internalSha: mark.internalSha,
     title: mark.title,
   });
-  writeFileSync(ledgerPath, renderSharedLedger(rows));
-  writeFileSync(path.join(dir, SHARED_MARK_FILE), `${JSON.stringify(mark, null, 2)}\n`);
+  writeFileSync(ledgerPath, renderSharedLedger(rows, revisions));
+  writeFileSync(markPath, `${JSON.stringify(payload, null, 2)}\n`);
 }
 
 function overlayTree(sourceSha, worktree) {
-  const incoming = requireGit(["ls-tree", "-r", "--name-only", sourceSha])
-    .split("\n")
-    .map((line) => line.trim())
-    .filter(Boolean);
-  const existing = requireGit(["ls-files"], worktree)
-    .split("\n")
-    .map((line) => line.trim())
-    .filter(Boolean);
-  for (const file of staleOverlayPaths(existing, incoming)) {
-    rmSync(path.join(worktree, file), { force: true });
-  }
   const archivePath = path.join(os.tmpdir(), `fathers-shared-${sourceSha.slice(0, 12)}.tar`);
   const archive = run("git", ["archive", "--format=tar", "-o", archivePath, sourceSha], REPO_ROOT);
   if (archive.status !== 0) {
@@ -290,11 +329,8 @@ export async function publishShared(input = {}) {
 
   try {
     requireGit(["worktree", "add", "--detach", worktree, `${SHARED_REMOTE}/${SHARED_BRANCH}`]);
-    const ledgerBefore = existsSync(path.join(worktree, SHARED_LEDGER))
-      ? parseSharedLedger(readFileSync(path.join(worktree, SHARED_LEDGER), "utf8"))
-      : [];
     overlayTree(sourceSha, worktree);
-    writeMarkFiles(worktree, mark, ledgerBefore);
+    writeMarkFiles(worktree, mark);
     requireGit(["add", "-A"], worktree);
     const staged = git(["diff", "--cached", "--quiet"], worktree);
     if (staged.status === 0) {

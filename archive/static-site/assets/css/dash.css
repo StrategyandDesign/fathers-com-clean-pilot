@@ -1,0 +1,62 @@
+/* Dashboard-specific styles, layered on forge.css — flagship density */
+.dash-head{margin-bottom:28px}
+.dash-head h1{margin-bottom:8px}
+.dash-head .lead{max-width:62ch}
+
+.dtable{width:100%;border-collapse:collapse;font-size:13.5px}
+.dtable th{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ash);text-align:left;padding:10px 12px;border-bottom:1px solid var(--hairline-strong);background:var(--coal);position:sticky;top:72px;z-index:2}
+.dtable td{padding:11px 12px;border-bottom:1px solid var(--hairline);vertical-align:middle}
+.dtable tr:hover td{background:var(--coal-2)}
+.dtable tr:last-child td{border-bottom:0}
+.dtable .num{font-family:var(--font-mono);font-variant-numeric:tabular-nums}
+.dtable-wrap{overflow-x:auto;border:1px solid var(--hairline);border-radius:var(--r-card);background:var(--coal)}
+
+.rolechip{display:inline-block;font-family:var(--font-mono);font-size:11px;padding:2px 8px;border-radius:999px;border:1px solid var(--hairline-strong);margin:2px 4px 2px 0}
+.rolechip.admin{border-color:var(--ember);color:var(--ember-hi)}
+.rolechip.instructor{border-color:var(--brass);color:var(--brass)}
+.pubdot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px}
+.pubdot.on{background:var(--pine-hi)}.pubdot.off{background:var(--ash)}
+.lesson-row{display:flex;gap:10px;align-items:center;padding:10px 12px;border:1px solid var(--hairline);border-radius:8px;margin-bottom:8px;background:var(--coal-2)}
+.lesson-row input{margin:0}
+.lesson-row .num{font-family:var(--font-mono);color:var(--ash);flex:0 0 28px}
+.item-row{border:1px solid var(--hairline);border-radius:8px;padding:14px;margin-bottom:10px;background:var(--coal-2)}
+.mini{font-size:12px;padding:8px 10px;height:auto}
+.grid-auto{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+.pill-status{font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:2px 8px;border-radius:999px}
+.pill-status.draft{border:1px solid var(--ash);color:var(--ash)}
+.pill-status.published{border:1px solid var(--pine-hi);color:var(--pine-hi)}
+.builder-grid{display:grid;grid-template-columns:1fr;gap:12px}
+.inline-actions{display:flex;gap:8px;flex-wrap:wrap}
+
+/* Empty states with recovery CTAs */
+.dash-empty{padding:36px 28px;border:1px dashed var(--hairline-strong);border-radius:var(--r-card);background:var(--coal);text-align:left}
+.dash-empty h3{font-family:var(--font-display);font-size:20px;margin:0 0 8px}
+.dash-empty p{color:var(--ash);font-size:14px;margin:0 0 18px;max-width:52ch}
+.dash-empty .row{gap:10px}
+
+/* Professional panels for admin / org / facilitator */
+.dash-panel{background:var(--coal);border:1px solid var(--hairline);border-radius:var(--r-card);padding:22px 24px;margin-bottom:18px;box-shadow:var(--elev-1)}
+.dash-panel-h{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+.dash-panel-h h3{margin:0;font-size:17px;letter-spacing:-.01em}
+.dash-panel-h .fine{margin:0}
+
+/* Sticky NEXT ACTION on participant dashboard */
+#dashNextAction.next-action{margin-top:0}
+
+/* Glance band polish */
+.glance-card{box-shadow:var(--elev-1)}
+.glance-next{border-left:3px solid var(--yellow)!important}
+
+/* Facilitator / org denser list rows */
+.dash-row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 0;border-bottom:1px solid var(--hairline)}
+.dash-row:last-child{border-bottom:0}
+.dash-row .meta{font-family:var(--font-mono);font-size:11px;color:var(--ash)}
+
+/* Facilitator Desk: one board, claimed men, this week's film */
+#lead-live{display:none}
+#lead-live.is-live{display:block}
+#lead-thisweek .dtable{min-width:720px}
+#lead-week-chips .chip{max-width:100%}
+.lead-yn{font-family:var(--font-mono);letter-spacing:.06em;font-weight:600}
+.glance-next-txt a{color:var(--yellow);text-underline-offset:3px}
+#lead-head-chips a.chip{text-decoration:none}

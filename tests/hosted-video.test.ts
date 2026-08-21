@@ -1,12 +1,23 @@
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import { describe, it } from "node:test";
+import { fileURLToPath } from "node:url";
 
-import { trainingContinueHref, trainingDoorHref } from "../lib/father/training-door";
+import {
+  reviewSessionHref,
+  shouldShowCatalogOverview,
+  trainingContinueHref,
+  trainingDoorHref,
+} from "../lib/father/training-door";
 import {
   hostedVideoEmbed,
   parseHostedVideo,
   vimeoVideoRef,
 } from "../lib/media/hosted-video";
+
+function readRepo(relativePath: string) {
+  return readFileSync(fileURLToPath(new URL(`../${relativePath}`, import.meta.url)), "utf8");
+}
 
 describe("hosted overview video", () => {
   it("accepts YouTube and Vimeo links", () => {
@@ -117,5 +128,123 @@ describe("hosted overview video", () => {
       }),
       "/father/sessions/s1/checkin"
     );
+    assert.equal(
+      trainingDoorHref({ training, next, nextProgress: null, completed: 8 }),
+      "/father/sessions/s1"
+    );
+    assert.equal(
+      trainingContinueHref({ training, next, nextProgress: null, completed: 8 }),
+      "/father/sessions/s1"
+    );
+    assert.equal(
+      trainingContinueHref({
+        training: { id: "t1", overview_video_url: null },
+        next: null,
+        nextProgress: null,
+        completed: 8,
+        sessionDots: [
+          { id: "s1", done: true },
+          { id: "s2", done: true },
+        ],
+      }),
+      "/father/sessions/s1"
+    );
+    assert.equal(
+      reviewSessionHref([
+        { id: "s1", done: true },
+        { id: "s2", done: true },
+      ]),
+      "/father/sessions/s1"
+    );
+    assert.equal(reviewSessionHref([]), null);
+  });
+
+  it("shows the catalog overview until a session film is watched", () => {
+    const watched = {
+      id: "p1",
+      father_id: "f1",
+      session_id: "s1",
+      film_completed: true,
+      checkin_completed: false,
+      action_completed: false,
+      checkin_answers: {},
+      action_note: null,
+      session_note: null,
+      film_seconds: 12,
+      status: "in_progress" as const,
+      completed_at: null,
+    };
+    const opened = {
+      ...watched,
+      film_completed: false,
+    };
+
+    assert.equal(
+      shouldShowCatalogOverview({
+        enabled: true,
+        completed: 0,
+        progress: null,
+      }),
+      true
+    );
+    assert.equal(
+      shouldShowCatalogOverview({
+        enabled: true,
+        completed: 0,
+        progress: opened,
+      }),
+      true
+    );
+    assert.equal(
+      shouldShowCatalogOverview({
+        enabled: true,
+        completed: 0,
+        progress: watched,
+      }),
+      false
+    );
+    assert.equal(
+      shouldShowCatalogOverview({
+        enabled: true,
+        completed: 1,
+        progress: null,
+      }),
+      false
+    );
+    assert.equal(
+      shouldShowCatalogOverview({
+        enabled: true,
+        completed: 8,
+        progress: null,
+      }),
+      false
+    );
+    assert.equal(
+      shouldShowCatalogOverview({
+        enabled: true,
+        completed: 0,
+        progress: null,
+        sessionDots: [{ done: true }, { done: false }],
+      }),
+      false
+    );
+  });
+
+  it("keeps the training picture and opens the overview from a Watch overview link", () => {
+    const card = readRepo("components/father/training-catalog-card.tsx");
+    const watch = readRepo("components/father/training-overview-watch.tsx");
+    const trainings = readRepo("app/(father)/father/trainings/page.tsx");
+    assert.match(card, /CoverPhoto src=\{coverSrc\}/);
+    assert.match(card, /featured \|\| sideBySide/);
+    assert.match(card, /listOverview/);
+    assert.match(card, /TrainingOverviewWatch/);
+    assert.match(card, /border-2 border-primary/);
+    assert.match(card, /shouldShowCatalogOverview/);
+    assert.doesNotMatch(card, /HostedFilmPlayer/);
+    assert.match(watch, /HostedFilmPlayer/);
+    assert.match(watch, /role="dialog"/);
+    assert.match(trainings, /hasWatchedTrainingSession/);
+    assert.match(trainings, /overviewUrl=\{showOverview \? card\.training\.overview_video_url : null\}/);
+    assert.match(trainings, /showOverviewSlot=\{showOverview\}/);
   });
 });

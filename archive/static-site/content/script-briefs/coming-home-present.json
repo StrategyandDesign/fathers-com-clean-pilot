@@ -1,0 +1,811 @@
+{
+  "slug": "reentry",
+  "title": "Coming Home Present",
+  "tagline": "Twelve short sessions on presence after time in a program: reconnect with children and a significant other, with the same skills for service members and anyone returning after time away.",
+  "session_length_label": "~12 min",
+  "session_count": 12,
+  "course_purpose": "Twelve short film sessions for fathers in rehab or treatment preparing to reconnect with their children and/or a significant other: the body you bring home, the wave, few promises kept, the child who grew, small deposits, repair, reunion day, and the season after. Built so a man can complete the practices inside the rules that govern him now. Same body skills if you are coming home from service.",
+  "audience": "Lead audience: fathers in rehab or treatment preparing to reconnect with children and/or a significant other. Second application: service members and anyone returning after time away, same body skills and practices. Practices stay inside the rules that govern him now; where contact is limited, every drill has a before-return option. Completion never requires child contact.",
+  "facilitator_note": "Self-paced film. About twelve minutes each. Watch when you can. A Certified Facilitator is available for questions and accountability when your seat is claimed. Optional live cohorts may be offered by some programs. Lead scenes are the treatment house, program rules, early leave passes, first calls home, first visit, and first night back. The reunion session is a climax: you leave with a first-hour plan for kids and/or a significant other, rehearsed and in hand. Same work if you are coming home from service. Logged sessions and a checkable practice. Completion never requires contact with your child, and no practice ever asks you to go beyond the rules that govern you now or any court order. Where contact is limited, every drill has a before-return option.",
+  "source_files": [
+    "course-coming-home-present.html",
+    "content/reentry.json",
+    "content/short-course-pages.json#reentry"
+  ],
+  "sessions": [
+    {
+      "number": 1,
+      "id": "a1",
+      "title": "The Body You Bring Home",
+      "keyline": "Your body did its job there. Now teach it that home is not there.",
+      "length": "~12 min",
+      "one_scene": "Quiet hours in the treatment house. A door slams down the hall. Before a thought arrives, his shoulders are up and his eyes are on the doorway. Same body that will walk into a loud kitchen on his first night home.",
+      "in_the_room": "The body's alarm in plain language: how a long stretch in a controlled environment (program, facility, or deployment) retunes it, and how that collides with a loud home and a waiting significant other. You plot your baseline and pick your tells. Same work if you are coming home from service.",
+      "what_you_leave_with": "You can name what your body is doing when it revs, and call it a physical response, not a character flaw.",
+      "practice": "Keep a short body-state log and name two likely home triggers.",
+      "science_or_note": "Fight or flight can outlast the threat; naming the response is the first retraining step.",
+      "checkpoint_questions": [
+        {
+          "prompt": "The session says your body did its job where you were. What is the work now?",
+          "choices": [
+            "Forgetting that time completely",
+            "Teaching your body that home is not there",
+            "Staying on guard, since habits keep you safe"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "A loud noise at home spikes you to full alert. What does this session call that?",
+          "choices": [
+            "A character flaw",
+            "A trained response firing where it is no longer needed",
+            "Proof you are not ready"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "What is the daily practice this session gives you?",
+          "choices": [
+            "Avoiding stressful rooms",
+            "A slow exhale practice that tells your body the threat level here",
+            "Pushing through and ignoring the surge"
+          ],
+          "correct_index": 1
+        }
+      ],
+      "script_aids": {
+        "purpose": "Open the return arc in a treatment/program setting by separating the man's body from his character so he can start retraining before reconnect.",
+        "practical_insight": "Your body did its job there. Now teach it that home is not there.",
+        "emotional_beat": "Relief mixed with recognition: the spike makes sense, and he is not broken for having it.",
+        "shape_motifs": [
+          "tight concentric rings that soften and widen",
+          "two labeled fields THERE vs HOME with the same pulse",
+          "a vertical alert bar settling to baseline",
+          "a soft circle with a slow outer breathe"
+        ],
+        "do_not": [
+          "Do not lead with deployment, combat, or barracks as the default scene",
+          "Prefer treatment house, program rules, early leave passes, first calls, first visit, first night back",
+          "No faces, bodies, photographic people, or culture-specific dress",
+          "Do not invent doctrine that conflicts with keyline, practice, or checkpoints",
+          "Keep practices inside the rules that govern the man now",
+          "Do not require child contact for completion drills",
+          "Do not treat reunion pull-away as final rejection"
+        ],
+        "bridge_from_prev": "Course open: no prior session.",
+        "bridge_to_next": "Once he can name the spike, train new meaning for the same home sounds."
+      },
+      "before_return": "Keep a three-times-daily one-word body-state log where you are now. Name two likely home triggers (kids, partner, kitchen noise). Rehearse the sentence you will use to tell family what helps.",
+      "after_return": "Keep the log at home, agree one signal with a family member if contact allows, and report what happened."
+    },
+    {
+      "number": 2,
+      "id": "a2",
+      "title": "Home Is Not There",
+      "keyline": "Same noise, new meaning. Train the difference.",
+      "length": "~12 min",
+      "one_scene": "On the house phone he hears a shout in the background. His body tags it as danger. On the next early leave pass he labels the same sound: kid looking for a shoe. Same noise. New meaning. Shoulders stay down.",
+      "in_the_room": "You train the difference between there (program rules, high alert) and home with concrete sounds and scenes. Rehearsal gives the body a new meaning before the live test. Same skill after service.",
+      "what_you_leave_with": "You can catch a home sound and label it as home on purpose.",
+      "practice": "Name two home sounds that used to mean threat and rehearse a calm home label for each.",
+      "science_or_note": "Retraining meaning reduces false alarms when old cues meet a safe setting.",
+      "checkpoint_questions": [
+        {
+          "prompt": "Same noise, new meaning. What does this session ask you to train?",
+          "choices": [
+            "Never react to noise",
+            "The difference between there and home",
+            "Avoiding every loud room"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "Why rehearse the difference before you are home?",
+          "choices": [
+            "So the body learns a new meaning before the live test",
+            "So you can argue you are fine",
+            "It is optional filler"
+          ],
+          "correct_index": 0
+        },
+        {
+          "prompt": "Which practice fits this session?",
+          "choices": [
+            "Name two home sounds that used to mean threat, and rehearse a calm label for each",
+            "Stay silent until reunion day",
+            "Only practice after a blowup"
+          ],
+          "correct_index": 0
+        }
+      ],
+      "script_aids": {
+        "purpose": "Move from naming the alarm to actively retraining meaning for the same home cues.",
+        "practical_insight": "Same noise, new meaning. Train the difference.",
+        "emotional_beat": "Agency: he can rehearse the difference instead of waiting for the spike to vanish.",
+        "shape_motifs": [
+          "tight concentric rings that soften and widen",
+          "two labeled fields THERE vs HOME with the same pulse",
+          "a vertical alert bar settling to baseline",
+          "a soft circle with a slow outer breathe"
+        ],
+        "do_not": [
+          "Do not lead with deployment, combat, or barracks as the default scene",
+          "Prefer treatment house, program rules, early leave passes, first calls, first visit, first night back",
+          "No faces, bodies, photographic people, or culture-specific dress",
+          "Do not invent doctrine that conflicts with keyline, practice, or checkpoints",
+          "Keep practices inside the rules that govern the man now",
+          "Do not require child contact for completion drills",
+          "Do not treat reunion pull-away as final rejection"
+        ],
+        "bridge_from_prev": "He can name the body's spike; now he trains what that spike should mean at home.",
+        "bridge_to_next": "With meaning training started, prepare for the early-return wave."
+      },
+      "before_return": "List two sounds or scenes from home (kids, partner, street) and write the new meaning next to each. Rehearse the labels aloud daily for five days inside program rules.",
+      "after_return": "When one of those sounds hits, say the home label once under your breath and log whether your body stood down."
+    },
+    {
+      "number": 3,
+      "id": "a3",
+      "title": "Plan Around the Wave",
+      "keyline": "Plan around the wave. Do not grade yourself by it.",
+      "length": "~12 min",
+      "one_scene": "Day nine after his first overnight pass. He slept badly, snapped over spilled cereal, and by noon he is quietly deciding he is failing his kids and his partner. He is not failing. He is in a wave, and the plan says what to do on wave days.",
+      "in_the_room": "Energy, mood, and sleep run in waves in the early weeks of any return from a program or from service. That is expected. You plan around it instead of reading it as a verdict on the reconnect.",
+      "what_you_leave_with": "You can expect the low weeks, plan around them, and stop grading yourself by them.",
+      "practice": "Write a wave-day rule: sleep anchor, fewer commitments, and one recovery move.",
+      "science_or_note": "Early-return waves in sleep and mood are common while a body leaves an imposed routine.",
+      "checkpoint_questions": [
+        {
+          "prompt": "How does this session tell you to treat the emotional wave of the first weeks?",
+          "choices": [
+            "Plan around it; do not grade yourself by it",
+            "Fight it until it passes",
+            "Take it as the truth about how the return is going"
+          ],
+          "correct_index": 0
+        },
+        {
+          "prompt": "A hard day in week two means what?",
+          "choices": [
+            "The return is failing",
+            "You are on the wave the session told you to expect",
+            "You need to try harder tomorrow to prove it"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "What belongs in a wave-day plan?",
+          "choices": [
+            "A packed calendar to make up for lost time",
+            "Sleep anchors, fewer commitments, and a written rule for hard days",
+            "Waiting to plan until you feel settled"
+          ],
+          "correct_index": 1
+        }
+      ],
+      "script_aids": {
+        "purpose": "Normalize the early-return dip so a hard week two is not read as failure.",
+        "practical_insight": "Plan around the wave. Do not grade yourself by it.",
+        "emotional_beat": "Permission to stop self-prosecuting on low days; steadiness replaces shame.",
+        "shape_motifs": [
+          "gentle sine under a calendar strip",
+          "sleep-anchor marks repeating across nights",
+          "fewer commitment boxes instead of a packed grid",
+          "verdict stamp dissolving into a plan card"
+        ],
+        "do_not": [
+          "Do not lead with deployment, combat, or barracks as the default scene",
+          "Prefer treatment house, program rules, early leave passes, first calls, first visit, first night back",
+          "No faces, bodies, photographic people, or culture-specific dress",
+          "Do not invent doctrine that conflicts with keyline, practice, or checkpoints",
+          "Keep practices inside the rules that govern the man now",
+          "Do not require child contact for completion drills",
+          "Do not treat reunion pull-away as final rejection"
+        ],
+        "bridge_from_prev": "Body meaning is training; now expect the mood and sleep wave of early return.",
+        "bridge_to_next": "With a wave-day rule, cut promises down to what he can keep without fail."
+      },
+      "before_return": "Hold one fixed sleep and wake time for five nights in the house. Write your wave-day rule on one page for kids and partner contact.",
+      "after_return": "Hold the same sleep anchor at home and use the wave-day rule on the next hard day."
+    },
+    {
+      "number": 4,
+      "id": "a4",
+      "title": "Few Promises, Kept",
+      "keyline": "Few commitments, kept without fail.",
+      "length": "~12 min",
+      "one_scene": "He wants to promise everything on the first call home. He picks two standing call times the program phone will allow, and keeps both. By week three his child and his significant other stop asking if he means it.",
+      "in_the_room": "Distance and early return punish over-promising. You choose a short list you can keep from where you actually are (program rules, court orders, duty schedule), then keep it without fail.",
+      "what_you_leave_with": "You can make fewer promises and keep every one you make.",
+      "practice": "Choose at most three commitments you can keep this week and keep a written record.",
+      "science_or_note": "Reliability beats volume; each kept promise is evidence.",
+      "checkpoint_questions": [
+        {
+          "prompt": "Which plan fits the first weeks, per this session?",
+          "choices": [
+            "Pack the calendar to make up for lost time",
+            "Few commitments, kept without fail",
+            "Wait to commit to anything until you feel settled"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "Why few promises instead of many?",
+          "choices": [
+            "Children prefer silence",
+            "A kept small promise builds trust; a broken big one costs more",
+            "Courts require fewer promises"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "You can only keep two standing times this week. The move is?",
+          "choices": [
+            "Promise five and hope",
+            "Promise two and keep both",
+            "Promise none so you cannot fail"
+          ],
+          "correct_index": 1
+        }
+      ],
+      "script_aids": {
+        "purpose": "Install reliability as the trust currency: few promises, kept without fail.",
+        "practical_insight": "Few commitments, kept without fail.",
+        "emotional_beat": "Discipline over guilt: pride in two kept times instead of shame about not doing everything.",
+        "shape_motifs": [
+          "two solid checks versus a stack of broken dashes",
+          "calendar with only two lit cells",
+          "evidence bars stacking slowly",
+          "promise tokens that stay filled"
+        ],
+        "do_not": [
+          "Do not lead with deployment, combat, or barracks as the default scene",
+          "Prefer treatment house, program rules, early leave passes, first calls, first visit, first night back",
+          "No faces, bodies, photographic people, or culture-specific dress",
+          "Do not invent doctrine that conflicts with keyline, practice, or checkpoints",
+          "Keep practices inside the rules that govern the man now",
+          "Do not require child contact for completion drills",
+          "Do not treat reunion pull-away as final rejection"
+        ],
+        "bridge_from_prev": "Wave-day planning clears space; now fill it with only what he can keep.",
+        "bridge_to_next": "Kept promises open the door to meeting the child who exists now."
+      },
+      "before_return": "Make and keep up to three small promises deliverable inside your current rules. Where no contact is permitted, keep promises to your facilitator or cohort and file the child- and partner-facing list for day one.",
+      "after_return": "Keep three small specific promises in a week at home and log each one."
+    },
+    {
+      "number": 5,
+      "id": "a5",
+      "title": "The Child Who Grew",
+      "keyline": "Meet the child in front of you, not the one you left.",
+      "length": "~12 min",
+      "one_scene": "On a permitted call from the house, the child talks about a teacher he has never heard of and a best friend whose name is new. He left a child who held his hand crossing the street. He meets the one on the line now.",
+      "in_the_room": "You map where your child actually is now against the child you left, then build questions that rebuild a current picture: friends, fears, interests. You also note what your significant other has been carrying.",
+      "what_you_leave_with": "You can recalibrate to the child who exists today.",
+      "practice": "Build a one-page current picture and draft questions that are only questions.",
+      "science_or_note": "Children hit growth milestones on a clock; knowing the present child is the base of attunement.",
+      "checkpoint_questions": [
+        {
+          "prompt": "Who does this session tell you to get to know?",
+          "choices": [
+            "The child you remember",
+            "The child in front of you now",
+            "The child you hoped they would become"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "Your child's interests changed completely while you were away. The session's move is what?",
+          "choices": [
+            "Steer them back to what you shared before",
+            "Learn the new world with questions, from the start",
+            "Give it time and let them come to you"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "Why do questions matter so much at this stage?",
+          "choices": [
+            "They show the child you are studying who they actually are now",
+            "They fill awkward silence",
+            "They test what the child remembers about you"
+          ],
+          "correct_index": 0
+        }
+      ],
+      "script_aids": {
+        "purpose": "Break the nostalgia trap and aim him at the child who exists now.",
+        "practical_insight": "Meet the child in front of you, not the one you left.",
+        "emotional_beat": "Bittersweet clarity: grief for time lost, curiosity for who stands here now.",
+        "shape_motifs": [
+          "two scale marks, older memory fading",
+          "blank map filling with question marks that become dots",
+          "timeline with a gap then a present node",
+          "page icon titled CURRENT PICTURE"
+        ],
+        "do_not": [
+          "Do not lead with deployment, combat, or barracks as the default scene",
+          "Prefer treatment house, program rules, early leave passes, first calls, first visit, first night back",
+          "No faces, bodies, photographic people, or culture-specific dress",
+          "Do not invent doctrine that conflicts with keyline, practice, or checkpoints",
+          "Keep practices inside the rules that govern the man now",
+          "Do not require child contact for completion drills",
+          "Do not treat reunion pull-away as final rejection"
+        ],
+        "bridge_from_prev": "Reliability is starting; aim that steadiness at learning the child who grew.",
+        "bridge_to_next": "A current picture needs the ask-and-listen skill next."
+      },
+      "before_return": "Build a one-page current picture from photos, letters, calls, and what others report. Draft ten questions with no advice attached. Use as many as one permitted call or visit allows.",
+      "after_return": "Hold one ten-minute questions-only conversation. Log three things you learned."
+    },
+    {
+      "number": 6,
+      "id": "a6",
+      "title": "Ask Before You Assume",
+      "keyline": "Ask once. Listen longer than you talk.",
+      "length": "~12 min",
+      "one_scene": "On the first visit, he almost fills the silence with advice for his partner and his child. He asks one real question instead, then shuts up long enough to hear the answer. They talk more in two minutes than in the last month of lectures.",
+      "in_the_room": "Assumptions belong to the people you left. You practice one clean ask and a longer listen with your child and/or significant other, then reflect one thing you heard.",
+      "what_you_leave_with": "You can ask once and listen longer than you talk.",
+      "practice": "Ask one real question and reflect one thing you heard without fixing.",
+      "science_or_note": "Listening longer than you talk rebuilds a current map of the child and the home.",
+      "checkpoint_questions": [
+        {
+          "prompt": "What is the rule of this session?",
+          "choices": [
+            "Ask once. Listen longer than you talk.",
+            "Ask many rapid questions.",
+            "Assume you still know them."
+          ],
+          "correct_index": 0
+        },
+        {
+          "prompt": "Which move fits after you ask a real question?",
+          "choices": [
+            "Jump in with advice",
+            "Listen longer than you talk, then reflect one thing you heard",
+            "Change the subject to your own story"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "Why ask before you assume?",
+          "choices": [
+            "Assumptions belong to the child you left, not the one in front of you",
+            "Questions impress the court",
+            "Listening is optional"
+          ],
+          "correct_index": 0
+        }
+      ],
+      "script_aids": {
+        "purpose": "Turn the current picture into a live ask-and-listen skill.",
+        "practical_insight": "Ask once. Listen longer than you talk.",
+        "emotional_beat": "Humility that opens the door: he can shut up and still be a father.",
+        "shape_motifs": [
+          "listen bar longer than talk bar",
+          "question mark expanding into a listening field",
+          "advice arrow blocked, listen path open",
+          "one reflected shard returning what was heard"
+        ],
+        "do_not": [
+          "Do not lead with deployment, combat, or barracks as the default scene",
+          "Prefer treatment house, program rules, early leave passes, first calls, first visit, first night back",
+          "No faces, bodies, photographic people, or culture-specific dress",
+          "Do not invent doctrine that conflicts with keyline, practice, or checkpoints",
+          "Keep practices inside the rules that govern the man now",
+          "Do not require child contact for completion drills",
+          "Do not treat reunion pull-away as final rejection"
+        ],
+        "bridge_from_prev": "He has a current-picture draft; now ask and hear without assuming.",
+        "bridge_to_next": "Listening opens bids; next turn those into small deposits."
+      },
+      "before_return": "On a permitted call or visit, ask one question and listen longer than you talk. Where no contact is permitted, rehearse with a cohort partner and write the question for day one.",
+      "after_return": "Ask one question in person, listen longer than you talk, and log what you reflected back."
+    },
+    {
+      "number": 7,
+      "id": "a7",
+      "title": "Small Deposits",
+      "keyline": "Small and often beats big and rare.",
+      "length": "~12 min",
+      "one_scene": "Mid-conversation with his significant other on an early leave pass, the child appears holding a drawing. He stops, looks at it, and says show me the best part. Twenty seconds. That is a deposit.",
+      "in_the_room": "Trust rebuilds through many small responsive interactions with kids and partner, not one big make-up moment. You practice catching and returning bids for attention.",
+      "what_you_leave_with": "You can make daily small deposits and explain why they beat grand gestures.",
+      "practice": "Catch and return three bids, or role-play five exchanges if contact is limited.",
+      "science_or_note": "Serve and return: a child's bid met by a steady adult builds trust and brains.",
+      "checkpoint_questions": [
+        {
+          "prompt": "What beats what, in this session's rule for rebuilding trust?",
+          "choices": [
+            "Big and rare beats small and often",
+            "Small and often beats big and rare",
+            "Words beat actions early on"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "Which is a deposit, as this session means it?",
+          "choices": [
+            "A ten-minute call that happens exactly when you said",
+            "A large gift on a birthday",
+            "A promise about next year"
+          ],
+          "correct_index": 0
+        },
+        {
+          "prompt": "Why do small deposits work on a child's trust?",
+          "choices": [
+            "Children prefer small things",
+            "Each kept promise is evidence, and evidence stacks",
+            "They cost less"
+          ],
+          "correct_index": 1
+        }
+      ],
+      "script_aids": {
+        "purpose": "Define trust rebuild as many small responsive deposits, not one grand gesture.",
+        "practical_insight": "Small and often beats big and rare.",
+        "emotional_beat": "Hope that is concrete: he can start depositing today, even in short windows.",
+        "shape_motifs": [
+          "coins stacking one by one",
+          "serve-and-return arcs between two dots",
+          "big rare block versus many small ticks",
+          "tally marks filling a week strip"
+        ],
+        "do_not": [
+          "Do not lead with deployment, combat, or barracks as the default scene",
+          "Prefer treatment house, program rules, early leave passes, first calls, first visit, first night back",
+          "No faces, bodies, photographic people, or culture-specific dress",
+          "Do not invent doctrine that conflicts with keyline, practice, or checkpoints",
+          "Keep practices inside the rules that govern the man now",
+          "Do not require child contact for completion drills",
+          "Do not treat reunion pull-away as final rejection"
+        ],
+        "bridge_from_prev": "Ask-and-listen creates openings; deposits are how he returns those bids.",
+        "bridge_to_next": "Deposits need a rhythm; next make frequency the design rule."
+      },
+      "before_return": "Use one 60-second settling routine before each call or visit. Catch and return three bids during one permitted contact. Where no contact is permitted, role-play five exchanges with a cohort partner.",
+      "after_return": "Settle first, then run five exchanges a day for a week and tally them."
+    },
+    {
+      "number": 8,
+      "id": "a8",
+      "title": "Frequency Beats Intensity",
+      "keyline": "Show up short and steady.",
+      "length": "~12 min",
+      "one_scene": "He used to wait for a perfect long visit after discharge. He switches to short, on-time calls the program schedule allows. The child starts setting a place for the call without being asked. His partner stops bracing for a miss.",
+      "in_the_room": "Predictable short contact beats rare dramatic presence. You design a frequency you can keep from where you stand: program phone rules, court orders, or duty windows.",
+      "what_you_leave_with": "You can show up short and steady on a schedule the child and partner can trust.",
+      "practice": "Set one repeatable short contact ritual inside the rules that govern you now.",
+      "science_or_note": "Predictability lowers a child's background stress more than occasional intensity.",
+      "checkpoint_questions": [
+        {
+          "prompt": "What is the session's rule for showing up?",
+          "choices": [
+            "Show up short and steady",
+            "Show up rare and dramatic",
+            "Show up only when you feel ready"
+          ],
+          "correct_index": 0
+        },
+        {
+          "prompt": "Which pattern builds more trust?",
+          "choices": [
+            "One long visit after months of silence",
+            "Short, predictable contact kept on schedule",
+            "Big speeches about the future"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "Why does frequency beat intensity here?",
+          "choices": [
+            "Children get bored of long visits",
+            "Predictable short contact is evidence the child can count on",
+            "Intensity is never useful"
+          ],
+          "correct_index": 1
+        }
+      ],
+      "script_aids": {
+        "purpose": "Lock deposits into a short, on-time frequency the child can predict.",
+        "practical_insight": "Show up short and steady.",
+        "emotional_beat": "Relief for men who cannot deliver epic time yet: steadiness is enough to start.",
+        "shape_motifs": [
+          "even ticks on a timeline versus one tall spike",
+          "small circle repeating at equal intervals",
+          "ritual card with time and short script",
+          "place-setting mark appearing before contact"
+        ],
+        "do_not": [
+          "Do not lead with deployment, combat, or barracks as the default scene",
+          "Prefer treatment house, program rules, early leave passes, first calls, first visit, first night back",
+          "No faces, bodies, photographic people, or culture-specific dress",
+          "Do not invent doctrine that conflicts with keyline, practice, or checkpoints",
+          "Keep practices inside the rules that govern the man now",
+          "Do not require child contact for completion drills",
+          "Do not treat reunion pull-away as final rejection"
+        ],
+        "bridge_from_prev": "He knows deposits; now he designs a frequency he can keep.",
+        "bridge_to_next": "Even a good rhythm ruptures; next make repair the expected skill."
+      },
+      "before_return": "Set one repeatable short contact ritual inside current rules. Where no contact is permitted, build the ritual on paper and file it for day one.",
+      "after_return": "Run the short ritual twice from home in one week and keep the times exact."
+    },
+    {
+      "number": 9,
+      "id": "a9",
+      "title": "When It Breaks",
+      "keyline": "Rupture is normal. Repair is the skill.",
+      "length": "~12 min",
+      "one_scene": "He promised a call at seven. The house phone line ran long and the call went out at nine. The next call opens with the repair to his child and his partner, said plainly, no excuses attached.",
+      "in_the_room": "Every close relationship ruptures. Repair, not perfection, builds security with kids and a significant other. You practice a plain repair script until it comes out steady.",
+      "what_you_leave_with": "You can come back after a bad moment and repair it out loud.",
+      "practice": "Write a repair for one past rupture and rehearse it aloud.",
+      "science_or_note": "Reliable repair, not perfection, is what builds security.",
+      "checkpoint_questions": [
+        {
+          "prompt": "How does this session treat rupture between you and your child?",
+          "choices": [
+            "As normal, with repair as the skill",
+            "As rare if you are careful",
+            "As proof the return came too soon"
+          ],
+          "correct_index": 0
+        },
+        {
+          "prompt": "You snapped at your child last night. The session's next step is what?",
+          "choices": [
+            "Give them space for a few days",
+            "Own it out loud, briefly and without excuses, and say what you will do differently",
+            "Do something fun together and move on"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "What does a child learn from watching you repair?",
+          "choices": [
+            "That you are unreliable",
+            "That being wrong can be handled honestly",
+            "That they can get away with things too"
+          ],
+          "correct_index": 1
+        }
+      ],
+      "script_aids": {
+        "purpose": "Normalize rupture and install plain repair as the expected skill.",
+        "practical_insight": "Rupture is normal. Repair is the skill.",
+        "emotional_beat": "Courage without drama: he can face a miss without collapsing into shame or excuses.",
+        "shape_motifs": [
+          "broken line with a clear splice",
+          "gap between two dots closed by a short bridge",
+          "excuse cloud discarded; short ownership bar remains",
+          "rehearsal loop around a repair card"
+        ],
+        "do_not": [
+          "Do not lead with deployment, combat, or barracks as the default scene",
+          "Prefer treatment house, program rules, early leave passes, first calls, first visit, first night back",
+          "No faces, bodies, photographic people, or culture-specific dress",
+          "Do not invent doctrine that conflicts with keyline, practice, or checkpoints",
+          "Keep practices inside the rules that govern the man now",
+          "Do not require child contact for completion drills",
+          "Do not treat reunion pull-away as final rejection"
+        ],
+        "bridge_from_prev": "Frequency will still break sometimes; now he learns what to do when it does.",
+        "bridge_to_next": "Repair needs a move against pride; next train going first, short."
+      },
+      "before_return": "Write the repair for one past rupture in your own words, whether or not it can be sent. Rehearse it aloud with a cohort partner or facilitator.",
+      "after_return": "Perform one deliberate repair after a rupture and record what you said."
+    },
+    {
+      "number": 10,
+      "id": "a10",
+      "title": "Repair Without Pride",
+      "keyline": "Go first. Keep it short.",
+      "length": "~12 min",
+      "one_scene": "Pride wants him to wait for his significant other to cool off after a hard call. He goes first instead: I was wrong to raise my voice. You did not deserve that. Short. No defense. The air changes.",
+      "in_the_room": "You practice going first with a short repair toward your child and/or partner. Pride delays the skill; going first protects the bond.",
+      "what_you_leave_with": "You can go first with a short repair when pride wants to wait.",
+      "practice": "Write a go-first repair in under twenty words and deliver or rehearse it.",
+      "science_or_note": "Going first models responsibility; delay teaches the other person to carry the silence.",
+      "checkpoint_questions": [
+        {
+          "prompt": "What is the move when pride wants to wait?",
+          "choices": [
+            "Go first. Keep it short.",
+            "Wait until they apologize.",
+            "Write a long defense."
+          ],
+          "correct_index": 0
+        },
+        {
+          "prompt": "Which repair fits this session?",
+          "choices": [
+            "I was wrong to raise my voice. You did not deserve that.",
+            "I am sorry you took it that way.",
+            "We both messed up, so we are even."
+          ],
+          "correct_index": 0
+        },
+        {
+          "prompt": "Why go first?",
+          "choices": [
+            "It proves you are weak",
+            "Repair protects the bond; pride delays the skill",
+            "The child should carry the silence"
+          ],
+          "correct_index": 1
+        }
+      ],
+      "script_aids": {
+        "purpose": "Sharpen repair into a go-first, short, no-defense move against pride.",
+        "practical_insight": "Go first. Keep it short.",
+        "emotional_beat": "Strength redefined as going first, not winning the silence.",
+        "shape_motifs": [
+          "pride wall thinning as a short arrow goes first",
+          "twenty-word card with excess text falling away",
+          "wait path versus go-first path, go-first lit",
+          "field clearing after a short bar lands"
+        ],
+        "do_not": [
+          "Do not lead with deployment, combat, or barracks as the default scene",
+          "Prefer treatment house, program rules, early leave passes, first calls, first visit, first night back",
+          "No faces, bodies, photographic people, or culture-specific dress",
+          "Do not invent doctrine that conflicts with keyline, practice, or checkpoints",
+          "Keep practices inside the rules that govern the man now",
+          "Do not require child contact for completion drills",
+          "Do not treat reunion pull-away as final rejection"
+        ],
+        "bridge_from_prev": "He knows rupture is normal; now he beats pride to the repair.",
+        "bridge_to_next": "Repair skills ready; next script reunion day's first hour."
+      },
+      "before_return": "Write a go-first repair in under twenty words. Rehearse until it is steady. Deliver through a permitted channel if allowed, otherwise file it.",
+      "after_return": "Go first on the next miss. Keep it short. Log the words."
+    },
+    {
+      "number": 11,
+      "id": "a11",
+      "title": "Reunion Day",
+      "keyline": "If the child pulls away, that is the start, not the answer.",
+      "length": "~12 min",
+      "one_scene": "First hour home after the program. The younger one hides behind a leg. The older one shrugs off the hug. His significant other is careful, not cold. He keeps his voice low and offers the small plan he rehearsed: a walk to the corner and back, nothing more.",
+      "in_the_room": "You prepare for the first hours back with kids and/or a significant other, including early pull-away. You write and rehearse a low-pressure first-hour plan. Same climax work if you are coming home from service.",
+      "what_you_leave_with": "You leave with a realistic, rehearsed first-hour plan and the patience to let it be imperfect.",
+      "practice": "Write and rehearse a low-pressure first-hour plan.",
+      "science_or_note": "Early pull-away at reunions is common and often temporary; patience is a skill.",
+      "checkpoint_questions": [
+        {
+          "prompt": "What does this session have you build before the day comes?",
+          "choices": [
+            "A speech about the future",
+            "A first-hour plan, rehearsed",
+            "A list of questions for the child"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "If the child pulls away on reunion day, the session says that is what?",
+          "choices": [
+            "The answer",
+            "The start, not the answer",
+            "A sign to give the plan up"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "Which first hour fits this session's counsel?",
+          "choices": [
+            "Low pressure, an ordinary shared activity, exits allowed",
+            "A big celebration with everyone there",
+            "A serious talk about everything that happened"
+          ],
+          "correct_index": 0
+        }
+      ],
+      "script_aids": {
+        "purpose": "Climax: rehearse a low-pressure first hour with kids and/or a significant other so pull-away is not misread as the answer.",
+        "practical_insight": "If the child pulls away, that is the start, not the answer.",
+        "emotional_beat": "Steady patience under disappointment; the plan holds when the hug does not.",
+        "shape_motifs": [
+          "first-hour timeline with soft exits",
+          "two dots approaching, one stepping back, path still open",
+          "ordinary walk path, corner and back",
+          "celebration burst dimmed beside a calm plan card"
+        ],
+        "do_not": [
+          "Do not lead with deployment, combat, or barracks as the default scene",
+          "Prefer treatment house, program rules, early leave passes, first calls, first visit, first night back",
+          "No faces, bodies, photographic people, or culture-specific dress",
+          "Do not invent doctrine that conflicts with keyline, practice, or checkpoints",
+          "Keep practices inside the rules that govern the man now",
+          "Do not require child contact for completion drills",
+          "Do not treat reunion pull-away as final rejection"
+        ],
+        "bridge_from_prev": "He can repair without pride; now he scripts the live first hour.",
+        "bridge_to_next": "Reunion day is one hour; next widen it into a season plan."
+      },
+      "before_return": "Write the low-pressure first-hour plan (kids and/or partner) and rehearse it aloud. Your facilitator checks the plan.",
+      "after_return": "Run the plan and report how it went."
+    },
+    {
+      "number": 12,
+      "id": "a12",
+      "title": "The Season of Return",
+      "keyline": "The return is a season, not a day.",
+      "length": "~12 min",
+      "one_scene": "Week six after discharge, an ordinary Tuesday. Nothing dramatic happened. He did the ritual with the kids, checked in with his partner, logged the wave, made the small deposit. That is the plan working.",
+      "in_the_room": "You fold the course into a personal return plan for fathering and partner reconnect, frame the work as a long season, and name an accountability partner. Same season frame after service.",
+      "what_you_leave_with": "You leave with a written season plan, a first checkpoint, and a named accountability partner.",
+      "practice": "Complete a one-page return plan with a checkpoint date and named accountability partner.",
+      "science_or_note": "Routines hold gains; steady spaced practice beats bursts.",
+      "checkpoint_questions": [
+        {
+          "prompt": "What is the return, in this course's final frame?",
+          "choices": [
+            "A day you get right or wrong",
+            "A season you work, deposit by deposit",
+            "A test the child administers"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "What carries the return through month three and beyond?",
+          "choices": [
+            "The emotion of the reunion",
+            "The routines: standing times, kept promises, fast repairs",
+            "The child's forgiveness"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "When the old pattern gets tested and you hold, what does the session call that?",
+          "choices": [
+            "Luck",
+            "The line holding, which is what change looks like from inside",
+            "A sign the work is finished"
+          ],
+          "correct_index": 1
+        }
+      ],
+      "script_aids": {
+        "purpose": "Close by converting skills into a written season plan for fathering and partner reconnect, with accountability.",
+        "practical_insight": "The return is a season, not a day.",
+        "emotional_beat": "Quiet confidence: ordinary Tuesday faithfulness is the win.",
+        "shape_motifs": [
+          "calendar season band, not a single starred day",
+          "ritual ticks continuing past week six",
+          "one-page plan card with checkpoint mark",
+          "two linked dots for accountability"
+        ],
+        "do_not": [
+          "Do not lead with deployment, combat, or barracks as the default scene",
+          "Prefer treatment house, program rules, early leave passes, first calls, first visit, first night back",
+          "No faces, bodies, photographic people, or culture-specific dress",
+          "Do not invent doctrine that conflicts with keyline, practice, or checkpoints",
+          "Keep practices inside the rules that govern the man now",
+          "Do not require child contact for completion drills",
+          "Do not treat reunion pull-away as final rejection"
+        ],
+        "bridge_from_prev": "First-hour plan is ready; widen it into the months that carry the return.",
+        "bridge_to_next": "Course close: keep the written plan and facilitator or partner check-ins."
+      },
+      "before_return": "Complete the one-page return plan, name the accountability partner, and set the first after-return checkpoint date.",
+      "after_return": "Work the plan and report at the checkpoint."
+    }
+  ],
+  "final_qa": [
+    {
+      "prompt": "Describe your body's alarm firing at home or in rehearsal since you started this course: the trigger, what the old response would have been, and what you did instead."
+    },
+    {
+      "prompt": "List the small deposits you have running right now: what you promised, to which child and/or significant other, and your record of keeping each one. What is the next deposit you will add?"
+    },
+    {
+      "prompt": "Write your first-hour plan for the reunion, or describe how the first hour actually went: the setting, your opening move with kids and/or your significant other, and your plan if a child pulls away."
+    },
+    {
+      "prompt": "Name the few promises you are keeping this season, and the accountability partner or facilitator check-in that holds you to them."
+    }
+  ]
+}

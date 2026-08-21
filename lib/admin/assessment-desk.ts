@@ -4,6 +4,10 @@ import { asDevelopmentStatus, formatEditedAt } from "@/lib/admin/development";
 import type { TrainingReleaseState } from "@/lib/admin/release";
 import type { AdminReviewStatus } from "@/lib/admin/types";
 import { KEYSTONE_ASSESSMENT_KEY } from "@/lib/assessments/availability";
+import {
+  firstPartyAdminPath,
+  type FirstPartyAssessment,
+} from "@/lib/assessments/first-party";
 import { PROFILE_QUESTION_COUNT } from "@/lib/father/questions";
 
 export type AdminAssessmentDeskItem = {
@@ -79,14 +83,43 @@ export function keystoneDeskItem(keystone: {
     key: keystone.assessmentKey || KEYSTONE_ASSESSMENT_KEY,
     title: "Keystone Assessment",
     href: "/admin/assessments/keystone",
-    actionHref: "/admin/assessments/keystone#release",
-    actionLabel: "Release",
+    actionHref: "/admin/assessments/keystone",
+    actionLabel: "Desk",
     questionCount: PROFILE_QUESTION_COUNT,
     kindLabel: "Platform assessment",
     editedAt: assessmentEditedAt(release),
     archived: false,
     developmentStatus: assessmentDevelopmentStatus(release),
     releaseState: assessmentReleaseState(release),
+  };
+}
+
+export function firstPartyDeskItem(
+  assessment: FirstPartyAssessment,
+  release: {
+    releasedAt: string | null;
+    firstReleasedAt: string | null;
+    releaseTargets: Array<{ reviewStatus: AdminReviewStatus | null }>;
+    lastEditedAt?: string | null;
+  }
+): AdminAssessmentDeskItem {
+  const state = {
+    releasedAt: release.releasedAt,
+    firstReleasedAt: release.firstReleasedAt,
+  };
+
+  return {
+    key: assessment.key,
+    title: assessment.title,
+    href: firstPartyAdminPath(assessment.key),
+    actionHref: firstPartyAdminPath(assessment.key),
+    actionLabel: "Desk",
+    questionCount: assessment.questionCount,
+    kindLabel: "Platform assessment",
+    editedAt: release.lastEditedAt ?? assessmentEditedAt(state),
+    archived: false,
+    developmentStatus: assessmentDevelopmentStatus(state),
+    releaseState: assessmentReleaseState(state),
   };
 }
 

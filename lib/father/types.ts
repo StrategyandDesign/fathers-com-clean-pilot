@@ -3,6 +3,7 @@ export type Training = {
   slug: string;
   title: string;
   description: string | null;
+  leader_summary?: string | null;
   session_count: number;
   order_index: number;
   published?: boolean | null;
@@ -111,6 +112,8 @@ export type SessionProgress = {
   status: "not_started" | "in_progress" | "completed";
   completed_at: string | null;
   action_try_at?: string | null;
+  skill_use?: "used" | "later" | "dismissed" | null;
+  skill_use_at?: string | null;
 };
 
 export function asSessionProgress(row: SessionProgress): SessionProgress {
@@ -135,6 +138,11 @@ export function asSessionProgress(row: SessionProgress): SessionProgress {
     checkin_answers: answers,
     session_note: fromColumn || fromAnswers || null,
     film_seconds: filmSeconds,
+    skill_use:
+      row.skill_use === "used" || row.skill_use === "later" || row.skill_use === "dismissed"
+        ? row.skill_use
+        : null,
+    skill_use_at: typeof row.skill_use_at === "string" ? row.skill_use_at : null,
   };
 }
 

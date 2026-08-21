@@ -1,0 +1,628 @@
+{
+  "slug": "anger",
+  "title": "Steady Under Pressure",
+  "welcome": {
+    "title": "Start here",
+    "speakers": "Ken Canfield and Micah Canfield",
+    "video": "assets/video/welcomes/anger.mp4",
+    "ken": "If you are a father under pressure, this is for you. Not a speech about never getting angry. Steadiness is a skill. It is how you keep your word when the heat comes, at home, at work, in a program. I have spent my life with men who want to be that father. This course trains the first move: notice the surge before it runs you.",
+    "micah": "I built this path so you can finish it. Each week is one short film, a few questions, and a small practice you can actually do. I will walk it with you. No hour of sitting. One skill, then you go live your week. Here's session one."
+  },
+  "videos": [
+    {
+      "ord": 1,
+      "title": "The Surge Is a Signal",
+      "vimeo": "assets/video/steady/s01-the-surge-is-a-signal.mp4",
+      "duration_seconds": 502,
+      "checkpoint": [
+        {
+          "prompt": "What does this session call the surge you feel when anger hits?",
+          "choices": [
+            "A signal, not an order",
+            "A weakness to eliminate",
+            "An order your body must obey"
+          ],
+          "correct_index": 0
+        },
+        {
+          "prompt": "Why does the surge arrive faster than your thinking?",
+          "choices": [
+            "Because you have not trained enough yet",
+            "Because the alarm system fires before deliberation; the skill is what happens next",
+            "Because the situation is always truly dangerous"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "What is the first skill this course builds on top of the alarm?",
+          "choices": [
+            "Avoiding every trigger",
+            "Noticing the surge early enough to choose",
+            "Explaining your anger to others"
+          ],
+          "correct_index": 1
+        }
+      ],
+      "poster": "assets/img/session-stills/steady-under-pressure/s01.png",
+      "practice": {
+        "title": "Log 3 rising-tension moments",
+        "prompt": "For each, write the trigger and the earliest body cue.",
+        "how": [
+          "Stay inside the rules that govern you.",
+          "Never requires contact with your child.",
+          "Irritation and near-misses count."
+        ],
+        "cols": [
+          "Trigger",
+          "Earliest body cue"
+        ]
+      },
+      "practice_replay": "assets/video/steady/s01-practice-replay.mp4"
+    },
+    {
+      "ord": 2,
+      "title": "Know Your Early Cues",
+      "vimeo": "assets/video/steady/s02-know-your-early-cues.mp4",
+      "duration_seconds": 518,
+      "checkpoint": [
+        {
+          "prompt": "Where does this session tell you to catch the surge?",
+          "choices": [
+            "In the shout",
+            "In the jaw, or your earliest body cue",
+            "After the argument ends"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "Why name your early cues in writing?",
+          "choices": [
+            "So you can prove them to someone else",
+            "So you recognize them under load before the peak",
+            "So you can skip the pause later"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "Which is an early cue, as this session means it?",
+          "choices": [
+            "A long rant",
+            "Jaw set, heat in the face, or a clenched fist before words rise",
+            "Leaving the house for the night"
+          ],
+          "correct_index": 1
+        }
+      ],
+      "poster": "assets/img/session-stills/steady-under-pressure/s02.png",
+      "practice": {
+        "title": "Write your top two early cues",
+        "prompt": "Put them on a card. After three hard moments, note whether you caught the cue early or late.",
+        "how": [
+          "One line per cue. Keep the card where you will see it.",
+          "Stay inside the rules that govern you. Never requires contact with your child.",
+          "Irritation and near-misses count."
+        ],
+        "cols": [
+          "Cue or trigger",
+          "Early or late"
+        ]
+      },
+      "practice_replay": "assets/video/steady/s02-practice-replay.mp4"
+    },
+    {
+      "ord": 3,
+      "title": "Six Seconds",
+      "vimeo": "assets/video/steady/s03-six-seconds.mp4",
+      "duration_seconds": 498,
+      "checkpoint": [
+        {
+          "prompt": "What do six seconds buy you, per this session?",
+          "choices": [
+            "Your judgment back",
+            "The other person's apology",
+            "The end of the feeling"
+          ],
+          "correct_index": 0
+        },
+        {
+          "prompt": "When is the six-second pause practiced so it works under load?",
+          "choices": [
+            "Only in real conflict",
+            "In the boring hours, daily, so it is there when the surge comes",
+            "Once at the start of the course"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "You feel the surge mid-conversation. Which is the session's move?",
+          "choices": [
+            "Push through so they know you care",
+            "Take six silent seconds before you speak",
+            "End the conversation for the night"
+          ],
+          "correct_index": 1
+        }
+      ],
+      "poster": "assets/img/session-stills/steady-under-pressure/s03.png",
+      "practice": {
+        "title": "Take three six-second pauses",
+        "prompt": "For each live pause, write the trigger and what you did after the count.",
+        "how": [
+          "Also run the count once a day in a boring moment so it is there under load.",
+          "Stay inside the rules that govern you. Never requires contact with your child.",
+          "Late still counts if you take the six when you catch yourself."
+        ],
+        "cols": [
+          "Trigger",
+          "After the pause"
+        ]
+      },
+      "practice_replay": "assets/video/steady/s03-practice-replay.mp4"
+    },
+    {
+      "ord": 4,
+      "title": "The Long Exhale",
+      "vimeo": "assets/video/steady/s04-the-long-exhale.mp4",
+      "duration_seconds": 484,
+      "checkpoint": [
+        {
+          "prompt": "Why the long exhale specifically?",
+          "choices": [
+            "It looks calm to others",
+            "A long slow exhale stands the body down faster than willpower does",
+            "It gives you something to count"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "What is the drill this session asks you to own?",
+          "choices": [
+            "Hold your breath until the feeling passes",
+            "A daily long-exhale practice you can run anywhere",
+            "A loud sigh in front of the other person"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "The surge hits and you already took six seconds. What next?",
+          "choices": [
+            "Argue harder with a clear head",
+            "Run one long slow exhale to stand the body down",
+            "Skip the exhale if you already paused"
+          ],
+          "correct_index": 1
+        }
+      ],
+      "poster": "assets/img/session-stills/steady-under-pressure/s04.png",
+      "practice": {
+        "title": "Daily long exhale, then one live use",
+        "prompt": "Log five daily drills. Then one live use: trigger, body before, body after.",
+        "how": [
+          "Two minutes is enough. Slow in. Longer out.",
+          "Stay inside the rules that govern you. Never requires contact with your child.",
+          "Flat days still count. They build the groove hard days need."
+        ],
+        "cols": [
+          "When or trigger",
+          "What changed"
+        ]
+      },
+      "practice_replay": "assets/video/steady/s04-practice-replay.mp4"
+    },
+    {
+      "ord": 5,
+      "title": "Step Away to Come Back",
+      "vimeo": "assets/video/steady/s05-step-away-to-come-back.mp4",
+      "duration_seconds": 467,
+      "checkpoint": [
+        {
+          "prompt": "What is the purpose of stepping away in this session?",
+          "choices": [
+            "To win the argument by leaving",
+            "To come back; the step away serves the return",
+            "To show how upset you are"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "What makes a step away different from storming out?",
+          "choices": [
+            "Volume",
+            "Saying where you are going and when you are coming back",
+            "Nothing; they are the same"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "You feel yourself flooding mid-conversation with your child. Which is the session's move?",
+          "choices": [
+            "Push through so they know you care",
+            "Name it, step out briefly, return when you said",
+            "End the conversation for the night"
+          ],
+          "correct_index": 1
+        }
+      ],
+      "poster": "assets/img/session-stills/steady-under-pressure/s05.png",
+      "practice": {
+        "title": "One clean step away and return",
+        "prompt": "Write what you said as you left, and what your voice was like when you came back.",
+        "how": [
+          "The skill is the return, not the exit.",
+          "Stay inside the rules that govern you. Never requires contact with your child.",
+          "If no live conflict shows, rehearse on a low-heat moment."
+        ],
+        "cols": [
+          "The leave line",
+          "The return"
+        ]
+      },
+      "practice_replay": "assets/video/steady/s05-practice-replay.mp4"
+    },
+    {
+      "ord": 6,
+      "title": "The Line You Leave On",
+      "vimeo": "assets/video/steady/s06-the-line-you-leave-on.mp4",
+      "duration_seconds": 494,
+      "checkpoint": [
+        {
+          "prompt": "What belongs in the line you leave on?",
+          "choices": [
+            "A long explanation of why you are right",
+            "A short line that names the break and when you return",
+            "Silence, then disappear"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "Why say the line before you leave the room?",
+          "choices": [
+            "So the other person feels guilty",
+            "So the break is a reset, not abandonment",
+            "So you win the argument"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "Which line fits this session?",
+          "choices": [
+            "I need ten minutes. I am coming back.",
+            "Forget it. I am done talking.",
+            "You always do this."
+          ],
+          "correct_index": 0
+        }
+      ],
+      "poster": "assets/img/session-stills/steady-under-pressure/s06.png",
+      "practice": {
+        "title": "Write your leave-line",
+        "prompt": "Keep it under fifteen words. Note three rehearsals, and one live use if you needed it.",
+        "how": [
+          "Say the line before you leave the room.",
+          "Stay inside the rules that govern you. Never requires contact with your child.",
+          "If you do not need it live, still write it and rehearse."
+        ],
+        "cols": [
+          "Your line",
+          "Rehearsal or live use"
+        ]
+      },
+      "practice_replay": "assets/video/steady/s06-practice-replay.mp4"
+    },
+    {
+      "ord": 7,
+      "title": "Name the Feeling",
+      "vimeo": "assets/video/steady/s07-name-the-feeling.mp4",
+      "duration_seconds": 481,
+      "checkpoint": [
+        {
+          "prompt": "Why does saying the feeling out loud matter, per this session?",
+          "choices": [
+            "So you do not have to show it instead",
+            "So others feel responsible for it",
+            "It does not; feelings should stay private"
+          ],
+          "correct_index": 0
+        },
+        {
+          "prompt": "Which sentence is naming it, as this session teaches?",
+          "choices": [
+            "You are making me angry.",
+            "I am angry right now, and I need a minute before we keep going.",
+            "Everyone needs to calm down."
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "What does a child learn from a father who names his anger plainly?",
+          "choices": [
+            "That anger is shameful",
+            "That big feelings can be handled with words",
+            "That the father is weak"
+          ],
+          "correct_index": 1
+        }
+      ],
+      "poster": "assets/img/session-stills/steady-under-pressure/s07.png",
+      "practice": {
+        "title": "Name the feeling out loud",
+        "prompt": "Log the exact sentence you used in three separate moments.",
+        "how": [
+          "Not a summary. The words.",
+          "Stay inside the rules that govern you. Never requires contact with your child.",
+          "Mild irritation counts. Rehearsal counts if heat does not show."
+        ],
+        "cols": [
+          "Moment",
+          "Exact words"
+        ]
+      },
+      "practice_replay": "assets/video/steady/s07-practice-replay.mp4"
+    },
+    {
+      "ord": 8,
+      "title": "Feelings Without Weapons",
+      "vimeo": "assets/video/steady/s08-feelings-without-weapons.mp4",
+      "duration_seconds": 528,
+      "checkpoint": [
+        {
+          "prompt": "What does 'without loading it' mean here?",
+          "choices": [
+            "Never feel anger",
+            "Name the feeling without blame, insults, or history dumps",
+            "Only write feelings, never say them"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "Which line names the feeling without a weapon?",
+          "choices": [
+            "I am frustrated, and I want to finish this calmly.",
+            "You always ruin everything when I am tired.",
+            "Fine. Whatever."
+          ],
+          "correct_index": 0
+        },
+        {
+          "prompt": "Why strip the weapon from the sentence?",
+          "choices": [
+            "Because feelings are wrong",
+            "Because blame reloads the fight; clean naming lowers heat",
+            "Because the other person should guess"
+          ],
+          "correct_index": 1
+        }
+      ],
+      "poster": "assets/img/session-stills/steady-under-pressure/s08.png",
+      "practice": {
+        "title": "Strip the weapon from the sentence",
+        "prompt": "Rewrite two loaded lines into clean feeling statements. Use one live if heat shows.",
+        "how": [
+          "Feelings are allowed. Blame, insults, and history dumps are not.",
+          "Stay inside the rules that govern you. Never requires contact with your child.",
+          "You are not grading their reaction. You are training a sentence that does not reload the fight."
+        ],
+        "cols": [
+          "Loaded line",
+          "Clean line"
+        ]
+      },
+      "practice_replay": "assets/video/steady/s08-practice-replay.mp4"
+    },
+    {
+      "ord": 9,
+      "title": "Own It Same Day",
+      "vimeo": "assets/video/steady/s09-own-it-same-day.mp4",
+      "duration_seconds": 503,
+      "checkpoint": [
+        {
+          "prompt": "What is the standard for owning it, per this session?",
+          "choices": [
+            "Out loud, same day, without excuses",
+            "A general apology when things are calm next week",
+            "Letting actions speak over time"
+          ],
+          "correct_index": 0
+        },
+        {
+          "prompt": "Why same day instead of waiting?",
+          "choices": [
+            "Children have short memories",
+            "Fast ownership keeps the rupture from hardening into the relationship's normal",
+            "It gets the discomfort over with"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "You barked last night and morning is here. The move is?",
+          "choices": [
+            "Wait until they bring it up",
+            "Own it out loud today, specific and without defense",
+            "Do something fun and move on"
+          ],
+          "correct_index": 1
+        }
+      ],
+      "poster": "assets/img/session-stills/steady-under-pressure/s09.png",
+      "practice": {
+        "title": "Own it same day",
+        "prompt": "Write one ownership line for a recent miss. Note when you delivered it, or who you owned it with where you are now.",
+        "how": [
+          "Out loud, specific, no excuses.",
+          "Stay inside the rules that govern you. Never requires contact with your child.",
+          "If contact is not allowed, own a miss in your present setting with the same standard."
+        ],
+        "cols": [
+          "Ownership line",
+          "When and with whom"
+        ]
+      },
+      "practice_replay": "assets/video/steady/s09-practice-replay.mp4"
+    },
+    {
+      "ord": 10,
+      "title": "The Short Apology",
+      "vimeo": "assets/video/steady/s10-the-short-apology.mp4",
+      "duration_seconds": 502,
+      "checkpoint": [
+        {
+          "prompt": "Which of these is a repair and not an excuse?",
+          "choices": [
+            "I was tired; you know how my week was.",
+            "I raised my voice at you. That was wrong, and it is mine to fix.",
+            "I am sorry you got upset."
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "What stays out of the short apology?",
+          "choices": [
+            "The specific thing you did",
+            "Defense, blame, and a long story",
+            "A plan for next time"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "Why keep the apology short?",
+          "choices": [
+            "So you can leave faster",
+            "Short and specific lands; defense undoes it",
+            "Children prefer vague words"
+          ],
+          "correct_index": 1
+        }
+      ],
+      "poster": "assets/img/session-stills/steady-under-pressure/s10.png",
+      "practice": {
+        "title": "Write a short apology",
+        "prompt": "Act. Wrong. Next step. Cut every excuse. Note the rehearsal and whether you delivered it.",
+        "how": [
+          "Short and specific lands. Defense undoes it.",
+          "Stay inside the rules that govern you. Never requires contact with your child.",
+          "If delivery is not allowed, still write and rehearse, then deliver a present-setting apology."
+        ],
+        "cols": [
+          "The apology",
+          "Rehearsed or delivered"
+        ]
+      },
+      "practice_replay": "assets/video/steady/s10-practice-replay.mp4"
+    },
+    {
+      "ord": 11,
+      "title": "Sleep, Food, Movement",
+      "vimeo": "assets/video/steady/s11-sleep-food-movement.mp4",
+      "duration_seconds": 509,
+      "checkpoint": [
+        {
+          "prompt": "Where does this session say steadiness is actually built?",
+          "choices": [
+            "In dramatic moments of self-control",
+            "In the boring hours: sleep, food, movement",
+            "In willpower alone"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "Why do sleep and routine belong in this course?",
+          "choices": [
+            "They are filler",
+            "A depleted body fires the alarm sooner and louder; the habits raise your threshold",
+            "They replace the need for the pause"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "Which weekly marker fits this session?",
+          "choices": [
+            "Never feel the surge again",
+            "Lights out by a set hour five nights, plus one movement block most days",
+            "A promise to avoid hard conversations"
+          ],
+          "correct_index": 1
+        }
+      ],
+      "poster": "assets/img/session-stills/steady-under-pressure/s11.png",
+      "practice": {
+        "title": "Sleep, food, movement log",
+        "prompt": "For five days, mark the sleep anchor, the movement block, and a short food-timing note.",
+        "how": [
+          "Steadiness is built in the boring hours.",
+          "Stay inside the rules that govern you. If movement is limited, use what is allowed.",
+          "Never requires contact with your child."
+        ],
+        "cols": [
+          "Day and anchor",
+          "Food timing note"
+        ]
+      },
+      "practice_replay": "assets/video/steady/s11-practice-replay.mp4"
+    },
+    {
+      "ord": 12,
+      "title": "Your Steady Week",
+      "vimeo": "assets/video/steady/s12-your-steady-week.mp4",
+      "duration_seconds": 524,
+      "checkpoint": [
+        {
+          "prompt": "What does this course ask you to leave with?",
+          "choices": [
+            "A promise to never feel the surge again",
+            "A trained pause, a named feeling, a fast repair, and daily habits that hold them up",
+            "A list of people who provoke you"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "How do you stack a steady week?",
+          "choices": [
+            "One big heroic day",
+            "Small anchors repeated until they hold",
+            "Waiting until life is less busy"
+          ],
+          "correct_index": 1
+        },
+        {
+          "prompt": "The line of this session is?",
+          "choices": [
+            "Stack the small things until they hold.",
+            "White-knuckle every moment.",
+            "Skip the boring hours."
+          ],
+          "correct_index": 0
+        }
+      ],
+      "poster": "assets/img/session-stills/steady-under-pressure/s12.png",
+      "practice": {
+        "title": "Your steady-week plan",
+        "prompt": "Write the page: cues, in-the-moment stack, language and repair, boring-hour anchors, and one weekly marker.",
+        "how": [
+          "Write it today, not someday. Report the marker with honest numbers.",
+          "Stay inside the rules that govern you. Never requires contact with your child.",
+          "If you do not have a facilitator yet, pick someone who will actually ask."
+        ],
+        "cols": [
+          "Plan piece",
+          "Your words"
+        ]
+      },
+      "practice_replay": "assets/video/steady/s12-practice-replay.mp4"
+    }
+  ],
+  "final_qa": [
+    {
+      "prompt": "Describe one real surge since you started this course: the trigger, where you caught it in your body, what the six seconds and exhale did, and how the moment ended."
+    },
+    {
+      "prompt": "Write the short apology you made or owe from a moment your anger got ahead of you: the exact words, said or planned, without defense."
+    },
+    {
+      "prompt": "Name the two daily habits you are running to raise your threshold, and your honest record of them across the last two weeks."
+    },
+    {
+      "prompt": "Write your steady-week plan in three lines: sleep anchor, movement block, and the line you will use when you need to step away."
+    }
+  ],
+  "hours": 2.4
+}

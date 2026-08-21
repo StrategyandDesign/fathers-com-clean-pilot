@@ -1,0 +1,19 @@
+{
+  "slug": "reentry",
+  "title": "Coming Home Present",
+  "videos": [
+    {
+      "ord": 1,
+      "title": "The Body You Bring Home",
+      "vimeo": "REPLACE_WITH_VIMEO_ID",
+      "duration_seconds": 0,
+      "checkpoint": [
+        { "prompt": "REPLACE: question drawn from the session", "choices": ["A", "B", "C", "D"], "correct_index": 0 },
+        { "prompt": "REPLACE", "choices": ["A", "B", "C"], "correct_index": 1 },
+        { "prompt": "REPLACE", "choices": ["A", "B", "C"], "correct_index": 2 }
+      ]
+    }
+  ],
+  "final_qa": [ { "prompt": "REPLACE: the written final question" } ],
+  "_note": "This example intentionally fails validation (duration 0, placeholder vimeo) so it can never be imported by accident. Fill real values per docs/CONTENT-PIPELINE.md; the importer refuses any video without a live film."
+}

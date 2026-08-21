@@ -41,14 +41,15 @@ You need their GitHub usernames to send the invite. Access is repo-wide on the i
 
 - Deleted: `components/father/group-membership.tsx`, `components/father/session-steps.tsx`, `components/father/session-complete-mark.tsx`, `lib/father/evaluate.ts`
 - Restored: `components/assessments/assigned-list.tsx` (needed again for completed Keystone on Assessments)
-- Updated: `README.md`, `PILOT.md`, `.env.example`, `.gitignore`
+- Updated: `README.md`, `docs/engineering/PILOT.md`, `.env.example`, `.gitignore`
 - Added: `handoff/*`
 - Ported UX: overview film, streak dialog, certificate placement, quiet Home update, Super-admin Assessments desk, Assessments-tab Keystone results, check-in save freeze fix
+- Organized: root markdown is five files only; old HTML and Python builders sit in `archive/static-site/`; runbooks sit in `docs/engineering/`; discovery notes sit in `docs/product/`
 
-**Archived so the root looks like the Next.js app**
+**Archived on this line (ignore for product review)**
 
-- Old `*.html` and `build_*.py` now live in `archive/static-site/`
-- Those are leftover static-site source. They are not what `npm run dev` serves.
+- `archive/static-site/` leftover HTML, `assets/`, `content/`, `build_*.py`, and `tools/`
+- Those are leftover static-site source from the old platform. They are not the Next.js app. They stay in git so a later merge does not wipe history. `emails/` and `partner-kit/` stay at the repo root.
 
 ---
 
@@ -82,7 +83,7 @@ Say this in the email: “The Next.js clean-pilot app uses only the Supabase pro
 4. Do **not** send the service-role key in email. If they need to run cron locally, they create their own secrets in a personal `.env.local`.
 5. Pilot publishable/anon keys are already in the repo as a fallback (`lib/supabase/env.ts`). Treat them as public, same class as a shipped anon key. Rotate later if the team asks.
 
-Pilot test seats (already documented in `docs/CLEAN-PILOT-AUDITOR-LINK-REPORT.md`; weak by design):
+Pilot test seats (already documented in `docs/archive/CLEAN-PILOT-AUDITOR-LINK-REPORT.md`; weak by design):
 
 | Email | Role |
 |---|---|
@@ -158,7 +159,7 @@ Point the team at these in the isolated repo, in this order:
 7. `handoff/06-VERIFICATION-CHECKLIST.md`
 8. `docs/engineering/PILOT.md` — how to create seats and run locally
 
-Do not send `README.md` from `fathers-com-platform` `main`. Do not send `ARCHITECTURE.md` as the system description of this app (it still describes the static site).
+Do not send `README.md` from `fathers-com-platform` `main`. Do not send `docs/archive/ARCHITECTURE.md` as the system description of this app (it still describes the static site).
 
 ---
 
@@ -200,7 +201,7 @@ Preferred review order
 1) handoff/00-SUBMISSION-GUIDE.md
 2) handoff/01-EXECUTIVE-SUMMARY.md
 3) handoff/02-INVENTORY.md and handoff/03-AUDIT-FINDINGS.md
-4) Run locally (`docs/engineering/PILOT.md`) — not fathers-com-pilot.vercel.app (stale)
+4) Run locally (docs/engineering/PILOT.md) — not fathers-com-pilot.vercel.app (stale)
    and not fathers-com-platform.vercel.app (old-repo main)
 
 This app is a signed-in pilot. It is not live on fathers.com.

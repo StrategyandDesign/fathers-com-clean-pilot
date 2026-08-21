@@ -6,6 +6,7 @@ import {
   type Training,
 } from "@/lib/father/types";
 import type { Group } from "@/lib/manager/types";
+import { loadGroupsForManager } from "@/lib/org-staff/membership";
 import { createClient } from "@/lib/supabase/server";
 
 export { isTrainingAssignable } from "@/lib/father/types";
@@ -143,15 +144,7 @@ export async function markTrainingNotificationsRead(managerId: string, trainingI
 }
 
 async function loadManagedGroups(managerId: string) {
-  const supabase = await createClient();
-  const { data, error } = await supabase
-    .from("groups")
-    .select("*")
-    .eq("manager_id", managerId)
-    .order("created_at");
-
-  if (error) throw error;
-  return (data ?? []) as Group[];
+  return loadGroupsForManager(managerId);
 }
 
 export async function loadReviewQueue(managerId: string) {
@@ -257,7 +250,9 @@ async function loadTrainingSessions(trainingId: string) {
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("sessions")
-    .select("id, training_id, session_number, title, keyline, video_url, order_index")
+    .select(
+      "id, training_id, session_number, title, keyline, video_url, order_index, checkin_prompt, action_prompt"
+    )
     .eq("training_id", trainingId)
     .order("order_index", { ascending: true })
     .order("session_number", { ascending: true });

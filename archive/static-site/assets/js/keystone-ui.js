@@ -1,0 +1,1136 @@
+/* Keystone full assessment UI: mode choice, sectioned runner, resume, 26-scale results. */
+(function(){
+  var root = document.getElementById('keystone');
+  if(!root || !window.KEYSTONE || !window.KS) return;
+  var SHOW_MANHOOD_COURSE = window.FC_SHOW_MANHOOD_COURSE === true;
+
+  /* Which instrument is this sitting? Chosen by ?assessment=<slug> and resolved
+     through the registry, so adding a profile is a registry entry rather than a
+     change here. Falls back to the father profile when the parameter is absent
+     or unrecognised, which keeps every existing link working. An instrument
+     that is not released is refused, so an uncalibrated draft cannot be reached
+     by guessing at a URL. */
+  var ACTIVE_INS = window.KEYSTONE;
+  (function pickInstrument(){
+    var want = null;
+    var track = null;
+    try {
+      var sp = new URLSearchParams(window.location.search);
+      want = sp.get('assessment');
+      track = sp.get('track');
+    } catch(e){}
+    if(!want && track === 'manhood') want = 'keystone-manhood-profile';
+    if(want && String(want).indexOf('manhood') >= 0 && !SHOW_MANHOOD_COURSE) return;
+    if(!want) return;
+    var data = null;
+    if(window.FCReg && FCReg.bySlug){
+      var entry = FCReg.bySlug(want);
+      if(entry) data = FCReg.data(entry);
+    }
+    if(!data && want === 'keystone-manhood-profile') data = window.KEYSTONE_MANHOOD || null;
+    if(!data && want === 'keystone-father-profile') data = window.KEYSTONE || null;
+    if(!data) return;
+    if(data.released === false){
+      root.innerHTML = '<div class="container" style="padding:80px 0"><div class="card" style="max-width:560px;margin:0 auto;text-align:center">'+
+        '<h2 class="d-28" style="margin-bottom:10px">Not open yet</h2>'+
+        '<p class="small" style="margin-bottom:20px">This profile is not released to participants yet.</p>'+
+        '<a class="btn btn-primary" href="profile.html">Take the Keystone Father Profile</a></div></div>';
+      throw new Error('instrument not released');
+    }
+    ACTIVE_INS = data;
+  })();
+
+  function activateInstrument(slug){
+    var data = null;
+    if(window.FCReg && FCReg.bySlug){
+      var entry = FCReg.bySlug(slug);
+      if(entry) data = FCReg.data(entry);
+    }
+    if(!data && slug === 'keystone-manhood-profile') data = window.KEYSTONE_MANHOOD || null;
+    if(!data && slug === 'keystone-father-profile') data = window.KEYSTONE || null;
+    if(!data) return false;
+    if(data.released === false) return false;
+    ACTIVE_INS = data;
+    KS.init(ACTIVE_INS);
+    order = KS.sectionKeys();
+    return true;
+  }
+
+  KS.init(ACTIVE_INS);
+  var order = KS.sectionKeys();     // full set; path narrows it via KS.pathSectionKeys()
+  var curSection = null, curIndex = 0, curItems = [];
+
+  function esc(s){return (s==null?'':String(s)).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  function pct(a,b){ return b? Math.round((a/b)*100):0; }
+  function readStartIntent(){
+    var start = null;
+    try { start = new URLSearchParams(window.location.search).get('start'); } catch(e){}
+    if(!start){
+      try { start = localStorage.getItem('fc_intent_start'); if(start) localStorage.removeItem('fc_intent_start'); } catch(e){}
+    }
+    return start;
+  }
+  /* Honest remaining time from unanswered items. Median sitting ~20 min / 128
+     items (~9s each). Round up to whole minutes; never invent a fake countdown. */
+  function timeLeftLabel(){
+    var left = Math.max(0, KS.totalCount() - KS.answeredCount());
+    if(!left) return 'Almost done';
+    var mins = Math.max(1, Math.ceil(left * 9 / 60));
+    if(mins === 1) return 'About 1 minute left';
+    if(mins < 60) return 'About '+mins+' minutes left';
+    return 'About an hour left';
+  }
+  function progressChrome(secKey, curIdx, secLen){
+    var path = KS.pathSectionKeys();
+    var secIdx = path.indexOf(secKey)+1;
+    var totalSec = path.length;
+    var all = KS.totalCount();
+    var answered = KS.answeredCount();
+    var overallPct = pct(answered, all);
+    var secTitle = '';
+    try { secTitle = (KS.sectionMeta(secKey).title || '').toUpperCase(); } catch(e){}
+    return '<div class="ks-top">'+
+      '<div class="ks-crumb"><span>SECTION '+secIdx+' OF '+totalSec+(secTitle?(' · '+esc(secTitle)):'')+'</span>'+
+      '<span>'+(curIdx+1)+' / '+secLen+'</span></div>'+
+      '<div class="progress-track" aria-hidden="true"><div class="progress-fill" style="width:'+pct(curIdx, secLen)+'%"></div></div>'+
+      '<div class="ks-prog-meta fine" style="display:flex;justify-content:space-between;gap:12px;margin-top:8px;color:var(--ash)">'+
+        '<span>'+answered+' of '+all+' answered · '+overallPct+'%</span>'+
+        '<span>'+timeLeftLabel()+'</span>'+
+      '</div>'+
+      '<div class="ks-sections" aria-hidden="true">'+path.map(function(s){
+        var done = KS.sectionsDone().indexOf(s)>=0;
+        var active = s===secKey;
+        return '<span class="ks-seg'+(done?' done':'')+(active?' active':'')+'"></span>';
+      }).join('')+'</div>'+
+    '</div>';
+  }
+
+  /* ---------- funnel instrumentation ---------- */
+  function ksEv(name, meta){
+    try {
+      if (window.FC && FC.live && FC.sb) {
+        FC.sb.from('funnel_events').insert({ user_id:(FC.uid&&FC.uid())||null, event:name, meta:meta||{} }).then(function(){},function(){});
+      }
+    } catch(e){}
+  }
+  var _ksStarted = false;
+  function ksStart(){ if(_ksStarted) return; _ksStarted = true; ksEv('assessment_start', {}); }
+
+  /* Once the Profile has begun, the intro invitation must be gone. Any screen the
+     assessment paints means he is in it, so the hero comes down and the app comes up.
+     Driven from here, not from sessionStorage, so it survives a new tab and a resume. */
+  function enterAssessment(){
+    var intro = document.getElementById('ksIntro');
+    if (intro && !intro.hidden) intro.hidden = true;
+    if (root && root.hidden) root.hidden = false;
+    try { sessionStorage.setItem('ks_intro_done','1'); } catch(e){}
+  }
+
+  /* ---------- did he serve? asked once, plainly ---------- */
+  function servedAsked(){ try { return localStorage.getItem('fc_served') !== null; } catch(e){ return false; } }
+  function servedGate(next){
+    // v4.0: the military surface is dark (SHOW_MILITARY=false in build_pages.py).
+    // The gate passes straight through; profiles.served stays dormant in the schema.
+    next(); return;
+    enterAssessment();
+    if (servedAsked()) { next(); return; }
+    root.innerHTML = shell(
+      '<div class="eyebrow" style="margin-bottom:14px">BEFORE YOU START</div>'+
+      '<h2 style="margin:0 0 10px">Did you serve in the military?</h2>'+
+      '<p class="helper">Everything on Fathers.com is free, forever, for those who served. Nothing here changes your scores.</p>'+
+      '<div class="ks-modes" style="margin-top:28px">'+
+        '<button class="ks-mode" data-served="1"><b>Yes, I served</b>'+
+          '<span>Veteran. The whole platform is yours at no cost, always.</span></button>'+
+        '<button class="ks-mode" data-served="1"><b>I am serving now</b>'+
+          '<span>Active duty, Guard, or Reserve. Free, forever.</span></button>'+
+        '<button class="ks-mode" data-served="0"><b>No, I did not serve</b>'+
+          '<span>Go straight to your Profile.</span></button>'+
+      '</div>');
+    root.querySelectorAll('.ks-mode').forEach(function(b){
+      b.onclick = function(){
+        var yes = b.dataset.served === '1';
+        try { localStorage.setItem('fc_served', yes ? '1' : '0'); } catch(e){}
+        ksEv('served_answered', { served: yes });
+        if (yes && window.FC && FC.live && FC.uid && FC.uid()) {
+          try { FC.sb.from('profiles').update({ served: true }).eq('id', FC.uid()).then(function(){},function(){}); } catch(e){}
+        }
+        next();
+      };
+    });
+  }
+
+  // Per-dimension copy. Strength lines affirm behavior. Growth lines name a changeable
+  // behavior in a situation (guilt-adaptive, never "you are a bad father"). First moves
+  // are if-then implementation intentions. Brand voice: blunt, short, no clinical language.
+  var SCALE_COPY = {
+    involvement:{s:"You are in it. You do not father from the sidelines.",g:"Being there is the whole game, and it is the thing to build first.",m:["When you walk in the door, your phone stays in your pocket for ten minutes.","Put one standing time with each kid on the calendar this week.","Before you talk about your day, ask about theirs."]},
+    consistency:{s:"Your kids can count on you. You show up when you say you will.",g:"Kids trust what repeats. The fix is the same time, kept, again and again.",m:["Tell each kid the next time they will see you, and keep it.","When something threatens the standing time, you move the other thing.","Say what you will do this week, then do exactly that."]},
+    awareness:{s:"You pay attention. You notice what is going on with your kids.",g:"You cannot lead a child you do not know. Start by learning their world.",m:["Learn the names of their three closest friends this week.","When they talk, you ask one more question before you respond.","Notice one thing they cared about today and bring it up tomorrow."]},
+    nurturance:{s:"You are warm. Your kids know you are safe to come to.",g:"Warmth is a habit you can grow. It starts with how you greet them.",m:["When they come to you, you stop and turn toward them fully.","Say one specific thing you are proud of before the day ends.","When they are upset, you sit with it before you try to fix it."]},
+    commitment:{s:"You are all in. You do not quit on your family.",g:"Commitment shows in the small kept promises, not the big speeches.",m:["Make one promise this week that is small enough to keep for certain.","When it gets hard, you stay in the room.","Tell them, out loud, that you are not going anywhere."]},
+    active_listening:{s:"You listen. Your kids feel heard when they talk to you.",g:"Most men jump to fixing. The move is to hear it all the way first.",m:["When they tell you something, you say it back before you answer.","Hold one whole conversation where you give no advice at all.","When you want to interrupt, you count to three and let them finish."]},
+    job_satisfaction:{s:"You carry your work well, and it does not swallow your home.",g:"The line between work and home is a thing you can guard on purpose.",m:["Set a hard stop time twice this week and honor it.","When you get home, take five minutes alone, then you are fully theirs.","Leave one work problem at the door tonight."]},
+    emotional_regulation:{s:"You hold steady. Your kids are not braced around your moods.",g:"Your temper is a behavior in a moment, and moments can be caught.",m:["When you feel heat rising, you name it and step away for two minutes.","Before you react, you take one full breath.","When you get it wrong, you go back and repair it out loud."]},
+    legacy_planning:{s:"You think past today. You are building something that lasts.",g:"A legacy is built on purpose, one recorded thing at a time.",m:["Write down one thing you want your kids to remember about you.","Tell one story from your life at the table this week.","Record sixty seconds of your voice for them to keep."]},
+    flourishing:{s:"You are steady in yourself, and your kids feel that ground.",g:"You cannot pour from empty. Your own health is theirs too.",m:["Protect one hour this week that is only yours.","When you are running low, you say so instead of going cold.","Do one thing that resets you, and do it without guilt."]},
+    modeling:{s:"You lead by example. Your kids learn from how you live.",g:"They copy what you do, not what you say. Show them the thing.",m:["Do one hard right thing this week where they can see it.","When you make a mistake, you own it in front of them.","Name one value out loud as you live it today."]},
+    freedom_expression:{s:"You let your kids be themselves around you.",g:"A kid who can speak freely at home comes home. Make room for it.",m:["When they disagree, you thank them for saying it.","Let one small choice this week be fully theirs.","Ask what they think before you tell them what you think."]},
+    knowing_my_child:{s:"You know your kids as they really are, not as you imagine them.",g:"Every child is specific. Learn the one in front of you.",m:["Ask each kid what they are into right now, and remember it.","Spend twenty minutes doing the thing they love, on their terms.","Name one thing each kid is good at that no one else notices."]},
+    financial_provision:{s:"You provide. Your family is covered because you carry it.",g:"Provision is more than money. It is presence they can bank on too.",m:["Show them once how you plan, so money is not a mystery.","Pair one provided thing this week with time, not just the thing.","Tell them what you are working toward and why."]},
+    education_involvement:{s:"You are in their learning. School is not something you outsource.",g:"Kids rise when a father shows up for the mind, not just the report card.",m:["Ask about one specific thing they learned today, not just grades.","Show up for one school thing this month.","When they struggle, you sit beside the work with them."]},
+    parental_discussion:{s:"You and their other parent talk. Your kids see a united front.",g:"Kids feel the seams. Line up with their other parent behind the scenes.",m:["Agree on one rule this week before it comes up with the kids.","When you disagree, you take it away from the kids first.","Say one good thing about their other parent in front of them."]},
+    family_crises:{s:"You hold the line when things go hard. Your family leans on you.",g:"Crisis is where kids learn if they are safe. Be the calm on purpose.",m:["When the next hard thing hits, you name the plan out loud.","Tell them the truth at their level instead of hiding it.","Be the steady voice in one hard moment this week."]},
+    showing_affection:{s:"You show love plainly. Your kids do not have to guess.",g:"Affection is a muscle. Say it and show it until it is normal.",m:["Tell each kid you love them today, in words.","Give one hug that you do not rush.","Write one short note and leave it where they will find it."]},
+    spiritual_moral:{s:"You are equipping your kids with something to stand on.",g:"Kids need a why for right and wrong. Hand them yours on purpose.",m:["Talk through one right-and-wrong choice at the table this week.","Tell them one thing you believe and why you believe it.","When you fall short of your own values, you say so."]},
+    time_commitment:{s:"You give your kids real time, not just leftovers.",g:"Time is the currency kids read as love. Spend it deliberately.",m:["Block one hour this week that belongs only to them.","Put the phone in another room for one full activity.","Say yes to one thing they ask you to do with them."]},
+    giving_guidance:{s:"You guide. Your kids get direction from you, not just rules.",g:"Kids want a map, not a fence. Teach the why behind the rule.",m:["When you set a rule this week, you give the reason with it.","Ask what they would do before you tell them what to do.","Share one lesson you learned the hard way."]},
+    marital_relationship:{s:"You invest in your marriage, and your kids stand on that ground.",g:"The strongest thing you give your kids is loving their other parent well.",m:["Do one thing for your spouse this week with no scoreboard.","Let the kids catch you being kind to their other parent.","Protect one hour for the marriage, on the calendar."]},
+    childhood_satisfaction:{s:"You have looked honestly at how you were fathered. That takes guts.",g:"What you did not get, you can still choose to give. That choice starts now.",m:["Name one thing you will do differently than was done for you.","Give your kid one thing this week you wish you had received.","Forgive one thing this month, for your sake and theirs."]},
+    fathering_satisfaction:{s:"You care how you are doing as a father. That care is the engine.",g:"Confidence grows from small wins. Stack a few and it climbs.",m:["Notice one thing you did well as a father today.","Ask your kid what they like about time with you.","Keep one small fathering promise and let it count."]},
+    leadership_satisfaction:{s:"You are learning to lead your home with a steady hand.",g:"Leadership at home is quiet consistency, not control. Build the habit.",m:["Make one household decision this week clearly and calmly.","When you are unsure, you say the plan anyway and adjust.","Own one thing that went wrong without blaming."]},
+    satisfaction_child_rel:{s:"You want a real relationship with your kids, and you are chasing it.",g:"Closeness is built in small moments. Make more of them on purpose.",m:["Start one conversation this week that is not about a task.","Do one thing they love with them, their way.","Tell them one specific reason you like being their dad."]}
+  };
+
+  // ---------- entry: choose mode, or resume ----------
+  /* Real start of the runner. Separated so the conversion intro (#ksIntro) can
+     stay on screen until the man taps Begin, instead of being wiped by gate(). */
+  function isManhoodInstrument(){
+    return !!(ACTIVE_INS && ACTIVE_INS.slug === 'keystone-manhood-profile');
+  }
+
+  function isRhPath(){
+    try {
+      if (new URLSearchParams(location.search).get('path') === 'rh') return true;
+      if (localStorage.getItem('fc_path') === 'returning-home') return true;
+    } catch(e){}
+    return false;
+  }
+
+  function rhBeatDone(){
+    try { return sessionStorage.getItem('ks_rh_beat_done') === '1'; } catch(e){ return false; }
+  }
+
+  function rhHasProgress(){
+    try {
+      var raw = localStorage.getItem('fc_inprogress');
+      if(!raw) return false;
+      var st = JSON.parse(raw);
+      return !!(st && st.answers && Object.keys(st.answers).length);
+    } catch(e){ return false; }
+  }
+
+  function showRhProfileBeat(){
+    enterAssessment();
+    root.innerHTML =
+      '<div class="ks-rh-beat" id="ks-start">'+
+        '<p class="rh-door-eye">The Keystone Father Profile</p>'+
+        '<h1 class="ks-rh-beat-h">This takes eight minutes. Then you have a starting point.</h1>'+
+        '<p class="ks-rh-beat-lead">You answer honest questions and get a private starting point. There are no right answers. Answer honestly so this can fit you.</p>'+
+        '<p class="ks-rh-beat-keep">An account keeps the report, the trainings, and the work. You can start the questions now and make an account when you want one.</p>'+
+        '<button class="btn btn-yellow btn-lg" id="ks-rh-begin" type="button">Begin</button>'+
+      '</div>';
+    var go = document.getElementById('ks-rh-begin');
+    if(go) go.onclick = function(){
+      try { sessionStorage.setItem('ks_rh_beat_done','1'); } catch(e){}
+      launchQuickStart();
+    };
+  }
+
+  function launchQuickStart(){
+    KS.setPath('father');
+    KS.setQuickStart(true);
+    servedGate(function(){
+      enterAssessment();
+      ksStart();
+      KS.resumeOrStart('by_section').then(function(){ runSection('dimensions'); });
+    });
+  }
+
+  function beginQuickStart(){
+    if(isRhPath() && !rhBeatDone() && !rhHasProgress()){
+      showRhProfileBeat();
+      return;
+    }
+    launchQuickStart();
+  }
+
+  function beginManhoodQuick(){
+    if(!SHOW_MANHOOD_COURSE){
+      activateInstrument('keystone-father-profile');
+      beginQuickStart();
+      return;
+    }
+    if(!activateInstrument('keystone-manhood-profile')){
+      // Fall back only if manhood data is missing; keep legacy childhood path alive.
+      KS.setPath('preparing');
+      servedGate(preparingIntro);
+      return;
+    }
+    beginQuickStart();
+  }
+
+  function proceedStart(){
+    // Quick / full entry from ?start= or fc_intent_start. Quick is Dimensions
+    // only on the full-instrument path (Father or Manhood), never path=preparing.
+    var startIntent = readStartIntent();
+    if(startIntent === 'quick'){
+      var wantAssessment = null;
+      try { wantAssessment = new URLSearchParams(window.location.search).get('assessment'); } catch(e){}
+      var track = null;
+      try { track = new URLSearchParams(window.location.search).get('track'); } catch(e){}
+      if(!wantAssessment && track === 'manhood') wantAssessment = 'keystone-manhood-profile';
+      if(SHOW_MANHOOD_COURSE && (wantAssessment === 'keystone-manhood-profile' || isManhoodInstrument())){
+        beginManhoodQuick();
+        return;
+      }
+      if(wantAssessment === 'keystone-father-profile' || (wantAssessment && wantAssessment !== 'keystone-manhood-profile')){
+        if(wantAssessment === 'keystone-father-profile') activateInstrument('keystone-father-profile');
+        beginQuickStart();
+        return;
+      }
+      // Shared Quick Start with no assessment: hide Father vs Manhood fork while SHOW_MANHOOD_COURSE is false.
+      if(SHOW_MANHOOD_COURSE){
+        servedGate(quickStartGate);
+        return;
+      }
+      beginQuickStart();
+      return;
+    }
+    if(startIntent === 'full'){
+      KS.setPath('father');
+      KS.clearQuickStart();
+      servedGate(chooseMode);
+      return;
+    }
+    // An explicit track choice on the homepage always wins, signed in or not.
+    var intent = null;
+    try { intent = localStorage.getItem('fc_intent_path'); if(intent) localStorage.removeItem('fc_intent_path'); } catch(e){}
+    // Legacy preparing intent now lands on Manhood Dimensions quick (real instrument).
+    if(intent === 'preparing'){
+      if(SHOW_MANHOOD_COURSE){ beginManhoodQuick(); return; }
+      KS.setPath('father'); servedGate(chooseMode); return;
+    }
+    // 'full' and 'father' both mean the complete instrument. 'father' is kept
+    // because it is already sitting in returning visitors' localStorage and in
+    // existing links; 'full' is the honest name now that the complete path is
+    // also used by the Manhood Profile.
+    if(intent === 'full' || intent === 'father'){ KS.setPath('father'); servedGate(chooseMode); return; }
+    if(window.FC && FC.live && FC.uid()){
+      // Did he just save-and-signup mid-assessment? Restore his local work into his new account.
+      var resuming = false;
+      try { resuming = localStorage.getItem('fc_resume_intent') === '1'; } catch(e){}
+      if(resuming){
+        try { localStorage.removeItem('fc_resume_intent'); } catch(e){}
+        var local = KS.restoreLocal();
+        if(local){
+          // create a session for this account and persist his answers, then resume in place.
+          KS.setPath(local.path || 'father');
+          KS.resumeOrStart('all_at_once').then(function(){
+            // push each locally-held answer up to the new account session
+            var keys = Object.keys(local.answers || {});
+            var chain = Promise.resolve();
+            keys.forEach(function(k){ chain = chain.then(function(){ return KS.saveAnswer(k, local.answers[k]); }); });
+            chain.then(function(){ resumeInPlace(); });
+          });
+          return;
+        }
+      }
+      // otherwise, offer resume from an existing account session, or start fresh
+      FC.sb.from('keystone_sessions').select('*').eq('user_id',FC.uid()).eq('status','in_progress')
+        .order('updated_at',{ascending:false}).limit(1).maybeSingle().then(function(r){
+          if(r.data){ KS.setPath(r.data.path||'father'); offerResume(r.data); } else { startFresh(); }
+        }).catch(startFresh);
+    } else { startFresh(); }
+  }
+
+  function start(){
+    var intro = document.getElementById('ksIntro');
+    var beginBtn = document.getElementById('ksBegin');
+    var introDone = false;
+    try { introDone = sessionStorage.getItem('ks_intro_done') === '1'; } catch(e){}
+    var intentPeek = null;
+    var resumePeek = false;
+    var startPeek = null;
+    try { intentPeek = localStorage.getItem('fc_intent_path'); } catch(e){}
+    try { resumePeek = localStorage.getItem('fc_resume_intent') === '1'; } catch(e){}
+    try { startPeek = new URLSearchParams(window.location.search).get('start'); } catch(e){}
+    if(!startPeek){ try { startPeek = localStorage.getItem('fc_intent_start'); } catch(e){} }
+    // Homepage track choice, quick/full entry, or mid-assessment resume always skip the invite.
+    if(intentPeek || resumePeek || startPeek || introDone || !intro || intro.hidden || !beginBtn){
+      proceedStart();
+      return;
+    }
+    // Signed-in man with real progress: skip invite and offer resume.
+    if(window.FC && FC.live && FC.uid && FC.uid()){
+      FC.sb.from('keystone_sessions').select('*').eq('user_id',FC.uid()).eq('status','in_progress')
+        .order('updated_at',{ascending:false}).limit(1).maybeSingle().then(function(r){
+          if(r.data && (r.data.answered_count > 0 || (r.data.answers && Object.keys(r.data.answers).length))){
+            KS.setPath(r.data.path||'father'); offerResume(r.data); return;
+          }
+          // No real progress: keep the conversion intro until Begin.
+          beginBtn.addEventListener('click', function(){ proceedStart(); }, { once: true });
+        }).catch(function(){
+          beginBtn.addEventListener('click', function(){ proceedStart(); }, { once: true });
+        });
+      return;
+    }
+    beginBtn.addEventListener('click', function(){ proceedStart(); }, { once: true });
+  }
+
+  // Resume the assessment at the first unanswered question of the current path.
+  function resumeInPlace(){
+    enterAssessment();
+    var pathOrder = KS.pathSectionKeys();
+    var ans = KS.getAnswers();
+    // find the first section with an unanswered item
+    for(var si=0; si<pathOrder.length; si++){
+      var items = KS.itemsInSection(pathOrder[si]);
+      for(var i=0;i<items.length;i++){
+        if(ans[items[i].key]==null){ runSection(pathOrder[si]); return; }
+      }
+    }
+    // everything answered already -> go to finish
+    finish();
+  }
+
+  // If the man already chose his path on the homepage hero, honor it and skip the gate.
+  function startFresh(){
+    enterAssessment();
+    var pre = null;
+    try { pre = localStorage.getItem('fc_intent_path'); localStorage.removeItem('fc_intent_path'); } catch(e){}
+    if(pre === 'father'){ KS.setPath('father'); chooseMode(); return; }
+    if(pre === 'preparing'){
+      if(SHOW_MANHOOD_COURSE){ beginManhoodQuick(); return; }
+      KS.setPath('father'); chooseMode(); return;
+    }
+    gate();  // no pre-selection: show the full gate question
+  }
+
+  // THE GATE: one question that routes every man to the right starting point.
+  // All men are sons; not all are fathers. Both belong here.
+  function gate(){
+    if(!SHOW_MANHOOD_COURSE){
+      activateInstrument('keystone-father-profile');
+      KS.setPath('father');
+      KS.clearQuickStart();
+      servedGate(chooseMode);
+      return;
+    }
+    root.innerHTML = shell(
+      '<div class="eyebrow brass" style="margin-bottom:18px">BEFORE WE BEGIN</div>'+
+      '<h2 style="margin:0 0 8px">Where are you in the journey?</h2>'+
+      '<p class="helper">Every man here is someone\'s son. Not every man is a father yet. Your answer sets your starting point.</p>'+
+      '<div class="ks-modes" style="margin-top:32px">'+
+        '<button class="ks-mode" data-path="father">'+
+          '<b>I\'m raising children now</b>'+
+          '<span>The Fatherhood Track. The Keystone Father Profile: how you father today.</span></button>'+
+        '<button class="ks-mode" data-path="manhood">'+
+          '<b>I\'m preparing, mentoring, or growing</b>'+
+          '<span>The Manhood Track. The Keystone Manhood Profile for any man. Start with Manhood Dimensions, about eight minutes.</span></button>'+
+      '</div>');
+    root.querySelectorAll('.ks-mode').forEach(function(b){
+      b.onclick = function(){
+        if(b.dataset.path === 'father'){
+          activateInstrument('keystone-father-profile');
+          KS.setPath('father');
+          KS.clearQuickStart();
+          servedGate(chooseMode);
+          return;
+        }
+        beginManhoodQuick();
+      };
+    });
+  }
+
+  // Shared Quick Start fork when ?start=quick has no assessment deep link.
+  function quickStartGate(){
+    if(!SHOW_MANHOOD_COURSE){
+      activateInstrument('keystone-father-profile');
+      beginQuickStart();
+      return;
+    }
+    enterAssessment();
+    root.innerHTML = shell(
+      '<div class="eyebrow brass" style="margin-bottom:18px">QUICK START</div>'+
+      '<h2 style="margin:0 0 8px">Which baseline do you want?</h2>'+
+      '<p class="helper">Dimensions only, about eight minutes. Your plan can start from this. Finish the full Profile when you want the complete picture.</p>'+
+      '<div class="ks-modes" style="margin-top:32px">'+
+        '<button class="ks-mode" data-quick="father">'+
+          '<b>Raising children now</b>'+
+          '<span>Father Dimensions. A starting baseline on how you father today.</span></button>'+
+        '<button class="ks-mode" data-quick="manhood">'+
+          '<b>Preparing, mentoring, or growing</b>'+
+          '<span>Manhood Dimensions. A starting baseline on how you carry yourself with the people who depend on you.</span></button>'+
+      '</div>');
+    root.querySelectorAll('.ks-mode').forEach(function(b){
+      b.onclick = function(){
+        if(b.dataset.quick === 'manhood'){
+          beginManhoodQuick();
+          return;
+        }
+        activateInstrument('keystone-father-profile');
+        beginQuickStart();
+      };
+    });
+  }
+
+  // Non-father path: welcoming intro, then the childhood-reflection questions (no mode choice needed, it's short).
+  function preparingIntro(){
+    enterAssessment();
+    ksStart();
+    var items = KS.pathItems();
+    if(!items.length){ gate(); return; }
+    root.innerHTML = shell(
+      '<div class="eyebrow brass" style="margin-bottom:18px">YOUR STARTING POINT</div>'+
+      '<h2 style="margin:0 0 8px">Start with the father you had.</h2>'+
+      '<p class="helper">Before a man fathers well, it helps to understand how he was fathered. These '+items.length+' questions are about your own upbringing. There are no wrong answers, and your reflections are private.</p>'+
+      '<button class="btn btn-yellow" style="width:100%;margin-top:28px" id="ks-prep-begin">Begin</button>'+
+      '<p class="fine" style="margin-top:16px;text-align:center"><a href="certificates.html" class="link ash" style="font-size:12px">Or browse the courses first</a></p>');
+    document.getElementById('ks-prep-begin').onclick = function(){
+      KS.resumeOrStart('all_at_once').then(function(){ runSection(KS.pathSectionKeys()[0]); });
+    };
+  }
+
+  function offerResume(sess){
+    enterAssessment();
+    KS.resumeOrStart(sess.mode).then(function(){
+      var done = KS.sectionsDone().length, total = order.length;
+      var answered = KS.answeredCount(), all = KS.totalCount();
+      /* An in_progress row is created the moment a man picks a mode, before he
+         has answered anything. If he walks away at that instant, every later
+         visit greeted him with "Pick up where you left off. You have answered
+         0 of 128 items", which reads as the site losing his finished work.
+         Zero answers means there is nothing to resume: retire the empty row
+         and start him fresh, silently. */
+      if(!answered){
+        try {
+          FC.sb.from('keystone_sessions').update({ status:'abandoned' })
+            .eq('id', sess.id).then(function(){}, function(){});
+        } catch(e){}
+        startFresh();
+        return;
+      }
+      root.innerHTML = shell(
+        '<div class="eyebrow">WELCOME BACK</div>'+
+        '<h2 style="margin:10px 0 6px">Pick up where you left off.</h2>'+
+        '<p class="helper">You have answered '+answered+' of '+all+' items. '+done+' of '+total+' sections complete.</p>'+
+        '<div class="stack-16" style="margin-top:24px">'+
+          '<button class="btn btn-primary" style="width:100%" id="ks-resume">Continue</button>'+
+          '<button class="btn btn-secondary" style="width:100%" id="ks-restart">Start over</button>'+
+        '</div>');
+      document.getElementById('ks-resume').onclick = function(){ routeNext(); };
+      document.getElementById('ks-restart').onclick = function(){
+        if(confirm('Start the Keystone over? Your previous answers stay saved but a new run begins.')) gate();
+      };
+    });
+  }
+
+  function chooseMode(){
+    enterAssessment();
+    ksStart();
+    var dCount = KS.itemsInSection('dimensions').length,
+        pCount = KS.itemsInSection('practices').length,
+        sCount = KS.itemsInSection('satisfaction').length,
+        totalItems = dCount+pCount+sCount;
+    // Title and norm claim come from the instrument. They used to be hardcoded,
+    // which is how this screen once promised a hardcoded national count
+    // while the instrument and the report carried a different one.
+    var insTitle = (ACTIVE_INS.title || 'The Keystone Father Profile').toUpperCase();
+    var insNormed = !!(ACTIVE_INS.norms_n > 0);
+    var insGroup = ACTIVE_INS.norm_group_noun || 'fathers';
+    var insPrintable = insNormed && ACTIVE_INS.norms_printable === true;
+    var insClaim = insNormed
+      ? 'The complete validated inventory, normed on '+(insPrintable ? ACTIVE_INS.norms_n.toLocaleString() : 'thousands of')+' '+insGroup+'. Answer honestly. Your results are private.'
+      : 'The complete inventory. This profile does not have a norm group yet, so your results show where you placed yourself, not how you compare to other '+insGroup+'. Answer honestly. Your results are private.';
+    root.innerHTML = shell(
+      '<div class="eyebrow">'+insTitle+'</div>'+
+      '<h2 style="margin:10px 0 6px">'+totalItems+' questions. Your call how you take them.</h2>'+
+      '<p class="helper">'+insClaim+'</p>'+
+      '<div class="ks-modes">'+
+        '<button class="ks-mode" data-mode="all_at_once">'+
+          '<b>All at once</b><span>One sitting, about 20 minutes. Best if you have the time now.</span></button>'+
+        '<button class="ks-mode" data-mode="by_section">'+
+          '<b>Section by section</b><span>Three shorter sittings. We save your place after each. Best for a busy week.</span>'+
+          '<em>Dimensions ('+dCount+') · Practices ('+pCount+') · Satisfaction ('+sCount+')</em></button>'+
+      '</div>');
+    root.querySelectorAll('.ks-mode').forEach(function(b){
+      b.onclick = function(){
+        KS.resumeOrStart(b.dataset.mode).then(function(){ routeNext(); });
+      };
+    });
+  }
+
+  // ---------- decide what to show next ----------
+  function routeNext(){
+    var pathOrder = KS.pathSectionKeys();
+    var done = KS.sectionsDone();
+    var next = pathOrder.find(function(s){ return done.indexOf(s)<0; });
+    if(!next){ return finish(); }
+    if(KS.getMode()==='by_section' && done.length>0 && KS.answeredCount(next)===0){
+      sectionIntro(next);   // pause between sections in sectioned mode
+    } else {
+      runSection(next);
+    }
+  }
+
+  function sectionIntro(secKey){
+    enterAssessment();
+    var meta = KS.sectionMeta(secKey);
+    var idx = KS.pathSectionKeys().indexOf(secKey)+1;
+    root.innerHTML = shell(
+      '<div class="eyebrow">SECTION '+idx+' OF '+KS.pathSectionKeys().length+'</div>'+
+      '<h2 style="margin:10px 0 6px">'+esc(meta.title)+'</h2>'+
+      '<p class="helper">'+esc(meta.instruction)+'</p>'+
+      '<p class="fine" style="margin-top:14px">'+KS.itemsInSection(secKey).length+' questions in this section.</p>'+
+      '<button class="btn btn-primary" style="width:100%;margin-top:24px" id="ks-begin">Begin section</button>'+
+      (KS.sectionsDone().length>0 ? '<p class="fine" style="margin-top:16px;text-align:center"><a href="plan.html" class="link ash" style="font-size:12px">Save and finish later</a></p>':''));
+    document.getElementById('ks-begin').onclick = function(){ runSection(secKey); };
+  }
+
+  // ---------- run one section, item by item ----------
+  function runSection(secKey){
+    curSection = secKey;
+    curItems = KS.itemsInSection(secKey);
+    // resume at first unanswered in this section; if all are answered, go past
+    // the end so drawItem() routes to endSection() instead of redrawing the last item.
+    var ans = KS.getAnswers();
+    curIndex = curItems.length;
+    for(var i=0;i<curItems.length;i++){ if(ans[curItems[i].key]==null){ curIndex=i; break; } }
+    drawItem();
+  }
+
+  function drawItem(){
+    enterAssessment();
+    if(curIndex>=curItems.length) return endSection();
+    var it = curItems[curIndex];
+    var ans = KS.getAnswers();
+    var meta = KS.sectionMeta(curSection);
+    var secIdx = KS.pathSectionKeys().indexOf(curSection)+1;
+    var answeredInSec = curItems.filter(function(f){return ans[f.key]!=null;}).length;
+    var rhFrame = (isRhPath() && curSection === 'dimensions')
+      ? '<p class="fine ks-rh-frame">Answer for how it is now. Some of these are hard if you cannot be with your child every day.</p>'
+      : '';
+    root.innerHTML = shell(
+      progressChrome(curSection, curIndex, curItems.length)+
+      '<div class="ks-q">'+
+        rhFrame+
+        '<h2 class="ks-prompt">'+esc(it.prompt)+'</h2>'+
+        '<div class="ks-opts ks-'+it.kind+'">'+
+          it.labels.map(function(lab,i){
+            var val=i+1, sel = ans[it.key]===val;
+            return '<button class="ks-opt'+(sel?' selected':'')+'" data-v="'+val+'">'+
+              '<span class="ks-dot"></span><span class="ks-lab">'+esc(lab)+'</span></button>';
+          }).join('')+
+        '</div>'+
+        '<div class="ks-foot">'+
+          '<button class="ks-back" '+(curIndex===0?'style="visibility:hidden"':'')+'>Back</button>'+
+          '<span class="fine">'+answeredInSec+' in this section</span>'+
+        '</div>'+
+        '<p class="fine ks-savelink" style="margin-top:18px;text-align:center"><button class="ks-save-btn" id="ksSaveLater">Save and continue later</button></p>'+
+      '</div>');
+
+    root.querySelectorAll('.ks-opt').forEach(function(b){
+      b.onclick = function(){
+        var v = parseInt(b.dataset.v,10);
+        KS.saveAnswer(it.key, v);
+        root.querySelectorAll('.ks-opt').forEach(function(x){x.classList.remove('selected');});
+        b.classList.add('selected');
+        setTimeout(function(){ curIndex++; drawItem(); }, 180); // brief beat, then advance
+      };
+    });
+    var back = root.querySelector('.ks-back');
+    if(back) back.onclick = function(){ if(curIndex>0){curIndex--; drawItem();} };
+    var saveBtn = document.getElementById('ksSaveLater');
+    if(saveBtn) saveBtn.onclick = function(){ saveAndContinueLater(); };
+  }
+
+  // ---------- SAVE AND CONTINUE LATER (from any question) ----------
+  // Signed in: just confirm it's saved (answers already persist per-answer) and route out.
+  // Signed out: email + password account (same model as login.html / app.js).
+  function saveAndContinueLater(){
+    KS.persistLocal();
+    var signedIn = window.FC && FC.live && FC.uid();
+    if(signedIn){
+      root.innerHTML = shell(
+        '<div class="center" style="padding:50px 0">'+
+          '<div class="ks-check">\u2713</div>'+
+          '<h2 style="margin:8px 0">Saved.</h2>'+
+          '<p class="helper">Your progress is saved to your account. Come back anytime and pick up right where you left off.</p>'+
+          '<a class="btn btn-primary" style="margin-top:24px" href="plan.html">Go to my plan</a>'+
+          '<p class="fine" style="margin-top:14px"><a class="link ash" href="profile.html" style="font-size:12px">Or keep going now</a></p>'+
+        '</div>');
+      return;
+    }
+    var answered = KS.answeredCount();
+    root.innerHTML = shell(
+      '<div class="ks-gate" style="max-width:480px">'+
+        '<div class="eyebrow brass" style="margin-bottom:14px">SAVE YOUR PROGRESS</div>'+
+        '<h2 style="margin:0 0 6px">Keep your place. Finish when you have time.</h2>'+
+        '<p class="helper" style="margin-bottom:22px">You\'ve answered '+answered+' question'+(answered===1?'':'s')+' so far. Create a free password account and pick up on any device.</p>'+
+        '<div class="ks-gate-form">'+
+          '<input class="input" type="email" id="ksSaveEmail" placeholder="you@email.com" autocomplete="email" style="margin-bottom:10px">'+
+          '<input class="input" type="password" id="ksSavePass" placeholder="Password (8+ characters)" autocomplete="new-password">'+
+          '<button class="btn btn-yellow" id="ksSaveGo" style="width:100%;margin-top:12px">Create account and save</button>'+
+          '<p class="ksmsg fine" id="ksSaveMsg" style="margin-top:12px;text-align:center"></p>'+
+        '</div>'+
+        '<p class="fine" style="margin-top:14px;text-align:center">Already have an account? <a class="link ash" href="login.html?next=profile.html" style="font-size:12px">Sign in</a></p>'+
+        '<p class="fine" style="margin-top:10px;text-align:center"><button class="ks-save-btn" id="ksSaveBack">Not now, keep going</button></p>'+
+        '<p class="fine" style="margin-top:16px;text-align:center">'+
+          '<button class="ks-save-btn" id="ksSaveLeave" type="button">Leave without saving</button>'+
+          '<span style="display:block;margin-top:6px;color:var(--ash)">You\'ll lose answers from this visit.</span>'+
+        '</p>'+
+      '</div>');
+    var input = document.getElementById('ksSaveEmail');
+    var passEl = document.getElementById('ksSavePass');
+    var go = document.getElementById('ksSaveGo');
+    var msg = document.getElementById('ksSaveMsg');
+    var backBtn = document.getElementById('ksSaveBack');
+    function submit(){
+      var email = (input.value||'').trim();
+      var pass = (passEl && passEl.value) || '';
+      if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ msg.textContent='Enter a valid email.'; msg.style.color='var(--error)'; return; }
+      if(pass.length < 8){ msg.textContent='Password needs at least 8 characters.'; msg.style.color='var(--error)'; return; }
+      if(!(window.FC && FC.signUpPassword)){ msg.textContent='Sign-in is not available right now.'; msg.style.color='var(--error)'; return; }
+      go.disabled = true; go.textContent = 'Saving\u2026'; msg.textContent='';
+      try { localStorage.setItem('fc_resume_intent','1'); } catch(e){}
+      FC.signUpPassword(email, pass, '', 'profile.html').then(function(r){
+        if(r && r.error){
+          // Existing account: try sign-in with the same credentials.
+          return FC.signInPassword(email, pass).then(function(r2){
+            if(r2 && r2.error){ msg.textContent=r.error.message||'Could not create the account.'; msg.style.color='var(--error)'; go.disabled=false; go.textContent='Create account and save'; return; }
+            location.href = 'profile.html';
+          });
+        }
+        if(r.data && r.data.session){ location.href = 'profile.html'; return; }
+        msg.textContent = 'Account created. Check your email to confirm it, then sign in to pick up where you left off.';
+        msg.style.color = '';
+        go.disabled = false; go.textContent = 'Create account and save';
+      }, function(){ msg.textContent='Could not create the account. Try again.'; msg.style.color='var(--error)'; go.disabled=false; go.textContent='Create account and save'; });
+    }
+    go.addEventListener('click', submit);
+    input.addEventListener('keydown', function(e){ if(e.key==='Enter') submit(); });
+    if(passEl) passEl.addEventListener('keydown', function(e){ if(e.key==='Enter') submit(); });
+    if(backBtn) backBtn.onclick = function(){ drawItem(); };
+    var leaveBtn = document.getElementById('ksSaveLeave');
+    if(leaveBtn) leaveBtn.onclick = function(){
+      // Quiet exit: clear the local draft and return home. Confirm only when
+      // there is something real to lose; one dialog max.
+      var n = 0;
+      try { n = KS.answeredCount() || 0; } catch(e){}
+      if(n > 0 && !window.confirm('Leave without saving? You\'ll lose the answers from this visit.')) return;
+      if(KS.clearLocal) KS.clearLocal();
+      try { localStorage.removeItem('fc_resume_intent'); } catch(e){}
+      try { sessionStorage.removeItem('ks_intro_done'); } catch(e){}
+      location.href = (window.FCPath && FCPath.isRH()) ? FCPath.homeHref() : 'index.html';
+    };
+    input.focus();
+  }
+
+  function endSection(){
+    var pathOrder = KS.pathSectionKeys(); var nextKey = pathOrder[pathOrder.indexOf(curSection)+1] || null;
+    KS.markSectionDone(curSection, nextKey).then(function(){
+      // Quick Start ends after Dimensions with its own beat (not the full 26-scale dump).
+      if(KS.isQuickStart && KS.isQuickStart() && curSection === 'dimensions'){
+        finishQuick();
+        return;
+      }
+      if(KS.getMode()==='all_at_once'){ routeNext(); return; }
+      // sectioned mode: celebrate the checkpoint
+      if(!nextKey){ finish(); return; }
+      var doneN = KS.sectionsDone().length;
+      var quickHint = (curSection === 'dimensions')
+        ? '<p class="fine" style="margin-top:14px;text-align:center;color:var(--ash)">Want a plan now from Dimensions? Use Quick start next time.</p>'
+          + '<button class="btn btn-secondary" style="width:100%;margin-top:10px" id="ks-use-quick">Use this as my starting plan</button>'
+        : '';
+      root.innerHTML = shell(
+        '<div class="eyebrow">SECTION COMPLETE</div>'+
+        '<div class="ks-check">✓</div>'+
+        '<h2 style="margin:6px 0">'+doneN+' of '+KS.pathSectionKeys().length+' done.</h2>'+
+        '<p class="helper">Your answers are saved. Keep going, or come back anytime.</p>'+
+        '<div class="stack-16" style="margin-top:24px">'+
+          '<button class="btn btn-primary" style="width:100%" id="ks-cont">Next section</button>'+
+          '<a class="btn btn-secondary" style="width:100%" href="plan.html">Finish later</a>'+
+          quickHint+
+        '</div>');
+      document.getElementById('ks-cont').onclick = function(){ routeNext(); };
+      var uq = document.getElementById('ks-use-quick');
+      if(uq) uq.onclick = function(){
+        KS.setQuickStart(true);
+        finishQuick();
+      };
+    });
+  }
+
+
+  function finishQuick(){
+    var scored = KS.score();
+    var slug = (ACTIVE_INS && ACTIVE_INS.slug) || "keystone-father-profile";
+    var manhood = slug === "keystone-manhood-profile";
+    var dimLabel = manhood ? "Manhood Dimensions" : "Father Dimensions";
+    var fullLabel = manhood ? "Manhood Profile" : "Keystone";
+    ksEv("assessment_quick_complete", { section: "dimensions", assessment_slug: slug });
+    try { localStorage.setItem("fc_pending_result", JSON.stringify({
+      scored: scored, preparing: false, at: Date.now(),
+      assessment_slug: slug,
+      completion_tier: "quick",
+      answered_count: scored.answered || KS.answeredCount()
+    })); } catch(e){}
+
+    if(!(window.FC && FC.live && FC.uid())){
+      try {
+        var tok = (window.crypto && crypto.randomUUID) ? crypto.randomUUID()
+                : "ct-"+Date.now()+"-"+Math.random().toString(36).slice(2,10);
+        localStorage.setItem("fc_claim_token", tok);
+        if(window.FC && FC.live && FC.ready){
+          FC.ready.then(function(){
+            return FC.sb.from("pending_results").insert({
+              token: tok,
+              assessment_slug: slug,
+              payload: { scored: scored, preparing: false, at: Date.now(), completion_tier: "quick" }
+            });
+          }).then(function(){}, function(e){ console.error("[keystone] pending park failed", e); });
+        }
+      } catch(e){}
+    }
+
+    var signedIn = window.FC && FC.live && FC.uid();
+    var saveP = signedIn ? KS.saveResult(scored, "quick") : null;
+
+    enterAssessment();
+    var strK = scored.strength, gapK = scored.gap;
+    var strength = scored.scales[strK], gap = scored.scales[gapK];
+    var COPY = ACTIVE_INS.scale_copy || SCALE_COPY;
+    var sCopy = COPY[strK] || {s:"You showed up and did the honest work.",g:"",m:[]};
+    var gCopy = COPY[gapK] || {s:"",g:"This is the one to build first.",m:[]};
+    var sameScale = (strK === gapK);
+    var rh = window.FCPath && FCPath.isRH();
+    if(rh && window.FCPath.markReport) FCPath.markReport(gapK);
+    var rec = (rh && window.FCPath.courseForFocus) ? FCPath.courseForFocus(gapK) : { slug:'fundamentals', title:'Fathering Fundamentals' };
+    var planHref = "plan.html?assessment="+encodeURIComponent(slug)+"&reveal=1";
+    var courseHref = rh ? FCPath.playerHref(rec.slug) : "";
+    var deskHref = rh ? (FCPath.homebaseHref ? FCPath.homebaseHref() : FCPath.deskHref()) : "";
+    var loginNext = encodeURIComponent(deskHref || courseHref);
+    var saveLine = rh
+      ? (signedIn
+        ? "<p class=\"ks-saved\" id=\"ksSaved\">Saved on this device.</p>"
+        : "<p class=\"ks-saved\" id=\"ksSaved\">Saved on this device. An account keeps it. <a class=\"link ash\" href=\"login.html?path=rh&amp;next="+loginNext+"\">Log in</a> · <a class=\"link ash\" href=\"login.html?path=rh&amp;mode=signup&amp;next="+loginNext+"\">Create account</a></p>")
+      : "";
+    var nextBlock = rh
+      ? "<div class=\"stack-16\" style=\"margin-top:24px\">"+
+          "<a class=\"btn btn-yellow\" style=\"width:100%\" href=\""+courseHref+"\">Start "+esc(rec.title)+"</a>"+
+          saveLine+
+          "<p class=\"fine\" style=\"text-align:center;margin-top:8px\"><a class=\"link ash\" href=\""+deskHref+"\" style=\"font-size:12px\">Your home</a></p>"+
+          "<p class=\"fine\" style=\"text-align:center;margin-top:4px\"><a class=\"link ash\" href=\"report.html\" style=\"font-size:12px\">Read the full report</a></p>"+
+          "<p class=\"fine\" style=\"text-align:center;margin-top:2px\"><button class=\"link ash\" id=\"ksContFull\" style=\"background:none;border:0;padding:0;font:inherit;color:inherit;cursor:pointer;text-decoration:underline;text-underline-offset:3px;font-size:12px\">Or continue the full "+esc(fullLabel)+"</button></p>"+
+        "</div>"
+      : "<div class=\"stack-16\" style=\"margin-top:24px\">"+
+          "<a class=\"btn btn-primary\" style=\"width:100%\" href=\""+planHref+"\">Start my plan</a>"+
+          "<button class=\"btn btn-secondary\" style=\"width:100%\" id=\"ksContFull\">Continue full "+esc(fullLabel)+"</button>"+
+          "<p class=\"fine\" style=\"text-align:center;margin-top:4px\"><a class=\"link ash\" href=\"certificates.html\" style=\"font-size:12px\">Browse courses</a></p>"+
+        "</div>";
+    root.innerHTML = shell(
+      "<div class=\"center\" style=\"margin-bottom:24px\">"+
+        "<div class=\"ks-check\" style=\"margin-bottom:10px\">\u2713</div>"+
+        "<div class=\"eyebrow brass\" style=\"margin-bottom:10px\">"+(rh?"YOUR REPORT":("STARTING BASELINE \u00b7 "+esc(dimLabel.toUpperCase())))+"</div>"+
+        "<h2 style=\"margin:0 0 6px\">"+(rh?"Your report is ready.":"Starting baseline locked.")+"</h2>"+
+        "<p class=\"helper\" style=\"margin:0\">"+(rh?"Here is your starting point. Start "+esc(rec.title)+".":"Dimensions only, not the full "+esc(fullLabel)+". Your plan can start from this.")+"</p>"+
+      "</div>"+
+      "<div class=\"ks-strength-hero\">"+
+        "<div class=\"eyebrow\" style=\"margin-bottom:12px\">YOUR STRONGEST GROUND</div>"+
+        "<div class=\"ks-strength-name\">"+esc(strength ? strength.label : "You showed up")+"</div>"+
+        (sCopy.s ? "<p class=\"ks-strength-line\">"+esc(sCopy.s)+"</p>" : "")+
+      "</div>"+
+      (sameScale ? "" :
+        "<div class=\"ks-next\">"+
+          "<div class=\"eyebrow\" style=\"margin-bottom:10px\">"+(rh?"WHAT TO STRENGTHEN":"YOUR NEXT MOVE")+"</div>"+
+          "<div class=\"ks-next-name\">"+esc(gap ? gap.label : "")+"</div>"+
+          (gCopy.g ? "<p class=\"ks-next-line\">"+esc(gCopy.g)+"</p>" : "")+
+        "</div>")+
+      nextBlock
+    );
+    try {
+      if(window.FCMotion && FCMotion.pulseSuccess){
+        FCMotion.pulseSuccess(root.querySelector(".ks-check") || root);
+      }
+    } catch(e){}
+    var cont = document.getElementById("ksContFull");
+    if(cont) cont.onclick = function(){
+      KS.clearQuickStart();
+      routeNext();
+    };
+    if(saveP && saveP.then){
+      saveP.then(function(r){
+        var el = document.getElementById("ksSaved");
+        if(!el) return;
+        if(r && !r.error && !r.demo) el.textContent = "Saved to your account.";
+      });
+    }
+  }
+
+  // ---------- results: all 26 scales ----------
+  function finish(){
+    var scored = KS.score();
+    ksEv('assessment_complete', { preparing: KS.isPreparing() });
+    // Preserve the completed result locally so it survives the sign-up round trip.
+    var finishTier = KS.isPreparing() ? 'preparing' : 'full';
+    try { localStorage.setItem('fc_pending_result', JSON.stringify({
+      scored: scored, preparing: KS.isPreparing(), at: Date.now(),
+      // Which instrument produced this. Without it a man who takes the Manhood
+      // Profile signed out is handed a Father Profile report when he lands.
+      assessment_slug: (ACTIVE_INS && ACTIVE_INS.slug) || 'keystone-father-profile',
+      completion_tier: finishTier,
+      answered_count: scored.answered || KS.answeredCount()
+    })); } catch(e){}
+
+    /* localStorage cannot follow a man to another device, and most men open the
+       email on their phone, in a mail app, in a browser this page has never
+       seen. Park the finished sitting server-side under a random claim token;
+       the emailed link carries the token; whichever device he lands on redeems
+       it into his account. localStorage stays as the same-device fallback. */
+    if(!(window.FC && FC.live && FC.uid())){
+      try {
+        var tok = (window.crypto && crypto.randomUUID) ? crypto.randomUUID()
+                : 'ct-'+Date.now()+'-'+Math.random().toString(36).slice(2,10);
+        localStorage.setItem('fc_claim_token', tok);
+        if(window.FC && FC.live && FC.ready){
+          FC.ready.then(function(){
+            return FC.sb.from('pending_results').insert({
+              token: tok,
+              assessment_slug: (ACTIVE_INS && ACTIVE_INS.slug) || 'keystone-father-profile',
+              payload: { scored: scored, preparing: KS.isPreparing(), at: Date.now(), completion_tier: finishTier }
+            });
+          }).then(function(){}, function(e){ console.error('[keystone] pending park failed', e); });
+        }
+      } catch(e){}
+    }
+
+    var signedIn = window.FC && FC.live && FC.uid();
+    var saveP = signedIn ? KS.saveResult(scored, finishTier) : null;
+    if(window.FCPath && FCPath.isRH() && FCPath.markReport) FCPath.markReport(scored.gap);
+
+    if(KS.isPreparing()){
+      return finishPreparing(scored);
+    }
+    // Full results show to everyone. Account creation is a save action below
+    // the results, not a gate in front of them.
+    return showResults(scored, saveP);
+  }
+
+  // ---------- SAVE THE PLAN (password account, same as login.html) ----------
+  // The full results are already on screen. Email + password creates the account
+  // and attaches pending_results / fc_pending_result on the destination page.
+  function savePlanAccount(email, pass, btn, msg){
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ msg.textContent='Enter a valid email.'; msg.style.color='var(--error)'; return; }
+    if(!pass || pass.length < 8){ msg.textContent='Password needs at least 8 characters.'; msg.style.color='var(--error)'; return; }
+    btn.disabled=true; btn.textContent=(window.FCPath && FCPath.isRH()) ? 'Saving\u2026' : 'Saving your plan\u2026'; msg.textContent='';
+    ksEv('plan_email_submitted', {});
+    var slug = (ACTIVE_INS && ACTIVE_INS.slug) || 'keystone-father-profile';
+    var rh = window.FCPath && FCPath.isRH();
+    var dest = rh
+      ? FCPath.deskHref()
+      : 'plan.html?assessment=' + encodeURIComponent(slug) + '&reveal=1';
+    try { var t = localStorage.getItem('fc_claim_token'); if(t){ dest += (dest.indexOf('?')>=0?'&':'?') + 'claim=' + encodeURIComponent(t); } } catch(e){}
+    var saveLabel = rh ? 'Save and start the trainings' : 'Start my plan';
+    if(!(window.FC && FC.signUpPassword)){ msg.textContent='Sign-in is not available right now.'; msg.style.color='var(--error)'; btn.disabled=false; btn.textContent=saveLabel; return; }
+    FC.signUpPassword(email, pass, '', dest).then(function(r){
+      function go(){ location.href = dest; }
+      if(r && r.error){
+        return FC.signInPassword(email, pass).then(function(r2){
+          if(r2 && r2.error){ msg.textContent=r.error.message||'Could not create the account.'; msg.style.color='var(--error)'; btn.disabled=false; btn.textContent=saveLabel; return; }
+          go();
+        });
+      }
+      if(r.data && r.data.session){ go(); return; }
+      msg.textContent = rh
+        ? 'Account created. Check your email to confirm it, then sign in to start the trainings.'
+        : 'Account created. Check your email to confirm it, then sign in to open your plan.';
+      msg.style.color = '';
+      btn.disabled = false; btn.textContent = saveLabel;
+    }, function(){ msg.textContent='Could not create the account. Try again.'; msg.style.color='var(--error)'; btn.disabled=false; btn.textContent=saveLabel; });
+  }
+
+  // ---------- full results: shown free to everyone, all 26 dimensions ----------
+  window.__showResults = function(sc){ return showResults(sc); };  // test seam
+  function showResults(scored, saveP){
+    enterAssessment();
+    if(KS.isPreparing()){ return finishPreparing(scored); }
+    var strK = scored.strength, gapK = scored.gap;
+    var strength = scored.scales[strK], gap = scored.scales[gapK];
+    // Copy comes from the instrument being taken. This used to read a single
+    // father-specific library keyed by scale name, so a man taking the Manhood
+    // Profile was shown lines about his kids on shared scale keys, and blank
+    // copy on the keys the father profile does not have.
+    var COPY = ACTIVE_INS.scale_copy || SCALE_COPY;
+    var sCopy = COPY[strK] || {s:'You showed up and did the honest work.',g:'',m:[]};
+    var gCopy = COPY[gapK] || {s:'',g:'This is the one to build first.',m:[]};
+    var band = (KS.bandFor ? KS.bandFor(scored.overall) : {label:'A starting point'});
+    var bandLine = {
+      'Strong':'You are on strong ground. The work now is to hold it.',
+      'Solid':'You have a solid base. Now you sharpen it.',
+      'Developing':'You are on your way, and the next moves compound.',
+      'Building':'You are building. Every small habit from here counts.',
+      'A starting point':'A starting point is still a start, and starting is the part most men skip.'
+    }[band.label] || 'Here is your starting point, and what to strengthen next.';
+    var sameScale = (strK === gapK);
+    var signedIn = window.FC && FC.live && FC.uid();
+
+    var sp = strength ? strength.pct : 0;
+    // A percentile standing is a claim about a norm group. On an instrument that
+    // has none, it is meaningless and it was also printing nonsense like
+    // "stronger than about 100 out of 100 fathers". Only normed instruments get
+    // a comparison, and the noun comes from the instrument.
+    var normedIns = !!(ACTIVE_INS.norms_n > 0);
+    var groupNoun = ACTIVE_INS.norm_group_noun || 'fathers';
+    var strengthStanding = (normedIns && sp>=60 && sp<100)
+                          ? ('Stronger than about '+sp+' out of 100 '+groupNoun+' here.')
+                          : 'This is your strongest ground to build from.';
+
+    var sectionsHtml = order.map(function(secKey){
+      var m = KS.sectionMeta(secKey);
+      var scalesInSec = Object.keys(scored.scales).filter(function(k){return scored.scales[k].section===secKey;});
+      var rows = scalesInSec.map(function(k){
+        var s2 = scored.scales[k], isGap = k===gapK, isStr = k===strK;
+        return '<div class="ks-rslt'+(isGap?' gap':'')+'">'+
+          '<div class="ks-rslt-top"><span>'+esc(s2.label)+(isGap?' <em>next move</em>':(isStr?' <em class="str">strength</em>':''))+'</span>'+
+          '<span class="ks-rslt-band">'+s2.band.label+'</span></div>'+
+          '<div class="ks-bar"><span style="width:0" data-w="'+s2.pct+'"></span></div></div>';
+      }).join('');
+      return '<div class="ks-section-block"><div class="ks-section-head">'+esc(m.title)+'</div>'+rows+'</div>';
+    }).join('');
+
+    var moves = (gCopy.m||[]).map(function(mv,i){
+      return '<div class="ks-move"><span class="ks-move-n">'+(i+1)+'</span><span class="ks-move-t">'+esc(mv)+'</span></div>';
+    }).join('');
+
+    var rh = window.FCPath && FCPath.isRH();
+    var rec = (rh && window.FCPath.courseForFocus) ? FCPath.courseForFocus(gapK) : { slug:'fundamentals', title:'Fathering Fundamentals' };
+    var courseHref = rh ? FCPath.playerHref(rec.slug) : '';
+    var deskHref = rh ? (FCPath.homebaseHref ? FCPath.homebaseHref() : FCPath.deskHref()) : '';
+    var loginNext = encodeURIComponent(deskHref || courseHref);
+    var rhSave = signedIn
+      ? '<p class="ks-saved" id="ksSaved">Saved on this device.</p>'
+      : '<p class="ks-saved" id="ksSaved">Saved on this device. An account keeps it. <a class="link ash" href="login.html?path=rh&amp;next='+loginNext+'">Log in</a> · <a class="link ash" href="login.html?path=rh&amp;mode=signup&amp;next='+loginNext+'">Create account</a></p>';
+    var accountCard = rh
+      ? (signedIn
+        ? '<a class="btn btn-yellow" style="width:100%" href="'+courseHref+'">Start '+esc(rec.title)+'</a>'+
+          rhSave+
+          '<p class="fine" style="text-align:center;margin-top:8px"><a class="link ash" href="'+deskHref+'" style="font-size:12px">Your home</a></p>'+
+          '<p class="fine" style="text-align:center;margin-top:12px"><a class="link ash" href="report.html" style="font-size:12px">Or read your full written report</a></p>'
+        : '<a class="btn btn-yellow" style="width:100%" href="'+courseHref+'">Start '+esc(rec.title)+'</a>'+
+          rhSave+
+          '<p class="fine" style="text-align:center;margin-top:8px"><a class="link ash" href="'+deskHref+'" style="font-size:12px">Your home</a></p>'+
+          '<div class="ks-save-card" style="margin-top:18px">'+
+            '<h3 class="ks-save-h">Save this so you can come back.</h3>'+
+            '<p class="helper" style="margin-bottom:16px">Optional. The trainings are open now. An account keeps your report with you.</p>'+
+            '<input class="input" type="email" id="ksEmail" placeholder="you@email.com" autocomplete="email" style="margin-bottom:10px">'+
+            '<input class="input" type="password" id="ksPass" placeholder="Password (8+ characters)" autocomplete="new-password">'+
+            '<button class="btn btn-secondary" id="ksSavePlan" style="width:100%;margin-top:10px">Save and start '+esc(rec.title)+'</button>'+
+            '<p class="ksmsg fine" id="ksMsg" style="margin-top:10px;text-align:center"></p>'+
+            '<p class="fine" style="margin-top:8px;text-align:center">Already have an account? <a class="link ash" href="login.html?path=rh&amp;next='+loginNext+'" style="font-size:12px">Sign in</a></p>'+
+          '</div>'+
+          '<p class="fine" style="text-align:center;margin-top:14px"><a class="link ash" href="report.html" style="font-size:12px">Or read your full written report first</a></p>')
+      : (signedIn
+      ? '<a class="btn btn-yellow" style="width:100%" href="plan.html?reveal=1">Start my plan</a>'+
+        '<p class="fine" style="text-align:center;margin-top:12px"><a class="link ash" href="report.html" style="font-size:12px">Or read your full written report</a></p>'
+      : '<div class="ks-save-card">'+
+          '<div class="ks-built"><div class="ks-built-track"><span id="ksBuilt" style="width:0"></span></div><span class="ks-built-n">Your profile is 90% built</span></div>'+
+          '<h3 class="ks-save-h">Save your plan. One step left.</h3>'+
+          '<p class="helper" style="margin-bottom:16px">Create a free account with a password so your plan and profile stay with you on any device.</p>'+
+          '<input class="input" type="email" id="ksEmail" placeholder="you@email.com" autocomplete="email" style="margin-bottom:10px">'+
+          '<input class="input" type="password" id="ksPass" placeholder="Password (8+ characters)" autocomplete="new-password">'+
+          '<button class="btn btn-yellow" id="ksSavePlan" style="width:100%;margin-top:10px">Start my plan</button>'+
+          '<p class="ksmsg fine" id="ksMsg" style="margin-top:10px;text-align:center"></p>'+
+          '<p class="fine" style="margin-top:8px;text-align:center">Free account. We never share your email. Already have one? <a class="link ash" href="login.html?next=plan.html" style="font-size:12px">Sign in</a></p>'+
+        '</div>'+
+        '<p class="fine" style="text-align:center;margin-top:14px"><a class="link ash" href="report.html" style="font-size:12px">Or read your full written report first</a></p>');
+
+    root.innerHTML = shell(
+      '<div class="center" style="margin-bottom:30px">'+
+        '<div class="ks-check" style="margin-bottom:10px">\u2713</div>'+
+        '<div class="eyebrow brass" style="margin-bottom:10px">'+esc((ACTIVE_INS.title||'The Keystone Father Profile').toUpperCase())+' &middot; DONE.</div>'+
+        '<h2 style="margin:0 0 6px">You just did what most men never do.</h2>'+
+        '<p class="helper" style="margin:0">You looked at '+esc(ACTIVE_INS.subject_noun || 'how you father')+', honestly, all the way through.</p>'+
+      '</div>'+
+      '<div class="ks-strength-hero">'+
+        '<div class="eyebrow" style="margin-bottom:12px">YOUR STRONGEST GROUND</div>'+
+        '<div class="ks-strength-name">'+esc(strength ? strength.label : 'You showed up')+'</div>'+
+        (sCopy.s ? '<p class="ks-strength-line">'+esc(sCopy.s)+'</p>' : '')+
+        '<div class="ks-band-chip">'+strengthStanding+'</div>'+
+      '</div>'+
+      '<div class="ks-overall-band">'+
+        '<span class="ks-ob-label">OVERALL</span>'+
+        '<span class="ks-ob-value">'+band.label+'</span>'+
+        '<span class="ks-ob-line">'+bandLine+'</span>'+
+      '</div>'+
+      (sameScale ? '' :
+        '<div class="ks-next">'+
+          '<div class="eyebrow" style="margin-bottom:10px">YOUR NEXT MOVE</div>'+
+          '<div class="ks-next-name">'+esc(gap ? gap.label : '')+'</div>'+
+          (gCopy.g ? '<p class="ks-next-line">'+esc(gCopy.g)+'</p>' : '')+
+        '</div>')+
+      (moves ? '<div class="ks-moves"><div class="ks-moves-h">Your first three moves</div>'+moves+
+        '<p class="fine" style="margin-top:14px">These are day one. Your full twelve-week plan builds from here.</p></div>' : '')+
+      accountCard+
+      '<details class="ks-fullprofile"><summary>See your full profile, all 26 dimensions</summary>'+
+        '<p class="fine" style="margin:12px 0 18px">'+
+          (normedIns
+            ? 'Relative to '+ACTIVE_INS.norms_n.toLocaleString()+' '+esc(groupNoun)+'. Your strength and your next move are marked.'
+            : 'This profile does not have a norm group yet, so nothing here ranks you against anyone. Your strength and your next move are marked.')+
+        '</p>'+
+        sectionsHtml+
+      '</details>'+
+      '<p class="ks-end">You were never broken. Now you build.</p>',
+      true);
+
+    requestAnimationFrame(function(){ setTimeout(function(){
+      root.querySelectorAll('.ks-bar>span').forEach(function(sp2){ sp2.style.width = sp2.dataset.w+'%'; });
+      var bt=document.getElementById('ksBuilt'); if(bt) bt.style.width='90%';
+    }, 80); });
+
+    if(!signedIn){
+      var se=document.getElementById('ksEmail'), sp=document.getElementById('ksPass'), sb=document.getElementById('ksSavePlan'), sm=document.getElementById('ksMsg');
+      function goSave(){ savePlanAccount((se.value||'').trim(), (sp&&sp.value)||'', sb, sm); }
+      if(sb) sb.addEventListener('click', goSave);
+      if(se) se.addEventListener('keydown', function(e){ if(e.key==='Enter'){ goSave(); } });
+      if(sp) sp.addEventListener('keydown', function(e){ if(e.key==='Enter'){ goSave(); } });
+    }
+    if(saveP && saveP.then){
+      saveP.then(function(r){
+        var el = document.getElementById('ksSaved');
+        if(!el) return;
+        if(r && !r.error && !r.demo) el.textContent = 'Saved to your account.';
+      });
+    }
+  }
+
+  // Results for the preparing (non-father) path: reflective, forward-looking, no 26-scale profile.
+  function finishPreparing(scored){
+    enterAssessment();
+    var cs = scored.scales.childhood_satisfaction || {pct:50, band:{label:'Reflective'}};
+    var warm = cs.pct >= 60
+      ? "You carry a good foundation. The chance now is to build on it, and to become for others what was given to you."
+      : cs.pct >= 35
+        ? "Your upbringing had both gifts and gaps, like most. Naming them honestly is the first real step toward fathering, or mentoring, differently."
+        : "What you did not receive growing up, you can choose to give. Many of the best fathers and mentors are men who decided to break a cycle. That decision starts here.";
+    root.innerHTML = shell(
+      '<div class="eyebrow brass" style="margin-bottom:16px">YOUR REFLECTION</div>'+
+      '<h2 style="margin:0 0 8px">Where you\'re starting from.</h2>'+
+      '<p class="helper" style="margin-bottom:28px">You reflected honestly on how you were fathered. That awareness is the ground everything else is built on.</p>'+
+      '<div class="ks-prep-card">'+
+        '<div class="ks-prep-band">'+esc(cs.band.label)+'</div>'+
+        '<p>'+warm+'</p>'+
+      '</div>'+
+      '<h3 style="font-family:var(--font-display);font-weight:500;font-size:20px;margin:32px 0 14px">Your next step</h3>'+
+      '<p class="small" style="margin-bottom:24px;color:var(--ash)">The certificate paths are built for every man who wants to father or mentor well, whether or not you have children yet. Start with the fundamentals.</p>'+
+      '<a class="btn btn-yellow" style="width:100%" href="certificates.html">Explore the certificate paths</a>'+
+      '<p class="fine" style="margin-top:14px;text-align:center"><a href="classes.html" class="link ash" style="font-size:12px">Or preview the classes</a></p>',
+      false);
+  }
+
+  // ---------- shared shell ----------
+  function shell(inner, wide){
+    return '<div class="ks-wrap'+(wide?' wide':'')+'">'+inner+'</div>';
+  }
+
+  start();
+})();

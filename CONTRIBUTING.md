@@ -19,8 +19,6 @@ The live product is Next.js. Root HTML is archived. PRs stay small. Product note
 
 ## Local loop
 
-The default tree in this repo is the app. No branch switch.
-
 ```bash
 cp .env.example .env.local
 npm install
@@ -37,7 +35,7 @@ npx tsc --noEmit
 
 ## Shared drops vs official submits
 
-- This default tree is the moving line Micah and Eric share.
+- This desk branch is the moving line Micah and Eric share.
 - **`shared/N`** tags in `SHARED.md` number those drops. They do not freeze a submit.
 - **`submit/2`** is frozen. Do not fast-forward it.
 
@@ -45,4 +43,4 @@ npx tsc --noEmit
 
 Work on a branch. Open a PR. Say what changed and what you verified. Merge when checks are green.
 
-This isolated repo is the review line. It is not a cutover of `fathers.com` and it is not `fathers-com-platform` `main`.
+This line is the review copy. It is not a cutover of `fathers.com` and it is not `fathers-com-platform` `main`.
