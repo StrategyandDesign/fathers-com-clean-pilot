@@ -40,4 +40,17 @@ jobs:
           cp /tmp/fathers-shared-script/scripts/shared-sync-from-internal.mjs scripts/shared-sync-from-internal.mjs
 
       - name: Publish the next Shared mark
-        run: node scripts/shared-sync-from-internal.mjs
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          path = Path("scripts/shared-sync-from-internal.mjs")
+          text = path.read_text()
+          needle = '"lib/i18n/translate.ts",'
+          extra = '"lib/i18n/translate.ts",\n  ".github/workflows/shared-sync.yml",'
+          if ".github/workflows/shared-sync.yml" not in text:
+              if needle not in text:
+                  raise SystemExit("could not keep the shared-repo workflow out of the overlay")
+              path.write_text(text.replace(needle, extra, 1))
+          PY
+          node scripts/shared-sync-from-internal.mjs
