@@ -26,20 +26,23 @@ jobs:
           fetch-depth: 0
 
       - name: Hold local desk ticks off Eric's copy
+        id: hold
         run: |
           set -euo pipefail
           HOLD=$(node -p "Boolean(require('./shared-source.json').hold)")
+          echo "skip=$HOLD" >> "$GITHUB_OUTPUT"
           if [ "$HOLD" = "true" ]; then
             echo "Hold is on. Shared 7 / Shared 1-1.101 stays on review until Micah asks to publish."
-            exit 0
           fi
 
       - name: Setup Node
+        if: steps.hold.outputs.skip != 'true'
         uses: actions/setup-node@v4
         with:
           node-version: "20"
 
       - name: Use the internal sync script
+        if: steps.hold.outputs.skip != 'true'
         run: |
           set -euo pipefail
           SOURCE_REPO=$(node -p "require('./shared-source.json').repo")
@@ -49,6 +52,7 @@ jobs:
           cp /tmp/fathers-shared-script/scripts/shared-sync-from-internal.mjs scripts/shared-sync-from-internal.mjs
 
       - name: Publish the next Shared mark
+        if: steps.hold.outputs.skip != 'true'
         run: |
           set -euo pipefail
           python3 - <<'PY'
