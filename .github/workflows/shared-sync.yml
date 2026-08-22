@@ -25,6 +25,15 @@ jobs:
           ref: review
           fetch-depth: 0
 
+      - name: Hold local desk ticks off Eric's copy
+        run: |
+          set -euo pipefail
+          HOLD=$(node -p "Boolean(require('./shared-source.json').hold)")
+          if [ "$HOLD" = "true" ]; then
+            echo "Hold is on. Shared 7 / Shared 1-1.101 stays on review until Micah asks to publish."
+            exit 0
+          fi
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
