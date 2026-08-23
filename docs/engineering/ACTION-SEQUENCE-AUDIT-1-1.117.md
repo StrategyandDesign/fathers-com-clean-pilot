@@ -43,4 +43,4 @@ Audit of `review` HEAD after hardening `e3fb476`, plus the surgical fixes in thi
 
 ## Tests
 
-`npx tsx --test tests/*.test.ts` plus `npm run lint` after this pass.
+`npx tsx --test tests/*.test.ts`: 539 passed / 0 failed. `npm run lint`: 0 errors (existing unused-var warnings only).
