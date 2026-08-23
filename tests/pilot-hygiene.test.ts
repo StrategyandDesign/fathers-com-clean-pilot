@@ -96,6 +96,7 @@ describe("pilot test-content hygiene", () => {
     assert.match(seed, /name in \('Hebrew Pilot Group', 'Unit 8200'\)/);
     assert.doesNotMatch(seed, /set name = 'Unit 8200'/);
     assert.match(hygiene, /set name = 'Hebrew Pilot Group'/);
+    assert.match(hygiene, /replace\(full_name, 'Unit 8200', 'Hebrew Pilot Group'\)/);
     assert.match(hygiene, /published = false/);
     assert.match(hygiene, /did you receive/);
     assert.match(runbook, /Hebrew Pilot Group/);

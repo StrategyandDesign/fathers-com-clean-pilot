@@ -9,6 +9,19 @@ set name = 'Hebrew Pilot Group'
 where code = 'IL'
    or name = 'Unit 8200';
 
+-- Replace leftover military-unit person names on those seats.
+update public.profiles
+set full_name = replace(full_name, 'Unit 8200', 'Hebrew Pilot Group')
+where full_name ilike '%Unit 8200%';
+
+update auth.users
+set raw_user_meta_data = jsonb_set(
+  coalesce(raw_user_meta_data, '{}'::jsonb),
+  '{full_name}',
+  to_jsonb(replace(coalesce(raw_user_meta_data->>'full_name', ''), 'Unit 8200', 'Hebrew Pilot Group'))
+)
+where coalesce(raw_user_meta_data->>'full_name', '') ilike '%Unit 8200%';
+
 -- Unpublish empty test trainings so they leave father-visible shelves.
 update public.trainings
 set published = false,

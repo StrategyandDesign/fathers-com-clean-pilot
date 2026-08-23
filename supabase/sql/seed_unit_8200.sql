@@ -44,26 +44,42 @@ begin
 
   update public.profiles
   set role = 'manager',
-      full_name = coalesce(nullif(full_name, ''), 'Hebrew Pilot Group Leader'),
+      full_name = case
+        when full_name is null or btrim(full_name) = '' or full_name ilike '%Unit 8200%'
+          then 'Hebrew Pilot Group Leader'
+        else full_name
+      end,
       home_group_id = v_org
   where id = v_manager;
 
   update public.profiles
   set role = 'reviewer',
-      full_name = coalesce(nullif(full_name, ''), 'Hebrew Pilot Group Reviewer'),
+      full_name = case
+        when full_name is null or btrim(full_name) = '' or full_name ilike '%Unit 8200%'
+          then 'Hebrew Pilot Group Reviewer'
+        else full_name
+      end,
       locale = 'he',
       home_group_id = v_org
   where id = v_reviewer;
 
   update public.profiles
   set role = 'father',
-      full_name = coalesce(nullif(full_name, ''), 'Hebrew Pilot Group Father 1'),
+      full_name = case
+        when full_name is null or btrim(full_name) = '' or full_name ilike '%Unit 8200%'
+          then 'Hebrew Pilot Group Father 1'
+        else full_name
+      end,
       home_group_id = v_org
   where id = v_father1;
 
   update public.profiles
   set role = 'father',
-      full_name = coalesce(nullif(full_name, ''), 'Hebrew Pilot Group Father 2'),
+      full_name = case
+        when full_name is null or btrim(full_name) = '' or full_name ilike '%Unit 8200%'
+          then 'Hebrew Pilot Group Father 2'
+        else full_name
+      end,
       home_group_id = v_org
   where id = v_father2;
 
