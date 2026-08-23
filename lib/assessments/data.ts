@@ -334,6 +334,62 @@ export async function loadManagerAssessments(managerId: string): Promise<Assessm
   });
 }
 
+/** Titles only. Never select assessment answers. */
+export async function loadManagerAssessmentStalls(
+  managerId: string,
+  fatherIds: string[]
+): Promise<Array<{ fatherId: string; title: string }>> {
+  const scopedIds = fatherIds.filter((id) => id && !isLeaderSelfRow(id, managerId));
+  if (scopedIds.length === 0) return [];
+
+  const supabase = await createClient();
+  const managerIds = await loadOrgManagerIds(managerId);
+  const assignmentsRes = await emptyIn<{
+    father_id: string;
+    assessment_id: string;
+    started_at: string | null;
+    created_at: string;
+  }>(scopedIds, () =>
+    supabase
+      .from("custom_assessment_assignments")
+      .select("father_id, assessment_id, started_at, created_at")
+      .in("father_id", scopedIds)
+      .eq("status", "in_progress")
+      .order("started_at", { ascending: false })
+  );
+  if (assignmentsRes.error) throw assignmentsRes.error;
+
+  const assignments = (assignmentsRes.data ?? []).filter(
+    (row) => !isLeaderSelfRow(row.father_id, managerId)
+  );
+  const assessmentIds = [...new Set(assignments.map((row) => row.assessment_id))];
+  const assessmentsRes = await emptyIn<{ id: string; title: string }>(assessmentIds, () =>
+    supabase
+      .from("custom_assessments")
+      .select("id, title")
+      .in("id", assessmentIds)
+      .in("manager_id", managerIds)
+  );
+  if (assessmentsRes.error) throw assessmentsRes.error;
+
+  const titles = new Map(
+    ((assessmentsRes.data ?? []) as Array<{ id: string; title: string }>).map((row) => [
+      row.id,
+      row.title,
+    ])
+  );
+  const seen = new Set<string>();
+  const stalls: Array<{ fatherId: string; title: string }> = [];
+  for (const row of assignments) {
+    if (seen.has(row.father_id)) continue;
+    const title = titles.get(row.assessment_id)?.trim();
+    if (!title) continue;
+    seen.add(row.father_id);
+    stalls.push({ fatherId: row.father_id, title });
+  }
+  return stalls;
+}
+
 export async function loadManagerAssessmentDetail(managerId: string, assessmentId: string) {
   const supabase = await createClient();
   const managerIds = await loadOrgManagerIds(managerId);

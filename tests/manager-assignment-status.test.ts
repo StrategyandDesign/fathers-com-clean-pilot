@@ -183,9 +183,11 @@ describe("leader dashboard order", () => {
     const update = page.indexOf("<CohortNoteDesk");
     const invite = page.indexOf("manager.dashboard.inviteTitle");
     const openItems = page.indexOf("manager.dashboard.attention");
+    const considerNext = page.indexOf("<ConsiderNextCard");
     const agent = page.indexOf("<CompanionPanel");
     assert.ok(stats > 0 && update > stats && invite > update);
-    assert.ok(openItems > invite && agent > openItems);
+    assert.ok(openItems > invite && considerNext > openItems && agent > considerNext);
+    assert.match(page, /deskConsiderNextV1/);
     assert.doesNotMatch(page, /<StaffDesk/);
     assert.doesNotMatch(page, /<ActivityTicker/);
     assert.doesNotMatch(page, /manager\.dashboard\.openCatalog/);

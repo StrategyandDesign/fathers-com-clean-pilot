@@ -20,6 +20,8 @@ npm run dev
 
 Open http://127.0.0.1:3000/login
 
+Optional desk flags live in `.env.local`. `desk_consider_next_v1` stays off until ranking is trustworthy. To show Consider next on `/manager`, set `DESK_CONSIDER_NEXT_V1=1`. Leave it unset to keep the prior dashboard.
+
 To keep working on this internal line instead:
 
 ```bash
