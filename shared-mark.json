@@ -1,7 +1,7 @@
 {
   "mark": 7,
-  "patch": 109,
-  "label": "Shared 1-1.109",
+  "patch": 110,
+  "label": "Shared 1-1.110",
   "tag": "shared/7",
   "at": "2026-08-21T08:44:31.105Z",
   "internalSha": "890fa8b684cc17a21c0ccbc13b787b24016b129e",
@@ -771,6 +771,13 @@
       "label": "Shared 1-1.109",
       "at": "2026-08-23",
       "title": "Keep custom assessment answers off Leader desks unless an org flag unlocks them."
+    },
+    {
+      "patch": 110,
+      "revision": "1.110",
+      "label": "Shared 1-1.110",
+      "at": "2026-08-23",
+      "title": "Align privacy copy with flags-only assessment answers."
     }
   ]
 }

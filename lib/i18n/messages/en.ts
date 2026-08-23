@@ -79,7 +79,7 @@ export const en = {
     copyright: "© 2026 Fathers.com",
     disclaimer:
       "This page is a template for counsel review. It describes how Fathers.com intends to operate. It is not legal advice and is not a final policy.",
-    updated: "Last updated August 17, 2026",
+    updated: "Last updated August 23, 2026",
     privacyPage: {
       title: "Privacy Policy",
       metaTitle: "Privacy Policy | Fathers.com",
@@ -114,7 +114,7 @@ export const en = {
       sharingProviders:
         "We share data with service providers who help us run the platform (for example, hosting, file storage, email delivery, and error monitoring), under agreements that require them to protect it.",
       sharingOrg:
-        "If you join through an invite code, your organization administrator (Leader) can see your name, training progress, assessment completion status, and certificates. Leaders do not see custom assessment answer bodies unless your organization turns that visibility on. Reviewers see cohort totals only, not your name or individual answers. Super-admins operate the platform catalog and organizations; they are not a substitute for your organization administrator. Anonymous sharing is on for fathers and leaders unless they turn it off in Account. Super-admins then see counts of progress and activity without your name, email, notes, or answers.",
+        "If you join through an invite code, your organization administrator (Leader) can see your name, training progress, assessment completion flags, and certificates. By default, Leaders see whether an assessment is started, finished, or stalled. They do not see your written answers unless Super-admin turns that visibility on for your organization. Reviewers see cohort totals only, not your name or individual answers. Super-admins operate the platform catalog and organizations; they are not a substitute for your organization administrator. Anonymous sharing is on for fathers and leaders unless they turn it off in Account. Super-admins then see counts of progress and activity without your name, email, notes, or answers.",
       sharingLegal:
         "If we receive a subpoena or court order, we are required to respond. We will tell you before we do unless the law forbids it. If you would rather not write something down, do not write it down; completion never depends on what you disclose in a free-text note.",
       choices: "Your choices",
@@ -154,7 +154,7 @@ export const en = {
         "You must be at least 18 years old to create an account. The service is built for fathers, future fathers, and mentors. Content is intended for adults.",
       account: "3. Your account and invite codes",
       accountLead:
-        "You create an account with an invite code from your organization administrator. You are responsible for your account and for keeping your sign-in secure. Do not share your password. Your session notes and assessments are yours; your leader can see the progress and responses described in the ",
+        "You create an account with an invite code from your organization administrator. You are responsible for your account and for keeping your sign-in secure. Do not share your password. Your session notes and assessments are yours; your leader can see the progress and completion flags described in the ",
       privacyLink: "Privacy Policy",
       accountEnd: ".",
       profile: "4. Assessments",

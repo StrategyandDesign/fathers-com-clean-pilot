@@ -1,7 +1,8 @@
 # Organization admin quick start
 
 Your window is org.html: seats, invites, cohorts, and participation counts.
-By design you never see an individual man's answers or scores.
+By default you see completion flags only. You do not see an individual man's
+answers unless Super-admin turns that visibility on for your organization.
 
 1. Your organization carries a serial (NCF-O) on the public registry, status
    always shown. Your certification is annual and revocable; that is what
