@@ -1,11 +1,11 @@
-import { formatSharedLabel, loadSharedMark } from "@/lib/dev/shared-mark";
+import { formatDeskLabel, loadSharedMark } from "@/lib/dev/shared-mark";
 
-/** Bottom-right Shared 1-1.01 from shared-mark.json. Same label as SHARED.md. */
+/** Bottom-right Shared 1-1.xxx from shared-mark.json. Same label as SHARED.md. */
 export function VersionStamp() {
   if (process.env.NODE_ENV === "production") return null;
   const shared = loadSharedMark();
   if (!shared) return null;
-  const label = shared.label || formatSharedLabel(shared.mark, shared.patch);
+  const label = shared.label || formatDeskLabel(shared.patch);
 
   return (
     <a

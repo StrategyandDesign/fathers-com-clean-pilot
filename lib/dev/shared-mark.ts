@@ -22,6 +22,13 @@ export type SharedMark = {
   revisions: SharedRevision[];
 };
 
+/** Desk badge stays Shared 1-1.xxx. Overlay `mark` 7 is the Shared 7 sync tag, not Shared 2. */
+export const DESK_SHARED_MARK = 1;
+
+export function formatDeskLabel(patch: number) {
+  return formatSharedLabel(DESK_SHARED_MARK, patch);
+}
+
 export function formatSharedRevision(mark: number, patch: number) {
   if (!Number.isInteger(patch) || patch < 1) return "";
   return `${mark}.${String(patch).padStart(2, "0")}`;

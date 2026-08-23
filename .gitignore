@@ -21,6 +21,12 @@ yarn-error.log*
 .env*
 !.env.example
 
+# Leftover static-site trees. Live copies live in archive/static-site/.
+/assets/
+/content/
+/data/
+/tools/
+
 # Local static-builder stubs. Not part of the Next.js clean-pilot app.
 employers.html
 gatherings.html

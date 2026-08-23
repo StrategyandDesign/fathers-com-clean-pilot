@@ -92,6 +92,7 @@ describe("anonymous share wiring", () => {
     assert.match(en, /Off until you turn it on/);
     assert.match(en, /Anonymous sharing is on for fathers and leaders unless they turn it off/);
     assert.match(he, /שיתוף אנונימי/);
+    assert.match(he, /פועל אצלך/);
     assert.match(he, /shareLeadFather/);
     assert.match(toggle, /saveAnonymousShare/);
     assert.match(account, /AnonymousShareToggle/);

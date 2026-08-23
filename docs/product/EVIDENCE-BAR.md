@@ -47,7 +47,7 @@ No fatherhood curriculum holds that ground. This document is the path to it.
    completion and operations. No live marketing page claims Clearinghouse
    support.
 tools/check_release.py and tests/copy-hygiene.test.ts (via
-tools/scan-overclaim.ts) enforce these on every release.
+scripts/scan-overclaim.ts) enforce these on every release.
 
 ## Research citations (content-shape only)
 Cioffi 2023 and similar papers (Holmes 2020, Stover 2019, Fatherhood TIES)

@@ -75,7 +75,7 @@ File: `assets/js/keystone-manhood-data.js`. Status: draft item bank, complete.
 
 ## 8. Verified discrepancies logged for Dr. Canfield (do not silently edit)
 
-- Marketing says "normed on 9,232 fathers." `data/keystone_instrument.json` carries `norms_n: 2066`. Both trace to the Technical Bulletin. One number is wrong or they describe different samples. Resolve before the next efficacy conversation.
+- Marketing says "normed on 9,232 fathers." `archive/static-site/data/keystone_instrument.json` carries `norms_n: 2066`. Both trace to the Technical Bulletin. One number is wrong or they describe different samples. Resolve before the next efficacy conversation.
 - "130 items" appeared in marketing copy; the instrument file contains 128. Site copy now says 128 (verifiable in-file). The instrument JSON description string still says 130 and should be corrected at source with Dr. Canfield's confirmation.
 - LAUNCH.md already flags demo scoring: replace before any claim of validity. Unchanged, still true.
 
@@ -309,7 +309,7 @@ below is enforced by tools/check_release.py where a scanner can enforce it.
    clearinghouse-adjacent sales artifact is partner-kit/funder-brief.md.
    Cioffi 2023 and similar papers are content-shape analogs only, never this
    product's trial. Enforced by tests/copy-hygiene.test.ts and
-   tools/scan-overclaim.ts.
+   scripts/scan-overclaim.ts.
 6. The binding constraint in the federal evaluations is recruitment and
    retention, not price. Facilitator enablement and recruitment materials
    outrank verification features in build order.

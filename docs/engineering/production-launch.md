@@ -166,7 +166,7 @@ Do not ship marketing that treats this product as:
 The only clearinghouse-adjacent sales artifact is `partner-kit/funder-brief.md`.
 It states the non-rating honestly and sells completion and operations. Cioffi
 2023 and similar papers are content-shape analogs only, never this product's
-trial. `npx tsx tools/scan-overclaim.ts` and `tests/copy-hygiene.test.ts` must
+trial. `npx tsx scripts/scan-overclaim.ts` and `tests/copy-hygiene.test.ts` must
 pass before a release.
 
 ## 12. Certification readiness (Issue 10)
