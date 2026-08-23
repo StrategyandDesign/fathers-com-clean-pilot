@@ -558,7 +558,7 @@ export const en = {
     contactLabel: "Data-processing contact",
     contactStub: "Draft contact stub only.",
     contactLead: "This product does not send notices on its own.",
-    openContactStub: "Open the counsel contact stub",
+    openContactStub: "Open counsel drafts",
     packTitle: "Security questionnaire",
     packSummary: "Security questionnaire",
     packAccountLead:
@@ -655,7 +655,7 @@ export const en = {
     lastDeprovisionAt: "Last deprovision {date}.",
     window: "Desk access is blocked on the next page load. Refresh tokens stop immediately. Access tokens expire within one hour.",
     fathersNote: "Fathers stay on invite code and email. Super-admin keeps email and password.",
-    adminTitle: "Identity",
+    adminTitle: "Single sign-on setup",
     adminLead:
       "Turn sso_enabled on, link one OpenID Connect or SAML 2.0 provider, and revoke organization staff. Secrets stay in Auth.",
   },

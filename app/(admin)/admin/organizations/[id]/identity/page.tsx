@@ -47,12 +47,12 @@ export default async function AdminOrganizationIdentityPage({
           {group.name}
         </Link>
         <span className="text-white/20">|</span>
-        <span>Identity</span>
+        <span>Single sign-on setup</span>
       </p>
       <Flash error={flash.error} notice={flash.notice} />
 
       <section className="rounded-xl border border-border bg-card p-4 sm:p-6">
-        <h1 className="font-heading text-2xl font-semibold tracking-tight">Identity</h1>
+        <h1 className="font-heading text-2xl font-semibold tracking-tight">Single sign-on setup</h1>
         <p className="mt-1 text-sm text-muted-foreground">
           Turn sso_enabled on, link one OpenID Connect or SAML 2.0 provider, and revoke
           organization staff. Secrets stay in Auth. Super-admin keeps email and password.

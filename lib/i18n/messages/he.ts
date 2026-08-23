@@ -522,7 +522,7 @@ export const he = {
     contactLabel: "איש קשר לעיבוד נתונים",
     contactStub: "טיוטת פרטי קשר בלבד.",
     contactLead: "המוצר הזה לא שולח הודעות בעצמו.",
-    openContactStub: "פתיחת טיוטת הקשר בחבילת הייעוץ",
+    openContactStub: "פתיחת טיוטות הייעוץ",
     packTitle: "שאלון אבטחה",
     packSummary: "שאלון אבטחה",
     packAccountLead: "גרסת החבילה הפנימית ותאריך הסקירה האחרון. זה אינו קיר אמון ציבורי.",
@@ -617,7 +617,7 @@ export const he = {
     window:
       "הגישה לשולחן נחסמת בטעינת העמוד הבאה. אסימוני רענון נעצרים מיד. אסימוני גישה פגים תוך שעה.",
     fathersNote: "אבות נשארים עם קוד הזמנה ואימייל. מנהל־על נשאר עם אימייל וסיסמה.",
-    adminTitle: "זהות",
+    adminTitle: "הגדרת כניסה אחת",
     adminLead:
       "הדלק את sso_enabled, קשר ספק OpenID Connect או SAML 2.0, ובטל צוות ארגון. סודות נשארים ב־Auth.",
   },

@@ -17,7 +17,9 @@ export type TrustCounselHref = "/manager/account/counsel" | "/admin/account/coun
 
 export type TrustStatusHref =
   | TrustCounselHref
+  | `${TrustCounselHref}#contact-stub`
   | "/manager/account/security"
+  | "/admin/organizations"
   | `/admin/organizations/${string}/identity`;
 
 export type TrustStatusView = {
@@ -112,7 +114,7 @@ export function trustStatusLines(model: TrustStatusView, t: Translate): TrustSta
       label: t("trust.contactLabel"),
       value: t("trust.contactStub"),
       note: t("trust.contactLead"),
-      href: model.counselHref,
+      href: `${model.counselHref}#contact-stub`,
       linkLabel: t("trust.openContactStub"),
     },
   ];

@@ -28,6 +28,8 @@ describe("documentation layout", () => {
   it("keeps runbooks and the archived site on their documented paths", () => {
     assert.ok(existsSync(join(root, "docs/README.md")));
     assert.ok(existsSync(join(root, "docs/engineering/PILOT.md")));
+    assert.ok(existsSync(join(root, "docs/engineering/HARDENING-1-1.117.md")));
+    assert.ok(existsSync(join(root, "docs/engineering/ACTION-SEQUENCE-AUDIT-1-1.117.md")));
     assert.ok(existsSync(join(root, "docs/engineering/trust-pack/README.md")));
     assert.ok(existsSync(join(root, "docs/engineering/trust-pack/SECURITY-QUESTIONNAIRE.md")));
     assert.ok(existsSync(join(root, "docs/product/README.md")));

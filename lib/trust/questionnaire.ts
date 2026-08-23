@@ -61,16 +61,16 @@ export const TRUST_QUESTIONNAIRE: TrustQuestionnaireRow[] = [
     section: "Encryption",
     question: "How is data protected in transit and at rest?",
     answer:
-      "The application is served over HTTPS. The browser talks to Supabase over HTTPS and WebSocket Secure. Certificates and avatars live in private Storage buckets and are read through signed URLs or authenticated download routes, not public object URLs. Supabase documents encryption at rest for hosted Postgres and Storage. This repository does not contain a customer-managed key setup or a separate encryption attestation.",
+      "The application is served over HTTPS. Responses include HTTP Strict Transport Security. The browser talks to Supabase over HTTPS and WebSocket Secure. Certificates and avatars live in private Storage buckets and are read through signed URLs or authenticated download routes, not public object URLs. Supabase documents encryption at rest for hosted Postgres and Storage. This repository does not contain a customer-managed key setup or a separate encryption attestation.",
     evidence:
-      "next.config.ts Content-Security-Policy; docs/engineering/production-launch.md storage section; privacy security copy",
+      "next.config.ts Content-Security-Policy and Strict-Transport-Security; docs/engineering/production-launch.md storage section; privacy security copy",
   },
   {
     id: "logging",
     section: "Logging",
     question: "What is logged, and is there a security information and event management product?",
     answer:
-      "Sign-in activity lives in Supabase Auth. Application errors may go to Sentry when a data source name is configured. Session notes and assessment responses are not sent to Sentry as a matter of product design. Rate limits are in-memory sliding windows per isolate and fail open. There is no dedicated security information and event management product in this repository.",
+      "Sign-in activity lives in Supabase Auth. Application errors may go to Sentry when a data source name is configured. Session notes and assessment responses are not sent to Sentry as a matter of product design. Rate limits are in-memory sliding windows per isolate and fail closed. There is no dedicated security information and event management product in this repository.",
     evidence:
       "lib/observability/sentry-dsn.ts; lib/security/rate-limit.ts; docs/engineering/production-launch.md",
   },

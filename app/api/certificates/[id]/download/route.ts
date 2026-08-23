@@ -21,7 +21,13 @@ export async function GET(
   }
 
   const { id } = await params;
-  const file = await loadCertificatePdfBytes(id);
+  let file: Awaited<ReturnType<typeof loadCertificatePdfBytes>> = null;
+  try {
+    file = await loadCertificatePdfBytes(id);
+  } catch (error) {
+    console.error("[certificates.download] failed", error instanceof Error ? error.message : error);
+    return new Response("Certificate not found.", { status: 404 });
+  }
 
   if (!file) {
     return new Response("Certificate not found.", { status: 404 });

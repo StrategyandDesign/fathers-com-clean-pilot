@@ -20,9 +20,7 @@ function json(body: unknown, status = 200) {
 
 function readToken(request: Request) {
   const header = request.headers.get("authorization") ?? "";
-  const bearer = header.match(/^Bearer\s+(.+)$/i)?.[1]?.trim();
-  if (bearer) return bearer;
-  return new URL(request.url).searchParams.get("token")?.trim() ?? "";
+  return header.match(/^Bearer\s+(.+)$/i)?.[1]?.trim() ?? "";
 }
 
 export async function GET(request: Request) {

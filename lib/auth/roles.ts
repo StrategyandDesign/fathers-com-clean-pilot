@@ -106,8 +106,26 @@ export function isAuthPath(pathname: string) {
 
 export function safeInternalPath(value: unknown): string | null {
   if (typeof value !== "string") return null;
-  if (!value.startsWith("/") || value.startsWith("//") || value.includes("\\")) {
+  const raw = value.trim();
+  if (!raw.startsWith("/") || raw.startsWith("//") || raw.includes("\\")) {
     return null;
   }
-  return value;
+  let decoded = raw;
+  try {
+    decoded = decodeURIComponent(raw);
+  } catch {
+    return null;
+  }
+  if (
+    !decoded.startsWith("/") ||
+    decoded.startsWith("//") ||
+    decoded.includes("\\") ||
+    decoded.includes("://") ||
+    /[\u0000-\u001F\u007F]/.test(decoded)
+  ) {
+    return null;
+  }
+  const path = decoded.split("#")[0];
+  if (!path.startsWith("/") || path.startsWith("//")) return null;
+  return path;
 }

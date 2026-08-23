@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 
 import { ROLE_HOME, resolveRole, safeInternalPath } from "@/lib/auth/roles";
 import { applySsoFirstLogin } from "@/lib/identity/provision";
+import { logServerError, publicErrorMessage } from "@/lib/security/public-error";
 import { createClient } from "@/lib/supabase/server";
 
 export async function GET(request: Request) {
@@ -18,9 +19,10 @@ export async function GET(request: Request) {
   const supabase = await createClient();
   const { data, error } = await supabase.auth.exchangeCodeForSession(code);
   if (error || !data.user) {
+    logServerError("auth.callback", error);
     return NextResponse.redirect(
       new URL(
-        `/login?error=${encodeURIComponent(error?.message || "Could not finish organization sign-in.")}`,
+        `/login?error=${encodeURIComponent(publicErrorMessage(error, "Could not finish organization sign-in."))}`,
         url.origin
       )
     );
@@ -36,9 +38,12 @@ export async function GET(request: Request) {
     const role = result.role ?? resolveRole(data.user);
     return NextResponse.redirect(new URL(next ?? ROLE_HOME[role], url.origin));
   } catch (caught) {
-    const message = caught instanceof Error ? caught.message : "Could not finish organization sign-in.";
+    logServerError("auth.callback", caught);
     return NextResponse.redirect(
-      new URL(`/login?error=${encodeURIComponent(message)}`, url.origin)
+      new URL(
+        `/login?error=${encodeURIComponent(publicErrorMessage(caught, "Could not finish organization sign-in."))}`,
+        url.origin
+      )
     );
   }
 }

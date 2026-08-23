@@ -12,7 +12,7 @@ quiz_responses without the correct column.
 progress and no button can honestly complete a session, because the server
 credits measured playback only. The fallback now says so plainly and points
 the man to his facilitator and the IT desk to the network requirements
-sheet. The allow-list in docs/NETWORK-REQUIREMENTS.md is the real fix.
+sheet. The allow-list in docs/engineering/NETWORK-REQUIREMENTS.md is the real fix.
 
 3. Serials are generated with crypto randomness over a Crockford alphabet,
 roughly a billion-value space, collision-checked at signing. Fine at pilot

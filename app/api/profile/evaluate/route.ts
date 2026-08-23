@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 
 import { getAuthContext } from "@/lib/auth/session";
+import { isSameOriginRequest } from "@/lib/security/origin";
 import {
   deleteProfileDraft,
   loadLatestProfile,
@@ -22,6 +23,10 @@ function takeError(takePath: string, message: string, questionId?: number) {
 }
 
 export async function POST(request: Request) {
+  if (!isSameOriginRequest(request)) {
+    redirect("/login");
+  }
+
   const { user, role, deactivated } = await getAuthContext();
   if (deactivated) {
     redirect("/login?error=This account has been deactivated.");

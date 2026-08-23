@@ -95,7 +95,7 @@ The app never uses public object URLs. Certificate download is `/api/certificate
 
 ## 6. DNS / domain
 
-1. Decide the production hostname (see `docs/DOMAIN.md` if the canonical host is still pending).
+1. Decide the production hostname (see `docs/engineering/DOMAIN.md` if the canonical host is still pending).
 2. Add the domain in Vercel. Create the DNS records Vercel shows.
 3. Set `NEXT_PUBLIC_SITE_URL` / `APP_URL` to `https://that-host` (no trailing slash).
 4. Put the same origin in Supabase Auth Site URL + Redirect URLs.
@@ -111,7 +111,7 @@ The app never uses public object URLs. Certificate download is `/api/certificate
 
 ## 8. Rate limiting
 
-In-memory sliding windows, keyed by IP + route, fail open:
+In-memory sliding windows, keyed by IP + route, fail closed:
 
 - `auth.signin` — 10 / 15 min
 - `auth.signup` — 5 / 60 min
