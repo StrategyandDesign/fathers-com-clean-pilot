@@ -107,7 +107,8 @@ describe("secure_export_enabled flag", () => {
     assert.match(reports, /manager.reports.csv/);
     assert.match(reports, /manager.reports.pdf/);
     const exportRoute = readRepo("app/api/manager/reports/export/route.ts");
-    assert.match(exportRoute, /format !== "csv" && format !== "pdf"/);
+    assert.match(exportRoute, /allowedFormats/);
+    assert.match(exportRoute, /"csv", "pdf"/);
     assert.doesNotMatch(exportRoute, /secureExportEnabled/);
   });
 });

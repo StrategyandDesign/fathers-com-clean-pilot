@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { requireRole } from "@/lib/auth/session";
 import { loadCounselPackStatesForGroups } from "@/lib/counsel/data";
 import { reportRedisclosureEnabled } from "@/lib/counsel/pack";
+import { verticalPackArmedForces } from "@/lib/flags";
 import { resolveManagerExportLocale } from "@/lib/i18n/org-locale";
 import { allowRequestRateLimit } from "@/lib/security/rate-limit";
 import { renderReportPdf } from "@/lib/manager/report-pdf";
@@ -13,6 +14,13 @@ import {
   reportQuery,
   rowsToCsv,
 } from "@/lib/manager/reports";
+import {
+  buildEventCloseout,
+  eventCloseoutCsv,
+  eventCloseoutFilename,
+  eventCloseoutPrintable,
+  isCloseoutPreset,
+} from "@/lib/verticals/armed-forces/closeout";
 
 export const runtime = "nodejs";
 
@@ -39,9 +47,24 @@ export async function GET(request: Request) {
     fail(parsed.error, parsed.filters);
   }
 
+  const preset = (url.searchParams.get("preset") ?? "").trim().toLowerCase();
+  const closeoutRequested = isCloseoutPreset(preset);
+  if (preset && !closeoutRequested) {
+    fail("Export preset must be closeout or empty.", parsed.filters);
+  }
+  if (closeoutRequested && !verticalPackArmedForces()) {
+    fail("The event closeout preset is off.", parsed.filters);
+  }
+
   const format = (url.searchParams.get("format") ?? "csv").trim().toLowerCase();
-  if (format !== "csv" && format !== "pdf") {
-    fail("Export format must be csv or pdf.", parsed.filters);
+  const allowedFormats = closeoutRequested ? ["csv", "print"] : ["csv", "pdf"];
+  if (!allowedFormats.includes(format)) {
+    fail(
+      closeoutRequested
+        ? "Event closeout format must be csv or print."
+        : "Export format must be csv or pdf.",
+      parsed.filters
+    );
   }
 
   if (!allowRequestRateLimit("manager.reports_export", request)) {
@@ -61,6 +84,29 @@ export async function GET(request: Request) {
   const redisclosure = reportRedisclosureEnabled(scopedCounsel);
 
   const generatedAt = new Date().toISOString();
+
+  if (closeoutRequested) {
+    const closeout = buildEventCloseout(report.rows, {
+      organization: report.organization,
+      generatedAt,
+    });
+    if (format === "print") {
+      return new Response(eventCloseoutPrintable(closeout), {
+        headers: {
+          "Content-Type": "text/markdown; charset=utf-8",
+          "Content-Disposition": `attachment; filename="${eventCloseoutFilename("print")}"`,
+          "Cache-Control": "private, no-store",
+        },
+      });
+    }
+    return new Response(eventCloseoutCsv(closeout), {
+      headers: {
+        "Content-Type": "text/csv; charset=utf-8",
+        "Content-Disposition": `attachment; filename="${eventCloseoutFilename("csv")}"`,
+        "Cache-Control": "private, no-store",
+      },
+    });
+  }
 
   if (format === "csv") {
     return new Response(

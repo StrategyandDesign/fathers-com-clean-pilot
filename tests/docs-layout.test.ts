@@ -32,6 +32,7 @@ describe("documentation layout", () => {
     assert.ok(existsSync(join(root, "docs/engineering/trust-pack/SECURITY-QUESTIONNAIRE.md")));
     assert.ok(existsSync(join(root, "docs/product/README.md")));
     assert.ok(existsSync(join(root, "docs/product/TRUST-PACK.md")));
+    assert.ok(existsSync(join(root, "docs/product/ARMED-FORCES-VERTICAL.md")));
     assert.ok(existsSync(join(root, "docs/archive/README.md")));
     assert.ok(existsSync(join(root, "archive/static-site/README.md")));
     assert.ok(existsSync(join(root, "handoff/00-SUBMISSION-GUIDE.md")));

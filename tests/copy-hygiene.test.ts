@@ -97,6 +97,10 @@ describe("product copy hygiene", () => {
     assert.ok(hits.some((hit) => hit.id === "title-iv-e-drawdown"));
     assert.ok(hits.some((hit) => hit.id === "mflc-approved"));
     assert.ok(hits.some((hit) => hit.id === "risk-reduction-proven"));
+    const bsrt = findOverclaimHits(
+      "This curriculum is approved for Building Strong and Ready Teams and BSRT approved."
+    );
+    assert.ok(bsrt.some((hit) => hit.id === "bsrt-approved"));
     assert.ok(hits.some((hit) => hit.id === "clearinghouse-mention"));
   });
 
@@ -157,6 +161,7 @@ describe("product copy hygiene", () => {
     assert.match(brief, /Sell completion and operations/i);
     assert.match(brief, /Family First Prevention Services Act/i);
     assert.match(brief, /Military and Family Life Counseling/i);
+    assert.match(brief, /Building Strong and Ready Teams/i);
     assert.equal(brief.includes(EM_DASH), false);
 
     assert.doesNotMatch(onePager, /Title IV-E|Clearinghouse|FFPSA/i);

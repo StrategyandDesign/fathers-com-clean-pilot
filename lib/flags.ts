@@ -44,6 +44,13 @@
  * destination metadata and the confirm-first send stub. Quality
  * improvement packet download stays on Reports either way. No live
  * network push to a customer URL, S3 bucket, webhook, or EHR.
+ *
+ * vertical_pack_armed_forces defaults OFF. Leave unset so father, Leader,
+ * and public surfaces stay as they are. Super-admin can still open the
+ * materials checklist at /admin/verticals/armed-forces. Set
+ * VERTICAL_PACK_ARMED_FORCES to 1 / true / on / yes to show the event
+ * closeout preset on Reports. This flag does not flip SHOW_MILITARY.
+ * Organization type armed_forces_unit recommends the pack only.
  */
 export const CERTIFICATES_REQUIRE_CLAIM = "certificates_require_claim";
 export const PILOT_SHOW_TEST_CONTENT = "pilot_show_test_content";
@@ -53,6 +60,9 @@ export const LEADER_ASSESSMENT_ANSWERS = "leader_assessment_answers";
 export const FIDELITY_BOARD_ENABLED = "fidelity_board_enabled";
 export const SSO_ENABLED = "sso_enabled";
 export const SECURE_EXPORT_ENABLED = "secure_export_enabled";
+export const VERTICAL_PACK_ARMED_FORCES = "vertical_pack_armed_forces";
+/** Archive / static-site veteran surface. Stays false. This pack does not flip it. */
+export const SHOW_MILITARY = false;
 
 function envFlag(name: string) {
   const raw = process.env[name]?.trim().toLowerCase() ?? "";
@@ -90,4 +100,8 @@ export function fidelityBoardEnabled() {
 
 export function secureExportEnabled() {
   return envFlag("SECURE_EXPORT_ENABLED");
+}
+
+export function verticalPackArmedForces() {
+  return envFlag("VERTICAL_PACK_ARMED_FORCES");
 }
