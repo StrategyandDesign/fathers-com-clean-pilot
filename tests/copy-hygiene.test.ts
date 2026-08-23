@@ -3,8 +3,14 @@ import { readFileSync } from "node:fs";
 import { describe, it } from "node:test";
 import { fileURLToPath } from "node:url";
 
+import { findOverclaimHits } from "../lib/copy/overclaim-lexicon";
 import { en } from "../lib/i18n/messages/en";
 import { he } from "../lib/i18n/messages/he";
+import {
+  formatFindings,
+  scanCitationShape,
+  scanGovernedPaths,
+} from "../tools/scan-overclaim";
 
 const EM_DASH = "—";
 const ALLOWED = new Set(["common.emDash"]);
@@ -80,5 +86,65 @@ describe("product copy hygiene", () => {
 
     assert.match(partnerKit, /By default you see completion flags only/);
     assert.doesNotMatch(partnerKit, /never see an individual man's answers/);
+  });
+
+  it("fails the phrase scan when a governed string claims a frozen phrase", () => {
+    const hits = findOverclaimHits(
+      "This curriculum is reunification-ready, clinically proven, Title IV-E eligible, Military and Family Life Counseling approved, and risk-reduction proven."
+    );
+    assert.ok(hits.some((hit) => hit.id === "reunification-ready"));
+    assert.ok(hits.some((hit) => hit.id === "clinical-efficacy"));
+    assert.ok(hits.some((hit) => hit.id === "title-iv-e-drawdown"));
+    assert.ok(hits.some((hit) => hit.id === "mflc-approved"));
+    assert.ok(hits.some((hit) => hit.id === "risk-reduction-proven"));
+    assert.ok(hits.some((hit) => hit.id === "clearinghouse-mention"));
+  });
+
+  it("allows an honest denial of a clearinghouse rating", () => {
+    const hits = findOverclaimHits(
+      "Fathers.com is not a clearinghouse-rated prevention program."
+    );
+    assert.equal(
+      hits.filter((hit) => hit.id === "clearinghouse-rated").length,
+      0
+    );
+  });
+
+  it("keeps frozen overclaim phrases out of governed live and sales paths", () => {
+    const findings = scanGovernedPaths();
+    assert.deepEqual(formatFindings(findings), []);
+  });
+
+  it("treats Cioffi 2023 as a content-shape analog, never product efficacy", () => {
+    const evidence = readRepo("docs/product/EVIDENCE-BAR.md");
+    const brief = readRepo("partner-kit/funder-brief.md");
+    assert.match(evidence, /Cioffi 2023/);
+    assert.match(evidence, /content-shape analog/i);
+    assert.match(evidence, /never this product's efficacy/i);
+    assert.match(brief, /Cioffi 2023/);
+    assert.match(brief, /content-shape analog/i);
+    assert.match(brief, /never this product's\ntrial, efficacy evidence/i);
+    assert.deepEqual(scanCitationShape(), []);
+  });
+
+  it("makes the funder brief the only clearinghouse-adjacent sales artifact", () => {
+    const brief = readRepo("partner-kit/funder-brief.md");
+    const onePager = readRepo("partner-kit/fundraising-one-pager.md");
+    const fundingMap = readRepo("partner-kit/funding-map.md");
+    const fundraising = readRepo("partner-kit/fundraising-brief.md");
+    const readme = readRepo("partner-kit/README.md");
+
+    assert.match(brief, /not a Title IV-E Prevention Services Clearinghouse-rated\nprevention program/i);
+    assert.match(brief, /Sell completion and operations/i);
+    assert.match(brief, /Family First Prevention Services Act/i);
+    assert.match(brief, /Military and Family Life Counseling/i);
+    assert.equal(brief.includes(EM_DASH), false);
+
+    assert.doesNotMatch(onePager, /Title IV-E|Clearinghouse|FFPSA/i);
+    assert.doesNotMatch(fundingMap, /Title IV-E|Clearinghouse|FFPSA/i);
+    assert.doesNotMatch(fundraising, /Title IV-E|Clearinghouse|FFPSA|evidence-based/i);
+    assert.match(onePager, /funder-brief\.md/);
+    assert.match(fundingMap, /funder-brief\.md/);
+    assert.match(readme, /funder-brief\.md/);
   });
 });

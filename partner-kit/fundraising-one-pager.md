@@ -23,7 +23,7 @@ Sources are 2018–2026 only. Claims follow docs/product/POSITIONING.md.
 - ACF’s 2024 core-components analysis: parenting knowledge, the father’s role, and an individual format enlarge those effects. That is Film → Check-in → Action, with a Leader who can see who stopped.
 - Residential programs can put fathering in the house. In a 2019 randomized pilot, both fatherhood interventions were welcomed on the unit. Men’s treatment still rarely includes parenting.
 - After deployment, Adaptive Parenting Tools trials (2020–2021) show military families will take a parenting program when it is skill. Fathers with more emotion-regulation difficulty gained more. This is not trauma treatment. The military surface stays dark until rehab cohorts prove completion.
-- Title IV-E Prevention Services Clearinghouse, July 2025: **24:7 Dad** and **InsideOut Dad** do not currently meet criteria. No fatherhood curriculum holds a Promising-or-better rating. That channel is open. We will not print a rating we have not earned.
+- Rating and reimbursement questions: use `partner-kit/funder-brief.md`. This page does not sell a prevention-program rating.
 
 **What the gift buys (working split).**
 

@@ -152,6 +152,22 @@ When production smoke tests pass:
 4. Manager/reviewer roles must be set again on the new project (`profiles.role` + `app_metadata.role`).
 5. After cutover, rotate the pilot service-role key if it was ever shared beyond the team.
 
+## 11. Claims freeze (Issue 9)
+
+Do not ship marketing that treats this product as:
+
+- clinically efficacious or clinically proven
+- Title IV-E or Family First Prevention Services Act drawdown ready
+- Military and Family Life Counseling approved (no such record)
+- reunification-ready
+- risk-reduction proven
+
+The only clearinghouse-adjacent sales artifact is `partner-kit/funder-brief.md`.
+It states the non-rating honestly and sells completion and operations. Cioffi
+2023 and similar papers are content-shape analogs only, never this product's
+trial. `npx tsx tools/scan-overclaim.ts` and `tests/copy-hygiene.test.ts` must
+pass before a release.
+
 ## What still needs a human
 
 The repo is wired. These are dashboard/DNS steps this change cannot do:

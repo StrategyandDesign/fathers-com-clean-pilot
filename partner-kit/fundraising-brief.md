@@ -36,13 +36,11 @@ the couple-assessment analog, not a fathering credential. NCF’s launch prices
 site per year — are a priced hypothesis for the thing a kit cannot include:
 supervision, a registry, and revocation that stays visible. [4][5]
 
-**The reimbursement door is empty.** Under Family First, a Title IV-E
-Prevention Services Clearinghouse rating is what makes a program eligible for
-federal child-welfare reimbursement. In July 2025 the Clearinghouse reviewed
-24:7 Dad and InsideOut Dad and rated both **Does Not Currently Meet Criteria**
-(no eligible studies). No fatherhood curriculum holds Promising or better.
-That is the lane, not a trophy. This gift pays the measurement spine a later
-comparison-group study needs. It does not buy a rating. [6][7][8]
+**Rating questions live in one place.** Do not sell a prevention-program
+rating from this brief. The honest note is partner-kit/funder-brief.md: we
+are not a rated prevention program. Sell completion and operations. This
+gift pays the measurement spine a later comparison-group study needs. It
+does not buy a rating.
 
 Adjacent money, same eight years:
 
@@ -143,7 +141,7 @@ single line (films only, credentials only, or the measurement spine).
 | Reserve | $15,000 | Hold for production or a second house |
 | **Total** | **$260,000** | |
 
-What this gift is not: a Clearinghouse study, a military launch, Stripe, or
+What this gift is not: a prevention-program rating study, a military launch, Stripe, or
 a seat scholarship. Second Chance and later foundation RFPs can fund the
 comparison-group evaluation. This gift makes that study designable.
 
@@ -169,12 +167,12 @@ doctrine, not data we already have.
    eight years, not our brochure.
 4. The houses want this in the unit. Military units will want it later, in
    training language, after we can show completion.
-5. No fatherhood curriculum is rated for Title IV-E. We will not claim a
-   rating. We will build the file a rater can read.
+5. Rating questions: open partner-kit/funder-brief.md. This packet sells
+   completion and operations, not a prevention-program rating.
 6. $260,000. Films, fifteen sites, thirty Leaders, the spine.
 
-If they ask “are you evidence-based?”: No. The incumbents are unrated. We
-are built for that bar. The honest sentence is the one that gets the gift.
+If they ask whether we are rated: No. Open the funder brief. The honest
+sentence is the one that gets the gift.
 
 If they ask for a military logo: Not yet. 888,000 active-duty children is
 the later market, not this raise.
@@ -204,14 +202,12 @@ Only sources dated in this window. Older Canfield, Sarkadi, Lamb, and the
    https://www.fatherhood.org/solutions/programs-and-resources
 5. docs/product/POSITIONING.md §3–4. Launch prices are a priced hypothesis. Seat
    sponsorship retired.
-6. Title IV-E Prevention Services Clearinghouse. (2025, July). *24:7 Dad®
-   A.M. + P.M.* Does not currently meet criteria.
-   https://preventionservices.acf.hhs.gov/programs/930/show
-7. Title IV-E Prevention Services Clearinghouse. (2025, July). *InsideOut
-   Dad®.* Does not currently meet criteria.
-   https://preventionservices.acf.hhs.gov/programs/933/show
-8. docs/product/EVIDENCE-BAR.md. Path from unrated to rated. No page prints a
-   rating claim until one exists.
+6. partner-kit/funder-brief.md. The only sales note that names a
+   prevention-program rating. States the non-rating honestly.
+7. docs/product/EVIDENCE-BAR.md. Internal path from unrated to rated. No
+   page prints a rating claim until one exists. Cioffi 2023 and similar
+   papers are content-shape analogs only.
+8. Reserved. Rating sources live in partner-kit/funder-brief.md, not here.
 9. National Academy for State Health Policy. *State opioid settlement
    spending decisions.* States implementing at least $50 billion.
    https://nashp.org/state-tracker/state-opioid-settlement-spending-decisions/
@@ -288,8 +284,8 @@ Only sources dated in this window. Older Canfield, Sarkadi, Lamb, and the
     (2026). *Parenting for Veterans* [online course]. Veterans Health
     Administration Office of Mental Health. Updated 29 January 2026.
     https://www.veterantraining.va.gov/parenting/
-25. Clearinghouse for Military Family Readiness at Penn State / Thrive
-    Initiative. *Father Forward: Present. Engaged. Supportive.*
+25. Penn State Thrive Initiative. *Father Forward: Present. Engaged.
+    Supportive.*
     https://thrive.psu.edu/ and Military OneSource Thrive overview.
 26. Finch, L. (2026, February 17). Supporting fathers is a readiness issue
     the Army can’t ignore. *Army Times* / *Military Times.*
@@ -306,7 +302,7 @@ Only sources dated in this window. Older Canfield, Sarkadi, Lamb, and the
 - Any source before August 2018, including Canfield 1994, Sarkadi 2008, and
   the 2016 residential 77% survey. Those remain internal history. They are
   not this raise.
-- “Evidence-based,” “clinically proven,” norms counts, and Keystone item
+- Rating claims, clinical-proof language, norms counts, and Keystone item
   counts.
 - Relapse, PTSD reduction, or child-maltreatment reduction as an NCF result.
 - A public military or veterans brand.
