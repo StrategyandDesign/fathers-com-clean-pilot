@@ -25,6 +25,7 @@ import {
   countManagerAssessmentCompletions,
   loadManagerAssessmentStalls,
 } from "@/lib/assessments/data";
+import { CommitmentBoard } from "@/components/verticals/commitment-board";
 import { CohortNoteDesk } from "@/components/manager/cohort-note-desk";
 import { decorateCohortNoteDesk } from "@/lib/cohort-note/audience";
 import { loadManagerCohortNotes } from "@/lib/cohort-note/data";
@@ -37,6 +38,9 @@ import {
 import { loadManagerWorkspace } from "@/lib/manager/data";
 import { loadNudgePanel } from "@/lib/manager/nudge-panel-data";
 import { participationCopyKey, participationModeFromGroups } from "@/lib/participation";
+import { optimizationPackAppliesToOrg } from "@/lib/verticals/optimization/apply";
+import { buildCommitmentBoard } from "@/lib/verticals/optimization/commitment";
+import { joinPostureForOrg } from "@/lib/verticals/optimization/join";
 import { loadNudgeHistory, loadReminderPrefs } from "@/lib/manager/nudge-data";
 import { needsNudge } from "@/lib/manager/nudges";
 import { loadReviewQueue } from "@/lib/manager/reviews";
@@ -126,6 +130,17 @@ export default async function ManagerHomePage({
   });
 
   const participationMode = participationModeFromGroups(groups);
+  const optimizationGroups = groups.filter((group) =>
+    optimizationPackAppliesToOrg(group.organization_type)
+  );
+  const commitmentBoard =
+    optimizationGroups.length > 0
+      ? buildCommitmentBoard(
+          participants.filter((row) =>
+            optimizationGroups.some((group) => group.id === row.groupId)
+          )
+        )
+      : [];
 
   const stats = [
     { label: t("manager.dashboard.active"), value: summary.activeParticipants },
@@ -183,11 +198,17 @@ export default async function ManagerHomePage({
         })}
       />
 
+      {optimizationGroups.length > 0 ? <CommitmentBoard rows={commitmentBoard} t={t} audience="leader" /> : null}
+
       <section className="grid gap-4 lg:grid-cols-2">
         <div className="rounded-xl border border-border bg-card p-4 sm:p-6">
           <h2 className="font-heading text-lg font-semibold">{t("manager.dashboard.inviteTitle")}</h2>
           <p className="mt-1 text-sm text-muted-foreground">
-            {t("manager.dashboard.inviteLead")}
+            {t(
+              optimizationGroups.length > 0
+                ? "optimization.inviteLead"
+                : "manager.dashboard.inviteLead"
+            )}
           </p>
           {groups.length > 0 ? (
             <div className="mt-5 space-y-3">
@@ -199,6 +220,9 @@ export default async function ManagerHomePage({
                   <div className="min-w-0">
                     <p className="font-medium">{group.name}</p>
                     <p className="break-all font-mono text-sm tracking-wide">{group.invite_code}</p>
+                    {joinPostureForOrg(group.organization_type) === "invitation_only" ? (
+                      <p className="mt-1 text-xs text-muted-foreground">{t("optimization.inviteOnly")}</p>
+                    ) : null}
                   </div>
                   <CopyButton value={group.invite_code} className="w-full sm:w-auto" />
                 </div>

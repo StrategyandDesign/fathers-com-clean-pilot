@@ -1,7 +1,7 @@
 {
   "mark": 7,
-  "patch": 116,
-  "label": "Shared 1-1.116",
+  "patch": 117,
+  "label": "Shared 1-1.117",
   "tag": "shared/7",
   "at": "2026-08-21T08:44:31.105Z",
   "internalSha": "890fa8b684cc17a21c0ccbc13b787b24016b129e",
@@ -820,6 +820,13 @@
       "label": "Shared 1-1.116",
       "at": "2026-08-23",
       "title": "Add an Admin Armed Forces materials checklist without flipping SHOW_MILITARY."
+    },
+    {
+      "patch": 117,
+      "revision": "1.117",
+      "label": "Shared 1-1.117",
+      "at": "2026-08-23",
+      "title": "Add a flagged bonded-group confidentiality pack that stays off for Rehab."
     }
   ]
 }

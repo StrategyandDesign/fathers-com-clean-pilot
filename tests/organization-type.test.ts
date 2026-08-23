@@ -57,6 +57,7 @@ describe("organization type taxonomy", () => {
       ssoEnabled: false,
       secureExportEnabled: false,
       verticalPackArmedForces: false,
+      verticalPackOptimization: false,
     });
     assert.deepEqual(recommendedFlagsForType("armed_forces_unit"), {
       participationMode: "expected",
@@ -67,6 +68,7 @@ describe("organization type taxonomy", () => {
       ssoEnabled: false,
       secureExportEnabled: false,
       verticalPackArmedForces: false,
+      verticalPackOptimization: false,
     });
     assert.deepEqual(recommendedFlagsForType("performance_optimization_group"), {
       participationMode: "expected",
@@ -77,6 +79,7 @@ describe("organization type taxonomy", () => {
       ssoEnabled: false,
       secureExportEnabled: false,
       verticalPackArmedForces: false,
+      verticalPackOptimization: false,
     });
     assert.deepEqual(recommendedFlagsForType("other"), {
       participationMode: "open",
@@ -87,6 +90,7 @@ describe("organization type taxonomy", () => {
       ssoEnabled: false,
       secureExportEnabled: false,
       verticalPackArmedForces: false,
+      verticalPackOptimization: false,
     });
   });
 
@@ -112,6 +116,8 @@ describe("organization type taxonomy", () => {
   it("keeps Expected and Open as the participation framing in the hint", () => {
     assert.match(recommendedFlagSummary("rehab"), /Expected participation/);
     assert.match(recommendedFlagSummary("armed_forces_unit"), /vertical_pack_armed_forces stays off/);
+    assert.match(recommendedFlagSummary("performance_optimization_group"), /vertical_pack_optimization stays off/);
+    assert.match(recommendedFlagSummary("performance_optimization_group"), /stays off for Rehab/);
     assert.match(recommendedFlagSummary("other"), /Open participation/);
     assert.match(organizationTypeHint(null), /Expected and Open participation/);
     assert.equal(recommendedFlagSummary("rehab").includes("—"), false);

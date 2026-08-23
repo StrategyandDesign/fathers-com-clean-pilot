@@ -601,6 +601,41 @@ export const en = {
       "Draft inventory, attestation, Title 10 United States Code section 1789 note, and a blank event closeout. Downloads stay drafts.",
     download: "Download draft",
   },
+  optimization: {
+    title: "Bonded-group confidentiality",
+    summary: "Bonded-group confidentiality",
+    accountLead:
+      "Forum-moderator checklist for a Performance Optimization Group. The pack stays off for Rehab.",
+    open: "Open the bonded-group checklist",
+    back: "Back to Account",
+    lead:
+      "Later-wave confidentiality posture for a bonded group or chief executive officer forum. Super-admin only. Same Desk spine.",
+    deferral:
+      "There is no public go-to-market for this pack until the forum-moderator review checklist is signed off.",
+    flagTitle: "Pack flag",
+    flagBody:
+      "vertical_pack_optimization stays off until Super-admin turns it on. Rehab organizations never receive this pack.",
+    flagLine: "vertical_pack_optimization is {state}. Rehab stays off.",
+    checklistTitle: "Forum-moderator checklist",
+    checklistLead:
+      "Work these items before any public talk about a chief executive officer forum. Expand every acronym. Do not invent clinical chart fields.",
+    downloadsTitle: "Counsel and moderator pack",
+    downloadsLead:
+      "Draft confidentiality defaults, non-clinical copy, the forum-moderator review list, and the sponsorship deferral. Downloads stay drafts.",
+    download: "Download draft",
+    inviteLead: "Invitation only. Share this code with invited men. Do not post it on a public page.",
+    inviteOnly: "Invitation only. Do not post this code publicly.",
+    participationExpectedHint: "Performance Optimization Group where completion is expected.",
+    fatherChrome:
+      "This group is invitation only. Leaders see follow-through flags, not written answers.",
+    boardTitle: "Follow-through",
+    boardLead: "Practice completion flags only. Follow-through, not a score. No written answers.",
+    boardFatherTitle: "Follow-through",
+    boardFatherLead: "Peer practice flags. Follow-through only.",
+    boardSummary: "{completed} of {men} marked practice complete.",
+    boardEmpty: "No follow-through flags yet.",
+    boardNone: "Not marked",
+  },
   identity: {
     title: "Sign-in security",
     summary: "Sign-in security",
