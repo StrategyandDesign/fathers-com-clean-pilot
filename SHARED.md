@@ -14,7 +14,7 @@ Submit 2 stays frozen on `submit/2`. The next official submit is still 4.
 
 ## Desk revisions
 
-The badge on this checkout is **Shared 1-1.105**. It ticks on each push of the Shared 1 desk. This does not create Shared 2. Submit 2 stays frozen.
+The badge on this checkout is **Shared 1-1.106**. It ticks on each push of the Shared 1 desk. This does not create Shared 2. Submit 2 stays frozen.
 
 | Revision | Date (UTC) | What landed |
 |---|---|---|
@@ -123,3 +123,4 @@ The badge on this checkout is **Shared 1-1.105**. It ticks on each push of the S
 | **1.103** | 2026-08-23 | Clear logout, hide issue chrome, and keep test content off default seats. |
 | **1.104** | 2026-08-23 | Show a quiet practice light on the Leader roster. |
 | **1.105** | 2026-08-23 | Let Super-admin pick Rehab, Armed Forces Unit, or Performance Optimization Group. |
+| **1.106** | 2026-08-23 | Add a flagged Consider next list on the Leader dashboard. |

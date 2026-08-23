@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { CompanionPanel } from "@/components/manager/companion-panel";
+import { ConsiderNextCard } from "@/components/manager/consider-next";
 import { ParticipationModeCard } from "@/components/manager/participation-mode-card";
 import { CopyButton } from "@/components/manager/copy-button";
 import { Flash } from "@/components/manager/flash";
@@ -18,10 +19,15 @@ import {
   buildCompanionBriefing,
   organizationLabel,
 } from "@/lib/manager/companion";
-import { loadManagerAssessments } from "@/lib/assessments/data";
+import { loadManagerAssessments, loadManagerAssessmentStalls } from "@/lib/assessments/data";
 import { CohortNoteDesk } from "@/components/manager/cohort-note-desk";
 import { decorateCohortNoteDesk } from "@/lib/cohort-note/audience";
 import { loadManagerCohortNotes } from "@/lib/cohort-note/data";
+import { deskConsiderNextV1 } from "@/lib/flags";
+import {
+  buildConsiderNext,
+  considerNextHistoryIds,
+} from "@/lib/manager/consider-next";
 import { loadManagerWorkspace } from "@/lib/manager/data";
 import { loadNudgePanel } from "@/lib/manager/nudge-panel-data";
 import { participationCopyKey, participationModeFromGroups } from "@/lib/participation";
@@ -59,13 +65,40 @@ export default async function ManagerHomePage({
     trainingProgressFor,
     certificates,
   } = workspace;
+  const considerNextEnabled = deskConsiderNextV1();
   const quietIds = participants
     .filter((participant) =>
       needsNudge(participant.lastActivity, trainingProgressFor(participant.fatherId))
     )
     .map((participant) => participant.fatherId);
+  const assessmentStalls = considerNextEnabled
+    ? await loadManagerAssessmentStalls(
+        user.id,
+        participants.map((participant) => participant.fatherId)
+      )
+    : [];
+  const historyIds = considerNextEnabled
+    ? considerNextHistoryIds(
+        participants,
+        trainingProgressFor,
+        assessmentStalls,
+        needsAttention
+      )
+    : quietIds;
   const [{ byFather: historyByFather, unavailable: historyUnavailable }, reminderPrefs] =
-    await Promise.all([loadNudgeHistory(quietIds), loadReminderPrefs(quietIds)]);
+    await Promise.all([loadNudgeHistory(historyIds), loadReminderPrefs(historyIds)]);
+  const considerNext = considerNextEnabled
+    ? buildConsiderNext({
+        participants,
+        trainingProgressFor,
+        historyByFather,
+        reminderPrefs,
+        historyUnavailable,
+        assessmentStalls,
+        openItems: needsAttention,
+        limit: 8,
+      })
+    : [];
   const companion = buildCompanionBriefing({
     organizationName: organizationLabel(
       groups.map((group) => group.name),
@@ -209,6 +242,10 @@ export default async function ManagerHomePage({
           </Link>
         </div>
       </section>
+
+      {considerNextEnabled ? (
+        <ConsiderNextCard rows={considerNext} mode={participationMode} />
+      ) : null}
 
       <CompanionPanel briefing={companion} mode={participationMode} t={t} />
 

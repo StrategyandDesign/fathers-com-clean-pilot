@@ -13,10 +13,15 @@
  * performance_optimization_group / other) recommends default flags only
  * via recommendedFlagsForType() in lib/organization-type.ts. It does not
  * fork Desk routes or flip these env flags.
+ *
+ * desk_consider_next_v1 defaults OFF until ranking is trustworthy.
+ * Set DESK_CONSIDER_NEXT_V1 to 1 / true / on / yes to show Consider next
+ * on /manager. Leave unset to keep the prior dashboard.
  */
 export const CERTIFICATES_REQUIRE_CLAIM = "certificates_require_claim";
 export const PILOT_SHOW_TEST_CONTENT = "pilot_show_test_content";
 export const ROSTER_PRACTICE_LIGHT = "roster_practice_light";
+export const DESK_CONSIDER_NEXT_V1 = "desk_consider_next_v1";
 
 function envFlag(name: string) {
   const raw = process.env[name]?.trim().toLowerCase() ?? "";
@@ -38,4 +43,8 @@ export function pilotShowTestContent() {
 
 export function rosterPracticeLight() {
   return !envFlagOff("ROSTER_PRACTICE_LIGHT");
+}
+
+export function deskConsiderNextV1() {
+  return envFlag("DESK_CONSIDER_NEXT_V1");
 }

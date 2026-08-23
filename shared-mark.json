@@ -1,7 +1,7 @@
 {
   "mark": 7,
-  "patch": 105,
-  "label": "Shared 1-1.105",
+  "patch": 106,
+  "label": "Shared 1-1.106",
   "tag": "shared/7",
   "at": "2026-08-21T08:44:31.105Z",
   "internalSha": "890fa8b684cc17a21c0ccbc13b787b24016b129e",
@@ -743,6 +743,13 @@
       "label": "Shared 1-1.105",
       "at": "2026-08-23",
       "title": "Let Super-admin pick Rehab, Armed Forces Unit, or Performance Optimization Group."
+    },
+    {
+      "patch": 106,
+      "revision": "1.106",
+      "label": "Shared 1-1.106",
+      "at": "2026-08-23",
+      "title": "Add a flagged Consider next list on the Leader dashboard."
     }
   ]
 }
