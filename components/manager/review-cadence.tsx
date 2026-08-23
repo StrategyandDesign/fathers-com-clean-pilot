@@ -17,6 +17,7 @@ export function ReviewCadenceStrip({
   readyCertificates: CompanionBriefing["readyCertificates"];
   t: Translate;
 }) {
+  const waiting = pendingItems ?? [];
   const counts = [
     {
       href: "#open-items",
@@ -62,9 +63,9 @@ export function ReviewCadenceStrip({
       <div id="pending-actions" className="mt-5 scroll-mt-24">
         <h3 className="text-sm font-semibold">{t("manager.dashboard.pendingWaiting")}</h3>
         <p className="mt-1 text-sm text-muted-foreground">{t("manager.dashboard.pendingWaitingLead")}</p>
-        {pendingItems.length > 0 ? (
+        {waiting.length > 0 ? (
           <ul className="mt-3 divide-y divide-border overflow-hidden rounded-lg border border-border">
-            {pendingItems.map((item) => (
+            {waiting.map((item) => (
               <li key={item.id}>
                 <Link
                   href={item.href}
