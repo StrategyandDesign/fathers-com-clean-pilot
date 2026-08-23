@@ -45,10 +45,6 @@ export type QiPacketInput = {
 };
 
 export function buildQiPacketEntries(input: QiPacketInput): ZipEntry[] {
-  const sections = collectQiPacketSections({
-    boards: input.boards,
-    credentials: input.credentials,
-  });
   const fidelity =
     input.boards.length > 0
       ? input.boards.map((board) => fidelitySummaryCsv(board)).join("")
