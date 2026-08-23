@@ -2,15 +2,15 @@ import { cache } from "react";
 
 import {
   buildOrgSsoStatus,
+  isProvisionAction,
   parseIdentityProvider,
   parseSsoEnabled,
   shouldOfferOrganizationSignIn,
 } from "@/lib/identity/sso";
-import {
-  isProvisionAction,
-  type OrgIdentityProvider,
-  type OrgSsoStatus,
-  type OrgStaffProvisionEvent,
+import type {
+  OrgIdentityProvider,
+  OrgSsoStatus,
+  OrgStaffProvisionEvent,
 } from "@/lib/identity/types";
 import { createClient } from "@/lib/supabase/server";
 
