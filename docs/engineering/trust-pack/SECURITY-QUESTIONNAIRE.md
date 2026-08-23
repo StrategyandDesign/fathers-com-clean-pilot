@@ -1,0 +1,117 @@
+# Fathers.com security questionnaire pack
+
+Pack version 1. Last reviewed 2026-08-23.
+
+This product is not System and Organization Controls Type 2 certified. This product is not HITRUST Common Security Framework certified. No such report is in this repository.
+
+Shared audit passwords, including 12345 on Pilot seats, are for the Pilot project only. They are not a production control and must not be copied into a production stack.
+
+A System and Organization Controls Type 2 or HITRUST Common Security Framework engagement has not started as of 23 August 2026. The honest next steps are an inventory of live controls, a named assessor, and evidence collection. Do not treat this pack as a certification, a letter of attestation, or a scheduled audit.
+
+No vulnerability-scan or penetration-test summary is on file in this repository. An empty evidence folder is not a clean scan.
+
+Print this file, or open the comma-separated answers file in a spreadsheet.
+
+## auth. Authentication
+
+**Question.** How do people sign in?
+
+**Answer.** Default sign-in is email and password through Supabase Auth. Fathers also enter an organization invite code at signup. Leaders and Reviewers may use organization single sign-on only when Super-admin turns sso_enabled on and links one OpenID Connect or Security Assertion Markup Language 2.0 provider. Super-admin break-glass stays email and password. The application authorizes from Auth app_metadata.role, never from user-editable user_metadata.
+
+**Evidence.** docs/product/SINGLE-SIGN-ON.md; lib/auth/roles.ts; lib/auth/session.ts; app/(auth)/login
+
+## passwords. Authentication
+
+**Question.** What is the password posture, including Pilot seats?
+
+**Answer.** Shared audit passwords, including 12345 on Pilot seats, are for the Pilot project only. They are not a production control and must not be copied into a production stack.
+
+**Evidence.** docs/engineering/PILOT.md; docs/engineering/production-launch.md
+
+## authz. Authorization
+
+**Question.** How are roles and row-level security enforced?
+
+**Answer.** Four roles exist: Father, Leader (stored as manager), Reviewer, and Super-admin. Next.js middleware and requireRole gate routes. Postgres row-level security is the data boundary. Fathers reach their own progress, notes, assessments, and certificates. Leaders reach the organization they staff. Reviewers see cohort totals, not names or individual answers. Super-admins operate catalog and organizations. Custom assessment written answers stay off Leader desks unless Super-admin turns leader_assessment_answers on for that organization.
+
+**Evidence.** supabase/migrations/20260817033531_pilot_rls_policies.sql; lib/auth/roles.ts; docs/product/FACILITATOR-SUPPORT-MODEL.md
+
+## encryption. Encryption
+
+**Question.** How is data protected in transit and at rest?
+
+**Answer.** The application is served over HTTPS. The browser talks to Supabase over HTTPS and WebSocket Secure. Certificates and avatars live in private Storage buckets and are read through signed URLs or authenticated download routes, not public object URLs. Supabase documents encryption at rest for hosted Postgres and Storage. This repository does not contain a customer-managed key setup or a separate encryption attestation.
+
+**Evidence.** next.config.ts Content-Security-Policy; docs/engineering/production-launch.md storage section; privacy security copy
+
+## logging. Logging
+
+**Question.** What is logged, and is there a security information and event management product?
+
+**Answer.** Sign-in activity lives in Supabase Auth. Application errors may go to Sentry when a data source name is configured. Session notes and assessment responses are not sent to Sentry as a matter of product design. Rate limits are in-memory sliding windows per isolate and fail open. There is no dedicated security information and event management product in this repository.
+
+**Evidence.** lib/observability/sentry-dsn.ts; lib/security/rate-limit.ts; docs/engineering/production-launch.md
+
+## subprocessors. Subprocessors
+
+**Question.** Which processors run the service?
+
+**Answer.** Supabase (authentication, Postgres, Storage). Vercel (application hosting). Resend (transactional email when a key is set; local and Pilot degrade without it). Sentry (optional error monitoring). YouTube or Vimeo (session film embeds). There is no live push of participant data to a customer electronic health record, webhook, or object store. The secure-export scaffold records local intent only and stays off unless Super-admin turns secure_export_enabled on.
+
+**Evidence.** AGENTS.md; docs/engineering/EMAIL-SETUP.md; docs/product/SECURE-EXPORT.md; next.config.ts frame-src
+
+## retention. Data retention
+
+**Question.** How long is education-account data kept?
+
+**Answer.** Results, progress, and certificates stay while the account is active so the person and the Leader can use them. Photos and certificate files stay in private buckets. If an organization administrator asks to delete an account, personal data is removed on a reasonable schedule except where a record must be kept. This product does not keep a clinical chart.
+
+**Evidence.** lib/i18n/messages/en.ts legal.privacyPage.retentionBody; lib/counsel/artifacts.ts education memo
+
+## breach. Breach contact
+
+**Question.** Who is contacted if education-account data may have been exposed?
+
+**Answer.** Start with the draft breach contact runbook in the counsel pack. Organization privacy lead and counsel fill names and clocks. National Center for Fathering contact is Team@Fathers.com until counsel names another address. This product does not send breach notices on its own. A Super-admin attached-pack mark is not proof that notice rules were followed.
+
+**Evidence.** lib/counsel/artifacts.ts breach-contact-runbook; /manager/account/counsel; /admin/account/counsel
+
+## sso. Single sign-on
+
+**Question.** What is the single sign-on status?
+
+**Answer.** sso_enabled defaults off per organization. Super-admin configures one identity provider on Identity. Staff with a matching work email can use Continue with your organization. First login maps identity-provider claims into app_metadata.role and organization_staff. Revoke desk access disables organization_staff and deletes Auth sessions. Refresh tokens stop immediately. Access tokens expire within one hour. System for Cross-domain Identity Management 2.0 inbound is accepted only when IDENTITY_SCIM_TOKEN is set. Fathers stay on invite code and email.
+
+**Evidence.** docs/product/SINGLE-SIGN-ON.md; docs/engineering/SSO-OFFBOARDING.md; /admin/organizations/[id]/identity
+
+## baa. Business Associate Agreement
+
+**Question.** What is the Business Associate Agreement posture?
+
+**Answer.** The counsel pack ships a draft Business Associate Agreement template and an education-only memo with a data map. Every file is labeled Draft. An unsigned draft is not an executed agreement. This product does not claim to be a covered entity. counsel_pack_required defaults off. A Super-admin attached-pack mark is metadata only and is not a signature.
+
+**Evidence.** docs/product/COUNSEL-PACK.md; /admin/account/counsel; /manager/account/counsel
+
+## soc. Certification
+
+**Question.** Has a System and Organization Controls Type 2 report or a HITRUST Common Security Framework report been added to this repository?
+
+**Answer.** This product is not System and Organization Controls Type 2 certified. This product is not HITRUST Common Security Framework certified. No such report is in this repository. A System and Organization Controls Type 2 or HITRUST Common Security Framework engagement has not started as of 23 August 2026. The honest next steps are an inventory of live controls, a named assessor, and evidence collection. Do not treat this pack as a certification, a letter of attestation, or a scheduled audit.
+
+**Evidence.** docs/engineering/trust-pack/README.md; docs/product/TRUST-PACK.md
+
+## evidence. Evidence
+
+**Question.** Where are the architecture map and the last scan summary?
+
+**Answer.** Architecture and data fields live in the Issue 1 education-only memo and data map, plus the Issue 5 quality-improvement field dictionary. No vulnerability-scan or penetration-test summary is on file in this repository. An empty evidence folder is not a clean scan.
+
+**Evidence.** lib/counsel/artifacts.ts education-memo-data-map; docs/product/QUALITY-IMPROVEMENT-FIELDS.md; docs/engineering/trust-pack/scans/README.md
+
+## transfer. External transfer
+
+**Question.** Does the product send participant data to an outside host?
+
+**Answer.** No live external data transfer is implemented. Reports CSV, PDF, and the quality-improvement zip are Leader downloads. The secure-export destination form, when the flag is on, stores metadata and a local send-intent row. It does not POST, fetch, or otherwise transmit participant data to a customer URL, S3 bucket, webhook, or electronic health record.
+
+**Evidence.** docs/product/SECURE-EXPORT.md; lib/export/push.ts

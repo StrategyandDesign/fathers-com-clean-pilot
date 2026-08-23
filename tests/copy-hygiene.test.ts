@@ -110,6 +110,25 @@ describe("product copy hygiene", () => {
     );
   });
 
+  it("fails a false System and Organization Controls Type 2 or HITRUST claim", () => {
+    const hits = findOverclaimHits(
+      "Fathers.com is System and Organization Controls Type 2 certified and HITRUST certified."
+    );
+    assert.ok(hits.some((hit) => hit.id === "soc-type-2-certified"));
+    assert.ok(hits.some((hit) => hit.id === "hitrust-certified"));
+  });
+
+  it("allows an honest denial of those certifications", () => {
+    const hits = findOverclaimHits(
+      "This product is not System and Organization Controls Type 2 certified. This product is not HITRUST Common Security Framework certified."
+    );
+    assert.equal(
+      hits.filter((hit) => hit.id === "soc-type-2-certified" || hit.id === "hitrust-certified")
+        .length,
+      0
+    );
+  });
+
   it("keeps frozen overclaim phrases out of governed live and sales paths", () => {
     const findings = scanGovernedPaths();
     assert.deepEqual(formatFindings(findings), []);

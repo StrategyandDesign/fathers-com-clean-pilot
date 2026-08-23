@@ -559,6 +559,24 @@ export const en = {
     contactStub: "Draft contact stub only.",
     contactLead: "This product does not send notices on its own.",
     openContactStub: "Open the counsel contact stub",
+    packTitle: "Security questionnaire",
+    packSummary: "Security questionnaire",
+    packAccountLead:
+      "Internal pack version and last review date. This is not a public trust wall.",
+    packOpen: "Open the security questionnaire",
+    packBack: "Back to Account",
+    packLead: "Dated answers for hospital information-technology review. Drafts stay drafts.",
+    packInternalNote:
+      "Super-admin only. The dated files are the questionnaire. This page only shows the version and last review date.",
+    packVersionLabel: "Pack version",
+    packReviewedLabel: "Last reviewed",
+    packCertTitle: "Certification status",
+    packPilotTitle: "Pilot passwords",
+    packRoadmapTitle: "Readiness path",
+    packDownloadsTitle: "Pack files",
+    packDownloadsLead:
+      "Printable questionnaire and spreadsheet-friendly answers. Evidence pointers sit with the files.",
+    packDownload: "Download",
   },
   identity: {
     title: "Sign-in security",

@@ -5,6 +5,7 @@ Start with [PILOT.md](PILOT.md). Then [production-launch.md](production-launch.m
 | File | Use |
 |---|---|
 | [PILOT.md](PILOT.md) | How to run, seats, hosts, first Leader |
+| [trust-pack/](trust-pack/README.md) | Dated security questionnaire for hospital information technology |
 | [production-launch.md](production-launch.md) | Separate production stack (not this review) |
 | [EMAIL-SETUP.md](EMAIL-SETUP.md) | Resend / DNS notes |
 | [DOMAIN.md](DOMAIN.md) | Canonical host notes |

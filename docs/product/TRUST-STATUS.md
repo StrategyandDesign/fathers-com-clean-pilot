@@ -15,3 +15,5 @@ There is no new ribbon item and no red trust wall on other pages.
 3. Data-processing contact: a stub that opens the same counsel pack. This product does not send notices on its own.
 
 The strip does not list the six counsel downloads again. Identity-provider single sign-on is configured on Identity, not in this strip. It does not claim an executed agreement.
+
+Shared 1-1.115 adds a Super-admin-only security questionnaire at `/admin/trust`. That page is not this strip and is not a father-facing trust wall.
