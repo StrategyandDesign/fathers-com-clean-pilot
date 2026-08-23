@@ -4,6 +4,7 @@ import {
   isTrainingPublished,
   type Training,
 } from "@/lib/father/types";
+import { hidePilotTestTraining } from "@/lib/pilot/hygiene";
 
 export type ManagerCatalogStatus = "pending" | "ready" | "catalog" | "declined";
 
@@ -78,6 +79,7 @@ export function buildManagerCatalog(input: {
 
   for (const training of input.trainings) {
     if (!isTrainingPublished(training) || !isLegacyCatalogTraining(training)) continue;
+    if (hidePilotTestTraining(training)) continue;
     if (covered.has(training.id)) continue;
     items.push(
       asItem(

@@ -106,8 +106,8 @@ describe("data-processing contact stub", () => {
     const contact = trustStatusLines(model, t).find((line) => line.key === "contact");
     assert.ok(contact);
     assert.equal(contact.label, "Data-processing contact");
-    assert.equal(contact.href, "/admin/account/counsel");
-    assert.equal(contact.linkLabel, "Open the counsel contact stub");
+    assert.equal(contact.href, "/admin/account/counsel#contact-stub");
+    assert.equal(contact.linkLabel, "Open counsel drafts");
     assert.match(contact.value, /Draft contact stub only/);
     const text = trustStatusText(trustStatusLines(model, t));
     assert.equal(text.includes(EM_DASH), false);
@@ -131,6 +131,7 @@ describe("trust strip wiring", () => {
     assert.match(accountStrip, /\/manager\/account\/counsel/);
     assert.match(accountStrip, /\/admin\/account\/counsel/);
     assert.match(accountStrip, /combinedSsoConnection|loadManagerSsoStatuses/);
+    assert.match(accountStrip, /\/admin\/organizations/);
     assert.match(orgPage, /OrgTrustStrip/);
     assert.match(orgStrip, /\/admin\/account\/counsel/);
     assert.match(orgStrip, /loadOrgSsoStatus/);

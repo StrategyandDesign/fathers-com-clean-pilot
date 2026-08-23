@@ -82,7 +82,7 @@ export function CounselPackView({
         <p className="text-sm text-muted-foreground">{t("counsel.adminChecklistHint")}</p>
       ) : null}
 
-      <section className="space-y-4">
+      <section id="contact-stub" className="space-y-4">
         <div>
           <h2 className="font-heading text-lg font-semibold">{t("counsel.downloadsTitle")}</h2>
           <p className="mt-1 text-sm text-muted-foreground">{t("counsel.downloadsLead")}</p>

@@ -8,6 +8,7 @@ import { certificatesRequireClaim, pilotShowTestContent } from "../lib/flags";
 import {
   HEBREW_PILOT_GROUP_NAME,
   hidePilotTestStaffMessage,
+  filterHiddenPilotTestTrainings,
   hidePilotTestTraining,
   isPilotTestStaffMessage,
   isPilotTestTrainingTitle,
@@ -67,6 +68,13 @@ describe("pilot test-content hygiene", () => {
       ),
       false
     );
+    assert.deepEqual(
+      filterHiddenPilotTestTrainings([
+        { title: "Test Training 1" },
+        { title: "Coming Home Present" },
+      ]).map((row) => row.title),
+      ["Coming Home Present"]
+    );
 
     assert.equal(isPilotTestStaffMessage("Test! Did you receive!"), true);
     assert.equal(isPilotTestStaffMessage("New assessments this week."), false);
@@ -74,11 +82,18 @@ describe("pilot test-content hygiene", () => {
 
     const flags = readRepo("lib/flags.ts");
     const father = readRepo("lib/father/data.ts");
+    const manager = readRepo("lib/manager/data.ts");
+    const catalog = readRepo("lib/manager/catalog.ts");
+    const reviewer = readRepo("lib/reviewer/insights.ts");
     const ribbon = readRepo("lib/staff-messages/data.ts");
     const env = readRepo(".env.example");
 
     assert.match(flags, /PILOT_SHOW_TEST_CONTENT/);
     assert.match(father, /hidePilotTestTraining/);
+    assert.match(manager, /hidePilotTestTraining/);
+    assert.match(catalog, /hidePilotTestTraining/);
+    assert.match(reviewer, /hidePilotTestTraining/);
+    assert.match(reviewer, /training_distribution/);
     assert.match(ribbon, /hidePilotTestStaffMessage/);
     assert.match(env, /PILOT_SHOW_TEST_CONTENT=/);
   });

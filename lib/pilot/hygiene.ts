@@ -49,6 +49,18 @@ export function hidePilotTestTraining(
   return isPilotTestTraining(training);
 }
 
+export function filterHiddenPilotTestTrainings<
+  T extends { title?: string | null; working_title?: string | null },
+>(
+  trainings: T[],
+  accessFor?: (training: T) => {
+    hasProgress?: boolean;
+    hasCertificate?: boolean;
+  }
+) {
+  return trainings.filter((training) => !hidePilotTestTraining(training, accessFor?.(training)));
+}
+
 export function hidePilotTestStaffMessage(body: string | null | undefined) {
   if (pilotShowTestContent()) return false;
   return isPilotTestStaffMessage(body);

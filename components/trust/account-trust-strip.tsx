@@ -34,7 +34,7 @@ export async function AccountTrustStrip({
             ? "/manager/account/security"
             : connected
               ? `/admin/organizations/${connected.groupId}/identity`
-              : undefined,
+              : "/admin/organizations",
       })}
       t={t}
     />

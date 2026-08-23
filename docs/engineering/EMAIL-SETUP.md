@@ -8,7 +8,7 @@ Owner: Alon. Effort: under an hour plus DNS propagation.
 
 ## Steps (Resend)
 1. Create the Resend account under the NCF workspace. Add the sending domain
-   (decide with docs/DOMAIN.md; mail can run on fathers.com even while the app
+   (decide with docs/engineering/DOMAIN.md; mail can run on fathers.com even while the app
    domain decision is pending).
 2. Add the DNS records Resend issues: SPF, DKIM, and the return-path CNAME.
    Verify in Resend before proceeding.

@@ -131,7 +131,7 @@ export default async function AdminOrganizationDetailPage({
       <OrgTrustStrip state={counsel} />
       <p className="text-sm text-muted-foreground">
         <Link href={`/admin/organizations/${group.id}/identity`} className={interactiveLinkClassName}>
-          Identity
+          Single sign-on setup
         </Link>
       </p>
       <CounselOrgCard state={counsel} returnTo={`/admin/organizations/${group.id}`} />
