@@ -483,7 +483,7 @@ export const en = {
     orgTitle: "Organization trust",
     lead: "Sign-in and data-processing status for this desk. Drafts stay drafts.",
     ssoLabel: "Single sign-on",
-    ssoNotConnected: "Not connected",
+    ssoNotConnected: "Not connected.",
     ssoComing: "Coming via Issue 3.",
     ssoConnected: "Connected",
     ssoConnectedNote: "Identity provider: {name}.",

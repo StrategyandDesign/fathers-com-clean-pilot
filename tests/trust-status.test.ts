@@ -47,7 +47,7 @@ describe("single sign-on trust status", () => {
     const sso = lines.find((line) => line.key === "sso");
     assert.ok(sso);
     assert.equal(sso.label, "Single sign-on");
-    assert.equal(sso.value, "Not connected");
+    assert.equal(sso.value, "Not connected.");
     assert.equal(sso.note, "Coming via Issue 3.");
     assert.equal(sso.href, undefined);
   });

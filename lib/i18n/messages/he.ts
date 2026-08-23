@@ -448,7 +448,7 @@ export const he = {
     orgTitle: "אמון הארגון",
     lead: "מצב כניסה ועיבוד נתונים לשולחן הזה. טיוטות נשארות טיוטות.",
     ssoLabel: "כניסה מאוחדת",
-    ssoNotConnected: "לא מחובר",
+    ssoNotConnected: "לא מחובר.",
     ssoComing: "מגיע דרך Issue 3.",
     ssoConnected: "מחובר",
     ssoConnectedNote: "ספק זהות: {name}.",
