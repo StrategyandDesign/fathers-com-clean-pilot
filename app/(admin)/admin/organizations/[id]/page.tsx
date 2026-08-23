@@ -10,6 +10,7 @@ import {
 import { canRemoveStaff } from "@/lib/org-staff/types";
 import { loadAdminOrganization } from "@/lib/admin/data";
 import { CounselOrgCard } from "@/components/admin/counsel-org-card";
+import { LeaderAnswersOrgCard } from "@/components/admin/leader-answers-org-card";
 import { OrgTrustStrip } from "@/components/trust/org-trust-strip";
 import { OrganizationTypeField } from "@/components/admin/organization-type-field";
 import { CopyButton } from "@/components/manager/copy-button";
@@ -19,6 +20,7 @@ import { EmptyState } from "@/components/ui/empty-state";
 import { requireRole } from "@/lib/auth/session";
 import { formatShortDate } from "@/lib/manager/types";
 import { loadCounselPackState } from "@/lib/counsel/data";
+import { orgLeaderAssessmentAnswersEnabled } from "@/lib/assessments/leader-answers-data";
 import { parseOrganizationType } from "@/lib/organization-type";
 import { fieldClassName, interactiveLinkClassName } from "@/lib/ui";
 
@@ -37,7 +39,10 @@ export default async function AdminOrganizationDetailPage({
   if (!detail) notFound();
 
   const { group, participants, managers, reviewers, staff } = detail;
-  const counsel = await loadCounselPackState(group.id, group.name);
+  const [counsel, leaderAnswers] = await Promise.all([
+    loadCounselPackState(group.id, group.name),
+    orgLeaderAssessmentAnswersEnabled(group.id),
+  ]);
   const managerCount = staff.filter((row) => row.staffRole === "manager").length;
   const availableLeaders = managers.filter(
     (manager) => !staff.some((row) => row.profileId === manager.id && row.staffRole === "manager")
@@ -119,6 +124,11 @@ export default async function AdminOrganizationDetailPage({
 
       <OrgTrustStrip state={counsel} />
       <CounselOrgCard state={counsel} returnTo={`/admin/organizations/${group.id}`} />
+      <LeaderAnswersOrgCard
+        groupId={group.id}
+        enabled={leaderAnswers}
+        returnTo={`/admin/organizations/${group.id}`}
+      />
 
       <section className="rounded-xl border border-border bg-card p-4 sm:p-6">
         <h2 className="font-heading text-lg font-semibold">Leaders and reviewers</h2>

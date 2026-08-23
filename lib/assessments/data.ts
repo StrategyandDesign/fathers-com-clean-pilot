@@ -30,6 +30,11 @@ import {
   type FatherAssignmentCard,
   type RosterFather,
 } from "@/lib/assessments/types";
+import {
+  redactLeaderAssignmentResponses,
+  type LeaderAssignmentResponses,
+} from "@/lib/assessments/leader-answers";
+import { resolveLeaderAssessmentAnswers } from "@/lib/assessments/leader-answers-data";
 
 function emptyIn<T>(
   ids: string[],
@@ -448,12 +453,27 @@ export async function loadManagerAssignmentResponses(
   managerId: string,
   assessmentId: string,
   fatherId: string
-) {
+): Promise<LeaderAssignmentResponses | null> {
   const detail = await loadManagerAssessmentDetail(managerId, assessmentId);
   if (!detail) return null;
 
   const assignment = detail.assignments.find((row) => row.father_id === fatherId);
   if (!assignment) return null;
+
+  const groupId = detail.roster.find((row) => row.fatherId === fatherId)?.groupId ?? null;
+  const answersVisible = await resolveLeaderAssessmentAnswers(groupId);
+  const empty = redactLeaderAssignmentResponses(
+    {
+      assessment: detail.assessment,
+      questions: detail.questions,
+      assignment,
+      answers: new Map(),
+    },
+    false
+  );
+  if (!answersVisible) {
+    return empty;
+  }
 
   const supabase = await createClient();
   const { data, error } = await supabase
@@ -467,12 +487,15 @@ export async function loadManagerAssignmentResponses(
     ((data ?? []) as CustomAssessmentAnswer[]).map((row) => [row.question_id, row])
   );
 
-  return {
-    assessment: detail.assessment,
-    questions: detail.questions,
-    assignment,
-    answers,
-  };
+  return redactLeaderAssignmentResponses(
+    {
+      assessment: detail.assessment,
+      questions: detail.questions,
+      assignment,
+      answers,
+    },
+    true
+  );
 }
 
 export async function loadParticipantCustomAssignments(managerId: string, fatherId: string) {

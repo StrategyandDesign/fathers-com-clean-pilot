@@ -2,10 +2,20 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { loadManagerAssignmentResponses } from "@/lib/assessments/data";
+import { leaderAssignmentCompletion } from "@/lib/assessments/leader-answers";
 import { requireRole } from "@/lib/auth/session";
-import { translateAssignmentStatus } from "@/lib/i18n/flash";
-import { getI18n } from "@/lib/i18n/server";
+import { formatShortDate, getI18n } from "@/lib/i18n/server";
 import { interactiveLinkClassName } from "@/lib/ui";
+
+function completionCopy(
+  kind: ReturnType<typeof leaderAssignmentCompletion>,
+  t: (key: string) => string
+) {
+  if (kind === "finished") return t("manager.assessments.completionFinished");
+  if (kind === "stalled") return t("manager.assessments.completionStalled");
+  if (kind === "started") return t("manager.assessments.completionStarted");
+  return t("manager.assessments.completionNotStarted");
+}
 
 export default async function ManagerAssessmentResponsesPage({
   params,
@@ -14,12 +24,16 @@ export default async function ManagerAssessmentResponsesPage({
 }) {
   const { id, fatherId } = await params;
   const { user } = await requireRole("manager");
-  const { t } = await getI18n();
+  const { t, locale } = await getI18n();
   const detail = await loadManagerAssignmentResponses(user.id, id, fatherId);
 
   if (!detail) {
     notFound();
   }
+
+  const completion = leaderAssignmentCompletion(detail.assignment);
+  const startedAt = detail.assignment.started_at ?? detail.assignment.created_at;
+  const finishedAt = detail.assignment.completed_at;
 
   return (
     <div className="mx-auto max-w-2xl space-y-6">
@@ -48,26 +62,59 @@ export default async function ManagerAssessmentResponsesPage({
           {detail.assignment.fatherName}
         </h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          {detail.assessment.title} · {translateAssignmentStatus(detail.assignment.status, t)}
+          {detail.assessment.title} · {completionCopy(completion, t)}
         </p>
       </div>
 
-      <ol className="space-y-4">
-        {detail.questions.map((question, index) => {
-          const answer = detail.answers.get(question.id);
-          return (
-            <li key={question.id} className="rounded-xl border border-border bg-card p-4 sm:p-5 lg:p-6">
-              <p className="text-sm text-muted-foreground">
-                {t("manager.assessments.questionN", { n: index + 1 })}
-              </p>
-              <p className="mt-1 font-heading text-base font-semibold">{question.prompt}</p>
-              <p className="mt-4 whitespace-pre-wrap text-muted-foreground">
-                {answer?.value ?? t("manager.assessments.notAnswered")}
-              </p>
-            </li>
-          );
-        })}
-      </ol>
+      <section className="rounded-xl border border-border bg-card p-4 sm:p-5 lg:p-6">
+        <p className="text-sm text-muted-foreground">
+          {t("manager.assessments.completionStatus")}
+        </p>
+        <p className="mt-1 font-heading text-base font-semibold">
+          {completionCopy(completion, t)}
+        </p>
+        <dl className="mt-4 space-y-2 text-sm text-muted-foreground">
+          {startedAt ? (
+            <div className="flex flex-wrap justify-between gap-x-4 gap-y-1">
+              <dt>{t("manager.assessments.startedOn")}</dt>
+              <dd>{formatShortDate(startedAt, locale)}</dd>
+            </div>
+          ) : null}
+          {finishedAt ? (
+            <div className="flex flex-wrap justify-between gap-x-4 gap-y-1">
+              <dt>{t("manager.assessments.finishedOn")}</dt>
+              <dd>{formatShortDate(finishedAt, locale)}</dd>
+            </div>
+          ) : null}
+        </dl>
+      </section>
+
+      {detail.answersVisible ? (
+        <>
+          <p className="text-sm text-muted-foreground">{t("manager.assessments.answersCounsel")}</p>
+          <ol className="space-y-4">
+            {detail.questions.map((question, index) => {
+              const answer = detail.answers.get(question.id);
+              return (
+                <li
+                  key={question.id}
+                  className="rounded-xl border border-border bg-card p-4 sm:p-5 lg:p-6"
+                >
+                  <p className="text-sm text-muted-foreground">
+                    {t("manager.assessments.questionN", { n: index + 1 })}
+                  </p>
+                  <p className="mt-1 font-heading text-base font-semibold">{question.prompt}</p>
+                  <p className="mt-4 whitespace-pre-wrap text-muted-foreground">
+                    {answer?.value ?? t("manager.assessments.notAnswered")}
+                  </p>
+                </li>
+              );
+            })}
+          </ol>
+        </>
+      ) : (
+        <p className="text-sm text-muted-foreground">{t("manager.assessments.statusOnlyLead")}</p>
+      )}
     </div>
   );
 }

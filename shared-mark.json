@@ -1,7 +1,7 @@
 {
   "mark": 7,
-  "patch": 108,
-  "label": "Shared 1-1.108",
+  "patch": 109,
+  "label": "Shared 1-1.109",
   "tag": "shared/7",
   "at": "2026-08-21T08:44:31.105Z",
   "internalSha": "890fa8b684cc17a21c0ccbc13b787b24016b129e",
@@ -764,6 +764,13 @@
       "label": "Shared 1-1.108",
       "at": "2026-08-23",
       "title": "Show a quiet Account trust strip for single sign-on and data-processing drafts."
+    },
+    {
+      "patch": 109,
+      "revision": "1.109",
+      "label": "Shared 1-1.109",
+      "at": "2026-08-23",
+      "title": "Keep custom assessment answers off Leader desks unless an org flag unlocks them."
     }
   ]
 }

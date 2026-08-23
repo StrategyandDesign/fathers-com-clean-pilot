@@ -114,7 +114,7 @@ export const en = {
       sharingProviders:
         "We share data with service providers who help us run the platform (for example, hosting, file storage, email delivery, and error monitoring), under agreements that require them to protect it.",
       sharingOrg:
-        "If you join through an invite code, your organization administrator (Leader) can see your name, training progress, assessment responses, and certificates. Reviewers see cohort totals only, not your name or individual answers. Super-admins operate the platform catalog and organizations; they are not a substitute for your organization administrator. Anonymous sharing is on for fathers and leaders unless they turn it off in Account. Super-admins then see counts of progress and activity without your name, email, notes, or answers.",
+        "If you join through an invite code, your organization administrator (Leader) can see your name, training progress, assessment completion status, and certificates. Leaders do not see custom assessment answer bodies unless your organization turns that visibility on. Reviewers see cohort totals only, not your name or individual answers. Super-admins operate the platform catalog and organizations; they are not a substitute for your organization administrator. Anonymous sharing is on for fathers and leaders unless they turn it off in Account. Super-admins then see counts of progress and activity without your name, email, notes, or answers.",
       sharingLegal:
         "If we receive a subpoena or court order, we are required to respond. We will tell you before we do unless the law forbids it. If you would rather not write something down, do not write it down; completion never depends on what you disclose in a free-text note.",
       choices: "Your choices",
@@ -1465,7 +1465,7 @@ export const en = {
       completedOf: "{completed}/{assigned} completed",
       create: "Create assessment",
       questions: "Questions",
-      editLead: "Edit details, assign fathers, and review responses.",
+      editLead: "Edit details, assign fathers, and review completion status.",
       saveDetails: "Save details",
       noQuestionsTitle: "No questions on this assessment",
       noQuestionsBody:
@@ -1480,8 +1480,20 @@ export const en = {
       assignments: "Assignments",
       noAssignedTitle: "No one is assigned yet",
       noAssignedBody:
-        "Choose fathers above and assign this assessment. Responses show up here after they start.",
+        "Choose fathers above and assign this assessment. Completion status shows here after they start.",
       viewResponses: "View responses",
+      viewStatus: "View status",
+      completionStatus: "Completion",
+      completionNotStarted: "Not started",
+      completionStarted: "Started",
+      completionStalled: "Stalled",
+      completionFinished: "Finished",
+      startedOn: "Started",
+      finishedOn: "Finished",
+      statusOnlyLead:
+        "Leaders see completion status only. Question text and answers stay with the father.",
+      answersCounsel:
+        "These answers are education telemetry, not a clinical chart.",
       notAnswered: "He hasn’t answered this one yet.",
       questionN: "Question {n}",
       prompt: "Prompt",

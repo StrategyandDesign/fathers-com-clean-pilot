@@ -23,6 +23,7 @@ export type OrganizationFlagRecommendations = {
   verticalPack: VerticalPack;
   recommendMilitarySurface: boolean;
   counselPackRequired: false;
+  leaderAssessmentAnswers: false;
 };
 
 export function isOrganizationType(value: unknown): value is OrganizationType {
@@ -61,6 +62,7 @@ export function recommendedFlagsForType(type: OrganizationType): OrganizationFla
     verticalPack: recommendedVerticalPack(type),
     recommendMilitarySurface: type === "armed_forces_unit",
     counselPackRequired: false,
+    leaderAssessmentAnswers: false,
   };
 }
 
@@ -89,7 +91,7 @@ export function recommendedFlagSummary(type: OrganizationType): string {
   const flags = recommendedFlagsForType(type);
   const participation = flags.participationMode === "expected" ? "Expected" : "Open";
   if (flags.verticalPack === "rehab") {
-    return `Recommended flags: ${participation} participation and the Rehab pack. Desk routes stay the same.`;
+    return `Recommended flags: ${participation} participation, the Rehab pack, and leader_assessment_answers off. Desk routes stay the same.`;
   }
   if (flags.verticalPack === "armed_forces") {
     return `Recommended flags: ${participation} participation and the Armed Forces pack. Desk routes stay the same.`;
