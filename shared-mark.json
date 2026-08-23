@@ -1,7 +1,7 @@
 {
   "mark": 7,
-  "patch": 107,
-  "label": "Shared 1-1.107",
+  "patch": 108,
+  "label": "Shared 1-1.108",
   "tag": "shared/7",
   "at": "2026-08-21T08:44:31.105Z",
   "internalSha": "890fa8b684cc17a21c0ccbc13b787b24016b129e",
@@ -757,6 +757,13 @@
       "label": "Shared 1-1.107",
       "at": "2026-08-23",
       "title": "Put a draft counsel pack on Account without claiming executed status."
+    },
+    {
+      "patch": 108,
+      "revision": "1.108",
+      "label": "Shared 1-1.108",
+      "at": "2026-08-23",
+      "title": "Show a quiet Account trust strip for single sign-on and data-processing drafts."
     }
   ]
 }
