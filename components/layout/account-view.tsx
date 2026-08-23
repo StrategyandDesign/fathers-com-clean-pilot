@@ -9,11 +9,10 @@ import { LanguageForm } from "@/components/i18n/language-form";
 import { LegalLinks } from "@/components/legal/legal-links";
 import { Flash } from "@/components/manager/flash";
 import { UserAvatar } from "@/components/layout/user-avatar";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { managerDisplayTitleLabel } from "@/lib/account/display-title";
 import { loadAccountState, loadOrganizationName } from "@/lib/account/data";
 import { loadFatherLeader } from "@/lib/cohort-note/data";
-import { signOut } from "@/lib/auth/actions";
 import { ROLE_HELP, type AppRole } from "@/lib/auth/roles";
 import { SHOW_HEBREW } from "@/lib/i18n/config";
 import { getI18n } from "@/lib/i18n/server";
@@ -49,17 +48,25 @@ export async function AccountView({
 
   return (
     <div className="mx-auto max-w-2xl space-y-8">
-      <header>
-        <h1 className="font-heading text-2xl font-semibold tracking-tight">{t("account.title")}</h1>
-        <p className="mt-1 text-sm text-muted-foreground">
-          {role === "manager"
-            ? t("account.managerLead")
-            : role === "father"
-              ? t("account.fatherLead")
-              : role === "reviewer"
-                ? t("account.reviewerLead")
-                : t("account.staffLead")}
-        </p>
+      <header className="flex items-start justify-between gap-4">
+        <div className="min-w-0">
+          <h1 className="font-heading text-2xl font-semibold tracking-tight">{t("account.title")}</h1>
+          <p className="mt-1 text-sm text-muted-foreground">
+            {role === "manager"
+              ? t("account.managerLead")
+              : role === "father"
+                ? t("account.fatherLead")
+                : role === "reviewer"
+                  ? t("account.reviewerLead")
+                  : t("account.staffLead")}
+          </p>
+        </div>
+        <Link
+          href="/logout"
+          className={cn(buttonVariants({ variant: "outline" }), "shrink-0")}
+        >
+          {t("auth.signOut")}
+        </Link>
       </header>
       <Flash error={error} notice={notice} />
 
@@ -147,14 +154,7 @@ export async function AccountView({
       )}
 
       <footer className="border-t border-border pt-6">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <form action={signOut}>
-            <Button type="submit" variant="destructive" className="w-full sm:w-auto">
-              {t("auth.signOut")}
-            </Button>
-          </form>
-          <LegalLinks />
-        </div>
+        <LegalLinks />
       </footer>
     </div>
   );

@@ -53,16 +53,16 @@ Invite code for new fathers: `12345`
 | `manager@nwa` | Leader (Brenda) | `/manager` |
 | `reviewer@nwa` | Reviewer, scoped to NWA | `/reviewer` |
 
-### Unit 8200 (Hebrew)
+### Hebrew Pilot Group (Hebrew)
 
-Invite code: `il`
+Invite code: `il`. Same `@il` seats as before. The group name is neutral.
 
 | Email | Role | Lands on |
 |---|---|---|
 | `father1@il` | Father | `/father` |
 | `father2@il` | Father | `/father` |
 | `manager@il` | Leader | `/manager` |
-| `reviewer@il` | Reviewer, scoped to Unit 8200 | `/reviewer` |
+| `reviewer@il` | Reviewer, scoped to Hebrew Pilot Group | `/reviewer` |
 
 ### Super-admin
 
@@ -72,7 +72,7 @@ Invite code: `il`
 
 Sign out and sign in once if a role looks wrong (JWT refresh). Use three browsers or profiles so cookies do not collide.
 
-Re-run `supabase/sql/seed_returning_home_nwa.sql` or `supabase/sql/seed_unit_8200.sql` in the Pilot SQL editor if a seat loses its organization.
+Re-run `supabase/sql/seed_returning_home_nwa.sql` or `supabase/sql/seed_unit_8200.sql` in the Pilot SQL editor if a seat loses its organization. Re-run `supabase/sql/pilot_hygiene_issue_17.sql` if Test Training, the test desk note, or the old military-unit org name comes back.
 
 ## Current hosts (probed 18 August 2026)
 

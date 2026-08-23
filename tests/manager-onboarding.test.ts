@@ -83,6 +83,7 @@ describe("leader first-run", () => {
   it("keeps /join/leader on the public auth path", () => {
     assert.equal(isAuthPath("/join/leader"), true);
     assert.equal(isAuthPath("/signup"), true);
+    assert.equal(isAuthPath("/logout"), false);
     assert.equal(isAuthPath("/manager/start"), false);
   });
 });

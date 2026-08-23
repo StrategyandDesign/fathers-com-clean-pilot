@@ -4,6 +4,7 @@ import { parseManagerDisplayTitle } from "@/lib/account/display-title";
 import { parseNotificationPreferences } from "@/lib/account/preferences";
 import { isPublicLocale } from "@/lib/i18n/config";
 import { parseNotificationPrefsRow, scheduleFromPrefs } from "@/lib/notifications/prefs";
+import { neutralizePilotOrgName } from "@/lib/pilot/hygiene";
 import { createClient } from "@/lib/supabase/server";
 import { AVATARS_BUCKET, signStorageUrl } from "@/lib/storage";
 
@@ -32,7 +33,7 @@ export const loadOrganizationName = cache(async (userId: string) => {
   const nameById = new Map(
     ((groups ?? []) as Array<{ id: string; name: string | null }>).map((group) => [
       group.id,
-      group.name?.trim() || "",
+      neutralizePilotOrgName(group.name) || "",
     ])
   );
   const names = groupIds.map((id) => nameById.get(id) ?? "").filter(Boolean);

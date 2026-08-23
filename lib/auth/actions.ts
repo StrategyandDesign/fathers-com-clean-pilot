@@ -149,7 +149,7 @@ export async function signUp(formData: FormData) {
   redirect(ROLE_HOME.father);
 }
 
-export async function signOut() {
+export async function performSignOut() {
   const supabase = await createClient();
   await supabase.auth.signOut();
   try {
@@ -160,5 +160,9 @@ export async function signOut() {
   } catch {
     // Cookie clear is best-effort; sign-out still proceeds.
   }
+}
+
+export async function signOut() {
+  await performSignOut();
   redirect("/login");
 }

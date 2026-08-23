@@ -1,7 +1,7 @@
 {
   "mark": 7,
-  "patch": 102,
-  "label": "Shared 1-1.102",
+  "patch": 103,
+  "label": "Shared 1-1.103",
   "tag": "shared/7",
   "at": "2026-08-21T08:44:31.105Z",
   "internalSha": "890fa8b684cc17a21c0ccbc13b787b24016b129e",
@@ -722,6 +722,13 @@
       "label": "Shared 1-1.102",
       "at": "2026-08-23",
       "title": "Add public certificate verify and a completion-only disclaimer."
+    },
+    {
+      "patch": 103,
+      "revision": "1.103",
+      "label": "Shared 1-1.103",
+      "at": "2026-08-23",
+      "title": "Clear logout, hide issue chrome, and keep test content off default seats."
     }
   ]
 }
