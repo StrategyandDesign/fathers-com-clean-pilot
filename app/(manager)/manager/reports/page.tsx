@@ -6,7 +6,7 @@ import { EmptyState } from "@/components/ui/empty-state";
 import { requireRole } from "@/lib/auth/session";
 import { DestinationCard } from "@/components/export/destination-card";
 import { loadExportDestinations, loadExportPushEvents } from "@/lib/export/data";
-import { fidelityBoardEnabled, secureExportEnabled } from "@/lib/flags";
+import { fidelityBoardEnabled, secureExportEnabled, verticalPackArmedForces } from "@/lib/flags";
 import { loadCounselPackStatesForGroups } from "@/lib/counsel/data";
 import { reportRedisclosureEnabled } from "@/lib/counsel/pack";
 import { translateAssignmentStatus } from "@/lib/i18n/flash";
@@ -45,6 +45,7 @@ export default async function ManagerReportsPage({
   const redisclosure = reportRedisclosureEnabled(scopedCounsel);
   const fidelityEnabled = fidelityBoardEnabled();
   const exportEnabled = secureExportEnabled();
+  const armedForcesPack = verticalPackArmedForces();
   const destinations = exportEnabled
     ? await loadExportDestinations(report.groups.map((group) => group.id))
     : [];
@@ -201,8 +202,27 @@ export default async function ManagerReportsPage({
           >
             {t("manager.reports.qiPacket")}
           </Link>
+          {armedForcesPack ? (
+            <>
+              <Link
+                href={`/api/manager/reports/export?${exportQuery}preset=closeout&format=csv`}
+                className={cn(buttonVariants({ variant: "outline" }), "w-full sm:w-auto")}
+              >
+                {t("manager.reports.closeoutCsv")}
+              </Link>
+              <Link
+                href={`/api/manager/reports/export?${exportQuery}preset=closeout&format=print`}
+                className={cn(buttonVariants({ variant: "outline" }), "w-full sm:w-auto")}
+              >
+                {t("manager.reports.closeoutPrint")}
+              </Link>
+            </>
+          ) : null}
         </div>
         <p className="mt-3 text-xs text-muted-foreground">{t("manager.reports.qiPacketHint")}</p>
+        {armedForcesPack ? (
+          <p className="mt-3 text-xs text-muted-foreground">{t("manager.reports.closeoutHint")}</p>
+        ) : null}
         {redisclosure ? (
           <p className="mt-3 text-xs text-muted-foreground">{t("manager.reports.redisclosure")}</p>
         ) : null}

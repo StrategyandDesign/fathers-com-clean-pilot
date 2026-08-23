@@ -7,6 +7,7 @@ import { NotificationPrefs } from "@/components/account/notification-prefs";
 import { PaletteForm } from "@/components/account/palette-form";
 import { LanguageForm } from "@/components/i18n/language-form";
 import { CounselAccountLink } from "@/components/counsel/counsel-account-link";
+import { ArmedForcesAdminLink } from "@/components/verticals/armed-forces-link";
 import { TeamAccountLink } from "@/components/fidelity/team-account-link";
 import { AccountSecurityLink } from "@/components/identity/account-security-link";
 import { AdminTrustLink } from "@/components/trust/admin-trust-link";
@@ -167,6 +168,7 @@ export async function AccountView({
       {role === "manager" ? <CounselAccountLink href="/manager/account/counsel" /> : null}
       {role === "admin" ? <CounselAccountLink href="/admin/account/counsel" /> : null}
       {role === "admin" ? <AdminTrustLink /> : null}
+      {role === "admin" ? <ArmedForcesAdminLink /> : null}
 
       <footer className="border-t border-border pt-6">
         <LegalLinks />

@@ -159,6 +159,7 @@ Do not ship marketing that treats this product as:
 - clinically efficacious or clinically proven
 - Title IV-E or Family First Prevention Services Act drawdown ready
 - Military and Family Life Counseling approved (no such record)
+- Building Strong and Ready Teams approved (no such record)
 - reunification-ready
 - risk-reduction proven
 

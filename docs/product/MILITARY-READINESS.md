@@ -30,8 +30,14 @@ SHOW_MILITARY stays False until then (POSITIONING.md 15 posture holds).
 5. Content: lead with Coming Home Present, which now includes the module
    fathers named in the research: catching up on how your child grew while
    you were away. Parenting confidence runs as a thread, not a lecture.
-6. Cost: free to the father, always. Sponsorship covers seats.
-7. Format options: father-only cohorts and a father-track-within-couples
+6. Cost: free to the father, always. Sponsorship covers organization
+   seats only. There are no rank VIP tiers.
+7. Approvals: there is no public Military and Family Life Counseling
+   approved or Building Strong and Ready Teams approved claim until a
+   written record exists. `vertical_pack_armed_forces` stays off until
+   Super-admin turns it on. The Super-admin checklist lives at
+   `/admin/verticals/armed-forces` and does not flip SHOW_MILITARY.
+8. Format options: father-only cohorts and a father-track-within-couples
    variant; units choose.
 
 ## Benchmarks, US

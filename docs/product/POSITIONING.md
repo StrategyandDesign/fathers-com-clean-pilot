@@ -114,6 +114,7 @@ a clinical chart.
 - **Library membership**: optional B2C support for film production. UI: Founding Library Member at $79, then $120. Never call this sponsor. Never say it funds free seats. Courses stay free either way. Checkout CTA: Support film production → `checkout.html`.
 - **Claimed seat**: operational enrollment. Certificate signer language: "your Certified Facilitator" or "who claimed your seat." Never "sponsored your seat."
 - **Seat sponsorship ($120/man)**: retired. Do not revive in copy or partner materials.
+- **Armed Forces sponsorship**: organization seats only. There are no rank VIP tiers. The father stays free.
 
 ## 10. Design partner: Returning Home, Inc. (returninghomenwa.com)
 
@@ -301,7 +302,10 @@ below is enforced by tools/check_release.py where a scanner can enforce it.
    Frozen as product status, never printed as ours: clinical-efficacy
    marketing; Title IV-E or Family First Prevention Services Act drawdown;
    Military and Family Life Counseling approved without record;
-   reunification-ready; risk-reduction proven. The only
+   Building Strong and Ready Teams approved without record;
+   reunification-ready; risk-reduction proven. There is no public
+   Military and Family Life Counseling approved or Building Strong and
+   Ready Teams approved claim until a written record exists. The only
    clearinghouse-adjacent sales artifact is partner-kit/funder-brief.md.
    Cioffi 2023 and similar papers are content-shape analogs only, never this
    product's trial. Enforced by tests/copy-hygiene.test.ts and

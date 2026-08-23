@@ -578,6 +578,29 @@ export const en = {
       "Printable questionnaire and spreadsheet-friendly answers. Evidence pointers sit with the files.",
     packDownload: "Download",
   },
+  armedForces: {
+    title: "Armed Forces materials",
+    summary: "Armed Forces materials",
+    accountLead:
+      "Chaplain and unit checklist. Coming Home Present framing. This does not open a public military surface.",
+    open: "Open the Armed Forces checklist",
+    back: "Back to Account",
+    lead:
+      "Materials-approval pathway for Armed Forces and chaplain channels. Super-admin only. No armed-conflict imagery.",
+    comingHome:
+      "Coming Home Present stays a return-and-reconnect training. Treatment house, program rules, first calls home, and first night back.",
+    gatesTitle: "Readiness gates",
+    gatesBody:
+      "Rehabilitation proof, a clean efficacy pipeline, and one informal military champion still have to land. vertical_pack_armed_forces stays off until Super-admin turns it on.",
+    showMilitaryLine: "SHOW_MILITARY stays {state}. This page does not flip it.",
+    checklistTitle: "Approval checklist",
+    checklistLead:
+      "Work these items before any public Armed Forces claim. Expand every acronym. Do not invent clinical chart fields.",
+    downloadsTitle: "Counsel and product pack",
+    downloadsLead:
+      "Draft inventory, attestation, Title 10 United States Code section 1789 note, and a blank event closeout. Downloads stay drafts.",
+    download: "Download draft",
+  },
   identity: {
     title: "Sign-in security",
     summary: "Sign-in security",
@@ -1690,6 +1713,10 @@ export const en = {
       qiPacket: "Download quality improvement packet",
       qiPacketHint:
         "Completion spreadsheet, fidelity summary, facilitator credentials, and certificate serials. No answer text. Does not include clinical outcomes.",
+      closeoutCsv: "Download event closeout CSV",
+      closeoutPrint: "Download event closeout printable",
+      closeoutHint:
+        "Attendance and completion aggregates only. Not counseling content. Armed Forces pack flag is on.",
       preview: "Preview",
       countRows: "{shown} assignment rows · {men} of {total} men",
       countSelected: "{shown} of {total} participants · status is for the selected training.",

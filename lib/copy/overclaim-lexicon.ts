@@ -42,7 +42,16 @@ export const OVERCLAIM_RULES: OverclaimRule[] = [
     id: "mflc-approved",
     kind: "hard",
     label: "Military and Family Life Counseling approved without record",
-    pattern: /(?:mflc|military and family life counseling)\s+approved/i,
+    pattern:
+      /(?:(?:mflc|military and family life counseling)\s+approved|approved(?:\s+for)?\s+(?:mflc|military and family life counseling))/i,
+    allowNegated: true,
+  },
+  {
+    id: "bsrt-approved",
+    kind: "hard",
+    label: "Building Strong and Ready Teams approved without record",
+    pattern:
+      /(?:(?:bsrt|building strong and ready teams)\s+approved|approved(?:\s+for)?\s+(?:bsrt|building strong and ready teams))/i,
     allowNegated: true,
   },
   {
@@ -107,6 +116,7 @@ export const GOVERNED_LIVE_ROOTS = [
   "lib/i18n",
   "lib/certificates",
   "lib/trust",
+  "lib/verticals",
 ] as const;
 
 export const GOVERNED_SALES_ROOTS = ["partner-kit"] as const;

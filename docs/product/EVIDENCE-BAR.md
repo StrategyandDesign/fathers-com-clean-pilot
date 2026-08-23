@@ -38,7 +38,10 @@ No fatherhood curriculum holds that ground. This document is the path to it.
 4. Frozen marketing phrases, never product status: clinical-efficacy
    marketing; Title IV-E or Family First Prevention Services Act drawdown;
    Military and Family Life Counseling approved without record;
-   reunification-ready; risk-reduction proven.
+   Building Strong and Ready Teams approved without record;
+   reunification-ready; risk-reduction proven. There is no public
+   Military and Family Life Counseling approved or Building Strong and
+   Ready Teams approved claim until a written record exists.
 5. The only clearinghouse-adjacent sales artifact is
    partner-kit/funder-brief.md. It states the non-rating honestly and sells
    completion and operations. No live marketing page claims Clearinghouse
