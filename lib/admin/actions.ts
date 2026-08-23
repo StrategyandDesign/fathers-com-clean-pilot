@@ -60,6 +60,11 @@ import {
 } from "@/lib/trainings/runtime";
 import { fetchYoutubeDurationSeconds } from "@/lib/trainings/youtube-duration";
 import { sourcedReleaseBlocker } from "@/lib/admin/sourcing";
+import {
+  nextParticipationModeForTypeChange,
+  organizationInsertFields,
+  parseOrganizationType,
+} from "@/lib/organization-type";
 
 const YOUTUBE_URL_ERROR =
   "Use a YouTube video link. Playlists and other sites will not play.";
@@ -76,6 +81,12 @@ function fail(path: string, message: string): never {
 
 function ok(path: string, notice: string): never {
   redirect(`${path}?notice=${encodeURIComponent(notice)}`);
+}
+
+function readOrganizationType(formData: FormData, path: string) {
+  const type = parseOrganizationType(formData.get("organization_type"));
+  if (!type) fail(path, "Choose an organization type.");
+  return type;
 }
 
 function finish(path: string, input: { notice?: string; error?: string }): never {
@@ -277,6 +288,7 @@ export async function createOrganization(formData: FormData) {
   await requireRole("admin");
   const name = String(formData.get("name") ?? "").trim();
   const managerId = String(formData.get("manager_id") ?? "").trim();
+  const organizationType = readOrganizationType(formData, "/admin/organizations/new");
 
   if (!name) fail("/admin/organizations/new", "Name is required.");
   if (!managerId) fail("/admin/organizations/new", "Choose a manager.");
@@ -298,6 +310,7 @@ export async function createOrganization(formData: FormData) {
     .insert({
       name,
       manager_id: managerId,
+      ...organizationInsertFields(organizationType),
     })
     .select("id")
     .single();
@@ -325,6 +338,7 @@ export async function provisionOrganization(formData: FormData) {
   const email = normalizeInviteEmail(formData.get("email"));
   const fullName = String(formData.get("full_name") ?? "").trim() || null;
   const managerId = String(formData.get("manager_id") ?? "").trim();
+  const organizationType = readOrganizationType(formData, path);
 
   if (!name) fail(path, "Name is required.");
   if (fullName && fullName.length > 80) fail(path, "Keep the name under 80 characters.");
@@ -344,7 +358,11 @@ export async function provisionOrganization(formData: FormData) {
     const supabase = await createClient();
     const { data, error } = await supabase
       .from("groups")
-      .insert({ name, manager_id: existing.id })
+      .insert({
+        name,
+        manager_id: existing.id,
+        ...organizationInsertFields(organizationType),
+      })
       .select("id")
       .single();
     if (error) fail(path, error.message);
@@ -371,6 +389,7 @@ export async function provisionOrganization(formData: FormData) {
     email,
     full_name: fullName,
     organization_name: name,
+    organization_type: organizationType,
     invited_by: user.id,
     expires_at: managerInviteExpiresAt().toISOString(),
   });
@@ -441,6 +460,7 @@ export async function updateOrganization(formData: FormData) {
   const path = `/admin/organizations/${groupId}`;
   const name = String(formData.get("name") ?? "").trim();
   const managerId = String(formData.get("manager_id") ?? "").trim();
+  const organizationType = readOrganizationType(formData, path);
 
   if (!groupId) fail("/admin/organizations", "Choose an organization.");
   if (!name) fail(path, "Name is required.");
@@ -458,9 +478,25 @@ export async function updateOrganization(formData: FormData) {
     fail(path, "That user is not a manager. Change their role first.");
   }
 
+  const { data: current, error: currentError } = await supabase
+    .from("groups")
+    .select("organization_type, participation_mode")
+    .eq("id", groupId)
+    .maybeSingle();
+  if (currentError) fail(path, currentError.message);
+
   const { error } = await supabase
     .from("groups")
-    .update({ name, manager_id: managerId })
+    .update({
+      name,
+      manager_id: managerId,
+      organization_type: organizationType,
+      participation_mode: nextParticipationModeForTypeChange(
+        current?.participation_mode,
+        current?.organization_type,
+        organizationType
+      ),
+    })
     .eq("id", groupId);
 
   if (error) fail(path, error.message);

@@ -42,6 +42,7 @@ export type ManagerInviteRow = {
   email: string;
   fullName: string | null;
   organizationName: string;
+  organizationType?: string | null;
   groupId: string | null;
   acceptedAt: string | null;
   expiresAt: string;
@@ -59,6 +60,7 @@ export function asManagerInvite(row: Record<string, unknown>): ManagerInviteRow 
     email: row.email,
     fullName: typeof row.full_name === "string" ? row.full_name : null,
     organizationName: row.organization_name,
+    organizationType: typeof row.organization_type === "string" ? row.organization_type : null,
     groupId: typeof row.group_id === "string" ? row.group_id : null,
     acceptedAt: typeof row.accepted_at === "string" ? row.accepted_at : null,
     expiresAt: row.expires_at,

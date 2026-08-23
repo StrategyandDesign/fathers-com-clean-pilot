@@ -6,6 +6,7 @@ import { EmptyState } from "@/components/ui/empty-state";
 import { loadAdminOrganizations, loadManagerInvites } from "@/lib/admin/data";
 import { isManagerInviteOpen } from "@/lib/manager/invite";
 import { requireRole } from "@/lib/auth/session";
+import { organizationTypeLabel } from "@/lib/organization-type";
 import { interactiveSurfaceClassName } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 
@@ -88,6 +89,9 @@ export default async function AdminOrganizationsPage({
                 >
                   <span className="min-w-0">
                     <span className="block truncate font-medium">{org.name}</span>
+                    <span className="block truncate text-sm text-muted-foreground">
+                      {organizationTypeLabel(org.organization_type) ?? "Type not set"}
+                    </span>
                     <span className="block truncate font-mono text-sm text-muted-foreground md:hidden">
                       {org.invite_code}
                     </span>

@@ -71,7 +71,7 @@ export async function loadManagerInvites(): Promise<ManagerInviteRow[]> {
   const { data, error } = await supabase
     .from("manager_invites")
     .select(
-      "id, email, full_name, organization_name, group_id, accepted_at, expires_at, created_at"
+      "id, email, full_name, organization_name, organization_type, group_id, accepted_at, expires_at, created_at"
     )
     .order("created_at", { ascending: false });
   if (error) return [];

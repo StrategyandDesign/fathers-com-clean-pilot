@@ -8,6 +8,11 @@
  * persisted on session_progress. This flag is facilitator visibility of
  * that existing father tap (completed / not yet / dismissed / stale).
  * Set ROSTER_PRACTICE_LIGHT to 0 / false / off to hide the quiet light.
+ *
+ * Organization type (rehab / armed_forces_unit /
+ * performance_optimization_group / other) recommends default flags only
+ * via recommendedFlagsForType() in lib/organization-type.ts. It does not
+ * fork Desk routes or flip these env flags.
  */
 export const CERTIFICATES_REQUIRE_CLAIM = "certificates_require_claim";
 export const PILOT_SHOW_TEST_CONTENT = "pilot_show_test_content";

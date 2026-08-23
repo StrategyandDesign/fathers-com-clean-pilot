@@ -11,6 +11,7 @@ import {
   hashManagerInviteToken,
   isManagerInviteOpen,
 } from "@/lib/manager/invite";
+import { organizationInsertFields, parseOrganizationType } from "@/lib/organization-type";
 
 function joinPath(token: string, message: string): never {
   const params = new URLSearchParams();
@@ -49,7 +50,7 @@ export async function joinAsLeader(formData: FormData) {
   const { data, error } = await admin
     .from("manager_invites")
     .select(
-      "id, email, full_name, organization_name, group_id, accepted_at, expires_at, created_at"
+      "id, email, full_name, organization_name, organization_type, group_id, accepted_at, expires_at, created_at"
     )
     .eq("token_hash", hashManagerInviteToken(token))
     .maybeSingle();
@@ -109,11 +110,13 @@ export async function joinAsLeader(formData: FormData) {
       joinPath(token, "The account was created, but the desk is not ready. Ask a Super-admin.");
     }
   } else {
+    const organizationType = parseOrganizationType(invite.organizationType);
     const { data: group } = await admin
       .from("groups")
       .insert({
         name: invite.organizationName,
         manager_id: userId,
+        ...(organizationType ? organizationInsertFields(organizationType) : {}),
       })
       .select("id")
       .single();

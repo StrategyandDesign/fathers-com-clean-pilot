@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { provisionOrganization } from "@/lib/admin/actions";
 import { loadAdminUsers } from "@/lib/admin/data";
+import { OrganizationTypeField } from "@/components/admin/organization-type-field";
 import { Flash } from "@/components/manager/flash";
 import { Button } from "@/components/ui/button";
 import { requireRole } from "@/lib/auth/session";
@@ -46,6 +47,7 @@ export default async function AdminNewOrganizationPage({
             aria-invalid={Boolean(flash.error) || undefined}
           />
         </label>
+        <OrganizationTypeField error={Boolean(flash.error)} />
         <label className="block space-y-2">
           <span className="text-sm text-muted-foreground">Leader email</span>
           <input

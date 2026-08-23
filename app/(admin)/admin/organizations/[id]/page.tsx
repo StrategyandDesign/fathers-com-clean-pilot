@@ -9,12 +9,14 @@ import {
 } from "@/lib/org-staff/actions";
 import { canRemoveStaff } from "@/lib/org-staff/types";
 import { loadAdminOrganization } from "@/lib/admin/data";
+import { OrganizationTypeField } from "@/components/admin/organization-type-field";
 import { CopyButton } from "@/components/manager/copy-button";
 import { Flash } from "@/components/manager/flash";
 import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/ui/empty-state";
 import { requireRole } from "@/lib/auth/session";
 import { formatShortDate } from "@/lib/manager/types";
+import { parseOrganizationType } from "@/lib/organization-type";
 import { fieldClassName, interactiveLinkClassName } from "@/lib/ui";
 
 export default async function AdminOrganizationDetailPage({
@@ -80,6 +82,10 @@ export default async function AdminOrganizationDetailPage({
             aria-invalid={Boolean(flash.error) || undefined}
           />
         </label>
+        <OrganizationTypeField
+          defaultValue={parseOrganizationType(group.organization_type)}
+          error={Boolean(flash.error)}
+        />
         <label className="block space-y-2">
           <span className="text-sm text-muted-foreground">Listed owner</span>
           <select
