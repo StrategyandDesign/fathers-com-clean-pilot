@@ -4,6 +4,7 @@ import { requireRole } from "@/lib/auth/session";
 import { insightQuery, parseInsightSearchParams } from "@/lib/reviewer/insights";
 import { renderReviewerSummaryPdf } from "@/lib/reviewer/summary-pdf";
 import { loadReviewerImpactSummaryExport, summaryFilename } from "@/lib/reviewer/summary";
+import { logServerError, publicErrorMessage } from "@/lib/security/public-error";
 import { allowRequestRateLimit } from "@/lib/security/rate-limit";
 
 export const runtime = "nodejs";
@@ -60,9 +61,7 @@ export async function GET(request: Request) {
       },
     });
   } catch (error) {
-    fail(
-      error instanceof Error ? error.message : "Could not generate the summary PDF.",
-      parsed.filters
-    );
+    logServerError("reviewer.summary_export", error);
+    fail(publicErrorMessage(error, "Could not generate the summary PDF."), parsed.filters);
   }
 }

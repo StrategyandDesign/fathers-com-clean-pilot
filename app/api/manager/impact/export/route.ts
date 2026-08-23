@@ -4,6 +4,7 @@ import { requireRole } from "@/lib/auth/session";
 import { resolveManagerExportLocale } from "@/lib/i18n/org-locale";
 import { renderImpactPdf } from "@/lib/manager/impact-pdf";
 import { impactFilename, loadManagerImpact } from "@/lib/manager/impact";
+import { logServerError, publicErrorMessage } from "@/lib/security/public-error";
 import { allowRequestRateLimit } from "@/lib/security/rate-limit";
 
 export const runtime = "nodejs";
@@ -31,6 +32,7 @@ export async function GET(request: Request) {
       },
     });
   } catch (error) {
-    fail(error instanceof Error ? error.message : "Could not generate the snapshot PDF.");
+    logServerError("manager.impact_export", error);
+    fail(publicErrorMessage(error, "Could not generate the snapshot PDF."));
   }
 }

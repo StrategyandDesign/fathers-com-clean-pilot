@@ -8,7 +8,7 @@ Official copies for Erik are even-numbered and date-stamped. See `SUBMITS.md`. *
 
 ## Transfer
 
-Read in this order. Do not start in `docs/product/` or `archive/`.
+**Start here.** Read in this order. Do not start in `docs/product/` or `archive/`. The operator runbook is [docs/engineering/PILOT.md](docs/engineering/PILOT.md).
 
 1. This file
 2. [docs/engineering/PILOT.md](docs/engineering/PILOT.md) — run, seats, hosts

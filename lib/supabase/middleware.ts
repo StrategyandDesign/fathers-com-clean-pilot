@@ -8,6 +8,7 @@ import {
   resolveRole,
   roleForPath,
 } from "@/lib/auth/roles";
+import { sessionFailureAction } from "@/lib/security/session-guard";
 import { isLocale, isPublicLocale, LOCALE_COOKIE, type Locale } from "@/lib/i18n/config";
 import { getSupabasePublishableKey, getSupabaseUrl } from "@/lib/supabase/env";
 import { PALETTE_COOKIE, paletteCookieOptions, parsePalette } from "@/lib/theme/palette";
@@ -43,6 +44,13 @@ export async function updateSession(request: NextRequest) {
   try {
     return await applySession(request);
   } catch {
+    if (sessionFailureAction(request.nextUrl.pathname) === "login") {
+      const url = request.nextUrl.clone();
+      url.pathname = "/login";
+      url.search = "";
+      url.searchParams.set("next", request.nextUrl.pathname);
+      return NextResponse.redirect(url);
+    }
     return nextWithPathname(request);
   }
 }

@@ -4,6 +4,7 @@ export const RATE_LIMITS = {
   "auth.signin": { limit: 10, windowMs: 15 * 60 * 1000 },
   "auth.signup": { limit: 5, windowMs: 60 * 60 * 1000 },
   "auth.leader_join": { limit: 5, windowMs: 60 * 60 * 1000 },
+  "push.subscribe": { limit: 20, windowMs: 15 * 60 * 1000 },
   "auth.sso": { limit: 10, windowMs: 15 * 60 * 1000 },
   "org.identity": { limit: 20, windowMs: 15 * 60 * 1000 },
   "identity.scim": { limit: 40, windowMs: 15 * 60 * 1000 },
@@ -81,8 +82,8 @@ export function allowRateLimit(route: RateLimitRoute, ip: string) {
     hits.set(key, recent);
     return true;
   } catch (error) {
-    console.error("[rate-limit] failed open", error);
-    return true;
+    console.error("[rate-limit] failed closed", error);
+    return false;
   }
 }
 
@@ -91,8 +92,8 @@ export async function allowActionRateLimit(route: RateLimitRoute) {
     const headerList = await headers();
     return allowRateLimit(route, clientIpFromHeaders(headerList));
   } catch (error) {
-    console.error("[rate-limit] failed open", error);
-    return true;
+    console.error("[rate-limit] failed closed", error);
+    return false;
   }
 }
 

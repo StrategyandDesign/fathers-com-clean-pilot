@@ -5,6 +5,7 @@ import { loadCounselPackStatesForGroups } from "@/lib/counsel/data";
 import { reportRedisclosureEnabled } from "@/lib/counsel/pack";
 import { verticalPackArmedForces } from "@/lib/flags";
 import { resolveManagerExportLocale } from "@/lib/i18n/org-locale";
+import { logServerError, publicErrorMessage } from "@/lib/security/public-error";
 import { allowRequestRateLimit } from "@/lib/security/rate-limit";
 import { renderReportPdf } from "@/lib/manager/report-pdf";
 import {
@@ -142,6 +143,7 @@ export async function GET(request: Request) {
       },
     });
   } catch (error) {
-    fail(error instanceof Error ? error.message : "Could not generate the PDF.", parsed.filters);
+    logServerError("manager.reports_export", error);
+    fail(publicErrorMessage(error, "Could not generate the PDF."), parsed.filters);
   }
 }
