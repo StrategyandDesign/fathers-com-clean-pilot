@@ -12,5 +12,6 @@ Start with [PILOT.md](PILOT.md). Then [production-launch.md](production-launch.m
 | [NETWORK-REQUIREMENTS.md](NETWORK-REQUIREMENTS.md) | Facility network |
 | [CONTENT-PIPELINE.md](CONTENT-PIPELINE.md) | Old content import |
 | [ENGINE.md](ENGINE.md) | Certification-engine notes from the static site |
+| [SHARED-1-1.117-SEAT-WALK.md](SHARED-1-1.117-SEAT-WALK.md) | Issues 1–17 smoke audit on Shared 1-1.117. Not production |
 
 Treat everything except PILOT as background, not as the current Next.js contract.
