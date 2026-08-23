@@ -15,6 +15,7 @@ import type { Certificate } from "@/lib/manager/types";
 import { actionSkillText } from "@/lib/father/action-commitment";
 import { formatSkillUseStatement, parseSkillUse, pickSkillUseFollowUp } from "@/lib/father/skill-use";
 import { parseTimeZone } from "@/lib/notifications/schedule";
+import { hidePilotTestTraining } from "@/lib/pilot/hygiene";
 
 function asProgress(row: SessionProgress): SessionProgress {
   return asSessionProgress(row);
@@ -142,6 +143,7 @@ export async function loadFatherHome(fatherId: string) {
         (session) => session.training_id === training.id && progressSessionIds.has(session.id)
       ),
     };
+    if (hidePilotTestTraining(training, access)) return false;
     return isTrainingVisibleInCatalog(training, access);
   });
 
@@ -315,7 +317,9 @@ export async function loadSessionContext(fatherId: string, sessionId: string) {
     hasProgress: trainingSessions.some((session) => progressBySession.has(session.id)),
     hasCertificate: Boolean(certificateRes.data),
   };
-  const visible = isTrainingVisibleInCatalog(typedTraining, access);
+  const visible =
+    !hidePilotTestTraining(typedTraining, access) &&
+    isTrainingVisibleInCatalog(typedTraining, access);
   if (!visible) {
     return null;
   }

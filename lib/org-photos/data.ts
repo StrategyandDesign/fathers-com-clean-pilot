@@ -22,6 +22,7 @@ import {
   type OrganizationPhotoSlotView,
 } from "@/lib/org-photos/slots";
 import { ORG_PHOTOS_BUCKET, signStorageUrls } from "@/lib/storage";
+import { neutralizePilotOrgName } from "@/lib/pilot/hygiene";
 import { createClient } from "@/lib/supabase/server";
 
 export type { OrganizationPhotoSlotView };
@@ -85,7 +86,7 @@ export function resolveHomeProfileCover(
 }
 
 function organizationName(name: string | null | undefined) {
-  const trimmed = name?.trim();
+  const trimmed = neutralizePilotOrgName(name);
   return trimmed || "this organization";
 }
 
@@ -335,7 +336,7 @@ export async function loadManagerOrganizationMarks(
 
   return organizations.map((organization) => ({
     groupId: organization.id,
-    name: organization.name?.trim() || "Your organization",
+    name: neutralizePilotOrgName(organization.name) || "Your organization",
     logoUrl: logoByGroup.get(organization.id) ?? null,
   }));
 }

@@ -31,6 +31,9 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   allowedDevOrigins: ["127.0.0.1", "localhost"],
+  // Next.js 15 paints a red "1 Issue" badge on authenticated seats during
+  // `next dev`. Pilot demos and production builds must not show that chrome.
+  devIndicators: false,
   serverExternalPackages: ["pdfkit", "web-push"],
   turbopack: {
     root: path.join(__dirname),

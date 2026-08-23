@@ -57,16 +57,19 @@ describe("leader invite tokens", () => {
       "https://app.fathers.com/join/leader?token=abc"
     );
     assert.equal(
-      managerInviteStatus({
-        id: "1",
-        email: "sam@org.org",
-        fullName: null,
-        organizationName: "NWA",
-        groupId: null,
-        acceptedAt: null,
-        expiresAt: "2026-08-21T12:00:00Z",
-        createdAt: "2026-08-20T12:00:00Z",
-      }),
+      managerInviteStatus(
+        {
+          id: "1",
+          email: "sam@org.org",
+          fullName: null,
+          organizationName: "NWA",
+          groupId: null,
+          acceptedAt: null,
+          expiresAt: "2026-08-21T12:00:00Z",
+          createdAt: "2026-08-20T12:00:00Z",
+        },
+        new Date("2026-08-20T15:00:00Z")
+      ),
       "pending"
     );
   });
@@ -83,6 +86,7 @@ describe("leader first-run", () => {
   it("keeps /join/leader on the public auth path", () => {
     assert.equal(isAuthPath("/join/leader"), true);
     assert.equal(isAuthPath("/signup"), true);
+    assert.equal(isAuthPath("/logout"), false);
     assert.equal(isAuthPath("/manager/start"), false);
   });
 });

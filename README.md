@@ -30,7 +30,7 @@ npm run dev
 
 Open http://127.0.0.1:3000/login
 
-Pilot seats (password `12345` on local and Vercel): `father@nwa`, `manager@nwa`, `reviewer@nwa`, plus the Unit 8200 `*@il` seats and `admin@fathers`. Details in the runbook.
+Pilot seats (password `12345` on local and Vercel): `father@nwa`, `manager@nwa`, `reviewer@nwa`, plus the Hebrew Pilot Group `*@il` seats and `admin@fathers`. Details in the runbook.
 
 ```bash
 npm run lint

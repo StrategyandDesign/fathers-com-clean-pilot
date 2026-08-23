@@ -1,5 +1,6 @@
 import { loadAdminUsers } from "@/lib/admin/data";
 import { createClient } from "@/lib/supabase/server";
+import { hidePilotTestStaffMessage, neutralizePilotOrgName } from "@/lib/pilot/hygiene";
 import {
   isStaffMessageAudience,
   isStaffMessageRole,
@@ -41,9 +42,10 @@ export async function loadStaffMessageDirectory(): Promise<StaffMessagePerson[]>
   const orgsByPerson = new Map<string, Set<string>>();
 
   function addOrg(profileId: string, name: string | undefined) {
-    if (!name) return;
+    const display = neutralizePilotOrgName(name);
+    if (!display) return;
     const current = orgsByPerson.get(profileId) ?? new Set<string>();
-    current.add(name);
+    current.add(display);
     orgsByPerson.set(profileId, current);
   }
 
@@ -167,7 +169,7 @@ export async function loadStaffRibbonMessages(
       ? row.platform_staff_messages[0]
       : row.platform_staff_messages;
     const body = typeof message?.body === "string" ? message.body.trim() : "";
-    if (!body) return [];
+    if (!body || hidePilotTestStaffMessage(body)) return [];
     return [
       {
         id: typeof message?.id === "string" ? message.id : row.message_id,

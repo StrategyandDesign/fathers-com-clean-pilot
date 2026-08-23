@@ -1,5 +1,6 @@
--- Idempotent Unit 8200 (code IL) satellite seed for the Pilot project.
+-- Idempotent Hebrew Pilot Group (code IL) satellite seed for the Pilot project.
 -- Organization locale is Hebrew. English organizations are not touched.
+-- Display name is neutral. Invite code and @il logins stay the same.
 --
 -- Logins (password 12345):
 --   manager@il   Manager
@@ -15,13 +16,16 @@ declare
   v_father1 uuid;
   v_father2 uuid;
 begin
-  select id into v_org from public.groups where code = 'IL' or name = 'Unit 8200' limit 1;
+  select id into v_org
+  from public.groups
+  where code = 'IL' or name in ('Hebrew Pilot Group', 'Unit 8200')
+  limit 1;
   if v_org is null then
-    raise exception 'Unit 8200 is missing. Create the organization and four auth users first.';
+    raise exception 'Hebrew Pilot Group is missing. Create the organization and four auth users first.';
   end if;
 
   update public.groups
-  set name = 'Unit 8200',
+  set name = 'Hebrew Pilot Group',
       code = 'IL',
       locale = 'he',
       invite_code = coalesce(nullif(invite_code, ''), 'il')
@@ -33,33 +37,49 @@ begin
   select u.id into v_father2 from auth.users u where u.email = 'father2@il';
 
   if v_manager is null or v_reviewer is null or v_father1 is null or v_father2 is null then
-    raise exception 'One or more Unit 8200 logins are missing.';
+    raise exception 'One or more Hebrew Pilot Group logins are missing.';
   end if;
 
   update public.groups set manager_id = v_manager where id = v_org;
 
   update public.profiles
   set role = 'manager',
-      full_name = coalesce(nullif(full_name, ''), 'Unit 8200 Manager'),
+      full_name = case
+        when full_name is null or btrim(full_name) = '' or full_name ilike '%Unit 8200%'
+          then 'Hebrew Pilot Group Leader'
+        else full_name
+      end,
       home_group_id = v_org
   where id = v_manager;
 
   update public.profiles
   set role = 'reviewer',
-      full_name = coalesce(nullif(full_name, ''), 'Unit 8200 Reviewer'),
+      full_name = case
+        when full_name is null or btrim(full_name) = '' or full_name ilike '%Unit 8200%'
+          then 'Hebrew Pilot Group Reviewer'
+        else full_name
+      end,
       locale = 'he',
       home_group_id = v_org
   where id = v_reviewer;
 
   update public.profiles
   set role = 'father',
-      full_name = coalesce(nullif(full_name, ''), 'Unit 8200 Father 1'),
+      full_name = case
+        when full_name is null or btrim(full_name) = '' or full_name ilike '%Unit 8200%'
+          then 'Hebrew Pilot Group Father 1'
+        else full_name
+      end,
       home_group_id = v_org
   where id = v_father1;
 
   update public.profiles
   set role = 'father',
-      full_name = coalesce(nullif(full_name, ''), 'Unit 8200 Father 2'),
+      full_name = case
+        when full_name is null or btrim(full_name) = '' or full_name ilike '%Unit 8200%'
+          then 'Hebrew Pilot Group Father 2'
+        else full_name
+      end,
       home_group_id = v_org
   where id = v_father2;
 

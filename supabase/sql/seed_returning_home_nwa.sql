@@ -1,5 +1,5 @@
 -- Idempotent Returning Home NWA satellite seed for the Pilot project.
--- Organization locale is English. Hebrew Unit 8200 is not touched.
+-- Organization locale is English. Hebrew Pilot Group (code IL) is not touched.
 --
 -- Logins (password 12345):
 --   manager@nwa   Leader (Brenda)
