@@ -7,6 +7,7 @@ Start with `POSITIONING.md` only if you need vocabulary, claims, or the educatio
 | File | What it was |
 |---|---|
 | [POSITIONING.md](POSITIONING.md) | Vocabulary, claims, education line |
+| [COUNSEL-PACK.md](COUNSEL-PACK.md) | Account counsel drafts, counsel_pack_required off by default |
 | [LAUNCH.md](LAUNCH.md) | Launch checklist from the static-site era |
 | [consent-returning-home.md](consent-returning-home.md) | Pilot-lane consent draft |
 | [ORG-ONBOARDING.md](ORG-ONBOARDING.md) | Org onboarding notes |

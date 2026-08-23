@@ -7,6 +7,7 @@ import { isSessionComplete, type SessionProgress, type Training } from "@/lib/fa
 import { rosterPracticeLight } from "@/lib/flags";
 import { dateLocale, DEFAULT_LOCALE, type Locale } from "@/lib/i18n/config";
 import { createTranslator, type Translate } from "@/lib/i18n/translate";
+import { REPORT_REDISCLOSURE_LINE } from "@/lib/counsel/pack";
 import {
   formatShortDate,
   latestTimestamp,
@@ -418,6 +419,7 @@ export function rowsToCsv(
     filters?: ReportFilters;
     trainings?: Training[];
     groups?: Array<{ id: string; name: string }>;
+    redisclosure?: boolean;
   }
 ) {
   const generatedAt = meta?.generatedAt ?? new Date().toISOString();
@@ -439,6 +441,7 @@ export function rowsToCsv(
           `# ${t("manager.reports.definitionInProgress")}`,
           `# ${t("manager.reports.definitionNotStarted")}`,
           `# ${t("manager.reports.definitionDates")}`,
+          ...(meta?.redisclosure ? [`# ${t("manager.reports.redisclosure")}`] : []),
         ]
       : [
           "# Fathers.com participation report",
@@ -452,6 +455,7 @@ export function rowsToCsv(
           "# Date range: last program activity (assignment, session, or certificate). Join date is not counted.",
           "# Email is omitted. Leaders cannot read login emails.",
           "# Practice: completed, not yet, dismissed, or stale. Flag only. No answer text.",
+          ...(meta?.redisclosure ? [`# ${REPORT_REDISCLOSURE_LINE}`] : []),
         ];
 
   const header =

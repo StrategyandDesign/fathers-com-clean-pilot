@@ -17,6 +17,11 @@
  * desk_consider_next_v1 defaults OFF until ranking is trustworthy.
  * Set DESK_CONSIDER_NEXT_V1 to 1 / true / on / yes to show Consider next
  * on /manager. Leave unset to keep the prior dashboard.
+ *
+ * counsel_pack_required is an organization flag on group_counsel_pack,
+ * default OFF. It is not an env flag. Super-admin turns it on per
+ * organization. When ON, Account counsel shows a checklist until
+ * Super-admin records an attached-pack mark (metadata only).
  */
 export const CERTIFICATES_REQUIRE_CLAIM = "certificates_require_claim";
 export const PILOT_SHOW_TEST_CONTENT = "pilot_show_test_content";

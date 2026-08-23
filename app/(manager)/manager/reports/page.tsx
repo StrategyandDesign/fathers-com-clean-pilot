@@ -4,6 +4,8 @@ import { Flash } from "@/components/manager/flash";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { EmptyState } from "@/components/ui/empty-state";
 import { requireRole } from "@/lib/auth/session";
+import { loadCounselPackStatesForGroups } from "@/lib/counsel/data";
+import { reportRedisclosureEnabled } from "@/lib/counsel/pack";
 import { translateAssignmentStatus } from "@/lib/i18n/flash";
 import { formatShortDate, getI18n } from "@/lib/i18n/server";
 import {
@@ -33,6 +35,11 @@ export default async function ManagerReportsPage({
   const { t, locale } = await getI18n();
   const parsed = parseReportSearchParams(params);
   const report = await loadManagerReport(user.id, parsed.filters);
+  const counsel = await loadCounselPackStatesForGroups(report.groups);
+  const scopedCounsel = parsed.filters.groupId
+    ? counsel.filter((state) => state.groupId === parsed.filters.groupId)
+    : counsel;
+  const redisclosure = reportRedisclosureEnabled(scopedCounsel);
   const query = reportQuery(parsed.filters);
   const exportQuery = query ? `${query}&` : "";
   const hasFilters = Boolean(
@@ -174,6 +181,9 @@ export default async function ManagerReportsPage({
             {t("manager.reports.pdf")}
           </Link>
         </div>
+        {redisclosure ? (
+          <p className="mt-3 text-xs text-muted-foreground">{t("manager.reports.redisclosure")}</p>
+        ) : null}
       </form>
 
       <section className="overflow-hidden rounded-xl border border-border bg-card">

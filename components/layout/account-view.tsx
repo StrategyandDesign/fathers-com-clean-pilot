@@ -6,6 +6,7 @@ import { DisplayTitleForm } from "@/components/account/display-title-form";
 import { NotificationPrefs } from "@/components/account/notification-prefs";
 import { PaletteForm } from "@/components/account/palette-form";
 import { LanguageForm } from "@/components/i18n/language-form";
+import { CounselAccountLink } from "@/components/counsel/counsel-account-link";
 import { LegalLinks } from "@/components/legal/legal-links";
 import { Flash } from "@/components/manager/flash";
 import { UserAvatar } from "@/components/layout/user-avatar";
@@ -152,6 +153,9 @@ export async function AccountView({
           </Link>
         </section>
       )}
+
+      {role === "manager" ? <CounselAccountLink href="/manager/account/counsel" /> : null}
+      {role === "admin" ? <CounselAccountLink href="/admin/account/counsel" /> : null}
 
       <footer className="border-t border-border pt-6">
         <LegalLinks />
