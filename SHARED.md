@@ -14,7 +14,7 @@ Submit 2 stays frozen on `submit/2`. The next official submit is still 4.
 
 ## Desk revisions
 
-The badge on this checkout is **Shared 1-1.120**. It ticks on each push of the Shared 1 desk. This does not create Shared 2. Submit 2 stays frozen.
+The badge on this checkout is **Shared 1-1.121**. It ticks on each push of the Shared 1 desk. This does not create Shared 2. Submit 2 stays frozen.
 
 | Revision | Date (UTC) | What landed |
 |---|---|---|
@@ -138,3 +138,4 @@ The badge on this checkout is **Shared 1-1.120**. It ticks on each push of the S
 | **1.118** | 2026-08-23 | Give Open items the full dashboard width and put the invite code below. |
 | **1.119** | 2026-08-23 | Put invite code and leader practice on one half-width bottom row. |
 | **1.120** | 2026-08-23 | Define pending actions as reviews and certificates waiting on the leader. |
+| **1.121** | 2026-08-23 | Load desk and Home updates without a terminal checkout or a manual reload. |

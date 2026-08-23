@@ -1,12 +1,12 @@
 {
   "mark": 7,
-  "patch": 120,
-  "label": "Shared 1-1.120",
+  "patch": 121,
+  "label": "Shared 1-1.121",
   "tag": "shared/7",
-  "at": "2026-08-23T14:20:00.000Z",
+  "at": "2026-08-23T19:00:00.000Z",
   "internalSha": "890fa8b684cc17a21c0ccbc13b787b24016b129e",
   "sharedSha": "",
-  "title": "Define pending actions as reviews and certificates waiting on the leader.",
+  "title": "Load desk and Home updates without a terminal checkout or a manual reload.",
   "url": "https://github.com/StrategyandDesign/fathers-com-clean-pilot/releases/tag/shared/7",
   "revisions": [
     {
@@ -848,6 +848,13 @@
       "label": "Shared 1-1.120",
       "at": "2026-08-23",
       "title": "Define pending actions as reviews and certificates waiting on the leader."
+    },
+    {
+      "patch": 121,
+      "revision": "1.121",
+      "label": "Shared 1-1.121",
+      "at": "2026-08-23",
+      "title": "Load desk and Home updates without a terminal checkout or a manual reload."
     }
   ]
 }

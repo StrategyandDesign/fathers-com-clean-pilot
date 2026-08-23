@@ -1,3 +1,4 @@
+import { FatherHomeSync } from "@/components/father/home-sync";
 import { RoleShell } from "@/components/layout/role-shell";
 import { loadCurrentAvatarUrl } from "@/lib/account/data";
 import { ensureFatherGroupJoin } from "@/lib/auth/group-join";
@@ -31,6 +32,7 @@ export default async function FatherLayout({
       organizationLogoUrl={organization?.logoUrl}
       onboardingActive={onboardingActive}
     >
+      <FatherHomeSync />
       {children}
     </RoleShell>
   );

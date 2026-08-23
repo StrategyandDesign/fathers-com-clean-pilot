@@ -172,12 +172,129 @@ function currentBranch(cwd, runner = run) {
   return result.status === 0 ? result.stdout.trim() : "";
 }
 
+export function isFollowableBranch(name) {
+  const branch = String(name ?? "").replace(/^origin\//, "");
+  return branch === "review" || branch.startsWith("cursor/");
+}
+
+export function patchFromSharedMark(source) {
+  try {
+    const parsed = JSON.parse(source);
+    const patch = Number(parsed.patch);
+    return Number.isInteger(patch) && patch > 0 ? patch : 0;
+  } catch {
+    return 0;
+  }
+}
+
+export function pickDeskBranch(rows) {
+  const list = rows.filter((row) => row && isFollowableBranch(row.branch));
+  if (!list.length) return null;
+  return list.slice().sort((left, right) => {
+    const patchDelta = (right.patch ?? 0) - (left.patch ?? 0);
+    if (patchDelta) return patchDelta;
+    return String(right.at ?? "").localeCompare(String(left.at ?? ""));
+  })[0];
+}
+
+export function parseRemoteRefs(stdout) {
+  return String(stdout ?? "")
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .flatMap((line) => {
+      const [ref, sha, at] = line.split("|");
+      if (!ref) return [];
+      const branch = ref.replace(/^origin\//, "");
+      return [{ ref, branch, sha: sha ?? "", at: at ?? "" }];
+    });
+}
+
+export function followLatestDesk(cwd, runner = run) {
+  if (process.env.FATHERS_LIVE_FOLLOW === "0") {
+    return { switched: false, reason: "disabled" };
+  }
+  const current = currentBranch(cwd, runner);
+  if (!current || current === "HEAD") {
+    return { switched: false, reason: "detached" };
+  }
+  if (!isFollowableBranch(current)) {
+    return { switched: false, reason: "pinned" };
+  }
+  const fromSha = runner("git", ["rev-parse", "HEAD"], cwd).stdout.trim();
+  const fetchAll = runner("git", ["fetch", "--quiet", "--prune", "origin"], cwd);
+  if (fetchAll.status !== 0) {
+    return { switched: false, reason: "fetch-all" };
+  }
+  const refs = parseRemoteRefs(
+    runner(
+      "git",
+      [
+        "for-each-ref",
+        "--format=%(refname:short)|%(objectname)|%(committerdate:iso-strict)",
+        "refs/remotes/origin",
+      ],
+      cwd
+    ).stdout
+  );
+  const candidates = refs.flatMap((row) => {
+    if (!isFollowableBranch(row.branch)) return [];
+    const shown = runner("git", ["show", `origin/${row.branch}:shared-mark.json`], cwd);
+    if (shown.status !== 0) return [];
+    return [
+      {
+        branch: row.branch,
+        patch: patchFromSharedMark(shown.stdout),
+        at: row.at,
+      },
+    ];
+  });
+  const best = pickDeskBranch(candidates);
+  if (!best || best.branch === current) {
+    return { switched: false, reason: "current", branch: current };
+  }
+  const dirty = blockingDirty(runner("git", ["status", "--porcelain"], cwd).stdout);
+  if (dirty.length) {
+    return { switched: false, reason: "dirty" };
+  }
+  const currentAhead = runner("git", ["rev-list", "--count", `origin/${current}..HEAD`], cwd)
+    .stdout.trim();
+  if (currentAhead && currentAhead !== "0") {
+    return { switched: false, reason: "ahead" };
+  }
+  const targetAhead = runner(
+    "git",
+    ["rev-list", "--count", `origin/${best.branch}..${best.branch}`],
+    cwd
+  );
+  if (targetAhead.status === 0 && targetAhead.stdout.trim() && targetAhead.stdout.trim() !== "0") {
+    return { switched: false, reason: "ahead" };
+  }
+  const checkout = runner(
+    "git",
+    ["checkout", "--quiet", "-B", best.branch, `origin/${best.branch}`],
+    cwd
+  );
+  if (checkout.status !== 0) {
+    return { switched: false, reason: "checkout" };
+  }
+  return { switched: true, reason: "switched", branch: best.branch, fromSha };
+}
+
 export function syncRepo(cwd, runner = run) {
+  const followed = followLatestDesk(cwd, runner);
   const branch = currentBranch(cwd, runner);
   if (!branch || branch === "HEAD") {
     return { ok: false, reason: "detached", changed: false, files: [] };
   }
-  const fetch = runner("git", ["fetch", "--quiet", "origin", branch], cwd);
+  const needsBranchFetch =
+    followed.reason === "fetch-all" ||
+    followed.reason === "disabled" ||
+    followed.reason === "pinned" ||
+    followed.reason === "detached";
+  const fetch = needsBranchFetch
+    ? runner("git", ["fetch", "--quiet", "origin", branch], cwd)
+    : { status: 0, stdout: "" };
   if (fetch.status !== 0) {
     return { ok: false, reason: "fetch", changed: false, files: [] };
   }
@@ -188,6 +305,15 @@ export function syncRepo(cwd, runner = run) {
   }
   const remote = remoteResult.stdout.trim();
   if (local === remote) {
+    if (followed.switched) {
+      const files = followed.fromSha
+        ? runner("git", ["diff", "--name-only", followed.fromSha, local], cwd)
+            .stdout.split("\n")
+            .map((line) => line.trim())
+            .filter(Boolean)
+        : ["shared-mark.json"];
+      return { ok: true, reason: "switched", changed: true, sha: local, files, branch };
+    }
     return { ok: true, reason: "current", changed: false, sha: local, files: [] };
   }
   const dirty = blockingDirty(runner("git", ["status", "--porcelain"], cwd).stdout);
