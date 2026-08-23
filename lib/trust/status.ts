@@ -13,11 +13,19 @@ export type SsoStatus = "not_connected" | "connected";
 
 export type PackTrustStatus = "drafts_available" | "checklist_open" | "attached_mark";
 
+export type TrustCounselHref = "/manager/account/counsel" | "/admin/account/counsel";
+
+export type TrustStatusHref =
+  | TrustCounselHref
+  | "/manager/account/security"
+  | `/admin/organizations/${string}/identity`;
+
 export type TrustStatusView = {
   ssoStatus: SsoStatus;
   ssoProviderName: string | null;
   packStatus: PackTrustStatus;
-  counselHref: "/manager/account/counsel" | "/admin/account/counsel";
+  counselHref: TrustCounselHref;
+  ssoHref?: TrustStatusHref;
 };
 
 export type TrustStatusLine = {
@@ -25,7 +33,7 @@ export type TrustStatusLine = {
   label: string;
   value: string;
   note: string;
-  href?: TrustStatusView["counselHref"];
+  href?: TrustStatusHref;
   linkLabel?: string;
 };
 
@@ -57,6 +65,7 @@ export function buildTrustStatusView(input: {
   sso?: unknown;
   states: CounselPackState[];
   counselHref: TrustStatusView["counselHref"];
+  ssoHref?: TrustStatusHref;
 }): TrustStatusView {
   const connection = parseSsoConnection(input.sso);
   return {
@@ -64,6 +73,7 @@ export function buildTrustStatusView(input: {
     ssoProviderName: connection?.providerName ?? null,
     packStatus: resolvePackTrustStatus(input.states),
     counselHref: input.counselHref,
+    ssoHref: input.ssoHref,
   };
 }
 
@@ -85,7 +95,9 @@ export function trustStatusLines(model: TrustStatusView, t: Translate): TrustSta
         ? model.ssoProviderName
           ? t("trust.ssoConnectedNote", { name: model.ssoProviderName })
           : t("trust.ssoConnectedNoteGeneric")
-        : t("trust.ssoComing"),
+        : t("trust.ssoOff"),
+      href: model.ssoHref,
+      linkLabel: model.ssoHref ? t("trust.openSecurity") : undefined,
     },
     {
       key: "pack",

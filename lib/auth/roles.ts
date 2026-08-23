@@ -98,7 +98,9 @@ export function isAuthPath(pathname: string) {
     pathname === "/signup" ||
     pathname.startsWith("/signup/") ||
     pathname === "/join" ||
-    pathname.startsWith("/join/")
+    pathname.startsWith("/join/") ||
+    pathname === "/auth/callback" ||
+    pathname.startsWith("/auth/callback/")
   );
 }
 

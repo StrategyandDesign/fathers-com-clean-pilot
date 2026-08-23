@@ -37,19 +37,20 @@ describe("single sign-on trust status", () => {
     assert.equal(resolveSsoStatus(parseSsoConnection({ connected: true })), "connected");
   });
 
-  it("renders Not connected and Coming via Issue 3 when nothing is wired", () => {
+  it("renders Not connected and the sso_enabled off note when nothing is wired", () => {
     const model = buildTrustStatusView({
       sso: null,
       states: [state()],
       counselHref: "/manager/account/counsel",
+      ssoHref: "/manager/account/security",
     });
     const lines = trustStatusLines(model, t);
     const sso = lines.find((line) => line.key === "sso");
     assert.ok(sso);
     assert.equal(sso.label, "Single sign-on");
     assert.equal(sso.value, "Not connected.");
-    assert.equal(sso.note, "Coming via Issue 3.");
-    assert.equal(sso.href, undefined);
+    assert.equal(sso.note, "Off unless Super-admin turns sso_enabled on.");
+    assert.equal(sso.href, "/manager/account/security");
   });
 
   it("renders Connected when an identity provider is already present", () => {
@@ -129,10 +130,10 @@ describe("trust strip wiring", () => {
     assert.match(account, /role === "manager" \|\| role === "admin"/);
     assert.match(accountStrip, /\/manager\/account\/counsel/);
     assert.match(accountStrip, /\/admin\/account\/counsel/);
-    assert.match(accountStrip, /sso: null/);
+    assert.match(accountStrip, /combinedSsoConnection|loadManagerSsoStatuses/);
     assert.match(orgPage, /OrgTrustStrip/);
     assert.match(orgStrip, /\/admin\/account\/counsel/);
-    assert.match(orgStrip, /sso: null/);
+    assert.match(orgStrip, /loadOrgSsoStatus/);
     assert.match(strip, /border-y border-border\/60/);
     assert.match(strip, /text-muted-foreground/);
     assert.match(strip, /line\.href/);
@@ -150,7 +151,7 @@ describe("trust strip wiring", () => {
     assert.match(readRepo("components/trust/account-trust-strip.tsx"), /loadManagerCounselPackStates/);
   });
 
-  it("does not add SAML or OIDC in this issue", () => {
+  it("links the single sign-on line to sign-in security without duplicating chrome", () => {
     const files = [
       "lib/trust/status.ts",
       "components/trust/trust-status-strip.tsx",
@@ -159,7 +160,9 @@ describe("trust strip wiring", () => {
     ];
     for (const file of files) {
       const source = readRepo(file);
-      assert.doesNotMatch(source, /SAML|OIDC|saml|oidc/);
+      assert.doesNotMatch(source, /Coming via Issue 3/);
     }
+    assert.match(readRepo("components/trust/account-trust-strip.tsx"), /ssoHref/);
+    assert.match(readRepo("components/layout/account-view.tsx"), /AccountSecurityLink/);
   });
 });

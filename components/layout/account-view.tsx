@@ -8,6 +8,7 @@ import { PaletteForm } from "@/components/account/palette-form";
 import { LanguageForm } from "@/components/i18n/language-form";
 import { CounselAccountLink } from "@/components/counsel/counsel-account-link";
 import { TeamAccountLink } from "@/components/fidelity/team-account-link";
+import { AccountSecurityLink } from "@/components/identity/account-security-link";
 import { AccountTrustStrip } from "@/components/trust/account-trust-strip";
 import { fidelityBoardEnabled } from "@/lib/flags";
 import { LegalLinks } from "@/components/legal/legal-links";
@@ -160,6 +161,7 @@ export async function AccountView({
       {role === "manager" || role === "admin" ? (
         <AccountTrustStrip role={role} userId={userId} />
       ) : null}
+      {role === "manager" ? <AccountSecurityLink href="/manager/account/security" /> : null}
       {role === "manager" && fidelityBoardEnabled() ? <TeamAccountLink /> : null}
       {role === "manager" ? <CounselAccountLink href="/manager/account/counsel" /> : null}
       {role === "admin" ? <CounselAccountLink href="/admin/account/counsel" /> : null}

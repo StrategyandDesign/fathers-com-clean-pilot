@@ -123,6 +123,11 @@ export default async function AdminOrganizationDetailPage({
       </form>
 
       <OrgTrustStrip state={counsel} />
+      <p className="text-sm text-muted-foreground">
+        <Link href={`/admin/organizations/${group.id}/identity`} className={interactiveLinkClassName}>
+          Identity
+        </Link>
+      </p>
       <CounselOrgCard state={counsel} returnTo={`/admin/organizations/${group.id}`} />
       <LeaderAnswersOrgCard
         groupId={group.id}

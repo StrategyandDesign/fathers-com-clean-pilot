@@ -33,6 +33,11 @@
  * desk. Set FIDELITY_BOARD_ENABLED to 1 / true / on / yes to show the
  * living fidelity checklist and Certified Facilitator registry under
  * Account and Desk. No new ribbon item.
+ *
+ * sso_enabled is an organization flag on group_sso, default OFF. It is
+ * not an env flag. Super-admin turns it on per organization and links
+ * an OpenID Connect or SAML 2.0 identity provider. Email and password
+ * stay for non-SSO orgs, Super-admin break-glass, and fathers.
  */
 export const CERTIFICATES_REQUIRE_CLAIM = "certificates_require_claim";
 export const PILOT_SHOW_TEST_CONTENT = "pilot_show_test_content";
@@ -40,6 +45,7 @@ export const ROSTER_PRACTICE_LIGHT = "roster_practice_light";
 export const DESK_CONSIDER_NEXT_V1 = "desk_consider_next_v1";
 export const LEADER_ASSESSMENT_ANSWERS = "leader_assessment_answers";
 export const FIDELITY_BOARD_ENABLED = "fidelity_board_enabled";
+export const SSO_ENABLED = "sso_enabled";
 
 function envFlag(name: string) {
   const raw = process.env[name]?.trim().toLowerCase() ?? "";

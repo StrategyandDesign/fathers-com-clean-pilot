@@ -10,6 +10,7 @@ Start with `POSITIONING.md` only if you need vocabulary, claims, or the educatio
 | [EVIDENCE-BAR.md](EVIDENCE-BAR.md) | Rating path, frozen overclaim list, Cioffi as content-shape analog |
 | [COUNSEL-PACK.md](COUNSEL-PACK.md) | Account counsel drafts, counsel_pack_required off by default |
 | [TRUST-STATUS.md](TRUST-STATUS.md) | Quiet Account and org trust strip for single sign-on and drafts |
+| [SINGLE-SIGN-ON.md](SINGLE-SIGN-ON.md) | Org-gated OpenID Connect or SAML 2.0; sso_enabled off by default |
 | [FACILITATOR-SUPPORT-MODEL.md](FACILITATOR-SUPPORT-MODEL.md) | Facilitator-supported film; flags-only default; optional answer unlock |
 | [FIDELITY-BOARD.md](FIDELITY-BOARD.md) | Living fidelity checklist and Certified Facilitator registry; fidelity_board_enabled off by default |
 | [LAUNCH.md](LAUNCH.md) | Launch checklist from the static-site era |

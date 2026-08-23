@@ -24,6 +24,7 @@ export type OrganizationFlagRecommendations = {
   recommendMilitarySurface: boolean;
   counselPackRequired: false;
   leaderAssessmentAnswers: false;
+  ssoEnabled: false;
 };
 
 export function isOrganizationType(value: unknown): value is OrganizationType {
@@ -63,6 +64,7 @@ export function recommendedFlagsForType(type: OrganizationType): OrganizationFla
     recommendMilitarySurface: type === "armed_forces_unit",
     counselPackRequired: false,
     leaderAssessmentAnswers: false,
+    ssoEnabled: false,
   };
 }
 
