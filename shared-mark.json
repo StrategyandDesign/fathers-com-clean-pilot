@@ -1,7 +1,7 @@
 {
   "mark": 7,
-  "patch": 110,
-  "label": "Shared 1-1.110",
+  "patch": 111,
+  "label": "Shared 1-1.111",
   "tag": "shared/7",
   "at": "2026-08-21T08:44:31.105Z",
   "internalSha": "890fa8b684cc17a21c0ccbc13b787b24016b129e",
@@ -778,6 +778,13 @@
       "label": "Shared 1-1.110",
       "at": "2026-08-23",
       "title": "Align privacy copy with flags-only assessment answers."
+    },
+    {
+      "patch": 111,
+      "revision": "1.111",
+      "label": "Shared 1-1.111",
+      "at": "2026-08-23",
+      "title": "Add a flagged fidelity checklist and Certified Facilitator registry."
     }
   ]
 }

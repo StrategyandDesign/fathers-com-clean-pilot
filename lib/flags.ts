@@ -28,12 +28,18 @@
  * answer payloads stay off the Leader desk unless the platform env
  * LEADER_ASSESSMENT_ANSWERS is on or Super-admin turns the org flag on.
  * Rehab recommendations keep this off.
+ *
+ * fidelity_board_enabled defaults OFF. Leave unset to keep the prior
+ * desk. Set FIDELITY_BOARD_ENABLED to 1 / true / on / yes to show the
+ * living fidelity checklist and Certified Facilitator registry under
+ * Account and Desk. No new ribbon item.
  */
 export const CERTIFICATES_REQUIRE_CLAIM = "certificates_require_claim";
 export const PILOT_SHOW_TEST_CONTENT = "pilot_show_test_content";
 export const ROSTER_PRACTICE_LIGHT = "roster_practice_light";
 export const DESK_CONSIDER_NEXT_V1 = "desk_consider_next_v1";
 export const LEADER_ASSESSMENT_ANSWERS = "leader_assessment_answers";
+export const FIDELITY_BOARD_ENABLED = "fidelity_board_enabled";
 
 function envFlag(name: string) {
   const raw = process.env[name]?.trim().toLowerCase() ?? "";
@@ -63,4 +69,8 @@ export function deskConsiderNextV1() {
 
 export function leaderAssessmentAnswers() {
   return envFlag("LEADER_ASSESSMENT_ANSWERS");
+}
+
+export function fidelityBoardEnabled() {
+  return envFlag("FIDELITY_BOARD_ENABLED");
 }

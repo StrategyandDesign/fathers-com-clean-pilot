@@ -4,6 +4,7 @@ import { Flash } from "@/components/manager/flash";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { EmptyState } from "@/components/ui/empty-state";
 import { requireRole } from "@/lib/auth/session";
+import { fidelityBoardEnabled } from "@/lib/flags";
 import { loadCounselPackStatesForGroups } from "@/lib/counsel/data";
 import { reportRedisclosureEnabled } from "@/lib/counsel/pack";
 import { translateAssignmentStatus } from "@/lib/i18n/flash";
@@ -40,6 +41,7 @@ export default async function ManagerReportsPage({
     ? counsel.filter((state) => state.groupId === parsed.filters.groupId)
     : counsel;
   const redisclosure = reportRedisclosureEnabled(scopedCounsel);
+  const fidelityEnabled = fidelityBoardEnabled();
   const query = reportQuery(parsed.filters);
   const exportQuery = query ? `${query}&` : "";
   const hasFilters = Boolean(
@@ -183,6 +185,23 @@ export default async function ManagerReportsPage({
         </div>
         {redisclosure ? (
           <p className="mt-3 text-xs text-muted-foreground">{t("manager.reports.redisclosure")}</p>
+        ) : null}
+        {fidelityEnabled ? (
+          <div className="mt-4 flex flex-col gap-2 border-t border-border pt-4 sm:flex-row sm:flex-wrap">
+            <Link
+              href="/api/manager/fidelity/export"
+              className={cn(buttonVariants({ variant: "outline" }), "w-full sm:w-auto")}
+            >
+              {t("fidelity.downloadSummary")}
+            </Link>
+            <Link
+              href="/api/manager/facilitators/export"
+              className={cn(buttonVariants({ variant: "outline" }), "w-full sm:w-auto")}
+            >
+              {t("fidelity.downloadRegistry")}
+            </Link>
+            <p className="w-full text-xs text-muted-foreground">{t("fidelity.exportHint")}</p>
+          </div>
         ) : null}
       </form>
 
