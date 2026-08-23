@@ -98,7 +98,7 @@ export function CompanionPanel({
         </Link>
         {briefing.readyCertificates[0] ? (
           <Link
-            href={`/manager/participants/${briefing.readyCertificates[0].fatherId}`}
+            href={`/manager/participants/${briefing.readyCertificates[0].fatherId}/certificates/${briefing.readyCertificates[0].trainingId}`}
             className={cn(buttonVariants({ variant: "outline" }), "w-full sm:w-auto")}
           >
             {t("manager.companion.issueCerts")}

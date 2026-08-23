@@ -14,7 +14,7 @@ Submit 2 stays frozen on `submit/2`. The next official submit is still 4.
 
 ## Desk revisions
 
-The badge on this checkout is **Shared 1-1.111**. It ticks on each push of the Shared 1 desk. This does not create Shared 2. Submit 2 stays frozen.
+The badge on this checkout is **Shared 1-1.112**. It ticks on each push of the Shared 1 desk. This does not create Shared 2. Submit 2 stays frozen.
 
 | Revision | Date (UTC) | What landed |
 |---|---|---|
@@ -129,3 +129,4 @@ The badge on this checkout is **Shared 1-1.111**. It ticks on each push of the S
 | **1.109** | 2026-08-23 | Keep custom assessment answers off Leader desks unless an org flag unlocks them. |
 | **1.110** | 2026-08-23 | Align privacy copy with flags-only assessment answers. |
 | **1.111** | 2026-08-23 | Add a flagged fidelity checklist and Certified Facilitator registry. |
+| **1.112** | 2026-08-23 | Make the Desk cold open glanceable and keep the roster lights usable. |

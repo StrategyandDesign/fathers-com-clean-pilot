@@ -10,7 +10,7 @@ import { getI18n } from "@/lib/i18n/server";
 import { buildCertificateDesk } from "@/lib/manager/certificates-desk";
 import { loadManagerWorkspace } from "@/lib/manager/data";
 import { isTrainingAssignable, reviewForGroup } from "@/lib/manager/reviews";
-import { buildQuietSuggestion } from "@/lib/manager/companion";
+import { buildQuietSuggestion, rosterNextAction } from "@/lib/manager/companion";
 import { loadNudgeHistory, loadReminderPrefs } from "@/lib/manager/nudge-data";
 import { latestSentAt, needsNudge } from "@/lib/manager/nudges";
 import { formatShortDate } from "@/lib/manager/types";
@@ -125,7 +125,11 @@ export default async function ManagerParticipantsPage({
         <div id="assign" className="space-y-6">
           <ParticipantBulkList
             initialTrainingId={params.training}
-            participants={participants.map((participant) => ({
+            mode={participationMode}
+            participants={participants.map((participant) => {
+            const cards = trainingProgressFor(participant.fatherId);
+            const quiet = needsNudge(participant.lastActivity, cards);
+            return {
             fatherId: participant.fatherId,
             name: participant.name,
             avatarUrl: participant.avatarUrl,
@@ -142,11 +146,10 @@ export default async function ManagerParticipantsPage({
             filmDone: participant.filmDone,
             checkpointDone: participant.checkpointDone,
             practiceLight: participant.practiceLight,
-            quiet: needsNudge(
-              participant.lastActivity,
-              trainingProgressFor(participant.fatherId)
-            ),
-            }))}
+            quiet,
+            nextAction: rosterNextAction(participant.lastActivity, cards, quiet),
+            };
+            })}
             trainings={trainings.map((training) => ({
               id: training.id,
               title: training.title,

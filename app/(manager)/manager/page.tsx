@@ -6,6 +6,7 @@ import { ParticipationModeCard } from "@/components/manager/participation-mode-c
 import { CopyButton } from "@/components/manager/copy-button";
 import { Flash } from "@/components/manager/flash";
 import { NudgePanel } from "@/components/manager/nudge-panel";
+import { ReviewCadenceStrip } from "@/components/manager/review-cadence";
 import { ReviewStatusBadge } from "@/components/manager/review-decision-forms";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { EmptyState } from "@/components/ui/empty-state";
@@ -17,9 +18,13 @@ import { scheduleDueReminderFlush } from "@/lib/jobs/flush-due-work";
 import { createGroup } from "@/lib/manager/actions";
 import {
   buildCompanionBriefing,
+  buildReviewCadence,
   organizationLabel,
 } from "@/lib/manager/companion";
-import { loadManagerAssessments, loadManagerAssessmentStalls } from "@/lib/assessments/data";
+import {
+  countManagerAssessmentCompletions,
+  loadManagerAssessmentStalls,
+} from "@/lib/assessments/data";
 import { CohortNoteDesk } from "@/components/manager/cohort-note-desk";
 import { decorateCohortNoteDesk } from "@/lib/cohort-note/audience";
 import { loadManagerCohortNotes } from "@/lib/cohort-note/data";
@@ -46,10 +51,10 @@ export default async function ManagerHomePage({
   const { user, role } = await requireRole("manager");
   const { t } = await getI18n();
   scheduleDueReminderFlush();
-  const [workspace, reviews, assessments, cohortNotes] = await Promise.all([
-    loadManagerWorkspace(user.id),
+  const [workspace, reviews, assessmentCompletions, cohortNotes] = await Promise.all([
+    loadManagerWorkspace(user.id, { signAvatars: false }),
     loadReviewQueue(user.id),
-    loadManagerAssessments(user.id),
+    countManagerAssessmentCompletions(user.id),
     loadManagerCohortNotes(user.id),
   ]);
   const nudgePanel = await loadNudgePanel({
@@ -114,6 +119,11 @@ export default async function ManagerHomePage({
     historyUnavailable,
     limit: 4,
   });
+  const cadence = buildReviewCadence({
+    openItems: needsAttention.length,
+    pendingActions: summary.pendingActions,
+    certificatesReady: companion.certificatesReady,
+  });
 
   const participationMode = participationModeFromGroups(groups);
 
@@ -121,11 +131,15 @@ export default async function ManagerHomePage({
     { label: t("manager.dashboard.active"), value: summary.activeParticipants },
     {
       label: t("manager.dashboard.assessmentsCompleted"),
-      value: assessments.reduce((count, item) => count + item.completedCount, 0),
+      value: assessmentCompletions,
     },
     { label: t("manager.dashboard.sessions"), value: summary.sessionsCompleted },
     { label: t("manager.dashboard.trainings"), value: summary.trainingsCompleted },
-    { label: t("manager.dashboard.pending"), value: summary.pendingActions },
+    {
+      id: "pending-actions",
+      label: t("manager.dashboard.pending"),
+      value: summary.pendingActions,
+    },
   ];
 
   return (
@@ -142,12 +156,22 @@ export default async function ManagerHomePage({
 
       <section className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
         {stats.map((stat) => (
-          <div key={stat.label} className="rounded-xl border border-border bg-card p-4 sm:p-5">
+          <div
+            key={stat.label}
+            id={stat.id}
+            className="rounded-xl border border-border bg-card p-4 sm:p-5"
+          >
             <p className="text-sm text-muted-foreground">{stat.label}</p>
             <p className="mt-3 text-3xl font-semibold tabular-nums">{stat.value}</p>
           </div>
         ))}
       </section>
+
+      <ReviewCadenceStrip
+        cadence={cadence}
+        readyCertificates={companion.readyCertificates}
+        t={t}
+      />
 
       <CohortNoteDesk
         viewerId={user.id}
@@ -199,7 +223,7 @@ export default async function ManagerHomePage({
           )}
         </div>
 
-        <div className="rounded-xl border border-border bg-card p-4 sm:p-6">
+        <div id="open-items" className="rounded-xl border border-border bg-card p-4 sm:p-6">
           <h2 className="font-heading text-lg font-semibold">{t("manager.dashboard.attention")}</h2>
           <p className="mt-1 text-sm text-muted-foreground">
             {t("manager.dashboard.attentionLead")}
@@ -254,7 +278,7 @@ export default async function ManagerHomePage({
       <CompanionPanel briefing={companion} mode={participationMode} t={t} />
 
       {reviews.pending.length > 0 || reviews.unread.length > 0 ? (
-        <section className="rounded-xl border border-primary/40 bg-card p-4 sm:p-6">
+        <section id="review-queue" className="rounded-xl border border-primary/40 bg-card p-4 sm:p-6">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
             <div>
               <h2 className="font-heading text-lg font-semibold">

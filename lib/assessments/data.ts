@@ -339,6 +339,26 @@ export async function loadManagerAssessments(managerId: string): Promise<Assessm
   });
 }
 
+/** Completion totals only. Never select questions, prompts, or answers. */
+export async function countManagerAssessmentCompletions(managerId: string): Promise<number> {
+  const supabase = await createClient();
+  const managerIds = await loadOrgManagerIds(managerId);
+  const assessmentsRes = await supabase.from("custom_assessments").select("id").in("manager_id", managerIds);
+  if (assessmentsRes.error) throw assessmentsRes.error;
+  const ids = (assessmentsRes.data ?? []).map((row) => row.id);
+
+  const assignmentsRes = await emptyIn<{ father_id: string; status: string }>(ids, () =>
+    supabase
+      .from("custom_assessment_assignments")
+      .select("father_id, status")
+      .in("assessment_id", ids)
+      .eq("status", "completed")
+  );
+  if (assignmentsRes.error) throw assignmentsRes.error;
+
+  return (assignmentsRes.data ?? []).filter((row) => !isLeaderSelfRow(row.father_id, managerId)).length;
+}
+
 /** Titles only. Never select assessment answers. */
 export async function loadManagerAssessmentStalls(
   managerId: string,

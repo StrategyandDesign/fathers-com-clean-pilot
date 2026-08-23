@@ -41,6 +41,7 @@ export type CompanionBriefing = {
     fatherId: string;
     name: string;
     title: string;
+    trainingId: string;
   }>;
 };
 
@@ -66,11 +67,16 @@ export function stallPoint(cards: TrainingProgress[]) {
   };
 }
 
-export function readyCertificateTitle(cards: TrainingProgress[]) {
+export function readyCertificate(cards: TrainingProgress[]) {
   const card = cards.find(
     (row) => row.total > 0 && row.completed === row.total && !row.certificate
   );
-  return card?.training.title ?? null;
+  if (!card) return null;
+  return { title: card.training.title, trainingId: card.training.id };
+}
+
+export function readyCertificateTitle(cards: TrainingProgress[]) {
+  return readyCertificate(cards)?.title ?? null;
 }
 
 export function suggestNudgeTemplate(
@@ -197,12 +203,13 @@ export function buildCompanionBriefing(input: {
 
   const readyCertificates: CompanionBriefing["readyCertificates"] = [];
   for (const participant of input.participants) {
-    const title = readyCertificateTitle(input.trainingProgressFor(participant.fatherId));
-    if (title) {
+    const ready = readyCertificate(input.trainingProgressFor(participant.fatherId));
+    if (ready) {
       readyCertificates.push({
         fatherId: participant.fatherId,
         name: participant.name,
-        title,
+        title: ready.title,
+        trainingId: ready.trainingId,
       });
     }
   }
@@ -253,4 +260,37 @@ export function snapshotNarrativeVars(
     fullyPct: snapshot.fullyCompletedPct,
     certs: snapshot.certificatesIssued,
   };
+}
+
+export type ReviewCadence = {
+  openItems: number;
+  pendingActions: number;
+  certificatesReady: number;
+};
+
+export function buildReviewCadence(input: {
+  openItems: number;
+  pendingActions: number;
+  certificatesReady: number;
+}): ReviewCadence {
+  return {
+    openItems: Math.max(0, input.openItems),
+    pendingActions: Math.max(0, input.pendingActions),
+    certificatesReady: Math.max(0, input.certificatesReady),
+  };
+}
+
+export function rosterNextAction(
+  lastActivity: string | null | undefined,
+  cards: TrainingProgress[],
+  quiet: boolean
+): CompanionCopy | null {
+  const cert = readyCertificateTitle(cards);
+  if (cert) {
+    return { key: "manager.bulk.nextCertificate", vars: { title: cert } };
+  }
+  if (quiet) {
+    return quietReasonCopy(lastActivity, cards);
+  }
+  return null;
 }
