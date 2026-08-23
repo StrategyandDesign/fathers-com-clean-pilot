@@ -1,6 +1,8 @@
 import { redirect } from "next/navigation";
 
 import { requireRole } from "@/lib/auth/session";
+import { loadCounselPackStatesForGroups } from "@/lib/counsel/data";
+import { reportRedisclosureEnabled } from "@/lib/counsel/pack";
 import { resolveManagerExportLocale } from "@/lib/i18n/org-locale";
 import { allowRequestRateLimit } from "@/lib/security/rate-limit";
 import { renderReportPdf } from "@/lib/manager/report-pdf";
@@ -52,6 +54,11 @@ export async function GET(request: Request) {
   }
 
   const locale = await resolveManagerExportLocale(user.id);
+  const counsel = await loadCounselPackStatesForGroups(report.groups);
+  const scopedCounsel = parsed.filters.groupId
+    ? counsel.filter((state) => state.groupId === parsed.filters.groupId)
+    : counsel;
+  const redisclosure = reportRedisclosureEnabled(scopedCounsel);
 
   const generatedAt = new Date().toISOString();
 
@@ -63,6 +70,7 @@ export async function GET(request: Request) {
         filters: parsed.filters,
         trainings: report.trainings,
         groups: report.groups,
+        redisclosure,
       }),
       {
         headers: {
@@ -78,6 +86,7 @@ export async function GET(request: Request) {
     const bytes = await renderReportPdf(report.rows, parsed.filters, report.trainings, locale, {
       groups: report.groups,
       organization: report.organization,
+      redisclosure,
     });
     return new Response(Buffer.from(bytes), {
       headers: {

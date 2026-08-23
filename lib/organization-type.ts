@@ -22,6 +22,7 @@ export type OrganizationFlagRecommendations = {
   participationMode: ParticipationMode;
   verticalPack: VerticalPack;
   recommendMilitarySurface: boolean;
+  counselPackRequired: false;
 };
 
 export function isOrganizationType(value: unknown): value is OrganizationType {
@@ -59,6 +60,7 @@ export function recommendedFlagsForType(type: OrganizationType): OrganizationFla
     participationMode: recommendedParticipationMode(type),
     verticalPack: recommendedVerticalPack(type),
     recommendMilitarySurface: type === "armed_forces_unit",
+    counselPackRequired: false,
   };
 }
 

@@ -450,6 +450,34 @@ export const en = {
     photoUploadsTooMany: "Too many photo uploads. Wait a few minutes and try again.",
     photoChangesTooMany: "Too many photo changes. Wait a few minutes and try again.",
   },
+  counsel: {
+    title: "Counsel pack",
+    summary: "Counsel pack",
+    accountLead:
+      "Draft Business Associate Agreement, education memo, and Title 42 Code of Federal Regulations Part 2 papers for counsel review. Nothing here is an executed agreement.",
+    open: "Open counsel pack",
+    backAccount: "Back to Account",
+    lead:
+      "Download draft papers for counsel. These files are templates. They are not signed, and they are not executed agreements.",
+    notCovered:
+      "This product does not claim to be a covered entity. Counsel decides whether any statute applies to a partner. Humans confirm outbound use.",
+    flagOff:
+      "The counsel pack requirement is off for your organization. You can still download the drafts. Super-admin can turn the checklist on.",
+    checklistTitle: "Counsel pack still open",
+    checklistLead:
+      "Super-admin turned the counsel pack requirement on. Download the drafts for counsel, then Super-admin records that executed copies were attached outside this product.",
+    checklistAttach: "Super-admin marks the counsel pack attached (metadata only)",
+    attachedTitle: "Attached mark on file",
+    attachedLead:
+      "Super-admin recorded that counsel provided executed copies outside this product. That mark is metadata only. The downloads below stay drafts.",
+    attachedRow: "{name}: marked attached {date}",
+    adminChecklistHint:
+      "Open the organization to record the attached mark. Do not treat a check box as a signature.",
+    downloadsTitle: "Draft files",
+    downloadsLead:
+      "Each file is labeled Draft. An unsigned draft is not an executed agreement.",
+    download: "Download draft",
+  },
   notify: {
     title: "Notification preferences",
     managerLead:
@@ -1596,6 +1624,8 @@ export const en = {
       dateOrder: "The start date must be on or before the end date.",
       groupInvalid: "That group is not yours.",
       trainingInvalid: "That training is not available.",
+      redisclosure:
+        "Redisclosure notice (draft): This export is education participation only. If Title 42 Code of Federal Regulations Part 2 applies to your program, do not redisclose identifying information except as that rule or written consent allows.",
     },
     impact: {
       yourOrg: "Your organization",

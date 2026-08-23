@@ -227,6 +227,7 @@ export async function renderReportPdf(
   extras: {
     groups?: Array<{ id: string; name: string }>;
     organization?: string;
+    redisclosure?: boolean;
   } = {}
 ) {
   try {
@@ -248,6 +249,7 @@ async function renderReportPdfWithLocale(
   extras: {
     groups?: Array<{ id: string; name: string }>;
     organization?: string;
+    redisclosure?: boolean;
   }
 ) {
   const t = createTranslator(locale);
@@ -270,7 +272,7 @@ async function renderReportPdfWithLocale(
 
   const firstTop = PAGE_HEIGHT - 52;
   const nextTop = PAGE_HEIGHT - 40;
-  const bottom = MARGIN + 20;
+  const bottom = MARGIN + (extras.redisclosure ? 36 : 20);
   let page = doc.addPage([PAGE_WIDTH, PAGE_HEIGHT]);
   let y = firstTop;
   let pageIndex = 1;
@@ -283,7 +285,19 @@ async function renderReportPdfWithLocale(
     drawText(target, label, PAGE_WIDTH - MARGIN - labelWidth, 22, font, 8, MUTED, locale);
     const footer =
       locale === "he" ? t("manager.cert.pdfTagline") : "Fathers.com  ·  Presence is a skill.";
-    drawText(target, footer, MARGIN, 22, font, 8, MUTED, locale);
+    drawText(target, footer, MARGIN, extras.redisclosure ? 34 : 22, font, 8, MUTED, locale);
+    if (extras.redisclosure) {
+      drawText(
+        target,
+        fit(t("manager.reports.redisclosure"), font, 7, PAGE_WIDTH - MARGIN * 2 - 80, locale),
+        MARGIN,
+        18,
+        font,
+        7,
+        MUTED,
+        DEFAULT_LOCALE
+      );
+    }
   };
 
   drawHeader(
