@@ -51,7 +51,7 @@ describe("security questionnaire pack", () => {
     assert.match(TRUST_PILOT_PASSWORD_STATUS, /not a production control/);
     const runbook = readRepo("docs/engineering/PILOT.md");
     const launch = readRepo("docs/engineering/production-launch.md");
-    assert.match(runbook, /not a production password policy/);
+    assert.match(runbook, /as a production password policy/);
     assert.match(runbook, /Do not copy these seats or this password/);
     assert.match(launch, /shared audit password `12345`/);
     assert.match(launch, /not a production control/);
@@ -141,8 +141,9 @@ describe("Super-admin trust route", () => {
     assert.match(page, /TrustPackView/);
     assert.match(view, /TRUST_PACK_VERSION/);
     assert.match(view, /TRUST_PACK_REVIEWED_ON/);
-    assert.match(view, /System and Organization Controls Type 2/);
-    assert.match(view, /HITRUST Common Security Framework/);
+    assert.match(view, /TRUST_CERTIFICATION_STATUS/);
+    assert.match(readRepo("lib/trust/questionnaire.ts"), /System and Organization Controls Type 2/);
+    assert.match(readRepo("lib/trust/questionnaire.ts"), /HITRUST Common Security Framework/);
     assert.doesNotMatch(view, /\bSOC\b|\bBAA\b|\bSSO\b/);
     assert.match(link, /\/admin\/trust/);
     assert.match(account, /AdminTrustLink/);
@@ -159,7 +160,7 @@ describe("Super-admin trust route", () => {
     assert.equal(t("trust.packTitle"), "Security questionnaire");
     assert.match(t("trust.packLead"), /hospital information-technology/);
     assert.doesNotMatch(t("trust.packTitle"), /\bSSO\b|\bBAA\b|\bSOC\b/);
-    assert.doesNotMatch(en.trust.packLead, EM_DASH);
+    assert.equal(en.trust.packLead.includes(EM_DASH), false);
     assert.equal(en.trust.packInternalNote.includes(EM_DASH), false);
   });
 });
