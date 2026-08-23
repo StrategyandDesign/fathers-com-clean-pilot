@@ -1,9 +1,18 @@
 import { NextResponse } from "next/server";
 
 import { getAuthContext } from "@/lib/auth/session";
+import { isSameOriginRequest } from "@/lib/security/origin";
+import { allowRequestRateLimit } from "@/lib/security/rate-limit";
 import { createClient } from "@/lib/supabase/server";
 
 export async function POST(request: Request) {
+  if (!isSameOriginRequest(request)) {
+    return NextResponse.json({ error: "forbidden" }, { status: 403 });
+  }
+  if (!allowRequestRateLimit("push.subscribe", request)) {
+    return NextResponse.json({ error: "rate_limited" }, { status: 429 });
+  }
+
   const { user, role } = await getAuthContext();
   if (!user || role !== "father") {
     return NextResponse.json({ error: "unauthorized" }, { status: 401 });

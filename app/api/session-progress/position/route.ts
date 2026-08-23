@@ -1,18 +1,9 @@
 import { getAuthContext } from "@/lib/auth/session";
 import { writeFilmSeconds } from "@/lib/father/film-position";
-
-function sameOrigin(request: Request) {
-  const origin = request.headers.get("origin");
-  if (!origin) return true;
-  try {
-    return origin === new URL(request.url).origin;
-  } catch {
-    return false;
-  }
-}
+import { isSameOriginRequest } from "@/lib/security/origin";
 
 export async function POST(request: Request) {
-  if (!sameOrigin(request)) {
+  if (!isSameOriginRequest(request)) {
     return Response.json({ ok: false }, { status: 403 });
   }
 

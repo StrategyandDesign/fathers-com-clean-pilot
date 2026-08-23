@@ -1,17 +1,10 @@
 import { NextResponse } from "next/server";
 
 import { dispatchDueReminders } from "@/lib/notifications/dispatch";
-
-function authorized(request: Request) {
-  const secret = process.env.CRON_SECRET?.trim();
-  if (!secret) return false;
-  const header = request.headers.get("authorization") ?? "";
-  const alt = request.headers.get("x-cron-secret") ?? "";
-  return header === `Bearer ${secret}` || alt === secret;
-}
+import { cronAuthorized } from "@/lib/security/cron-auth";
 
 export async function GET(request: Request) {
-  if (!authorized(request)) {
+  if (!cronAuthorized(request)) {
     return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   }
   try {

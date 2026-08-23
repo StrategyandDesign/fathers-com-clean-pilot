@@ -1,4 +1,5 @@
 import { isIdentityStaffRole, type IdentityStaffRole } from "@/lib/identity/sso";
+import { bearerToken, secretsEqual } from "@/lib/security/secrets";
 
 export type ScimProvisionRequest = {
   action: "provision" | "deprovision" | "role_change";
@@ -103,7 +104,6 @@ export function identityScimToken() {
 export function scimAuthorized(header: string | null) {
   const token = identityScimToken();
   if (!token) return false;
-  const raw = header?.trim() ?? "";
-  const bearer = raw.toLowerCase().startsWith("bearer ") ? raw.slice(7).trim() : raw;
-  return bearer.length > 0 && bearer === token;
+  const presented = bearerToken(header);
+  return presented.length > 0 && secretsEqual(presented, token);
 }

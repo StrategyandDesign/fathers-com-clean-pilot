@@ -1,5 +1,6 @@
 import { createAdminClient } from "@/lib/supabase/admin";
 import type { ScimProvisionRequest } from "@/lib/identity/scim";
+import { logServerError } from "@/lib/security/public-error";
 
 export async function applyScimProvision(request: ScimProvisionRequest) {
   const admin = createAdminClient();
@@ -21,7 +22,10 @@ export async function applyScimProvision(request: ScimProvisionRequest) {
       p_group_id: request.groupId,
       p_profile_id: userId,
     });
-    if (error) return { ok: false as const, status: 400, error: error.message };
+    if (error) {
+      logServerError("identity.scim", error);
+      return { ok: false as const, status: 400, error: "Could not deprovision." };
+    }
     return { ok: true as const, status: 204 };
   }
 
@@ -34,10 +38,11 @@ export async function applyScimProvision(request: ScimProvisionRequest) {
       user_metadata: request.displayName ? { full_name: request.displayName } : undefined,
     });
     if (created.error || !created.data.user) {
+      logServerError("identity.scim", created.error);
       return {
         ok: false as const,
         status: 400,
-        error: created.error?.message || "Could not provision.",
+        error: "Could not provision.",
       };
     }
     userId = created.data.user.id;
@@ -51,7 +56,10 @@ export async function applyScimProvision(request: ScimProvisionRequest) {
     .from("profiles")
     .update({ role: staffRole, deactivated_at: null })
     .eq("id", userId);
-  if (profileError) return { ok: false as const, status: 400, error: profileError.message };
+  if (profileError) {
+    logServerError("identity.scim", profileError);
+    return { ok: false as const, status: 400, error: "Could not provision." };
+  }
 
   const { error: staffError } = await admin.from("organization_staff").upsert(
     {
@@ -63,7 +71,10 @@ export async function applyScimProvision(request: ScimProvisionRequest) {
     },
     { onConflict: "group_id,profile_id" }
   );
-  if (staffError) return { ok: false as const, status: 400, error: staffError.message };
+  if (staffError) {
+    logServerError("identity.scim", staffError);
+    return { ok: false as const, status: 400, error: "Could not provision." };
+  }
 
   const { error: eventError } = await admin.from("org_staff_provision_events").insert({
     group_id: request.groupId,
@@ -76,7 +87,10 @@ export async function applyScimProvision(request: ScimProvisionRequest) {
       externalId: request.externalId,
     },
   });
-  if (eventError) return { ok: false as const, status: 400, error: eventError.message };
+  if (eventError) {
+    logServerError("identity.scim", eventError);
+    return { ok: false as const, status: 400, error: "Could not provision." };
+  }
 
   return { ok: true as const, status: 201, id: userId };
 }

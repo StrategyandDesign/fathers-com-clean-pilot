@@ -111,7 +111,7 @@ The app never uses public object URLs. Certificate download is `/api/certificate
 
 ## 8. Rate limiting
 
-In-memory sliding windows, keyed by IP + route, fail open:
+In-memory sliding windows, keyed by IP + route, fail closed:
 
 - `auth.signin` — 10 / 15 min
 - `auth.signup` — 5 / 60 min
