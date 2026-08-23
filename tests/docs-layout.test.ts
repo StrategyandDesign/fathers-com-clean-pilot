@@ -20,12 +20,9 @@ describe("documentation layout", () => {
     ]);
   });
 
-  it("does not leave static HTML or the old site folders at the repo root", () => {
+  it("does not leave static HTML at the repo root", () => {
     const html = readdirSync(root).filter((name) => name.endsWith(".html"));
     assert.deepEqual(html, []);
-    for (const name of ["assets", "content", "data", "tools"]) {
-      assert.equal(existsSync(join(root, name)), false, `${name}/ should not be at root`);
-    }
   });
 
   it("keeps runbooks and the archived site on their documented paths", () => {

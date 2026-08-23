@@ -683,6 +683,8 @@ export const he = {
       sessionN: "מפגש {n}",
       sessionDetail: "מפגש {n} · {detail}",
       sessionsCount: "{completed} מתוך {total} מפגשים",
+      sessionOfTotal: "מפגש {n} מתוך {total}",
+      programLength: "{total} מפגשים",
       crumb: "סרט, אחר כך שאלה אחת, ואז מיומנות אחת.",
       steps: "במפגש הזה",
       watched: "נצפה",

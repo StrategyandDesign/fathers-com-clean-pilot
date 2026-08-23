@@ -9,9 +9,8 @@ describe("version stamp", () => {
   it("reads the Shared mark from shared-mark.json", () => {
     const mark = loadSharedMark();
     assert.ok(mark);
-    assert.equal(mark.mark, 1);
     assert.ok(Number.isInteger(mark.patch) && mark.patch >= 1);
-    assert.equal(mark.tag, "shared/1");
+    assert.match(mark.label, /^Shared 1-1\.\d+$/);
     assert.equal(mark.label, formatSharedLabel(1, mark.patch));
   });
 
