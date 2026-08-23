@@ -6,7 +6,7 @@ Quiet Account surface for draft counsel papers. Badge Shared 1-1.107. Not Shared
 
 Leaders open Account, then the collapsed Counsel pack link, then `/manager/account/counsel`. Super-admin has the same downloads on `/admin/account/counsel` and the requirement controls on each organization, collapsed by default.
 
-There is no new ribbon item and no red trust wall on other pages.
+There is no new ribbon item and no red trust wall on other pages. Shared 1-1.108 adds a muted trust strip on Account and Super-admin organization trust. That strip links here. It does not repeat the six downloads.
 
 ## What you can download
 

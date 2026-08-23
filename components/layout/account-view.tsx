@@ -7,6 +7,7 @@ import { NotificationPrefs } from "@/components/account/notification-prefs";
 import { PaletteForm } from "@/components/account/palette-form";
 import { LanguageForm } from "@/components/i18n/language-form";
 import { CounselAccountLink } from "@/components/counsel/counsel-account-link";
+import { AccountTrustStrip } from "@/components/trust/account-trust-strip";
 import { LegalLinks } from "@/components/legal/legal-links";
 import { Flash } from "@/components/manager/flash";
 import { UserAvatar } from "@/components/layout/user-avatar";
@@ -154,6 +155,9 @@ export async function AccountView({
         </section>
       )}
 
+      {role === "manager" || role === "admin" ? (
+        <AccountTrustStrip role={role} userId={userId} />
+      ) : null}
       {role === "manager" ? <CounselAccountLink href="/manager/account/counsel" /> : null}
       {role === "admin" ? <CounselAccountLink href="/admin/account/counsel" /> : null}
 

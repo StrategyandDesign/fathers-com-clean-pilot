@@ -10,6 +10,7 @@ import {
 import { canRemoveStaff } from "@/lib/org-staff/types";
 import { loadAdminOrganization } from "@/lib/admin/data";
 import { CounselOrgCard } from "@/components/admin/counsel-org-card";
+import { OrgTrustStrip } from "@/components/trust/org-trust-strip";
 import { OrganizationTypeField } from "@/components/admin/organization-type-field";
 import { CopyButton } from "@/components/manager/copy-button";
 import { Flash } from "@/components/manager/flash";
@@ -116,6 +117,7 @@ export default async function AdminOrganizationDetailPage({
         </Button>
       </form>
 
+      <OrgTrustStrip state={counsel} />
       <CounselOrgCard state={counsel} returnTo={`/admin/organizations/${group.id}`} />
 
       <section className="rounded-xl border border-border bg-card p-4 sm:p-6">
