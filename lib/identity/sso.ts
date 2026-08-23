@@ -13,7 +13,7 @@ import {
   type RoleClaimMap,
 } from "@/lib/identity/types";
 
-export { SSO_ENABLED } from "@/lib/identity/types";
+export { SSO_ENABLED, type IdentityStaffRole } from "@/lib/identity/types";
 
 export function parseSsoEnabled(value: unknown): boolean {
   return value === true;
