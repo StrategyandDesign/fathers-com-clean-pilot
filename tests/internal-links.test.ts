@@ -38,10 +38,9 @@ function collectAppRoutes() {
   for (const file of pages) {
     const rel = relative(join(root, "app"), file).replace(/\\/g, "/");
     const withoutGroup = rel.replace(/\([^/]+\)\//g, "");
-    const path = `/${withoutGroup.replace(/\/(page|route)\.tsx?$/, "")}`
-      .replace(/\/index$/, "")
-      .replace(/\/+$/, "");
-    routes.add(path === "" ? "/" : path);
+    const cleaned = withoutGroup.replace(/(^|\/)(page|route)\.tsx?$/, "");
+    const path = `/${cleaned}`.replace(/\/+$/, "");
+    routes.add(path === "" || path === "/" ? "/" : path);
   }
   return routes;
 }
