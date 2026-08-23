@@ -44,6 +44,7 @@ function asDeskSession(
   };
 }
 import { rosterPracticeLight } from "@/lib/flags";
+import { hidePilotTestTraining } from "@/lib/pilot/hygiene";
 import { loadOrganizationReviews } from "@/lib/manager/reviews";
 import { loadGroupsForManager } from "@/lib/org-staff/membership";
 import { createClient } from "@/lib/supabase/server";
@@ -146,8 +147,8 @@ export async function loadManagerWorkspace(
     if (result.error) throw result.error;
   }
 
-  const trainings = ((trainingsRes.data ?? []) as Training[]).map(asDeskTraining);
   const sessions = ((sessionsRes.data ?? []) as Session[]).map(asDeskSession);
+  const allTrainings = ((trainingsRes.data ?? []) as Training[]).map(asDeskTraining);
   const profileRows = (profilesRes.data ?? []) as ManagedProfile[];
   const profiles = new Map(profileRows.map((profile) => [profile.id, profile]));
   const avatarUrls = signAvatars
@@ -167,6 +168,22 @@ export async function loadManagerWorkspace(
   const progress = ((progressRes.data ?? []) as SessionProgress[]).map(asProgress);
   const assignments = (assignmentsRes.data ?? []) as TrainingAssignment[];
   const certificates = (certificatesRes.data ?? []) as Certificate[];
+  const progressSessionIds = new Set(progress.map((row) => row.session_id));
+  const progressTrainingIds = new Set(
+    sessions
+      .filter((session) => progressSessionIds.has(session.id))
+      .map((session) => session.training_id)
+  );
+  const certificateTrainingIds = new Set(certificates.map((row) => row.training_id));
+  const assignedTrainingIds = new Set(assignments.map((row) => row.training_id));
+  const trainings = allTrainings.filter(
+    (training) =>
+      assignedTrainingIds.has(training.id) ||
+      !hidePilotTestTraining(training, {
+        hasProgress: progressTrainingIds.has(training.id),
+        hasCertificate: certificateTrainingIds.has(training.id),
+      })
+  );
   const groupsById = new Map(groups.map((group) => [group.id, group]));
 
   const progressByFather = new Map<string, SessionProgress[]>();

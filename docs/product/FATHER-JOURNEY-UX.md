@@ -37,4 +37,4 @@ Courses stay a **separate page** (`certificates.html` + course billboards), but 
 - Minimize dashes and AI-slop punctuation
 
 ## Verified-only completion
-Courses may be previewed freely. A Certificate of Completion and public serial exist only when a Certified Facilitator or Certified Organization claims the man's seat. See `docs/VERIFIED-COMPLETION.md`.
+Courses may be previewed freely. A Certificate of Completion and public serial exist only when a Certified Facilitator or Certified Organization claims the man's seat. See `docs/product/VERIFIED-COMPLETION.md`.

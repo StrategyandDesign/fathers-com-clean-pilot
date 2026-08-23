@@ -1,3 +1,4 @@
+import { hidePilotTestTraining } from "@/lib/pilot/hygiene";
 import { createClient } from "@/lib/supabase/server";
 
 export const COMPLETION_STATUSES = ["not_started", "in_progress", "completed"] as const;
@@ -353,8 +354,13 @@ export async function loadReviewerInsights(filters: InsightFilters = {
       ? (rowsRes.data as Record<string, unknown>)
       : {};
   const groups = asGroups(listing.groups);
-  const trainings = asTrainings(listing.trainings);
+  const trainings = asTrainings(listing.trainings).filter(
+    (training) => !hidePilotTestTraining(training)
+  );
   const rows = asRows(listing.rows);
+  const training_distribution = insights.training_distribution.filter(
+    (training) => !hidePilotTestTraining(training)
+  );
 
   let error: string | undefined;
   if (filters.groupId && !groups.some((group) => group.id === filters.groupId)) {
@@ -368,6 +374,7 @@ export async function loadReviewerInsights(filters: InsightFilters = {
 
   return {
     ...insights,
+    training_distribution,
     rows: error ? [] : rows,
     groups,
     trainings,

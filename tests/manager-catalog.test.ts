@@ -126,6 +126,34 @@ describe("manager catalog", () => {
     assert.equal(items.length, 0);
   });
 
+  it("hides leftover Test Training when the demo flag is off", () => {
+    const testOne = training({
+      id: "test-1",
+      title: "Test Training 1",
+      order_index: 4,
+    });
+    const leftover = buildManagerCatalog({
+      trainings: [testOne],
+      pending: [],
+      accepted: [],
+    });
+    assert.equal(leftover.length, 0);
+
+    const accepted = buildManagerCatalog({
+      trainings: [testOne],
+      pending: [],
+      accepted: [
+        {
+          training: testOne,
+          sessionCount: 0,
+          groupId: "org-1",
+        },
+      ],
+    });
+    assert.equal(accepted.length, 1);
+    assert.equal(accepted[0]?.status, "ready");
+  });
+
   it("does not duplicate a legacy training that is already accepted", () => {
     const fundamentals = training({
       id: "fundamentals",

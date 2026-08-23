@@ -255,7 +255,7 @@ Grouped from commits on `origin/clean-pilot..HEAD`. This is the Shared 1 product
 - No `user_metadata` authorization (`lib/auth/roles.ts` uses `app_metadata.role`).
 - `SHOW_MILITARY = False` (`build_pages.py`). Coming Home is rehab-first.
 - No Stripe checkout wired on clean-pilot product pages. Seat $120 is retired in positioning copy. Stripe **edge function code still exists** (`supabase/functions/checkout`, `stripe-webhook`) with a `price_cents: 12000` default — unused unless those functions are deployed and keyed.
-- Product TS/TSX does not print `evidence-based`. Docs may discuss the bar (`docs/EVIDENCE-BAR.md`).
+- Product TS/TSX does not print `evidence-based`. Docs may discuss the bar (`docs/product/EVIDENCE-BAR.md`).
 - No creator portal, no Lottie lesson type, no auto-Include.
 
 ---
