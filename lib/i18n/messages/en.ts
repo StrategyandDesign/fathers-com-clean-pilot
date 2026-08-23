@@ -1468,6 +1468,7 @@ export const en = {
       noteUnsaved: "Not saved yet.",
       clearNote: "Clear",
       sendNudge: "Send a note",
+      noteSent: "Note sent",
       nudgeQuiet:
         "{quiet}. A short note, only if he left session reminders on.",
       nudgeActive: "He has recent activity. You can still send a note.",
@@ -1475,6 +1476,10 @@ export const en = {
       remindersOffLong: "He turned off session reminders. A note will not be emailed.",
       nudgeTomorrow: "A reminder already went out. You can send another tomorrow.",
       nudgeInDays: "A reminder already went out. You can send another in {days} days.",
+      nudgeCooldownLead: "A reminder already went out. The next send opens {date}.",
+      nudgeCooldownLeadTomorrow: "A reminder already went out. The next send opens tomorrow.",
+      nudgeCooldownNext: "Until then, review his current session or assign training below.",
+      seeCurrentSession: "See current session",
       nudgeHistory: "Note history",
       noNudges: "No notes sent yet.",
       fatherProfile: "Keystone Assessment",
