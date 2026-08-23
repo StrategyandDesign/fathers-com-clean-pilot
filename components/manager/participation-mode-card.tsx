@@ -5,6 +5,7 @@ import type { Translate } from "@/lib/i18n/translate";
 import { saveParticipationMode } from "@/lib/manager/actions";
 import type { Group } from "@/lib/manager/types";
 import { parseParticipationMode } from "@/lib/participation";
+import { hideRehabParticipationLabel } from "@/lib/verticals/optimization/apply";
 import { interactiveControlClassName, radioOptionClassName } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 
@@ -81,22 +82,28 @@ export function ParticipationModeCard({
               ) : null}
               <fieldset className="space-y-3">
                 <legend className="sr-only">{t("manager.dashboard.participationTitle")}</legend>
-                {OPTIONS.map((option) => (
-                  <label key={option.value} className={radioOptionClassName}>
-                    <input
-                      type="radio"
-                      name="participation_mode"
-                      value={option.value}
-                      defaultChecked={current === option.value}
-                      required
-                      className="size-4 accent-primary"
-                    />
-                    <span>
-                      <span className="block font-medium">{t(option.label)}</span>
-                      <span className="block text-sm text-muted-foreground">{t(option.hint)}</span>
-                    </span>
-                  </label>
-                ))}
+                {OPTIONS.map((option) => {
+                  const hint =
+                    option.value === "expected" && hideRehabParticipationLabel(group.organization_type)
+                      ? "optimization.participationExpectedHint"
+                      : option.hint;
+                  return (
+                    <label key={option.value} className={radioOptionClassName}>
+                      <input
+                        type="radio"
+                        name="participation_mode"
+                        value={option.value}
+                        defaultChecked={current === option.value}
+                        required
+                        className="size-4 accent-primary"
+                      />
+                      <span>
+                        <span className="block font-medium">{t(option.label)}</span>
+                        <span className="block text-sm text-muted-foreground">{t(hint)}</span>
+                      </span>
+                    </label>
+                  );
+                })}
               </fieldset>
               <Button type="submit" variant="outline" className="w-full sm:w-auto">
                 {t("manager.dashboard.participationSave")}

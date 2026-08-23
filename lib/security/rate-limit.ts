@@ -36,6 +36,7 @@ export const RATE_LIMITS = {
   "counsel.pack_download": { limit: 40, windowMs: 5 * 60 * 1000 },
   "trust.pack_download": { limit: 40, windowMs: 5 * 60 * 1000 },
   "armed_forces.pack_download": { limit: 40, windowMs: 5 * 60 * 1000 },
+  "optimization.pack_download": { limit: 40, windowMs: 5 * 60 * 1000 },
   "manager.fidelity": { limit: 40, windowMs: 15 * 60 * 1000 },
   "manager.fidelity_export": { limit: 20, windowMs: 5 * 60 * 1000 },
   "manager.facilitator_export": { limit: 20, windowMs: 5 * 60 * 1000 },

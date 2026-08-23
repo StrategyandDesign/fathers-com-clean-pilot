@@ -9,6 +9,7 @@ import { HomeUpNextCard } from "@/components/father/home-up-next";
 import { LeaderMeta } from "@/components/father/leader-meta";
 import { StreakNotices } from "@/components/father/streak-notices";
 import { Flash } from "@/components/manager/flash";
+import { CommitmentBoard } from "@/components/verticals/commitment-board";
 import { loadFatherAssignments } from "@/lib/assessments/data";
 import { loadFatherLeaders, loadVisibleCohortNotes } from "@/lib/cohort-note/data";
 import { requireRole } from "@/lib/auth/session";
@@ -23,6 +24,11 @@ import { type SessionProgress } from "@/lib/father/types";
 import { getI18n } from "@/lib/i18n/server";
 import { loadFatherParticipationMode } from "@/lib/participation-data";
 import { participationCopyKey } from "@/lib/participation";
+import { optimizationPackAppliesToOrg } from "@/lib/verticals/optimization/apply";
+import {
+  loadFatherCommitmentBoard,
+  loadFatherOrganizationType,
+} from "@/lib/verticals/optimization/data";
 import { scheduleDueReminderFlush } from "@/lib/jobs/flush-due-work";
 import {
   loadFatherOrgPhotoCovers,
@@ -65,6 +71,7 @@ export default async function FatherHomePage({
     cohortNotes,
     participationMode,
     homeDesk,
+    organizationType,
   ] = await Promise.all([
     loadFatherHome(user.id),
     loadFatherAssignments(user.id),
@@ -74,7 +81,10 @@ export default async function FatherHomePage({
     loadVisibleCohortNotes(user.id),
     loadFatherParticipationMode(user.id),
     readHomeDeskVisit(),
+    loadFatherOrganizationType(user.id),
   ]);
+  const optimizationPack = optimizationPackAppliesToOrg(organizationType);
+  const commitmentBoard = optimizationPack ? await loadFatherCommitmentBoard(user.id) : [];
   const showSkillUse =
     Boolean(skillUsePrompt) && shouldOfferSkillUseOnHome(homeDesk, loginAt);
 
@@ -197,6 +207,10 @@ export default async function FatherHomePage({
         justFinished={justFinished}
       />
       <HomeDeskStamp loginAt={loginAt} />
+      {optimizationPack ? (
+        <p className="text-sm text-muted-foreground">{t("optimization.fatherChrome")}</p>
+      ) : null}
+      {optimizationPack ? <CommitmentBoard rows={commitmentBoard} t={t} audience="father" /> : null}
       {showSkillUse && skillUsePrompt ? (
         <SkillUseCard
           sessionId={skillUsePrompt.sessionId}

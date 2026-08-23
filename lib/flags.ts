@@ -51,6 +51,15 @@
  * VERTICAL_PACK_ARMED_FORCES to 1 / true / on / yes to show the event
  * closeout preset on Reports. This flag does not flip SHOW_MILITARY.
  * Organization type armed_forces_unit recommends the pack only.
+ *
+ * vertical_pack_optimization defaults OFF. Leave unset so the rehab
+ * pilot stays as it is. Super-admin can still open the forum-moderator
+ * checklist at /admin/verticals/optimization. Set
+ * VERTICAL_PACK_OPTIMIZATION to 1 / true / on / yes to apply the
+ * bonded-group copy skin, confidentiality defaults, and commitment
+ * board on Performance Optimization Group desks. Rehab organizations never receive this pack.
+ * Organization type
+ * performance_optimization_group recommends the pack only.
  */
 export const CERTIFICATES_REQUIRE_CLAIM = "certificates_require_claim";
 export const PILOT_SHOW_TEST_CONTENT = "pilot_show_test_content";
@@ -61,6 +70,7 @@ export const FIDELITY_BOARD_ENABLED = "fidelity_board_enabled";
 export const SSO_ENABLED = "sso_enabled";
 export const SECURE_EXPORT_ENABLED = "secure_export_enabled";
 export const VERTICAL_PACK_ARMED_FORCES = "vertical_pack_armed_forces";
+export const VERTICAL_PACK_OPTIMIZATION = "vertical_pack_optimization";
 /** Archive / static-site veteran surface. Stays false. This pack does not flip it. */
 export const SHOW_MILITARY = false;
 
@@ -104,4 +114,8 @@ export function secureExportEnabled() {
 
 export function verticalPackArmedForces() {
   return envFlag("VERTICAL_PACK_ARMED_FORCES");
+}
+
+export function verticalPackOptimization() {
+  return envFlag("VERTICAL_PACK_OPTIMIZATION");
 }

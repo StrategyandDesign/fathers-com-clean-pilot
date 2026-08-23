@@ -27,6 +27,7 @@ export type OrganizationFlagRecommendations = {
   ssoEnabled: false;
   secureExportEnabled: false;
   verticalPackArmedForces: false;
+  verticalPackOptimization: false;
 };
 
 export function isOrganizationType(value: unknown): value is OrganizationType {
@@ -69,6 +70,7 @@ export function recommendedFlagsForType(type: OrganizationType): OrganizationFla
     ssoEnabled: false,
     secureExportEnabled: false,
     verticalPackArmedForces: false,
+    verticalPackOptimization: false,
   };
 }
 
@@ -103,7 +105,7 @@ export function recommendedFlagSummary(type: OrganizationType): string {
     return `Recommended flags: ${participation} participation and the Armed Forces pack recommendation. vertical_pack_armed_forces stays off until Super-admin turns it on. Desk routes stay the same.`;
   }
   if (flags.verticalPack === "performance") {
-    return `Recommended flags: ${participation} participation and the Performance pack. Desk routes stay the same.`;
+    return `Recommended flags: ${participation} participation and the Performance pack recommendation. vertical_pack_optimization stays off until Super-admin turns it on, and stays off for Rehab. Desk routes stay the same.`;
   }
   return `Recommended flags: ${participation} participation. Desk routes stay the same.`;
 }

@@ -24,6 +24,7 @@ govern every word in here.
 | funder-brief.md | Donors, foundations | Only rating-adjacent sales note. States the non-rating honestly. Sells completion and operations. |
 | facilitator-triage-and-referral.md | Certified Facilitators | Distress signs, the same-day warm handoff, the education-line boundary, and the court-order rule for rebuilding trust |
 | quality-improvement-fields.md | Org admins, quality improvement staff | Field dictionary for the Desk packet. Does not include clinical outcomes. |
+| forum-moderator-review.md | Forum moderators, Super-admin | Confidentiality defaults, non-clinical copy, no answer dump. Sign-off before any public go-to-market. |
 | ../docs/engineering/trust-pack/ | Hospital information-technology reviewers | Dated security questionnaire. Not a certification. Not a father-facing trust wall. |
 
 ## Regenerate
