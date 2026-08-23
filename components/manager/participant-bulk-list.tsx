@@ -12,6 +12,8 @@ import { dateLocale } from "@/lib/i18n/config";
 import { translatePracticeLight } from "@/lib/i18n/flash";
 import { MAX_BULK } from "@/lib/manager/bulk";
 import { runBulkAction } from "@/lib/manager/bulk-actions";
+import type { CompanionCopy } from "@/lib/manager/companion";
+import { participationCopyKey, type ParticipationMode } from "@/lib/participation";
 import { fieldClassName, interactiveSurfaceClassName } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 
@@ -27,6 +29,7 @@ export type BulkListParticipant = {
   filmDone?: boolean;
   checkpointDone?: boolean;
   practiceLight?: PracticeLight | null;
+  nextAction?: CompanionCopy | null;
 };
 
 export type BulkListTraining = {
@@ -47,11 +50,13 @@ export function ParticipantBulkList({
   trainings,
   sessions,
   initialTrainingId,
+  mode = "unset",
 }: {
   participants: BulkListParticipant[];
   trainings: BulkListTraining[];
   sessions: BulkListSession[];
   initialTrainingId?: string;
+  mode?: ParticipationMode;
 }) {
   const t = useT();
   const { locale } = useI18n();
@@ -188,6 +193,32 @@ export function ParticipantBulkList({
           </li>
           {participants.map((participant) => {
             const checked = selectedSet.has(participant.fatherId);
+            const nextActionKey =
+              participant.nextAction?.key === "manager.companion.reasonStalledTitle"
+                ? participationCopyKey(mode, participant.nextAction.key)
+                : participant.nextAction?.key;
+            const lights = (
+              <ProgressLights
+                compact
+                filmDone={Boolean(participant.filmDone)}
+                checkpointDone={Boolean(participant.checkpointDone)}
+                practice={participant.practiceLight ?? null}
+                filmLabel={t(
+                  participant.filmDone
+                    ? "manager.participants.stepDone"
+                    : "manager.participants.stepPending",
+                  { label: t("father.session.film") }
+                )}
+                checkpointLabel={t(
+                  participant.checkpointDone
+                    ? "manager.participants.stepDone"
+                    : "manager.participants.stepPending",
+                  { label: t("father.session.checkin") }
+                )}
+                practiceLabel={translatePracticeLight(participant.practiceLight, t)}
+                showPractice={Boolean(participant.practiceLight)}
+              />
+            );
             return (
               <li key={participant.fatherId} className="border-b border-border last:border-0">
                 <div className="flex items-start gap-3 px-4 py-4 sm:px-6 md:items-center">
@@ -202,66 +233,43 @@ export function ParticipantBulkList({
                   </label>
                   <Link
                     href={`/manager/participants/${participant.fatherId}`}
-                    className={cn(
-                      "grid min-w-0 flex-1 gap-2 md:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)_minmax(0,1.2fr)_8rem] md:items-center",
-                      interactiveSurfaceClassName
-                    )}
+                    className={cn("min-w-0 flex-1", interactiveSurfaceClassName)}
                   >
-                    <span className="flex items-center gap-3">
-                      <UserAvatar
-                        name={participant.name}
-                        src={participant.avatarUrl}
-                        className="size-10 shrink-0 text-xs font-medium md:size-9"
-                      />
-                      <span className="min-w-0">
-                        <span className="flex items-center gap-2">
-                          <span className="truncate font-medium">{participant.name}</span>
-                          {participant.quiet ? (
-                            <span className="shrink-0 rounded-full border border-border px-2 py-0.5 text-[11px] tracking-wide text-muted-foreground uppercase">
-                              {t("manager.bulk.quiet")}
-                            </span>
-                          ) : null}
-                        </span>
-                        <span className="block truncate text-sm text-muted-foreground">
-                          {participant.groupName}
+                    <span className="grid gap-3 md:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)_minmax(0,1.2fr)_8rem] md:items-center">
+                      <span className="flex items-center gap-3">
+                        <UserAvatar
+                          name={participant.name}
+                          src={participant.avatarUrl}
+                          className="size-10 shrink-0 text-xs font-medium md:size-9"
+                        />
+                        <span className="min-w-0">
+                          <span className="flex items-center gap-2">
+                            <span className="truncate font-medium">{participant.name}</span>
+                            {participant.quiet ? (
+                              <span className="shrink-0 rounded-full border border-border px-2 py-0.5 text-[11px] tracking-wide text-muted-foreground uppercase">
+                                {t("manager.bulk.quiet")}
+                              </span>
+                            ) : null}
+                          </span>
+                          <span className="block truncate text-sm text-muted-foreground">
+                            {participant.groupName}
+                          </span>
                         </span>
                       </span>
-                    </span>
-                    <span className="flex justify-between gap-3 pl-[3.25rem] text-sm md:block md:pl-0">
-                      <span className="text-muted-foreground md:hidden">{t("manager.bulk.profile")}</span>
-                      <span className="text-right text-muted-foreground md:text-left">
+                      <span className="hidden text-sm text-muted-foreground md:block">
                         {profileLabel[participant.profileStatus]}
                       </span>
-                    </span>
-                    <span className="flex justify-between gap-3 pl-[3.25rem] text-sm md:block md:pl-0">
-                      <span className="text-muted-foreground md:hidden">{t("manager.bulk.training")}</span>
-                      <span className="text-right md:text-left">
+                      <span className="hidden text-sm md:block">
                         <span className="block">{participant.progressLabel}</span>
-                        <ProgressLights
-                          compact
-                          filmDone={Boolean(participant.filmDone)}
-                          checkpointDone={Boolean(participant.checkpointDone)}
-                          practice={participant.practiceLight ?? null}
-                          filmLabel={t(
-                            participant.filmDone
-                              ? "manager.participants.stepDone"
-                              : "manager.participants.stepPending",
-                            { label: t("father.session.film") }
-                          )}
-                          checkpointLabel={t(
-                            participant.checkpointDone
-                              ? "manager.participants.stepDone"
-                              : "manager.participants.stepPending",
-                            { label: t("father.session.checkin") }
-                          )}
-                          practiceLabel={translatePracticeLight(participant.practiceLight, t)}
-                          showPractice={Boolean(participant.practiceLight)}
-                        />
+                        {lights}
+                        {participant.nextAction ? (
+                          <span className="mt-1 block text-sm text-muted-foreground">
+                            {t("manager.bulk.nextAction")}:{" "}
+                            {t(nextActionKey ?? participant.nextAction.key, participant.nextAction.vars)}
+                          </span>
+                        ) : null}
                       </span>
-                    </span>
-                    <span className="flex justify-between gap-3 pl-[3.25rem] text-sm md:block md:pl-0">
-                      <span className="text-muted-foreground md:hidden">{t("manager.bulk.lastActive")}</span>
-                      <span className="text-right text-muted-foreground md:text-left">
+                      <span className="hidden text-sm text-muted-foreground md:block">
                         {participant.lastActivity
                           ? new Date(participant.lastActivity).toLocaleDateString(dateLocale(locale), {
                               year: "numeric",
@@ -269,6 +277,37 @@ export function ParticipantBulkList({
                               day: "numeric",
                             })
                           : t("common.emDash")}
+                      </span>
+                    </span>
+                    <span className="mt-3 flex flex-col gap-2 md:hidden">
+                      {lights}
+                      {participant.nextAction ? (
+                        <span className="text-sm">
+                          <span className="text-muted-foreground">{t("manager.bulk.nextAction")}: </span>
+                          {t(nextActionKey ?? participant.nextAction.key, participant.nextAction.vars)}
+                        </span>
+                      ) : null}
+                      <span className="flex justify-between gap-3 text-sm">
+                        <span className="text-muted-foreground">{t("manager.bulk.profile")}</span>
+                        <span className="text-right text-muted-foreground">
+                          {profileLabel[participant.profileStatus]}
+                        </span>
+                      </span>
+                      <span className="flex justify-between gap-3 text-sm">
+                        <span className="text-muted-foreground">{t("manager.bulk.training")}</span>
+                        <span className="text-right">{participant.progressLabel}</span>
+                      </span>
+                      <span className="flex justify-between gap-3 text-sm">
+                        <span className="text-muted-foreground">{t("manager.bulk.lastActive")}</span>
+                        <span className="text-right text-muted-foreground">
+                          {participant.lastActivity
+                            ? new Date(participant.lastActivity).toLocaleDateString(dateLocale(locale), {
+                                year: "numeric",
+                                month: "short",
+                                day: "numeric",
+                              })
+                            : t("common.emDash")}
+                        </span>
                       </span>
                     </span>
                   </Link>

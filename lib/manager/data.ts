@@ -6,6 +6,43 @@ import {
   type SessionProgress,
   type Training,
 } from "@/lib/father/types";
+
+export const DESK_TRAINING_COLUMNS =
+  "id, slug, title, session_count, order_index, published, released_at, first_published_at, first_released_at";
+export const DESK_SESSION_COLUMNS =
+  "id, training_id, session_number, title, order_index";
+export const DESK_PROGRESS_COLUMNS =
+  "id, father_id, session_id, film_completed, checkin_completed, action_completed, status, completed_at, film_seconds, skill_use, skill_use_at";
+export const DESK_DRAFT_COLUMNS = "father_id";
+export const DESK_CERTIFICATE_COLUMNS =
+  "id, father_id, training_id, serial_number, issued_at, issued_by";
+export const DESK_ASSIGNMENT_COLUMNS =
+  "id, father_id, training_id, assigned_at, assigned_by";
+
+export type LoadManagerWorkspaceOptions = {
+  signAvatars?: boolean;
+};
+
+function asDeskTraining(
+  row: Partial<Training> &
+    Pick<Training, "id" | "slug" | "title" | "session_count" | "order_index">
+): Training {
+  return {
+    description: null,
+    ...row,
+  };
+}
+
+function asDeskSession(
+  row: Partial<Session> &
+    Pick<Session, "id" | "training_id" | "session_number" | "title" | "order_index">
+): Session {
+  return {
+    keyline: null,
+    video_url: null,
+    ...row,
+  };
+}
 import { rosterPracticeLight } from "@/lib/flags";
 import { loadOrganizationReviews } from "@/lib/manager/reviews";
 import { loadGroupsForManager } from "@/lib/org-staff/membership";
@@ -45,13 +82,17 @@ export async function loadManagerGroups(managerId: string) {
   return loadGroupsForManager(managerId);
 }
 
-export async function loadManagerWorkspace(managerId: string) {
+export async function loadManagerWorkspace(
+  managerId: string,
+  options: LoadManagerWorkspaceOptions = {}
+) {
+  const signAvatars = options.signAvatars !== false;
   const supabase = await createClient();
   const groups = await loadManagerGroups(managerId);
   const groupIds = groups.map((group) => group.id);
 
   const membersRes = await emptyIn<GroupMember>(groupIds, () =>
-    supabase.from("group_members").select("*").in("group_id", groupIds)
+    supabase.from("group_members").select("group_id, father_id, joined_at").in("group_id", groupIds)
   );
   if (membersRes.error) throw membersRes.error;
   const members = (membersRes.data ?? []) as GroupMember[];
@@ -69,23 +110,35 @@ export async function loadManagerWorkspace(managerId: string) {
           .in("father_id", fatherIds)
           .order("taken_at", { ascending: false })
       ),
-      emptyIn<ProfileDraftRow>(fatherIds, () =>
+      emptyIn<Pick<ProfileDraftRow, "father_id">>(fatherIds, () =>
         supabase
           .from("father_profile_drafts")
-          .select("father_id, answers, current_index, updated_at")
+          .select(DESK_DRAFT_COLUMNS)
           .in("father_id", fatherIds)
       ),
       emptyIn<SessionProgress>(fatherIds, () =>
-        supabase.from("session_progress").select("*").in("father_id", fatherIds)
+        supabase
+          .from("session_progress")
+          .select(DESK_PROGRESS_COLUMNS)
+          .in("father_id", fatherIds) as PromiseLike<{
+          data: SessionProgress[] | null;
+          error: { message: string } | null;
+        }>
       ),
       emptyIn<TrainingAssignment>(fatherIds, () =>
-        supabase.from("training_assignments").select("*").in("father_id", fatherIds)
+        supabase
+          .from("training_assignments")
+          .select(DESK_ASSIGNMENT_COLUMNS)
+          .in("father_id", fatherIds) as PromiseLike<{
+          data: TrainingAssignment[] | null;
+          error: { message: string } | null;
+        }>
       ),
       emptyIn<Certificate>(fatherIds, () =>
-        supabase.from("certificates").select("*").in("father_id", fatherIds)
+        supabase.from("certificates").select(DESK_CERTIFICATE_COLUMNS).in("father_id", fatherIds)
       ),
-      supabase.from("trainings").select("*").order("order_index"),
-      supabase.from("sessions").select("*").order("order_index"),
+      supabase.from("trainings").select(DESK_TRAINING_COLUMNS).order("order_index"),
+      supabase.from("sessions").select(DESK_SESSION_COLUMNS).order("order_index"),
       loadOrganizationReviews(groupIds),
     ]);
 
@@ -93,15 +146,17 @@ export async function loadManagerWorkspace(managerId: string) {
     if (result.error) throw result.error;
   }
 
-  const trainings = (trainingsRes.data ?? []) as Training[];
-  const sessions = (sessionsRes.data ?? []) as Session[];
+  const trainings = ((trainingsRes.data ?? []) as Training[]).map(asDeskTraining);
+  const sessions = ((sessionsRes.data ?? []) as Session[]).map(asDeskSession);
   const profileRows = (profilesRes.data ?? []) as ManagedProfile[];
   const profiles = new Map(profileRows.map((profile) => [profile.id, profile]));
-  const avatarUrls = await signStorageUrls(
-    supabase,
-    AVATARS_BUCKET,
-    profileRows.map((profile) => profile.avatar_url)
-  );
+  const avatarUrls = signAvatars
+    ? await signStorageUrls(
+        supabase,
+        AVATARS_BUCKET,
+        profileRows.map((profile) => profile.avatar_url)
+      )
+    : new Map<string, string>();
   const latestProfile = new Map<string, ProfileResult>();
   for (const row of (resultsRes.data ?? []) as ProfileResult[]) {
     if (!latestProfile.has(row.father_id)) {

@@ -19,6 +19,7 @@ Some organizations may later offer live cohort sessions as an optional layer. Co
 - Leader roster practice light (`roster_practice_light`) defaults on once skill-use check-ins exist. Flags: completed, not yet, dismissed, stale. No answer text. Set `ROSTER_PRACTICE_LIGHT` to 0 / false / off to hide it.
 - Consider next (`desk_consider_next_v1`) stays off until ranking is trustworthy. When on, `/manager` shows one suggested action per stuck man (quiet, practice skipped, certificate ready, assessment stalled, or an existing open item). Nothing sends or issues until the Leader confirms. Set `DESK_CONSIDER_NEXT_V1` to 1 / true / on / yes to turn it on. Leave unset to keep the prior dashboard.
 - Fidelity board (`fidelity_board_enabled`) stays off. When on, `/manager/fidelity` is a living supervision checklist from the partner-kit list, and `/manager/team/facilitators` records Certified Facilitator attestation. Set `FIDELITY_BOARD_ENABLED` to 1 / true / on / yes to show it. Leave unset to keep the prior desk. No new ribbon item.
+- Review cadence on `/manager` keeps open items, pending actions, and certificates ready glanceable. The Leader roster shows film, checkpoint, and practice lights plus one next action. Nothing sends or issues until the Leader confirms.
 - Quiet alerts (for example, inactivity) so a named man can be reached
 - Announcements to the claimed group
 - Review of written finals and certificate approval / attestation
