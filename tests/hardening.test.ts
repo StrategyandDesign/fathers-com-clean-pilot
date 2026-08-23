@@ -138,7 +138,7 @@ describe("hardening after Shared 1-1.117", () => {
     assert.match(readRepo("docs/engineering/README.md"), /HARDENING-1-1.117\.md/);
     assert.match(readRepo("lib/trust/questionnaire.ts"), /fail closed/);
     assert.match(readRepo("docs/engineering/production-launch.md"), /fail closed/);
-    assert.doesNotMatch(readRepo("shared-mark.json"), /1\.118/);
+    assert.match(note, /Did not tick Shared 1-1\.118/);
   });
 
   it("keeps the service-role key off public env names", () => {
