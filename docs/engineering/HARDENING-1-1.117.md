@@ -32,6 +32,7 @@ Code-only pass. No Desk tick. No Shared 2. Father film, checkpoint, and practice
 - Service role stays server-only (`server-only` admin client). It is never a `NEXT_PUBLIC_*` value.
 - No live outbound push of participant data. Secure-export stays a confirm-first stub unless Super-admin turns it on, and even then it does not send to an outside host from this desk.
 - No vulnerability-scan or penetration-test summary is on file. An empty evidence folder is not a clean scan.
+- `npm audit` reports three high findings on Next.js 15.5.23 through nested `postcss` and `sharp`. The advertised fix is Next.js 16.3.2, a major framework jump. This pass does not take that jump.
 
 ## What this pass did not do
 

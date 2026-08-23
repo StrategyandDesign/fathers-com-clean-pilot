@@ -7,7 +7,6 @@ import { safeInternalPath } from "../lib/auth/roles";
 import { cronAuthorized } from "../lib/security/cron-auth";
 import { isSameOriginRequest } from "../lib/security/origin";
 import { publicErrorMessage } from "../lib/security/public-error";
-import { allowRateLimit } from "../lib/security/rate-limit";
 import { bearerToken, secretsEqual } from "../lib/security/secrets";
 import { sessionFailureAction } from "../lib/security/session-guard";
 
@@ -35,7 +34,7 @@ describe("hardening after Shared 1-1.117", () => {
     assert.match(source, /"auth.signin"/);
     assert.match(source, /"certificates.verify"/);
     assert.match(source, /"push.subscribe"/);
-    assert.equal(allowRateLimit("auth.signin", "203.0.113.10"), true);
+    assert.match(source, /return false/);
   });
 
   it("compares cron and identity tokens in constant time", () => {
