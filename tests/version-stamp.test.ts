@@ -9,9 +9,12 @@ describe("version stamp", () => {
   it("reads the Shared mark from shared-mark.json", () => {
     const mark = loadSharedMark();
     assert.ok(mark);
-    assert.ok(Number.isInteger(mark.patch) && mark.patch >= 1);
+    assert.equal(mark.patch, 101);
     assert.match(mark.label, /^Shared 1-1\.\d+$/);
+    assert.equal(mark.label, "Shared 1-1.101");
     assert.equal(mark.label, formatSharedLabel(1, mark.patch));
+    const ledger = readFileSync(fileURLToPath(new URL("../SHARED.md", import.meta.url)), "utf8");
+    assert.match(ledger, /The badge on this checkout is \*\*Shared 1-1\.101\*\*/);
   });
 
   it("formats Shared 1-1.01 and the next ticks", () => {

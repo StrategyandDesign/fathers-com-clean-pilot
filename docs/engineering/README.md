@@ -15,5 +15,6 @@ Start with [PILOT.md](PILOT.md). Then [production-launch.md](production-launch.m
 | [SHARED-1-1.117-SEAT-WALK.md](SHARED-1-1.117-SEAT-WALK.md) | Issues 1–17 smoke audit on Shared 1-1.117. Not production |
 | [HARDENING-1-1.117.md](HARDENING-1-1.117.md) | Post-1.117 code hardening. Closed findings and residual risks |
 | [ACTION-SEQUENCE-AUDIT-1-1.117.md](ACTION-SEQUENCE-AUDIT-1-1.117.md) | Action-sequence, orphan-link, and descriptor audit after hardening |
+| [SHARED-1-1.118-PLATFORM-AUDIT.md](SHARED-1-1.118-PLATFORM-AUDIT.md) | Seat-walk after the note-sent step. Not a Desk tick |
 
 Treat everything except PILOT as background, not as the current Next.js contract.

@@ -1,12 +1,12 @@
 {
   "mark": 7,
-  "patch": 121,
-  "label": "Shared 1-1.121",
+  "patch": 101,
+  "label": "Shared 1-1.101",
   "tag": "shared/7",
-  "at": "2026-08-23T19:00:00.000Z",
+  "at": "2026-08-21T00:00:00.000Z",
   "internalSha": "890fa8b684cc17a21c0ccbc13b787b24016b129e",
   "sharedSha": "",
-  "title": "Load desk and Home updates without a terminal checkout or a manual reload.",
+  "title": "Put a created assessment in the cohort as included.",
   "url": "https://github.com/StrategyandDesign/fathers-com-clean-pilot/releases/tag/shared/7",
   "revisions": [
     {

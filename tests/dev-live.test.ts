@@ -94,18 +94,25 @@ describe("live local sync", () => {
     assert.equal(result.reason, "dirty");
   });
 
-  it("follows the Shared desk branch with the newest badge", () => {
+  it("keeps live-local on review even when leftover desk branches show a newer badge", () => {
     assert.equal(isFollowableBranch("review"), true);
     assert.equal(isFollowableBranch("cursor/cadence-pending-defined-5318"), true);
     assert.equal(isFollowableBranch("submit/2"), false);
     assert.equal(isFollowableBranch("main"), false);
     assert.equal(patchFromSharedMark('{"patch":120}'), 120);
     const picked = pickDeskBranch([
-      { branch: "review", patch: 117, at: "2026-08-23T12:00:00.000Z" },
+      { branch: "review", patch: 101, at: "2026-08-21T00:00:00.000Z" },
       { branch: "cursor/cadence-pending-defined-5318", patch: 121, at: "2026-08-23T14:00:00.000Z" },
       { branch: "main", patch: 200, at: "2026-08-23T18:00:00.000Z" },
     ]);
-    assert.equal(picked?.branch, "cursor/cadence-pending-defined-5318");
+    assert.equal(picked?.branch, "review");
+    assert.equal(
+      pickDeskBranch([
+        { branch: "cursor/cadence-pending-defined-5318", patch: 121, at: "2026-08-23T14:00:00.000Z" },
+        { branch: "cursor/note-sent-next-action-5318", patch: 118, at: "2026-08-23T11:00:00.000Z" },
+      ])?.branch,
+      "cursor/cadence-pending-defined-5318"
+    );
     assert.deepEqual(parseRemoteRefs("origin/review|aaa|2026-08-23\norigin/main|bbb|2026-08-23\n"), [
       { ref: "origin/review", branch: "review", sha: "aaa", at: "2026-08-23" },
       { ref: "origin/main", branch: "main", sha: "bbb", at: "2026-08-23" },
@@ -115,20 +122,8 @@ describe("live local sync", () => {
     const runner = (cmd: string, args: string[]) => {
       const key = `${cmd} ${args.join(" ")}`;
       calls.push(key);
-      if (key === "git rev-parse --abbrev-ref HEAD") {
-        return {
-          status: 0,
-          stdout: calls.some((row) => row.includes("checkout"))
-            ? "cursor/cadence-pending-defined-5318\n"
-            : "review\n",
-        };
-      }
-      if (key === "git rev-parse HEAD") {
-        return {
-          status: 0,
-          stdout: calls.some((row) => row.includes("checkout")) ? "newsha\n" : "oldsha\n",
-        };
-      }
+      if (key === "git rev-parse --abbrev-ref HEAD") return { status: 0, stdout: "review\n" };
+      if (key === "git rev-parse HEAD") return { status: 0, stdout: "oldsha\n" };
       if (key === "git fetch --quiet --prune origin") return { status: 0, stdout: "" };
       if (key.startsWith("git for-each-ref")) {
         return {
@@ -137,35 +132,23 @@ describe("live local sync", () => {
         };
       }
       if (key === "git show origin/review:shared-mark.json") {
-        return { status: 0, stdout: '{"patch":117}\n' };
+        return { status: 0, stdout: '{"patch":101}\n' };
       }
       if (key === "git show origin/cursor/cadence-pending-defined-5318:shared-mark.json") {
         return { status: 0, stdout: '{"patch":121}\n' };
       }
       if (key === "git status --porcelain") return { status: 0, stdout: "" };
       if (key.startsWith("git rev-list --count")) return { status: 0, stdout: "0\n" };
-      if (key === "git checkout --quiet -B cursor/cadence-pending-defined-5318 origin/cursor/cadence-pending-defined-5318") {
-        return { status: 0, stdout: "" };
-      }
-      if (key === "git rev-parse origin/cursor/cadence-pending-defined-5318") {
-        return { status: 0, stdout: "newsha\n" };
-      }
-      if (key === "git diff --name-only oldsha newsha") {
-        return { status: 0, stdout: "lib/father/home-sync.ts\n" };
-      }
+      if (key === "git rev-parse origin/review") return { status: 0, stdout: "oldsha\n" };
       return { status: 1, stdout: "" };
     };
 
     const result = syncRepo("/tmp/repo", runner);
     assert.equal(result.ok, true);
-    assert.equal(result.changed, true);
-    assert.equal(result.reason, "switched");
-    assert.deepEqual(result.files, ["lib/father/home-sync.ts"]);
+    assert.equal(result.changed, false);
     assert.equal(
-      calls.includes(
-        "git checkout --quiet -B cursor/cadence-pending-defined-5318 origin/cursor/cadence-pending-defined-5318"
-      ),
-      true
+      calls.some((row) => row.includes("checkout --quiet -B cursor/cadence-pending-defined-5318")),
+      false
     );
   });
 });

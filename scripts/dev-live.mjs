@@ -190,6 +190,8 @@ export function patchFromSharedMark(source) {
 export function pickDeskBranch(rows) {
   const list = rows.filter((row) => row && isFollowableBranch(row.branch));
   if (!list.length) return null;
+  const review = list.find((row) => row.branch === "review");
+  if (review) return review;
   return list.slice().sort((left, right) => {
     const patchDelta = (right.patch ?? 0) - (left.patch ?? 0);
     if (patchDelta) return patchDelta;
