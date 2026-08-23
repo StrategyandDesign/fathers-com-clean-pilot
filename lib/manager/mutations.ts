@@ -1,7 +1,10 @@
 import type { User } from "@supabase/supabase-js";
 
+import { resolveFatherClaimId } from "@/lib/certificates/claims";
+import { mintCertificateSerial } from "@/lib/certificates/copy";
 import { renderCertificatePdf } from "@/lib/certificates/pdf";
 import { formatCertificateDate } from "@/lib/certificates/types";
+import { certificatesRequireClaim } from "@/lib/flags";
 import { notifyCertificateIssued } from "@/lib/email/events";
 import { queueCertificateIssued, queueNewAssignment } from "@/lib/notifications/events";
 import { isSessionComplete, isTrainingPublished } from "@/lib/father/types";
@@ -208,6 +211,14 @@ export async function issueCertificateToFather(
     }
   }
 
+  const claimId = await resolveFatherClaimId(supabase, fatherId);
+  if (certificatesRequireClaim() && !claimId) {
+    return {
+      status: "failed",
+      reason: "This father does not have a claimed seat yet.",
+    };
+  }
+
   const [fatherRes, trainingRes, managerRes] = await Promise.all([
     supabase.from("profiles").select("id, full_name").eq("id", fatherId).maybeSingle(),
     supabase.from("trainings").select("id, title").eq("id", trainingId).maybeSingle(),
@@ -222,7 +233,7 @@ export async function issueCertificateToFather(
   }
 
   const issuedAt = new Date();
-  const serial = `FC-${issuedAt.getFullYear()}-${crypto.randomUUID().slice(0, 8).toUpperCase()}`;
+  const serial = mintCertificateSerial(issuedAt);
   const fatherName = displayName(fatherRes.data, fatherId);
   const managerName = profileName(managerRes.data, user.email?.split("@")[0] ?? "Leader");
   const storagePath = certificateObjectPath(fatherId, serial);
@@ -257,6 +268,7 @@ export async function issueCertificateToFather(
       issuer_name: managerName,
       issued_at: issuedAt.toISOString(),
       pdf_storage_path: storagePath,
+      ...(claimId ? { claim_id: claimId } : {}),
     })
     .select("id")
     .maybeSingle();

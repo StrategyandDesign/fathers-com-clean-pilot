@@ -17,6 +17,9 @@ export default async function FatherCertificatesPage() {
         <p className="mt-1 text-sm text-muted-foreground">
           {t("account.certificatesLead")}
         </p>
+        <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
+          {t("account.certificateDisclaimer")}
+        </p>
       </div>
       <IssuedCertificateList
         certificates={certificates}

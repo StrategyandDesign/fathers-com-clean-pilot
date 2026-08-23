@@ -424,8 +424,13 @@ export const en = {
     helpLead: "Something not working, or a question? Send a short note.",
     reportProblem: "Report a Problem",
     certificates: "Certificates",
-    certificatesLead: "Issued by your leader. Preview it, then download the official PDF.",
-    certificatePreviewLead: "This is your certificate. Download the official PDF when you need the file.",
+    certificatesLead:
+      "Leader-issued completion proof. Preview it, download the official PDF, or check the serial on the public verify page.",
+    certificatePreviewLead:
+      "This is your Leader-issued completion proof. Download the official PDF when you need the file. Anyone can check the serial.",
+    certificateDisclaimer:
+      "This certificate records completion of a Fathers.com training. It is not a finding of court fitness, not a finding of reunification safety, not clinical treatment, and not a substitute for professional evaluation.",
+    checkSerial: "Check serial",
     backToCertificates: "Back to certificates",
     certificatesEmpty:
       "Certificates appear after your leader issues one for a completed training.",
@@ -1280,8 +1285,8 @@ export const en = {
     },
     certificates: {
       eyebrow: "Certificates",
-      title: "Certificate of Completion",
-      lead: "You send these after a father finishes every session in a training. Preview first. Nothing is issued until you confirm.",
+      title: "Leader-issued completion proof",
+      lead: "You send these after a father finishes every session in a training. Preview first. Nothing is issued until you confirm. Each serial can be checked on the public verify page.",
       readyOne: "1 ready to send",
       readyMany: "{count} ready to send",
       issuedOne: "1 already issued",
@@ -1439,8 +1444,8 @@ export const en = {
     },
     cert: {
       title: "Certificate",
-      issued: "Issued and stored. Download the PDF anytime.",
-      preview: "Preview the certificate, then issue the PDF.",
+      issued: "Issued and stored. Anyone can check this serial on the public verify page.",
+      preview: "Preview this Leader-issued completion proof, then issue the PDF.",
       serialPending: "Assigned on issue",
       notComplete:
         "This training is not fully complete. Certificates are issued only after every session is done.",
@@ -1453,6 +1458,9 @@ export const en = {
       pdfOrg: "National Center for Fathering",
       pdfTagline: "Fathers.com  ·  Presence is a skill.",
       pdfManager: "Fathers.com Leader",
+      disclaimer:
+        "This certificate records completion of a Fathers.com training. It is not a finding of court fitness, not a finding of reunification safety, not clinical treatment, and not a substitute for professional evaluation.",
+      claimRequired: "This father does not have a claimed seat yet.",
     },
     request: {
       title: "Request a Training",
@@ -2130,5 +2138,31 @@ export const en = {
     notWorking: "Something not working",
     question: "Question",
     other: "Other",
+  },
+  verify: {
+    eyebrow: "Public serial check",
+    title: "Check a certificate",
+    foundTitle: "This serial is on file",
+    missingTitle: "No certificate matches",
+    metaTitle: "Check a certificate",
+    metaTitleSerial: "Check {serial}",
+    metaDescription: "Confirm a Fathers.com certificate serial. Completion proof only.",
+    lead: "Enter the serial printed on a Leader-issued completion proof.",
+    foundLead: "This is Leader-issued completion proof. It records training completion only.",
+    missingLead: "That serial is not on file as a Fathers.com certificate.",
+    missingHint: "No certificate matches {serial}.",
+    invalidHint: "Enter a serial in the form FC-YEAR-XXXXXXXX.",
+    serialLabel: "Serial",
+    serialPlaceholder: "FC-2026-00000000",
+    submit: "Check serial",
+    recipient: "Issued to",
+    training: "Training",
+    completed: "Completed",
+    issuedBy: "Issued by",
+    another: "Check another serial",
+    back: "Back to serial check",
+    rateLimited: "Too many checks just now. Try again in a few minutes.",
+    disclaimer:
+      "This certificate records completion of a Fathers.com training. It is not a finding of court fitness, not a finding of reunification safety, not clinical treatment, and not a substitute for professional evaluation.",
   },
 } as const;

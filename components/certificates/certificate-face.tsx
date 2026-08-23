@@ -10,6 +10,7 @@ export type CertificateFaceLabels = {
   serial: string;
   issuedBy: string;
   organization: string;
+  disclaimer: string;
 };
 
 export function certificateFaceLabels(t: Translate): CertificateFaceLabels {
@@ -20,6 +21,7 @@ export function certificateFaceLabels(t: Translate): CertificateFaceLabels {
     serial: t("manager.cert.serial"),
     issuedBy: t("manager.cert.issuedBy"),
     organization: t("manager.cert.pdfOrg"),
+    disclaimer: t("manager.cert.disclaimer"),
   };
 }
 
@@ -140,6 +142,16 @@ export function CertificateFace({
             snapshot={snapshot}
           />
         </dl>
+        {!snapshot && labels.disclaimer ? (
+          <p
+            className={cn(
+              "text-center leading-snug text-[#5c5648]",
+              "mt-4 text-[10px] sm:mt-5 sm:text-[11px]"
+            )}
+          >
+            {labels.disclaimer}
+          </p>
+        ) : null}
       </div>
     </article>
   );

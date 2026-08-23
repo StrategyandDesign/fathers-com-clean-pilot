@@ -5,6 +5,7 @@ import { EmptyState } from "@/components/ui/empty-state";
 import { buttonVariants } from "@/components/ui/button";
 import {
   certificatePreviewPath,
+  certificateVerifyPath,
   formatCertificateDate,
   type IssuedCertificate,
 } from "@/lib/certificates/types";
@@ -53,7 +54,9 @@ export async function IssuedCertificateList({
                 : ""}
             </p>
             <p className="mt-1 font-mono text-xs text-muted-foreground">
-              {certificate.serialNumber}
+              <Link href={certificateVerifyPath(certificate.serialNumber)} className="hover:text-foreground">
+                {certificate.serialNumber}
+              </Link>
             </p>
           </div>
           <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">

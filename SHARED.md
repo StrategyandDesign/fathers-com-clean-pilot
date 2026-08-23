@@ -14,7 +14,7 @@ Submit 2 stays frozen on `submit/2`. The next official submit is still 4.
 
 ## Desk revisions
 
-The badge on this checkout is **Shared 1-1.101**. It ticks on each push of the Shared 1 desk. This does not create Shared 2. Submit 2 stays frozen.
+The badge on this checkout is **Shared 1-1.102**. It ticks on each push of the Shared 1 desk. This does not create Shared 2. Submit 2 stays frozen.
 
 | Revision | Date (UTC) | What landed |
 |---|---|---|
@@ -119,3 +119,4 @@ The badge on this checkout is **Shared 1-1.101**. It ticks on each push of the S
 | **1.99** | 2026-08-21 | Remove Hidden from your cohort from Trainings and Assessments. |
 | **1.100** | 2026-08-21 | Give included assessments training-style cohort cards. |
 | **1.101** | 2026-08-21 | Put a created assessment in the cohort as included. |
+| **1.102** | 2026-08-23 | Add public certificate verify and a completion-only disclaimer. |
