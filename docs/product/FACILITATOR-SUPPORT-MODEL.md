@@ -15,6 +15,7 @@ Some organizations may later offer live cohort sessions as an optional layer. Co
 - Claim / seat gate (facilitator or org claims the man)
 - Roster visibility for claimed men
 - Progress and completion visibility appropriate to role (film, checkpoint, and practice flags only; never answers, scores, or practice log text)
+- Leader roster practice light (`roster_practice_light`) defaults on once skill-use check-ins exist. Flags: completed, not yet, dismissed, stale. No answer text. Set `ROSTER_PRACTICE_LIGHT` to 0 / false / off to hide it.
 - Quiet alerts (for example, inactivity) so a named man can be reached
 - Announcements to the claimed group
 - Review of written finals and certificate approval / attestation

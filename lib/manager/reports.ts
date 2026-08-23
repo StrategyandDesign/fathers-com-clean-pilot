@@ -1,4 +1,10 @@
+import {
+  latestPracticeLight,
+  practiceLightCsvValue,
+  type PracticeLight,
+} from "@/lib/father/skill-use";
 import { isSessionComplete, type SessionProgress, type Training } from "@/lib/father/types";
+import { rosterPracticeLight } from "@/lib/flags";
 import { dateLocale, DEFAULT_LOCALE, type Locale } from "@/lib/i18n/config";
 import { createTranslator, type Translate } from "@/lib/i18n/translate";
 import {
@@ -37,6 +43,7 @@ export type ReportRow = {
   certificateSerial: string;
   certificateIssuedAt: string | null;
   lastProgramActivity: string | null;
+  practiceStatus: PracticeLight | "";
 };
 
 export type ReportSummary = {
@@ -202,6 +209,14 @@ function statusLabel(status: CompletionStatus, t: Translate) {
   return t("manager.reports.notStarted");
 }
 
+function practiceStatusLabel(status: PracticeLight | "", t: Translate) {
+  if (status === "completed") return t("manager.reports.practiceCompleted");
+  if (status === "not_yet") return t("manager.reports.practiceNotYet");
+  if (status === "dismissed") return t("manager.reports.practiceDismissed");
+  if (status === "stale") return t("manager.reports.practiceStale");
+  return "";
+}
+
 export function summarizeReport(rows: ReportRow[]): ReportSummary {
   return {
     men: new Set(rows.map((row) => row.fatherId)).size,
@@ -262,6 +277,12 @@ function toAssignmentRow(
     ...completedDates,
     card?.certificate?.issued_at,
   ]);
+  const sessionIds = new Set(card?.sessions.map((session) => session.id) ?? []);
+  const practiceStatus = rosterPracticeLight()
+    ? latestPracticeLight(
+        progress.filter((row) => sessionIds.has(row.session_id))
+      ) ?? ""
+    : "";
 
   return {
     fatherId: participant.fatherId,
@@ -271,6 +292,7 @@ function toAssignmentRow(
     trainingId: card?.training.id ?? null,
     trainingTitle: card?.training.title ?? "None assigned",
     completionStatus: status,
+    practiceStatus,
     sessionsCompleted: card?.completed ?? 0,
     sessionsTotal: card?.total ?? 0,
     assignedAt: assignment?.assigned_at ?? null,
@@ -429,6 +451,7 @@ export function rowsToCsv(
           "# Not started: assigned with zero sessions finished, or none assigned.",
           "# Date range: last program activity (assignment, session, or certificate). Join date is not counted.",
           "# Email is omitted. Leaders cannot read login emails.",
+          "# Practice: completed, not yet, dismissed, or stale. Flag only. No answer text.",
         ];
 
   const header =
@@ -439,6 +462,7 @@ export function rowsToCsv(
           t("manager.reports.csvGroup"),
           t("manager.reports.trainingCol"),
           t("manager.reports.csvCompletion"),
+          t("manager.reports.csvPractice"),
           t("manager.reports.csvSessionsCompleted"),
           t("manager.reports.csvSessionsTotal"),
           t("manager.reports.csvAssignedOn"),
@@ -455,6 +479,7 @@ export function rowsToCsv(
           "Group",
           "Training",
           "Status",
+          "Practice",
           "Sessions completed",
           "Sessions total",
           "Assigned on",
@@ -478,6 +503,9 @@ export function rowsToCsv(
           ? t("manager.reports.noneAssigned")
           : row.trainingTitle,
         locale === "he" ? statusLabel(row.completionStatus, t) : COMPLETION_STATUS_LABEL[row.completionStatus],
+        locale === "he"
+          ? practiceStatusLabel(row.practiceStatus, t)
+          : practiceLightCsvValue(row.practiceStatus || null),
         String(row.sessionsCompleted),
         String(row.sessionsTotal),
         formatReportDate(row.assignedAt, locale),

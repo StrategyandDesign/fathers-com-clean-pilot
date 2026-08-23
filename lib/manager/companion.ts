@@ -1,3 +1,4 @@
+import { isPracticeSkipped } from "@/lib/father/skill-use";
 import type { ImpactSnapshot } from "@/lib/manager/impact";
 import {
   cooldownRemaining,
@@ -89,10 +90,17 @@ export function whyTemplateCopy(template: NudgeTemplateKey): CompanionCopy {
   return { key: "manager.companion.whyContinue" };
 }
 
+export function practiceSkipped(cards: TrainingProgress[]) {
+  return cards.some((card) => isPracticeSkipped(card.practiceLight));
+}
+
 export function quietReasonCopy(
   lastActivity: string | null | undefined,
   cards: TrainingProgress[]
 ): CompanionCopy {
+  if (practiceSkipped(cards)) {
+    return { key: "manager.companion.reasonPracticeSkipped" };
+  }
   const stall = stallPoint(cards);
   if (stall) {
     return {
@@ -120,7 +128,8 @@ function rankQuiet(suggestion: QuietSuggestion) {
   return (
     suggestion.daysQuiet +
     (suggestion.reason.key.includes("Stalled") ||
-    suggestion.reason.key === "manager.companion.reasonStalledTitle"
+    suggestion.reason.key === "manager.companion.reasonStalledTitle" ||
+    suggestion.reason.key === "manager.companion.reasonPracticeSkipped"
       ? 8
       : 0) +
     (suggestion.template === "encouragement" ? 2 : 0)

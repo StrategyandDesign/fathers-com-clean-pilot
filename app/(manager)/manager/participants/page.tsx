@@ -139,6 +139,9 @@ export default async function ManagerParticipantsPage({
                   })
                 : participant.progressLabel,
             lastActivity: participant.lastActivity,
+            filmDone: participant.filmDone,
+            checkpointDone: participant.checkpointDone,
+            practiceLight: participant.practiceLight,
             quiet: needsNudge(
               participant.lastActivity,
               trainingProgressFor(participant.fatherId)

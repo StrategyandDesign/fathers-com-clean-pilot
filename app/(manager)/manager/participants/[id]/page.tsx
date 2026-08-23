@@ -5,6 +5,7 @@ import { CertificateDownloadLink } from "@/components/certificates/download-link
 import { CompanionNudgeSuggest } from "@/components/manager/companion-nudge-suggest";
 import { Flash } from "@/components/manager/flash";
 import { NudgeForm } from "@/components/manager/nudge-form";
+import { ProgressLights } from "@/components/manager/progress-lights";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { EmptyState } from "@/components/ui/empty-state";
 import { ProgressBar } from "@/components/ui/progress";
@@ -28,6 +29,7 @@ import {
   translateAssignmentStatus,
   translateNudgeStatus,
   translateNudgeTemplate,
+  translatePracticeLight,
   translateQuietLabel,
   translateThemeLabel,
 } from "@/lib/i18n/flash";
@@ -40,22 +42,6 @@ import {
   textareaClassName,
 } from "@/lib/ui";
 import { cn } from "@/lib/utils";
-
-function Step({ done, label }: { done: boolean; label: string }) {
-  return (
-    <span className="inline-flex items-center gap-2 text-sm">
-      <span
-        className={cn(
-          "size-2 rounded-full",
-          done ? "bg-primary" : "bg-white/20"
-        )}
-      />
-      <span className={done ? "text-foreground" : "text-muted-foreground"}>
-        {label}
-      </span>
-    </span>
-  );
-}
 
 export default async function ManagerParticipantDetailPage({
   params,
@@ -422,54 +408,93 @@ export default async function ManagerParticipantDetailPage({
             <p className="mt-2 text-muted-foreground">
               {current.session.title} · {t("manager.participants.sessionN", { n: current.session.session_number })}
             </p>
-            <div className="mt-4 flex flex-wrap gap-x-4 gap-y-2 sm:gap-5">
-              <Step
-                done={current.progress?.film_completed ?? false}
-                label={t(
+            <div className="mt-4 space-y-3">
+              <ProgressLights
+                filmDone={current.progress?.film_completed ?? false}
+                checkpointDone={current.progress?.checkin_completed ?? false}
+                practice={participant.practiceLight ?? null}
+                filmLabel={t(
                   current.progress?.film_completed
                     ? "manager.participants.stepDone"
                     : "manager.participants.stepPending",
                   { label: t("father.session.film") }
                 )}
-              />
-              <Step
-                done={current.progress?.checkin_completed ?? false}
-                label={t(
+                checkpointLabel={t(
                   current.progress?.checkin_completed
                     ? "manager.participants.stepDone"
                     : "manager.participants.stepPending",
                   { label: t("father.session.checkin") }
                 )}
+                practiceLabel={translatePracticeLight(participant.practiceLight, t)}
+                showPractice={Boolean(participant.practiceLight)}
               />
-              <Step
-                done={current.progress?.action_completed ?? false}
-                label={t(
-                  current.progress?.action_completed
-                    ? "manager.participants.stepDone"
-                    : "manager.participants.stepPending",
-                  { label: t("father.session.action") }
-                )}
-              />
+              <span className="inline-flex items-center gap-2 text-sm">
+                <span
+                  className={cn(
+                    "size-2 rounded-full",
+                    current.progress?.action_completed ? "bg-primary" : "bg-white/20"
+                  )}
+                />
+                <span
+                  className={
+                    current.progress?.action_completed
+                      ? "text-foreground"
+                      : "text-muted-foreground"
+                  }
+                >
+                  {t(
+                    current.progress?.action_completed
+                      ? "manager.participants.stepDone"
+                      : "manager.participants.stepPending",
+                    { label: t("father.session.action") }
+                  )}
+                </span>
+              </span>
             </div>
           </>
         ) : (
-          <EmptyState
-            framed={false}
-            className="mt-2 p-0"
-            title={
-              progress.length === 0
-                ? t("manager.participants.noContinueTitle")
+          <>
+            {participant.practiceLight ? (
+              <div className="mt-4">
+                <ProgressLights
+                  filmDone={progress.some((card) => card.completed > 0)}
+                  checkpointDone={progress.some((card) => card.completed > 0)}
+                  practice={participant.practiceLight}
+                  filmLabel={t(
+                    progress.some((card) => card.completed > 0)
+                      ? "manager.participants.stepDone"
+                      : "manager.participants.stepPending",
+                    { label: t("father.session.film") }
+                  )}
+                  checkpointLabel={t(
+                    progress.some((card) => card.completed > 0)
+                      ? "manager.participants.stepDone"
+                      : "manager.participants.stepPending",
+                    { label: t("father.session.checkin") }
+                  )}
+                  practiceLabel={translatePracticeLight(participant.practiceLight, t)}
+                  showPractice
+                />
+              </div>
+            ) : null}
+            <EmptyState
+              framed={false}
+              className="mt-2 p-0"
+              title={
+                progress.length === 0
+                  ? t("manager.participants.noContinueTitle")
+                  : progress.some((card) => card.assigned)
+                    ? t("manager.participants.allCompleteTitle")
+                    : t("manager.participants.noAssignedTitle")
+              }
+            >
+              {progress.length === 0
+                ? t("manager.participants.noContinueBody")
                 : progress.some((card) => card.assigned)
-                  ? t("manager.participants.allCompleteTitle")
-                  : t("manager.participants.noAssignedTitle")
-            }
-          >
-            {progress.length === 0
-              ? t("manager.participants.noContinueBody")
-              : progress.some((card) => card.assigned)
-                ? t("manager.participants.allCompleteBody")
-                : t("manager.participants.noAssignedBody")}
-          </EmptyState>
+                  ? t("manager.participants.allCompleteBody")
+                  : t("manager.participants.noAssignedBody")}
+            </EmptyState>
+          </>
         )}
       </section>
 
