@@ -23,7 +23,8 @@ import { loadManagerAssessments, loadManagerAssessmentStalls } from "@/lib/asses
 import { CohortNoteDesk } from "@/components/manager/cohort-note-desk";
 import { decorateCohortNoteDesk } from "@/lib/cohort-note/audience";
 import { loadManagerCohortNotes } from "@/lib/cohort-note/data";
-import { deskConsiderNextV1 } from "@/lib/flags";
+import { FidelityDeskCard } from "@/components/fidelity/fidelity-desk-card";
+import { deskConsiderNextV1, fidelityBoardEnabled } from "@/lib/flags";
 import {
   buildConsiderNext,
   considerNextHistoryIds,
@@ -66,6 +67,7 @@ export default async function ManagerHomePage({
     certificates,
   } = workspace;
   const considerNextEnabled = deskConsiderNextV1();
+  const fidelityEnabled = fidelityBoardEnabled();
   const quietIds = participants
     .filter((participant) =>
       needsNudge(participant.lastActivity, trainingProgressFor(participant.fatherId))
@@ -246,6 +248,8 @@ export default async function ManagerHomePage({
       {considerNextEnabled ? (
         <ConsiderNextCard rows={considerNext} mode={participationMode} />
       ) : null}
+
+      {fidelityEnabled ? <FidelityDeskCard t={t} /> : null}
 
       <CompanionPanel briefing={companion} mode={participationMode} t={t} />
 

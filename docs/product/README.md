@@ -11,6 +11,7 @@ Start with `POSITIONING.md` only if you need vocabulary, claims, or the educatio
 | [COUNSEL-PACK.md](COUNSEL-PACK.md) | Account counsel drafts, counsel_pack_required off by default |
 | [TRUST-STATUS.md](TRUST-STATUS.md) | Quiet Account and org trust strip for single sign-on and drafts |
 | [FACILITATOR-SUPPORT-MODEL.md](FACILITATOR-SUPPORT-MODEL.md) | Facilitator-supported film; flags-only default; optional answer unlock |
+| [FIDELITY-BOARD.md](FIDELITY-BOARD.md) | Living fidelity checklist and Certified Facilitator registry; fidelity_board_enabled off by default |
 | [LAUNCH.md](LAUNCH.md) | Launch checklist from the static-site era |
 | [consent-returning-home.md](consent-returning-home.md) | Pilot-lane consent draft; flags-only default, optional answer unlock |
 | [ORG-ONBOARDING.md](ORG-ONBOARDING.md) | Org onboarding notes |
