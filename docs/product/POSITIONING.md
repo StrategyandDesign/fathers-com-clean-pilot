@@ -100,6 +100,12 @@ No clinical information is stored on this platform. Where 42 CFR Part 2 applies
 to a partner, the partner kit carries the QSOA template; the platform never
 receives Part 2 data. The participant owns his account after discharge.
 
+Educational assessment answers stay with the father by default. Leaders see
+completion flags (started, finished, stalled). Written answers appear on a
+Leader desk only when Super-admin turns the organization flag on, or the
+platform environment flag is on. Reviewers stay on cohort totals. This is not
+a clinical chart.
+
 
 
 ## 9a. Sponsorship / Library vocabulary (locked)
@@ -228,6 +234,9 @@ into licensed territory. Verified by vocabulary scan of every generated page on
    reduce relapse, depression, or any diagnosis.
 5. No clinical information is stored on the platform (section 9). The QSOA
    template lives in the partner kit; the platform never receives Part 2 data.
+   Educational assessment answers are flags-only for Leaders by default.
+   Written answers unlock only when Super-admin turns the organization flag
+   on, or the platform environment flag is on. Reviewers stay aggregate-only.
 6. Anger content is steadiness education. Never "anger management" as a court
    category, and never positioned to satisfy batterer-intervention requirements,
    a regulated program class in most states. Whether a certificate satisfies any

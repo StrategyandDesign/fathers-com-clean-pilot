@@ -198,7 +198,9 @@ describe("leader assessment answers surfaces", () => {
     assert.doesNotMatch(page, /answersVisible \?[\s\S]*question\.prompt[\s\S]*:[\s\S]*question\.prompt/);
     assert.equal(en.manager.assessments.answersCounsel.includes("clinical chart"), true);
     assert.equal(en.manager.assessments.answersCounsel.includes("—"), false);
-    assert.equal(en.legal.privacyPage.sharingOrg.includes("answer bodies"), true);
+    assert.equal(en.legal.privacyPage.sharingOrg.includes("written answers"), true);
+    assert.equal(en.legal.privacyPage.sharingOrg.includes("completion flags"), true);
+    assert.equal(en.legal.privacyPage.sharingOrg.includes("unless Super-admin"), true);
     assert.equal(en.legal.privacyPage.sharingOrg.includes("cohort totals"), true);
   });
 

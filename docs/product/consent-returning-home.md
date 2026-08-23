@@ -1,5 +1,7 @@
 # Taking part in the Keystone pilot
 
+**Draft for counsel review. Not a final consent form.**
+
 **Read this before you decide. Ask any question you want. Take it home if you like.**
 
 ## What this is
@@ -38,8 +40,9 @@ you if you do.
 
 ## Who sees your answers
 
-Your report is yours. Returning Home staff do not see your individual answers
-or your individual report unless you choose to show them.
+Your report is yours. Returning Home staff see whether you started or finished.
+They do not see your individual written answers unless Returning Home turns
+that visibility on, or you choose to show them.
 
 We report to funders in groups only, never one man at a time, and never in a
 group small enough that someone could work out who you are.

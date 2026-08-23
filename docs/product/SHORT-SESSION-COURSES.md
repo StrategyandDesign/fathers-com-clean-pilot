@@ -31,7 +31,7 @@ Talk about **12 weeks** and a **short film**, not a 12-hour lecture. Certificate
 Optional practice replay paths for Steady look like `assets/video/steady/s01-practice-replay.mp4`. The player hides the control when the path is missing and tolerates a 404.
 
 ## Facilitator surfaces
-Completion flags only: film, checkpoint, practice. No answers, no scores, no practice log text on the Desk.
+Training completion flags only: film, checkpoint, practice. No checkpoint answers, no scores, no practice log text on the Desk.
 
 ## Start here
 Each course has one Ken and Micah face intro before Session 1. Optional. Not a week and not counted toward the certificate. The player hides the mp4 slot if the file 404s and still shows the two spoken blocks. After the film ends, or Skip, Session 1. The welcome does not play before weeks 2 through 12.

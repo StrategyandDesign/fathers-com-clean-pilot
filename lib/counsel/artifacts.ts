@@ -85,7 +85,7 @@ The National Center for Fathering does not claim covered-entity status by offeri
 
 - Account: name the person chose, email, role, organization membership, language and palette preferences
 - Training progress: which session film, check-in, and action are done, and when
-- Educational assessments: completion status by default. Answer bodies only when the organization turns leader_assessment_answers on
+- Educational assessments: completion flags by default. Written answers only when Super-admin turns leader_assessment_answers on
 - Certificates: serial, issue date, issuer display name, training title
 - Organization operations: invite code, roster, assignments, Reports exports, Home updates
 
@@ -100,7 +100,7 @@ If a partner is such a program, the Qualified Service Organization Agreement dra
 
 ## Education-only use
 
-Leaders see participation and completion flags so they can assign training and issue completion proof. They do not see custom assessment answers unless leader_assessment_answers is on. Reviewers see aggregated counts. Super-admins see organization operations. Fathers own the account after they leave a partner setting.
+Leaders see participation and completion flags so they can assign training and issue completion proof. They do not see custom assessment written answers unless Super-admin turns leader_assessment_answers on. Reviewers see aggregated counts. Super-admins see organization operations. Fathers own the account after they leave a partner setting.
 
 Counsel edits this map before a partner relies on it.
 `

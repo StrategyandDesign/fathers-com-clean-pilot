@@ -14,8 +14,8 @@ Some organizations may later offer live cohort sessions as an optional layer. Co
 
 - Claim / seat gate (facilitator or org claims the man)
 - Roster visibility for claimed men
-- Progress and completion visibility appropriate to role (film, checkpoint, and practice flags only; never answers, scores, or practice log text)
-- Custom assessment answers (`leader_assessment_answers`) default off. Leaders see started, finished, or stalled. They do not see question text or answer payloads unless Super-admin turns the org flag on, or `LEADER_ASSESSMENT_ANSWERS` is set to 1 / true / on / yes. Reviewers stay on cohort totals either way. Rehab recommendations keep this off.
+- Training progress visibility: film, checkpoint, and practice flags only. No checkpoint answers, scores, or practice log text.
+- Custom assessment answers (`leader_assessment_answers`) default off. Leaders see started, finished, or stalled. They do not see question text or written answers unless Super-admin turns the org flag on, or `LEADER_ASSESSMENT_ANSWERS` is set to 1 / true / on / yes. Reviewers stay on cohort totals either way. Rehab recommendations keep this off.
 - Leader roster practice light (`roster_practice_light`) defaults on once skill-use check-ins exist. Flags: completed, not yet, dismissed, stale. No answer text. Set `ROSTER_PRACTICE_LIGHT` to 0 / false / off to hide it.
 - Consider next (`desk_consider_next_v1`) stays off until ranking is trustworthy. When on, `/manager` shows one suggested action per stuck man (quiet, practice skipped, certificate ready, assessment stalled, or an existing open item). Nothing sends or issues until the Leader confirms. Set `DESK_CONSIDER_NEXT_V1` to 1 / true / on / yes to turn it on. Leave unset to keep the prior dashboard.
 - Quiet alerts (for example, inactivity) so a named man can be reached
