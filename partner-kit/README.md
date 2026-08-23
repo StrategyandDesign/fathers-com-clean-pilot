@@ -18,9 +18,10 @@ govern every word in here.
 | supervision-checklist.md | NCF supervisors | The supervised first cohort as a coaching instrument |
 | org-admin-quickstart.md | Org admins | Seats, cohort funding, where incentive money goes, the Efficacy Report |
 | engine-license-outline.md | Counsel | Governance skeleton for licensing the engine to an outside authority. COUNSEL REVIEW REQUIRED |
-| funding-map.md | Org admins, development staff | Federal, reentry, and settlement funding streams, what they pay for, budget-line mapping |
-| fundraising-one-pager.md | Donors, foundations | One-page founding-gift leave-behind. Sources 2018–2026 only |
-| fundraising-brief.md | Donors, development staff | Market brief, $260k split, ten-minute talk track, numbered sources |
+| funding-map.md | Org admins, development staff | Federal, reentry, and settlement funding streams, what they pay for, budget-line mapping. No rating pitch. |
+| fundraising-one-pager.md | Donors, foundations | One-page founding-gift leave-behind. Sources 2018–2026 only. Points rating questions to the funder brief. |
+| fundraising-brief.md | Donors, development staff | Market brief, $260k split, ten-minute talk track, numbered sources. Does not sell a rating. |
+| funder-brief.md | Donors, foundations | Only rating-adjacent sales note. States the non-rating honestly. Sells completion and operations. |
 | facilitator-triage-and-referral.md | Certified Facilitators | Distress signs, the same-day warm handoff, the education-line boundary, and the court-order rule for rebuilding trust |
 
 ## Regenerate

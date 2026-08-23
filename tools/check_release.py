@@ -20,7 +20,16 @@ REPO = Path(__file__).resolve().parents[1]
 # and no evidence-rating claim prints until a Clearinghouse rating exists.
 # Lift NORMS_BAN when norms_printable ships true; lift EVIDENCE_BAN on rating.
 NORMS_BAN = ["9,232", "9232", "2,066", "2066 fathers"]
-EVIDENCE_BAN = ["evidence-based", "evidence based", "clinically proven"]
+EVIDENCE_BAN = ["evidence-based", "evidence based", "clinically proven",
+                "clinical efficacy", "clinically effective"]
+# Issue 9 freeze: never print these as product status on a generated page.
+STATUS_BAN = ["reunification-ready", "reunification ready",
+              "risk-reduction proven", "risk reduction proven",
+              "proven risk reduction",
+              "mflc approved",
+              "military and family life counseling approved",
+              "title iv-e drawdown", "title iv-e eligible",
+              "ffpsa drawdown", "ffpsa eligible"]
 # Build-spec v4.12.0 claim guards: phrases that must never appear on any page.
 HARD_BAN = ["verified instructional hours", "instructional hours",
             "verified hours", "proctored",
@@ -110,6 +119,15 @@ def main():
         ehits = [b for b in EVIDENCE_BAN if unnegated(b)]
         if ehits:
             failures.append(f"{name}: evidence-claim ban hit (POSITIONING 18): {ehits}")
+        # reunification-ready never prints, even as a denial.
+        hard_status = [b for b in ("reunification-ready", "reunification ready") if b in text]
+        other_status = [
+            b for b in STATUS_BAN
+            if b not in ("reunification-ready", "reunification ready") and unnegated(b)
+        ]
+        shits = hard_status + other_status
+        if shits:
+            failures.append(f"{name}: overclaim-status ban hit (EVIDENCE-BAR): {shits}")
 
     # Scan every shipped script and every builder for hard-banned claims
     # (AUDIT-V41 WP-G2): the overlay regression lived in report.js and the

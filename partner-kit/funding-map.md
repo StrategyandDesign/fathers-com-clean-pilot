@@ -22,17 +22,15 @@ documentation courts and supervision officers require.
 
 ## Opioid settlement funds
 Arkansas's ARORP has distributed more than $26.3 million of a $216 million
-settlement across all 75 counties and requires evidence-based strategies
-(arorp.org). Family and parenting programming qualifies at the prevention
-and recovery-support level. Applications carry local sign-off requirements;
-start with the county judge or mayor. Other states run parallel funds.
+settlement across all 75 counties (arorp.org). Family and parenting
+programming qualifies at the prevention and recovery-support level.
+Applications carry local sign-off requirements; start with the county
+judge or mayor. Other states run parallel funds.
 
-## The Title IV-E channel (future)
-Under the Family First Prevention Services Act, programs rated by the
-Prevention Services Clearinghouse become eligible for Title IV-E
-reimbursement. No fatherhood curriculum currently holds a rating
-(both leading incumbents: Does Not Currently Meet Criteria, July 2025
-review). docs/EVIDENCE-BAR.md is the plan to be first through that door.
+## Ratings and reimbursement
+Do not write a prevention-program rating or federal child-welfare
+reimbursement into a budget as a current product line. The honest note is
+partner-kit/funder-brief.md.
 
 ## How to write it into a budget
 1. Organization certification: training or quality-assurance line.

@@ -7,6 +7,7 @@ Start with `POSITIONING.md` only if you need vocabulary, claims, or the educatio
 | File | What it was |
 |---|---|
 | [POSITIONING.md](POSITIONING.md) | Vocabulary, claims, education line |
+| [EVIDENCE-BAR.md](EVIDENCE-BAR.md) | Rating path, frozen overclaim list, Cioffi as content-shape analog |
 | [COUNSEL-PACK.md](COUNSEL-PACK.md) | Account counsel drafts, counsel_pack_required off by default |
 | [TRUST-STATUS.md](TRUST-STATUS.md) | Quiet Account and org trust strip for single sign-on and drafts |
 | [FACILITATOR-SUPPORT-MODEL.md](FACILITATOR-SUPPORT-MODEL.md) | Facilitator-supported film; flags-only default; optional answer unlock |

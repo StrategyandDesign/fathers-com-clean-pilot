@@ -298,6 +298,14 @@ below is enforced by tools/check_release.py where a scanner can enforce it.
 5. The evidence claims rule: no page prints "evidence-based" or any rating
    claim until a Clearinghouse rating exists. The Efficacy Report is
    described as built for the evidence bar, never as proof already earned.
+   Frozen as product status, never printed as ours: clinical-efficacy
+   marketing; Title IV-E or Family First Prevention Services Act drawdown;
+   Military and Family Life Counseling approved without record;
+   reunification-ready; risk-reduction proven. The only
+   clearinghouse-adjacent sales artifact is partner-kit/funder-brief.md.
+   Cioffi 2023 and similar papers are content-shape analogs only, never this
+   product's trial. Enforced by tests/copy-hygiene.test.ts and
+   tools/scan-overclaim.ts.
 6. The binding constraint in the federal evaluations is recruitment and
    retention, not price. Facilitator enablement and recruitment materials
    outrank verification features in build order.
