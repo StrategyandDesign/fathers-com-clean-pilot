@@ -112,13 +112,14 @@ describe("desk cold-open payload", () => {
     assert.match(data, /DESK_PROGRESS_COLUMNS/);
     assert.match(data, /DESK_SESSION_COLUMNS/);
     assert.match(data, /DESK_DRAFT_COLUMNS/);
-    assert.match(data, /signAvatars \?/);
+    assert.match(data, /signAvatars/);
+    assert.match(data, /signStorageUrls/);
     assert.doesNotMatch(data, /session_progress"\)\.select\("\*"\)/);
     assert.doesNotMatch(data, /trainings"\)\.select\("\*"\)/);
     assert.doesNotMatch(data, /sessions"\)\.select\("\*"\)/);
     assert.match(
       data,
-      /DESK_PROGRESS_COLUMNS =\s*"id, father_id, session_id, film_completed, checkin_completed, action_completed, status, completed_at, skill_use, skill_use_at"/
+      /DESK_PROGRESS_COLUMNS =\s*"id, father_id, session_id, film_completed, checkin_completed, action_completed, status, completed_at, film_seconds, skill_use, skill_use_at"/
     );
     assert.match(data, /DESK_SESSION_COLUMNS =\s*"id, training_id, session_number, title, order_index"/);
     assert.match(data, /DESK_DRAFT_COLUMNS = "father_id"/);

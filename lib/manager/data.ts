@@ -12,11 +12,12 @@ export const DESK_TRAINING_COLUMNS =
 export const DESK_SESSION_COLUMNS =
   "id, training_id, session_number, title, order_index";
 export const DESK_PROGRESS_COLUMNS =
-  "id, father_id, session_id, film_completed, checkin_completed, action_completed, status, completed_at, skill_use, skill_use_at";
+  "id, father_id, session_id, film_completed, checkin_completed, action_completed, status, completed_at, film_seconds, skill_use, skill_use_at";
 export const DESK_DRAFT_COLUMNS = "father_id";
 export const DESK_CERTIFICATE_COLUMNS =
   "id, father_id, training_id, serial_number, issued_at, issued_by";
-export const DESK_ASSIGNMENT_COLUMNS = "id, father_id, training_id, assigned_at";
+export const DESK_ASSIGNMENT_COLUMNS =
+  "id, father_id, training_id, assigned_at, assigned_by";
 
 export type LoadManagerWorkspaceOptions = {
   signAvatars?: boolean;
@@ -96,12 +97,11 @@ export async function loadManagerWorkspace(
   if (membersRes.error) throw membersRes.error;
   const members = (membersRes.data ?? []) as GroupMember[];
   const fatherIds = [...new Set(members.map((member) => member.father_id))];
-  const profileColumns = signAvatars ? "id, full_name, avatar_url" : "id, full_name";
 
   const [profilesRes, resultsRes, draftsRes, progressRes, assignmentsRes, certificatesRes, trainingsRes, sessionsRes, reviews] =
     await Promise.all([
       emptyIn<ManagedProfile>(fatherIds, () =>
-        supabase.from("profiles").select(profileColumns).in("id", fatherIds)
+        supabase.from("profiles").select("id, full_name, avatar_url").in("id", fatherIds)
       ),
       emptyIn<ProfileResult>(fatherIds, () =>
         supabase
@@ -117,10 +117,22 @@ export async function loadManagerWorkspace(
           .in("father_id", fatherIds)
       ),
       emptyIn<SessionProgress>(fatherIds, () =>
-        supabase.from("session_progress").select(DESK_PROGRESS_COLUMNS).in("father_id", fatherIds)
+        supabase
+          .from("session_progress")
+          .select(DESK_PROGRESS_COLUMNS)
+          .in("father_id", fatherIds) as PromiseLike<{
+          data: SessionProgress[] | null;
+          error: { message: string } | null;
+        }>
       ),
       emptyIn<TrainingAssignment>(fatherIds, () =>
-        supabase.from("training_assignments").select(DESK_ASSIGNMENT_COLUMNS).in("father_id", fatherIds)
+        supabase
+          .from("training_assignments")
+          .select(DESK_ASSIGNMENT_COLUMNS)
+          .in("father_id", fatherIds) as PromiseLike<{
+          data: TrainingAssignment[] | null;
+          error: { message: string } | null;
+        }>
       ),
       emptyIn<Certificate>(fatherIds, () =>
         supabase.from("certificates").select(DESK_CERTIFICATE_COLUMNS).in("father_id", fatherIds)
