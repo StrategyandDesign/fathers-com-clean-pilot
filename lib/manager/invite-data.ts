@@ -14,7 +14,7 @@ export async function loadOpenManagerInvite(token: string): Promise<ManagerInvit
   const { data, error } = await admin
     .from("manager_invites")
     .select(
-      "id, email, full_name, organization_name, group_id, accepted_at, expires_at, created_at"
+      "id, email, full_name, organization_name, organization_type, group_id, accepted_at, expires_at, created_at"
     )
     .eq("token_hash", hashManagerInviteToken(token))
     .maybeSingle();

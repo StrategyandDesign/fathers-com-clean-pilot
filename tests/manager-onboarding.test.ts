@@ -100,6 +100,7 @@ describe("leader onboarding wiring", () => {
     const inbox = readRepo("components/admin/inbox-tabs.tsx");
 
     assert.match(orgNew, /provisionOrganization/);
+    assert.match(orgNew, /OrganizationTypeField/);
     assert.match(join, /joinAsLeader/);
     assert.match(start, /finishManagerOnboarding/);
     assert.match(layout, /gateManagerOnboarding/);

@@ -10,6 +10,7 @@ export type Group = {
   code?: string | null;
   locale?: string | null;
   participation_mode?: string | null;
+  organization_type?: string | null;
 };
 
 export type GroupMember = {

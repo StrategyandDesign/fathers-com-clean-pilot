@@ -30,6 +30,7 @@ begin
   set name = 'Returning Home NWA',
       code = 'NWA',
       locale = 'en',
+      organization_type = 'rehab',
       invite_code = coalesce(nullif(invite_code, ''), 'nwa')
   where id = v_org;
 
