@@ -40,9 +40,10 @@ export function buildZip(entries: ZipEntry[]) {
 
   for (const entry of entries) {
     const name = Buffer.from(entry.name, "utf8");
-    const raw = Buffer.isBuffer(entry.contents)
-      ? entry.contents
-      : Buffer.from(entry.contents, "utf8");
+    const raw =
+      typeof entry.contents === "string"
+        ? Buffer.from(entry.contents, "utf8")
+        : Buffer.from(entry.contents);
     const compressed = deflateRawSync(raw);
     const checksum = crc32(raw);
     const flags = 0x0800;
