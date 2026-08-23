@@ -147,7 +147,7 @@ When production smoke tests pass:
    - Pilot `SUPABASE_SERVICE_ROLE_KEY` or any key from `koeplcybddrvbliuepsy`
    - Pilot `NEXT_PUBLIC_SUPABASE_*` values
    - Vercel OIDC / pull-through tokens from `.env.local`
-   - Pilot user passwords or a full Auth dump unless you have an explicit migration plan
+   - Pilot user passwords (including the shared audit password `12345`) or a full Auth dump unless you have an explicit migration plan. That password is Pilot only and is not a production control.
 3. Do **not** apply the draft `remaining_features_storage` migration to production or to the pilot.
 4. Manager/reviewer roles must be set again on the new project (`profiles.role` + `app_metadata.role`).
 5. After cutover, rotate the pilot service-role key if it was ever shared beyond the team.
@@ -168,6 +168,10 @@ It states the non-rating honestly and sells completion and operations. Cioffi
 trial. `npx tsx tools/scan-overclaim.ts` and `tests/copy-hygiene.test.ts` must
 pass before a release.
 
+## 12. Certification readiness (Issue 10)
+
+This product is not System and Organization Controls Type 2 certified. This product is not HITRUST Common Security Framework certified. No such report is in this repository. The dated questionnaire lives at `docs/engineering/trust-pack/` and `/admin/trust`. A readiness engagement has not started as of 23 August 2026.
+
 ## What still needs a human
 
 The repo is wired. These are dashboard/DNS steps this change cannot do:
@@ -179,3 +183,4 @@ The repo is wired. These are dashboard/DNS steps this change cannot do:
 - Create the Sentry project and paste the DSN
 - Stamp the first manager/reviewer `app_metadata.role`
 - Enable leaked-password protection and Auth SMTP in the Supabase dashboard
+- Do not treat Pilot `12345` seats as the production password policy

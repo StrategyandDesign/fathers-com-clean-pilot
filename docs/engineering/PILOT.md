@@ -44,6 +44,8 @@ Same emails and password work on localhost and on the public production URL. Use
 
 **`12345`** for every seat in the tables below. Weak on purpose. Pilot only. Not production.
 
+These shared audit passwords are for the Pilot Supabase project and local review seats only. Do not treat `12345` as a production password policy. Do not copy these seats or this password into a production stack. Production must use unique passwords, leaked-password protection, and (where Super-admin turns it on) organization single sign-on for staff. See `docs/engineering/trust-pack/` for the dated questionnaire.
+
 ### Returning Home NWA (English)
 
 Invite code for new fathers: `12345`

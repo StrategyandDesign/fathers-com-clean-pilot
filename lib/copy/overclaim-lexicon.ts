@@ -81,6 +81,21 @@ export const OVERCLAIM_RULES: OverclaimRule[] = [
       /(?:title\s*iv-?e|ffpsa|family first prevention services act|prevention services clearinghouse|\bclearinghouse\b)/i,
     allowNegated: false,
   },
+  {
+    id: "soc-type-2-certified",
+    kind: "hard",
+    label: "System and Organization Controls Type 2 certification as product status",
+    pattern:
+      /(?:soc\s*(?:2|ii|type\s*2)|system and organization controls(?:\s+type\s*2)?).{0,80}(?:certif\w+|attest\w+|validated)/i,
+    allowNegated: true,
+  },
+  {
+    id: "hitrust-certified",
+    kind: "hard",
+    label: "HITRUST certification as product status",
+    pattern: /hitrust.{0,40}(?:certif\w+|validated|assessed)/i,
+    allowNegated: true,
+  },
 ];
 
 export const HARD_OVERCLAIM_RULES = OVERCLAIM_RULES.filter((rule) => rule.kind === "hard");
@@ -91,6 +106,7 @@ export const GOVERNED_LIVE_ROOTS = [
   "components",
   "lib/i18n",
   "lib/certificates",
+  "lib/trust",
 ] as const;
 
 export const GOVERNED_SALES_ROOTS = ["partner-kit"] as const;
