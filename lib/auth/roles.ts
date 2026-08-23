@@ -57,7 +57,7 @@ export function isAppRole(value: unknown): value is AppRole {
  * then sign out and sign in so the JWT refreshes.
  */
 export function resolveRole(
-  user: { app_metadata?: Record<string, unknown> } | null
+  user: { app_metadata?: Record<string, unknown> | null } | null
 ): AppRole {
   const role = user?.app_metadata?.role;
   return isAppRole(role) ? role : "father";
@@ -66,7 +66,7 @@ export function resolveRole(
 /** Prefer profiles.role so page gates match RLS. Fall back to the JWT. */
 export function resolveProfileRole(
   profileRole: unknown,
-  user: { app_metadata?: Record<string, unknown> } | null
+  user: { app_metadata?: Record<string, unknown> | null } | null
 ): AppRole {
   return isAppRole(profileRole) ? profileRole : resolveRole(user);
 }
@@ -98,7 +98,9 @@ export function isAuthPath(pathname: string) {
     pathname === "/signup" ||
     pathname.startsWith("/signup/") ||
     pathname === "/join" ||
-    pathname.startsWith("/join/")
+    pathname.startsWith("/join/") ||
+    pathname === "/auth/callback" ||
+    pathname.startsWith("/auth/callback/")
   );
 }
 

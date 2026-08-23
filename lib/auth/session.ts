@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 
 import { ROLE_HOME, resolveProfileRole, type AppRole } from "@/lib/auth/roles";
+import { staffDeskIsActive } from "@/lib/identity/provision";
 import { createClient } from "@/lib/supabase/server";
 
 export async function getAuthContext() {
@@ -10,7 +11,7 @@ export async function getAuthContext() {
   } = await supabase.auth.getUser();
 
   if (!user) {
-    return { user: null, role: null as AppRole | null, deactivated: false };
+    return { user: null, role: null as AppRole | null, deactivated: false, revoked: false };
   }
 
   const { data: profile, error } = await supabase
@@ -21,21 +22,32 @@ export async function getAuthContext() {
 
   if (!error && profile?.deactivated_at) {
     await supabase.auth.signOut();
-    return { user: null, role: null as AppRole | null, deactivated: true };
+    return { user: null, role: null as AppRole | null, deactivated: true, revoked: false };
+  }
+
+  const role = resolveProfileRole(profile?.role, user);
+  if ((role === "manager" || role === "reviewer") && !(await staffDeskIsActive(user.id))) {
+    await supabase.auth.signOut();
+    return { user: null, role: null as AppRole | null, deactivated: false, revoked: true };
   }
 
   return {
     user,
-    role: resolveProfileRole(profile?.role, user),
+    role,
     deactivated: false,
+    revoked: false,
   };
 }
 
 export async function requireRole(allowed: AppRole) {
-  const { user, role, deactivated } = await getAuthContext();
+  const { user, role, deactivated, revoked } = await getAuthContext();
 
   if (deactivated) {
     redirect("/login?error=This account has been deactivated.");
+  }
+
+  if (revoked) {
+    redirect("/login?error=This desk access has been revoked.");
   }
 
   if (!user || !role) {
@@ -51,10 +63,14 @@ export async function requireRole(allowed: AppRole) {
 
 /** Father walk, or Leader practice of the same Film → Check-in → Action path. */
 export async function requireWalkUser() {
-  const { user, role, deactivated } = await getAuthContext();
+  const { user, role, deactivated, revoked } = await getAuthContext();
 
   if (deactivated) {
     redirect("/login?error=This account has been deactivated.");
+  }
+
+  if (revoked) {
+    redirect("/login?error=This desk access has been revoked.");
   }
 
   if (!user || !role) {

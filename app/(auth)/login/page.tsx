@@ -3,6 +3,8 @@ import Link from "next/link";
 import { PasswordField } from "@/components/auth/password-field";
 import { Flash } from "@/components/manager/flash";
 import { signIn } from "@/lib/auth/actions";
+import { startOrganizationSignIn } from "@/lib/identity/actions";
+import { anyOrganizationSsoReady } from "@/lib/identity/data";
 import { safeInternalPath } from "@/lib/auth/roles";
 import { getI18n } from "@/lib/i18n/server";
 import { authFieldClassName, interactiveUnderlineClassName } from "@/lib/ui";
@@ -22,8 +24,9 @@ export default async function LoginPage({
   const params = await searchParams;
   const next = safeInternalPath(params.next);
   const { t } = await getI18n();
+  const organizationSignIn = await anyOrganizationSsoReady();
   const credentialsInvalid =
-    Boolean(params.error) && !/deactivated|too many/i.test(params.error ?? "");
+    Boolean(params.error) && !/deactivated|too many|revoked|organization/i.test(params.error ?? "");
 
   return (
     <Card>
@@ -61,6 +64,28 @@ export default async function LoginPage({
             {t("auth.signIn")}
           </Button>
         </form>
+        {organizationSignIn ? (
+          <form action={startOrganizationSignIn} className="mt-6 space-y-3 border-t border-border pt-5">
+            <p className="text-sm text-muted-foreground">{t("auth.orgContinueLead")}</p>
+            <label className="block space-y-2">
+              <span className="text-sm text-muted-foreground">{t("auth.orgContinueEmail")}</span>
+              <input
+                className={authFieldClassName}
+                type="text"
+                name="email"
+                inputMode="email"
+                autoComplete="username"
+                autoCapitalize="none"
+                autoCorrect="off"
+                spellCheck={false}
+                required
+              />
+            </label>
+            <Button type="submit" variant="outline" size="lg" className="w-full rounded-full">
+              {t("auth.orgContinue")}
+            </Button>
+          </form>
+        ) : null}
         <p className="mt-5 text-center text-sm text-muted-foreground">
           {t("auth.noAccount")}{" "}
           <Link

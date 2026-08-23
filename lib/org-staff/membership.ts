@@ -24,14 +24,29 @@ export async function loadStaffGroupIds(
 ): Promise<string[] | null> {
   const { data, error } = await supabase
     .from("organization_staff")
-    .select("group_id")
+    .select("group_id, disabled_at")
     .eq("profile_id", profileId)
     .eq("staff_role", role);
   if (error) {
     if (missingRelation(error, "organization_staff")) return null;
+    if (/disabled_at/i.test(error.message ?? "")) {
+      const fallback = await supabase
+        .from("organization_staff")
+        .select("group_id")
+        .eq("profile_id", profileId)
+        .eq("staff_role", role);
+      if (fallback.error) throw fallback.error;
+      return [...new Set((fallback.data ?? []).map((row) => String(row.group_id)))];
+    }
     throw error;
   }
-  return [...new Set((data ?? []).map((row) => String(row.group_id)))];
+  return [
+    ...new Set(
+      ((data ?? []) as Array<{ group_id: string; disabled_at?: string | null }>)
+        .filter((row) => !row.disabled_at)
+        .map((row) => String(row.group_id))
+    ),
+  ];
 }
 
 export async function loadGroupsForManager(
@@ -115,7 +130,7 @@ export async function loadOrganizationStaff(
     supabase.from("groups").select("id, manager_id").in("id", ids),
     supabase
       .from("organization_staff")
-      .select("group_id, profile_id, staff_role, added_at")
+      .select("group_id, profile_id, staff_role, added_at, disabled_at")
       .in("group_id", ids)
       .order("added_at"),
   ]);
@@ -133,9 +148,30 @@ export async function loadOrganizationStaff(
     profile_id: string;
     staff_role: string;
     added_at: string;
+    disabled_at?: string | null;
   }>;
+  const hadStaffRows = !staffRes.error && (staffRes.data ?? []).length > 0;
+  rows = rows.filter((row) => !row.disabled_at);
 
-  if (staffRes.error && missingRelation(staffRes.error, "organization_staff")) {
+  if (staffRes.error && /disabled_at/i.test(staffRes.error.message ?? "")) {
+    const retry = await supabase
+      .from("organization_staff")
+      .select("group_id, profile_id, staff_role, added_at")
+      .in("group_id", ids)
+      .order("added_at");
+    if (retry.error && missingRelation(retry.error, "organization_staff")) {
+      rows = ((groups ?? []) as Array<{ id: string; manager_id: string }>).map((row) => ({
+        group_id: row.id,
+        profile_id: row.manager_id,
+        staff_role: "manager",
+        added_at: "",
+      }));
+    } else if (retry.error) {
+      throw retry.error;
+    } else {
+      rows = (retry.data ?? []) as typeof rows;
+    }
+  } else if (staffRes.error && missingRelation(staffRes.error, "organization_staff")) {
     rows = ((groups ?? []) as Array<{ id: string; manager_id: string }>).map((row) => ({
       group_id: row.id,
       profile_id: row.manager_id,
@@ -146,7 +182,7 @@ export async function loadOrganizationStaff(
     throw staffRes.error;
   }
 
-  if (rows.length === 0) {
+  if (rows.length === 0 && !hadStaffRows) {
     rows = ((groups ?? []) as Array<{ id: string; manager_id: string }>).map((row) => ({
       group_id: row.id,
       profile_id: row.manager_id,
