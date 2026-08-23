@@ -24,7 +24,13 @@ import { isTrainingAssignable, reviewForGroup } from "@/lib/manager/reviews";
 import { saveParticipantNote } from "@/lib/manager/note-actions";
 import { NOTE_MAX_LENGTH, loadParticipantNotes } from "@/lib/manager/notes";
 import { loadNudgeHistory, loadReminderPrefAllowed } from "@/lib/manager/nudge-data";
-import { cooldownRemaining, isNudgeTemplate, needsNudge } from "@/lib/manager/nudges";
+import {
+  cooldownRemaining,
+  isNudgeTemplate,
+  needsNudge,
+  nextNudgeEligibleAt,
+  nudgeComposerState,
+} from "@/lib/manager/nudges";
 import {
   translateAssignmentStatus,
   translateNudgeStatus,
@@ -72,6 +78,13 @@ export default async function ManagerParticipantDetailPage({
   const historyUnavailable = historyByFather.unavailable;
   const quiet = needsNudge(participant.lastActivity, progress);
   const cooldown = cooldownRemaining(nudgeHistory);
+  const composer = nudgeComposerState({
+    historyUnavailable,
+    remindersAllowed,
+    cooldownDays: cooldown,
+    quiet,
+  });
+  const nextSendAt = nextNudgeEligibleAt(nudgeHistory);
   const companionSuggestion = quiet
     ? buildQuietSuggestion(
         participant,
@@ -224,28 +237,46 @@ export default async function ManagerParticipantDetailPage({
         id="nudge"
         className="rounded-xl border border-border bg-card p-4 sm:p-6"
       >
-        <h2 className="font-heading text-lg font-semibold">{t("manager.participants.sendNudge")}</h2>
+        <h2 className="font-heading text-lg font-semibold">
+          {composer.kind === "cooldown"
+            ? t("manager.participants.noteSent")
+            : t("manager.participants.sendNudge")}
+        </h2>
         <p className="mt-1 text-sm text-muted-foreground">
-          {quiet
-            ? t("manager.participants.nudgeQuiet", {
-                quiet: translateQuietLabel(participant.lastActivity, t),
-              })
-            : t("manager.participants.nudgeActive")}
+          {composer.kind === "cooldown"
+            ? composer.days === 1
+              ? t("manager.participants.nudgeCooldownLeadTomorrow")
+              : nextSendAt
+                ? t("manager.participants.nudgeCooldownLead", {
+                    date: formatShortDate(nextSendAt, locale),
+                  })
+                : t("manager.participants.nudgeInDays", { days: composer.days })
+            : quiet
+              ? t("manager.participants.nudgeQuiet", {
+                  quiet: translateQuietLabel(participant.lastActivity, t),
+                })
+              : t("manager.participants.nudgeActive")}
         </p>
-        {historyUnavailable ? (
+        {composer.kind === "check-failed" ? (
           <p className="mt-4 rounded-xl border border-border bg-black/30 px-4 py-3 text-sm text-muted-foreground">
             {t("manager.participants.nudgeCheckFailed")}
           </p>
-        ) : remindersAllowed === false ? (
+        ) : composer.kind === "reminders-off" ? (
           <p className="mt-4 rounded-xl border border-border bg-black/30 px-4 py-3 text-sm text-muted-foreground">
             {t("manager.participants.remindersOffLong")}
           </p>
-        ) : cooldown > 0 ? (
-          <p className="mt-4 text-sm text-muted-foreground">
-            {cooldown === 1
-              ? t("manager.participants.nudgeTomorrow")
-              : t("manager.participants.nudgeInDays", { days: cooldown })}
-          </p>
+        ) : composer.kind === "cooldown" ? (
+          <div className="mt-5">
+            <p className="text-sm text-muted-foreground">
+              {t("manager.participants.nudgeCooldownNext")}
+            </p>
+            <Link
+              href="#current-session"
+              className={cn(buttonVariants({ variant: "outline" }), "mt-4 w-full sm:w-auto")}
+            >
+              {t("manager.participants.seeCurrentSession")}
+            </Link>
+          </div>
         ) : (
           <div className="mt-5">
             <NudgeForm
@@ -401,7 +432,10 @@ export default async function ManagerParticipantDetailPage({
       </section>
       )}
 
-      <section className="rounded-xl border border-border bg-card p-4 sm:p-6">
+      <section
+        id="current-session"
+        className="rounded-xl border border-border bg-card p-4 sm:p-6"
+      >
         <h2 className="font-heading text-lg font-semibold">{t("manager.participants.currentSession")}</h2>
         {current ? (
           <>

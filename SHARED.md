@@ -14,7 +14,7 @@ Submit 2 stays frozen on `submit/2`. The next official submit is still 4.
 
 ## Desk revisions
 
-The badge on this checkout is **Shared 1-1.117**. It ticks on each push of the Shared 1 desk. This does not create Shared 2. Submit 2 stays frozen.
+The badge on this checkout is **Shared 1-1.118**. It ticks on each push of the Shared 1 desk. This does not create Shared 2. Submit 2 stays frozen.
 
 | Revision | Date (UTC) | What landed |
 |---|---|---|
@@ -135,3 +135,4 @@ The badge on this checkout is **Shared 1-1.117**. It ticks on each push of the S
 | **1.115** | 2026-08-23 | Add a security questionnaire pack and a quiet Super-admin trust page. |
 | **1.116** | 2026-08-23 | Add an Admin Armed Forces materials checklist without flipping SHOW_MILITARY. |
 | **1.117** | 2026-08-23 | Add a flagged bonded-group confidentiality pack that stays off for Rehab. |
+| **1.118** | 2026-08-23 | Say when the next note can go out after one is sent. |

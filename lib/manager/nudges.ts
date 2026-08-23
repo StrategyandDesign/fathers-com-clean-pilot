@@ -112,3 +112,31 @@ export function cooldownRemaining(rows: NudgeLogRow[]) {
   if (elapsed >= NUDGE_COOLDOWN_DAYS) return 0;
   return NUDGE_COOLDOWN_DAYS - elapsed;
 }
+
+export type NudgeComposerState =
+  | { kind: "check-failed" }
+  | { kind: "reminders-off" }
+  | { kind: "cooldown"; days: number }
+  | { kind: "ready"; quiet: boolean };
+
+export function nudgeComposerState(input: {
+  historyUnavailable: boolean;
+  remindersAllowed: boolean | null;
+  cooldownDays: number;
+  quiet: boolean;
+}): NudgeComposerState {
+  if (input.historyUnavailable) return { kind: "check-failed" };
+  if (input.remindersAllowed === false) return { kind: "reminders-off" };
+  if (input.cooldownDays > 0) return { kind: "cooldown", days: input.cooldownDays };
+  return { kind: "ready", quiet: input.quiet };
+}
+
+export function nextNudgeEligibleAt(rows: NudgeLogRow[], now = Date.now()) {
+  const lastSent = latestSentAt(rows);
+  if (!lastSent) return null;
+  const sent = Date.parse(lastSent);
+  if (Number.isNaN(sent)) return null;
+  const opens = sent + NUDGE_COOLDOWN_DAYS * 86_400_000;
+  if (opens <= now) return null;
+  return new Date(opens).toISOString();
+}
