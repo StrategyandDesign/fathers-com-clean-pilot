@@ -268,6 +268,22 @@ export type ReviewCadence = {
   certificatesReady: number;
 };
 
+export type PendingActionItem = {
+  id: string;
+  href: string;
+  title: string;
+  detail: string;
+  kind: "certificate" | "review";
+};
+
+export function isFatherOpenItem(reason: string) {
+  return reason === "No training assigned" || reason.startsWith("Session in progress: ");
+}
+
+export function fatherOpenItems<T extends { reason: string }>(items: T[]) {
+  return items.filter((item) => isFatherOpenItem(item.reason));
+}
+
 export function buildReviewCadence(input: {
   openItems: number;
   pendingActions: number;
@@ -278,6 +294,52 @@ export function buildReviewCadence(input: {
     pendingActions: Math.max(0, input.pendingActions),
     certificatesReady: Math.max(0, input.certificatesReady),
   };
+}
+
+export function buildPendingActionItems(input: {
+  readyCertificates: CompanionBriefing["readyCertificates"];
+  unread: Array<{ id: string; title: string; body: string | null; href: string }>;
+  pendingReviews: Array<{
+    review: { group_id: string; training_id: string };
+    training: { id: string; title: string };
+    groupName: string;
+  }>;
+}): PendingActionItem[] {
+  const items: PendingActionItem[] = [];
+  for (const cert of input.readyCertificates) {
+    items.push({
+      id: `cert-${cert.fatherId}-${cert.trainingId}`,
+      href: `/manager/participants/${cert.fatherId}/certificates/${cert.trainingId}`,
+      title: cert.name,
+      detail: cert.title,
+      kind: "certificate",
+    });
+  }
+  const seenHref = new Set<string>();
+  for (const note of input.unread) {
+    if (seenHref.has(note.href)) continue;
+    seenHref.add(note.href);
+    items.push({
+      id: `unread-${note.id}`,
+      href: note.href,
+      title: note.title,
+      detail: note.body ?? "",
+      kind: "review",
+    });
+  }
+  for (const row of input.pendingReviews) {
+    const href = `/manager/reviews/${row.training.id}?group=${row.review.group_id}`;
+    if (seenHref.has(href)) continue;
+    seenHref.add(href);
+    items.push({
+      id: `review-${row.review.group_id}-${row.training.id}`,
+      href,
+      title: row.training.title,
+      detail: row.groupName,
+      kind: "review",
+    });
+  }
+  return items;
 }
 
 export function rosterNextAction(

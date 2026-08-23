@@ -18,7 +18,9 @@ import { scheduleDueReminderFlush } from "@/lib/jobs/flush-due-work";
 import { createGroup } from "@/lib/manager/actions";
 import {
   buildCompanionBriefing,
+  buildPendingActionItems,
   buildReviewCadence,
+  fatherOpenItems,
   organizationLabel,
 } from "@/lib/manager/companion";
 import {
@@ -123,9 +125,15 @@ export default async function ManagerHomePage({
     historyUnavailable,
     limit: 4,
   });
+  const openFatherItems = fatherOpenItems(needsAttention);
+  const pendingItems = buildPendingActionItems({
+    readyCertificates: companion.readyCertificates,
+    unread: reviews.unread,
+    pendingReviews: reviews.pending,
+  });
   const cadence = buildReviewCadence({
-    openItems: needsAttention.length,
-    pendingActions: summary.pendingActions,
+    openItems: openFatherItems.length,
+    pendingActions: pendingItems.length,
     certificatesReady: companion.certificatesReady,
   });
 
@@ -151,9 +159,9 @@ export default async function ManagerHomePage({
     { label: t("manager.dashboard.sessions"), value: summary.sessionsCompleted },
     { label: t("manager.dashboard.trainings"), value: summary.trainingsCompleted },
     {
-      id: "pending-actions",
+      id: "pending-count",
       label: t("manager.dashboard.pending"),
-      value: summary.pendingActions,
+      value: cadence.pendingActions,
     },
   ];
 
@@ -184,6 +192,7 @@ export default async function ManagerHomePage({
 
       <ReviewCadenceStrip
         cadence={cadence}
+        pendingItems={pendingItems}
         readyCertificates={companion.readyCertificates}
         t={t}
       />
@@ -201,13 +210,13 @@ export default async function ManagerHomePage({
       {optimizationGroups.length > 0 ? <CommitmentBoard rows={commitmentBoard} t={t} audience="leader" /> : null}
 
       <section>
-        <div id="open-items" className="rounded-xl border border-border bg-card p-4 sm:p-6">
+        <div id="open-items" className="scroll-mt-24 rounded-xl border border-border bg-card p-4 sm:p-6">
           <h2 className="font-heading text-lg font-semibold">{t("manager.dashboard.attention")}</h2>
           <p className="mt-1 text-sm text-muted-foreground">
             {t("manager.dashboard.attentionLead")}
           </p>
           <div className="mt-5">
-            {needsAttention.length === 0 ? (
+            {openFatherItems.length === 0 ? (
               <EmptyState
                 framed={false}
                 className="p-0"
@@ -217,7 +226,7 @@ export default async function ManagerHomePage({
               </EmptyState>
             ) : (
               <ul className="divide-y divide-border overflow-hidden rounded-lg border border-border">
-                {needsAttention.map((item) => (
+                {openFatherItems.map((item) => (
                   <li key={`${item.fatherId}-${item.reason}`}>
                     <Link
                       href={`/manager/participants/${item.fatherId}`}

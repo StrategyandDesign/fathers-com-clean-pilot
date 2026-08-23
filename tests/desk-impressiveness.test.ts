@@ -6,7 +6,10 @@ import { fileURLToPath } from "node:url";
 import { deskConsiderNextV1, rosterPracticeLight } from "../lib/flags";
 import {
   buildCompanionBriefing,
+  buildPendingActionItems,
   buildReviewCadence,
+  fatherOpenItems,
+  isFatherOpenItem,
   readyCertificate,
   rosterNextAction,
 } from "../lib/manager/companion";
@@ -86,11 +89,15 @@ describe("desk review cadence", () => {
     const cadence = page.indexOf("<ReviewCadenceStrip");
     const update = page.indexOf("<CohortNoteDesk");
     const openItems = page.indexOf('id="open-items"');
-    const pending = page.indexOf('id: "pending-actions"');
+    const pendingCount = page.indexOf('id: "pending-count"');
     const companion = page.indexOf("<CompanionPanel");
     assert.ok(stats > 0 && cadence > stats && update > cadence);
-    assert.ok(openItems > update && pending > 0 && companion > openItems);
-    assert.match(page, /id: "pending-actions"/);
+    assert.ok(openItems > update && pendingCount > 0 && companion > openItems);
+    assert.match(page, /id: "pending-count"/);
+    assert.match(page, /buildPendingActionItems/);
+    assert.match(page, /fatherOpenItems/);
+    assert.match(readRepo("components/manager/review-cadence.tsx"), /id="pending-actions"/);
+    assert.doesNotMatch(page, /id: "pending-actions"/);
     assert.match(page, /signAvatars: false/);
     assert.match(page, /countManagerAssessmentCompletions/);
     assert.doesNotMatch(page, /loadManagerAssessments\(/);
@@ -103,6 +110,52 @@ describe("desk review cadence", () => {
     assert.match(page, /considerNextEnabled \? \([\s\S]*<ConsiderNextCard/);
     assert.doesNotMatch(page, /<StaffDesk/);
     assert.doesNotMatch(readRepo("components/manager/review-cadence.tsx"), /chart|Chart|recharts/);
+  });
+
+  it("keeps father mid-work on open items and leader work on pending actions", () => {
+    assert.equal(isFatherOpenItem("No training assigned"), true);
+    assert.equal(isFatherOpenItem("Session in progress: Presence"), true);
+    assert.equal(isFatherOpenItem("Ready for certificate: Fathering Fundamentals"), false);
+    const open = fatherOpenItems([
+      { reason: "No training assigned" },
+      { reason: "Ready for certificate: Fathering Fundamentals" },
+      { reason: "Session in progress: Presence" },
+    ]);
+    assert.deepEqual(
+      open.map((item) => item.reason),
+      ["No training assigned", "Session in progress: Presence"]
+    );
+
+    const pending = buildPendingActionItems({
+      readyCertificates: [
+        {
+          fatherId: "f1",
+          name: "Alex",
+          title: "Fathering Fundamentals",
+          trainingId: "fundamentals",
+        },
+      ],
+      unread: [
+        {
+          id: "n1",
+          title: "New training",
+          body: "Preview then accept.",
+          href: "/manager/reviews/fundamentals?group=g1",
+        },
+      ],
+      pendingReviews: [
+        {
+          review: { group_id: "g1", training_id: "fundamentals" },
+          training: { id: "fundamentals", title: "Fathering Fundamentals" },
+          groupName: "NWA",
+        },
+      ],
+    });
+    assert.equal(pending.length, 2);
+    assert.equal(pending[0]?.kind, "certificate");
+    assert.equal(pending[0]?.title, "Alex");
+    assert.equal(pending[1]?.kind, "review");
+    assert.equal(pending[1]?.href, "/manager/reviews/fundamentals?group=g1");
   });
 });
 

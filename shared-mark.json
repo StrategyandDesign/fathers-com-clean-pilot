@@ -1,12 +1,12 @@
 {
   "mark": 7,
-  "patch": 119,
-  "label": "Shared 1-1.119",
+  "patch": 120,
+  "label": "Shared 1-1.120",
   "tag": "shared/7",
-  "at": "2026-08-21T08:44:31.105Z",
+  "at": "2026-08-23T14:20:00.000Z",
   "internalSha": "890fa8b684cc17a21c0ccbc13b787b24016b129e",
   "sharedSha": "",
-  "title": "Put invite code and leader practice on one half-width bottom row.",
+  "title": "Define pending actions as reviews and certificates waiting on the leader.",
   "url": "https://github.com/StrategyandDesign/fathers-com-clean-pilot/releases/tag/shared/7",
   "revisions": [
     {
@@ -841,6 +841,13 @@
       "label": "Shared 1-1.119",
       "at": "2026-08-23",
       "title": "Put invite code and leader practice on one half-width bottom row."
+    },
+    {
+      "patch": 120,
+      "revision": "1.120",
+      "label": "Shared 1-1.120",
+      "at": "2026-08-23",
+      "title": "Define pending actions as reviews and certificates waiting on the leader."
     }
   ]
 }
