@@ -200,7 +200,52 @@ export default async function ManagerHomePage({
 
       {optimizationGroups.length > 0 ? <CommitmentBoard rows={commitmentBoard} t={t} audience="leader" /> : null}
 
-      <section className="grid gap-4 lg:grid-cols-2">
+      <section className="space-y-4">
+        <div id="open-items" className="rounded-xl border border-border bg-card p-4 sm:p-6">
+          <h2 className="font-heading text-lg font-semibold">{t("manager.dashboard.attention")}</h2>
+          <p className="mt-1 text-sm text-muted-foreground">
+            {t("manager.dashboard.attentionLead")}
+          </p>
+          <div className="mt-5">
+            {needsAttention.length === 0 ? (
+              <EmptyState
+                framed={false}
+                className="p-0"
+                title={t("manager.dashboard.caughtUp")}
+              >
+                {t("manager.dashboard.caughtUpBody")}
+              </EmptyState>
+            ) : (
+              <ul className="divide-y divide-border overflow-hidden rounded-lg border border-border">
+                {needsAttention.map((item) => (
+                  <li key={`${item.fatherId}-${item.reason}`}>
+                    <Link
+                      href={`/manager/participants/${item.fatherId}`}
+                      className={cn("flex items-center gap-3 px-3 py-3", interactiveSurfaceClassName)}
+                    >
+                      <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-white/10 text-xs font-medium">
+                        {initials(item.name)}
+                      </span>
+                      <span className="min-w-0 flex-1">
+                        <span className="block truncate font-medium">{item.name}</span>
+                        <span className="block text-sm text-muted-foreground">
+                          {translateAttention(item.reason, t)}
+                        </span>
+                      </span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+          <Link
+            href="/manager/participants#assign"
+            className={cn(buttonVariants({ variant: "outline" }), "mt-5 w-full sm:w-auto")}
+          >
+            {t("manager.dashboard.viewParticipants")}
+          </Link>
+        </div>
+
         <div className="rounded-xl border border-border bg-card p-4 sm:p-6">
           <h2 className="font-heading text-lg font-semibold">{t("manager.dashboard.inviteTitle")}</h2>
           <p className="mt-1 text-sm text-muted-foreground">
@@ -245,51 +290,6 @@ export default async function ManagerHomePage({
               </Button>
             </form>
           )}
-        </div>
-
-        <div id="open-items" className="rounded-xl border border-border bg-card p-4 sm:p-6">
-          <h2 className="font-heading text-lg font-semibold">{t("manager.dashboard.attention")}</h2>
-          <p className="mt-1 text-sm text-muted-foreground">
-            {t("manager.dashboard.attentionLead")}
-          </p>
-          <div className="mt-5">
-            {needsAttention.length === 0 ? (
-              <EmptyState
-                framed={false}
-                className="p-0"
-                title={t("manager.dashboard.caughtUp")}
-              >
-                {t("manager.dashboard.caughtUpBody")}
-              </EmptyState>
-            ) : (
-              <ul className="divide-y divide-border overflow-hidden rounded-lg border border-border">
-                {needsAttention.map((item) => (
-                  <li key={`${item.fatherId}-${item.reason}`}>
-                    <Link
-                      href={`/manager/participants/${item.fatherId}`}
-                      className={cn("flex items-center gap-3 px-3 py-3", interactiveSurfaceClassName)}
-                    >
-                      <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-white/10 text-xs font-medium">
-                        {initials(item.name)}
-                      </span>
-                      <span className="min-w-0 flex-1">
-                        <span className="block truncate font-medium">{item.name}</span>
-                        <span className="block text-sm text-muted-foreground">
-                          {translateAttention(item.reason, t)}
-                        </span>
-                      </span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-          <Link
-            href="/manager/participants#assign"
-            className={cn(buttonVariants({ variant: "outline" }), "mt-5 w-full sm:w-auto")}
-          >
-            {t("manager.dashboard.viewParticipants")}
-          </Link>
         </div>
       </section>
 

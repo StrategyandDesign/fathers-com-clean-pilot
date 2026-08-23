@@ -174,19 +174,21 @@ describe("cohort status and board", () => {
 });
 
 describe("leader dashboard order", () => {
-  it("puts counts first, then the update, then invite code and open items above the agent", () => {
+  it("puts counts first, then the update, then full-width open items above the invite code", () => {
     const page = readFileSync(
       fileURLToPath(new URL("../app/(manager)/manager/page.tsx", import.meta.url)),
       "utf8"
     );
     const stats = page.indexOf("lg:grid-cols-5");
     const update = page.indexOf("<CohortNoteDesk");
-    const invite = page.indexOf("manager.dashboard.inviteTitle");
     const openItems = page.indexOf("manager.dashboard.attention");
+    const invite = page.indexOf("manager.dashboard.inviteTitle");
     const considerNext = page.indexOf("<ConsiderNextCard");
     const agent = page.indexOf("<CompanionPanel");
-    assert.ok(stats > 0 && update > stats && invite > update);
-    assert.ok(openItems > invite && considerNext > openItems && agent > considerNext);
+    assert.ok(stats > 0 && update > stats && openItems > update);
+    assert.ok(invite > openItems && considerNext > invite && agent > considerNext);
+    assert.match(page, /id="open-items"/);
+    assert.doesNotMatch(page, /lg:grid-cols-2/);
     assert.match(page, /deskConsiderNextV1/);
     assert.doesNotMatch(page, /<StaffDesk/);
     assert.doesNotMatch(page, /<ActivityTicker/);

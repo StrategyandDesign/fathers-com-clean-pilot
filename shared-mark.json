@@ -1,12 +1,12 @@
 {
   "mark": 7,
-  "patch": 117,
-  "label": "Shared 1-1.117",
+  "patch": 118,
+  "label": "Shared 1-1.118",
   "tag": "shared/7",
   "at": "2026-08-21T08:44:31.105Z",
   "internalSha": "890fa8b684cc17a21c0ccbc13b787b24016b129e",
   "sharedSha": "",
-  "title": "Make assessment rewards clear and show newest results first.",
+  "title": "Give Open items the full dashboard width and put the invite code below.",
   "url": "https://github.com/StrategyandDesign/fathers-com-clean-pilot/releases/tag/shared/7",
   "revisions": [
     {
@@ -827,6 +827,13 @@
       "label": "Shared 1-1.117",
       "at": "2026-08-23",
       "title": "Add a flagged bonded-group confidentiality pack that stays off for Rehab."
+    },
+    {
+      "patch": 118,
+      "revision": "1.118",
+      "label": "Shared 1-1.118",
+      "at": "2026-08-23",
+      "title": "Give Open items the full dashboard width and put the invite code below."
     }
   ]
 }
