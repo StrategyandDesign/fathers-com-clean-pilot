@@ -20,4 +20,4 @@ Leaders attest In training, Certified, or Suspended. The exam can stay offline. 
 
 ## Quality Improvement packet hooks
 
-`collectQiPacketSections` in `lib/fidelity/export.ts` returns a fidelity summary and a facilitator credential list. Downloads stay local. A person still confirms any outbound send. Issue 5 may consume the same hooks later.
+`collectQiPacketSections` in `lib/fidelity/export.ts` returns a fidelity summary and a facilitator credential list. The quality improvement packet on `/manager/reports` consumes those hooks. Downloads stay local. A person still confirms any outbound send.

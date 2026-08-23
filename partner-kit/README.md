@@ -23,6 +23,7 @@ govern every word in here.
 | fundraising-brief.md | Donors, development staff | Market brief, $260k split, ten-minute talk track, numbered sources. Does not sell a rating. |
 | funder-brief.md | Donors, foundations | Only rating-adjacent sales note. States the non-rating honestly. Sells completion and operations. |
 | facilitator-triage-and-referral.md | Certified Facilitators | Distress signs, the same-day warm handoff, the education-line boundary, and the court-order rule for rebuilding trust |
+| quality-improvement-fields.md | Org admins, quality improvement staff | Field dictionary for the Desk packet. Does not include clinical outcomes. |
 
 ## Regenerate
     python3 partner-kit/make_inserts.py

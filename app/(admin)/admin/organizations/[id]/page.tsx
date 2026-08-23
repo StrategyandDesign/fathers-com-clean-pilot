@@ -10,6 +10,9 @@ import {
 import { canRemoveStaff } from "@/lib/org-staff/types";
 import { loadAdminOrganization } from "@/lib/admin/data";
 import { CounselOrgCard } from "@/components/admin/counsel-org-card";
+import { DestinationCard } from "@/components/export/destination-card";
+import { loadExportDestinations, loadExportPushEvents } from "@/lib/export/data";
+import { secureExportEnabled } from "@/lib/flags";
 import { LeaderAnswersOrgCard } from "@/components/admin/leader-answers-org-card";
 import { OrgTrustStrip } from "@/components/trust/org-trust-strip";
 import { OrganizationTypeField } from "@/components/admin/organization-type-field";
@@ -39,9 +42,12 @@ export default async function AdminOrganizationDetailPage({
   if (!detail) notFound();
 
   const { group, participants, managers, reviewers, staff } = detail;
-  const [counsel, leaderAnswers] = await Promise.all([
+  const exportEnabled = secureExportEnabled();
+  const [counsel, leaderAnswers, destinations, exportEvents] = await Promise.all([
     loadCounselPackState(group.id, group.name),
     orgLeaderAssessmentAnswersEnabled(group.id),
+    exportEnabled ? loadExportDestinations([group.id]) : Promise.resolve([]),
+    exportEnabled ? loadExportPushEvents([group.id]) : Promise.resolve([]),
   ]);
   const managerCount = staff.filter((row) => row.staffRole === "manager").length;
   const availableLeaders = managers.filter(
@@ -134,6 +140,16 @@ export default async function AdminOrganizationDetailPage({
         enabled={leaderAnswers}
         returnTo={`/admin/organizations/${group.id}`}
       />
+      {exportEnabled ? (
+        <DestinationCard
+          groups={[{ id: group.id, name: group.name }]}
+          destinations={destinations}
+          events={exportEvents}
+          returnTo={`/admin/organizations/${group.id}`}
+          title="Secure export destinations"
+          lead="Metadata only. This desk does not send files to an outside host. secure_export_enabled is on."
+        />
+      ) : null}
 
       <section className="rounded-xl border border-border bg-card p-4 sm:p-6">
         <h2 className="font-heading text-lg font-semibold">Leaders and reviewers</h2>

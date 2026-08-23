@@ -13,6 +13,8 @@ Start with `POSITIONING.md` only if you need vocabulary, claims, or the educatio
 | [SINGLE-SIGN-ON.md](SINGLE-SIGN-ON.md) | Org-gated OpenID Connect or SAML 2.0; sso_enabled off by default |
 | [FACILITATOR-SUPPORT-MODEL.md](FACILITATOR-SUPPORT-MODEL.md) | Facilitator-supported film; flags-only default; optional answer unlock |
 | [FIDELITY-BOARD.md](FIDELITY-BOARD.md) | Living fidelity checklist and Certified Facilitator registry; fidelity_board_enabled off by default |
+| [QUALITY-IMPROVEMENT-FIELDS.md](QUALITY-IMPROVEMENT-FIELDS.md) | Quality improvement field dictionary; no clinical outcomes |
+| [SECURE-EXPORT.md](SECURE-EXPORT.md) | Destination metadata and local send-intent stub; secure_export_enabled off by default |
 | [LAUNCH.md](LAUNCH.md) | Launch checklist from the static-site era |
 | [consent-returning-home.md](consent-returning-home.md) | Pilot-lane consent draft; flags-only default, optional answer unlock |
 | [ORG-ONBOARDING.md](ORG-ONBOARDING.md) | Org onboarding notes |

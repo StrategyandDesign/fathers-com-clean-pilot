@@ -505,6 +505,10 @@ export const en = {
     saveAttestation: "Save attestation",
     attestedBy: "Last attested by {name}. Earned {date}.",
   },
+  secureExport: {
+    title: "Secure export destinations",
+    lead: "Metadata only. This desk does not send files to an outside host.",
+  },
   counsel: {
     title: "Counsel pack",
     summary: "Counsel pack",
@@ -1665,6 +1669,9 @@ export const en = {
       clear: "Clear filters",
       csv: "Download CSV",
       pdf: "Download PDF",
+      qiPacket: "Download quality improvement packet",
+      qiPacketHint:
+        "Completion spreadsheet, fidelity summary, facilitator credentials, and certificate serials. No answer text. Does not include clinical outcomes.",
       preview: "Preview",
       countRows: "{shown} assignment rows · {men} of {total} men",
       countSelected: "{shown} of {total} participants · status is for the selected training.",

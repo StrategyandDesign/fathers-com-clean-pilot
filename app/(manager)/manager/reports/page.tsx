@@ -4,7 +4,9 @@ import { Flash } from "@/components/manager/flash";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { EmptyState } from "@/components/ui/empty-state";
 import { requireRole } from "@/lib/auth/session";
-import { fidelityBoardEnabled } from "@/lib/flags";
+import { DestinationCard } from "@/components/export/destination-card";
+import { loadExportDestinations, loadExportPushEvents } from "@/lib/export/data";
+import { fidelityBoardEnabled, secureExportEnabled } from "@/lib/flags";
 import { loadCounselPackStatesForGroups } from "@/lib/counsel/data";
 import { reportRedisclosureEnabled } from "@/lib/counsel/pack";
 import { translateAssignmentStatus } from "@/lib/i18n/flash";
@@ -42,6 +44,13 @@ export default async function ManagerReportsPage({
     : counsel;
   const redisclosure = reportRedisclosureEnabled(scopedCounsel);
   const fidelityEnabled = fidelityBoardEnabled();
+  const exportEnabled = secureExportEnabled();
+  const destinations = exportEnabled
+    ? await loadExportDestinations(report.groups.map((group) => group.id))
+    : [];
+  const exportEvents = exportEnabled
+    ? await loadExportPushEvents(report.groups.map((group) => group.id))
+    : [];
   const query = reportQuery(parsed.filters);
   const exportQuery = query ? `${query}&` : "";
   const hasFilters = Boolean(
@@ -182,7 +191,18 @@ export default async function ManagerReportsPage({
           >
             {t("manager.reports.pdf")}
           </Link>
+          <Link
+            href={
+              query
+                ? `/api/manager/reports/qi-packet?${query}`
+                : "/api/manager/reports/qi-packet"
+            }
+            className={cn(buttonVariants({ variant: "ghost" }), "w-full sm:w-auto")}
+          >
+            {t("manager.reports.qiPacket")}
+          </Link>
         </div>
+        <p className="mt-3 text-xs text-muted-foreground">{t("manager.reports.qiPacketHint")}</p>
         {redisclosure ? (
           <p className="mt-3 text-xs text-muted-foreground">{t("manager.reports.redisclosure")}</p>
         ) : null}
@@ -204,6 +224,17 @@ export default async function ManagerReportsPage({
           </div>
         ) : null}
       </form>
+
+      {exportEnabled ? (
+        <DestinationCard
+          groups={report.groups}
+          destinations={destinations}
+          events={exportEvents}
+          returnTo="/manager/reports"
+          title={t("secureExport.title")}
+          lead={t("secureExport.lead")}
+        />
+      ) : null}
 
       <section className="overflow-hidden rounded-xl border border-border bg-card">
         <div className="border-b border-border px-4 py-4 sm:px-6">

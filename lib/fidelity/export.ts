@@ -1,5 +1,5 @@
 /**
- * Quality Improvement packet hooks. Issue 5 may consume these later.
+ * Quality improvement packet hooks consumed by lib/qi/packet.ts.
  * Downloads stay local. A person still confirms any outbound send.
  */
 

@@ -25,6 +25,7 @@ export type OrganizationFlagRecommendations = {
   counselPackRequired: false;
   leaderAssessmentAnswers: false;
   ssoEnabled: false;
+  secureExportEnabled: false;
 };
 
 export function isOrganizationType(value: unknown): value is OrganizationType {
@@ -65,6 +66,7 @@ export function recommendedFlagsForType(type: OrganizationType): OrganizationFla
     counselPackRequired: false,
     leaderAssessmentAnswers: false,
     ssoEnabled: false,
+    secureExportEnabled: false,
   };
 }
 
