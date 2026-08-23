@@ -200,7 +200,7 @@ export default async function ManagerHomePage({
 
       {optimizationGroups.length > 0 ? <CommitmentBoard rows={commitmentBoard} t={t} audience="leader" /> : null}
 
-      <section className="space-y-4">
+      <section>
         <div id="open-items" className="rounded-xl border border-border bg-card p-4 sm:p-6">
           <h2 className="font-heading text-lg font-semibold">{t("manager.dashboard.attention")}</h2>
           <p className="mt-1 text-sm text-muted-foreground">
@@ -244,52 +244,6 @@ export default async function ManagerHomePage({
           >
             {t("manager.dashboard.viewParticipants")}
           </Link>
-        </div>
-
-        <div className="rounded-xl border border-border bg-card p-4 sm:p-6">
-          <h2 className="font-heading text-lg font-semibold">{t("manager.dashboard.inviteTitle")}</h2>
-          <p className="mt-1 text-sm text-muted-foreground">
-            {t(
-              optimizationGroups.length > 0
-                ? "optimization.inviteLead"
-                : "manager.dashboard.inviteLead"
-            )}
-          </p>
-          {groups.length > 0 ? (
-            <div className="mt-5 space-y-3">
-              {groups.map((group) => (
-                <div
-                  key={group.id}
-                  className="flex flex-col gap-3 rounded-lg border border-input bg-black/30 px-4 py-3 sm:flex-row sm:items-center sm:justify-between"
-                >
-                  <div className="min-w-0">
-                    <p className="font-medium">{group.name}</p>
-                    <p className="break-all font-mono text-sm tracking-wide">{group.invite_code}</p>
-                    {joinPostureForOrg(group.organization_type) === "invitation_only" ? (
-                      <p className="mt-1 text-xs text-muted-foreground">{t("optimization.inviteOnly")}</p>
-                    ) : null}
-                  </div>
-                  <CopyButton value={group.invite_code} className="w-full sm:w-auto" />
-                </div>
-              ))}
-            </div>
-          ) : (
-            <form action={createGroup} className="mt-5 space-y-4">
-              <label className="block space-y-2">
-                <span className="text-sm text-muted-foreground">{t("manager.dashboard.groupName")}</span>
-                <input
-                  className={fieldClassName}
-                  name="name"
-                  defaultValue="Pilot Group"
-                  required
-                  aria-invalid={Boolean(params.error) || undefined}
-                />
-              </label>
-              <Button type="submit" className="w-full sm:w-auto">
-                {t("manager.dashboard.createGroup")}
-              </Button>
-            </form>
-          )}
         </div>
       </section>
 
@@ -372,26 +326,74 @@ export default async function ManagerHomePage({
       <ParticipationModeCard groups={groups} t={t} />
       <NudgePanel panel={nudgePanel} mode={participationMode} />
 
-      <section className="rounded-xl border border-primary/40 bg-card p-4 sm:p-6">
-        <h2 className="font-heading text-lg font-semibold">
-          {t("manager.dashboard.practiceTitle")}
-        </h2>
-        <p className="mt-1 text-sm text-muted-foreground">
-          {t("manager.dashboard.practiceLead")}
-        </p>
-        <p className="mt-2 text-sm text-muted-foreground">
-          {t("manager.dashboard.practiceNoCertificate")}
-        </p>
-        <div className="mt-5 flex flex-col gap-2 sm:flex-row sm:flex-wrap">
-          <Link href="/manager/practice" className={cn(buttonVariants(), "w-full sm:w-auto")}>
-            {t("manager.dashboard.practiceTraining")}
-          </Link>
-          <Link
-            href="/manager/practice#assessments"
-            className={cn(buttonVariants({ variant: "outline" }), "w-full sm:w-auto")}
-          >
-            {t("manager.dashboard.practiceAssessment")}
-          </Link>
+      <section id="desk-bottom-row" className="grid gap-4 md:grid-cols-2">
+        <div className="rounded-xl border border-border bg-card p-4 sm:p-6">
+          <h2 className="font-heading text-lg font-semibold">{t("manager.dashboard.inviteTitle")}</h2>
+          <p className="mt-1 text-sm text-muted-foreground">
+            {t(
+              optimizationGroups.length > 0
+                ? "optimization.inviteLead"
+                : "manager.dashboard.inviteLead"
+            )}
+          </p>
+          {groups.length > 0 ? (
+            <div className="mt-5 space-y-3">
+              {groups.map((group) => (
+                <div
+                  key={group.id}
+                  className="flex flex-col gap-3 rounded-lg border border-input bg-black/30 px-4 py-3 sm:flex-row sm:items-center sm:justify-between"
+                >
+                  <div className="min-w-0">
+                    <p className="font-medium">{group.name}</p>
+                    <p className="break-all font-mono text-sm tracking-wide">{group.invite_code}</p>
+                    {joinPostureForOrg(group.organization_type) === "invitation_only" ? (
+                      <p className="mt-1 text-xs text-muted-foreground">{t("optimization.inviteOnly")}</p>
+                    ) : null}
+                  </div>
+                  <CopyButton value={group.invite_code} className="w-full sm:w-auto" />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <form action={createGroup} className="mt-5 space-y-4">
+              <label className="block space-y-2">
+                <span className="text-sm text-muted-foreground">{t("manager.dashboard.groupName")}</span>
+                <input
+                  className={fieldClassName}
+                  name="name"
+                  defaultValue="Pilot Group"
+                  required
+                  aria-invalid={Boolean(params.error) || undefined}
+                />
+              </label>
+              <Button type="submit" className="w-full sm:w-auto">
+                {t("manager.dashboard.createGroup")}
+              </Button>
+            </form>
+          )}
+        </div>
+
+        <div className="rounded-xl border border-primary/40 bg-card p-4 sm:p-6">
+          <h2 className="font-heading text-lg font-semibold">
+            {t("manager.dashboard.practiceTitle")}
+          </h2>
+          <p className="mt-1 text-sm text-muted-foreground">
+            {t("manager.dashboard.practiceLead")}
+          </p>
+          <p className="mt-2 text-sm text-muted-foreground">
+            {t("manager.dashboard.practiceNoCertificate")}
+          </p>
+          <div className="mt-5 flex flex-col gap-2 sm:flex-row sm:flex-wrap">
+            <Link href="/manager/practice" className={cn(buttonVariants(), "w-full sm:w-auto")}>
+              {t("manager.dashboard.practiceTraining")}
+            </Link>
+            <Link
+              href="/manager/practice#assessments"
+              className={cn(buttonVariants({ variant: "outline" }), "w-full sm:w-auto")}
+            >
+              {t("manager.dashboard.practiceAssessment")}
+            </Link>
+          </div>
         </div>
       </section>
     </div>

@@ -174,7 +174,7 @@ describe("cohort status and board", () => {
 });
 
 describe("leader dashboard order", () => {
-  it("puts counts first, then the update, then full-width open items above the invite code", () => {
+  it("puts full-width open items after the update, then invite and practice on the last row", () => {
     const page = readFileSync(
       fileURLToPath(new URL("../app/(manager)/manager/page.tsx", import.meta.url)),
       "utf8"
@@ -182,13 +182,22 @@ describe("leader dashboard order", () => {
     const stats = page.indexOf("lg:grid-cols-5");
     const update = page.indexOf("<CohortNoteDesk");
     const openItems = page.indexOf("manager.dashboard.attention");
-    const invite = page.indexOf("manager.dashboard.inviteTitle");
     const considerNext = page.indexOf("<ConsiderNextCard");
     const agent = page.indexOf("<CompanionPanel");
+    const invite = page.indexOf("manager.dashboard.inviteTitle");
+    const practice = page.indexOf("manager.dashboard.practiceTitle");
+    const bottomRow = page.indexOf('id="desk-bottom-row"');
     assert.ok(stats > 0 && update > stats && openItems > update);
-    assert.ok(invite > openItems && considerNext > invite && agent > considerNext);
+    assert.ok(considerNext > openItems && agent > considerNext);
+    assert.ok(bottomRow > agent && invite > bottomRow && practice > invite);
     assert.match(page, /id="open-items"/);
-    assert.doesNotMatch(page, /lg:grid-cols-2/);
+    assert.match(page, /id="desk-bottom-row"/);
+    assert.match(page, /id="desk-bottom-row"[\s\S]*md:grid-cols-2/);
+    const openSlice = page.slice(
+      Math.max(0, page.indexOf('id="open-items"') - 120),
+      page.indexOf('id="open-items"') + 40
+    );
+    assert.doesNotMatch(openSlice, /md:grid-cols-2/);
     assert.match(page, /deskConsiderNextV1/);
     assert.doesNotMatch(page, /<StaffDesk/);
     assert.doesNotMatch(page, /<ActivityTicker/);

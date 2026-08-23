@@ -1,12 +1,12 @@
 {
   "mark": 7,
-  "patch": 118,
-  "label": "Shared 1-1.118",
+  "patch": 119,
+  "label": "Shared 1-1.119",
   "tag": "shared/7",
   "at": "2026-08-21T08:44:31.105Z",
   "internalSha": "890fa8b684cc17a21c0ccbc13b787b24016b129e",
   "sharedSha": "",
-  "title": "Give Open items the full dashboard width and put the invite code below.",
+  "title": "Put invite code and leader practice on one half-width bottom row.",
   "url": "https://github.com/StrategyandDesign/fathers-com-clean-pilot/releases/tag/shared/7",
   "revisions": [
     {
@@ -834,6 +834,13 @@
       "label": "Shared 1-1.118",
       "at": "2026-08-23",
       "title": "Give Open items the full dashboard width and put the invite code below."
+    },
+    {
+      "patch": 119,
+      "revision": "1.119",
+      "label": "Shared 1-1.119",
+      "at": "2026-08-23",
+      "title": "Put invite code and leader practice on one half-width bottom row."
     }
   ]
 }
