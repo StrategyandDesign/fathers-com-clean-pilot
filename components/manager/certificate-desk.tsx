@@ -28,6 +28,9 @@ export function CertificateDesk({
       <p className="mt-1 text-sm text-muted-foreground">
         {t("manager.certificates.lead")}
       </p>
+      <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
+        {t("manager.cert.disclaimer")}
+      </p>
       <p className="mt-3 text-sm text-muted-foreground">
         {ready.length === 1
           ? t("manager.certificates.readyOne")

@@ -8,7 +8,9 @@ import {
 import { CertificateDownloadLink } from "@/components/certificates/download-link";
 import { buttonVariants } from "@/components/ui/button";
 import { requireRole } from "@/lib/auth/session";
+import { CertificateDisclaimer } from "@/components/certificates/disclaimer";
 import { loadCertificatePayload } from "@/lib/certificates/data";
+import { certificateVerifyPath } from "@/lib/certificates/types";
 import { getI18n } from "@/lib/i18n/server";
 import { interactiveLinkClassName } from "@/lib/ui";
 import { cn } from "@/lib/utils";
@@ -51,11 +53,18 @@ export default async function FatherCertificatePreviewPage({
       </div>
 
       <CertificateFace {...loaded.payload} labels={certificateFaceLabels(t)} />
+      <CertificateDisclaimer>{t("account.certificateDisclaimer")}</CertificateDisclaimer>
 
       <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
         <CertificateDownloadLink certificateId={id} size="default" className="w-full sm:w-auto">
           {t("common.downloadPdf")}
         </CertificateDownloadLink>
+        <Link
+          href={certificateVerifyPath(loaded.payload.serialNumber)}
+          className={cn(buttonVariants({ variant: "outline" }), "w-full sm:w-auto")}
+        >
+          {t("account.checkSerial")}
+        </Link>
         <Link
           href="/father/certificates"
           className={cn(buttonVariants({ variant: "outline" }), "w-full sm:w-auto")}

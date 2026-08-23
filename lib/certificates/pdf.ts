@@ -4,6 +4,7 @@ import path from "node:path";
 import { PDFDocument, StandardFonts, rgb, type PDFFont, type PDFPage, type RGB } from "pdf-lib";
 
 import { BRAND_LOCKUP_FILE, FATHERS_FOREST, tintPngRgba } from "@/lib/brand/lockup-png";
+import { CERTIFICATE_MISUSE_DISCLAIMER } from "@/lib/certificates/copy";
 import type { CertificatePayload } from "@/lib/certificates/types";
 import { embedExportFonts, shapePdfText } from "@/lib/pdf/fonts";
 
@@ -138,9 +139,16 @@ export async function renderCertificatePdf(input: CertificatePayload): Promise<U
   const issuer = field(input.managerName, serif, "Leader");
   drawRight(page, issuer.text, left + col * 2, col, y, issuer.font, 12, INK);
 
+  const disclaimerLines = wrapLines(CERTIFICATE_MISUSE_DISCLAIMER, sans, 7, contentWidth);
+  let disclaimerY = 78;
+  for (const line of disclaimerLines) {
+    drawCentered(page, line, disclaimerY, sans, 7, MUTED);
+    disclaimerY -= 10;
+  }
+
   page.drawText("Fathers.com  ·  Presence is a skill.", {
     x: (PAGE_WIDTH - sans.widthOfTextAtSize("Fathers.com  ·  Presence is a skill.", 8)) / 2,
-    y: 52,
+    y: 48,
     font: sans,
     size: 8,
     color: MUTED,

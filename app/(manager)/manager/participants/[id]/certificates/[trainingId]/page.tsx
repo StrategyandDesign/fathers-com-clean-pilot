@@ -2,11 +2,12 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { CertificateCard } from "@/components/manager/certificate-card";
+import { CertificateDisclaimer } from "@/components/certificates/disclaimer";
 import { CertificateDownloadLink } from "@/components/certificates/download-link";
 import { Flash } from "@/components/manager/flash";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { requireRole } from "@/lib/auth/session";
-import { formatCertificateDate } from "@/lib/certificates/types";
+import { certificateVerifyPath, formatCertificateDate } from "@/lib/certificates/types";
 import { sendCertificate } from "@/lib/manager/actions";
 import { loadCertificatePreview } from "@/lib/manager/data";
 import { getI18n } from "@/lib/i18n/server";
@@ -66,16 +67,25 @@ export default async function ManagerCertificatePage({
         serialNumber={issued?.serial_number ?? t("manager.cert.serialPending")}
         managerName={preview.managerName}
       />
+      <CertificateDisclaimer>{t("manager.cert.disclaimer")}</CertificateDisclaimer>
 
       <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
         {issued ? (
-          <CertificateDownloadLink
-            certificateId={issued.id}
-            size="default"
-            className="w-full sm:w-auto"
-          >
-            {t("common.downloadPdf")}
-          </CertificateDownloadLink>
+          <>
+            <CertificateDownloadLink
+              certificateId={issued.id}
+              size="default"
+              className="w-full sm:w-auto"
+            >
+              {t("common.downloadPdf")}
+            </CertificateDownloadLink>
+            <Link
+              href={certificateVerifyPath(issued.serial_number)}
+              className={cn(buttonVariants({ variant: "outline" }), "w-full sm:w-auto")}
+            >
+              {t("account.checkSerial")}
+            </Link>
+          </>
         ) : preview.complete ? (
           <form action={sendCertificate} className="w-full sm:w-auto">
             <input type="hidden" name="father_id" value={id} />

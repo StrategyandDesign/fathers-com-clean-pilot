@@ -44,6 +44,10 @@ export function certificateDownloadPath(certificateId: string) {
   return `/api/certificates/${certificateId}/download`;
 }
 
+export function certificateVerifyPath(serialNumber: string) {
+  return `/verify/${encodeURIComponent(serialNumber.trim().toUpperCase())}`;
+}
+
 export function certificateFilename(serialNumber: string) {
   const safe = serialNumber.replace(/[^A-Za-z0-9._-]+/g, "-");
   return `Fathers.com-${safe}.pdf`;
