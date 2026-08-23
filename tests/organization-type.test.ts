@@ -55,6 +55,7 @@ describe("organization type taxonomy", () => {
       counselPackRequired: false,
       leaderAssessmentAnswers: false,
       ssoEnabled: false,
+      secureExportEnabled: false,
     });
     assert.deepEqual(recommendedFlagsForType("armed_forces_unit"), {
       participationMode: "expected",
@@ -63,6 +64,7 @@ describe("organization type taxonomy", () => {
       counselPackRequired: false,
       leaderAssessmentAnswers: false,
       ssoEnabled: false,
+      secureExportEnabled: false,
     });
     assert.deepEqual(recommendedFlagsForType("performance_optimization_group"), {
       participationMode: "expected",
@@ -71,6 +73,7 @@ describe("organization type taxonomy", () => {
       counselPackRequired: false,
       leaderAssessmentAnswers: false,
       ssoEnabled: false,
+      secureExportEnabled: false,
     });
     assert.deepEqual(recommendedFlagsForType("other"), {
       participationMode: "open",
@@ -79,6 +82,7 @@ describe("organization type taxonomy", () => {
       counselPackRequired: false,
       leaderAssessmentAnswers: false,
       ssoEnabled: false,
+      secureExportEnabled: false,
     });
   });
 

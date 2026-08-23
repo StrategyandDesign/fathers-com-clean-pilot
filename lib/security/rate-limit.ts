@@ -37,6 +37,9 @@ export const RATE_LIMITS = {
   "manager.fidelity": { limit: 40, windowMs: 15 * 60 * 1000 },
   "manager.fidelity_export": { limit: 20, windowMs: 5 * 60 * 1000 },
   "manager.facilitator_export": { limit: 20, windowMs: 5 * 60 * 1000 },
+  "manager.qi_packet": { limit: 20, windowMs: 5 * 60 * 1000 },
+  "org.export_destinations": { limit: 20, windowMs: 15 * 60 * 1000 },
+  "export.completion_feed": { limit: 40, windowMs: 15 * 60 * 1000 },
 } as const;
 
 export type RateLimitRoute = keyof typeof RATE_LIMITS;

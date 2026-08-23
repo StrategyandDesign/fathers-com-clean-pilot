@@ -126,7 +126,7 @@ describe("facilitator credentials", () => {
 });
 
 describe("Quality Improvement export hooks", () => {
-  it("shapes a fidelity summary and facilitator list for a later packet", () => {
+  it("shapes a fidelity summary and facilitator list for the quality improvement packet", () => {
     const csv = fidelitySummaryCsv({
       groupId: "g1",
       groupName: "NWA",

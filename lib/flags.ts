@@ -38,6 +38,12 @@
  * not an env flag. Super-admin turns it on per organization and links
  * an OpenID Connect or SAML 2.0 identity provider. Email and password
  * stay for non-SSO orgs, Super-admin break-glass, and fathers.
+ *
+ * secure_export_enabled defaults OFF. Leave unset so prior reports stay
+ * as they are. Set SECURE_EXPORT_ENABLED to 1 / true / on / yes to show
+ * destination metadata and the confirm-first send stub. Quality
+ * improvement packet download stays on Reports either way. No live
+ * network push to a customer URL, S3 bucket, webhook, or EHR.
  */
 export const CERTIFICATES_REQUIRE_CLAIM = "certificates_require_claim";
 export const PILOT_SHOW_TEST_CONTENT = "pilot_show_test_content";
@@ -46,6 +52,7 @@ export const DESK_CONSIDER_NEXT_V1 = "desk_consider_next_v1";
 export const LEADER_ASSESSMENT_ANSWERS = "leader_assessment_answers";
 export const FIDELITY_BOARD_ENABLED = "fidelity_board_enabled";
 export const SSO_ENABLED = "sso_enabled";
+export const SECURE_EXPORT_ENABLED = "secure_export_enabled";
 
 function envFlag(name: string) {
   const raw = process.env[name]?.trim().toLowerCase() ?? "";
@@ -79,4 +86,8 @@ export function leaderAssessmentAnswers() {
 
 export function fidelityBoardEnabled() {
   return envFlag("FIDELITY_BOARD_ENABLED");
+}
+
+export function secureExportEnabled() {
+  return envFlag("SECURE_EXPORT_ENABLED");
 }
