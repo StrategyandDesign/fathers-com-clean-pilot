@@ -53,24 +53,28 @@ describe("organization type taxonomy", () => {
       verticalPack: "rehab",
       recommendMilitarySurface: false,
       counselPackRequired: false,
+      leaderAssessmentAnswers: false,
     });
     assert.deepEqual(recommendedFlagsForType("armed_forces_unit"), {
       participationMode: "expected",
       verticalPack: "armed_forces",
       recommendMilitarySurface: true,
       counselPackRequired: false,
+      leaderAssessmentAnswers: false,
     });
     assert.deepEqual(recommendedFlagsForType("performance_optimization_group"), {
       participationMode: "expected",
       verticalPack: "performance",
       recommendMilitarySurface: false,
       counselPackRequired: false,
+      leaderAssessmentAnswers: false,
     });
     assert.deepEqual(recommendedFlagsForType("other"), {
       participationMode: "open",
       verticalPack: "none",
       recommendMilitarySurface: false,
       counselPackRequired: false,
+      leaderAssessmentAnswers: false,
     });
   });
 

@@ -8,6 +8,9 @@ import { AssessmentVisibilityForms } from "@/components/manager/assessment-visib
 import { assignAssessment, updateAssessment } from "@/lib/assessments/actions";
 import { customAssessmentKey, isAssessmentAvailable } from "@/lib/assessments/availability";
 import { loadAssessmentAvailability, loadManagerAssessmentDetail } from "@/lib/assessments/data";
+import { leaderAssessmentAnswersVisible } from "@/lib/assessments/leader-answers";
+import { loadOrgLeaderAssessmentAnswers } from "@/lib/assessments/leader-answers-data";
+import { leaderAssessmentAnswers } from "@/lib/flags";
 import { isFirstPartyAssessmentKey } from "@/lib/assessments/first-party";
 import { ManagerPlatformAssessmentDesk } from "@/components/manager/platform-assessment-desk";
 import { loadManagerGroups } from "@/lib/manager/data";
@@ -44,7 +47,12 @@ export default async function ManagerAssessmentDetailPage({
   }
 
   const groups = await loadManagerGroups(user.id);
-  const availability = await loadAssessmentAvailability(groups.map((group) => group.id));
+  const [availability, orgAnswerFlags] = await Promise.all([
+    loadAssessmentAvailability(groups.map((group) => group.id)),
+    loadOrgLeaderAssessmentAnswers(groups.map((group) => group.id)),
+  ]);
+  const platformAnswers = leaderAssessmentAnswers();
+  const groupByFather = new Map(detail.roster.map((row) => [row.fatherId, row.groupId]));
   const assessmentKey = customAssessmentKey(detail.assessment.id);
   const primaryGroup = groups[0] ?? null;
   const hiddenEverywhere =
@@ -258,7 +266,12 @@ export default async function ManagerAssessmentDetailPage({
           </EmptyState>
         ) : (
           <ul className="mt-4 divide-y divide-border overflow-hidden rounded-lg border border-border">
-            {detail.assignments.map((row) => (
+            {detail.assignments.map((row) => {
+              const answersVisible = leaderAssessmentAnswersVisible({
+                platform: platformAnswers,
+                org: orgAnswerFlags.get(groupByFather.get(row.father_id) ?? "") === true,
+              });
+              return (
               <li key={row.id}>
                 <Link
                   href={`/manager/assessments/${detail.assessment.id}/responses/${row.father_id}`}
@@ -279,11 +292,14 @@ export default async function ManagerAssessmentDetailPage({
                       "pointer-events-none w-full sm:w-auto"
                     )}
                   >
-                    {t("manager.assessments.viewResponses")}
+                    {answersVisible
+                      ? t("manager.assessments.viewResponses")
+                      : t("manager.assessments.viewStatus")}
                   </span>
                 </Link>
               </li>
-            ))}
+              );
+            })}
           </ul>
         )}
       </section>

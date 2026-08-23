@@ -9,6 +9,7 @@ Start with `POSITIONING.md` only if you need vocabulary, claims, or the educatio
 | [POSITIONING.md](POSITIONING.md) | Vocabulary, claims, education line |
 | [COUNSEL-PACK.md](COUNSEL-PACK.md) | Account counsel drafts, counsel_pack_required off by default |
 | [TRUST-STATUS.md](TRUST-STATUS.md) | Quiet Account and org trust strip for single sign-on and drafts |
+| [FACILITATOR-SUPPORT-MODEL.md](FACILITATOR-SUPPORT-MODEL.md) | Facilitator-supported film; leader_assessment_answers off by default |
 | [LAUNCH.md](LAUNCH.md) | Launch checklist from the static-site era |
 | [consent-returning-home.md](consent-returning-home.md) | Pilot-lane consent draft |
 | [ORG-ONBOARDING.md](ORG-ONBOARDING.md) | Org onboarding notes |

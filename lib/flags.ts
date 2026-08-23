@@ -22,11 +22,18 @@
  * default OFF. It is not an env flag. Super-admin turns it on per
  * organization. When ON, Account counsel shows a checklist until
  * Super-admin records an attached-pack mark (metadata only).
+ *
+ * leader_assessment_answers defaults OFF. Leaders see custom assessment
+ * completion flags only (started, finished, stalled). Question text and
+ * answer payloads stay off the Leader desk unless the platform env
+ * LEADER_ASSESSMENT_ANSWERS is on or Super-admin turns the org flag on.
+ * Rehab recommendations keep this off.
  */
 export const CERTIFICATES_REQUIRE_CLAIM = "certificates_require_claim";
 export const PILOT_SHOW_TEST_CONTENT = "pilot_show_test_content";
 export const ROSTER_PRACTICE_LIGHT = "roster_practice_light";
 export const DESK_CONSIDER_NEXT_V1 = "desk_consider_next_v1";
+export const LEADER_ASSESSMENT_ANSWERS = "leader_assessment_answers";
 
 function envFlag(name: string) {
   const raw = process.env[name]?.trim().toLowerCase() ?? "";
@@ -52,4 +59,8 @@ export function rosterPracticeLight() {
 
 export function deskConsiderNextV1() {
   return envFlag("DESK_CONSIDER_NEXT_V1");
+}
+
+export function leaderAssessmentAnswers() {
+  return envFlag("LEADER_ASSESSMENT_ANSWERS");
 }
