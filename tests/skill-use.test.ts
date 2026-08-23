@@ -11,11 +11,18 @@ import {
 import {
   countSkillsUsed,
   formatSkillUseStatement,
+  isPracticeSkipped,
+  latestPracticeLight,
   nextSkillUse,
   parseSkillUse,
   pickSkillUseFollowUp,
+  practiceLightCsvValue,
+  practiceLightFromSkillUse,
   skillUseFollowUpDue,
 } from "../lib/father/skill-use";
+import { rosterPracticeLight } from "../lib/flags";
+import { quietReasonCopy } from "../lib/manager/companion";
+import type { TrainingProgress } from "../lib/manager/types";
 
 describe("skill use parse", () => {
   it("accepts used, later, and dismissed", () => {
@@ -245,6 +252,105 @@ describe("skill use on Leader desks", () => {
       assert.doesNotMatch(source, /skillsUsed/);
       assert.doesNotMatch(source, /Skills used/);
     }
+  });
+
+  it("puts film, checkpoint, and practice lights on the roster and detail", () => {
+    const roster = readFileSync(
+      fileURLToPath(new URL("../app/(manager)/manager/participants/page.tsx", import.meta.url)),
+      "utf8"
+    );
+    const detail = readFileSync(
+      fileURLToPath(new URL("../app/(manager)/manager/participants/[id]/page.tsx", import.meta.url)),
+      "utf8"
+    );
+    const list = readFileSync(
+      fileURLToPath(new URL("../components/manager/participant-bulk-list.tsx", import.meta.url)),
+      "utf8"
+    );
+    assert.match(roster, /practiceLight/);
+    assert.match(detail, /ProgressLights/);
+    assert.match(detail, /translatePracticeLight/);
+    assert.match(list, /ProgressLights/);
+    assert.match(list, /showPractice/);
+    assert.doesNotMatch(detail, /action_note|session_note|checkin_answers/);
+  });
+});
+
+describe("skill use to roster practice light", () => {
+  const now = new Date("2026-08-23T12:00:00.000Z");
+
+  it("maps used, later, dismissed, and stale later without answer text", () => {
+    assert.equal(practiceLightFromSkillUse("used", "2026-08-01T00:00:00.000Z", now), "completed");
+    assert.equal(practiceLightFromSkillUse("later", "2026-08-22T12:00:00.000Z", now), "not_yet");
+    assert.equal(practiceLightFromSkillUse("later", "2026-08-16T11:00:00.000Z", now), "stale");
+    assert.equal(practiceLightFromSkillUse("dismissed", "2026-08-01T00:00:00.000Z", now), "dismissed");
+    assert.equal(practiceLightFromSkillUse(null, "2026-08-01T00:00:00.000Z", now), null);
+    assert.equal(practiceLightCsvValue("not_yet"), "not yet");
+    assert.equal(practiceLightCsvValue("completed"), "completed");
+    assert.equal(practiceLightCsvValue(null), "");
+  });
+
+  it("reads the latest check-in as the roster flag", () => {
+    assert.equal(
+      latestPracticeLight(
+        [
+          { skill_use: "later", skill_use_at: "2026-08-20T12:00:00.000Z" },
+          { skill_use: "used", skill_use_at: "2026-08-22T12:00:00.000Z" },
+          { skill_use: "dismissed", skill_use_at: "2026-08-21T12:00:00.000Z" },
+        ],
+        now
+      ),
+      "completed"
+    );
+    assert.equal(latestPracticeLight([{ skill_use: null }], now), null);
+  });
+
+  it("defaults roster_practice_light on because skill-use is already persisted", () => {
+    assert.equal(rosterPracticeLight(), true);
+    const flags = readFileSync(
+      fileURLToPath(new URL("../lib/flags.ts", import.meta.url)),
+      "utf8"
+    );
+    const env = readFileSync(
+      fileURLToPath(new URL("../.env.example", import.meta.url)),
+      "utf8"
+    );
+    assert.match(flags, /roster_practice_light/);
+    assert.match(flags, /defaults ON/);
+    assert.match(env, /ROSTER_PRACTICE_LIGHT=/);
+  });
+
+  it("lets companion use a practice skipped reason code", () => {
+    const card = {
+      training: {
+        id: "t1",
+        slug: "t1",
+        title: "Fathering Fundamentals",
+        description: null,
+        session_count: 1,
+        order_index: 1,
+      },
+      sessions: [],
+      completed: 1,
+      total: 2,
+      assigned: true,
+      gated: false,
+      certificate: null,
+      current: null,
+      practiceLight: "dismissed" as const,
+    } satisfies TrainingProgress;
+
+    assert.equal(isPracticeSkipped("dismissed"), true);
+    assert.equal(isPracticeSkipped("stale"), true);
+    assert.equal(isPracticeSkipped("not_yet"), false);
+    assert.equal(
+      quietReasonCopy("2026-08-01T00:00:00.000Z", [card]).key,
+      "manager.companion.reasonPracticeSkipped"
+    );
+    assert.equal(
+      quietReasonCopy("2026-08-01T00:00:00.000Z", [{ ...card, practiceLight: "completed" }]).key,
+      "manager.companion.reasonQuietDays"
+    );
   });
 });
 

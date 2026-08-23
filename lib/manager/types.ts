@@ -1,4 +1,5 @@
 import type { Session, SessionProgress, Training } from "@/lib/father/types";
+import type { PracticeLight } from "@/lib/father/skill-use";
 
 export type Group = {
   id: string;
@@ -75,6 +76,7 @@ export type TrainingProgress = {
     session: Session;
     progress: SessionProgress | null;
   } | null;
+  practiceLight?: PracticeLight | null;
 };
 
 export type ParticipantRow = {
@@ -88,6 +90,9 @@ export type ParticipantRow = {
   profile: ProfileResult | null;
   progressLabel: string;
   lastActivity: string | null;
+  filmDone?: boolean;
+  checkpointDone?: boolean;
+  practiceLight?: PracticeLight | null;
 };
 
 export function displayName(profile: ManagedProfile | null, fatherId: string) {

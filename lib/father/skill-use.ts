@@ -102,3 +102,93 @@ export function countSkillsUsed(
   return rows.filter((row) => parseSkillUse(row.skill_use ?? row.skillUse) === "used")
     .length;
 }
+
+export const PRACTICE_LIGHTS = ["completed", "not_yet", "dismissed", "stale"] as const;
+
+export type PracticeLight = (typeof PRACTICE_LIGHTS)[number];
+
+/** "Not yet" becomes stale after a week so the roster stays a flag, not a count. */
+export const PRACTICE_LIGHT_STALE_MS = 7 * 24 * 60 * 60 * 1000;
+
+export type PracticeLightRow = {
+  skill_use?: string | null;
+  skillUse?: SkillUse | null;
+  skill_use_at?: string | null;
+  skillUseAt?: string | null;
+  completed_at?: string | null;
+};
+
+export function isPracticeLight(value: unknown): value is PracticeLight {
+  return (
+    value === "completed" ||
+    value === "not_yet" ||
+    value === "dismissed" ||
+    value === "stale"
+  );
+}
+
+function skillUseStamp(row: PracticeLightRow) {
+  return row.skill_use_at ?? row.skillUseAt ?? row.completed_at ?? null;
+}
+
+function isStampStale(
+  stamp: string | null | undefined,
+  now: Date,
+  staleMs: number
+) {
+  if (!stamp) return true;
+  const time = Date.parse(stamp);
+  if (Number.isNaN(time)) return true;
+  return now.getTime() - time >= staleMs;
+}
+
+export function practiceLightFromSkillUse(
+  skillUse: SkillUse | null | undefined,
+  skillUseAt?: string | null,
+  now: Date = new Date(),
+  staleMs: number = PRACTICE_LIGHT_STALE_MS
+): PracticeLight | null {
+  if (skillUse === "used") return "completed";
+  if (skillUse === "dismissed") return "dismissed";
+  if (skillUse === "later") {
+    return isStampStale(skillUseAt, now, staleMs) ? "stale" : "not_yet";
+  }
+  return null;
+}
+
+export function latestSkillUseRow<T extends PracticeLightRow>(rows: T[]): T | null {
+  const answered = rows.filter((row) => parseSkillUse(row.skill_use ?? row.skillUse));
+  if (answered.length === 0) return null;
+  return [...answered].sort((left, right) => {
+    const leftTime = Date.parse(skillUseStamp(left) ?? "") || 0;
+    const rightTime = Date.parse(skillUseStamp(right) ?? "") || 0;
+    return rightTime - leftTime;
+  })[0];
+}
+
+export function latestPracticeLight(
+  rows: PracticeLightRow[],
+  now: Date = new Date(),
+  staleMs: number = PRACTICE_LIGHT_STALE_MS
+): PracticeLight | null {
+  const row = latestSkillUseRow(rows);
+  if (!row) return null;
+  return practiceLightFromSkillUse(
+    parseSkillUse(row.skill_use ?? row.skillUse),
+    skillUseStamp(row),
+    now,
+    staleMs
+  );
+}
+
+export function practiceLightCsvValue(status: PracticeLight | null | undefined) {
+  if (status === "not_yet") return "not yet";
+  if (status === "completed" || status === "dismissed" || status === "stale") {
+    return status;
+  }
+  return "";
+}
+
+export function isPracticeSkipped(status: PracticeLight | null | undefined) {
+  return status === "dismissed" || status === "stale";
+}

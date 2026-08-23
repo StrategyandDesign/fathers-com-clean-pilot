@@ -1,3 +1,4 @@
+import { latestPracticeLight } from "@/lib/father/skill-use";
 import {
   asSessionProgress,
   isSessionComplete,
@@ -5,6 +6,7 @@ import {
   type SessionProgress,
   type Training,
 } from "@/lib/father/types";
+import { rosterPracticeLight } from "@/lib/flags";
 import { loadOrganizationReviews } from "@/lib/manager/reviews";
 import { loadGroupsForManager } from "@/lib/org-staff/membership";
 import { createClient } from "@/lib/supabase/server";
@@ -137,6 +139,13 @@ export async function loadManagerWorkspace(managerId: string) {
       const currentSession = trainingSessions.find(
         (session) => !isSessionComplete(fatherProgress.get(session.id) ?? null)
       );
+      const practiceLight = rosterPracticeLight()
+        ? latestPracticeLight(
+            trainingSessions
+              .map((session) => fatherProgress.get(session.id))
+              .filter((row): row is SessionProgress => Boolean(row))
+          )
+        : null;
 
       return {
         training,
@@ -145,6 +154,7 @@ export async function loadManagerWorkspace(managerId: string) {
         total: trainingSessions.length,
         assigned: assignedIds.has(training.id),
         gated: false,
+        practiceLight,
         certificate:
           certificates.find(
             (row) => row.father_id === fatherId && row.training_id === training.id
@@ -181,6 +191,24 @@ export async function loadManagerWorkspace(managerId: string) {
     return `${active.training.title} · ${active.completed}/${active.total}`;
   }
 
+  function sessionLights(fatherId: string) {
+    const cards = trainingProgressFor(fatherId);
+    const active =
+      cards.find((card) => card.assigned && !card.gated && card.completed < card.total) ??
+      cards.find((card) => !card.gated && card.completed > 0 && card.completed < card.total) ??
+      cards.find((card) => card.assigned && !card.gated) ??
+      cards.find((card) => card.assigned) ??
+      cards[0];
+    const current = active?.current?.progress ?? null;
+    return {
+      filmDone: current?.film_completed ?? false,
+      checkpointDone: current?.checkin_completed ?? false,
+      practiceLight: rosterPracticeLight()
+        ? latestPracticeLight(progressByFather.get(fatherId) ?? [])
+        : null,
+    };
+  }
+
   const participants: ParticipantRow[] = members.map((member) => {
     const fatherId = member.father_id;
     const fatherProgress = progressByFather.get(fatherId) ?? [];
@@ -199,6 +227,7 @@ export async function loadManagerWorkspace(managerId: string) {
       profileStatus: profileStatus(fatherId),
       profile,
       progressLabel: progressLabel(fatherId),
+      ...sessionLights(fatherId),
       lastActivity: latestTimestamp([
         member.joined_at,
         profile?.taken_at,

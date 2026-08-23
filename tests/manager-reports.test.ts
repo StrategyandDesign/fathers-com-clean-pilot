@@ -185,9 +185,31 @@ describe("manager reports", () => {
     );
 
     assert.equal(report.rows[0]?.completionStatus, "completed");
+    assert.equal(report.rows[0]?.practiceStatus, "");
     assert.equal(report.rows[0]?.completedAt, "2026-03-20T00:00:00.000Z");
     assert.equal(report.rows[0]?.certificateSerial, "FC-100");
     assert.equal(trainingStatus(undefined), "not_started");
+  });
+
+  it("maps a skill-use check-in to a practice flag, not a count", () => {
+    const fundamentals = training("fundamentals", "Fathering Fundamentals");
+    const report = buildManagerReport(
+      input({
+        progress: [
+          progressRow({
+            session_id: "s1",
+            skill_use: "used",
+            skill_use_at: "2026-03-16T00:00:00.000Z",
+          }),
+        ],
+        trainingProgressFor: () => [card({ training: fundamentals, assigned: true, completed: 1 })],
+      })
+    );
+
+    assert.equal(report.rows[0]?.practiceStatus, "completed");
+    const csv = rowsToCsv(report.rows);
+    assert.match(csv, /,completed,/);
+    assert.doesNotMatch(csv, /Skills used/);
   });
 
   it("keeps another manager's group out of the export", () => {
@@ -261,6 +283,8 @@ describe("manager reports", () => {
     assert.match(csv, /Completed on/);
     assert.match(csv, /Join date is not counted/);
     assert.doesNotMatch(csv, /Skills used/);
+    assert.match(csv, /,Practice,/);
+    assert.match(csv, /Flag only. No answer text/);
     assert.match(csv, /father-1/);
     assert.match(csv, /Fathering Fundamentals/);
     assert.equal(summarizeReport(buildManagerReport(input()).rows).notStarted, 1);

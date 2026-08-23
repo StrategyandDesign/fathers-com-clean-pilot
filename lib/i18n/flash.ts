@@ -394,6 +394,17 @@ export function translateThemeLabel(label: string | null | undefined, t: Transla
   return key ? t(key) : label;
 }
 
+export function translatePracticeLight(
+  status: "completed" | "not_yet" | "dismissed" | "stale" | null | undefined,
+  t: Translate
+) {
+  if (status === "completed") return t("manager.participants.practiceCompleted");
+  if (status === "not_yet") return t("manager.participants.practiceNotYet");
+  if (status === "dismissed") return t("manager.participants.practiceDismissed");
+  if (status === "stale") return t("manager.participants.practiceStale");
+  return "";
+}
+
 export function translateThemeMeaning(label: string | null | undefined, t: Translate) {
   if (!label) return "";
   const key = THEME_MEANING[label];

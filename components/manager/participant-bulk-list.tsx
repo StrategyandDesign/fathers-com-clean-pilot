@@ -5,8 +5,11 @@ import Link from "next/link";
 
 import { useI18n, useT } from "@/components/i18n/locale-provider";
 import { UserAvatar } from "@/components/layout/user-avatar";
+import { ProgressLights } from "@/components/manager/progress-lights";
 import { Button } from "@/components/ui/button";
+import type { PracticeLight } from "@/lib/father/skill-use";
 import { dateLocale } from "@/lib/i18n/config";
+import { translatePracticeLight } from "@/lib/i18n/flash";
 import { MAX_BULK } from "@/lib/manager/bulk";
 import { runBulkAction } from "@/lib/manager/bulk-actions";
 import { fieldClassName, interactiveSurfaceClassName } from "@/lib/ui";
@@ -21,6 +24,9 @@ export type BulkListParticipant = {
   progressLabel: string;
   lastActivity: string | null;
   quiet: boolean;
+  filmDone?: boolean;
+  checkpointDone?: boolean;
+  practiceLight?: PracticeLight | null;
 };
 
 export type BulkListTraining = {
@@ -229,7 +235,29 @@ export function ParticipantBulkList({
                     </span>
                     <span className="flex justify-between gap-3 pl-[3.25rem] text-sm md:block md:pl-0">
                       <span className="text-muted-foreground md:hidden">{t("manager.bulk.training")}</span>
-                      <span className="text-right md:text-left">{participant.progressLabel}</span>
+                      <span className="text-right md:text-left">
+                        <span className="block">{participant.progressLabel}</span>
+                        <ProgressLights
+                          compact
+                          filmDone={Boolean(participant.filmDone)}
+                          checkpointDone={Boolean(participant.checkpointDone)}
+                          practice={participant.practiceLight ?? null}
+                          filmLabel={t(
+                            participant.filmDone
+                              ? "manager.participants.stepDone"
+                              : "manager.participants.stepPending",
+                            { label: t("father.session.film") }
+                          )}
+                          checkpointLabel={t(
+                            participant.checkpointDone
+                              ? "manager.participants.stepDone"
+                              : "manager.participants.stepPending",
+                            { label: t("father.session.checkin") }
+                          )}
+                          practiceLabel={translatePracticeLight(participant.practiceLight, t)}
+                          showPractice={Boolean(participant.practiceLight)}
+                        />
+                      </span>
                     </span>
                     <span className="flex justify-between gap-3 pl-[3.25rem] text-sm md:block md:pl-0">
                       <span className="text-muted-foreground md:hidden">{t("manager.bulk.lastActive")}</span>
