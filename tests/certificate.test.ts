@@ -134,7 +134,14 @@ describe("certificate misuse disclaimer", () => {
     assert.doesNotMatch(CERTIFICATE_MISUSE_DISCLAIMER, /—/);
 
     const pdfSource = readRepo("lib/certificates/pdf.ts");
+    const copySource = readRepo("lib/certificates/copy.ts");
     assert.match(pdfSource, /CERTIFICATE_MISUSE_DISCLAIMER/);
+    assert.match(copySource, /not a finding of court fitness/);
+    assert.match(copySource, /reunification safety/);
+    assert.match(copySource, /clinical treatment/);
+    assert.match(copySource, /professional evaluation/);
+    assert.doesNotMatch(copySource, /evidence-based/i);
+    assert.doesNotMatch(pdfSource, /evidence-based/i);
 
     const bytes = await renderCertificatePdf({
       fatherName: "NWA Father",
@@ -145,11 +152,6 @@ describe("certificate misuse disclaimer", () => {
     });
     assert.equal(Buffer.from(bytes.subarray(0, 4)).toString(), "%PDF");
     assert.ok(bytes.length > 2000);
-    assert.match(pdfSource, /not a finding of court fitness/);
-    assert.match(pdfSource, /reunification safety/);
-    assert.match(pdfSource, /clinical treatment/);
-    assert.match(pdfSource, /professional evaluation/);
-    assert.doesNotMatch(pdfSource, /evidence-based/i);
   });
 
   it("keeps the same disclaimer on preview, issue, and public verify", () => {
