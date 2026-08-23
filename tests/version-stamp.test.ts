@@ -3,15 +3,24 @@ import { readFileSync } from "node:fs";
 import { describe, it } from "node:test";
 import { fileURLToPath } from "node:url";
 
-import { formatSharedLabel, formatSharedRevision, loadSharedMark } from "../lib/dev/shared-mark";
+import {
+  DESK_SHARED_MARK,
+  formatDeskLabel,
+  formatSharedLabel,
+  formatSharedRevision,
+  loadSharedMark,
+} from "../lib/dev/shared-mark";
 
 describe("version stamp", () => {
   it("reads the Shared mark from shared-mark.json", () => {
     const mark = loadSharedMark();
     assert.ok(mark);
+    assert.equal(DESK_SHARED_MARK, 1);
+    assert.ok(Number.isInteger(mark.mark) && mark.mark >= 1);
     assert.ok(Number.isInteger(mark.patch) && mark.patch >= 1);
     assert.match(mark.label, /^Shared 1-1\.\d+$/);
-    assert.equal(mark.label, formatSharedLabel(1, mark.patch));
+    assert.equal(mark.label, formatDeskLabel(mark.patch));
+    assert.equal(mark.label, formatSharedLabel(DESK_SHARED_MARK, mark.patch));
   });
 
   it("formats Shared 1-1.01 and the next ticks", () => {
@@ -35,7 +44,7 @@ describe("version stamp", () => {
       fileURLToPath(new URL("../components/dev/version-stamp.tsx", import.meta.url)),
       "utf8"
     );
-    assert.match(stamp, /formatSharedLabel/);
+    assert.match(stamp, /formatDeskLabel/);
     assert.match(stamp, /\{label\}/);
   });
 });

@@ -49,6 +49,16 @@ describe("leader invite tokens", () => {
   });
 
   it("builds a join URL and normalizes email", () => {
+    const invite = {
+      id: "1",
+      email: "sam@org.org",
+      fullName: null,
+      organizationName: "NWA",
+      groupId: null,
+      acceptedAt: null,
+      expiresAt: "2026-08-21T12:00:00Z",
+      createdAt: "2026-08-20T12:00:00Z",
+    };
     assert.equal(normalizeInviteEmail("  Sam@Org.org "), "sam@org.org");
     assert.equal(isInviteEmail("sam@org.org"), true);
     assert.equal(isInviteEmail("not-an-email"), false);
@@ -56,22 +66,8 @@ describe("leader invite tokens", () => {
       managerJoinHref("abc", "https://app.fathers.com"),
       "https://app.fathers.com/join/leader?token=abc"
     );
-    assert.equal(
-      managerInviteStatus(
-        {
-          id: "1",
-          email: "sam@org.org",
-          fullName: null,
-          organizationName: "NWA",
-          groupId: null,
-          acceptedAt: null,
-          expiresAt: "2026-08-21T12:00:00Z",
-          createdAt: "2026-08-20T12:00:00Z",
-        },
-        new Date("2026-08-20T15:00:00Z")
-      ),
-      "pending"
-    );
+    assert.equal(managerInviteStatus(invite, new Date("2026-08-20T15:00:00Z")), "pending");
+    assert.equal(managerInviteStatus(invite, new Date("2026-08-23T03:48:00Z")), "expired");
   });
 });
 

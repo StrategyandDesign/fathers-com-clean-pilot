@@ -3,8 +3,8 @@
 AUDIT-V41 WP-J deliverable.
 
 ## The format
-One JSON per course in `content/`, versioned in git. See
-`content/coming-home-present.example.json` for the shape. Rules the importer
+One JSON per course in `archive/static-site/content/`, versioned in git. See
+`archive/static-site/content/coming-home-present.example.json` for the shape. Rules the importer
 enforces: every video carries a real `duration_seconds` greater than zero (no
 film, no row); at least three checkpoint questions per video, five
 recommended, because eighty percent of two is perfection; `correct_index` in
@@ -15,7 +15,7 @@ pages.
 ## The import
 ```
 SUPABASE_URL=... SUPABASE_SERVICE_ROLE_KEY=... \
-  python3 tools/import_content.py content/<course>.json [--create]
+  python3 archive/static-site/tools/import_content.py archive/static-site/content/<course>.json [--create]
 ```
 The service key comes from the project dashboard, lives only in your shell
 env, and never enters git or any client bundle. The importer upserts, so
@@ -45,11 +45,11 @@ zero until real films land.
 
 Seed all five courses with real checkpoints and finals:
 ```
-python3 tools/import_content.py content/fundamentals.json --create --allow-placeholders
-python3 tools/import_content.py content/reentry.json      --create --allow-placeholders
-python3 tools/import_content.py content/anger.json        --create --allow-placeholders
-python3 tools/import_content.py content/coparenting.json  --create --allow-placeholders
-python3 tools/import_content.py content/manhood.json      --create --allow-placeholders
+python3 archive/static-site/tools/import_content.py archive/static-site/content/fundamentals.json --create --allow-placeholders
+python3 archive/static-site/tools/import_content.py archive/static-site/content/reentry.json      --create --allow-placeholders
+python3 archive/static-site/tools/import_content.py archive/static-site/content/anger.json        --create --allow-placeholders
+python3 archive/static-site/tools/import_content.py archive/static-site/content/coparenting.json  --create --allow-placeholders
+python3 archive/static-site/tools/import_content.py archive/static-site/content/manhood.json      --create --allow-placeholders
 ```
 Then open the courses to participants (SQL editor, one line):
 ```

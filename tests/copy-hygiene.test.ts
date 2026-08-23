@@ -10,7 +10,7 @@ import {
   formatFindings,
   scanCitationShape,
   scanGovernedPaths,
-} from "../tools/scan-overclaim";
+} from "../lib/copy/scan-overclaim";
 
 const EM_DASH = "—";
 const ALLOWED = new Set(["common.emDash"]);

@@ -79,7 +79,7 @@ Wrong door:
 - [ ] No live page or partner-kit sales note (except `partner-kit/funder-brief.md`) prints Title IV-E, Family First Prevention Services Act, or Clearinghouse support as product status.
 - [ ] Frozen phrases stay out of governed paths: clinical-efficacy marketing; Title IV-E / Family First Prevention Services Act drawdown; Military and Family Life Counseling approved without record; reunification-ready; risk-reduction proven.
 - [ ] Cioffi 2023 and similar papers are labeled content-shape analog only.
-- [ ] `npx tsx tools/scan-overclaim.ts` and `npx tsx --test tests/copy-hygiene.test.ts` pass.
+- [ ] `npx tsx scripts/scan-overclaim.ts` and `npx tsx --test tests/copy-hygiene.test.ts` pass.
 
 ## G. Do not regress
 
