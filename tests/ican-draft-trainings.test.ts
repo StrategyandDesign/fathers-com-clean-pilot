@@ -12,12 +12,14 @@ import {
   ICAN_DRAFT_TRAININGS,
   ICAN_HOLD_DURATION_SECONDS,
   ICAN_HOLD_VIDEO_URL,
+  ICAN_RETURN_HOME_DRAFT_DESCRIPTION_MIGRATION,
   ICAN_RETURN_HOME_DRAFT_MIGRATION,
   ICAN_RETURN_HOME_DRAFT_SLUGS,
   assertIcanDraftCatalog,
   icanDraftsForSlugs,
   icanDraftPromptText,
   renderIcanDraftMigrationSql,
+  renderReturnHomeDraftDescriptionUpdateSql,
   renderReturnHomeDraftMigrationSql,
 } from "../lib/trainings/ican-drafts";
 
@@ -46,7 +48,9 @@ function readRepo(relativePath: string) {
 }
 
 function copyWithoutAntiDefault(text: string) {
-  return text.replace(/spouse-or-mother/gi, "");
+  return text
+    .replace(/spouse-or-mother/gi, "")
+    .replace(/no default to a mother or partner/gi, "");
 }
 
 describe("I CAN Super-admin draft trainings", () => {
@@ -224,7 +228,6 @@ describe("I CAN Super-admin draft trainings", () => {
 
   it("seeds the three return-home drafts in a new unpublished migration", () => {
     const sql = readRepo(ICAN_RETURN_HOME_DRAFT_MIGRATION);
-    assert.equal(sql, renderReturnHomeDraftMigrationSql());
     assert.match(sql, /Seed three Super-admin return-home I CAN draft trainings/);
     assert.match(sql, /published,\s*\n\s*released_at,\s*\n\s*development_status/);
     assert.match(sql, /published = false/);
@@ -244,5 +247,58 @@ describe("I CAN Super-admin draft trainings", () => {
     assert.match(sql, /duration_seconds/);
     assert.match(sql, /^\s+300,$/m);
     assert.equal((sql.match(/yo_nS0vpV4M/g) ?? []).length, 36);
+    assert.equal(sql.includes("Purpose:"), false);
+    assert.equal(renderReturnHomeDraftMigrationSql().includes("Purpose:"), true);
+  });
+
+  it("writes father-facing purpose, objectives, and tone on the three return-home drafts", () => {
+    for (const training of icanDraftsForSlugs(ICAN_RETURN_HOME_DRAFT_SLUGS)) {
+      assert.match(training.description, /Purpose:|Over twelve weeks/i);
+      assert.match(training.description, /film/i);
+      assert.match(training.description, /checkpoint/i);
+      assert.match(training.description, /practice/i);
+      assert.match(training.description, /This training is for fathers/);
+      assert.equal(training.description.includes(EM_DASH), false);
+      assert.equal(training.leaderSummary.includes(EM_DASH), false);
+
+      const scanned = copyWithoutAntiDefault(
+        [training.description, training.leaderSummary].join("\n")
+      );
+      for (const pattern of [...BANNED, ...SPOUSE_OR_MOTHER_DEFAULT]) {
+        assert.equal(pattern.test(scanned), false, `${training.slug} father-facing copy`);
+      }
+    }
+
+    for (const training of icanDraftsForSlugs(ICAN_CEO_DRAFT_SLUGS)) {
+      assert.doesNotMatch(training.description, /Purpose:/);
+      assert.doesNotMatch(training.description, /Concrete objectives:/);
+    }
+  });
+
+  it("updates only the three return-home draft descriptions without publishing", () => {
+    const sql = readRepo(ICAN_RETURN_HOME_DRAFT_DESCRIPTION_MIGRATION);
+    assert.equal(sql, renderReturnHomeDraftDescriptionUpdateSql());
+    assert.match(sql, /Update father-facing descriptions for the three return-home Super-admin drafts/);
+    assert.match(sql, /published = false/);
+    assert.doesNotMatch(sql, /published\s*=\s*true/);
+    assert.doesNotMatch(sql, /release_training_to_organizations/);
+    assert.doesNotMatch(sql, /insert into public\.sessions/);
+    assert.doesNotMatch(sql, /checkin_prompt/);
+    assert.doesNotMatch(sql, /action_prompt/);
+
+    for (const slug of ICAN_RETURN_HOME_DRAFT_SLUGS) {
+      assert.match(sql, new RegExp(`'${slug}'`));
+    }
+    for (const slug of ICAN_CEO_DRAFT_SLUGS) {
+      assert.doesNotMatch(sql, new RegExp(`'${slug}'`));
+    }
+
+    const catalog = icanDraftsForSlugs(ICAN_RETURN_HOME_DRAFT_SLUGS);
+    for (const training of catalog) {
+      const descriptionSql = training.description.replaceAll("\n", "\\n").replaceAll("'", "''");
+      const summarySql = training.leaderSummary.replaceAll("\n", "\\n").replaceAll("'", "''");
+      assert.ok(sql.includes(descriptionSql), `${training.slug} description`);
+      assert.ok(sql.includes(summarySql), `${training.slug} leader_summary`);
+    }
   });
 });

@@ -87,7 +87,7 @@ export default async function FatherTrainingOverviewPage({
       <TrainingHandoutLinks handouts={handouts} t={t} layout="card" />
 
       {card.training.description ? (
-        <p className="text-sm leading-relaxed text-muted-foreground sm:text-base">
+        <p className="whitespace-pre-line text-sm leading-relaxed text-muted-foreground sm:text-base">
           {card.training.description}
         </p>
       ) : null}
