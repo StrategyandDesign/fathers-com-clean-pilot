@@ -6,7 +6,7 @@ export const CHECKIN_NOTE_MAX_LENGTH = 2000;
 
 export const CHECKIN_NOTE_LABEL = "Optional notes";
 export const CHECKIN_NOTE_PLACEHOLDER =
-  "A teaching point in your own words. No personal details.";
+  "The body signal or the learning, in your own words. No personal details.";
 export const SESSION_NOTE_PREVIEW_MAX = 80;
 
 export function sessionNotePreview(text: string, max = SESSION_NOTE_PREVIEW_MAX) {

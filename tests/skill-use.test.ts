@@ -11,6 +11,7 @@ import {
 import {
   countSkillsUsed,
   formatSkillUseStatement,
+  isOverviewSession,
   isPracticeSkipped,
   latestPracticeLight,
   nextSkillUse,
@@ -18,6 +19,7 @@ import {
   pickSkillUseFollowUp,
   practiceLightCsvValue,
   practiceLightFromSkillUse,
+  shouldAskSkillUse,
   skillUseFollowUpDue,
 } from "../lib/father/skill-use";
 import { rosterPracticeLight } from "../lib/flags";
@@ -129,6 +131,42 @@ describe("skills used count", () => {
   });
 });
 
+describe("skill use offer", () => {
+  it("hides skill-use on overview sessions and welcome keylines", () => {
+    assert.equal(isOverviewSession({ title: "Training Overview" }), true);
+    assert.equal(isOverviewSession({ title: "Introduction" }), true);
+    assert.equal(isOverviewSession({ title: "Body at the door" }), false);
+    assert.equal(
+      shouldAskSkillUse({
+        title: "Training Overview",
+        keyline: "Welcome to the Seven Secrets of Effective Fathers.",
+      }),
+      false
+    );
+    assert.equal(
+      shouldAskSkillUse({
+        title: "First Secret: Commitment",
+        keyline: "Keep a promise you can actually keep.",
+      }),
+      true
+    );
+    assert.equal(
+      shouldAskSkillUse({
+        title: "Body at the door",
+        keyline: "Your body arrives before your words do.",
+      }),
+      true
+    );
+    assert.equal(
+      shouldAskSkillUse({
+        title: "Session 1",
+        keyline: "Welcome to the house.",
+      }),
+      false
+    );
+  });
+});
+
 describe("skill use statement", () => {
   it("keeps a question as the card header and turns a topic fragment into a statement", () => {
     assert.equal(
@@ -208,6 +246,11 @@ describe("skill use on Home", () => {
     assert.match(page, /showSkillUse && skillUsePrompt/);
     assert.match(closeout, /SkillUseCard/);
     assert.doesNotMatch(closeout, /shouldOfferSkillUseOnHome/);
+    const fatherDone = readFileSync(
+      fileURLToPath(new URL("../app/(father)/father/sessions/[sessionId]/done/page.tsx", import.meta.url)),
+      "utf8"
+    );
+    assert.match(fatherDone, /shouldAskSkillUse/);
     const signOut = readFileSync(
       fileURLToPath(new URL("../lib/auth/actions.ts", import.meta.url)),
       "utf8"

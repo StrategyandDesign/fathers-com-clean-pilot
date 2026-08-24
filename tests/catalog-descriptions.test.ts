@@ -26,6 +26,11 @@ const BANNED = [
   /\bprison\b/i,
   /\bDaneshnia\b/i,
 ];
+const FATHER_AI_STACKS = [
+  /No scoreboard\.\s*No peer forum/i,
+  /Not treatment\.\s*Not a diagnosis/i,
+  /This draft stays unpublished/i,
+];
 
 function readRepo(relativePath: string) {
   return readFileSync(fileURLToPath(new URL(`../${relativePath}`, import.meta.url)), "utf8");
@@ -56,6 +61,19 @@ describe("published catalog training descriptions", () => {
       for (const pattern of BANNED) {
         assert.equal(pattern.test(scanned), false, `${training.slug} ${pattern}`);
       }
+      for (const pattern of FATHER_AI_STACKS) {
+        assert.equal(pattern.test(scanned), false, `${training.slug} ${pattern}`);
+      }
+    }
+  });
+
+  it("rejects leftover draft-unpublished language on published catalog trainings", () => {
+    for (const training of catalogDescriptionsForSlugs(CATALOG_DESCRIPTION_SLUGS)) {
+      assert.doesNotMatch(training.description, /This draft stays unpublished/i);
+      assert.doesNotMatch(training.description, /Not published/i);
+      assert.doesNotMatch(training.leaderSummary, /This draft stays unpublished/i);
+      assert.doesNotMatch(training.leaderSummary, /Not published/i);
+      assert.doesNotMatch(training.leaderSummary, /Not released/i);
     }
   });
 

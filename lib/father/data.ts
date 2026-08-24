@@ -13,7 +13,12 @@ import {
 import { loadAcceptedTrainingIds, loadDeclinedTrainingIds } from "@/lib/manager/reviews";
 import type { Certificate } from "@/lib/manager/types";
 import { actionSkillText } from "@/lib/father/action-commitment";
-import { formatSkillUseStatement, parseSkillUse, pickSkillUseFollowUp } from "@/lib/father/skill-use";
+import {
+  formatSkillUseStatement,
+  parseSkillUse,
+  pickSkillUseFollowUp,
+  shouldAskSkillUse,
+} from "@/lib/father/skill-use";
 import { parseTimeZone } from "@/lib/notifications/schedule";
 import { hidePilotTestTraining } from "@/lib/pilot/hygiene";
 
@@ -194,6 +199,7 @@ export async function loadFatherHome(fatherId: string) {
       .map((session) => {
         const progress = progressBySession.get(session.id);
         if (!isSessionComplete(progress ?? null)) return null;
+        if (!shouldAskSkillUse(session)) return null;
         return {
           sessionId: session.id,
           sessionTitle: session.title,
