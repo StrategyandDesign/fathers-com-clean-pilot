@@ -1,16 +1,39 @@
 import Link from "next/link";
 
 import { markTrainingPreviewed, releaseTraining, setDevelopmentStatus, setTrainingPublished } from "@/lib/admin/actions";
-import { TRAINING_LAUNCH_HANDOFF, trainingLaunchPlan } from "@/lib/admin/launch";
+import {
+  TRAINING_LAUNCH_HANDOFF,
+  TRAINING_LAUNCH_LIST_LEAD,
+  launchNowLabel,
+  stageContinueLabel,
+  trainingLaunchPlan,
+  type TrainingLaunchInput,
+} from "@/lib/admin/launch";
 import { isLegacyCatalogTraining, RELEASE_CONFIRM } from "@/lib/admin/release";
 import { stagePaths } from "@/lib/admin/stage";
 import type { AdminTrainingRow } from "@/lib/admin/types";
 import { hasHardcodedSkillPack } from "@/lib/father/session-questions";
 import { hasTrainingOverview } from "@/lib/father/training-door";
 import { ReleaseTargets } from "@/components/admin/release-targets";
+import { TrainingLaunchSteps } from "@/components/admin/training-launch-steps";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { fieldClassName } from "@/lib/ui";
 import { cn } from "@/lib/utils";
+
+function launchOptions(training: AdminTrainingRow, rightsBlocker?: string | null) {
+  return {
+    sessionHasHardcoded: (session: TrainingLaunchInput["sessions"][number]) =>
+      hasHardcodedSkillPack(session, training),
+    rightsBlocker,
+  };
+}
+
+function walkHrefFor(training: AdminTrainingRow) {
+  const paths = stagePaths(training.id);
+  if (hasTrainingOverview(training)) return paths.overview;
+  if (training.sessions[0]) return paths.session(training.sessions[0].id);
+  return paths.edit;
+}
 
 export function TrainingLaunchDesk({
   training,
@@ -21,19 +44,12 @@ export function TrainingLaunchDesk({
   rightsBlocker?: string | null;
   surface?: "detail" | "stage";
 }) {
-  const plan = trainingLaunchPlan(training, {
-    sessionHasHardcoded: (session) => hasHardcodedSkillPack(session, training),
-    rightsBlocker,
-  });
-  const sticky = surface === "detail" && plan.current !== "release";
+  const plan = trainingLaunchPlan(training, launchOptions(training, rightsBlocker));
+  const sticky = plan.current !== "release";
   const showReleaseForm = surface === "detail" && plan.kind === "release" && plan.enabled;
   const legacy = isLegacyCatalogTraining(training);
-  const paths = stagePaths(training.id);
-  const walkHref = hasTrainingOverview(training)
-    ? paths.overview
-    : training.sessions[0]
-      ? paths.session(training.sessions[0].id)
-      : paths.edit;
+  const editHref = `/admin/trainings/${training.id}`;
+  const walkHref = walkHrefFor(training);
 
   return (
     <section
@@ -45,40 +61,27 @@ export function TrainingLaunchDesk({
       )}
     >
       <div>
-        <h2 className="font-heading text-lg font-semibold">Launch</h2>
+        {surface === "stage" ? (
+          <>
+            <p className="text-[11px] font-medium tracking-[0.14em] text-muted-foreground uppercase">
+              Launch
+            </p>
+            <h2 className="mt-1 font-heading text-lg font-semibold">Next step</h2>
+          </>
+        ) : (
+          <h2 className="font-heading text-lg font-semibold">Launch</h2>
+        )}
         <p className="mt-1 text-sm text-muted-foreground">{TRAINING_LAUNCH_HANDOFF}</p>
+        <p className="mt-2 font-medium">{launchNowLabel(plan.current)}</p>
       </div>
 
-      <ol className="flex flex-wrap gap-2">
-        {plan.steps.map((step, index) => (
-          <li
-            key={step.key}
-            aria-current={step.state === "current" ? "step" : undefined}
-            className={cn(
-              "flex items-center gap-2 rounded-lg border px-3 py-2 text-sm",
-              step.state === "done" && "border-primary/40 text-primary",
-              step.state === "current" && "border-primary bg-primary/10 text-foreground",
-              step.state === "locked" && "border-border text-muted-foreground"
-            )}
-          >
-            <span className="tabular-nums">{index + 1}</span>
-            <span>{step.label}</span>
-            {step.state === "done" ? <span>Done</span> : null}
-            {step.state === "current" ? (
-              <span className="sr-only">Current step</span>
-            ) : null}
-            {step.state === "locked" ? (
-              <span className="sr-only">Locked</span>
-            ) : null}
-          </li>
-        ))}
-      </ol>
+      <TrainingLaunchSteps steps={plan.steps} />
 
       {plan.blocker ? <p className="text-sm text-foreground">{plan.blocker}</p> : null}
 
       {plan.current === "done" ? (
         <p className="text-sm text-muted-foreground">
-          Released to Leaders.{" "}
+          Released to organizations. Leaders accept, then Include or assign fathers.{" "}
           <Link href={`${plan.href}`} className="underline underline-offset-4">
             See organizations
           </Link>
@@ -91,7 +94,11 @@ export function TrainingLaunchDesk({
         >
           {plan.detailLabel}
         </Link>
-      ) : surface === "stage" && plan.current === "stage" && training.sessions.length > 0 ? (
+      ) : surface === "stage" && plan.current === "stage" && training.sessions.length === 0 ? (
+        <Link href={editHref} className={cn(buttonVariants(), "w-full sm:w-auto")}>
+          Add a session
+        </Link>
+      ) : surface === "stage" && plan.current === "stage" ? (
         <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
           <Link href={walkHref} className={cn(buttonVariants(), "w-full sm:w-auto")}>
             Walk as Father
@@ -103,28 +110,24 @@ export function TrainingLaunchDesk({
             </Button>
           </form>
         </div>
-      ) : surface === "stage" &&
-        (plan.current === "ready" || plan.current === "publish" || plan.current === "release") ? (
-        <Link
-          href={`/admin/trainings/${training.id}#launch`}
-          className={cn(buttonVariants(), "w-full sm:w-auto")}
-        >
-          {plan.current === "ready"
-            ? "Continue to Ready"
-            : plan.current === "publish"
-              ? "Continue to Publish"
-              : "Continue to Release"}
-        </Link>
-      ) : surface === "stage" && plan.current === "review" ? (
-        <Link
-          href={`/admin/trainings/${training.id}#sessions`}
-          className={cn(buttonVariants(), "w-full sm:w-auto")}
-        >
-          Continue to Review
-        </Link>
+      ) : surface === "stage" ? (
+        <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
+          <Link
+            href={`/admin/trainings/${training.id}#launch`}
+            className={cn(buttonVariants(), "w-full sm:w-auto")}
+          >
+            {stageContinueLabel(plan.current)}
+          </Link>
+          <Link
+            href={editHref}
+            className={cn(buttonVariants({ variant: "outline" }), "w-full sm:w-auto")}
+          >
+            Edit training
+          </Link>
+        </div>
       ) : plan.kind === "fix" && plan.current === "stage" ? (
         <Link href={plan.stageHref} className={cn(buttonVariants(), "w-full sm:w-auto")}>
-          Open staging
+          {plan.detailLabel}
         </Link>
       ) : plan.kind === "fix" ? (
         <Link href={plan.href} className={cn(buttonVariants(), "w-full sm:w-auto")}>
@@ -177,6 +180,49 @@ export function TrainingLaunchDesk({
           {plan.detailLabel}
         </Button>
       )}
+    </section>
+  );
+}
+
+export function TrainingLaunchWalkCue({
+  training,
+}: {
+  training: AdminTrainingRow;
+}) {
+  const plan = trainingLaunchPlan(training, launchOptions(training));
+  const editHref = `/admin/trainings/${training.id}`;
+
+  return (
+    <section className="space-y-3 rounded-xl border border-primary/40 bg-card p-4">
+      <div>
+        <h2 className="font-heading text-base font-semibold">Launch</h2>
+        <p className="mt-1 text-sm text-muted-foreground">{TRAINING_LAUNCH_LIST_LEAD}</p>
+        <p className="mt-2 text-sm font-medium">{launchNowLabel(plan.current)}</p>
+      </div>
+      <TrainingLaunchSteps steps={plan.steps} compact />
+      <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
+        {plan.current === "stage" ? (
+          <form action={markTrainingPreviewed}>
+            <input type="hidden" name="training_id" value={training.id} />
+            <Button type="submit" className="w-full sm:w-auto">
+              Mark Stage walk complete
+            </Button>
+          </form>
+        ) : (
+          <Link
+            href={`${editHref}#launch`}
+            className={cn(buttonVariants(), "w-full sm:w-auto")}
+          >
+            {stageContinueLabel(plan.current)}
+          </Link>
+        )}
+        <Link
+          href={editHref}
+          className={cn(buttonVariants({ variant: "outline" }), "w-full sm:w-auto")}
+        >
+          Edit training
+        </Link>
+      </div>
     </section>
   );
 }

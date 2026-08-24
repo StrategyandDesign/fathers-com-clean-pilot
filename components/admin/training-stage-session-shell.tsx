@@ -1,3 +1,4 @@
+import { TrainingLaunchWalkCue } from "@/components/admin/training-launch-desk";
 import { TrainingStageBanner } from "@/components/admin/training-stage-banner";
 import { TrainingStageSessionRail } from "@/components/admin/training-stage-session-rail";
 import { stagePaths, type StageStep } from "@/lib/admin/stage";
@@ -19,6 +20,7 @@ export function TrainingStageSessionShell({
 
   return (
     <div className="space-y-5">
+      <TrainingLaunchWalkCue training={training} />
       <TrainingStageBanner
         trainingTitle={training.title}
         hubHref={paths.hub}
