@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 
 import { StartScreen } from "@/components/father/start-screen";
+import { ROLE_HOME } from "@/lib/auth/roles";
 import { requireRole } from "@/lib/auth/session";
 import { requireStartPage } from "@/lib/father/start-page";
 import { getI18n } from "@/lib/i18n/server";
@@ -9,8 +10,8 @@ import { participationCopyKey } from "@/lib/participation";
 
 export default async function FatherStartHoldPage() {
   const { state } = await requireStartPage("hold");
-  if (state.firstSessionHref) {
-    redirect(state.firstSessionHref);
+  if (state.hasAssignedSession) {
+    redirect(ROLE_HOME.father);
   }
   const { user } = await requireRole("father");
   const { t } = await getI18n();

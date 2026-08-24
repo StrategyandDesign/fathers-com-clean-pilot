@@ -9,6 +9,7 @@ import {
   releaseAssessmentToManagers,
   unreleaseAssessmentFromManagers,
 } from "@/lib/admin/assessment-release";
+import { releaseFlashNotice } from "@/lib/admin/release-flash";
 import { KEYSTONE_ASSESSMENT_KEY } from "@/lib/assessments/availability";
 import { firstPartyAdminPath, isFirstPartyAssessmentKey, isPlatformReviewKey } from "@/lib/assessments/first-party";
 import { firstPartyInstrumentReady } from "@/lib/assessments/first-party-catalog";
@@ -140,18 +141,15 @@ export async function releaseAssessment(formData: FormData) {
     fail(path, RELEASE_WRITE_ERROR);
   }
 
-  const notice =
-    result.targetCount === 0
-      ? "No matching organizations to release to."
-      : result.newCount === 0
-        ? "Those organizations already have this assessment."
-        : scope === "selected"
-          ? result.newCount === 1
-            ? "Released to 1 organization. That Leader was notified."
-            : `Released to ${result.newCount} organizations. Eligible Leaders were notified.`
-          : result.notified
-            ? "Released to all organizations. Eligible Leaders were notified."
-            : "Released to all organizations.";
+  const notice = releaseFlashNotice({
+    scope,
+    targetCount: result.targetCount,
+    newCount: result.newCount,
+    notified: result.notified,
+    notifyFailed: result.notifyFailed,
+    alreadyHave: "Those organizations already have this assessment.",
+    audience: "Leaders",
+  });
 
   revalidateAssessmentRelease(assessmentKey);
   finish(path, {

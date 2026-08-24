@@ -24,19 +24,20 @@ export function TrainingStageBanner({
   sessionTitle?: string;
 }) {
   return (
-    <div className="rounded-xl border border-primary/40 bg-primary/10 px-4 py-3 sm:px-5">
+    <div className="rounded-xl border border-border bg-card px-4 py-3 sm:px-5">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <div className="min-w-0">
           <p className="text-[11px] font-medium tracking-[0.14em] text-muted-foreground uppercase">
-            Sandbox preview
+            Sandbox only
           </p>
           <p className="mt-1 font-medium">
             Nothing is saved. No session progress, no Action commitment, no assignment.
           </p>
           <p className="mt-1 text-sm text-muted-foreground">
-            Sandbox only. This is not release. Walk Home → Film → Check-in →
-            Action as a Father will see it after a Leader assigns this
-            training. Return to editing with no side effects.
+            Sandbox only. This is not release. Use Launch above for Stage walk
+            → Mark Ready for Review → Publish → Release to organizations. Walk
+            Home → Film → Check-in → Action as a Father will see it after a
+            Leader assigns this training.
           </p>
           {current && sessionTitle ? (
             <p className="mt-2 text-sm text-foreground">

@@ -42,7 +42,8 @@ export function DevelopmentDesk({
           <h2 className="font-heading text-lg font-semibold">Development desk</h2>
           <p className="mt-1 text-sm text-muted-foreground">
             Author, checklist, and archive live here. Use Launch at the top for
-            Stage, Ready, Publish, and Release.
+            Stage walk → Mark Ready for Review → Publish → Release to
+            organizations.
           </p>
         </div>
         <DevelopmentStatusBadge status={status} />
@@ -90,8 +91,8 @@ export function DevelopmentDesk({
           <p className="mt-3 text-sm text-foreground">{checklist.firstMissing}</p>
         ) : (
           <p className="mt-3 text-sm text-muted-foreground">
-            Checklist complete. Use Launch at the top to mark Ready, publish,
-            then release.
+            Checklist complete. Use Launch at the top to Mark Ready for Review,
+            Publish, then Release to organizations.
           </p>
         )}
       </div>

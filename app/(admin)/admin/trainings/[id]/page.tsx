@@ -23,7 +23,7 @@ import { loadIntakeForTraining } from "@/lib/admin/sourcing-data";
 import { sourcedReleaseBlocker } from "@/lib/admin/sourcing";
 import { IntakeStatusBadge, RightsStatusBadge } from "@/components/admin/sourcing-status";
 import { asDevelopmentStatus, isArchivedTraining, LEADER_SUMMARY_MAX } from "@/lib/admin/development";
-import { canReleaseTraining } from "@/lib/admin/launch";
+import { canReleaseTraining, catalogFlagLabel } from "@/lib/admin/launch";
 import {
   isLegacyCatalogTraining,
   RELEASE_CONFIRM,
@@ -116,7 +116,7 @@ export default async function AdminTrainingDetailPage({
             <DevelopmentStatusBadge status={developmentStatus} />
             <ReleaseStatusBadge state={releaseState} />
             <span className="text-sm text-muted-foreground">
-              {training.published ? "Published" : "Unpublished"}
+              {catalogFlagLabel(training)}
             </span>
           </div>
         </div>
@@ -239,7 +239,7 @@ export default async function AdminTrainingDetailPage({
             defaultChecked={training.published}
             className="size-4 accent-primary"
           />
-          <span>Published (ready to release, or already in the catalog)</span>
+          <span>Published (catalog flag only. Does not notify Leaders.)</span>
         </label>
         <Button type="submit" className="w-full sm:w-auto">
           Save training
