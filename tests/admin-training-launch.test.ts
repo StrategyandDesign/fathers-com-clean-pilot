@@ -5,9 +5,15 @@ import { fileURLToPath } from "node:url";
 
 import { composeSkillPrompt, PREVIEW_REQUIRED_ERROR } from "../lib/admin/development";
 import {
+  LAUNCH_STEP_LABEL,
+  LAUNCH_STEPS,
+  TRAINING_LAUNCH_HANDOFF,
   TRAINING_LAUNCH_LIST_LEAD,
   canReleaseTraining,
+  catalogFlagLabel,
+  launchNowLabel,
   shortLaunchBlocker,
+  stageContinueLabel,
   trainingLaunchPlan,
   trainingLaunchState,
 } from "../lib/admin/launch";
@@ -66,20 +72,46 @@ function row(overrides: Partial<Training> = {}, sessions: Session[] = [session()
 }
 
 describe("training launch sequence", () => {
-  it("starts at Review when sessions are missing", () => {
+  it("locks the four-step ladder copy", () => {
+    assert.deepEqual([...LAUNCH_STEPS], ["stage", "ready", "publish", "release"]);
+    assert.equal(LAUNCH_STEP_LABEL.stage, "Stage walk");
+    assert.equal(LAUNCH_STEP_LABEL.ready, "Mark Ready for Review");
+    assert.equal(LAUNCH_STEP_LABEL.publish, "Publish");
+    assert.equal(LAUNCH_STEP_LABEL.release, "Release to organizations");
+    assert.equal(
+      TRAINING_LAUNCH_LIST_LEAD,
+      "Stage walk → Mark Ready for Review → Publish → Release to organizations. Publish does not notify Leaders. Release does."
+    );
+    assert.equal(
+      TRAINING_LAUNCH_HANDOFF,
+      "Stage walk, then Mark Ready for Review, then Publish, then Release to organizations. Publish does not ping Leaders. Release notifies Leaders. They accept, then Include or assign fathers."
+    );
+    assert.equal(launchNowLabel("stage"), "Now: Walk as Father");
+    assert.equal(launchNowLabel("ready"), "Now: Mark Ready for Review");
+    assert.equal(launchNowLabel("publish"), "Now: Publish");
+    assert.equal(launchNowLabel("release"), "Now: Release to organizations");
+    assert.equal(stageContinueLabel("ready"), "Continue to Ready");
+    assert.equal(catalogFlagLabel({ published: true }), "Published. Not released to Leaders.");
+    assert.equal(
+      catalogFlagLabel({ published: true, released_at: "2026-08-20T12:00:00.000Z" }),
+      "Published and released"
+    );
+  });
+
+  it("starts at Stage walk when sessions are missing", () => {
     const state = trainingLaunchState(row({}, []));
-    assert.equal(state.current, "review");
+    assert.equal(state.current, "stage");
     assert.equal(state.steps[0].state, "current");
     const plan = trainingLaunchPlan(row({}, []));
     assert.equal(plan.kind, "fix");
     assert.equal(plan.label, "Fix: Session missing");
   });
 
-  it("starts at Stage walk after Review when the preview is missing", () => {
+  it("starts at Stage walk when the preview is missing", () => {
     const state = trainingLaunchState(row());
     assert.equal(state.current, "stage");
-    assert.equal(state.steps[0].state, "done");
-    assert.equal(state.steps[1].state, "current");
+    assert.equal(state.steps[0].state, "current");
+    assert.equal(state.steps[1].state, "locked");
     const plan = trainingLaunchPlan(row());
     assert.equal(plan.kind, "fix");
     assert.equal(plan.label, "Fix: Stage walk required");
@@ -126,7 +158,7 @@ describe("training launch sequence", () => {
     assert.equal(plan.enabled, true);
   });
 
-  it("offers Release to Leaders only after Publish", () => {
+  it("offers Release to organizations only after Publish", () => {
     const plan = trainingLaunchPlan(
       row({
         previewed_at: "2026-08-18T12:00:00.000Z",
@@ -137,7 +169,7 @@ describe("training launch sequence", () => {
     assert.equal(plan.current, "release");
     assert.equal(plan.kind, "release");
     assert.equal(plan.label, "Release");
-    assert.equal(plan.detailLabel, "Release to Leaders");
+    assert.equal(plan.detailLabel, "Release to organizations");
     assert.equal(plan.enabled, true);
     assert.equal(plan.canRelease, true);
     assert.match(plan.href, /#launch$/);
@@ -244,7 +276,9 @@ describe("training launch surfaces", () => {
     assert.ok(form < publish);
     assert.ok(publish < release);
     assert.match(page, /canReleaseTraining/);
+    assert.match(page, /catalogFlagLabel/);
     assert.match(page, /id="release"/);
+    assert.doesNotMatch(page, /training\.published \? "Published"/);
     assert.doesNotMatch(page, /—/);
   });
 
@@ -259,7 +293,7 @@ describe("training launch surfaces", () => {
     assert.match(action, />\s*Stage\s*</);
     assert.equal(
       TRAINING_LAUNCH_LIST_LEAD,
-      "Review a training, then Stage walk → Ready → Publish → Release to Leaders. Publish does not notify Leaders. Release does."
+      "Stage walk → Mark Ready for Review → Publish → Release to organizations. Publish does not notify Leaders. Release does."
     );
     assert.doesNotMatch(page, /—/);
   });
@@ -272,6 +306,9 @@ describe("training launch surfaces", () => {
     assert.match(desk, /ready_for_review/);
     assert.match(desk, /ReleaseTargets/);
     assert.match(desk, /Walk as Father/);
+    assert.match(desk, /launchNowLabel/);
+    assert.match(desk, /stageContinueLabel/);
+    assert.match(desk, /TrainingLaunchWalkCue/);
     assert.doesNotMatch(desk, /publishAndReleaseTraining/);
     assert.doesNotMatch(desk, /—/);
   });
@@ -280,11 +317,27 @@ describe("training launch surfaces", () => {
     const page = readRepo("app/(admin)/admin/trainings/[id]/stage/page.tsx");
     const banner = readRepo("components/admin/training-stage-banner.tsx");
     const desk = readRepo("components/admin/training-stage-desk.tsx");
+    const launch = readRepo("components/admin/training-launch-desk.tsx");
+    const shell = readRepo("components/admin/training-stage-session-shell.tsx");
+    const overview = readRepo("app/(admin)/admin/trainings/[id]/stage/overview/page.tsx");
     assert.match(page, /TrainingLaunchDesk/);
     assert.match(page, /surface="stage"/);
+    assert.match(launch, /Next step/);
+    assert.match(launch, /Walk as Father/);
+    assert.match(launch, /stageContinueLabel/);
+    assert.match(launch, /Edit training/);
     assert.match(banner, /Sandbox only/);
+    assert.match(banner, /This is not release/);
     assert.match(banner, /Sandbox home/);
+    assert.match(banner, /border-border bg-card/);
     assert.doesNotMatch(banner, />Snapshot</);
-    assert.match(desk, /Leaders not notified/);
+    assert.doesNotMatch(banner, /bg-primary\/10/);
+    assert.doesNotMatch(desk, />Walk as Father</);
+    assert.doesNotMatch(desk, /Catalog publish/);
+    assert.doesNotMatch(desk, /Mark Stage walk complete/);
+    assert.doesNotMatch(desk, /buttonVariants/);
+    assert.match(desk, /Use Launch above/);
+    assert.match(shell, /TrainingLaunchWalkCue/);
+    assert.match(overview, /TrainingLaunchWalkCue/);
   });
 });

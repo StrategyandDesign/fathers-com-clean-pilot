@@ -1,9 +1,7 @@
 import Link from "next/link";
 
-import { markTrainingPreviewed } from "@/lib/admin/actions";
 import { asDevelopmentStatus, formatEditedAt, trainingDevelopmentChecklist } from "@/lib/admin/development";
 import { DevelopmentStatusBadge } from "@/components/admin/development-status";
-import { Button, buttonVariants } from "@/components/ui/button";
 import { EmptyState } from "@/components/ui/empty-state";
 import {
   isVideoTraining,
@@ -27,14 +25,10 @@ export function TrainingStageDesk({ training }: { training: AdminTrainingRow }) 
   );
   const firstMissing = rows.find((row) => !row.hasVideo);
   const hasOverview = hasTrainingOverview(training);
-  const walkHref = hasOverview
-    ? paths.overview
-    : training.sessions[0]
-      ? paths.session(training.sessions[0].id)
-      : paths.edit;
   const checklist = trainingDevelopmentChecklist(training, {
     sessionHasHardcoded: (session) => hasHardcodedSkillPack(session, training),
   });
+  const previewed = Boolean(checklist.items.find((item) => item.key === "previewed")?.done);
 
   return (
     <section className="space-y-5 rounded-xl border border-border bg-card p-4 sm:p-6">
@@ -43,29 +37,14 @@ export function TrainingStageDesk({ training }: { training: AdminTrainingRow }) 
           <h2 className="font-heading text-lg font-semibold">Sourcing desk</h2>
           <p className="mt-1 text-sm text-muted-foreground">
             {videoTraining
-              ? "Sandbox walk. Same overview film, Home card, session Film, Check-in, and Action a Father gets after Leader assignment. Nothing is written."
+              ? "Sandbox films and prompts. The Launch card above is Stage walk → Mark Ready for Review → Publish → Release to organizations. Nothing here writes progress or notifies Leaders."
               : "Add YouTube URLs to stage the films. Check-in and Action already use the same prompts he will get."}
           </p>
         </div>
-        <div className="flex flex-col items-stretch gap-2 sm:items-end">
-          <DevelopmentStatusBadge status={asDevelopmentStatus(training.development_status)} />
-          {training.sessions.length > 0 ? (
-            <Link href={walkHref} className={cn(buttonVariants({ variant: "outline" }), "w-full sm:w-auto")}>
-              Walk as Father
-            </Link>
-          ) : null}
-        </div>
+        <DevelopmentStatusBadge status={asDevelopmentStatus(training.development_status)} />
       </div>
 
       <dl className="grid gap-3 sm:grid-cols-2">
-        <DeskStat
-          label="Catalog publish"
-          value={
-            training.published
-              ? "Published. Leaders not notified."
-              : "Not published"
-          }
-        />
         <DeskStat
           label="Sessions"
           value={String(training.sessions.length)}
@@ -74,7 +53,7 @@ export function TrainingStageDesk({ training }: { training: AdminTrainingRow }) 
           label="Playable films"
           value={
             video.total === 0
-              ? "—"
+              ? "None"
               : `${video.withVideo} of ${video.total}`
           }
         />
@@ -82,29 +61,21 @@ export function TrainingStageDesk({ training }: { training: AdminTrainingRow }) 
           label="Overview film"
           value={hasOverview ? "Posted" : "Not yet"}
         />
+        <DeskStat
+          label="Stage walk"
+          value={
+            training.previewed_at
+              ? formatEditedAt(training.previewed_at)
+              : "Not yet. Use Launch above."
+          }
+        />
       </dl>
 
-      <div className="rounded-lg border border-border bg-black/20 px-3 py-3">
-        <p className="text-[11px] tracking-[0.12em] text-muted-foreground uppercase">
-          Previewed
+      {!previewed ? (
+        <p className="text-sm text-muted-foreground">
+          Stage walk is still open. Use the Launch card above before Ready.
         </p>
-        <p className="mt-1 text-sm font-medium">
-          {training.previewed_at ? formatEditedAt(training.previewed_at) : "Not yet"}
-        </p>
-        {training.sessions.length > 0 ? (
-          <form action={markTrainingPreviewed} className="mt-3">
-            <input type="hidden" name="training_id" value={training.id} />
-            <Button type="submit" variant="outline" size="sm">
-              Mark Stage walk complete
-            </Button>
-          </form>
-        ) : null}
-        {!checklist.items.find((item) => item.key === "previewed")?.done ? (
-          <p className="mt-2 text-sm text-muted-foreground">
-            Finish the last Action, or mark the walk complete, before Ready.
-          </p>
-        ) : null}
-      </div>
+      ) : null}
 
       {firstMissing ? (
         <p className="text-sm text-muted-foreground">

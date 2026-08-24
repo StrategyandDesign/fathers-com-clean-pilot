@@ -65,7 +65,7 @@ export default async function AdminTrainingsPage({
             >
               {archivedView
                 ? "Archive an unfinished idea from its development desk. Recover it anytime."
-                : "Create a draft, add sessions, then Review, Stage walk, Ready, Publish, and Release to Leaders."}
+                : "Create a draft, add sessions, then Stage walk, Mark Ready for Review, Publish, and Release to organizations."}
             </EmptyState>
           ) : undefined
         }
