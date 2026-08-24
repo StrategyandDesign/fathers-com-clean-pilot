@@ -35,9 +35,16 @@ npx tsc --noEmit
 
 ## Shared drops vs official submits
 
-- This desk branch is the moving line Micah and Eric share.
+- This desk branch is `review`, the moving line Micah and Eric share.
 - **`shared/N`** tags in `SHARED.md` number those drops. They do not freeze a submit.
 - **`submit/2`** is frozen. Do not fast-forward it.
+- Local commits on `review` tick the Shared badge through `scripts/git-hooks/pre-commit`. Install it once:
+
+```bash
+cp scripts/git-hooks/pre-commit .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit
+```
+
+- GitHub squash merges from cloud agents do not run that hook. After those merges, stamp on `review` with `node scripts/shared-revision.mjs --stamp`. That only runs on the desk branch and stages `shared-mark.json` plus `SHARED.md`.
 
 ## Pull requests
 

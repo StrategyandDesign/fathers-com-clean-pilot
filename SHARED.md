@@ -7,6 +7,8 @@ https://github.com/StrategyandDesign/fathers-com-clean-pilot
 These marks move `review`. They are not official Submit stamps.
 Submit 2 stays frozen on `submit/2`. The next official submit is still 4.
 
+Local commits on `review` tick the desk badge through `scripts/git-hooks/pre-commit`. Install it with `cp scripts/git-hooks/pre-commit .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit`. GitHub squash merges do not run that hook, so after those merges stamp on `review` with `node scripts/shared-revision.mjs --stamp`.
+
 | Mark | Date (UTC) | Tag | Internal SHA | What landed |
 |---|---|---|---|---|
 | **1** | 2026-08-19 | `shared/1` | `2549c76` | Make the shared-repo sync script run on its own. |
@@ -14,7 +16,7 @@ Submit 2 stays frozen on `submit/2`. The next official submit is still 4.
 
 ## Desk revisions
 
-The badge on this checkout is **Shared 1-1.101**. That is the number Micah and Eric share. Later rows in this table landed on this line without advancing the badge. This does not create Shared 2. Submit 2 stays frozen.
+The badge on this checkout is **Shared 1-1.101**. It ticks again on each push of the Shared 1 desk. The next tick will be **1.127**. Rows 1.102–1.126 landed while the badge was held. This does not create Shared 2. Submit 2 stays frozen.
 
 | Revision | Date (UTC) | What landed |
 |---|---|---|

@@ -1,10 +1,16 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 
+import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import os from "node:os";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
 import {
   formatSharedLabel,
   isInternalRemote,
   isSharedRemote,
+  maxPatchInRevisions,
   nextSharedMark,
   parseDeskRevisions,
   parseSharedLedger,
@@ -13,7 +19,7 @@ import {
   shouldPreserve,
   upsertLedgerRow,
 } from "../scripts/publish-shared.mjs";
-import { nextSharedPatch, shouldBumpSharedPatch } from "../scripts/shared-revision.mjs";
+import { applySharedRevision, nextSharedPatch, shouldBumpSharedPatch } from "../scripts/shared-revision.mjs";
 
 describe("shared publish marks", () => {
   it("numbers the next mark from shared/ tags and starts at 1", () => {
@@ -49,6 +55,7 @@ describe("shared publish marks", () => {
     assert.equal(rows[0].tag, "shared/1");
     assert.equal(rows[0].internalSha, "b6ab1da");
     assert.match(markdown, /not official Submit stamps/);
+    assert.match(markdown, /shared-revision\.mjs --stamp/);
     const updated = upsertLedgerRow(rows, {
       mark: 1,
       date: "2026-08-19",
@@ -86,6 +93,8 @@ describe("shared publish marks", () => {
     assert.equal(rows[0].revision, "1.01");
     assert.match(markdown, /Shared 1-1.01/);
     assert.match(markdown, /does not create Shared 2/);
+    assert.match(markdown, /ticks again on each push of the Shared 1 desk/);
+    assert.match(markdown, /The next tick will be \*\*1\.02\*\*/);
     assert.equal(formatSharedLabel(1, 1), "Shared 1-1.01");
   });
 
@@ -93,11 +102,115 @@ describe("shared publish marks", () => {
     assert.equal(shouldBumpSharedPatch(0, 0, 0), true);
     assert.equal(nextSharedPatch(0, 0, 0), 1);
     assert.equal(shouldBumpSharedPatch(0, 0, 1), false);
-    assert.equal(nextSharedPatch(0, 0, 1), 1);
+    assert.equal(nextSharedPatch(0, 0, 1), 2);
     assert.equal(shouldBumpSharedPatch(1, 1, 1), true);
     assert.equal(nextSharedPatch(1, 1, 1), 2);
     assert.equal(shouldBumpSharedPatch(1, 2, 2), false);
-    assert.equal(nextSharedPatch(1, 2, 2), 2);
+    assert.equal(nextSharedPatch(1, 2, 2), 3);
+  });
+
+  it("skips historical ledger rows so the next real bump is after the highest desk revision", () => {
+    assert.equal(shouldBumpSharedPatch(101, 101, 101), true);
+    assert.equal(nextSharedPatch(101, 101, 101, 126), 127);
+    assert.equal(nextSharedPatch(101, 101, 101, 101), 102);
+    assert.equal(
+      maxPatchInRevisions([
+        { patch: 101, revision: "1.101" },
+        { revision: "1.126" },
+        { label: "Shared 1-1.102" },
+      ]),
+      126
+    );
+    const mark = readSharedMark(
+      readFileSync(fileURLToPath(new URL("../shared-mark.json", import.meta.url)), "utf8")
+    );
+    const ledger = parseDeskRevisions(
+      readFileSync(fileURLToPath(new URL("../SHARED.md", import.meta.url)), "utf8")
+    );
+    assert.ok(mark);
+    const ledgerPatch = Math.max(maxPatchInRevisions(mark.revisions), maxPatchInRevisions(ledger));
+    assert.equal(nextSharedPatch(mark.patch, mark.patch, mark.patch, ledgerPatch), ledgerPatch + 1);
+    const held = renderSharedLedger(
+      [
+        {
+          mark: 1,
+          date: "2026-08-19",
+          tag: "shared/1",
+          internalSha: "2549c76",
+          title: "Make the shared-repo sync script run on its own.",
+        },
+      ],
+      [
+        {
+          patch: 101,
+          revision: "1.101",
+          label: "Shared 1-1.101",
+          date: "2026-08-21",
+          title: "Put a created assessment in the cohort as included.",
+        },
+        {
+          patch: 126,
+          revision: "1.126",
+          label: "Shared 1-1.126",
+          date: "2026-08-24",
+          title: "Show the circled Group invite code crop on Leader start.",
+        },
+      ],
+      "Shared 1-1.101"
+    );
+    assert.match(held, /The badge on this checkout is \*\*Shared 1-1\.101\*\*/);
+    assert.match(held, /The next tick will be \*\*1\.127\*\*/);
+    assert.match(held, /Rows 1\.102–1\.126 landed while the badge was held/);
+    assert.equal(formatSharedLabel(1, nextSharedPatch(101, 101, 101, 126)), "Shared 1-1.127");
+  });
+
+  it("keeps desk labels on Shared 1-1.N even when the coarse mark is 7", () => {
+    const dir = mkdtempSync(path.join(os.tmpdir(), "shared-desk-"));
+    try {
+      writeFileSync(
+        path.join(dir, "shared-mark.json"),
+        `${JSON.stringify({
+          mark: 7,
+          patch: 101,
+          label: "Shared 1-1.101",
+          tag: "shared/7",
+          at: "2026-08-21T00:00:00.000Z",
+          internalSha: "aaa",
+          sharedSha: "",
+          title: "Held",
+          url: "",
+          revisions: [
+            { patch: 101, revision: "1.101", label: "Shared 1-1.101", at: "2026-08-21", title: "Held" },
+            { patch: 126, revision: "1.126", label: "Shared 1-1.126", at: "2026-08-24", title: "Later" },
+          ],
+        }, null, 2)}\n`
+      );
+      writeFileSync(path.join(dir, "SHARED.md"), "# Shared marks\n");
+      const next = applySharedRevision(dir, {
+        patch: 127,
+        title: "Resume ticks",
+        at: "2026-08-24T00:00:00.000Z",
+      });
+      assert.equal(next?.mark, 7);
+      assert.equal(next?.patch, 127);
+      assert.equal(next?.label, "Shared 1-1.127");
+      assert.equal(next?.revisions.at(-1)?.revision, "1.127");
+      assert.equal(next?.revisions.at(-1)?.label, "Shared 1-1.127");
+      const written = JSON.parse(readFileSync(path.join(dir, "shared-mark.json"), "utf8"));
+      assert.equal(written.mark, 7);
+      assert.equal(written.label, "Shared 1-1.127");
+      assert.doesNotMatch(written.label, /^Shared 7-/);
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+    }
+  });
+
+  it("points the Shared desk at review without a hold", () => {
+    const source = JSON.parse(
+      readFileSync(fileURLToPath(new URL("../shared-source.json", import.meta.url)), "utf8")
+    );
+    assert.equal(source.branch, "review");
+    assert.notEqual(source.hold, true);
   });
 
   it("reads the local Shared badge file", () => {
