@@ -104,6 +104,10 @@ describe("leader onboarding wiring", () => {
     assert.match(orgNew, /OrganizationTypeField/);
     assert.match(join, /joinAsLeader/);
     assert.match(start, /finishManagerOnboarding/);
+    assert.match(start, /onboarding\/leader-invite-code\.png/);
+    assert.match(start, /manager\.start\.stepInvite/);
+    assert.match(start, /manager\.start\.stepTrainings/);
+    assert.doesNotMatch(start, /stepInclude|stepAssign|stepPhotos/);
     assert.match(layout, /gateManagerOnboarding/);
     assert.match(inbox, /admin\/support\/leaders/);
   });

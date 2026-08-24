@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 
 import { useT } from "@/components/i18n/locale-provider";
 import { interactiveUnderlineClassName } from "@/lib/ui";
@@ -8,7 +8,7 @@ import { interactiveUnderlineClassName } from "@/lib/ui";
 export function AuthContinue({ next }: { next: string }) {
   const t = useT();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     window.location.replace(next);
   }, [next]);
 

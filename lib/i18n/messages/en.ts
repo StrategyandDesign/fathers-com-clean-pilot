@@ -1339,11 +1339,11 @@ export const en = {
     },
     start: {
       title: "This is the Leader desk.",
-      body: "You run this group. Fathers join with your invite code. Include a training, then assign it.",
-      stepInclude: "1. Include a training from Available trainings.",
-      stepAssign: "2. Assign it to the men in your group.",
-      stepInvite: "3. Share the invite code so they can join.",
-      stepPhotos: "4. Put the group mark on Org Photos when you have one.",
+      body: "You run this group. Two things to start.",
+      stepInvite:
+        "1. The participant invite code sits at the bottom of the dashboard, on Group invite code.",
+      stepTrainings: "2. Open Trainings and review what to release to your cohort.",
+      inviteShotAlt: "Group invite code card on the Leader dashboard, with the code circled.",
       openDesk: "Open the desk",
     },
     companion: {

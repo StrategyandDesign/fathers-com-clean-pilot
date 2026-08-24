@@ -16,5 +16,10 @@ export default async function AuthGoPage({
     redirect("/login");
   }
 
-  return <AuthContinue next={next} />;
+  return (
+    <>
+      <meta httpEquiv="refresh" content={`0;url=${encodeURI(next)}`} />
+      <AuthContinue next={next} />
+    </>
+  );
 }

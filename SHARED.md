@@ -141,3 +141,4 @@ The badge on this checkout is **Shared 1-1.101**. That is the number Micah and E
 | **1.121** | 2026-08-23 | Load desk and Home updates without a terminal checkout or a manual reload. |
 | **1.122** | 2026-08-24 | Hard-navigate out of the login shell so a first Leader login paints /manager/start. |
 | **1.123** | 2026-08-24 | Keep Sentry off in next dev so Flight debug stacks do not throw frame.join. |
+| **1.124** | 2026-08-24 | Fire the login bounce before paint and keep a missing staff desk RPC from throwing. |

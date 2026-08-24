@@ -73,7 +73,9 @@ describe("auth continue bounce", () => {
     const bounce = readRepo("components/auth/auth-continue.tsx");
 
     assert.match(page, /safeInternalPath/);
+    assert.match(page, /httpEquiv="refresh"/);
     assert.match(bounce, /location\.replace/);
+    assert.match(bounce, /useLayoutEffect/);
     assert.match(actions, /resolveProfileRole/);
     assert.match(actions, /manager_onboarded_at/);
     assert.match(actions, /authContinueHref/);

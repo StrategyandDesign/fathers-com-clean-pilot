@@ -869,6 +869,13 @@
       "label": "Shared 1-1.123",
       "at": "2026-08-24",
       "title": "Keep Sentry off in next dev so Flight debug stacks do not throw frame.join."
+    },
+    {
+      "patch": 124,
+      "revision": "1.124",
+      "label": "Shared 1-1.124",
+      "at": "2026-08-24",
+      "title": "Fire the login bounce before paint and keep a missing staff desk RPC from throwing."
     }
   ]
 }

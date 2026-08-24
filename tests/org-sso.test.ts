@@ -22,6 +22,7 @@ import {
 } from "../lib/identity/sso";
 import { identityScimToken, parseScimUserPayload, scimAuthorized } from "../lib/identity/scim";
 import { recommendedFlagsForType } from "../lib/organization-type";
+import { isMissingStaffDeskFunction } from "../lib/identity/staff-desk";
 import { canRemoveStaff } from "../lib/org-staff/types";
 import { buildTrustStatusView, trustStatusLines } from "../lib/trust/status";
 import { createTranslator } from "../lib/i18n/translate";
@@ -157,6 +158,10 @@ describe("revoke and SCIM mapping", () => {
     assert.match(actions, /Revoke desk access|Sessions will not refresh/);
     assert.match(membership, /disabled_at/);
     assert.match(readRepo("lib/auth/session.ts"), /staffDeskIsActive/);
+    assert.equal(isMissingStaffDeskFunction({ code: "PGRST202", message: "Could not find the function" }), true);
+    assert.equal(isMissingStaffDeskFunction({ code: "42883", message: "function public.foo does not exist" }), true);
+    assert.equal(isMissingStaffDeskFunction({ code: "XX000", message: "staff_has_active_desk is not in the schema cache" }), true);
+    assert.equal(isMissingStaffDeskFunction({ code: "42501", message: "permission denied" }), false);
     assert.match(readRepo("docs/engineering/SSO-OFFBOARDING.md"), /Last deprovision/);
   });
 
