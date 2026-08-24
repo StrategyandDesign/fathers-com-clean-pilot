@@ -21,6 +21,8 @@ const SCRIPT_PATH = fileURLToPath(import.meta.url);
 const REPO_ROOT = path.resolve(path.dirname(SCRIPT_PATH), "..");
 const SOURCE_FILE = "shared-source.json";
 
+export const DESK_MARK = 1;
+
 export {
   formatSharedLabel,
   formatSharedRevision,
@@ -91,8 +93,8 @@ export function applySharedRevision(root, input = {}) {
   if (!current) return null;
 
   const patch = input.patch ?? current.patch ?? 1;
-  const revision = formatSharedRevision(current.mark, patch);
-  const label = formatSharedLabel(current.mark, patch);
+  const revision = formatSharedRevision(DESK_MARK, patch);
+  const label = formatSharedLabel(DESK_MARK, patch);
   const date = (input.at ?? new Date().toISOString()).slice(0, 10);
   const title = input.title || current.title || "Desk update";
   const nextRow = {
@@ -150,7 +152,7 @@ export function bumpDeskRevision(root = REPO_ROOT) {
       ok: true,
       skipped: true,
       reason: "already-stamped",
-      label: formatSharedLabel(workMark?.mark ?? 1, Math.max(headPatch, workPatch)),
+      label: formatSharedLabel(DESK_MARK, Math.max(headPatch, workPatch)),
     };
   }
 

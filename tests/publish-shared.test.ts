@@ -1,7 +1,9 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 
-import { readFileSync } from "node:fs";
+import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import os from "node:os";
+import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 import {
@@ -17,7 +19,7 @@ import {
   shouldPreserve,
   upsertLedgerRow,
 } from "../scripts/publish-shared.mjs";
-import { nextSharedPatch, shouldBumpSharedPatch } from "../scripts/shared-revision.mjs";
+import { applySharedRevision, nextSharedPatch, shouldBumpSharedPatch } from "../scripts/shared-revision.mjs";
 
 describe("shared publish marks", () => {
   it("numbers the next mark from shared/ tags and starts at 1", () => {
@@ -159,6 +161,48 @@ describe("shared publish marks", () => {
     assert.match(held, /The badge on this checkout is \*\*Shared 1-1\.101\*\*/);
     assert.match(held, /The next tick will be \*\*1\.127\*\*/);
     assert.match(held, /Rows 1\.102–1\.126 landed while the badge was held/);
+    assert.equal(formatSharedLabel(1, nextSharedPatch(101, 101, 101, 126)), "Shared 1-1.127");
+  });
+
+  it("keeps desk labels on Shared 1-1.N even when the coarse mark is 7", () => {
+    const dir = mkdtempSync(path.join(os.tmpdir(), "shared-desk-"));
+    try {
+      writeFileSync(
+        path.join(dir, "shared-mark.json"),
+        `${JSON.stringify({
+          mark: 7,
+          patch: 101,
+          label: "Shared 1-1.101",
+          tag: "shared/7",
+          at: "2026-08-21T00:00:00.000Z",
+          internalSha: "aaa",
+          sharedSha: "",
+          title: "Held",
+          url: "",
+          revisions: [
+            { patch: 101, revision: "1.101", label: "Shared 1-1.101", at: "2026-08-21", title: "Held" },
+            { patch: 126, revision: "1.126", label: "Shared 1-1.126", at: "2026-08-24", title: "Later" },
+          ],
+        }, null, 2)}\n`
+      );
+      writeFileSync(path.join(dir, "SHARED.md"), "# Shared marks\n");
+      const next = applySharedRevision(dir, {
+        patch: 127,
+        title: "Resume ticks",
+        at: "2026-08-24T00:00:00.000Z",
+      });
+      assert.equal(next?.mark, 7);
+      assert.equal(next?.patch, 127);
+      assert.equal(next?.label, "Shared 1-1.127");
+      assert.equal(next?.revisions.at(-1)?.revision, "1.127");
+      assert.equal(next?.revisions.at(-1)?.label, "Shared 1-1.127");
+      const written = JSON.parse(readFileSync(path.join(dir, "shared-mark.json"), "utf8"));
+      assert.equal(written.mark, 7);
+      assert.equal(written.label, "Shared 1-1.127");
+      assert.doesNotMatch(written.label, /^Shared 7-/);
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+    }
   });
 
   it("points the Shared desk at review without a hold", () => {
