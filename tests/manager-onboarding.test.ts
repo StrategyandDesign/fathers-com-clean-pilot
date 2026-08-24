@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { describe, it } from "node:test";
 import { fileURLToPath } from "node:url";
 
@@ -97,6 +97,7 @@ describe("leader onboarding wiring", () => {
     const orgNew = readRepo("app/(admin)/admin/organizations/new/page.tsx");
     const join = readRepo("app/(auth)/join/leader/page.tsx");
     const start = readRepo("app/(manager)/manager/start/page.tsx");
+    const en = readRepo("lib/i18n/messages/en.ts");
     const layout = readRepo("app/(manager)/layout.tsx");
     const inbox = readRepo("components/admin/inbox-tabs.tsx");
 
@@ -105,9 +106,14 @@ describe("leader onboarding wiring", () => {
     assert.match(join, /joinAsLeader/);
     assert.match(start, /finishManagerOnboarding/);
     assert.match(start, /onboarding\/leader-invite-code\.png/);
+    assert.doesNotMatch(start, /TODO: drop the circled Group invite code crop/);
     assert.match(start, /manager\.start\.stepInvite/);
     assert.match(start, /manager\.start\.stepTrainings/);
     assert.doesNotMatch(start, /stepInclude|stepAssign|stepPhotos/);
+    assert.match(en, /The participant invite code is at the bottom of the dashboard/);
+    assert.match(en, /Go to Trainings and review what to release/);
+    assert.doesNotMatch(en, /stepInclude|stepAssign|stepPhotos/);
+    assert.equal(existsSync(fileURLToPath(new URL("../public/onboarding/leader-invite-code.png", import.meta.url))), true);
     assert.match(layout, /gateManagerOnboarding/);
     assert.match(inbox, /admin\/support\/leaders/);
   });
