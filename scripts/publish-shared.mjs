@@ -70,6 +70,32 @@ export function formatSharedLabel(mark, patch) {
   return revision ? `Shared ${mark}-${revision}` : `Shared ${mark}`;
 }
 
+export function revisionPatch(row) {
+  if (row == null || typeof row !== "object") {
+    const text = String(row ?? "");
+    const match = text.match(/(\d+)\s*$/);
+    return match ? Number(match[1]) : 0;
+  }
+  const fromPatch = Number(row.patch);
+  if (Number.isInteger(fromPatch) && fromPatch > 0) return fromPatch;
+  const text = `${row.revision ?? ""} ${row.label ?? ""}`;
+  const match = text.match(/\.(\d+)\s*$/);
+  return match ? Number(match[1]) : 0;
+}
+
+export function maxPatchInRevisions(revisions = []) {
+  let max = 0;
+  for (const row of revisions ?? []) {
+    max = Math.max(max, revisionPatch(row));
+  }
+  return max;
+}
+
+export function patchFromSharedLabel(label) {
+  const match = String(label ?? "").match(/\.(\d+)\s*$/);
+  return match ? Number(match[1]) : 0;
+}
+
 export function parseDeskRevisions(markdown) {
   const rows = [];
   for (const line of String(markdown ?? "").split("\n")) {
@@ -79,24 +105,34 @@ export function parseDeskRevisions(markdown) {
       revision: match[1].trim(),
       date: match[2].trim(),
       title: match[3].trim(),
+      patch: revisionPatch(match[1].trim()),
     });
   }
   return rows;
 }
 
-export function renderDeskRevisionsSection(revisions = []) {
+export function renderDeskRevisionsSection(revisions = [], badgeLabel = "") {
   if (!revisions.length) return "";
   const current = revisions[revisions.length - 1];
+  const label = badgeLabel || current.label || `Shared ${current.revision}`;
+  const ledgerMax = maxPatchInRevisions(revisions);
+  const badgePatch = patchFromSharedLabel(label) || revisionPatch(current);
+  const nextRevision = formatSharedRevision(1, Math.max(ledgerMax, badgePatch) + 1);
+  const held =
+    badgePatch > 0 && ledgerMax > badgePatch
+      ? ` Rows 1.${badgePatch + 1}–1.${ledgerMax} landed while the badge was held.`
+      : "";
   const lines = [
     "## Desk revisions",
     "",
-    `The badge on this checkout is **${current.label || `Shared ${current.revision}`}**. It ticks on each push of the Shared 1 desk. This does not create Shared 2. Submit 2 stays frozen.`,
+    `The badge on this checkout is **${label}**. It ticks again on each push of the Shared 1 desk. The next tick will be **${nextRevision}**.${held} This does not create Shared 2. Submit 2 stays frozen.`,
     "",
     "| Revision | Date (UTC) | What landed |",
     "|---|---|---|",
   ];
   for (const row of revisions) {
-    lines.push(`| **${row.revision}** | ${row.date} | ${row.title} |`);
+    const date = row.date || row.at || "";
+    lines.push(`| **${row.revision}** | ${date} | ${row.title} |`);
   }
   lines.push("");
   return `\n${lines.join("\n")}`;
@@ -108,7 +144,7 @@ export function upsertLedgerRow(rows, next) {
   return [...byMark.values()].sort((a, b) => a.mark - b.mark);
 }
 
-export function renderSharedLedger(rows, revisions = []) {
+export function renderSharedLedger(rows, revisions = [], badgeLabel = "") {
   const lines = [
     "# Shared marks",
     "",
@@ -119,6 +155,8 @@ export function renderSharedLedger(rows, revisions = []) {
     "These marks move `review`. They are not official Submit stamps.",
     "Submit 2 stays frozen on `submit/2`. The next official submit is still 4.",
     "",
+    "Local commits on `review` tick the desk badge through `scripts/git-hooks/pre-commit`. Install it with `cp scripts/git-hooks/pre-commit .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit`. GitHub squash merges do not run that hook, so after those merges stamp on `review` with `node scripts/shared-revision.mjs --stamp`.",
+    "",
     "| Mark | Date (UTC) | Tag | Internal SHA | What landed |",
     "|---|---|---|---|---|",
   ];
@@ -128,7 +166,7 @@ export function renderSharedLedger(rows, revisions = []) {
     );
   }
   lines.push("");
-  return `${lines.join("\n")}${renderDeskRevisionsSection(revisions)}`;
+  return `${lines.join("\n")}${renderDeskRevisionsSection(revisions, badgeLabel)}`;
 }
 
 export function parseSharedLedger(markdown) {
@@ -253,7 +291,7 @@ function writeMarkFiles(dir, mark) {
     internalSha: mark.internalSha,
     title: mark.title,
   });
-  writeFileSync(ledgerPath, renderSharedLedger(rows, revisions));
+  writeFileSync(ledgerPath, renderSharedLedger(rows, revisions, payload.label));
   writeFileSync(markPath, `${JSON.stringify(payload, null, 2)}\n`);
 }
 

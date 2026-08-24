@@ -9,12 +9,10 @@ describe("version stamp", () => {
   it("reads the Shared mark from shared-mark.json", () => {
     const mark = loadSharedMark();
     assert.ok(mark);
-    assert.equal(mark.patch, 101);
     assert.match(mark.label, /^Shared 1-1\.\d+$/);
-    assert.equal(mark.label, "Shared 1-1.101");
     assert.equal(mark.label, formatSharedLabel(1, mark.patch));
     const ledger = readFileSync(fileURLToPath(new URL("../SHARED.md", import.meta.url)), "utf8");
-    assert.match(ledger, /The badge on this checkout is \*\*Shared 1-1\.101\*\*/);
+    assert.equal(ledger.includes(`The badge on this checkout is **${mark.label}**`), true);
   });
 
   it("formats Shared 1-1.01 and the next ticks", () => {
@@ -40,5 +38,13 @@ describe("version stamp", () => {
     );
     assert.match(stamp, /formatSharedLabel/);
     assert.match(stamp, /\{label\}/);
+  });
+
+  it("keeps the Shared desk hook on the pre-commit path", () => {
+    const hook = readFileSync(
+      fileURLToPath(new URL("../scripts/git-hooks/pre-commit", import.meta.url)),
+      "utf8"
+    );
+    assert.match(hook, /shared-revision\.mjs" --pre-commit/);
   });
 });

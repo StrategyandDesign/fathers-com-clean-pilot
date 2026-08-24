@@ -1,10 +1,14 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+
 import {
   formatSharedLabel,
   isInternalRemote,
   isSharedRemote,
+  maxPatchInRevisions,
   nextSharedMark,
   parseDeskRevisions,
   parseSharedLedger,
@@ -49,6 +53,7 @@ describe("shared publish marks", () => {
     assert.equal(rows[0].tag, "shared/1");
     assert.equal(rows[0].internalSha, "b6ab1da");
     assert.match(markdown, /not official Submit stamps/);
+    assert.match(markdown, /shared-revision\.mjs --stamp/);
     const updated = upsertLedgerRow(rows, {
       mark: 1,
       date: "2026-08-19",
@@ -86,6 +91,8 @@ describe("shared publish marks", () => {
     assert.equal(rows[0].revision, "1.01");
     assert.match(markdown, /Shared 1-1.01/);
     assert.match(markdown, /does not create Shared 2/);
+    assert.match(markdown, /ticks again on each push of the Shared 1 desk/);
+    assert.match(markdown, /The next tick will be \*\*1\.02\*\*/);
     assert.equal(formatSharedLabel(1, 1), "Shared 1-1.01");
   });
 
@@ -93,11 +100,73 @@ describe("shared publish marks", () => {
     assert.equal(shouldBumpSharedPatch(0, 0, 0), true);
     assert.equal(nextSharedPatch(0, 0, 0), 1);
     assert.equal(shouldBumpSharedPatch(0, 0, 1), false);
-    assert.equal(nextSharedPatch(0, 0, 1), 1);
+    assert.equal(nextSharedPatch(0, 0, 1), 2);
     assert.equal(shouldBumpSharedPatch(1, 1, 1), true);
     assert.equal(nextSharedPatch(1, 1, 1), 2);
     assert.equal(shouldBumpSharedPatch(1, 2, 2), false);
-    assert.equal(nextSharedPatch(1, 2, 2), 2);
+    assert.equal(nextSharedPatch(1, 2, 2), 3);
+  });
+
+  it("skips historical ledger rows so the next real bump is after the highest desk revision", () => {
+    assert.equal(shouldBumpSharedPatch(101, 101, 101), true);
+    assert.equal(nextSharedPatch(101, 101, 101, 126), 127);
+    assert.equal(nextSharedPatch(101, 101, 101, 101), 102);
+    assert.equal(
+      maxPatchInRevisions([
+        { patch: 101, revision: "1.101" },
+        { revision: "1.126" },
+        { label: "Shared 1-1.102" },
+      ]),
+      126
+    );
+    const mark = readSharedMark(
+      readFileSync(fileURLToPath(new URL("../shared-mark.json", import.meta.url)), "utf8")
+    );
+    const ledger = parseDeskRevisions(
+      readFileSync(fileURLToPath(new URL("../SHARED.md", import.meta.url)), "utf8")
+    );
+    assert.ok(mark);
+    const ledgerPatch = Math.max(maxPatchInRevisions(mark.revisions), maxPatchInRevisions(ledger));
+    assert.equal(nextSharedPatch(mark.patch, mark.patch, mark.patch, ledgerPatch), ledgerPatch + 1);
+    const held = renderSharedLedger(
+      [
+        {
+          mark: 1,
+          date: "2026-08-19",
+          tag: "shared/1",
+          internalSha: "2549c76",
+          title: "Make the shared-repo sync script run on its own.",
+        },
+      ],
+      [
+        {
+          patch: 101,
+          revision: "1.101",
+          label: "Shared 1-1.101",
+          date: "2026-08-21",
+          title: "Put a created assessment in the cohort as included.",
+        },
+        {
+          patch: 126,
+          revision: "1.126",
+          label: "Shared 1-1.126",
+          date: "2026-08-24",
+          title: "Show the circled Group invite code crop on Leader start.",
+        },
+      ],
+      "Shared 1-1.101"
+    );
+    assert.match(held, /The badge on this checkout is \*\*Shared 1-1\.101\*\*/);
+    assert.match(held, /The next tick will be \*\*1\.127\*\*/);
+    assert.match(held, /Rows 1\.102–1\.126 landed while the badge was held/);
+  });
+
+  it("points the Shared desk at review without a hold", () => {
+    const source = JSON.parse(
+      readFileSync(fileURLToPath(new URL("../shared-source.json", import.meta.url)), "utf8")
+    );
+    assert.equal(source.branch, "review");
+    assert.notEqual(source.hold, true);
   });
 
   it("reads the local Shared badge file", () => {

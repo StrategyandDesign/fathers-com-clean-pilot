@@ -8,10 +8,14 @@ import {
   SHARED_MARK_FILE,
   formatSharedLabel,
   formatSharedRevision,
+  maxPatchInRevisions,
+  parseDeskRevisions,
   parseSharedLedger,
   readSharedMark,
   renderSharedLedger,
 } from "./publish-shared.mjs";
+
+export { maxPatchInRevisions };
 
 const SCRIPT_PATH = fileURLToPath(import.meta.url);
 const REPO_ROOT = path.resolve(path.dirname(SCRIPT_PATH), "..");
@@ -29,12 +33,12 @@ export function shouldBumpSharedPatch(remotePatch, headPatch, workPatch) {
   return Math.max(head, work) <= remote;
 }
 
-export function nextSharedPatch(remotePatch, headPatch, workPatch) {
+export function nextSharedPatch(remotePatch, headPatch, workPatch, ledgerPatch = 0) {
   const remote = Number(remotePatch) || 0;
   const head = Number(headPatch) || 0;
   const work = Number(workPatch) || 0;
-  if (Math.max(head, work) > remote) return Math.max(head, work);
-  return remote + 1;
+  const ledger = Number(ledgerPatch) || 0;
+  return Math.max(remote, head, work, ledger) + 1;
 }
 
 export function appendDeskRevision(revisions, next) {
@@ -109,7 +113,7 @@ export function applySharedRevision(root, input = {}) {
 
   const marks = existsSync(ledgerPath) ? parseSharedLedger(readFileSync(ledgerPath, "utf8")) : [];
   writeFileSync(markPath, `${JSON.stringify(next, null, 2)}\n`);
-  writeFileSync(ledgerPath, renderSharedLedger(marks, revisions));
+  writeFileSync(ledgerPath, renderSharedLedger(marks, revisions, label));
   return next;
 }
 
@@ -130,6 +134,16 @@ export function bumpDeskRevision(root = REPO_ROOT) {
   const remotePatch = remoteMark?.patch ?? 0;
   const headPatch = headMark?.patch ?? 0;
   const workPatch = workMark?.patch ?? headPatch;
+  const ledgerPath = path.join(root, SHARED_LEDGER);
+  const ledgerRows = existsSync(ledgerPath)
+    ? parseDeskRevisions(readFileSync(ledgerPath, "utf8"))
+    : [];
+  const ledgerPatch = Math.max(
+    maxPatchInRevisions(remoteMark?.revisions),
+    maxPatchInRevisions(headMark?.revisions),
+    maxPatchInRevisions(workMark?.revisions),
+    maxPatchInRevisions(ledgerRows)
+  );
 
   if (!shouldBumpSharedPatch(remotePatch, headPatch, workPatch)) {
     return {
@@ -140,7 +154,7 @@ export function bumpDeskRevision(root = REPO_ROOT) {
     };
   }
 
-  const patch = nextSharedPatch(remotePatch, headPatch, workPatch);
+  const patch = nextSharedPatch(remotePatch, headPatch, workPatch, ledgerPatch);
   const next = applySharedRevision(root, {
     patch,
     title: commitTitle(root),
@@ -151,10 +165,24 @@ export function bumpDeskRevision(root = REPO_ROOT) {
 }
 
 async function main() {
-  if (!process.argv.includes("--pre-commit")) return;
+  const preCommit = process.argv.includes("--pre-commit");
+  const stamp = process.argv.includes("--stamp");
+  if (!preCommit && !stamp) return;
   const result = bumpDeskRevision();
   if (!result.ok) process.exit(1);
-  if (!result.skipped && result.label) {
+  if (result.skipped) {
+    if (stamp) {
+      const detail =
+        result.reason === "not-desk-branch"
+          ? "not on the Shared desk branch"
+          : result.reason === "already-stamped"
+            ? `already stamped${result.label ? ` ${result.label}` : ""}`
+            : result.reason;
+      console.log(`Desk stamp skipped (${detail})`);
+    }
+    return;
+  }
+  if (result.label) {
     console.log(`Desk badge ${result.label}`);
   }
 }
