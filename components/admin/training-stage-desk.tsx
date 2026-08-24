@@ -50,7 +50,7 @@ export function TrainingStageDesk({ training }: { training: AdminTrainingRow }) 
         <div className="flex flex-col items-stretch gap-2 sm:items-end">
           <DevelopmentStatusBadge status={asDevelopmentStatus(training.development_status)} />
           {training.sessions.length > 0 ? (
-            <Link href={walkHref} className={cn(buttonVariants(), "w-full sm:w-auto")}>
+            <Link href={walkHref} className={cn(buttonVariants({ variant: "outline" }), "w-full sm:w-auto")}>
               Walk as Father
             </Link>
           ) : null}
@@ -59,8 +59,12 @@ export function TrainingStageDesk({ training }: { training: AdminTrainingRow }) 
 
       <dl className="grid gap-3 sm:grid-cols-2">
         <DeskStat
-          label="Published"
-          value={training.published ? "Yes" : "Not yet"}
+          label="Catalog publish"
+          value={
+            training.published
+              ? "Published. Leaders not notified."
+              : "Not published"
+          }
         />
         <DeskStat
           label="Sessions"

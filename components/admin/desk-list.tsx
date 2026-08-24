@@ -22,7 +22,7 @@ export function AdminDeskList({
         empty
       ) : (
         <ul>
-          <li className="hidden border-b border-border text-xs tracking-wide text-muted-foreground uppercase md:grid md:grid-cols-[minmax(0,1fr)_5.5rem]">
+          <li className="hidden border-b border-border text-xs tracking-wide text-muted-foreground uppercase md:grid md:grid-cols-[minmax(0,1fr)_11rem]">
             <div className="grid grid-cols-[minmax(0,1.4fr)_5.5rem_minmax(10rem,1fr)] gap-4 px-6 py-3">
               <span>Title</span>
               <span>{countHeader}</span>
@@ -46,6 +46,7 @@ export function AdminDeskRow({
   release,
   actionHref,
   actionLabel,
+  action,
   children,
 }: {
   href: string;
@@ -54,12 +55,13 @@ export function AdminDeskRow({
   countLabel: string;
   development: ReactNode;
   release: ReactNode;
-  actionHref: string;
-  actionLabel: string;
+  actionHref?: string;
+  actionLabel?: string;
+  action?: ReactNode;
   children?: ReactNode;
 }) {
   return (
-    <li className="grid items-stretch border-b border-border last:border-0 md:grid-cols-[minmax(0,1fr)_5.5rem]">
+    <li className="grid items-stretch border-b border-border last:border-0 md:grid-cols-[minmax(0,1fr)_11rem]">
       <Link
         href={href}
         className={cn(
@@ -84,12 +86,16 @@ export function AdminDeskRow({
         </span>
       </Link>
       <div className="flex items-center px-4 pb-4 sm:px-6 md:justify-end md:px-4 md:py-0">
-        <Link
-          href={actionHref}
-          className={cn(buttonVariants({ variant: "outline", size: "sm" }), "w-full md:w-auto")}
-        >
-          {actionLabel}
-        </Link>
+        {action ? (
+          action
+        ) : actionHref && actionLabel ? (
+          <Link
+            href={actionHref}
+            className={cn(buttonVariants({ variant: "outline", size: "sm" }), "w-full md:w-auto")}
+          >
+            {actionLabel}
+          </Link>
+        ) : null}
       </div>
     </li>
   );

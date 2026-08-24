@@ -5,12 +5,15 @@ import { AdminDeskList, AdminDeskRow } from "@/components/admin/desk-list";
 import { DevelopmentStatusBadge } from "@/components/admin/development-status";
 import { AdminFilmFlags } from "@/components/admin/film-flags";
 import { ReleaseStatusBadge } from "@/components/admin/release-status";
+import { TrainingLaunchRowAction } from "@/components/admin/training-launch-action";
 import { buttonVariants } from "@/components/ui/button";
 import { EmptyState } from "@/components/ui/empty-state";
 import { loadAdminTrainings } from "@/lib/admin/data";
 import { asDevelopmentStatus, formatEditedAt, isArchivedTraining } from "@/lib/admin/development";
+import { TRAINING_LAUNCH_LIST_LEAD, trainingLaunchPlan } from "@/lib/admin/launch";
 import { trainingReleaseState } from "@/lib/admin/release";
 import { requireRole } from "@/lib/auth/session";
+import { hasHardcodedSkillPack } from "@/lib/father/session-questions";
 import { cn } from "@/lib/utils";
 
 export default async function AdminTrainingsPage({
@@ -29,7 +32,7 @@ export default async function AdminTrainingsPage({
   return (
     <AdminCatalogDesk
       title="Trainings"
-      lead="You create and share trainings with organization Leaders. Leaders then decide what their fathers receive. Structure sessions, Stage the Father path, mark Ready, then Release."
+      lead={TRAINING_LAUNCH_LIST_LEAD}
       error={flash.error}
       notice={flash.notice}
       archivedView={archivedView}
@@ -51,7 +54,7 @@ export default async function AdminTrainingsPage({
     >
       <AdminDeskList
         countHeader="Sessions"
-        actionHeader="Stage"
+        actionHeader="Launch"
         empty={
           visible.length === 0 ? (
             <EmptyState
@@ -62,7 +65,7 @@ export default async function AdminTrainingsPage({
             >
               {archivedView
                 ? "Archive an unfinished idea from its development desk. Recover it anytime."
-                : "Create a draft, add sessions, Stage the Father path, then release when ready."}
+                : "Create a draft, add sessions, then Review, Stage walk, Ready, Publish, and Release to Leaders."}
             </EmptyState>
           ) : undefined
         }
@@ -78,8 +81,13 @@ export default async function AdminTrainingsPage({
               <DevelopmentStatusBadge status={asDevelopmentStatus(training.development_status)} />
             }
             release={<ReleaseStatusBadge state={trainingReleaseState(training)} />}
-            actionHref={`/admin/trainings/${training.id}/stage`}
-            actionLabel="Stage"
+            action={
+              <TrainingLaunchRowAction
+                plan={trainingLaunchPlan(training, {
+                  sessionHasHardcoded: (session) => hasHardcodedSkillPack(session, training),
+                })}
+              />
+            }
           >
             {training.working_title ? (
               <span className="block truncate text-sm text-muted-foreground">

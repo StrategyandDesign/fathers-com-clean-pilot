@@ -34,8 +34,9 @@ export function TrainingStageBanner({
             Nothing is saved. No session progress, no Action commitment, no assignment.
           </p>
           <p className="mt-1 text-sm text-muted-foreground">
-            Walk Home → Film → Check-in → Action as a Father will see it after
-            a Leader assigns this training. Return to editing with no side effects.
+            Sandbox only. This is not release. Walk Home → Film → Check-in →
+            Action as a Father will see it after a Leader assigns this
+            training. Return to editing with no side effects.
           </p>
           {current && sessionTitle ? (
             <p className="mt-2 text-sm text-foreground">
@@ -52,7 +53,7 @@ export function TrainingStageBanner({
             href={hubHref}
             className={cn(buttonVariants({ variant: "outline", size: "sm" }))}
           >
-            Snapshot
+            Sandbox home
           </Link>
           <Link
             href={editHref}
