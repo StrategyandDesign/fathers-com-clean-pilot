@@ -2,7 +2,7 @@
 
 import { redirect } from "next/navigation";
 
-import { ROLE_HOME } from "@/lib/auth/roles";
+import { authContinueHref, postAuthHome } from "@/lib/auth/continue";
 import { allowActionRateLimit } from "@/lib/security/rate-limit";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
@@ -148,5 +148,5 @@ export async function joinAsLeader(formData: FormData) {
     );
   }
 
-  redirect(ROLE_HOME.manager);
+  redirect(authContinueHref(postAuthHome("manager", null)));
 }

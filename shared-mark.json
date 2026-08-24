@@ -855,6 +855,13 @@
       "label": "Shared 1-1.121",
       "at": "2026-08-23",
       "title": "Load desk and Home updates without a terminal checkout or a manual reload."
+    },
+    {
+      "patch": 122,
+      "revision": "1.122",
+      "label": "Shared 1-1.122",
+      "at": "2026-08-24",
+      "title": "Hard-navigate out of the login shell so a first Leader login paints /manager/start."
     }
   ]
 }

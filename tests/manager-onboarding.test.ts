@@ -88,6 +88,7 @@ describe("leader first-run", () => {
     assert.equal(isAuthPath("/signup"), true);
     assert.equal(isAuthPath("/logout"), false);
     assert.equal(isAuthPath("/manager/start"), false);
+    assert.equal(isAuthPath("/auth/go"), false);
   });
 });
 

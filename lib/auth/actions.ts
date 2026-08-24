@@ -3,8 +3,9 @@
 import { redirect } from "next/navigation";
 
 import { notifyAccountCreated } from "@/lib/email/events";
+import { authContinueHref, resolvePostAuthPath } from "@/lib/auth/continue";
 import { ensureFatherGroupJoin } from "@/lib/auth/group-join";
-import { ROLE_HOME, resolveRole, safeInternalPath } from "@/lib/auth/roles";
+import { ROLE_HOME, resolveProfileRole, safeInternalPath } from "@/lib/auth/roles";
 import { allowActionRateLimit } from "@/lib/security/rate-limit";
 import { createClient } from "@/lib/supabase/server";
 
@@ -63,7 +64,7 @@ export async function signIn(formData: FormData) {
 
   const { data: profile } = await supabase
     .from("profiles")
-    .select("deactivated_at")
+    .select("deactivated_at, role, manager_onboarded_at")
     .eq("id", data.user.id)
     .maybeSingle();
 
@@ -72,7 +73,8 @@ export async function signIn(formData: FormData) {
     redirect(`/login?error=${encodeURIComponent("This account has been deactivated.")}`);
   }
 
-  if (resolveRole(data.user) === "father") {
+  const role = resolveProfileRole(profile?.role, data.user);
+  if (role === "father") {
     await ensureFatherGroupJoin(data.user);
   }
 
@@ -101,7 +103,15 @@ export async function signIn(formData: FormData) {
     // Palette cookie is best-effort; sign-in still proceeds.
   }
 
-  redirect(next ?? ROLE_HOME[resolveRole(data.user)]);
+  redirect(
+    authContinueHref(
+      resolvePostAuthPath({
+        next,
+        role,
+        managerOnboardedAt: profile?.manager_onboarded_at,
+      })
+    )
+  );
 }
 
 export async function signUp(formData: FormData) {
@@ -146,7 +156,7 @@ export async function signUp(formData: FormData) {
   }
 
   await notifyAccountCreated({ email, userId: data.user?.id });
-  redirect(ROLE_HOME.father);
+  redirect(authContinueHref(ROLE_HOME.father));
 }
 
 export async function performSignOut() {
