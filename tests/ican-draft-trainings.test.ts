@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 
 import { parseSkillPrompt } from "../lib/father/session-questions";
 import { youtubeVideoId } from "../lib/father/types";
+import { renderCatalogDescriptionUpdateSql } from "../lib/trainings/catalog-descriptions";
 import {
   ICAN_CEO_DRAFT_SLUGS,
   ICAN_DRAFT_MIGRATION,
@@ -23,7 +24,6 @@ import {
   icanDraftPromptText,
   renderIcanDraftMigrationSql,
   renderIcanHoldVideoUpdateSql,
-  renderReturnHomeFatherCopyUpdateSql,
   renderReturnHomeDraftMigrationSql,
 } from "../lib/trainings/ican-drafts";
 
@@ -99,7 +99,7 @@ describe("I CAN Super-admin draft trainings", () => {
       ICAN_DRAFT_TRAININGS[3]?.sessions[11]?.title,
       "Stay Midcourse: I CAN Holds"
     );
-    assert.equal(ICAN_DRAFT_TRAININGS[4]?.sessions[0]?.title, "Body at the door");
+    assert.equal(ICAN_DRAFT_TRAININGS[4]?.sessions[0]?.title, "Before You Speak");
     assert.equal(ICAN_DRAFT_TRAININGS[4]?.sessions[1]?.title, "Come down");
     assert.equal(ICAN_DRAFT_TRAININGS[4]?.sessions[3]?.title, "Lend calm to child");
     assert.equal(ICAN_DRAFT_TRAININGS[4]?.sessions[5]?.pillar, "Awareness");
@@ -132,15 +132,11 @@ describe("I CAN Super-admin draft trainings", () => {
 
     for (const training of ICAN_DRAFT_TRAININGS) {
       assert.equal(training.sessions.length, 12);
-      assert.match(training.leaderSummary, /I CAN/);
-      assert.match(training.leaderSummary, /Not published/);
-      assert.match(training.leaderSummary, /Not released/);
       assert.match(training.leaderSummary, /Sponsorship funds the organization/);
-      if ((ICAN_RETURN_HOME_DRAFT_SLUGS as readonly string[]).includes(training.slug)) {
-        assert.match(training.leaderSummary, /Involvement/);
-        assert.match(training.leaderSummary, /Consistency/);
-        assert.match(training.leaderSummary, /Awareness/);
-        assert.match(training.leaderSummary, /Nurturance/);
+      if ((ICAN_CEO_DRAFT_SLUGS as readonly string[]).includes(training.slug)) {
+        assert.match(training.leaderSummary, /I CAN/);
+        assert.match(training.leaderSummary, /Not published/);
+        assert.match(training.leaderSummary, /Not released/);
       }
       assert.equal(training.description.includes(EM_DASH), false);
       assert.equal(training.leaderSummary.includes(EM_DASH), false);
@@ -261,19 +257,25 @@ describe("I CAN Super-admin draft trainings", () => {
     assert.match(sql, /^\s+300,$/m);
     assert.equal((sql.match(/yo_nS0vpV4M/g) ?? []).length, 36);
     assert.equal(sql.includes("Purpose:"), false);
-    assert.equal(renderReturnHomeDraftMigrationSql().includes("Purpose:"), true);
+    assert.equal(renderReturnHomeDraftMigrationSql().includes("Purpose:"), false);
   });
 
-  it("writes father-facing purpose, objectives, and tone on the three return-home drafts", () => {
+  it("locks Ken-voice v5 return-home descriptions and rejects the old AI overview stacks", () => {
+    const openings: Record<string, string> = {
+      "calm-you-can-lend":
+        "A father can come back from a hard stretch still carrying the body that kept him going.",
+      "the-house-that-kept-going": "While you are away, a house often keeps running.",
+      "knowing-again": "Children change while you are gone.",
+    };
+
     for (const training of icanDraftsForSlugs(ICAN_RETURN_HOME_DRAFT_SLUGS)) {
-      assert.match(training.description, /Purpose:|Over twelve weeks/i);
-      assert.match(training.description, /film/i);
-      assert.match(training.description, /checkpoint/i);
-      assert.match(training.description, /practice/i);
-      assert.match(training.description, /This training is for fathers/);
-      assert.match(training.description, /The work stays between you and the house/);
+      assert.ok(training.description.startsWith(openings[training.slug] ?? ""));
       assert.equal(training.description.includes(EM_DASH), false);
       assert.equal(training.leaderSummary.includes(EM_DASH), false);
+      assert.doesNotMatch(training.description, /This training is for fathers who/);
+      assert.doesNotMatch(training.description, /Purpose:/);
+      assert.doesNotMatch(training.description, /Concrete objectives/);
+      assert.doesNotMatch(training.leaderSummary, /Kill the week/);
       for (const pattern of FATHER_AI_STACKS) {
         assert.equal(
           pattern.test(training.description),
@@ -306,15 +308,17 @@ describe("I CAN Super-admin draft trainings", () => {
 
   it("updates return-home father copy without changing publish or release flags", () => {
     const sql = readRepo(ICAN_RETURN_HOME_FATHER_COPY_MIGRATION);
-    assert.equal(sql, renderReturnHomeFatherCopyUpdateSql());
-    assert.match(sql, /Leaves publish and release flags alone/);
+    assert.equal(sql, renderCatalogDescriptionUpdateSql());
+    assert.match(sql, /Does not change published, released_at, or development_status/);
+    assert.match(sql, /Before You Speak/);
+    assert.match(sql, /checkin_prompt/);
     assert.doesNotMatch(sql, /published\s*=/);
     assert.doesNotMatch(sql, /released_at\s*=/);
     assert.doesNotMatch(sql, /development_status\s*=/);
     assert.doesNotMatch(sql, /release_training_to_organizations/);
     assert.doesNotMatch(sql, /insert into public\.sessions/);
-    assert.doesNotMatch(sql, /checkin_prompt/);
     assert.doesNotMatch(sql, /action_prompt/);
+    assert.doesNotMatch(sql, /Body at the door/);
 
     for (const slug of ICAN_RETURN_HOME_DRAFT_SLUGS) {
       assert.match(sql, new RegExp(`'${slug}'`));
