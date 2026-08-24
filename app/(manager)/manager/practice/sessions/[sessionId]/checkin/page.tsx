@@ -7,7 +7,7 @@ import { Flash } from "@/components/manager/flash";
 import { requireRole } from "@/lib/auth/session";
 import { submitCheckin } from "@/lib/father/actions";
 import { loadSessionContext } from "@/lib/father/data";
-import { checkinQuestionsFor, parseSkillPrompt } from "@/lib/father/session-questions";
+import { checkinQuestionsFor } from "@/lib/father/session-questions";
 import { getI18n } from "@/lib/i18n/server";
 import { PRACTICE_WALK } from "@/lib/practice/paths";
 
@@ -42,8 +42,6 @@ export default async function LeaderPracticeCheckinPage({
   const { t } = await getI18n();
   const { session, training, progress, completedCount, sessionTotal } = context;
   const questions = checkinQuestionsFor(session, training);
-  const canAutoAdvance =
-    questions.length === 1 && Boolean(parseSkillPrompt(questions[0].label).choices);
 
   return (
     <div className="mx-auto max-w-2xl space-y-5 lg:space-y-6">
@@ -70,12 +68,15 @@ export default async function LeaderPracticeCheckinPage({
           questions={questions}
           answers={progress?.checkin_answers}
           invalid={Boolean(error)}
-          autoAdvance={canAutoAdvance}
+          autoAdvance={false}
+          questionOf={(n, total) => t("father.session.questionOf", { n, total })}
+          note={{
+            label: t("father.session.noteLabel"),
+            placeholder: t("father.session.notePlaceholder"),
+            defaultValue: progress?.session_note,
+          }}
         />
-        <SessionAdvanceButton
-          label={t("common.next")}
-          visuallyHidden={canAutoAdvance}
-        />
+        <SessionAdvanceButton label={t("common.next")} />
       </form>
     </div>
   );

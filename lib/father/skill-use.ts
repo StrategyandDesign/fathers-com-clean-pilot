@@ -1,3 +1,5 @@
+import { actionSkillText } from "@/lib/father/action-commitment";
+
 export const SKILL_USES = ["used", "later", "dismissed"] as const;
 
 export type SkillUse = (typeof SKILL_USES)[number];
@@ -84,6 +86,35 @@ export function isSkillUseStatementReady(raw: string) {
     HAS_CLAUSE_VERB.test(text) ||
     ALREADY_SENTENCE_START.test(text)
   );
+}
+
+const OVERVIEW_TITLE =
+  /training\s+overview|^overview$|introduction/i;
+const WELCOME_SKILL = /^welcome\b/i;
+
+export function isOverviewSession(session: { title?: string | null }) {
+  return OVERVIEW_TITLE.test((session.title ?? "").replace(/\s+/g, " ").trim());
+}
+
+export function hasActionSkill(session: {
+  title?: string | null;
+  keyline?: string | null;
+  action_prompt?: string | null;
+}) {
+  if (isOverviewSession(session)) return false;
+  const skill = actionSkillText(session);
+  if (!skill) return false;
+  if (WELCOME_SKILL.test(skill)) return false;
+  return true;
+}
+
+/** Hide skill-use on overview sessions and sessions with no action skill yet. */
+export function shouldAskSkillUse(session: {
+  title?: string | null;
+  keyline?: string | null;
+  action_prompt?: string | null;
+}) {
+  return hasActionSkill(session);
 }
 
 /** Turn a catalog keyline into a statement under “Did you use this skill?” */

@@ -9,7 +9,7 @@ import { submitCheckin } from "@/lib/father/actions";
 import { loadSessionContext } from "@/lib/father/data";
 import { loadOnboardingState } from "@/lib/father/onboarding-data";
 import { isOnboardingActive } from "@/lib/father/onboarding";
-import { checkinQuestionsFor, parseSkillPrompt } from "@/lib/father/session-questions";
+import { checkinQuestionsFor } from "@/lib/father/session-questions";
 import { getI18n } from "@/lib/i18n/server";
 
 export default async function SessionCheckinPage({
@@ -47,8 +47,6 @@ export default async function SessionCheckinPage({
   const { session, training, progress, completedCount, sessionTotal } = context;
   const funnel = isOnboardingActive(onboarding.mode, onboarding.step);
   const questions = checkinQuestionsFor(session, training);
-  const canAutoAdvance =
-    questions.length === 1 && Boolean(parseSkillPrompt(questions[0].label).choices);
 
   return (
     <div className="mx-auto max-w-2xl space-y-5 lg:space-y-6">
@@ -72,12 +70,15 @@ export default async function SessionCheckinPage({
           questions={questions}
           answers={progress?.checkin_answers}
           invalid={Boolean(error)}
-          autoAdvance={canAutoAdvance}
+          autoAdvance={false}
+          questionOf={(n, total) => t("father.session.questionOf", { n, total })}
+          note={{
+            label: t("father.session.noteLabel"),
+            placeholder: t("father.session.notePlaceholder"),
+            defaultValue: progress?.session_note,
+          }}
         />
-        <SessionAdvanceButton
-          label={t("common.next")}
-          visuallyHidden={canAutoAdvance}
-        />
+        <SessionAdvanceButton label={t("common.next")} />
       </form>
     </div>
   );

@@ -18,6 +18,7 @@ import {
   finishActionMomentAfterSave,
   runActionMomentFollowUp,
 } from "@/lib/father/action-commit-follow-up";
+import { finishSessionProgressAfterSave } from "@/lib/father/session-progress-follow-up";
 import { loadActionCommitment, loadFatherTimeZone } from "@/lib/father/action-commitment-data";
 import { advanceOnboardingAfterSession } from "@/lib/father/start-actions";
 import { recordSessionCompletionForStreak } from "@/lib/father/streak-admin";
@@ -56,7 +57,20 @@ type ProgressPatch = {
   action_try_at?: string | null;
 };
 
-async function saveProgress(
+function revalidateSessionWalk(sessionId: string) {
+  revalidatePath("/father");
+  revalidatePath("/father/trainings");
+  revalidatePath(`/father/sessions/${sessionId}`);
+  revalidatePath(`/father/sessions/${sessionId}/checkin`);
+  revalidatePath(`/father/sessions/${sessionId}/action`);
+  revalidatePath("/manager");
+  revalidatePath("/manager/practice");
+  revalidatePath(`/manager/practice/sessions/${sessionId}`);
+  revalidatePath(`/manager/practice/sessions/${sessionId}/checkin`);
+  revalidatePath(`/manager/practice/sessions/${sessionId}/action`);
+}
+
+async function persistProgress(
   fatherId: string,
   sessionId: string,
   patch: ProgressPatch
@@ -110,17 +124,15 @@ async function saveProgress(
   if (error) {
     throw error;
   }
+}
 
-  revalidatePath("/father");
-  revalidatePath("/father/trainings");
-  revalidatePath(`/father/sessions/${sessionId}`);
-  revalidatePath(`/father/sessions/${sessionId}/checkin`);
-  revalidatePath(`/father/sessions/${sessionId}/action`);
-  revalidatePath("/manager");
-  revalidatePath("/manager/practice");
-  revalidatePath(`/manager/practice/sessions/${sessionId}`);
-  revalidatePath(`/manager/practice/sessions/${sessionId}/checkin`);
-  revalidatePath(`/manager/practice/sessions/${sessionId}/action`);
+async function saveProgress(
+  fatherId: string,
+  sessionId: string,
+  patch: ProgressPatch
+) {
+  await persistProgress(fatherId, sessionId, patch);
+  revalidateSessionWalk(sessionId);
 }
 
 export async function markFilmWatched(formData: FormData) {
@@ -138,14 +150,18 @@ export async function markFilmWatched(formData: FormData) {
   }
 
   try {
-    await saveProgress(user.id, sessionId, { film_completed: true });
+    await persistProgress(user.id, sessionId, { film_completed: true });
   } catch {
     redirect(
       `${paths.session(sessionId)}?error=${encodeURIComponent("Your progress didn’t save. Try again.")}`
     );
   }
 
-  redirect(paths.checkin(sessionId));
+  finishSessionProgressAfterSave({
+    followUp: () => revalidateSessionWalk(sessionId),
+    schedule: after,
+    redirect: () => redirect(paths.checkin(sessionId)),
+  });
 }
 
 export async function submitCheckin(formData: FormData) {
@@ -187,14 +203,18 @@ export async function submitCheckin(formData: FormData) {
   }
 
   try {
-    await saveProgress(user.id, sessionId, progressPatch);
+    await persistProgress(user.id, sessionId, progressPatch);
   } catch {
     redirect(
       `${paths.checkin(sessionId)}?error=${encodeURIComponent("Your check-in didn’t save. Try again.")}`
     );
   }
 
-  redirect(paths.action(sessionId));
+  finishSessionProgressAfterSave({
+    followUp: () => revalidateSessionWalk(sessionId),
+    schedule: after,
+    redirect: () => redirect(paths.action(sessionId)),
+  });
 }
 
 function actionPath(sessionId: string, paths: WalkPaths, error?: string) {

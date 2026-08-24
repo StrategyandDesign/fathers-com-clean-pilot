@@ -36,7 +36,15 @@ export default async function AdminTrainingStageCheckinPage({
           {...header}
         />
         <div className="space-y-5 lg:space-y-6">
-          <SessionCheckinFields questions={questions} autoAdvance={false} />
+          <SessionCheckinFields
+            questions={questions}
+            autoAdvance={false}
+            questionOf={(n, total) => t("father.session.questionOf", { n, total })}
+            note={{
+              label: t("father.session.noteLabel"),
+              placeholder: t("father.session.notePlaceholder"),
+            }}
+          />
           <SessionContinueLink href={paths.action(session.id)} label={t("common.next")} />
         </div>
       </div>

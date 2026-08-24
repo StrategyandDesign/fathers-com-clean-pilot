@@ -17,12 +17,13 @@ import {
   ICAN_RETURN_HOME_DRAFT_DESCRIPTION_MIGRATION,
   ICAN_RETURN_HOME_DRAFT_MIGRATION,
   ICAN_RETURN_HOME_DRAFT_SLUGS,
+  ICAN_RETURN_HOME_FATHER_COPY_MIGRATION,
   assertIcanDraftCatalog,
   icanDraftsForSlugs,
   icanDraftPromptText,
   renderIcanDraftMigrationSql,
   renderIcanHoldVideoUpdateSql,
-  renderReturnHomeDraftDescriptionUpdateSql,
+  renderReturnHomeFatherCopyUpdateSql,
   renderReturnHomeDraftMigrationSql,
 } from "../lib/trainings/ican-drafts";
 
@@ -45,6 +46,11 @@ const BANNED = [
   /\bevidence-based\b/i,
 ];
 const SPOUSE_OR_MOTHER_DEFAULT = [/\bwife\b/i, /\bmom\b/i, /\bmother\b/i, /\bshe\b/i];
+const FATHER_AI_STACKS = [
+  /No scoreboard\.\s*No peer forum/i,
+  /Not treatment\.\s*Not a diagnosis/i,
+  /This draft stays unpublished/i,
+];
 
 function readRepo(relativePath: string) {
   return readFileSync(fileURLToPath(new URL(`../${relativePath}`, import.meta.url)), "utf8");
@@ -265,8 +271,16 @@ describe("I CAN Super-admin draft trainings", () => {
       assert.match(training.description, /checkpoint/i);
       assert.match(training.description, /practice/i);
       assert.match(training.description, /This training is for fathers/);
+      assert.match(training.description, /The work stays between you and the house/);
       assert.equal(training.description.includes(EM_DASH), false);
       assert.equal(training.leaderSummary.includes(EM_DASH), false);
+      for (const pattern of FATHER_AI_STACKS) {
+        assert.equal(
+          pattern.test(training.description),
+          false,
+          `${training.slug} ${pattern}`
+        );
+      }
 
       const scanned = copyWithoutAntiDefault(
         [training.description, training.leaderSummary].join("\n")
@@ -282,12 +296,21 @@ describe("I CAN Super-admin draft trainings", () => {
     }
   });
 
-  it("updates only the three return-home draft descriptions without publishing", () => {
+  it("keeps the original return-home description migration unpublished", () => {
     const sql = readRepo(ICAN_RETURN_HOME_DRAFT_DESCRIPTION_MIGRATION);
-    assert.equal(sql, renderReturnHomeDraftDescriptionUpdateSql());
     assert.match(sql, /Update father-facing descriptions for the three return-home Super-admin drafts/);
     assert.match(sql, /published = false/);
     assert.doesNotMatch(sql, /published\s*=\s*true/);
+    assert.doesNotMatch(sql, /release_training_to_organizations/);
+  });
+
+  it("updates return-home father copy without changing publish or release flags", () => {
+    const sql = readRepo(ICAN_RETURN_HOME_FATHER_COPY_MIGRATION);
+    assert.equal(sql, renderReturnHomeFatherCopyUpdateSql());
+    assert.match(sql, /Leaves publish and release flags alone/);
+    assert.doesNotMatch(sql, /published\s*=/);
+    assert.doesNotMatch(sql, /released_at\s*=/);
+    assert.doesNotMatch(sql, /development_status\s*=/);
     assert.doesNotMatch(sql, /release_training_to_organizations/);
     assert.doesNotMatch(sql, /insert into public\.sessions/);
     assert.doesNotMatch(sql, /checkin_prompt/);
