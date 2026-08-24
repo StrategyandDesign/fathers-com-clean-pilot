@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { after } from "next/server";
 
 import { getAuthContext, requireWalkUser } from "@/lib/auth/session";
 import { loadSessionContext } from "@/lib/father/data";
@@ -13,6 +14,10 @@ import {
   parseOutcomeNote,
   resolveIntentionAt,
 } from "@/lib/father/action-commitment";
+import {
+  finishActionMomentAfterSave,
+  runActionMomentFollowUp,
+} from "@/lib/father/action-commit-follow-up";
 import { loadActionCommitment, loadFatherTimeZone } from "@/lib/father/action-commitment-data";
 import { advanceOnboardingAfterSession } from "@/lib/father/start-actions";
 import { recordSessionCompletionForStreak } from "@/lib/father/streak-admin";
@@ -243,29 +248,36 @@ export async function commitActionMoment(formData: FormData) {
     redirect(actionPath(sessionId, paths, "That moment didn’t save. Try again."));
   }
 
-  if (role === "father") {
-    try {
-      await queueActionReminder({
-        fatherId: user.id,
-        session: context.session,
-        trainingTitle: context.training.title,
-        availableAt: intentionAt,
-      });
-    } catch (queueError) {
-      console.error("[notifications] action reminder enqueue failed", queueError);
-    }
-  }
+  revalidatePath(`/father/sessions/${sessionId}/action`);
+  revalidatePath(`/manager/practice/sessions/${sessionId}/action`);
 
-  const { error: zoneError } = await supabase.from("notification_preferences").upsert({
-    user_id: user.id,
-    timezone,
-    updated_at: new Date().toISOString(),
+  finishActionMomentAfterSave({
+    followUp: () =>
+      runActionMomentFollowUp({
+        queueReminder:
+          role === "father"
+            ? () =>
+                queueActionReminder({
+                  fatherId: user.id,
+                  session: context.session,
+                  trainingTitle: context.training.title,
+                  availableAt: intentionAt,
+                })
+            : undefined,
+        saveTimezone: async () => {
+          const { error: zoneError } = await supabase.from("notification_preferences").upsert({
+            user_id: user.id,
+            timezone,
+            updated_at: new Date().toISOString(),
+          });
+          if (zoneError) {
+            console.error("[notifications] timezone save failed", zoneError);
+          }
+        },
+      }),
+    schedule: after,
+    redirect: () => redirect(actionPath(sessionId, paths)),
   });
-  if (zoneError) {
-    console.error("[notifications] timezone save failed", zoneError);
-  }
-
-  redirect(actionPath(sessionId, paths));
 }
 
 export async function markActionDone(formData: FormData) {
