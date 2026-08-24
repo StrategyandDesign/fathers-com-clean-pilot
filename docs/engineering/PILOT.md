@@ -60,6 +60,7 @@ Invite code for new fathers: `12345`
 ### Hebrew Pilot Group (Hebrew)
 
 Invite code: `il`. Same `@il` seats as before. The group name is neutral.
+`groups.locale` must stay `'he'` so Account language and RTL stay org-gated.
 
 | Email | Role | Lands on |
 |---|---|---|

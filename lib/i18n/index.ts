@@ -14,5 +14,12 @@ export {
   localeFromCookie,
   type Locale,
 } from "@/lib/i18n/config";
+export {
+  allowedLocalesFromGroupLocales,
+  localesForOrg,
+  orgAllowsLocale,
+  parseLocalePreference,
+  pickResolvedLocale,
+} from "@/lib/i18n/org-locale";
 export { formatLongDate, formatShortDate, formatShortDateTime } from "@/lib/i18n/dates";
 export { createTranslator, messagesFor, type Translate } from "@/lib/i18n/translate";

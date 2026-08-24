@@ -1,5 +1,6 @@
 import { isSessionComplete, type SessionProgress } from "@/lib/father/types";
-import { isPublicLocale, localeDir, type Locale } from "@/lib/i18n/config";
+import { isLocale, localeDir, type Locale } from "@/lib/i18n/config";
+import { allowedLocalesFromGroupLocales } from "@/lib/i18n/org-locale";
 import type { Translate } from "@/lib/i18n/translate";
 import type { TrainingAssignment, TrainingProgress } from "@/lib/manager/types";
 import { NUDGE_COOLDOWN_DAYS } from "@/lib/manager/nudges";
@@ -134,9 +135,14 @@ export function resolveFatherLocale(input: {
   groupLocale?: string | null;
   prefsLocale?: string | null;
 }): Locale {
-  if (isPublicLocale(input.profileLocale)) return input.profileLocale;
-  if (isPublicLocale(input.groupLocale)) return input.groupLocale;
-  if (isPublicLocale(input.prefsLocale)) return input.prefsLocale;
+  const allowed = allowedLocalesFromGroupLocales([input.groupLocale]);
+  if (isLocale(input.profileLocale) && allowed.includes(input.profileLocale)) {
+    return input.profileLocale;
+  }
+  if (isLocale(input.groupLocale)) return input.groupLocale;
+  if (isLocale(input.prefsLocale) && allowed.includes(input.prefsLocale)) {
+    return input.prefsLocale;
+  }
   return "en";
 }
 

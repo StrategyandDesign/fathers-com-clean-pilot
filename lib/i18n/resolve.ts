@@ -1,19 +1,70 @@
 import { cache } from "react";
 
-import { DEFAULT_LOCALE, exposeLocale, isPublicLocale, type Locale } from "@/lib/i18n/config";
+import { DEFAULT_LOCALE, isLocale, type Locale } from "@/lib/i18n/config";
+import { pickResolvedLocale } from "@/lib/i18n/org-locale";
 import { createClient } from "@/lib/supabase/server";
 
 export type ResolvedLocaleSource = {
   locale: Locale;
+  allowedLocales: Locale[];
   homeGroupId: string | null;
   organizationCode: string | null;
 };
 
 const empty: ResolvedLocaleSource = {
   locale: DEFAULT_LOCALE,
+  allowedLocales: [DEFAULT_LOCALE],
   homeGroupId: null,
   organizationCode: null,
 };
+
+type LocaleClient = Awaited<ReturnType<typeof createClient>>;
+
+async function loadRelevantGroupLocales(
+  supabase: LocaleClient,
+  userId: string,
+  homeGroupId: string | null
+): Promise<{
+  groupLocales: Array<string | null | undefined>;
+  homeGroupId: string | null;
+  organizationCode: string | null;
+}> {
+  const groupLocales: Array<string | null | undefined> = [];
+  let resolvedHomeGroupId = homeGroupId;
+  let organizationCode: string | null = null;
+
+  const { loadGroupsForManager } = await import("@/lib/org-staff/membership");
+  const managedGroups = await loadGroupsForManager(userId, supabase);
+  for (const managed of managedGroups) {
+    groupLocales.push(managed.locale);
+    if (!resolvedHomeGroupId && managed.id) resolvedHomeGroupId = managed.id;
+    if (!organizationCode && managed.code) organizationCode = managed.code ?? null;
+  }
+
+  const { data: membership } = await supabase
+    .from("group_members")
+    .select("group_id")
+    .eq("father_id", userId)
+    .order("joined_at", { ascending: true })
+    .limit(1)
+    .maybeSingle();
+
+  const groupId = membership?.group_id ?? homeGroupId ?? null;
+  if (groupId && !managedGroups.some((group) => group.id === groupId)) {
+    const { data: group } = await supabase
+      .from("groups")
+      .select("id, locale, code")
+      .eq("id", groupId)
+      .maybeSingle();
+    if (group) {
+      groupLocales.push(group.locale);
+      resolvedHomeGroupId = group.id ?? resolvedHomeGroupId;
+      organizationCode = group.code ?? organizationCode;
+    }
+  }
+
+  return { groupLocales, homeGroupId: resolvedHomeGroupId, organizationCode };
+}
 
 export const resolveUserLocale = cache(async (userId: string): Promise<ResolvedLocaleSource> => {
   try {
@@ -26,55 +77,32 @@ export const resolveUserLocale = cache(async (userId: string): Promise<ResolvedL
 
     if (profileError) return empty;
 
-    if (isPublicLocale(profile?.locale)) {
-      return {
-        locale: profile.locale,
-        homeGroupId: profile.home_group_id ?? null,
-        organizationCode: null,
-      };
-    }
-
-    const { loadGroupsForManager } = await import("@/lib/org-staff/membership");
-    const managedGroups = await loadGroupsForManager(userId, supabase);
-    const managed = managedGroups[0];
-
-    if (managed && isPublicLocale(managed.locale)) {
-      return {
-        locale: managed.locale,
-        homeGroupId: managed.id,
-        organizationCode: managed.code ?? null,
-      };
-    }
-
-    const { data: membership } = await supabase
-      .from("group_members")
-      .select("group_id")
-      .eq("father_id", userId)
-      .order("joined_at", { ascending: true })
-      .limit(1)
-      .maybeSingle();
-
-    const groupId = membership?.group_id ?? profile?.home_group_id ?? null;
-    if (!groupId) {
-      return {
-        locale: DEFAULT_LOCALE,
-        homeGroupId: profile?.home_group_id ?? null,
-        organizationCode: null,
-      };
-    }
-
-    const { data: group } = await supabase
-      .from("groups")
-      .select("id, locale, code")
-      .eq("id", groupId)
-      .maybeSingle();
+    const groups = await loadRelevantGroupLocales(
+      supabase,
+      userId,
+      profile?.home_group_id ?? null
+    );
+    const picked = pickResolvedLocale({
+      profileLocale: profile?.locale,
+      groupLocales: groups.groupLocales,
+    });
 
     return {
-      locale: exposeLocale(group?.locale),
-      homeGroupId: group?.id ?? profile?.home_group_id ?? null,
-      organizationCode: group?.code ?? null,
+      locale: picked.locale,
+      allowedLocales: picked.allowedLocales,
+      homeGroupId: groups.homeGroupId,
+      organizationCode: groups.organizationCode,
     };
   } catch {
     return empty;
   }
 });
+
+export async function allowedLocalesForUser(userId: string): Promise<Locale[]> {
+  const resolved = await resolveUserLocale(userId);
+  return resolved.allowedLocales;
+}
+
+export async function userAllowsLocale(userId: string, locale: unknown): Promise<boolean> {
+  return isLocale(locale) && (await allowedLocalesForUser(userId)).includes(locale);
+}

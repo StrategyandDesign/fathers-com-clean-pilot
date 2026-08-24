@@ -9,7 +9,8 @@ import {
   roleForPath,
 } from "@/lib/auth/roles";
 import { sessionFailureAction } from "@/lib/security/session-guard";
-import { isLocale, isPublicLocale, LOCALE_COOKIE, type Locale } from "@/lib/i18n/config";
+import { DEFAULT_LOCALE, isLocale, LOCALE_COOKIE } from "@/lib/i18n/config";
+import { pickResolvedLocale } from "@/lib/i18n/org-locale";
 import { getSupabasePublishableKey, getSupabaseUrl } from "@/lib/supabase/env";
 import { PALETTE_COOKIE, paletteCookieOptions, parsePalette } from "@/lib/theme/palette";
 
@@ -111,56 +112,55 @@ async function applySession(request: NextRequest) {
     role = resolveProfileRole(profile?.role, user);
 
     const cookieLocale = request.cookies.get(LOCALE_COOKIE)?.value;
-    if (!isLocale(cookieLocale)) {
-      let nextLocale: Locale | null = isPublicLocale(profile?.locale) ? profile.locale : null;
-      if (!nextLocale) {
-        const { data: staffRow } = await supabase
-          .from("organization_staff")
-          .select("group_id")
-          .eq("profile_id", user.id)
-          .eq("staff_role", "manager")
-          .limit(1)
+    if (cookieLocale !== DEFAULT_LOCALE) {
+      const groupLocales: Array<string | null | undefined> = [];
+      const { data: staffRow } = await supabase
+        .from("organization_staff")
+        .select("group_id")
+        .eq("profile_id", user.id)
+        .eq("staff_role", "manager")
+        .limit(1)
+        .maybeSingle();
+      if (staffRow?.group_id) {
+        const { data: staffGroup } = await supabase
+          .from("groups")
+          .select("locale")
+          .eq("id", staffRow.group_id)
           .maybeSingle();
-        const localeGroupId = staffRow?.group_id;
-        if (localeGroupId) {
-          const { data: staffGroup } = await supabase
-            .from("groups")
-            .select("locale")
-            .eq("id", localeGroupId)
-            .maybeSingle();
-          if (isPublicLocale(staffGroup?.locale)) nextLocale = staffGroup.locale;
-        }
-        if (!nextLocale) {
-          const { data: managed } = await supabase
-            .from("groups")
-            .select("locale")
-            .eq("manager_id", user.id)
-            .order("created_at", { ascending: true })
-            .limit(1)
-            .maybeSingle();
-          if (isPublicLocale(managed?.locale)) nextLocale = managed.locale;
-        }
+        groupLocales.push(staffGroup?.locale);
       }
-      if (!nextLocale) {
-        const { data: membership } = await supabase
-          .from("group_members")
-          .select("group_id")
-          .eq("father_id", user.id)
-          .order("joined_at", { ascending: true })
-          .limit(1)
+      const { data: managed } = await supabase
+        .from("groups")
+        .select("locale")
+        .eq("manager_id", user.id)
+        .order("created_at", { ascending: true })
+        .limit(1)
+        .maybeSingle();
+      groupLocales.push(managed?.locale);
+      const { data: membership } = await supabase
+        .from("group_members")
+        .select("group_id")
+        .eq("father_id", user.id)
+        .order("joined_at", { ascending: true })
+        .limit(1)
+        .maybeSingle();
+      const groupId = membership?.group_id ?? profile?.home_group_id ?? null;
+      if (groupId) {
+        const { data: group } = await supabase
+          .from("groups")
+          .select("locale")
+          .eq("id", groupId)
           .maybeSingle();
-        const groupId = membership?.group_id ?? profile?.home_group_id ?? null;
-        if (groupId) {
-          const { data: group } = await supabase
-            .from("groups")
-            .select("locale")
-            .eq("id", groupId)
-            .maybeSingle();
-          if (isPublicLocale(group?.locale)) nextLocale = group.locale;
-        }
+        groupLocales.push(group?.locale);
       }
-      if (nextLocale) {
-        supabaseResponse.cookies.set(LOCALE_COOKIE, nextLocale, {
+      const resolved = pickResolvedLocale({
+        profileLocale: profile?.locale,
+        groupLocales,
+      });
+      const cookieAllowed =
+        isLocale(cookieLocale) && resolved.allowedLocales.includes(cookieLocale);
+      if (!cookieAllowed) {
+        supabaseResponse.cookies.set(LOCALE_COOKIE, resolved.locale, {
           path: "/",
           maxAge: 60 * 60 * 24 * 365,
           sameSite: "lax",
