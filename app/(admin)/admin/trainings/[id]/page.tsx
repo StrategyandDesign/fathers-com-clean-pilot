@@ -6,7 +6,8 @@ import {
   deleteSession,
   deleteTraining,
   duplicateSession,
-  moveSession,
+  moveSessionDown,
+  moveSessionUp,
   releaseTraining,
   setTrainingPublished,
   unreleaseTraining,
@@ -444,9 +445,7 @@ export default async function AdminTrainingDetailPage({
               </Link>
               <Button
                 type="submit"
-                formAction={moveSession}
-                name="direction"
-                value="up"
+                formAction={moveSessionUp}
                 variant="outline"
                 className="w-full sm:w-auto"
                 disabled={index === 0}
@@ -455,9 +454,7 @@ export default async function AdminTrainingDetailPage({
               </Button>
               <Button
                 type="submit"
-                formAction={moveSession}
-                name="direction"
-                value="down"
+                formAction={moveSessionDown}
                 variant="outline"
                 className="w-full sm:w-auto"
                 disabled={index === training.sessions.length - 1}

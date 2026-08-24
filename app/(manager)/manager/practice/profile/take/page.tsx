@@ -7,7 +7,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { ProgressBar } from "@/components/ui/progress";
 import { loadLeaderAssessmentAccess } from "@/lib/assessments/data";
 import { requireRole } from "@/lib/auth/session";
-import { saveAndExitProfile, saveProfileProgress } from "@/lib/father/profile-actions";
+import { saveAndExitProfile, saveProfileBack, saveProfileProgress } from "@/lib/father/profile-actions";
 import { ensureProfileDraft, loadLatestProfile, loadProfileDraft } from "@/lib/father/profile";
 import {
   PROFILE_QUESTION_COUNT,
@@ -194,10 +194,8 @@ export default async function LeaderPracticeProfileTakePage({
             {question.id > 1 ? (
               <button
                 type="submit"
-                name="intent"
-                value="back"
                 formNoValidate
-                formAction={saveProfileProgress}
+                formAction={saveProfileBack}
                 className={cn(
                   "inline-flex min-h-11 items-center text-sm text-muted-foreground",
                   interactiveLinkClassName

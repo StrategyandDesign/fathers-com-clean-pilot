@@ -1176,6 +1176,16 @@ export async function moveSession(formData: FormData) {
   ok(path, "Session order updated.");
 }
 
+export async function moveSessionUp(formData: FormData) {
+  formData.set("direction", "up");
+  return moveSession(formData);
+}
+
+export async function moveSessionDown(formData: FormData) {
+  formData.set("direction", "down");
+  return moveSession(formData);
+}
+
 export async function setDevelopmentStatus(formData: FormData) {
   await requireRole("admin");
   const trainingId = String(formData.get("training_id") ?? "");
