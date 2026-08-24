@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { ChevronLeft } from "lucide-react";
 
+import { TrainingLaunchWalkCue } from "@/components/admin/training-launch-desk";
 import { TrainingStageBanner } from "@/components/admin/training-stage-banner";
 import { TrainingHandoutLinks } from "@/components/father/training-handout-links";
 import { TrainingOverviewFilm } from "@/components/father/training-overview-film";
@@ -35,6 +36,7 @@ export default async function AdminTrainingStageOverviewPage({
 
   return (
     <div className="space-y-6">
+      <TrainingLaunchWalkCue training={training} />
       <TrainingStageBanner
         trainingTitle={training.title}
         hubHref={paths.hub}
