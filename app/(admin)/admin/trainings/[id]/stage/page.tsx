@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { ParticipantSnapshotFrame } from "@/components/admin/participant-snapshot-frame";
+import { TrainingLaunchDesk } from "@/components/admin/training-launch-desk";
 import { TrainingStageBanner } from "@/components/admin/training-stage-banner";
 import { TrainingStageDesk } from "@/components/admin/training-stage-desk";
 import { CoverPhoto } from "@/components/brand/cover";
@@ -68,6 +69,8 @@ export default async function AdminTrainingStagePage({
         <span className="text-white/20">|</span>
         <span>Staging</span>
       </p>
+
+      <TrainingLaunchDesk training={training} surface="stage" />
 
       <TrainingStageBanner
         trainingTitle={training.title}

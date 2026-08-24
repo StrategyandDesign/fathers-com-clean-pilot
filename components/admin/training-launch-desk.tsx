@@ -1,29 +1,39 @@
 import Link from "next/link";
 
-import { releaseTraining, setDevelopmentStatus, setTrainingPublished } from "@/lib/admin/actions";
-import { trainingLaunchPlan } from "@/lib/admin/launch";
+import { markTrainingPreviewed, releaseTraining, setDevelopmentStatus, setTrainingPublished } from "@/lib/admin/actions";
+import { TRAINING_LAUNCH_HANDOFF, trainingLaunchPlan } from "@/lib/admin/launch";
 import { isLegacyCatalogTraining, RELEASE_CONFIRM } from "@/lib/admin/release";
+import { stagePaths } from "@/lib/admin/stage";
 import type { AdminTrainingRow } from "@/lib/admin/types";
 import { hasHardcodedSkillPack } from "@/lib/father/session-questions";
+import { hasTrainingOverview } from "@/lib/father/training-door";
 import { ReleaseTargets } from "@/components/admin/release-targets";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { fieldClassName } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 
-export function TrainingLaunchStrip({
+export function TrainingLaunchDesk({
   training,
   rightsBlocker,
+  surface = "detail",
 }: {
   training: AdminTrainingRow;
   rightsBlocker?: string | null;
+  surface?: "detail" | "stage";
 }) {
   const plan = trainingLaunchPlan(training, {
     sessionHasHardcoded: (session) => hasHardcodedSkillPack(session, training),
     rightsBlocker,
   });
-  const sticky = plan.current !== "release";
-  const showReleaseForm = plan.kind === "release" && plan.enabled;
+  const sticky = surface === "detail" && plan.current !== "release";
+  const showReleaseForm = surface === "detail" && plan.kind === "release" && plan.enabled;
   const legacy = isLegacyCatalogTraining(training);
+  const paths = stagePaths(training.id);
+  const walkHref = hasTrainingOverview(training)
+    ? paths.overview
+    : training.sessions[0]
+      ? paths.session(training.sessions[0].id)
+      : paths.edit;
 
   return (
     <section
@@ -34,14 +44,9 @@ export function TrainingLaunchStrip({
           "sticky top-[calc(3.5rem+env(safe-area-inset-top))] z-20 bg-card/95 shadow-lg backdrop-blur-md"
       )}
     >
-      <div className="flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between">
-        <div>
-          <h2 className="font-heading text-lg font-semibold">Launch</h2>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Stage, then Ready, then Publish, then Release. Publish does not
-            notify Leaders. Release does.
-          </p>
-        </div>
+      <div>
+        <h2 className="font-heading text-lg font-semibold">Launch</h2>
+        <p className="mt-1 text-sm text-muted-foreground">{TRAINING_LAUNCH_HANDOFF}</p>
       </div>
 
       <ol className="flex flex-wrap gap-2">
@@ -73,20 +78,55 @@ export function TrainingLaunchStrip({
 
       {plan.current === "done" ? (
         <p className="text-sm text-muted-foreground">
-          Released to organizations.{" "}
-          <a href="#release" className="underline underline-offset-4">
+          Released to Leaders.{" "}
+          <Link href={`${plan.href}`} className="underline underline-offset-4">
             See organizations
-          </a>
+          </Link>
           .
         </p>
       ) : plan.archived ? (
-        <a
-          href="#development"
+        <Link
+          href={plan.href}
           className={cn(buttonVariants({ variant: "outline" }), "w-full sm:w-auto")}
         >
-          Recover on the development desk
-        </a>
-      ) : plan.kind === "stage" ? (
+          {plan.detailLabel}
+        </Link>
+      ) : surface === "stage" && plan.current === "stage" && training.sessions.length > 0 ? (
+        <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
+          <Link href={walkHref} className={cn(buttonVariants(), "w-full sm:w-auto")}>
+            Walk as Father
+          </Link>
+          <form action={markTrainingPreviewed}>
+            <input type="hidden" name="training_id" value={training.id} />
+            <Button type="submit" variant="outline" className="w-full sm:w-auto">
+              Mark Stage walk complete
+            </Button>
+          </form>
+        </div>
+      ) : surface === "stage" &&
+        (plan.current === "ready" || plan.current === "publish" || plan.current === "release") ? (
+        <Link
+          href={`/admin/trainings/${training.id}#launch`}
+          className={cn(buttonVariants(), "w-full sm:w-auto")}
+        >
+          {plan.current === "ready"
+            ? "Continue to Ready"
+            : plan.current === "publish"
+              ? "Continue to Publish"
+              : "Continue to Release"}
+        </Link>
+      ) : surface === "stage" && plan.current === "review" ? (
+        <Link
+          href={`/admin/trainings/${training.id}#sessions`}
+          className={cn(buttonVariants(), "w-full sm:w-auto")}
+        >
+          Continue to Review
+        </Link>
+      ) : plan.kind === "fix" && plan.current === "stage" ? (
+        <Link href={plan.stageHref} className={cn(buttonVariants(), "w-full sm:w-auto")}>
+          Open staging
+        </Link>
+      ) : plan.kind === "fix" ? (
         <Link href={plan.href} className={cn(buttonVariants(), "w-full sm:w-auto")}>
           {plan.detailLabel}
         </Link>

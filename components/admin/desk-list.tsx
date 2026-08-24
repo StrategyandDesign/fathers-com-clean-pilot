@@ -22,7 +22,7 @@ export function AdminDeskList({
         empty
       ) : (
         <ul>
-          <li className="hidden border-b border-border text-xs tracking-wide text-muted-foreground uppercase md:grid md:grid-cols-[minmax(0,1fr)_8.5rem]">
+          <li className="hidden border-b border-border text-xs tracking-wide text-muted-foreground uppercase md:grid md:grid-cols-[minmax(0,1fr)_11rem]">
             <div className="grid grid-cols-[minmax(0,1.4fr)_5.5rem_minmax(10rem,1fr)] gap-4 px-6 py-3">
               <span>Title</span>
               <span>{countHeader}</span>
@@ -61,7 +61,7 @@ export function AdminDeskRow({
   children?: ReactNode;
 }) {
   return (
-    <li className="grid items-stretch border-b border-border last:border-0 md:grid-cols-[minmax(0,1fr)_8.5rem]">
+    <li className="grid items-stretch border-b border-border last:border-0 md:grid-cols-[minmax(0,1fr)_11rem]">
       <Link
         href={href}
         className={cn(

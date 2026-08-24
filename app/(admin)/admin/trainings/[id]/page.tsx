@@ -16,19 +16,21 @@ import {
 } from "@/lib/admin/actions";
 import { DevelopmentDesk } from "@/components/admin/development-desk";
 import { DevelopmentStatusBadge } from "@/components/admin/development-status";
-import { TrainingLaunchStrip } from "@/components/admin/training-launch-strip";
+import { TrainingLaunchDesk } from "@/components/admin/training-launch-desk";
 import { SessionAuthoringFields } from "@/components/admin/session-authoring-fields";
 import { loadAdminTraining, loadTrainingUsage } from "@/lib/admin/data";
 import { loadIntakeForTraining } from "@/lib/admin/sourcing-data";
 import { sourcedReleaseBlocker } from "@/lib/admin/sourcing";
 import { IntakeStatusBadge, RightsStatusBadge } from "@/components/admin/sourcing-status";
 import { asDevelopmentStatus, isArchivedTraining, LEADER_SUMMARY_MAX } from "@/lib/admin/development";
+import { canReleaseTraining } from "@/lib/admin/launch";
 import {
   isLegacyCatalogTraining,
   RELEASE_CONFIRM,
   trainingReleaseState,
   UNRELEASE_CONFIRM,
 } from "@/lib/admin/release";
+import { hasHardcodedSkillPack } from "@/lib/father/session-questions";
 import { ReleaseStatusBadge } from "@/components/admin/release-status";
 import { ReleaseTargetStatusList, ReleaseTargets } from "@/components/admin/release-targets";
 import { Flash } from "@/components/manager/flash";
@@ -70,11 +72,10 @@ export default async function AdminTrainingDetailPage({
   const legacy = isLegacyCatalogTraining(training);
   const archived = isArchivedTraining(training);
   const alreadyReleased = releaseState === "released";
-  const canRelease =
-    !archived &&
-    training.published &&
-    training.sessions.length > 0 &&
-    (!rightsBlocker || alreadyReleased);
+  const canRelease = canReleaseTraining(training, {
+    rightsBlocker,
+    sessionHasHardcoded: (session) => hasHardcodedSkillPack(session, training),
+  });
   const developmentStatus = asDevelopmentStatus(training.development_status);
 
   return (
@@ -96,7 +97,7 @@ export default async function AdminTrainingDetailPage({
       </div>
       <Flash error={flash.error} notice={flash.notice} />
 
-      <TrainingLaunchStrip training={training} rightsBlocker={rightsBlocker} />
+      <TrainingLaunchDesk training={training} rightsBlocker={rightsBlocker} />
 
       <form action={updateTraining} className="space-y-4 rounded-xl border border-border bg-card p-4 sm:p-6">
         <input type="hidden" name="training_id" value={training.id} />
@@ -368,6 +369,11 @@ export default async function AdminTrainingDetailPage({
               </p>
             ) : rightsBlocker ? (
               <p className="text-sm text-muted-foreground">{rightsBlocker}</p>
+            ) : !canRelease ? (
+              <p className="text-sm text-muted-foreground">
+                Mark Ready for Review and finish the checklist first. Launch
+                at the top shows the next gate.
+              </p>
             ) : legacy ? (
               <p className="text-sm text-muted-foreground">
                 This training is already in the catalog and assignable. Releasing
@@ -405,7 +411,7 @@ export default async function AdminTrainingDetailPage({
         )}
       </section>
 
-      <section className="space-y-4">
+      <section id="sessions" className="scroll-mt-[calc(4.5rem+env(safe-area-inset-top))] space-y-4">
         <div>
           <h2 className="font-heading text-lg font-semibold">Sessions</h2>
           <p className="mt-1 text-sm text-muted-foreground">

@@ -7,13 +7,12 @@ import { cn } from "@/lib/utils";
 
 export function TrainingLaunchRowAction({ plan }: { plan: TrainingLaunchPlan }) {
   const buttonClass = "w-full md:w-auto";
-  const primary = plan.kind !== "view";
 
   let control = (
     <Link
       href={plan.href}
       className={cn(
-        buttonVariants({ variant: primary ? "default" : "outline", size: "sm" }),
+        buttonVariants({ variant: plan.kind === "view" ? "outline" : "default", size: "sm" }),
         buttonClass
       )}
     >
@@ -51,6 +50,14 @@ export function TrainingLaunchRowAction({ plan }: { plan: TrainingLaunchPlan }) 
   return (
     <div className="flex w-full flex-col items-stretch gap-1 md:items-end">
       {control}
+      {plan.showStageSecondary ? (
+        <Link
+          href={plan.stageHref}
+          className={cn(buttonVariants({ variant: "outline", size: "sm" }), buttonClass)}
+        >
+          Stage
+        </Link>
+      ) : null}
       {plan.shortBlocker ? (
         <p className="text-xs text-muted-foreground">{plan.shortBlocker}</p>
       ) : null}

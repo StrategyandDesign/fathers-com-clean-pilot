@@ -1,5 +1,4 @@
 import {
-  ARCHIVE_RELEASE_ERROR,
   PREVIEW_REQUIRED_ERROR,
   READY_REQUIRED_ERROR,
   asDevelopmentStatus,
@@ -9,23 +8,43 @@ import {
 } from "@/lib/admin/development";
 import { FILM_RUNTIME_MISSING, firstFilmPublishError } from "@/lib/trainings/runtime";
 
-export const LAUNCH_STEPS = ["stage", "ready", "publish", "release"] as const;
+export function canReleaseTraining(
+  training: TrainingLaunchInput,
+  options?: {
+    rightsBlocker?: string | null;
+    sessionHasHardcoded?: (session: TrainingLaunchInput["sessions"][number]) => boolean;
+  }
+) {
+  if (isArchivedTraining(training)) return false;
+  if (training.published !== true) return false;
+  if (training.sessions.length < 1) return false;
+  if (training.released_at) return true;
+  if (options?.rightsBlocker) return false;
+  if (asDevelopmentStatus(training.development_status) !== "ready_for_review") return false;
+  return firstReadyBlocker(training, options) === null;
+}
+
+export const LAUNCH_STEPS = ["review", "stage", "ready", "publish", "release"] as const;
 
 export type LaunchStepKey = (typeof LAUNCH_STEPS)[number];
 
 export type LaunchStepState = "done" | "current" | "locked";
 
-export type LaunchKind = "stage" | "ready" | "publish" | "release" | "view";
+export type LaunchKind = "fix" | "ready" | "publish" | "release" | "view";
 
 export const LAUNCH_STEP_LABEL: Record<LaunchStepKey, string> = {
+  review: "Review",
   stage: "Stage walk",
   ready: "Ready",
   publish: "Publish",
-  release: "Release",
+  release: "Release to Leaders",
 };
 
 export const TRAINING_LAUNCH_LIST_LEAD =
-  "Review a training, then Launch: Stage → Ready → Publish → Release. Publish does not notify Leaders. Release does.";
+  "Review a training, then Stage walk → Ready → Publish → Release to Leaders. Publish does not notify Leaders. Release does.";
+
+export const TRAINING_LAUNCH_HANDOFF =
+  "Release to organizations goes to Leaders. They accept, then Include or assign fathers. Publish does not notify Leaders.";
 
 export type TrainingLaunchInput = DevelopmentChecklistInput & {
   id: string;
@@ -40,19 +59,36 @@ export type TrainingLaunchStep = {
   state: LaunchStepState;
 };
 
-export type TrainingLaunchPlan = {
+export type TrainingLaunchState = {
   trainingId: string;
   archived: boolean;
   released: boolean;
+  published: boolean;
+  reviewDone: boolean;
+  stageDone: boolean;
+  readyStatus: boolean;
+  checklistReady: boolean;
+  readyDone: boolean;
+  publishDone: boolean;
+  releaseDone: boolean;
+  canRelease: boolean;
   current: LaunchStepKey | "done";
   steps: TrainingLaunchStep[];
+  checklistBlocker: string | null;
+  filmBlocker: string | null;
+  rightsBlocker: string | null;
+  blocker: string | null;
+};
+
+export type TrainingLaunchPlan = TrainingLaunchState & {
   kind: LaunchKind;
   label: string;
   detailLabel: string;
   href: string;
+  stageHref: string;
   enabled: boolean;
-  blocker: string | null;
   shortBlocker: string | null;
+  showStageSecondary: boolean;
 };
 
 const STAGE_WALK_SHORT = "Stage walk required";
@@ -83,15 +119,17 @@ export function shortLaunchBlocker(blocker: string | null): string | null {
 }
 
 function launchCurrent(input: {
-  previewed: boolean;
-  ready: boolean;
-  published: boolean;
-  released: boolean;
+  reviewDone: boolean;
+  stageDone: boolean;
+  readyDone: boolean;
+  publishDone: boolean;
+  releaseDone: boolean;
 }): LaunchStepKey | "done" {
-  if (input.released) return "done";
-  if (!input.previewed) return "stage";
-  if (!input.ready) return "ready";
-  if (!input.published) return "publish";
+  if (input.releaseDone) return "done";
+  if (!input.reviewDone) return "review";
+  if (!input.stageDone) return "stage";
+  if (!input.readyDone) return "ready";
+  if (!input.publishDone) return "publish";
   return "release";
 }
 
@@ -105,21 +143,118 @@ function stepState(
   return "locked";
 }
 
-function releaseBlocker(input: {
+function currentBlocker(input: {
+  current: LaunchStepKey | "done";
   archived: boolean;
-  published: boolean;
+  reviewDone: boolean;
   sessionCount: number;
-  rightsBlocker: string | null;
+  checklistBlocker: string | null;
   filmBlocker: string | null;
-  ready: boolean;
+  rightsBlocker: string | null;
+  published: boolean;
+  readyStatus: boolean;
 }) {
-  if (input.archived) return ARCHIVE_RELEASE_ERROR;
-  if (!input.published) return "Publish this training first.";
-  if (input.sessionCount === 0) return "Add at least one session.";
-  if (input.rightsBlocker) return input.rightsBlocker;
-  if (input.filmBlocker) return input.filmBlocker;
-  if (!input.ready) return READY_REQUIRED_ERROR;
+  if (input.archived) return "Recover this training from the archive first.";
+  if (input.current === "review") {
+    return input.sessionCount === 0 ? "Add at least one session." : "Add a title and slug.";
+  }
+  if (input.current === "stage") {
+    return input.sessionCount === 0 ? "Add at least one session." : PREVIEW_REQUIRED_ERROR;
+  }
+  if (input.current === "ready") return input.checklistBlocker;
+  if (input.current === "publish") return input.filmBlocker;
+  if (input.current === "release") {
+    if (!input.published) return "Publish this training first.";
+    if (input.sessionCount === 0) return "Add at least one session.";
+    if (input.rightsBlocker) return input.rightsBlocker;
+    if (input.filmBlocker) return input.filmBlocker;
+    if (!input.readyStatus) return READY_REQUIRED_ERROR;
+    return input.checklistBlocker;
+  }
   return null;
+}
+
+export function trainingLaunchState(
+  training: TrainingLaunchInput,
+  options?: {
+    sessionHasHardcoded?: (session: TrainingLaunchInput["sessions"][number]) => boolean;
+    rightsBlocker?: string | null;
+  }
+): TrainingLaunchState {
+  const archived = isArchivedTraining(training);
+  const status = asDevelopmentStatus(training.development_status);
+  const reviewDone = Boolean(training.title?.trim() && training.slug?.trim() && training.sessions.length > 0);
+  const stageDone = Boolean(training.previewed_at);
+  const readyStatus = status === "ready_for_review" || status === "released";
+  const checklistBlocker = firstReadyBlocker(training, options);
+  const checklistReady = !checklistBlocker;
+  const readyDone = readyStatus && checklistReady;
+  const published = training.published === true;
+  const released = Boolean(training.released_at);
+  const filmBlocker = firstFilmPublishError(training.sessions);
+  const rightsBlocker = options?.rightsBlocker ?? null;
+  const current = launchCurrent({
+    reviewDone,
+    stageDone,
+    readyDone,
+    publishDone: published,
+    releaseDone: released,
+  });
+  const canRelease = canReleaseTraining(training, options);
+  const steps = LAUNCH_STEPS.map((key) => ({
+    key,
+    label: LAUNCH_STEP_LABEL[key],
+    state: stepState(
+      key,
+      current,
+      key === "review"
+        ? reviewDone
+        : key === "stage"
+          ? stageDone
+          : key === "ready"
+            ? readyDone
+            : key === "publish"
+              ? published
+              : released
+    ),
+  }));
+
+  return {
+    trainingId: training.id,
+    archived,
+    released,
+    published,
+    reviewDone,
+    stageDone,
+    readyStatus,
+    checklistReady,
+    readyDone,
+    publishDone: published,
+    releaseDone: released,
+    canRelease,
+    current: released ? "done" : current,
+    steps: released
+      ? LAUNCH_STEPS.map((key) => ({
+          key,
+          label: LAUNCH_STEP_LABEL[key],
+          state: "done" as const,
+        }))
+      : steps,
+    checklistBlocker,
+    filmBlocker,
+    rightsBlocker,
+    blocker: currentBlocker({
+      current: released ? "done" : current,
+      archived,
+      reviewDone,
+      sessionCount: training.sessions.length,
+      checklistBlocker,
+      filmBlocker,
+      rightsBlocker,
+      published,
+      readyStatus,
+    }),
+  };
 }
 
 export function trainingLaunchPlan(
@@ -129,151 +264,108 @@ export function trainingLaunchPlan(
     rightsBlocker?: string | null;
   }
 ): TrainingLaunchPlan {
-  const archived = isArchivedTraining(training);
-  const status = asDevelopmentStatus(training.development_status);
-  const previewed = Boolean(training.previewed_at);
-  const ready = status === "ready_for_review" || status === "released";
-  const published = training.published === true;
-  const released = Boolean(training.released_at);
-  const current = launchCurrent({ previewed, ready, published, released });
-  const checklistBlocker = firstReadyBlocker(training, options);
-  const filmBlocker = firstFilmPublishError(training.sessions);
-  const rightsBlocker = options?.rightsBlocker ?? null;
-
-  const steps = LAUNCH_STEPS.map((key) => ({
-    key,
-    label: LAUNCH_STEP_LABEL[key],
-    state: stepState(
-      key,
-      current,
-      key === "stage"
-        ? previewed
-        : key === "ready"
-          ? ready
-          : key === "publish"
-            ? published
-            : released
-    ),
-  }));
-
+  const state = trainingLaunchState(training, options);
   const detailHref = `/admin/trainings/${training.id}`;
   const launchHref = `${detailHref}#launch`;
   const releaseHref = `${detailHref}#release`;
   const stageHref = `${detailHref}/stage`;
+  const shortBlocker = shortLaunchBlocker(state.blocker);
 
-  if (archived) {
-    const blocker = "Recover this training from the archive first.";
+  if (state.archived) {
     return {
-      trainingId: training.id,
-      archived,
-      released,
-      current,
-      steps,
+      ...state,
       kind: "view",
       label: "View",
-      detailLabel: "View",
-      href: detailHref,
+      detailLabel: "Recover on the development desk",
+      href: `${detailHref}#development`,
+      stageHref,
       enabled: true,
-      blocker,
-      shortBlocker: shortLaunchBlocker(blocker),
+      shortBlocker,
+      showStageSecondary: false,
     };
   }
 
-  if (current === "done") {
+  if (state.current === "done") {
     return {
-      trainingId: training.id,
-      archived,
-      released,
-      current,
-      steps,
+      ...state,
       kind: "view",
       label: "Released",
       detailLabel: "Released",
       href: releaseHref,
+      stageHref,
       enabled: true,
-      blocker: null,
       shortBlocker: null,
+      showStageSecondary: true,
     };
   }
 
-  let blocker: string | null = null;
-  if (current === "ready") blocker = checklistBlocker;
-  else if (current === "publish") blocker = filmBlocker;
-  else if (current === "release") {
-    blocker = releaseBlocker({
-      archived,
-      published,
-      sessionCount: training.sessions.length,
-      rightsBlocker,
-      filmBlocker,
-      ready,
-    });
+  if (state.current === "review") {
+    return {
+      ...state,
+      kind: "fix",
+      label: `Fix: ${shortBlocker ?? "Review"}`,
+      detailLabel: "Finish Review first",
+      href: `${detailHref}#sessions`,
+      stageHref,
+      enabled: true,
+      shortBlocker,
+      showStageSecondary: true,
+    };
   }
 
-  if (current === "stage") {
+  if (state.current === "stage") {
     return {
-      trainingId: training.id,
-      archived,
-      released,
-      current,
-      steps,
-      kind: "stage",
-      label: "Stage",
+      ...state,
+      kind: "fix",
+      label: `Fix: ${shortBlocker ?? STAGE_WALK_SHORT}`,
       detailLabel: "Open staging",
       href: stageHref,
+      stageHref,
       enabled: true,
-      blocker: training.sessions.length === 0 ? "Add at least one session." : null,
-      shortBlocker:
-        training.sessions.length === 0 ? shortLaunchBlocker("Add at least one session.") : null,
+      shortBlocker,
+      showStageSecondary: true,
     };
   }
 
-  if (current === "ready") {
+  if (state.current === "ready") {
+    const enabled = !state.blocker;
     return {
-      trainingId: training.id,
-      archived,
-      released,
-      current,
-      steps,
-      kind: "ready",
-      label: "Ready",
+      ...state,
+      kind: enabled ? "ready" : "fix",
+      label: enabled ? "Mark Ready" : `Fix: ${shortBlocker ?? "Ready"}`,
       detailLabel: "Mark Ready for Review",
       href: launchHref,
-      enabled: !blocker,
-      blocker,
-      shortBlocker: shortLaunchBlocker(blocker),
+      stageHref,
+      enabled,
+      shortBlocker,
+      showStageSecondary: true,
     };
   }
 
-  if (current === "publish") {
+  if (state.current === "publish") {
+    const enabled = !state.blocker;
     return {
-      trainingId: training.id,
-      archived,
-      released,
-      current,
-      steps,
-      kind: "publish",
-      label: "Publish",
+      ...state,
+      kind: enabled ? "publish" : "fix",
+      label: enabled ? "Publish" : `Fix: ${shortBlocker ?? "Publish"}`,
       detailLabel: "Publish",
       href: launchHref,
-      enabled: !blocker,
-      blocker,
-      shortBlocker: shortLaunchBlocker(blocker),
+      stageHref,
+      enabled,
+      shortBlocker,
+      showStageSecondary: true,
     };
   }
 
   return {
-    trainingId: training.id,
-    archived,
-    released,
-    current,
-    steps,
-    kind: "release",
-    label: "Release",
-    detailLabel: "Release to organizations",
+    ...state,
+    kind: state.canRelease ? "release" : "fix",
+    label: state.canRelease ? "Release" : `Fix: ${shortBlocker ?? "Release"}`,
+    detailLabel: "Release to Leaders",
     href: launchHref,
-    enabled: !blocker,
-    blocker,
-    shortBlocker: shortLaunchBlocker(blocker),
+    stageHref,
+    enabled: state.canRelease,
+    shortBlocker,
+    showStageSecondary: true,
   };
 }
