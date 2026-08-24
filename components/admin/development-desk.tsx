@@ -33,13 +33,16 @@ export function DevelopmentDesk({
   const liveProgress = usage.progressCount > 0;
 
   return (
-    <section className="space-y-5 rounded-xl border border-border bg-card p-4 sm:p-6">
+    <section
+      id="development"
+      className="scroll-mt-[calc(4.5rem+env(safe-area-inset-top))] space-y-5 rounded-xl border border-border bg-card p-4 sm:p-6"
+    >
       <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
         <div>
           <h2 className="font-heading text-lg font-semibold">Development desk</h2>
           <p className="mt-1 text-sm text-muted-foreground">
-            Author here over multiple sittings. Only Released trainings enter
-            the Leader accept/decline flow. Stage before Ready.
+            Author, checklist, and archive live here. Use Launch at the top for
+            Stage, Ready, Publish, and Release.
           </p>
         </div>
         <DevelopmentStatusBadge status={status} />
@@ -87,8 +90,8 @@ export function DevelopmentDesk({
           <p className="mt-3 text-sm text-foreground">{checklist.firstMissing}</p>
         ) : (
           <p className="mt-3 text-sm text-muted-foreground">
-            Checklist complete. Mark Ready for Review, then publish and release
-            when Leaders should see it.
+            Checklist complete. Use Launch at the top to mark Ready, publish,
+            then release.
           </p>
         )}
       </div>

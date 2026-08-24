@@ -16,6 +16,7 @@ import {
 } from "@/lib/admin/actions";
 import { DevelopmentDesk } from "@/components/admin/development-desk";
 import { DevelopmentStatusBadge } from "@/components/admin/development-status";
+import { TrainingLaunchStrip } from "@/components/admin/training-launch-strip";
 import { SessionAuthoringFields } from "@/components/admin/session-authoring-fields";
 import { loadAdminTraining, loadTrainingUsage } from "@/lib/admin/data";
 import { loadIntakeForTraining } from "@/lib/admin/sourcing-data";
@@ -88,12 +89,14 @@ export default async function AdminTrainingDetailPage({
         </p>
         <Link
           href={`/admin/trainings/${training.id}/stage`}
-          className={cn(buttonVariants(), "w-full sm:w-auto")}
+          className={cn(buttonVariants({ variant: "outline" }), "w-full sm:w-auto")}
         >
           Open staging
         </Link>
       </div>
       <Flash error={flash.error} notice={flash.notice} />
+
+      <TrainingLaunchStrip training={training} rightsBlocker={rightsBlocker} />
 
       <form action={updateTraining} className="space-y-4 rounded-xl border border-border bg-card p-4 sm:p-6">
         <input type="hidden" name="training_id" value={training.id} />
@@ -278,17 +281,19 @@ export default async function AdminTrainingDetailPage({
           {training.published ? "Unpublish" : "Publish"}
         </h2>
         <p className="mt-1 text-sm text-muted-foreground">
-          Publishing does not notify managers. Use Release to organizations
-          below when the training is ready for review. Unpublished trainings
-          stay off new assignment. Fathers who already have progress can still
-          continue.
+          Publish does not notify Leaders. Use Launch at the top for the next
+          step. Unpublished trainings stay off new assignment. Fathers who
+          already have progress can still continue.
         </p>
         <Button type="submit" variant="outline" className="mt-4 w-full sm:w-auto">
           {training.published ? "Unpublish" : "Publish"}
         </Button>
       </form>
 
-      <section className="rounded-xl border border-border bg-card p-4 sm:p-6">
+      <section
+        id="release"
+        className="scroll-mt-[calc(4.5rem+env(safe-area-inset-top))] rounded-xl border border-border bg-card p-4 sm:p-6"
+      >
         <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
           <div>
             <h2 className="font-heading text-lg font-semibold">Release to organizations</h2>
@@ -354,8 +359,8 @@ export default async function AdminTrainingDetailPage({
               </p>
             ) : !training.published ? (
               <p className="text-sm text-muted-foreground">
-                Publish this training first. Release is a separate, deliberate
-                step. Mark Ready for Review on the development desk first.
+                Publish first from Launch. Release is a separate step and
+                notifies Leaders.
               </p>
             ) : training.sessions.length === 0 ? (
               <p className="text-sm text-muted-foreground">
