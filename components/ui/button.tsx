@@ -43,12 +43,19 @@ function Button({
   className,
   variant = "default",
   size = "default",
+  formAction,
+  name,
   ...props
 }: ButtonPrimitive.Props & VariantProps<typeof buttonVariants>) {
+  // React forbids `name` on a submit button when formAction is a server-action function.
+  const resolvedName = typeof formAction === "function" ? undefined : name
+
   return (
     <ButtonPrimitive
       data-slot="button"
       className={cn(buttonVariants({ variant, size, className }))}
+      formAction={formAction}
+      name={resolvedName}
       {...props}
     />
   )

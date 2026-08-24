@@ -92,6 +92,10 @@ export async function saveProfileProgress(formData: FormData) {
   await persistProfileProgress(formData, readIntent(formData));
 }
 
+export async function saveProfileBack(formData: FormData) {
+  await persistProfileProgress(formData, "back");
+}
+
 export async function saveAndExitProfile(formData: FormData) {
   await persistProfileProgress(formData, "exit");
 }

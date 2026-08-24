@@ -20,8 +20,6 @@ export function ProfileSaveExitButton({
   return (
     <button
       type="submit"
-      name="intent"
-      value="exit"
       formNoValidate
       formAction={action}
       disabled={pending}
