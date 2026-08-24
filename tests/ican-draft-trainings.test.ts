@@ -11,7 +11,9 @@ import {
   ICAN_DRAFT_SLUGS,
   ICAN_DRAFT_TRAININGS,
   ICAN_HOLD_DURATION_SECONDS,
+  ICAN_HOLD_VIDEO_MIGRATION,
   ICAN_HOLD_VIDEO_URL,
+  ICAN_PREVIOUS_HOLD_VIDEO_URL,
   ICAN_RETURN_HOME_DRAFT_DESCRIPTION_MIGRATION,
   ICAN_RETURN_HOME_DRAFT_MIGRATION,
   ICAN_RETURN_HOME_DRAFT_SLUGS,
@@ -19,6 +21,7 @@ import {
   icanDraftsForSlugs,
   icanDraftPromptText,
   renderIcanDraftMigrationSql,
+  renderIcanHoldVideoUpdateSql,
   renderReturnHomeDraftDescriptionUpdateSql,
   renderReturnHomeDraftMigrationSql,
 } from "../lib/trainings/ican-drafts";
@@ -191,7 +194,8 @@ describe("I CAN Super-admin draft trainings", () => {
         assert.match(action, /\nA\) /);
         assert.match(action, /\nB\) /);
         assert.match(action, /\nC\) /);
-        assert.equal(youtubeVideoId(ICAN_HOLD_VIDEO_URL), "yo_nS0vpV4M");
+        assert.equal(youtubeVideoId(ICAN_HOLD_VIDEO_URL), "aVO0k0a9Fc4");
+        assert.equal(youtubeVideoId(ICAN_PREVIOUS_HOLD_VIDEO_URL), "yo_nS0vpV4M");
         assert.equal(ICAN_HOLD_DURATION_SECONDS, 300);
 
         const scanned = copyWithoutAntiDefault(
@@ -206,7 +210,10 @@ describe("I CAN Super-admin draft trainings", () => {
 
   it("seeds CEO drafts only in the original unpublished migration", () => {
     const sql = readRepo(ICAN_DRAFT_MIGRATION);
-    assert.equal(sql, renderIcanDraftMigrationSql());
+    assert.equal(
+      sql,
+      renderIcanDraftMigrationSql({ holdVideoUrl: ICAN_PREVIOUS_HOLD_VIDEO_URL })
+    );
     assert.match(sql, /published,\s*\n\s*released_at,\s*\n\s*development_status/);
     assert.match(sql, /published = false/);
     assert.match(sql, /released_at = null/);
@@ -300,5 +307,29 @@ describe("I CAN Super-admin draft trainings", () => {
       assert.ok(sql.includes(descriptionSql), `${training.slug} description`);
       assert.ok(sql.includes(summarySql), `${training.slug} leader_summary`);
     }
+  });
+
+  it("replaces the hold placeholder video without publishing or releasing", () => {
+    const sql = readRepo(ICAN_HOLD_VIDEO_MIGRATION);
+    assert.equal(sql, renderIcanHoldVideoUpdateSql());
+    assert.equal(youtubeVideoId(ICAN_HOLD_VIDEO_URL), "aVO0k0a9Fc4");
+    assert.match(sql, /aVO0k0a9Fc4/);
+    assert.match(sql, /yo_nS0vpV4M/);
+    assert.match(sql, /overview_video_url = 'https:\/\/www\.youtube\.com\/watch\?v=aVO0k0a9Fc4'/);
+    assert.match(sql, /overview_video_url = 'https:\/\/www\.youtube\.com\/watch\?v=yo_nS0vpV4M'/);
+    assert.match(sql, /video_url = 'https:\/\/www\.youtube\.com\/watch\?v=aVO0k0a9Fc4'/);
+    assert.match(sql, /video_url = 'https:\/\/www\.youtube\.com\/watch\?v=yo_nS0vpV4M'/);
+    assert.match(sql, /coalesce\(nullif\(btrim\(overview_video_url\), ''\), ''\) = ''/);
+    assert.doesNotMatch(sql, /published\s*=/);
+    assert.doesNotMatch(sql, /released_at\s*=/);
+    assert.doesNotMatch(sql, /development_status\s*=/);
+    assert.doesNotMatch(sql, /release_training_to_organizations/);
+    assert.doesNotMatch(sql, /description\s*=/);
+    assert.doesNotMatch(sql, /leader_summary\s*=/);
+    assert.doesNotMatch(sql, /insert into public\.sessions/);
+    assert.doesNotMatch(sql, /checkin_prompt/);
+    assert.doesNotMatch(sql, /action_prompt/);
+    assert.doesNotMatch(sql, /duration_seconds\s*=/);
+    assert.doesNotMatch(sql, /SHOW_MILITARY/);
   });
 });
