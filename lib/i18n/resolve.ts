@@ -20,6 +20,18 @@ const empty: ResolvedLocaleSource = {
 
 type LocaleClient = Awaited<ReturnType<typeof createClient>>;
 
+async function readGroupLocale(
+  supabase: LocaleClient,
+  groupId: string
+): Promise<{ id: string; locale: string | null; code: string | null } | null> {
+  const { data } = await supabase
+    .from("groups")
+    .select("id, locale, code")
+    .eq("id", groupId)
+    .maybeSingle();
+  return data ?? null;
+}
+
 async function loadRelevantGroupLocales(
   supabase: LocaleClient,
   userId: string,
@@ -30,15 +42,27 @@ async function loadRelevantGroupLocales(
   organizationCode: string | null;
 }> {
   const groupLocales: Array<string | null | undefined> = [];
+  const seen = new Set<string>();
   let resolvedHomeGroupId = homeGroupId;
   let organizationCode: string | null = null;
 
-  const { loadGroupsForManager } = await import("@/lib/org-staff/membership");
-  const managedGroups = await loadGroupsForManager(userId, supabase);
-  for (const managed of managedGroups) {
-    groupLocales.push(managed.locale);
-    if (!resolvedHomeGroupId && managed.id) resolvedHomeGroupId = managed.id;
-    if (!organizationCode && managed.code) organizationCode = managed.code ?? null;
+  const addGroup = (group: { id?: string | null; locale?: string | null; code?: string | null } | null) => {
+    if (!group) return;
+    if (group.id) {
+      if (seen.has(group.id)) return;
+      seen.add(group.id);
+      if (!resolvedHomeGroupId) resolvedHomeGroupId = group.id;
+    }
+    groupLocales.push(group.locale);
+    if (!organizationCode && group.code) organizationCode = group.code;
+  };
+
+  try {
+    const { loadGroupsForManager } = await import("@/lib/org-staff/membership");
+    const managedGroups = await loadGroupsForManager(userId, supabase);
+    for (const managed of managedGroups) addGroup(managed);
+  } catch {
+    // Staff lookup can fail on older Pilot schemas; still try membership / home group.
   }
 
   const { data: membership } = await supabase
@@ -49,18 +73,11 @@ async function loadRelevantGroupLocales(
     .limit(1)
     .maybeSingle();
 
-  const groupId = membership?.group_id ?? homeGroupId ?? null;
-  if (groupId && !managedGroups.some((group) => group.id === groupId)) {
-    const { data: group } = await supabase
-      .from("groups")
-      .select("id, locale, code")
-      .eq("id", groupId)
-      .maybeSingle();
-    if (group) {
-      groupLocales.push(group.locale);
-      resolvedHomeGroupId = group.id ?? resolvedHomeGroupId;
-      organizationCode = group.code ?? organizationCode;
-    }
+  const fallbackIds = [membership?.group_id, homeGroupId].filter(
+    (id): id is string => Boolean(id) && !seen.has(id)
+  );
+  for (const groupId of fallbackIds) {
+    addGroup(await readGroupLocale(supabase, groupId));
   }
 
   return { groupLocales, homeGroupId: resolvedHomeGroupId, organizationCode };

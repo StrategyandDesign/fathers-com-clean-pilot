@@ -1,7 +1,8 @@
 -- Idempotent Hebrew Pilot Group (code IL) satellite seed for the Pilot project.
 -- Organization locale is Hebrew. English organizations are not touched.
--- Pilot IDF / Hebrew Pilot Group must keep groups.locale = 'he' so Account
--- language and RTL stay org-gated. Do not flip SHOW_HEBREW for other orgs.
+-- Pilot IDF unit (manager@idf) and Hebrew Pilot Group (code IL) must keep
+-- groups.locale = 'he' so Account language and RTL stay org-gated.
+-- Do not flip SHOW_HEBREW for other orgs.
 -- Display name is neutral. Invite code and @il logins stay the same.
 --
 -- Logins (password 12345):

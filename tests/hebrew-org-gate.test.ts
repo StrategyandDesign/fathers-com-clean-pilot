@@ -144,6 +144,8 @@ describe("Hebrew is org-gated by groups.locale", () => {
     const server = readRepo("lib/i18n/server.ts");
     assert.match(resolve, /pickResolvedLocale/);
     assert.match(resolve, /userAllowsLocale/);
+    assert.match(resolve, /homeGroupId/);
+    assert.match(resolve, /Staff lookup can fail/);
     assert.doesNotMatch(resolve, /exposeLocale/);
     assert.doesNotMatch(resolve, /isPublicLocale/);
     assert.match(server, /resolved\.allowedLocales\.includes\(cookieLocale\)/);
