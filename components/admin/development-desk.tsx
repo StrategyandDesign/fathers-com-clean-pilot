@@ -42,7 +42,7 @@ export function DevelopmentDesk({
           <h2 className="font-heading text-lg font-semibold">Development desk</h2>
           <p className="mt-1 text-sm text-muted-foreground">
             Author, checklist, and archive live here. Use Launch at the top for
-            Stage, Ready, Publish, and Release.
+            Stage walk, Ready, Publish, and Release.
           </p>
         </div>
         <DevelopmentStatusBadge status={status} />

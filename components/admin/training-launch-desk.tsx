@@ -115,13 +115,6 @@ export function TrainingLaunchDesk({
               ? "Continue to Publish"
               : "Continue to Release"}
         </Link>
-      ) : surface === "stage" && plan.current === "review" ? (
-        <Link
-          href={`/admin/trainings/${training.id}#sessions`}
-          className={cn(buttonVariants(), "w-full sm:w-auto")}
-        >
-          Continue to Review
-        </Link>
       ) : plan.kind === "fix" && plan.current === "stage" ? (
         <Link href={plan.stageHref} className={cn(buttonVariants(), "w-full sm:w-auto")}>
           Open staging

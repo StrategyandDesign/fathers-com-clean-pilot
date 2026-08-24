@@ -5,6 +5,8 @@ import { fileURLToPath } from "node:url";
 
 import { composeSkillPrompt, PREVIEW_REQUIRED_ERROR } from "../lib/admin/development";
 import {
+  LAUNCH_STEP_LABEL,
+  LAUNCH_STEPS,
   TRAINING_LAUNCH_LIST_LEAD,
   canReleaseTraining,
   shortLaunchBlocker,
@@ -66,20 +68,28 @@ function row(overrides: Partial<Training> = {}, sessions: Session[] = [session()
 }
 
 describe("training launch sequence", () => {
-  it("starts at Review when sessions are missing", () => {
+  it("locks the four-step ladder copy", () => {
+    assert.deepEqual([...LAUNCH_STEPS], ["stage", "ready", "publish", "release"]);
+    assert.equal(LAUNCH_STEP_LABEL.stage, "Stage walk");
+    assert.equal(LAUNCH_STEP_LABEL.ready, "Mark Ready for Review");
+    assert.equal(LAUNCH_STEP_LABEL.publish, "Publish");
+    assert.equal(LAUNCH_STEP_LABEL.release, "Release to organizations");
+  });
+
+  it("starts at Stage walk when sessions are missing", () => {
     const state = trainingLaunchState(row({}, []));
-    assert.equal(state.current, "review");
+    assert.equal(state.current, "stage");
     assert.equal(state.steps[0].state, "current");
     const plan = trainingLaunchPlan(row({}, []));
     assert.equal(plan.kind, "fix");
     assert.equal(plan.label, "Fix: Session missing");
   });
 
-  it("starts at Stage walk after Review when the preview is missing", () => {
+  it("starts at Stage walk when the preview is missing", () => {
     const state = trainingLaunchState(row());
     assert.equal(state.current, "stage");
-    assert.equal(state.steps[0].state, "done");
-    assert.equal(state.steps[1].state, "current");
+    assert.equal(state.steps[0].state, "current");
+    assert.equal(state.steps[1].state, "locked");
     const plan = trainingLaunchPlan(row());
     assert.equal(plan.kind, "fix");
     assert.equal(plan.label, "Fix: Stage walk required");
@@ -126,7 +136,7 @@ describe("training launch sequence", () => {
     assert.equal(plan.enabled, true);
   });
 
-  it("offers Release to Leaders only after Publish", () => {
+  it("offers Release to organizations only after Publish", () => {
     const plan = trainingLaunchPlan(
       row({
         previewed_at: "2026-08-18T12:00:00.000Z",
@@ -137,7 +147,7 @@ describe("training launch sequence", () => {
     assert.equal(plan.current, "release");
     assert.equal(plan.kind, "release");
     assert.equal(plan.label, "Release");
-    assert.equal(plan.detailLabel, "Release to Leaders");
+    assert.equal(plan.detailLabel, "Release to organizations");
     assert.equal(plan.enabled, true);
     assert.equal(plan.canRelease, true);
     assert.match(plan.href, /#launch$/);
@@ -259,7 +269,7 @@ describe("training launch surfaces", () => {
     assert.match(action, />\s*Stage\s*</);
     assert.equal(
       TRAINING_LAUNCH_LIST_LEAD,
-      "Review a training, then Stage walk → Ready → Publish → Release to Leaders. Publish does not notify Leaders. Release does."
+      "Stage walk → Mark Ready for Review → Publish → Release to organizations. Publish does not notify Leaders. Release does."
     );
     assert.doesNotMatch(page, /—/);
   });
