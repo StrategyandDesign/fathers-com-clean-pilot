@@ -1,12 +1,12 @@
 {
   "mark": 7,
-  "patch": 101,
-  "label": "Shared 1-1.101",
+  "patch": 127,
+  "label": "Shared 1-1.127",
   "tag": "shared/7",
   "at": "2026-08-21T00:00:00.000Z",
   "internalSha": "890fa8b684cc17a21c0ccbc13b787b24016b129e",
   "sharedSha": "",
-  "title": "Put a created assessment in the cohort as included.",
+  "title": "Seed three unpublished return-home draft trainings",
   "url": "https://github.com/StrategyandDesign/fathers-com-clean-pilot/releases/tag/shared/7",
   "revisions": [
     {
@@ -890,6 +890,13 @@
       "label": "Shared 1-1.126",
       "at": "2026-08-24",
       "title": "Show the circled Group invite code crop on Leader start."
+    },
+    {
+      "patch": 127,
+      "revision": "1.127",
+      "label": "Shared 1-1.127",
+      "at": "2026-08-24",
+      "title": "Seed three unpublished return-home draft trainings"
     }
   ]
 }
