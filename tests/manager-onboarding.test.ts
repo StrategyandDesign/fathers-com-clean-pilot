@@ -97,6 +97,7 @@ describe("leader onboarding wiring", () => {
     const orgNew = readRepo("app/(admin)/admin/organizations/new/page.tsx");
     const join = readRepo("app/(auth)/join/leader/page.tsx");
     const start = readRepo("app/(manager)/manager/start/page.tsx");
+    const en = readRepo("lib/i18n/messages/en.ts");
     const layout = readRepo("app/(manager)/layout.tsx");
     const inbox = readRepo("components/admin/inbox-tabs.tsx");
 
@@ -105,9 +106,13 @@ describe("leader onboarding wiring", () => {
     assert.match(join, /joinAsLeader/);
     assert.match(start, /finishManagerOnboarding/);
     assert.match(start, /onboarding\/leader-invite-code\.png/);
+    assert.match(start, /TODO: drop the circled Group invite code crop/);
     assert.match(start, /manager\.start\.stepInvite/);
     assert.match(start, /manager\.start\.stepTrainings/);
     assert.doesNotMatch(start, /stepInclude|stepAssign|stepPhotos/);
+    assert.match(en, /Give participants the invite code/);
+    assert.match(en, /Go to Trainings and review which trainings/);
+    assert.doesNotMatch(en, /1\. The participant invite code sits/);
     assert.match(layout, /gateManagerOnboarding/);
     assert.match(inbox, /admin\/support\/leaders/);
   });
