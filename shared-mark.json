@@ -883,6 +883,13 @@
       "label": "Shared 1-1.125",
       "at": "2026-08-24",
       "title": "Cut Leader start to invite code and Trainings."
+    },
+    {
+      "patch": 126,
+      "revision": "1.126",
+      "label": "Shared 1-1.126",
+      "at": "2026-08-24",
+      "title": "Show the circled Group invite code crop on Leader start."
     }
   ]
 }

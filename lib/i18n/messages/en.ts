@@ -1340,9 +1340,8 @@ export const en = {
     start: {
       title: "This is the Leader desk.",
       body: "Two things to start.",
-      stepInvite:
-        "Give participants the invite code. It is at the bottom of the dashboard, on Group invite code.",
-      stepTrainings: "Go to Trainings and review which trainings to release to your cohort.",
+      stepInvite: "The participant invite code is at the bottom of the dashboard, on Group invite code.",
+      stepTrainings: "Go to Trainings and review what to release to your cohort.",
       inviteShotAlt: "Group invite code card on the Leader dashboard, with the code circled.",
       openDesk: "Open the desk",
     },
