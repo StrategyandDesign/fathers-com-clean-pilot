@@ -155,6 +155,10 @@ export async function signUp(formData: FormData) {
     redirect(`/signup?error=${encodeURIComponent(signUpFlash(joinError.message))}`);
   }
 
+  if (data.user) {
+    await ensureFatherGroupJoin(data.user);
+  }
+
   await notifyAccountCreated({ email, userId: data.user?.id });
   redirect(authContinueHref(ROLE_HOME.father));
 }

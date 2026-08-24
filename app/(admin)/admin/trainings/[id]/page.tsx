@@ -370,8 +370,8 @@ export default async function AdminTrainingDetailPage({
               </p>
             ) : (
               <p className="text-sm text-muted-foreground">
-                Managers get an in-app notice and can preview, accept, or
-                decline. Fathers are not enrolled until a manager assigns it.
+                Managers get an in-app notice and can preview, include, or
+                decline. Include assigns it to fathers in that organization.
               </p>
             )}
             {canRelease ? (

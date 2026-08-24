@@ -80,6 +80,7 @@ export const loadOnboardingState = cache(async (fatherId: string): Promise<Onboa
     hasReminder: Boolean(reminder),
     reminderSkipped,
     hasAssignedSession,
+    hasIncludedTraining: hasAssignedSession,
     firstSessionComplete: isSessionComplete(first?.progress ?? null),
     completedAt,
   });
