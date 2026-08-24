@@ -8,7 +8,10 @@ export const LOCALE_COOKIE = "fc_locale";
 
 export const RTL_LOCALES: readonly Locale[] = ["he"];
 
-/** Hebrew stays in `lib/i18n/messages/he.ts`. Public UI, cookies, and mail stay English until this flips. */
+/**
+ * Unused public kill switch. Hebrew stays in `lib/i18n/messages/he.ts`.
+ * Do not flip this to publish Hebrew globally — entitled orgs use `groups.locale === "he"`.
+ */
 export const SHOW_HEBREW = false;
 
 export const PUBLIC_LOCALES: readonly Locale[] = SHOW_HEBREW ? LOCALES : [DEFAULT_LOCALE];

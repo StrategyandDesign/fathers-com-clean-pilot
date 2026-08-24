@@ -22,7 +22,7 @@ import { managerDisplayTitleLabel } from "@/lib/account/display-title";
 import { loadAccountState, loadOrganizationName } from "@/lib/account/data";
 import { loadFatherLeader } from "@/lib/cohort-note/data";
 import { ROLE_HELP, type AppRole } from "@/lib/auth/roles";
-import { SHOW_HEBREW } from "@/lib/i18n/config";
+import { resolveUserLocale } from "@/lib/i18n/resolve";
 import { getI18n } from "@/lib/i18n/server";
 import { cn } from "@/lib/utils";
 
@@ -42,10 +42,11 @@ export async function AccountView({
   children?: React.ReactNode;
 }) {
   const { t } = await getI18n();
-  const [account, organizationName, leader] = await Promise.all([
+  const [account, organizationName, leader, localeSource] = await Promise.all([
     loadAccountState(userId),
     role === "father" ? loadOrganizationName(userId) : Promise.resolve(null),
     role === "father" ? loadFatherLeader(userId) : Promise.resolve(null),
+    resolveUserLocale(userId),
   ]);
   const identityLabel =
     role === "father"
@@ -114,7 +115,7 @@ export async function AccountView({
         </>
       ) : null}
 
-      {SHOW_HEBREW ? <LanguageForm savedLocale={account.locale} /> : null}
+      <LanguageForm savedLocale={account.locale} allowedLocales={localeSource.allowedLocales} />
 
       {role !== "admin" ? (
         <AnonymousShareToggle role={role} initial={account.shareAnonymousAdmin} />
