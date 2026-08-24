@@ -25,6 +25,16 @@ export type ManagerCatalogItem = {
   groupName?: string;
 };
 
+export function catalogCardSummary(training: {
+  description?: string | null;
+  leader_summary?: string | null;
+}) {
+  const description = training.description?.trim();
+  if (description) return description;
+  const summary = training.leader_summary?.trim();
+  return summary || null;
+}
+
 function reviewHref(trainingId: string, groupId?: string) {
   return groupId
     ? `/manager/reviews/${trainingId}?group=${groupId}`

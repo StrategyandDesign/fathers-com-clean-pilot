@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 
 import type { Training } from "../lib/father/types";
-import { buildManagerCatalog } from "../lib/manager/catalog";
+import { buildManagerCatalog, catalogCardSummary } from "../lib/manager/catalog";
 
 function training(overrides: Partial<Training> & Pick<Training, "id" | "title">): Training {
   return {
@@ -174,5 +174,23 @@ describe("manager catalog", () => {
 
     assert.equal(items.length, 1);
     assert.equal(items[0]?.status, "ready");
+  });
+
+  it("prints the stored description, then leader_summary, on catalog cards", () => {
+    assert.equal(
+      catalogCardSummary({
+        description: "  Father-facing copy.  ",
+        leader_summary: "Leader-only copy.",
+      }),
+      "Father-facing copy."
+    );
+    assert.equal(
+      catalogCardSummary({
+        description: null,
+        leader_summary: "  Leader-only copy.  ",
+      }),
+      "Leader-only copy."
+    );
+    assert.equal(catalogCardSummary({ description: "   ", leader_summary: "" }), null);
   });
 });
