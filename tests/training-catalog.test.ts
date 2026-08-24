@@ -83,6 +83,25 @@ describe("training catalog decisions", () => {
     assert.match(issue, /A certificate is already on file/);
   });
 
+  it("loads catalog descriptions on the Leader desk and keeps father cards on description", () => {
+    const data = readRepo("lib/manager/data.ts");
+    const catalog = readRepo("components/manager/training-catalog.tsx");
+    const fatherPage = readRepo("app/(father)/father/trainings/page.tsx");
+    const fatherData = readRepo("lib/father/data.ts");
+    const fatherCard = readRepo("components/father/training-catalog-card.tsx");
+
+    assert.match(
+      data,
+      /DESK_TRAINING_COLUMNS =\s*"id, slug, title, description, leader_summary, attribution, session_count, order_index, published, released_at, first_published_at, first_released_at"/
+    );
+    assert.match(data, /description: row\.description \?\? null/);
+    assert.doesNotMatch(data, /description: null,\s*\.\.\.row/s);
+    assert.match(catalog, /catalogCardSummary\(item\.training\)/);
+    assert.match(fatherData, /from\("trainings"\)\.select\("\*"\)/);
+    assert.match(fatherPage, /description=\{card\.training\.description\}/);
+    assert.doesNotMatch(fatherCard, /leader_summary/);
+  });
+
   it("shows Included in green and Declined in red on the selected button", () => {
     const buttons = readRepo("components/manager/catalog-decision-buttons.tsx");
     assert.match(buttons, /manager\.trainings\.included/);
