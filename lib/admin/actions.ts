@@ -32,6 +32,7 @@ import {
   managerJoinHref,
   normalizeInviteEmail,
 } from "@/lib/manager/invite";
+import { releaseFlashNotice } from "@/lib/admin/release-flash";
 import {
   isLegacyCatalogTraining,
   RELEASE_CONFIRM,
@@ -789,18 +790,15 @@ export async function releaseTraining(formData: FormData) {
     fail(path, RELEASE_WRITE_ERROR);
   }
 
-  const notice =
-    result.targetCount === 0
-      ? "No matching organizations to release to."
-      : result.newCount === 0
-        ? "Those organizations already have this training."
-        : scope === "selected"
-          ? result.newCount === 1
-            ? "Released to 1 organization. That manager was notified."
-            : `Released to ${result.newCount} organizations. Eligible managers were notified.`
-          : result.notified
-            ? "Released to all organizations. Eligible managers were notified."
-            : "Released to all organizations.";
+  const notice = releaseFlashNotice({
+    scope,
+    targetCount: result.targetCount,
+    newCount: result.newCount,
+    notified: result.notified,
+    notifyFailed: result.notifyFailed,
+    alreadyHave: "Those organizations already have this training.",
+    audience: "managers",
+  });
 
   const { error: statusError } = await supabase
     .from("trainings")
