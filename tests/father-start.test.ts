@@ -1,11 +1,14 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 
+import { ROLE_HOME } from "../lib/auth/roles";
 import {
   canOpenOnboardingStep,
   currentOnboardingStep,
   defaultRemindAt,
+  fatherOnboardingRedirect,
   isAssignedSessionPath,
+  isFatherLiveSessionPath,
   isFatherStartPath,
   isOnboardingActive,
   nextStepAfterAnswer,
@@ -116,7 +119,7 @@ describe("first-run skip logic", () => {
     );
   });
 
-  it("holds when nothing is assigned and opens session 1 when it is", () => {
+  it("holds when nothing is assigned and sends assigned fathers to Home", () => {
     assert.equal(
       currentOnboardingStep({
         mode: "full",
@@ -133,11 +136,12 @@ describe("first-run skip logic", () => {
         hasReminder: true,
         hasAssignedSession: true,
       }),
-      "session"
+      "done"
     );
+    assert.equal(onboardingHref("done"), ROLE_HOME.father);
   });
 
-  it("leaves hold when the org has an included training even before an assignment row", () => {
+  it("leaves hold for Home when the org has an included training even before an assignment row", () => {
     assert.equal(
       currentOnboardingStep({
         mode: "full",
@@ -146,7 +150,7 @@ describe("first-run skip logic", () => {
         hasAssignedSession: false,
         hasIncludedTraining: true,
       }),
-      "session"
+      "done"
     );
     assert.equal(
       currentOnboardingStep({
@@ -156,7 +160,7 @@ describe("first-run skip logic", () => {
         hasAssignedSession: false,
         hasIncludedTraining: true,
       }),
-      "session"
+      "done"
     );
   });
 
@@ -194,6 +198,58 @@ describe("start routes", () => {
       true
     );
     assert.equal(isAssignedSessionPath("/father/sessions/other", "abc"), false);
+    assert.equal(isFatherLiveSessionPath("/father/sessions/abc/action"), true);
+    assert.equal(isFatherLiveSessionPath("/father/trainings/calm"), true);
+    assert.equal(isFatherLiveSessionPath("/father"), false);
+    assert.equal(isFatherLiveSessionPath("/father/trainings"), false);
+    assert.equal(isFatherLiveSessionPath("/father/account"), false);
+  });
+
+  it("does not bounce an in-progress week off Home after login", () => {
+    assert.equal(
+      fatherOnboardingRedirect({
+        pathname: "/father",
+        active: false,
+        step: "done",
+        firstSessionId: "abc",
+      }),
+      null
+    );
+    assert.equal(
+      fatherOnboardingRedirect({
+        pathname: "/father/sessions/abc/action",
+        active: true,
+        step: "session",
+        firstSessionId: "abc",
+      }),
+      null
+    );
+    assert.equal(
+      fatherOnboardingRedirect({
+        pathname: "/father",
+        active: true,
+        step: "session",
+        firstSessionId: "abc",
+      }),
+      null
+    );
+    assert.equal(
+      fatherOnboardingRedirect({
+        pathname: "/father/assessments",
+        active: true,
+        step: "session",
+        firstSessionId: "abc",
+      }),
+      ROLE_HOME.father
+    );
+    assert.equal(
+      fatherOnboardingRedirect({
+        pathname: "/father/account",
+        active: true,
+        step: "welcome",
+      }),
+      "/father/start/welcome"
+    );
   });
 
   it("treats first-run chrome as a closed funnel until the flow is done", () => {
