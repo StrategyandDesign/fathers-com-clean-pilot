@@ -6,7 +6,10 @@ import {
   keepExistingRoleOnSso,
   mapStaffRoleFromClaims,
 } from "@/lib/identity/sso";
+import { isMissingStaffDeskFunction } from "@/lib/identity/staff-desk";
 import { createClient } from "@/lib/supabase/server";
+
+export { isMissingStaffDeskFunction } from "@/lib/identity/staff-desk";
 
 type AuthUser = {
   id: string;
@@ -63,13 +66,7 @@ export async function staffDeskIsActive(profileId: string) {
     profile_id: profileId,
   });
   if (error) {
-    if (
-      error.code === "42P01" ||
-      error.code === "PGRST202" ||
-      /staff_has_active_desk/i.test(error.message ?? "")
-    ) {
-      return true;
-    }
+    if (isMissingStaffDeskFunction(error)) return true;
     throw error;
   }
   return data !== false;

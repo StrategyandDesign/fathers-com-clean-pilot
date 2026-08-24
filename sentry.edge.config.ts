@@ -1,10 +1,10 @@
 import * as Sentry from "@sentry/nextjs";
 
-import { sentryDsn, sentryEnabled } from "@/lib/observability/sentry-dsn";
+import { sentryDsn, sentryRuntimeEnabled } from "@/lib/observability/sentry-dsn";
 
 Sentry.init({
   dsn: sentryDsn() || undefined,
-  enabled: sentryEnabled(),
+  enabled: sentryRuntimeEnabled(),
   tracesSampleRate: 0,
   sendDefaultPii: false,
 });
