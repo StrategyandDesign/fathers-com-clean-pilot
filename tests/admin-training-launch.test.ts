@@ -17,6 +17,7 @@ import {
   trainingLaunchPlan,
   trainingLaunchState,
 } from "../lib/admin/launch";
+import { releaseFlashNotice } from "../lib/admin/release-flash";
 import { FILM_RUNTIME_MISSING } from "../lib/trainings/runtime";
 import type { Session, Training } from "../lib/father/types";
 
@@ -339,5 +340,84 @@ describe("training launch surfaces", () => {
     assert.match(desk, /Use Launch above/);
     assert.match(shell, /TrainingLaunchWalkCue/);
     assert.match(overview, /TrainingLaunchWalkCue/);
+  });
+});
+
+describe("training release flash", () => {
+  it("does not claim managers were notified when some emails fail", () => {
+    assert.equal(
+      releaseFlashNotice({
+        scope: "all",
+        targetCount: 3,
+        newCount: 3,
+        notified: true,
+        notifyFailed: true,
+        alreadyHave: "Those organizations already have this training.",
+        audience: "managers",
+      }),
+      "Released to all organizations."
+    );
+    assert.equal(
+      releaseFlashNotice({
+        scope: "selected",
+        targetCount: 1,
+        newCount: 1,
+        notified: true,
+        notifyFailed: true,
+        alreadyHave: "Those organizations already have this training.",
+        audience: "managers",
+      }),
+      "Released to 1 organization."
+    );
+    assert.equal(
+      releaseFlashNotice({
+        scope: "selected",
+        targetCount: 2,
+        newCount: 2,
+        notified: true,
+        notifyFailed: true,
+        alreadyHave: "Those organizations already have this training.",
+        audience: "managers",
+      }),
+      "Released to 2 organizations."
+    );
+  });
+
+  it("keeps the notified claim when every manager email sends", () => {
+    assert.equal(
+      releaseFlashNotice({
+        scope: "all",
+        targetCount: 3,
+        newCount: 3,
+        notified: true,
+        notifyFailed: false,
+        alreadyHave: "Those organizations already have this training.",
+        audience: "managers",
+      }),
+      "Released to all organizations. Eligible managers were notified."
+    );
+    assert.equal(
+      releaseFlashNotice({
+        scope: "selected",
+        targetCount: 1,
+        newCount: 1,
+        notified: true,
+        notifyFailed: false,
+        alreadyHave: "Those organizations already have this training.",
+        audience: "managers",
+      }),
+      "Released to 1 organization. That manager was notified."
+    );
+  });
+
+  it("keeps the email warning on the training release finish path", () => {
+    const actions = readRepo("lib/admin/actions.ts");
+    assert.match(actions, /releaseFlashNotice/);
+    assert.match(
+      actions,
+      /Some manager emails didn’t send\. The training is still released for review\./
+    );
+    assert.match(actions, /error: result\.notifyFailed \? RELEASE_NOTIFY_WARNING/);
+    assert.doesNotMatch(actions, /Eligible managers were notified\./);
   });
 });
