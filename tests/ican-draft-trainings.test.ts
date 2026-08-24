@@ -127,10 +127,6 @@ describe("I CAN Super-admin draft trainings", () => {
       assert.match(training.leaderSummary, /Sponsorship funds the organization/);
       assert.equal(training.leaderSummary.startsWith("Leader: "), false);
       if ((ICAN_CEO_DRAFT_SLUGS as readonly string[]).includes(training.slug)) {
-        assert.match(training.description, /Involvement/);
-        assert.match(training.description, /Consistency/);
-        assert.match(training.description, /Awareness/);
-        assert.match(training.description, /Nurturance/);
         assert.doesNotMatch(training.description, /Purpose:/);
         assert.doesNotMatch(training.description, /Concrete objectives/);
         assert.doesNotMatch(training.leaderSummary, /Kill the week/);
@@ -280,24 +276,40 @@ describe("I CAN Super-admin draft trainings", () => {
 
     const [afterAction, directHours, unscoredChild, midcourse] = icanDraftsForSlugs(ICAN_CEO_DRAFT_SLUGS);
     assert.equal(
+      afterAction.description.startsWith("A day can go wrong in a doorway, a kitchen, a car."),
+      true
+    );
+    assert.equal(
+      directHours.description.startsWith("A child does not need another dashboard."),
+      true
+    );
+    assert.equal(
+      unscoredChild.description.startsWith("Almost every hour in a child's week already has a score."),
+      true
+    );
+    assert.equal(
+      midcourse.description.startsWith("You do not stop the ship to become a better father."),
+      true
+    );
+    assert.equal(
       afterAction.description,
-      "The miss already happened. What matters now is the next honest hour. You name it in plain words, own the part that is yours with no defense, and close it the same day with the person who was there. Then you put the clipboard down.\n\nThis course trains a short after-action at home that does not turn the household into a review board. Involvement is walking across the room. Awareness is seeing the miss without spin. Consistency is closing it before you sleep. Nurturance is how the repair lands, and how you stop scoring yourself afterward. Ten minutes is enough. The child who overheard it needs a short, age-fit close. So does the other adult, when they were hit too.\n\nEach week is a short film, a checkpoint, and one lived close. If the repair can be told as a leadership story, it failed the people at your table."
+      "A day can go wrong in a doorway, a kitchen, a car. The miss is already done. The fathering is the next honest hour: you name what happened, you own the part that is yours, and you close it the same day with the person who was there. Then you put the clipboard down.\n\nThis is not a household review board. Ten minutes is enough. The child who overheard it needs a short, age-fit close. So does the other adult, when they were hit too. See the miss without spin, walk across the room, and close it before you sleep. How the repair lands matters more than how well you score yourself afterward. If the repair becomes a story you could tell for status, it failed the people at your table.\n\nThis draft stays unpublished."
     );
     assert.equal(
       afterAction.leaderSummary,
-      "Super-admin draft. Not published. Not released. Named, owned, closed, same day, then forgotten as a brand. Awareness of the miss, involvement in the close, consistency of same-day timing, nurturance in how it lands. Watch for forum anecdotes, long speeches, and pride dressed as patience. Sponsorship funds the organization, not a preferred seat."
+      "Named, owned, closed, same day, then forgotten as a brand. Watch for forum anecdotes, long speeches, and pride dressed as patience. Super-admin draft. Not published. Not released. Sponsorship funds the organization, not a preferred seat."
     );
     assert.equal(
       directHours.description,
-      "Your child does not need another dashboard. They need hours of care the firm cannot have. Direct Hours is a constraint, not a target: one device-down block each weekday you are in town, and one longer block on the weekend.\n\nThe phone leaves the room. Errands with a screen nearby do not count. Travel weeks do not get a pretend win. You restore the first block the day you get back. Involvement is showing up in the window you named. Awareness is knowing what is actually care. Consistency is the weekday and the weekend kept. Nurturance is attention the child can feel, without you scanning their face for payoff.\n\nTwelve weeks of one film, one checkpoint, and one practice. If you are winning Direct Hours in a chat, stop."
+      "A child does not need another dashboard. They need hours of care the firm cannot have. Direct Hours is a constraint, not a target: one device-down block each weekday you are in town, and one longer block on the weekend.\n\nThe phone leaves the room. Errands with a screen nearby do not count. Travel weeks do not get a pretend win. You restore the first block the day you return. Show up in the window you named. Know what is actually care. Keep the weekday and the weekend. Give attention the child can feel, without scanning their face for payoff. If you are winning Direct Hours in a chat, stop.\n\nThis draft stays unpublished."
     );
     assert.equal(
       unscoredChild.description,
-      "Almost every hour in a child's week already has a score. This course protects one hour that does not: no lesson, no sport framed as development, no college signal. You sit with this child and produce nothing you can report.\n\nKen's work on knowing your child lives here as a weekly hour. You keep a private picture of who they are now, what they are into, what frightens them, and what is coming. You ask questions that are not advice in disguise. You listen longer than you talk. Moods are something you sit with, not something you fix. Involvement is being there. Awareness is the child in the present tense. Consistency is the hour that keeps returning. Nurturance is presence that extracts no return.\n\nIf the hour yields insight you could pitch on Monday, it failed."
+      "Almost every hour in a child's week already has a score. This course protects one that does not. You sit with this child and produce nothing you can report. No lesson, no sport framed as development, no college signal.\n\nKen's work on knowing your child lives here as a weekly hour. Who they are now. What they are into. What frightens them. What is coming. You listen longer than you talk. Moods are something you sit with, not something you fix. Be there. Stay with the child in the present tense. Keep the hour. Extract no return. If the hour yields insight you could pitch on Monday, it failed.\n\nThis draft stays unpublished."
     );
     assert.equal(
       midcourse.description,
-      "You do not stop the ship to become a better father. You make a small turn while it is still moving. Midcourse correction is one countable act a week that means nothing to the firm and cannot be reported as leadership development.\n\nBefore Sunday ends you pick the act. You do it once, plainly, and you do not announce it. Hot weeks move the act earlier, not later. Involvement is the act done. Awareness is knowing what to turn toward. Consistency is twelve quiet weeks. Nurturance is the part you will not put on a slide.\n\nIf it could go in a forum update, pick a different act."
+      "You do not stop the ship to become a better father. You make a small turn while it is still moving. Midcourse correction is one countable act a week that means nothing to the firm and cannot be reported as leadership development.\n\nPick it before Sunday ends. Do it once, plainly. Do not announce it. Hot weeks move the act earlier, not later. Stay midcourse: a small turn toward home, counted quietly, never dressed as leadership. If it could go in a forum update, pick a different act.\n\nThis draft stays unpublished."
     );
     for (const training of icanDraftsForSlugs(ICAN_CEO_DRAFT_SLUGS)) {
       assert.doesNotMatch(training.description, /Purpose:/);

@@ -30,23 +30,23 @@ const RETURN_HOME_OVERVIEW_LOCKS = [
   {
     slug: "calm-you-can-lend",
     description:
-      "The stretch is over and your body has not heard the news. You walk through the door still high. The people inside did not live what you just carried. A child will borrow whatever you bring. Anyone else in the house may borrow it too, when they are there.\n\nCalm You Can Lend is twelve weeks of coming down at the door before you speak. You learn your own body tells, keep the same short ritual every return, and stay present once you are down. Soft voice and proximity go first. Correction waits. When you snap, you close it the same day. The ordinary hours that hold you are part of the work. None of this is a post or a streak. Involvement is staying in the room after you come down. Awareness is the surge named as a body signal. Consistency is the ritual you do not skip. Nurturance is the calm another person can actually use.\n\nEach week you watch a short film, answer one question, and try one practice.",
+      "A father can come back from a hard stretch still carrying the body that kept him going. The people inside should not have to receive that leftover load at the door.\n\nCalm You Can Lend is the come-down before you speak. Same short ritual every return. Then a calmer voice, nearer presence, and correction that waits until you are actually home. Over twelve weeks the door itself changes. A child can settle near you. If you snap, you close it the same day. Notice when you are still high. Keep the ritual. Stay in the room once you are down, so the calm is something someone else can use.\n\nThis draft stays unpublished.",
     leaderSummary:
-      "Super-admin draft. Not published. Not released. The course owns the door and the calm he lends outward. Awareness of the surge, consistency of the return ritual, involvement once he is down, nurturance in calm others can borrow. A good week is the same short ritual, soft presence with the child and with whoever is inside when they are present, and same-day repair. If he teaches the come-down and never uses it at his own door, or turns body language into diagnosis talk, bring him back to one return. Sponsorship funds the organization, not a preferred seat.",
+      "Watch the door. The course owns a short come-down and a calm he lends outward, not a tip he repeats for other men. Success looks like the same ritual every return, soft presence with the child and with whoever is inside when they are present, and same-day repair after a snap. Super-admin draft. Not published. Not released. Sponsorship funds the organization, not a preferred seat.",
   },
   {
     slug: "the-house-that-kept-going",
     description:
-      "While you were gone, the house kept going. Someone kept the meals, the bedtime, the school bag. It may have been a co-parent, kin, a program, or the child. The wound opens when you walk in and rewrite the rules as if nothing happened without you.\n\nThis course asks you to see that load in plain words and join what already works. You thank once, quietly. You ask before you change a rule. You take one real load the house names and finish it. Trust comes later than you want. When you snap at the system, you repair the same day with whoever was there. You do not install a second plan beside the one that kept the child. Involvement is the load you actually complete. Awareness is noticing who carried what. Consistency is the small promise kept. Nurturance is the tone when you reenter. No one in this house is assumed to be a mother or a partner.\n\nTwelve weeks of one film, one checkpoint, and one practice.",
+      "While you are away, a house often keeps running. Someone carries the routines: a co-parent, kin, a program, or the child. The wound opens when you walk in and rewrite the rules as if nothing happened without you.\n\nSee that load in plain words. Thank it once, without a speech. Join what already works. Ask before you change a rule. Take one real task the house names and finish it. Trust comes later than you want, through small kept promises and same-day repair. Notice who carried what. Finish the asked load. Keep the small promise. Watch your tone when you reenter. No one here is assumed to be a mother or a partner.\n\nThis draft stays unpublished.",
     leaderSummary:
-      "Super-admin draft. Not published. Not released. The carrier may be a co-parent, kin, a program, or the child. Awareness of the load, involvement in one named load finished, consistency of small promises, nurturance in tone and same-day repair. A good week is one asked load done, no parallel plan, and trust treated as something that lags. If gratitude becomes cover for taking the wheel, or the keeper of the house is treated like household management, bring him back to one asked load. Sponsorship funds the organization, not a preferred seat.",
+      "He is joining a house that ran without him. The carrier may be a co-parent, kin, a program, or the child. Watch for an ask before any rule change, one joined rhythm, and trust treated as something that lags. If gratitude becomes a cover for taking the wheel again, bring him back to one named load. Super-admin draft. Not published. Not released. Sponsorship funds the organization, not a preferred seat.",
   },
   {
     slug: "knowing-again",
     description:
-      "Children change while you are away. Interests, fears, friends, and how they want you all move. Yesterday's picture of them will miss them, over and over. Knowing your child is never finished when the weeks keep sending you out and bringing you back.\n\nThis course is twelve weeks of meeting the child in front of you. You update a private note about who they are now. You ask once and listen longer. Hesitation is information, not a verdict on your worth. Small deposits that fit them beat a big make-up weekend. Presence comes before providing. If you miss, you repair softly the same day. Another caregiver may help you see what changed. They are an ally when they are part of the week, never a required messenger. Involvement is the matching deposit. Awareness is the updated picture. Consistency is showing up after the next stretch. Nurturance is meeting coolness without forcing a reunion.\n\nWhen you cannot sit with your child, you still complete the week on paper.",
+      "Children change while you are gone. Interests, fears, friends, and the way they want you all move. Yesterday's picture of them will miss them, because knowing is never finished when a man has been away.\n\nKnowing Again is meeting the child in front of you. You update the picture. You ask before you assume. You offer presence that fits who they are now. Small matching deposits beat a make-up weekend. Hesitation is information, not a verdict on your worth. Another caregiver may help you see what changed. They are an ally when they are part of the week, never a required messenger. Stay current on who this child is today, and meet coolness without forcing a reunion.\n\nIf you cannot sit with your child, the week still completes on paper.\n\nThis draft stays unpublished.",
     leaderSummary:
-      "Super-admin draft. Not published. Not released. Awareness of who this child is now, involvement in matching deposits, consistency of frequency over a make-up weekend, nurturance with hesitation. A good week is an honest child-now picture, an ask before an assumption, and presence that extracts nothing for a resume. If knowing becomes a talent review, a growth dashboard, or a forced reunion, bring him back to one question and a closed mouth. Sponsorship funds the organization, not a preferred seat.",
+      "He is learning this child again, not recovering a former version. Watch for an updated picture, an ask before an assumption, and presence that is not a talent review. If the week becomes a growth dashboard or a forced reunion, bring him back to one matching deposit. Super-admin draft. Not published. Not released. Sponsorship funds the organization, not a preferred seat.",
   },
 ] as const;
 
@@ -55,7 +55,7 @@ function readRepo(relativePath: string) {
 }
 
 function copyWithoutAntiDefault(text: string) {
-  return text.replace(/No one in this house is assumed to be a mother or a partner\./gi, "");
+  return text.replace(/No one here is assumed to be a mother or a partner\./gi, "");
 }
 
 function sqlEscaped(value: string) {
@@ -74,10 +74,6 @@ function assertKenVoiceCopy(training: {
   assert.equal(training.leaderSummary.includes(EM_DASH), false);
   assert.equal(training.description.includes(EN_DASH), false);
   assert.equal(training.leaderSummary.includes(EN_DASH), false);
-  assert.match(training.description, /Involvement/);
-  assert.match(training.description, /Awareness/);
-  assert.match(training.description, /Consistency/);
-  assert.match(training.description, /Nurturance/);
 
   const scanned = [training.description, training.leaderSummary].join("\n");
   for (const marker of AI_OVERVIEW_MARKERS) {
@@ -112,10 +108,53 @@ describe("stored training overview paragraphs", () => {
       "midcourse-correction",
     ]);
 
+    const fundamentals = repoBacked.find((training) => training.slug === "fundamentals");
     const anger = repoBacked.find((training) => training.slug === "anger");
     const reentry = repoBacked.find((training) => training.slug === "reentry");
-    assert.equal(anger?.leaderSummary.startsWith("The work is noticing the surge"), true);
-    assert.equal(reentry?.leaderSummary.startsWith("The return is a season"), true);
+    const afterAction = repoBacked.find((training) => training.slug === "after-action-at-the-door");
+    const directHours = repoBacked.find((training) => training.slug === "direct-hours");
+    const unscored = repoBacked.find((training) => training.slug === "unscored-child");
+    const midcourse = repoBacked.find((training) => training.slug === "midcourse-correction");
+    assert.equal(
+      fundamentals?.description.startsWith("A father does not become effective by collecting ideas."),
+      true
+    );
+    assert.equal(anger?.description.startsWith("The people nearest you feel your heat first."), true);
+    assert.equal(
+      reentry?.description.startsWith(
+        "A man can do his work away from home and still walk through the door carrying the body that kept him there."
+      ),
+      true
+    );
+    assert.equal(anger?.leaderSummary.startsWith("Help him notice the surge"), true);
+    assert.equal(reentry?.leaderSummary.startsWith("Stay with the body at the door"), true);
+    assert.equal(
+      afterAction?.description.startsWith("A day can go wrong in a doorway, a kitchen, a car."),
+      true
+    );
+    assert.equal(directHours?.description.startsWith("A child does not need another dashboard."), true);
+    assert.equal(
+      unscored?.description.startsWith("Almost every hour in a child's week already has a score."),
+      true
+    );
+    assert.equal(
+      midcourse?.description.startsWith("You do not stop the ship to become a better father."),
+      true
+    );
+    assert.equal(
+      RETURN_HOME_OVERVIEW_LOCKS[0].description.startsWith(
+        "A father can come back from a hard stretch still carrying the body that kept him going."
+      ),
+      true
+    );
+    assert.equal(
+      RETURN_HOME_OVERVIEW_LOCKS[1].description.startsWith("While you are away, a house often keeps running."),
+      true
+    );
+    assert.equal(
+      RETURN_HOME_OVERVIEW_LOCKS[2].description.startsWith("Children change while you are gone."),
+      true
+    );
 
     for (const training of repoBacked) {
       assertKenVoiceCopy(training);

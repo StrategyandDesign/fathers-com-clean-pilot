@@ -32,18 +32,29 @@ describe("published catalog training descriptions", () => {
     const [fundamentals, anger, reentry] = catalogDescriptionsForSlugs(CATALOG_DESCRIPTION_SLUGS);
 
     assert.equal(
+      fundamentals.description.startsWith("A father does not become effective by collecting ideas."),
+      true
+    );
+    assert.equal(
+      anger.description.startsWith("The people nearest you feel your heat first."),
+      true
+    );
+    assert.equal(
+      reentry.description.startsWith(
+        "A man can do his work away from home and still walk through the door carrying the body that kept him there."
+      ),
+      true
+    );
+    assert.equal(
       fundamentals.description,
-      "A child does not need a speech about the father you meant to be. They need a man they can count on in ordinary hours. You may already be home every night. You may be catching up after time away. Either way, this course is a map you can use the same night you hear it, not a theory class.\n\nKen Canfield spent years sitting with fathers and watching what distinguished the men children could trust. Out of that work came the Seven Secrets: commitment, knowing this child, showing up the same way, protecting and providing, affirming, disciplining with love, and modeling integrity and faith. You begin with the overview and an honest baseline. Then you take the secrets one at a time. Involvement looks like a promise you actually keep. Awareness looks like learning this child's world instead of the one you remember. Consistency is a rhythm the house can trust. Nurturance is the encouragement and the correction that leave the relationship intact.\n\nEach session is a short teaching film, a checkpoint to make sure the idea landed, and one practice you can try that night. There is no scoreboard, and no room where fathers compare children."
+      "A father does not become effective by collecting ideas. He becomes effective in the ordinary hours, when a child learns whether this man can be counted on. Ken Canfield sat with thousands of fathers and watched that question get answered in kitchens and doorways, not in lectures. The Seven Secrets of Effective Fathers came from those lives: commitment, knowing your child, consistency, protecting and providing, affirming love, loving discipline, and a living example of integrity and faith.\n\nThis course takes those secrets one at a time. You begin with an honest look at where you stand. Then you keep a promise you can actually keep, learn this child's world instead of the one you remember, show up in a way the house can trust, speak a specific word of encouragement, and correct without breaking the bond. That is involvement you can count, awareness of this child today, consistency the house can feel, and nurturance that leaves the relationship intact.\n\nNine sessions. A short teaching, a brief checkpoint, and one practice you can use the same night. No scoreboard, and no need to perform the work in public."
     );
     assert.equal(
       fundamentals.leaderSummary,
-      "Ken's Seven Secrets are the map, used at home the same night. Involvement is a kept promise. Awareness is this child as they are now. Consistency is showing up the same way. Nurturance is affirmation and loving correction. A good week is one practiced move after the film and a child who can count on the same man. If the secrets turn into a lecture, a comparison between children, or a scorecard, bring him back to one secret and one move."
+      "Walk him through one secret at a time, used at home the same night. Watch for a kept promise, a truer picture of this child, and a correction that leaves the relationship intact. If the secrets turn into a lecture or a comparison among children, bring him back to one practiced move."
     );
-    assert.equal(
-      anger.leaderSummary.startsWith("The work is noticing the surge"),
-      true
-    );
-    assert.equal(reentry.leaderSummary.startsWith("The return is a season"), true);
+    assert.equal(anger.leaderSummary.startsWith("Help him notice the surge"), true);
+    assert.equal(reentry.leaderSummary.startsWith("Stay with the body at the door"), true);
 
     for (const training of catalogDescriptionsForSlugs(CATALOG_DESCRIPTION_SLUGS)) {
       assert.equal(training.leaderSummary.startsWith("Leader: "), false);
@@ -53,10 +64,6 @@ describe("published catalog training descriptions", () => {
       assert.equal(training.leaderSummary.includes(EN_DASH), false);
       assert.doesNotMatch(training.leaderSummary, /Not published/i);
       assert.doesNotMatch(training.leaderSummary, /Not released/i);
-      assert.match(training.description, /Involvement/);
-      assert.match(training.description, /Awareness/);
-      assert.match(training.description, /Consistency/);
-      assert.match(training.description, /Nurturance/);
 
       const scanned = [training.description, training.leaderSummary].join("\n");
       for (const marker of AI_OVERVIEW_MARKERS) {
@@ -76,6 +83,6 @@ describe("published catalog training descriptions", () => {
     assert.match(fundamentals.description, /Seven Secrets/);
     assert.equal(fundamentals.description.includes("What changes over twelve weeks"), false);
     assert.match(reentry.description, /Coming home present is a season/);
-    assert.match(reentry.description, /Children borrow the nervous system they meet/);
+    assert.match(reentry.description, /The child he meets may not be the child he left/);
   });
 });
