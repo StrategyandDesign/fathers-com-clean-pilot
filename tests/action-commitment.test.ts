@@ -4,6 +4,10 @@ import { describe, it } from "node:test";
 import { fileURLToPath } from "node:url";
 
 import {
+  finishActionMomentAfterSave,
+  runActionMomentFollowUp,
+} from "../lib/father/action-commit-follow-up";
+import {
   actionLoopState,
   actionSessionEyebrow,
   actionSkillText,
@@ -229,6 +233,86 @@ describe("skill copy", () => {
       showKeyline: false,
       showSessionHeading: false,
     });
+  });
+});
+
+describe("action lock-in follow-up", () => {
+  it("leaves Saving after a successful lock-in even if reminder or timezone never finish", async () => {
+    const hang = () => new Promise<void>(() => {});
+    let formPending = true;
+    let redirected = false;
+
+    finishActionMomentAfterSave({
+      followUp: () =>
+        runActionMomentFollowUp({
+          queueReminder: hang,
+          saveTimezone: hang,
+        }),
+      schedule: (task) => {
+        queueMicrotask(task);
+      },
+      redirect: () => {
+        redirected = true;
+        formPending = false;
+      },
+    });
+
+    assert.equal(redirected, true);
+    assert.equal(formPending, false);
+    await new Promise((resolve) => setTimeout(resolve, 20));
+    assert.equal(formPending, false);
+  });
+
+  it("still redirects when reminder throws missing service role", async () => {
+    let timezoneTried = false;
+    let redirected = false;
+
+    await runActionMomentFollowUp({
+      queueReminder: async () => {
+        throw new Error("missing_service_role");
+      },
+      saveTimezone: async () => {
+        timezoneTried = true;
+        throw new Error("timezone upsert failed");
+      },
+    });
+    assert.equal(timezoneTried, true);
+
+    finishActionMomentAfterSave({
+      followUp: () =>
+        runActionMomentFollowUp({
+          queueReminder: async () => {
+            throw new Error("missing_service_role");
+          },
+        }),
+      schedule: (task) => {
+        queueMicrotask(task);
+      },
+      redirect: () => {
+        redirected = true;
+      },
+    });
+    assert.equal(redirected, true);
+  });
+
+  it("does not await reminder flush or timezone work before the lock-in redirect", () => {
+    const root = fileURLToPath(new URL("..", import.meta.url));
+    const actions = readFileSync(`${root}/lib/father/actions.ts`, "utf8");
+    const events = readFileSync(`${root}/lib/notifications/events.ts`, "utf8");
+    const commit = actions.slice(
+      actions.indexOf("export async function commitActionMoment"),
+      actions.indexOf("export async function markActionDone")
+    );
+    const queue = events.slice(
+      events.indexOf("export async function queueActionReminder"),
+      events.indexOf("export async function cancelActionReminder")
+    );
+    assert.match(commit, /finishActionMomentAfterSave/);
+    assert.match(commit, /schedule: after/);
+    assert.match(commit, /redirect\(actionPath\(sessionId, paths\)\)/);
+    assert.doesNotMatch(commit, /await queueActionReminder/);
+    assert.match(commit, /saveTimezone: async \(\) => \{[\s\S]*notification_preferences/);
+    assert.doesNotMatch(queue, /await flushDueReminders/);
   });
 });
 

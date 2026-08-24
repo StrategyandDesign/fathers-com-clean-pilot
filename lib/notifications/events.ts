@@ -95,7 +95,9 @@ export async function queueActionReminder(input: {
     availableAt: input.availableAt,
     reschedule: true,
   });
-  await flushDueReminders();
+  // A future Action reminder is not due yet. Never hold lock-in on dispatch
+  // (missing service role, slow email, or a full-table flush).
+  void flushDueReminders();
 }
 
 export async function cancelActionReminder(fatherId: string, sessionId: string) {
