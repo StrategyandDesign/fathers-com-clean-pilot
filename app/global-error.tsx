@@ -3,13 +3,15 @@
 import * as Sentry from "@sentry/nextjs";
 import { useEffect } from "react";
 
+import { sentryRuntimeEnabled } from "@/lib/observability/sentry-dsn";
+
 export default function GlobalError({
   error,
 }: {
   error: Error & { digest?: string };
 }) {
   useEffect(() => {
-    Sentry.captureException(error);
+    if (sentryRuntimeEnabled()) Sentry.captureException(error);
   }, [error]);
 
   return (

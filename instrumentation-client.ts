@@ -1,12 +1,16 @@
 import * as Sentry from "@sentry/nextjs";
 
-const dsn = process.env.NEXT_PUBLIC_SENTRY_DSN || "";
+import { sentryDsn, sentryRuntimeEnabled } from "@/lib/observability/sentry-dsn";
 
-Sentry.init({
-  dsn: dsn || undefined,
-  enabled: Boolean(dsn),
-  tracesSampleRate: 0,
-  sendDefaultPii: false,
-});
+if (sentryRuntimeEnabled()) {
+  Sentry.init({
+    dsn: sentryDsn() || undefined,
+    enabled: true,
+    tracesSampleRate: 0,
+    sendDefaultPii: false,
+  });
+}
 
-export const onRouterTransitionStart = Sentry.captureRouterTransitionStart;
+export const onRouterTransitionStart = sentryRuntimeEnabled()
+  ? Sentry.captureRouterTransitionStart
+  : function onRouterTransitionStart() {};
