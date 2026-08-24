@@ -1099,11 +1099,11 @@ export const en = {
       dayThu: "Thursday",
       dayFri: "Friday",
       daySat: "Saturday",
-      holdTitle: "Your leader has not assigned a training yet.",
+      holdTitle: "No training is ready yet.",
       holdTitleExpected: "Your leader will assign the training this program uses.",
       holdTitleOpen: "No training is open yet.",
-      holdBody: "You will get a reminder when your first one is ready.",
-      holdBodyExpected: "It will appear here, and we can remind you when it is ready.",
+      holdBody: "Your leader will assign one. It will appear here.",
+      holdBodyExpected: "It will appear here.",
       holdBodyOpen: "You will hear when your leader opens one. No rush.",
       completeTitle: "Session 1 done.",
       completeBody:
@@ -2028,13 +2028,13 @@ export const en = {
       dashboard: "Dashboard",
       previewTitle: "Preview. Not yet available to your cohort",
       previewLead:
-        "Read-only. Accept to make it available to assign, or decline to keep it hidden from {org}.",
+        "Read-only. Include it so fathers can start, or decline to keep it hidden from {org}.",
       declinedTitle: "Declined for your organization",
       declinedLead:
         "Hidden from new assignment. Type ACCEPT below to reverse this and make it available to assign.",
-      availableTitle: "Available to assign",
+      availableTitle: "Included for your group",
       availableLead:
-        "Fathers are not enrolled until you assign this training. Remove it from the cohort if you want to hide it from new assignment.",
+        "Fathers in this group can start this training. Remove it from the cohort if you want to hide it from new assignment.",
       catalogTitle: "In your catalog",
       catalogLead:
         "Watch each session the way a father would. Nothing here assigns or marks work complete.",
@@ -2055,21 +2055,21 @@ export const en = {
     reviews: {
       crumb: "New trainings",
       title: "New trainings",
-      lead: "Preview a release, then accept to make it available to assign, or decline to keep it hidden from {org}.",
+      lead: "Preview a release, then include it so fathers can start, or decline to keep it hidden from {org}.",
       request: "Request a Training",
       notifications: "Notifications",
       waitingOne: "One training is waiting on your review.",
       waitingMany: "{count} trainings are waiting on your review.",
       pendingTitle: "Pending review",
       pendingLead:
-        "Accepted trainings appear in Assign Training. Nothing is sent to fathers automatically.",
+        "Include a training to assign it to fathers in your group who do not already have it.",
       emptyTitle: "Nothing waiting",
       emptyBody: "No new trainings are waiting. Decisions you already made stay in the history below.",
       accept: "Accept",
       acceptLead:
-        "Makes it available to assign. Fathers are not enrolled until you choose who receives it.",
+        "Includes it for your group and assigns it to fathers who do not already have it.",
       declinedLead:
-        "Hidden from assignment for your organization. Accepting makes it available to assign. Fathers are not enrolled until you choose who receives it.",
+        "Hidden from assignment for your organization. Include it to assign it to fathers who do not already have it.",
       typeConfirm: "Type {word} to confirm",
       declineReason: "Decline reason (optional)",
       declinePlaceholder: "Optional note for your records",
@@ -2089,17 +2089,17 @@ export const en = {
       checkFailed: "Couldn’t check this training. Try again.",
       noLongerReleased: "This training is no longer released. A Super-admin must release it again.",
       decisionFailed: "The decision didn’t save. Try again.",
-      availableAgain: "Training is available to assign again.",
-      availableAssign: "Training is available to assign. Fathers are not enrolled until you assign it.",
+      availableAgain: "Included again. Fathers who did not have it can start it now.",
+      availableAssign: "Included. Fathers in this group can start it now.",
       hiddenFromNew: "Training is hidden from new assignment for your organization.",
       hiddenFromOrg: "Training is hidden from your organization.",
     },
     trainings: {
       title: "Trainings",
-      lead: "A Super-admin shares trainings with you. Accept a release, then assign it when you want fathers in {org} to receive it.",
+      lead: "A Super-admin shares trainings with you. Include a release to assign it to fathers in {org}.",
       catalogTitle: "Available trainings",
       catalogLead:
-        "Every training this organization can use. Include it to assign later, or decline to keep it hidden from your cohort. You can decide here without opening the training.",
+        "Every training this organization can use. Include it so fathers can start, or decline to keep it hidden from your cohort. You can decide here without opening the training.",
       catalogEmptyTitle: "No trainings available",
       catalogEmptyBody:
         "When a Super-admin releases a training to this organization, it will appear here.",

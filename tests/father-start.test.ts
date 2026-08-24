@@ -137,6 +137,29 @@ describe("first-run skip logic", () => {
     );
   });
 
+  it("leaves hold when the org has an included training even before an assignment row", () => {
+    assert.equal(
+      currentOnboardingStep({
+        mode: "full",
+        storedStep: "hold",
+        hasReminder: true,
+        hasAssignedSession: false,
+        hasIncludedTraining: true,
+      }),
+      "session"
+    );
+    assert.equal(
+      currentOnboardingStep({
+        mode: "full",
+        storedStep: "session",
+        hasReminder: true,
+        hasAssignedSession: false,
+        hasIncludedTraining: true,
+      }),
+      "session"
+    );
+  });
+
   it("does not let a father skip ahead of the stored step", () => {
     assert.equal(canOpenOnboardingStep("reminder", "skill"), false);
     assert.equal(canOpenOnboardingStep("children", "skill"), false);

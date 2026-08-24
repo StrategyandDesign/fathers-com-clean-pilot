@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 
 import { requireRole } from "@/lib/auth/session";
 import { isLegacyCatalogTraining, isTrainingPublished } from "@/lib/father/types";
+import { assignIncludedTrainingToGroupFathers } from "@/lib/manager/assign-included-sync";
 import {
   DECLINE_REASON_MAX,
   isReviewStatus,
@@ -141,14 +142,30 @@ async function decideReview(formData: FormData, status: "accepted" | "declined")
     kind: status === "accepted" ? "review_accepted" : "review_declined",
   });
 
+  if (status === "accepted") {
+    const assigned = await assignIncludedTrainingToGroupFathers(
+      supabase,
+      user,
+      groupId,
+      trainingId
+    );
+    if (assigned.assigned > 0) {
+      await recordOrganizationActivity(supabase, {
+        groupId,
+        actorId: user.id,
+        kind: "training_assigned",
+      });
+    }
+  }
+
   revalidateReviews(trainingId);
 
   if (status === "accepted") {
     ok(
       path,
       current?.status === "declined"
-        ? "Training is available to assign again."
-        : "Training is available to assign. Fathers are not enrolled until you assign it."
+        ? "Included again. Fathers who did not have it can start it now."
+        : "Included. Fathers in this group can start it now."
     );
   }
 

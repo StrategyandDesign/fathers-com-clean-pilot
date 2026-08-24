@@ -118,7 +118,7 @@ export async function notifyTrainingReleased(input: {
     const appUrl = getAppUrl();
     const rendered = renderTransactionalEmail({
       title: "A new training is available for your review",
-      body: `${input.trainingTitle} is ready for your organization.\nPreview it, then accept to make it available to assign, or decline to keep it hidden. Fathers are not enrolled until you assign it.`,
+      body: `${input.trainingTitle} is ready for your organization.\nPreview it, then include it so fathers can start, or decline to keep it hidden.`,
       ctaLabel: "Review training",
       ctaHref: `${appUrl}/manager/reviews/${input.trainingId}`,
     });

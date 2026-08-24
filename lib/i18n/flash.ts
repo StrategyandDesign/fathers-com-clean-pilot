@@ -168,8 +168,10 @@ const EXACT: Record<string, string> = {
     "manager.reviews.noLongerReleased",
   "The decision didn’t save. Try again.": "manager.reviews.decisionFailed",
   "Training is available to assign again.": "manager.reviews.availableAgain",
+  "Included again. Fathers who did not have it can start it now.": "manager.reviews.availableAgain",
   "Training is available to assign. Fathers are not enrolled until you assign it.":
     "manager.reviews.availableAssign",
+  "Included. Fathers in this group can start it now.": "manager.reviews.availableAssign",
   "Training is hidden from new assignment for your organization.": "manager.reviews.hiddenFromNew",
   "Training is hidden from your organization.": "manager.reviews.hiddenFromOrg",
   "Too many requests just now. Try again in a few minutes.": "manager.request.tooMany",

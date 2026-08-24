@@ -1,5 +1,6 @@
 import { trainingContinueHref } from "@/lib/father/training-door";
 import { isSessionComplete, type Session, type SessionProgress, type Training } from "@/lib/father/types";
+import { assignableTrainingIdsForGroup } from "@/lib/manager/assign-included";
 import { createClient } from "@/lib/supabase/server";
 
 function sortByCatalog(a: Session, b: Session) {
@@ -36,14 +37,36 @@ export async function loadFirstAssignedSession(
     training_id: string;
     assigned_at: string | null;
   }>;
-  if (assignments.length === 0) return null;
-
   const assignedAt = new Map(
     assignments.map((row) => [row.training_id, Date.parse(row.assigned_at ?? "") || 0])
   );
-  const assignedIds = new Set(assignments.map((row) => row.training_id));
+  const startableIds = new Set(assignments.map((row) => row.training_id));
+
+  if (startableIds.size === 0) {
+    const { data: membership } = await supabase
+      .from("group_members")
+      .select("group_id")
+      .eq("father_id", fatherId)
+      .limit(1)
+      .maybeSingle();
+    if (membership?.group_id) {
+      const { data: reviews } = await supabase
+        .from("organization_training_reviews")
+        .select("training_id, status")
+        .eq("group_id", membership.group_id);
+      for (const trainingId of assignableTrainingIdsForGroup({
+        trainings: (trainingsRes.data ?? []) as Training[],
+        reviews: reviews ?? [],
+      })) {
+        startableIds.add(trainingId);
+      }
+    }
+  }
+
+  if (startableIds.size === 0) return null;
+
   const trainings = ((trainingsRes.data ?? []) as Training[]).filter((training) =>
-    assignedIds.has(training.id)
+    startableIds.has(training.id)
   );
   const sessions = (sessionsRes.data ?? []) as Session[];
   const progressBySession = new Map(

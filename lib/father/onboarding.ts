@@ -130,6 +130,7 @@ export function currentOnboardingStep(input: {
   hasReminder: boolean;
   reminderSkipped?: boolean;
   hasAssignedSession: boolean;
+  hasIncludedTraining?: boolean;
   firstSessionComplete?: boolean;
   completedAt?: string | null;
 }): OnboardingStep {
@@ -154,8 +155,9 @@ export function currentOnboardingStep(input: {
   ) {
     return "complete";
   }
-  if (stored === "session" && !input.hasAssignedSession) return "hold";
-  if (stored === "hold" && input.hasAssignedSession) return "session";
+  const canStart = input.hasAssignedSession || Boolean(input.hasIncludedTraining);
+  if (stored === "session" && !canStart) return "hold";
+  if (stored === "hold" && canStart) return "session";
   return stored;
 }
 
