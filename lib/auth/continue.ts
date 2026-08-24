@@ -27,6 +27,11 @@ export function authContinueHref(next: string): string {
   return `${AUTH_CONTINUE_PATH}?next=${encodeURIComponent(path)}`;
 }
 
+/** Inline script for /auth/go. next is already a safe internal path. */
+export function authGoReplaceScript(next: string) {
+  return `location.replace(${JSON.stringify(next)})`;
+}
+
 export function postAuthHome(
   role: AppRole,
   managerOnboardedAt?: string | null

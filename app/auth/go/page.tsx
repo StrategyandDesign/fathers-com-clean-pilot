@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 
 import { AuthContinue } from "@/components/auth/auth-continue";
-import { isAuthContinuePath } from "@/lib/auth/continue";
+import { authGoReplaceScript, isAuthContinuePath } from "@/lib/auth/continue";
 import { safeInternalPath } from "@/lib/auth/roles";
 
 export const dynamic = "force-dynamic";
@@ -19,6 +19,11 @@ export default async function AuthGoPage({
   return (
     <>
       <meta httpEquiv="refresh" content={`0;url=${encodeURI(next)}`} />
+      <script
+        dangerouslySetInnerHTML={{
+          __html: authGoReplaceScript(next),
+        }}
+      />
       <AuthContinue next={next} />
     </>
   );
