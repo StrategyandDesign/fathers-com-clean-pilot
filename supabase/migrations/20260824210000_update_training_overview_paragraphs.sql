@@ -2,6 +2,8 @@
 -- Does not change titles, published, released_at, sessions, videos, or development_status.
 -- Idempotent: re-run updates description and leader_summary in place by slug.
 -- Does not touch test or flourishingfaith.
+-- Return-home three (calm-you-can-lend, the-house-that-kept-going, knowing-again)
+-- have no TypeScript seed. This UPDATE is the repo source for those paragraphs.
 
 update public.trainings as trainings
 set
