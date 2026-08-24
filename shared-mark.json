@@ -1,12 +1,12 @@
 {
   "mark": 7,
-  "patch": 128,
-  "label": "Shared 1-1.128",
+  "patch": 129,
+  "label": "Shared 1-1.129",
   "tag": "shared/7",
   "at": "2026-08-21T00:00:00.000Z",
   "internalSha": "890fa8b684cc17a21c0ccbc13b787b24016b129e",
   "sharedSha": "",
-  "title": "Shared 1-1.127: Seed three unpublished return-home draft trainings",
+  "title": "Shared 1-1.128: Clearer return-home draft descriptions",
   "url": "https://github.com/StrategyandDesign/fathers-com-clean-pilot/releases/tag/shared/7",
   "revisions": [
     {
@@ -904,6 +904,13 @@
       "label": "Shared 1-1.128",
       "at": "2026-08-24",
       "title": "Shared 1-1.127: Seed three unpublished return-home draft trainings"
+    },
+    {
+      "patch": 129,
+      "revision": "1.129",
+      "label": "Shared 1-1.129",
+      "at": "2026-08-24",
+      "title": "Shared 1-1.128: Clearer return-home draft descriptions"
     }
   ]
 }

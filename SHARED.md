@@ -16,7 +16,7 @@ Local commits on `review` tick the desk badge through `scripts/git-hooks/pre-com
 
 ## Desk revisions
 
-The badge on this checkout is **Shared 1-1.128**. It ticks again on each push of the Shared 1 desk. The next tick will be **1.129**. This does not create Shared 2. Submit 2 stays frozen.
+The badge on this checkout is **Shared 1-1.129**. It ticks again on each push of the Shared 1 desk. The next tick will be **1.130**. This does not create Shared 2. Submit 2 stays frozen.
 
 | Revision | Date (UTC) | What landed |
 |---|---|---|
@@ -148,3 +148,4 @@ The badge on this checkout is **Shared 1-1.128**. It ticks again on each push of
 | **1.126** | 2026-08-24 | Show the circled Group invite code crop on Leader start. |
 | **1.127** | 2026-08-24 | Seed three unpublished return-home draft trainings |
 | **1.128** | 2026-08-24 | Shared 1-1.127: Seed three unpublished return-home draft trainings |
+| **1.129** | 2026-08-24 | Shared 1-1.128: Clearer return-home draft descriptions |
