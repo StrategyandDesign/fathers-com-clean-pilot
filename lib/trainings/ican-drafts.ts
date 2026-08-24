@@ -4,12 +4,25 @@ export const ICAN_HOLD_VIDEO_URL = "https://www.youtube.com/watch?v=yo_nS0vpV4M"
 export const ICAN_HOLD_DURATION_SECONDS = 300;
 export const ICAN_DRAFT_MIGRATION =
   "supabase/migrations/20260824160000_seed_ican_draft_trainings.sql";
+export const ICAN_RETURN_HOME_DRAFT_MIGRATION =
+  "supabase/migrations/20260824170000_seed_return_home_draft_trainings.sql";
 
-export const ICAN_DRAFT_SLUGS = [
+export const ICAN_CEO_DRAFT_SLUGS = [
   "after-action-at-the-door",
   "direct-hours",
   "unscored-child",
   "midcourse-correction",
+] as const;
+
+export const ICAN_RETURN_HOME_DRAFT_SLUGS = [
+  "calm-you-can-lend",
+  "the-house-that-kept-going",
+  "knowing-again",
+] as const;
+
+export const ICAN_DRAFT_SLUGS = [
+  ...ICAN_CEO_DRAFT_SLUGS,
+  ...ICAN_RETURN_HOME_DRAFT_SLUGS,
 ] as const;
 
 export type IcanDraftSlug = (typeof ICAN_DRAFT_SLUGS)[number];
@@ -957,10 +970,698 @@ export const ICAN_DRAFT_TRAININGS: IcanDraftTraining[] = [
       ),
     ],
   },
+  {
+    slug: "calm-you-can-lend",
+    title: "Calm You Can Lend",
+    description: "Come down from the stretch. Then let the people inside borrow your steadiness.",
+    leaderSummary:
+      "When you walk in after a hard stretch away, your body may still be high. This course trains you to notice that as a body signal, come down at the door, and lend calm to the people who live there when they are present. Children borrow the adult's nervous system. Other caregivers in the house may borrow it on a loaded day too, when they are there. Ken Canfield's I CAN spine holds the work: Awareness of the surge, Consistency of a return ritual, Involvement in staying present once you are down, and Nurturance in the calm you offer. Each week is a short film, one checkpoint, and one lived practice. Education for steadiness at home. Not treatment. Not a diagnosis path. Super-admin draft. Not published. Not released. Kill the week if come-down becomes a peer tip he never uses at his own door, or if body language becomes diagnosis theater. Sponsorship funds the organization, not a preferred seat.",
+    orderIndex: 14,
+    sessions: [
+      session(
+        1,
+        "Body at the door",
+        "Your body arrives before your words do.",
+        "Awareness",
+        {
+          stem: "What does Awareness name first at the door, according to this session?",
+          a: "A speech about the stretch, so the house understands why you are still high",
+          b: "The body signal that arrived before your words",
+          c: "Whether anyone inside looks ready for you to speak",
+        },
+        {
+          stem: "Which lived practice matches this session?",
+          a: "Walk in talking so the house knows you made it",
+          b: "Name one body signal silently before you speak, then enter",
+          c: "Ask the first person you see to rate how tense you look",
+        }
+      ),
+      session(
+        2,
+        "Come down",
+        "Same short come-down every return. Not a performance.",
+        "Consistency",
+        {
+          stem: "What Consistency does this session lock at the door?",
+          a: "A new come-down each return, so it stays honest",
+          b: "The same short come-down every return, not a performance",
+          c: "A come-down only when someone inside is watching",
+        },
+        {
+          stem: "Which practice keeps the come-down as taught here?",
+          a: "Greet first, then settle later if the house is loud",
+          b: "Run the same short four-beat come-down before you engage the house",
+          c: "Skip the ritual when the stretch was short",
+        }
+      ),
+      session(
+        3,
+        "Home noise with new meaning",
+        "Kid noise is not a threat signal. It is home.",
+        "Awareness",
+        {
+          stem: "What does Awareness do with kid noise after a stretch away?",
+          a: "Treat it as the same threat signal you scanned for while away",
+          b: "Hear it as home, not as a threat signal",
+          c: "Ask the house to stay quiet until you finish coming down",
+        },
+        {
+          stem: "Which action gives home noise new meaning?",
+          a: "Correct the first loud sound so the room drops to work-quiet",
+          b: "Stay with one noisy or messy cue and silently rename it as home",
+          c: "Leave until the house is silent",
+        }
+      ),
+      session(
+        4,
+        "Lend calm to child",
+        "Children borrow the adult's nervous system. Lend one they can use.",
+        "Nurturance",
+        {
+          stem: "What Nurturance does the child borrow in this session?",
+          a: "A speech about why you were gone",
+          b: "Your come-down calm, offered so they have a nervous system they can use",
+          c: "A plan for how they should feel about the return",
+        },
+        {
+          stem: "Which lived practice lends calm a child can borrow?",
+          a: "Tell the child to calm down so you can settle",
+          b: "After you come down, give five unhurried minutes they can borrow",
+          c: "Hand them a task so the energy has somewhere to go",
+        }
+      ),
+      session(
+        5,
+        "Lend calm to whoever is inside",
+        "Whoever is inside on a loaded day may need to borrow you too.",
+        "Nurturance",
+        {
+          stem: "Who does Nurturance lend calm to in this session?",
+          a: "Only the child, because other adults should already be steady",
+          b: "Whoever is inside on a loaded day, without assuming who",
+          c: "Only one assumed adult role, if that person is present",
+        },
+        {
+          stem: "Which action lends calm without assuming who is inside?",
+          a: "Wait to offer calm until you know which adult is home",
+          b: "After you come down, lend steady presence to whoever is there, or rehearse if the house is empty",
+          c: "Ask who is in charge so you know where to put the calm",
+        }
+      ),
+      session(
+        6,
+        "Snap and same-day repair",
+        "When you snap after a stretch, same-day repair beats a better speech later.",
+        "Awareness",
+        {
+          stem: "What does Awareness choose after a snap that came from leftover load?",
+          a: "A better speech later, once you have the right words",
+          b: "Same-day repair with the person who felt it",
+          c: "An explanation of the stretch so the snap makes sense",
+        },
+        {
+          stem: "Which practice closes a snap as taught here?",
+          a: "Park the snap for a longer talk when the week is lighter",
+          b: "Close it the same day with the person who felt it, in two plain sentences",
+          c: "Ask them to forget it because you were still coming down",
+        }
+      ),
+      session(
+        7,
+        "Borrowed calm under kid heat",
+        "Kid heat is when they need to borrow you most.",
+        "Nurturance",
+        {
+          stem: "What Nurturance holds when the child runs hot?",
+          a: "Match their heat so they know you are with them",
+          b: "Lend calm then. That is when they need to borrow you most.",
+          c: "Leave until they are easy again",
+        },
+        {
+          stem: "Which action stays lendable under kid heat?",
+          a: "Raise your voice so the heat ends faster",
+          b: "Lower your voice, stay near, and do not match the spike",
+          c: "Send them to another room until you feel ready",
+        }
+      ),
+      session(
+        8,
+        "Protect boring hours",
+        "Boring hours after you come down rebuild more than a big reunion night.",
+        "Consistency",
+        {
+          stem: "What Consistency rebuilds more than a big reunion night?",
+          a: "A special night that makes up for the time gone",
+          b: "A boring hour after you come down, kept ordinary",
+          c: "A speech about how you will be different now",
+        },
+        {
+          stem: "Which practice protects a boring hour?",
+          a: "Fill the first evening with an outing so the return feels special",
+          b: "Keep one ordinary hour after the come-down and do not upgrade it",
+          c: "Skip the quiet hour if the house already looks fine",
+        }
+      ),
+      session(
+        9,
+        "When pride wants to stay high",
+        "Pride wants to stay high. The door still asks you to come down.",
+        "Awareness",
+        {
+          stem: "What does Awareness refuse when pride wants to stay high?",
+          a: "The door ritual, because staying high proves you can handle the house",
+          b: "Pride that says skip the come-down. The door still asks you to come down.",
+          c: "Any ritual, because pride means you already arrived well",
+        },
+        {
+          stem: "Which action beats pride that wants to stay high?",
+          a: "Enter still high and call it being sharp for the house",
+          b: "Run the come-down anyway, even when pride says you are fine",
+          c: "Ask a peer if staying high looks stronger",
+        }
+      ),
+      session(
+        10,
+        "Lagging warmth",
+        "Warmth may lag. Do not score the hug.",
+        "Awareness",
+        {
+          stem: "What does Awareness do with lagging warmth after you lend calm?",
+          a: "Wait for a smile or hug before you count the ritual",
+          b: "Leave the warmth later. Do not score the hug.",
+          c: "Ask if it worked so you know whether to keep the ritual",
+        },
+        {
+          stem: "Which practice drops the score for 48 hours?",
+          a: "Check faces to see if the calm paid off",
+          b: "Take no temperature. Live the next ordinary steps.",
+          c: "Ask the house to show more warmth so the week counts",
+        }
+      ),
+      session(
+        11,
+        "A countable week of come-downs",
+        "Countable means you can name the come-downs. It does not mean you publish them.",
+        "Consistency",
+        {
+          stem: "What makes a week countable in this course?",
+          a: "A published streak or a peer story about the ritual",
+          b: "Come-downs you can name. Not a count you publish.",
+          c: "Credit for effort, even when the door ritual was skipped",
+        },
+        {
+          stem: "Which practice finishes a countable week of come-downs?",
+          a: "Share the tally so the week has a witness",
+          b: "Keep a private count of kept come-downs, then destroy the list",
+          c: "Skip a return if you already talked about the method",
+        }
+      ),
+      session(
+        12,
+        "Keep the ritual without scoring it",
+        "Keep the come-down. Drop the scoreboard.",
+        "Consistency",
+        {
+          stem: "What Consistency keeps, and what does it drop?",
+          a: "The scoreboard, so you can prove the week worked",
+          b: "The come-down. Drop the scoreboard.",
+          c: "A peer tip you can pass along, even if you skip your own door",
+        },
+        {
+          stem: "Which lived practice keeps the ritual without scoring it?",
+          a: "Tally come-downs so you have a number for later",
+          b: "Keep the standing door rule this week and do not score or share it",
+          c: "Teach the method this week and use it later when you have time",
+        }
+      ),
+    ],
+  },
+  {
+    slug: "the-house-that-kept-going",
+    title: "The House That Kept Going",
+    description: "Honor what kept going. Join the house that already works. Rebuild trust without taking the wheel.",
+    leaderSummary:
+      "While you were gone, the house kept going. Someone kept routines: a co-parent, kin, a program, or the child. See that load, thank it without theater, join what already works. No second cockpit. Ken I CAN: Awareness of what already kept going, Involvement in one real load the house names, Consistency of follow-through, Nurturance in how you reenter. Education for joining a running house. Not therapy. Super-admin draft. Not published. Not released. Kill the week if whoever kept the house becomes a COO, or if gratitude covers taking the wheel again. No spouse-or-mother default. Sponsorship funds the organization, not a preferred seat.",
+    orderIndex: 15,
+    sessions: [
+      session(
+        1,
+        "The house kept going",
+        "While you were gone, the house kept going.",
+        "Awareness",
+        {
+          stem: "What does Awareness name first in this session?",
+          a: "How much the house suffered without your system",
+          b: "While you were gone, the house kept going",
+          c: "Which person failed to keep the house at your standard",
+        },
+        {
+          stem: "Which lived practice matches this session?",
+          a: "Walk in ready to restore the way you ran things",
+          b: "Say one plain sentence: while you were gone, the house kept going",
+          c: "Ask who dropped the ball so you know where to start",
+        }
+      ),
+      session(
+        2,
+        "See the load",
+        "See the load in plain words. Whoever carried it.",
+        "Awareness",
+        {
+          stem: "What does Awareness do with the load that kept the house going?",
+          a: "Turn it into a title for whoever stayed, like an operator role",
+          b: "See it in plain words, whoever carried it, without a default person",
+          c: "Assume one default adult carried it, then thank that person",
+        },
+        {
+          stem: "Which action sees the load as taught here?",
+          a: "Guess the load from your old picture of the house",
+          b: "Name one real load in plain words, as the house actually ran",
+          c: "Skip naming the load so you can start fresh",
+        }
+      ),
+      session(
+        3,
+        "Thank without theater",
+        "Thank without making it a speech.",
+        "Nurturance",
+        {
+          stem: "What Nurturance does this session ask?",
+          a: "A public speech so the load is finally seen",
+          b: "A plain thank-you, without theater",
+          c: "A thank-you that also explains how you will take over now",
+        },
+        {
+          stem: "Which practice thanks without theater?",
+          a: "Give a long tribute so the week has a moment",
+          b: "Say a short thank-you to whoever kept a named routine, then stop",
+          c: "Post the gratitude so others can see you noticed",
+        }
+      ),
+      session(
+        4,
+        "Ask before you change a rule",
+        "Ask before you change a rule.",
+        "Involvement",
+        {
+          stem: "What does Involvement do before a rule changes?",
+          a: "Change it on day one so the house feels you are back",
+          b: "Ask the people who kept the house before you change a rule",
+          c: "Change it quietly and explain later if anyone objects",
+        },
+        {
+          stem: "Which action asks before you change a rule?",
+          a: "Swap one rule tonight so the return has a mark",
+          b: "Ask first. Leave the running rule in place until they answer.",
+          c: "Announce the new rule and invite comments after it starts",
+        }
+      ),
+      session(
+        5,
+        "Join the system that already works",
+        "Join what already works.",
+        "Involvement",
+        {
+          stem: "What Involvement move does this session lock?",
+          a: "Build a better system beside the one that ran while you were gone",
+          b: "Join the system that already works",
+          c: "Watch for a week, then install your own plan",
+        },
+        {
+          stem: "Which lived practice joins what already works?",
+          a: "Start a parallel routine so you have your own cockpit",
+          b: "Step into one existing routine and keep it the way it already runs",
+          c: "Rewrite the week so it matches how you work on the road",
+        }
+      ),
+      session(
+        6,
+        "One load the house names",
+        "Take one load the house names. Do it fully.",
+        "Involvement",
+        {
+          stem: "Which load does Involvement take this week?",
+          a: "The load you think they needed most",
+          b: "One load the house names, done fully",
+          c: "Every load, so you catch up faster",
+        },
+        {
+          stem: "Which practice takes one named load fully?",
+          a: "Pick three loads and do a piece of each",
+          b: "Take the one load they name and finish it without handing it back",
+          c: "Offer to oversee the loads and assign them out",
+        }
+      ),
+      session(
+        7,
+        "No second cockpit",
+        "Do not install a second cockpit.",
+        "Consistency",
+        {
+          stem: "What Consistency refuses in this session?",
+          a: "Joining a routine you did not design",
+          b: "A second cockpit beside the house that already runs",
+          c: "Asking before you add a new track",
+        },
+        {
+          stem: "Which action keeps a second cockpit out?",
+          a: "Add your own tracking so both systems can compare",
+          b: "Keep one running system. Do not stand up a second one.",
+          c: "Run your version on weekends and theirs on weekdays",
+        }
+      ),
+      session(
+        8,
+        "When you snap at the system",
+        "Snapping at the system is information.",
+        "Awareness",
+        {
+          stem: "What does Awareness do with a snap at the running house?",
+          a: "Treat it as proof the house needs your system back",
+          b: "Treat it as information. The snap is yours to read.",
+          c: "Ignore it so you do not have to name it",
+        },
+        {
+          stem: "Which practice uses the snap as information?",
+          a: "Use the snap to justify changing a rule tonight",
+          b: "Name the snap as yours, then return to the running system",
+          c: "Ask the house to defend how they ran things",
+        }
+      ),
+      session(
+        9,
+        "Same-day repair with whoever was there",
+        "Repair same day with whoever was there.",
+        "Nurturance",
+        {
+          stem: "Where does Nurturance close a miss in this session?",
+          a: "With whoever you assume kept the house, even if they were not there",
+          b: "Same day, with whoever was actually there",
+          c: "In a later speech once you have the right words",
+        },
+        {
+          stem: "Which action repairs with whoever was there?",
+          a: "Wait to see who usually carries the house, then repair with that person",
+          b: "Close it the same day with the person who was present",
+          c: "Repair only with the child and skip the adult who heard it",
+        }
+      ),
+      session(
+        10,
+        "The child saw the override",
+        "The child saw the override.",
+        "Nurturance",
+        {
+          stem: "What does Nurturance notice if you override the running house?",
+          a: "Only the adult reaction, because children miss the power move",
+          b: "The child saw the override, even if they said nothing",
+          c: "The override only counts if someone complains",
+        },
+        {
+          stem: "Which practice includes the child who saw the override?",
+          a: "Protect the child by never naming what they saw",
+          b: "If a child saw you take the wheel, close a short repair with that child too",
+          c: "Ask the child to rate the override so you can track trust",
+        }
+      ),
+      session(
+        11,
+        "Lagging trust",
+        "Trust lags. Keep small promises.",
+        "Awareness",
+        {
+          stem: "What does Awareness do with lagging trust this week?",
+          a: "Push for a reunion talk so trust catches up",
+          b: "Leave trust later. Keep small promises now.",
+          c: "Score how trusted you feel so you know if joining is working",
+        },
+        {
+          stem: "Which action keeps small promises while trust lags?",
+          a: "Ask the house to trust you faster because you thanked them",
+          b: "Keep one small named promise today. Do not demand the feeling.",
+          c: "Take the wheel again so the house sees you are useful",
+        }
+      ),
+      session(
+        12,
+        "A countable week of joining",
+        "Join for a week. Do not take over.",
+        "Consistency",
+        {
+          stem: "What Consistency closes this course?",
+          a: "A week of taking over so the house can rest",
+          b: "A week of joining the running house, without taking the wheel",
+          c: "A new ops plan you leave behind when you go again",
+        },
+        {
+          stem: "Which practice finishes a countable week of joining?",
+          a: "End the week by installing your preferred system",
+          b: "Join for the week. Do not take over. Drop any scorecard.",
+          c: "Summarize the house as a team you now lead",
+        }
+      ),
+    ],
+  },
+  {
+    slug: "knowing-again",
+    title: "Knowing Again",
+    description: "Meet the child who grew while you were gone. Countable presence that matches who they are now.",
+    leaderSummary:
+      "Children change across a stretch away. Update the picture after every return, ask before you assume, countable presence that fits who they are now. Optional caregivers as allies only. Ken I CAN: Awareness of who they are now, Involvement in small deposits that match, Consistency of showing up after the next stretch, Nurturance when meeting hesitation without forcing a reunion script. Education for knowing your child again. Not a talent review. Super-admin draft. Not published. Not released. Kill the week if the child profile becomes a talent review or growth dashboard. No spouse-or-mother default. Sponsorship funds the organization, not a preferred seat.",
+    orderIndex: 16,
+    sessions: [
+      session(
+        1,
+        "The child who grew",
+        "Meet the child who grew.",
+        "Awareness",
+        {
+          stem: "Who does Awareness meet after a stretch away?",
+          a: "The child you remember from before you left",
+          b: "The child who grew while you were gone",
+          c: "The child you hope they became",
+        },
+        {
+          stem: "Which lived practice meets the child who grew?",
+          a: "Start from your old picture and see what still fits",
+          b: "Meet this child as they are now, without the old script",
+          c: "Tell them who they were so they can help you catch up",
+        }
+      ),
+      session(
+        2,
+        "Update the picture",
+        "Update the picture. Drop the old one.",
+        "Awareness",
+        {
+          stem: "What does Awareness do with the old picture?",
+          a: "Keep it as the base and add notes",
+          b: "Update it. Drop the old one.",
+          c: "File both pictures so you can compare later",
+        },
+        {
+          stem: "Which action updates the picture as taught here?",
+          a: "Hold the old picture until you have enough new data",
+          b: "Drop one old assumption today and look again",
+          c: "Build a profile so the next return is faster",
+        }
+      ),
+      session(
+        3,
+        "Ask before you assume",
+        "Ask before you assume.",
+        "Involvement",
+        {
+          stem: "What Involvement move does this session lock?",
+          a: "Assume from the last stretch, then confirm if you have time",
+          b: "Ask before you assume",
+          c: "Ask a required messenger so you do not have to ask the child",
+        },
+        {
+          stem: "Which practice asks before you assume?",
+          a: "Fill in the blank from memory, then play",
+          b: "Ask one question about their life now and follow the answer",
+          c: "Wait for another adult to brief you before you speak to the child",
+        }
+      ),
+      session(
+        4,
+        "Hesitation is information",
+        "Hesitation is information, not rejection.",
+        "Nurturance",
+        {
+          stem: "How does Nurturance read hesitation in this session?",
+          a: "As rejection you should push through with a reunion script",
+          b: "As information, not rejection",
+          c: "As a mood to fix before the hour ends",
+        },
+        {
+          stem: "Which action treats hesitation as information?",
+          a: "Press for a hug so the return looks complete",
+          b: "Stay. Notice the hesitation. Do not force a reunion.",
+          c: "Leave and come back only when they look ready",
+        }
+      ),
+      session(
+        5,
+        "Small deposits that fit",
+        "One small deposit that fits today's child.",
+        "Involvement",
+        {
+          stem: "What Involvement deposit does this session ask?",
+          a: "A large make-up gesture that covers the stretch away",
+          b: "One small deposit that fits today's child",
+          c: "A deposit that could also look good on a talent list",
+        },
+        {
+          stem: "Which lived practice is a small deposit that fits?",
+          a: "Buy something bigger than last time so they feel the return",
+          b: "Give one small, fitting presence they can use today",
+          c: "Plan a showcase so the deposit has a result",
+        }
+      ),
+      session(
+        6,
+        "Frequency after cycles",
+        "Frequency beats a make-up weekend.",
+        "Consistency",
+        {
+          stem: "What Consistency beats a make-up weekend?",
+          a: "One large weekend that pays the stretch back",
+          b: "Frequency. Show up again after the next stretch.",
+          c: "A message that explains why the next stretch will be shorter",
+        },
+        {
+          stem: "Which practice chooses frequency over a make-up weekend?",
+          a: "Stack one big weekend and call the cycle closed",
+          b: "Name the next kept time and keep it, even if it is small",
+          c: "Wait for a free weekend that can make up the missed days",
+        }
+      ),
+      session(
+        7,
+        "Presence before providing",
+        "Presence before providing.",
+        "Involvement",
+        {
+          stem: "What does Involvement put first in this session?",
+          a: "A provision that proves you thought of them while away",
+          b: "Presence, before providing",
+          c: "A plan for what they should want next",
+        },
+        {
+          stem: "Which action puts presence before providing?",
+          a: "Hand over the gift first so the return has a mark",
+          b: "Be in their world first. Let provision wait.",
+          c: "Ask what they want so you can provide before you sit down",
+        }
+      ),
+      session(
+        8,
+        "When you missed a milestone",
+        "Name the missed milestone without extracting a resume.",
+        "Awareness",
+        {
+          stem: "How does Awareness name a missed milestone?",
+          a: "Ask them to walk you through every win so you can catch up",
+          b: "Name it plainly. Do not extract a resume.",
+          c: "Skip it so you do not make the miss heavier",
+        },
+        {
+          stem: "Which practice names the miss without a resume?",
+          a: "Have them list what you missed so you can file it",
+          b: "Say you missed that milestone, then stop extracting",
+          c: "Turn the miss into a growth note you can keep",
+        }
+      ),
+      session(
+        9,
+        "Soft repair with the child",
+        "Soft repair. No forced reunion.",
+        "Nurturance",
+        {
+          stem: "What Nurturance does a soft repair refuse?",
+          a: "Naming the miss at all",
+          b: "A forced reunion script",
+          c: "Staying if the child hesitates",
+        },
+        {
+          stem: "Which action is a soft repair?",
+          a: "Push the reunion until they play along",
+          b: "Offer a short, unforced repair and let them set the pace",
+          c: "Ask another adult to make the child come to you",
+        }
+      ),
+      session(
+        10,
+        "Optional ally in knowing",
+        "An ally may help you see. They are not required.",
+        "Awareness",
+        {
+          stem: "How does Awareness treat another caregiver in this session?",
+          a: "As a required messenger you must wait on",
+          b: "As an optional ally who may help you see, not a required one",
+          c: "As a required default adult who should brief you",
+        },
+        {
+          stem: "Which practice keeps the ally optional?",
+          a: "Refuse to ask the child until another adult reports",
+          b: "If an ally is part of the week, you may ask. You still meet the child yourself.",
+          c: "Assume one default adult will translate the child for you",
+        }
+      ),
+      session(
+        11,
+        "Lagging closeness",
+        "Closeness lags. Keep showing up.",
+        "Awareness",
+        {
+          stem: "What does Awareness do with lagging closeness?",
+          a: "Wait to show up until closeness returns",
+          b: "Leave closeness later. Keep showing up now.",
+          c: "Score closeness so you know if knowing-again is working",
+        },
+        {
+          stem: "Which action keeps showing up while closeness lags?",
+          a: "Ask the child to act closer so the week counts",
+          b: "Show up again today without demanding the feeling",
+          c: "Pause until the child initiates",
+        }
+      ),
+      session(
+        12,
+        "A countable week of knowing again",
+        "Know again for a week. Then destroy the list.",
+        "Consistency",
+        {
+          stem: "What Consistency closes this course?",
+          a: "A kept profile you can reuse on the next return",
+          b: "A week of knowing again, then destroy the list",
+          c: "A talent review so the next stretch has a baseline",
+        },
+        {
+          stem: "Which practice finishes a countable week of knowing again?",
+          a: "Save the notes as a growth dashboard",
+          b: "Know them this week, then destroy the list",
+          c: "Share the profile with a room so the work is visible",
+        }
+      ),
+    ],
+  },
 ];
 
 export function icanDraftBySlug(slug: string) {
   return ICAN_DRAFT_TRAININGS.find((training) => training.slug === slug) ?? null;
+}
+
+export function icanDraftsForSlugs(slugs: readonly string[]) {
+  return slugs.map((slug) => {
+    const training = icanDraftBySlug(slug);
+    if (!training) {
+      throw new Error(`I CAN draft catalog is missing ${slug}`);
+    }
+    return training;
+  });
 }
 
 export function icanDraftPromptText(prompt: IcanPrompt) {
@@ -1008,8 +1709,13 @@ function sqlTextBlock(value: string) {
   return `E${sqlLiteral(value.replaceAll("\n", "\\n"))}`;
 }
 
-export function renderIcanDraftMigrationSql() {
-  const trainingValues = ICAN_DRAFT_TRAININGS.map((training) => {
+export function renderIcanDraftMigrationSql(options?: {
+  trainings?: IcanDraftTraining[];
+  heading?: string;
+}) {
+  const trainings = options?.trainings ?? icanDraftsForSlugs(ICAN_CEO_DRAFT_SLUGS);
+  const heading = options?.heading ?? "-- Seed four Super-admin I CAN draft trainings.";
+  const trainingValues = trainings.map((training) => {
     return `  (
     ${sqlLiteral(training.slug)},
     ${sqlLiteral(training.title)},
@@ -1023,7 +1729,7 @@ export function renderIcanDraftMigrationSql() {
   )`;
   }).join(",\n");
 
-  const sessionValues = ICAN_DRAFT_TRAININGS.flatMap((training) =>
+  const sessionValues = trainings.flatMap((training) =>
     training.sessions.map((row) => {
       return `    (
       ${sqlLiteral(training.slug)},
@@ -1038,7 +1744,7 @@ export function renderIcanDraftMigrationSql() {
     })
   ).join(",\n");
 
-  return `-- Seed four Super-admin I CAN draft trainings.
+  return `${heading}
 -- Unpublished and unreleased. Films are Micah's hold placeholder.
 -- Idempotent: re-run updates catalog rows in place by slug / session_number.
 -- Keep these rows unpublished. Do not call release RPCs.
@@ -1116,4 +1822,11 @@ set
   checkin_prompt = excluded.checkin_prompt,
   action_prompt = excluded.action_prompt;
 `;
+}
+
+export function renderReturnHomeDraftMigrationSql() {
+  return renderIcanDraftMigrationSql({
+    trainings: icanDraftsForSlugs(ICAN_RETURN_HOME_DRAFT_SLUGS),
+    heading: "-- Seed three Super-admin return-home I CAN draft trainings.",
+  });
 }

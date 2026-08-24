@@ -6,14 +6,19 @@ import { fileURLToPath } from "node:url";
 import { parseSkillPrompt } from "../lib/father/session-questions";
 import { youtubeVideoId } from "../lib/father/types";
 import {
+  ICAN_CEO_DRAFT_SLUGS,
   ICAN_DRAFT_MIGRATION,
   ICAN_DRAFT_SLUGS,
   ICAN_DRAFT_TRAININGS,
   ICAN_HOLD_DURATION_SECONDS,
   ICAN_HOLD_VIDEO_URL,
+  ICAN_RETURN_HOME_DRAFT_MIGRATION,
+  ICAN_RETURN_HOME_DRAFT_SLUGS,
   assertIcanDraftCatalog,
+  icanDraftsForSlugs,
   icanDraftPromptText,
   renderIcanDraftMigrationSql,
+  renderReturnHomeDraftMigrationSql,
 } from "../lib/trainings/ican-drafts";
 
 const EM_DASH = "—";
@@ -27,14 +32,25 @@ const BANNED = [
   /\bbattlefield\b/i,
   /\bfirefight\b/i,
   /\bdeployment\b/i,
+  /\bmilitary\b/i,
+  /\bIDF\b/,
+  /\bIsrael(?:i)?\b/i,
+  /\bPTSD\b/i,
+  /\bVA\b/,
+  /\bevidence-based\b/i,
 ];
+const SPOUSE_OR_MOTHER_DEFAULT = [/\bwife\b/i, /\bmom\b/i, /\bmother\b/i, /\bshe\b/i];
 
 function readRepo(relativePath: string) {
   return readFileSync(fileURLToPath(new URL(`../${relativePath}`, import.meta.url)), "utf8");
 }
 
+function copyWithoutAntiDefault(text: string) {
+  return text.replace(/spouse-or-mother/gi, "");
+}
+
 describe("I CAN Super-admin draft trainings", () => {
-  it("locks the four unpublished slugs with Writey session titles", () => {
+  it("locks the seven unpublished slugs with Writey session titles", () => {
     assertIcanDraftCatalog();
     assert.deepEqual(
       ICAN_DRAFT_TRAININGS.map((training) => training.slug),
@@ -42,12 +58,26 @@ describe("I CAN Super-admin draft trainings", () => {
     );
     assert.deepEqual(
       ICAN_DRAFT_TRAININGS.map((training) => training.orderIndex),
-      [10, 11, 12, 13]
+      [10, 11, 12, 13, 14, 15, 16]
     );
+    assert.deepEqual([...ICAN_CEO_DRAFT_SLUGS], [
+      "after-action-at-the-door",
+      "direct-hours",
+      "unscored-child",
+      "midcourse-correction",
+    ]);
+    assert.deepEqual([...ICAN_RETURN_HOME_DRAFT_SLUGS], [
+      "calm-you-can-lend",
+      "the-house-that-kept-going",
+      "knowing-again",
+    ]);
     assert.equal(ICAN_DRAFT_TRAININGS[0]?.title, "After-Action at the Door");
     assert.equal(ICAN_DRAFT_TRAININGS[1]?.title, "Direct Hours");
     assert.equal(ICAN_DRAFT_TRAININGS[2]?.title, "The Unscored Child");
     assert.equal(ICAN_DRAFT_TRAININGS[3]?.title, "Midcourse Correction");
+    assert.equal(ICAN_DRAFT_TRAININGS[4]?.title, "Calm You Can Lend");
+    assert.equal(ICAN_DRAFT_TRAININGS[5]?.title, "The House That Kept Going");
+    assert.equal(ICAN_DRAFT_TRAININGS[6]?.title, "Knowing Again");
     assert.equal(
       ICAN_DRAFT_TRAININGS[0]?.sessions[0]?.title,
       "The clipboard stops at the door"
@@ -56,22 +86,86 @@ describe("I CAN Super-admin draft trainings", () => {
       ICAN_DRAFT_TRAININGS[3]?.sessions[11]?.title,
       "Stay Midcourse: I CAN Holds"
     );
+    assert.equal(ICAN_DRAFT_TRAININGS[4]?.sessions[0]?.title, "Body at the door");
+    assert.equal(ICAN_DRAFT_TRAININGS[4]?.sessions[1]?.title, "Come down");
+    assert.equal(ICAN_DRAFT_TRAININGS[4]?.sessions[3]?.title, "Lend calm to child");
+    assert.equal(ICAN_DRAFT_TRAININGS[4]?.sessions[5]?.pillar, "Awareness");
+    assert.equal(ICAN_DRAFT_TRAININGS[4]?.sessions[11]?.pillar, "Consistency");
+    assert.equal(
+      ICAN_DRAFT_TRAININGS[4]?.sessions[0]?.keyline,
+      "Your body arrives before your words do."
+    );
+    assert.equal(ICAN_DRAFT_TRAININGS[5]?.sessions[0]?.title, "The house kept going");
+    assert.equal(
+      ICAN_DRAFT_TRAININGS[5]?.sessions[0]?.keyline,
+      "While you were gone, the house kept going."
+    );
+    assert.equal(
+      ICAN_DRAFT_TRAININGS[5]?.sessions[1]?.keyline,
+      "See the load in plain words. Whoever carried it."
+    );
+    assert.equal(
+      ICAN_DRAFT_TRAININGS[6]?.sessions[7]?.keyline,
+      "Name the missed milestone without extracting a resume."
+    );
+    assert.equal(
+      ICAN_DRAFT_TRAININGS[6]?.sessions[11]?.title,
+      "A countable week of knowing again"
+    );
   });
 
   it("authors complete A/B/C check-in and action prompts for every session", () => {
+    assert.equal(icanDraftsForSlugs(ICAN_RETURN_HOME_DRAFT_SLUGS).flatMap((row) => row.sessions).length, 36);
+
     for (const training of ICAN_DRAFT_TRAININGS) {
       assert.equal(training.sessions.length, 12);
       assert.match(training.leaderSummary, /I CAN/);
       assert.match(training.leaderSummary, /Not published/);
+      assert.match(training.leaderSummary, /Not released/);
       assert.match(training.leaderSummary, /Sponsorship funds the organization/);
+      if ((ICAN_RETURN_HOME_DRAFT_SLUGS as readonly string[]).includes(training.slug)) {
+        assert.match(training.leaderSummary, /Involvement/);
+        assert.match(training.leaderSummary, /Consistency/);
+        assert.match(training.leaderSummary, /Awareness/);
+        assert.match(training.leaderSummary, /Nurturance/);
+      }
       assert.equal(training.description.includes(EM_DASH), false);
       assert.equal(training.leaderSummary.includes(EM_DASH), false);
+      assert.doesNotMatch(training.description, /ican-.*\.png/i);
+      assert.doesNotMatch(training.leaderSummary, /ican-.*\.png/i);
 
       const pillars = new Set(training.sessions.map((session) => session.pillar));
-      assert.deepEqual(
-        [...pillars].sort(),
-        ["Awareness", "Consistency", "Involvement", "Nurturance"]
+      if (training.slug === "calm-you-can-lend") {
+        assert.deepEqual(
+          training.sessions.map((session) => session.pillar),
+          [
+            "Awareness",
+            "Consistency",
+            "Awareness",
+            "Nurturance",
+            "Nurturance",
+            "Awareness",
+            "Nurturance",
+            "Consistency",
+            "Awareness",
+            "Awareness",
+            "Consistency",
+            "Consistency",
+          ]
+        );
+      } else {
+        assert.deepEqual(
+          [...pillars].sort(),
+          ["Awareness", "Consistency", "Involvement", "Nurturance"]
+        );
+      }
+
+      const scannedTraining = copyWithoutAntiDefault(
+        [training.title, training.description, training.leaderSummary].join("\n")
       );
+      for (const pattern of [...BANNED, ...SPOUSE_OR_MOTHER_DEFAULT]) {
+        assert.equal(pattern.test(scannedTraining), false, `${training.slug} catalog copy`);
+      }
 
       for (const session of training.sessions) {
         assert.doesNotMatch(session.title, /^Session\s+\d+$/i);
@@ -90,18 +184,23 @@ describe("I CAN Super-admin draft trainings", () => {
         assert.match(checkin, /\nA\) /);
         assert.match(checkin, /\nB\) /);
         assert.match(checkin, /\nC\) /);
+        assert.match(action, /\nA\) /);
+        assert.match(action, /\nB\) /);
+        assert.match(action, /\nC\) /);
         assert.equal(youtubeVideoId(ICAN_HOLD_VIDEO_URL), "yo_nS0vpV4M");
         assert.equal(ICAN_HOLD_DURATION_SECONDS, 300);
 
-        const scanned = [session.title, session.keyline, checkin, action].join("\n");
-        for (const pattern of BANNED) {
+        const scanned = copyWithoutAntiDefault(
+          [session.title, session.keyline, checkin, action].join("\n")
+        );
+        for (const pattern of [...BANNED, ...SPOUSE_OR_MOTHER_DEFAULT]) {
           assert.equal(pattern.test(scanned), false, `${training.slug} ${session.title}`);
         }
       }
     }
   });
 
-  it("seeds drafts only: unpublished, unreleased, in_development", () => {
+  it("seeds CEO drafts only in the original unpublished migration", () => {
     const sql = readRepo(ICAN_DRAFT_MIGRATION);
     assert.equal(sql, renderIcanDraftMigrationSql());
     assert.match(sql, /published,\s*\n\s*released_at,\s*\n\s*development_status/);
@@ -112,11 +211,38 @@ describe("I CAN Super-admin draft trainings", () => {
     assert.doesNotMatch(sql, /release_training_to_organizations/);
     assert.doesNotMatch(sql, /'Session \d+'/);
 
-    for (const slug of ICAN_DRAFT_SLUGS) {
+    for (const slug of ICAN_CEO_DRAFT_SLUGS) {
       assert.match(sql, new RegExp(`'${slug}'`));
+    }
+    for (const slug of ICAN_RETURN_HOME_DRAFT_SLUGS) {
+      assert.doesNotMatch(sql, new RegExp(`'${slug}'`));
     }
     assert.match(sql, /yo_nS0vpV4M/);
     assert.match(sql, /duration_seconds/);
     assert.match(sql, /^\s+300,$/m);
+  });
+
+  it("seeds the three return-home drafts in a new unpublished migration", () => {
+    const sql = readRepo(ICAN_RETURN_HOME_DRAFT_MIGRATION);
+    assert.equal(sql, renderReturnHomeDraftMigrationSql());
+    assert.match(sql, /Seed three Super-admin return-home I CAN draft trainings/);
+    assert.match(sql, /published,\s*\n\s*released_at,\s*\n\s*development_status/);
+    assert.match(sql, /published = false/);
+    assert.match(sql, /released_at = null/);
+    assert.match(sql, /development_status = 'in_development'/);
+    assert.doesNotMatch(sql, /published\s*=\s*true/);
+    assert.doesNotMatch(sql, /release_training_to_organizations/);
+    assert.doesNotMatch(sql, /'Session \d+'/);
+
+    for (const slug of ICAN_RETURN_HOME_DRAFT_SLUGS) {
+      assert.match(sql, new RegExp(`'${slug}'`));
+    }
+    for (const slug of ICAN_CEO_DRAFT_SLUGS) {
+      assert.doesNotMatch(sql, new RegExp(`'${slug}'`));
+    }
+    assert.match(sql, /yo_nS0vpV4M/);
+    assert.match(sql, /duration_seconds/);
+    assert.match(sql, /^\s+300,$/m);
+    assert.equal((sql.match(/yo_nS0vpV4M/g) ?? []).length, 36);
   });
 });
