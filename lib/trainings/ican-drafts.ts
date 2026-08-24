@@ -1,6 +1,8 @@
 import { composeSkillPrompt, skillPromptIsComplete } from "@/lib/admin/development";
 
-export const ICAN_HOLD_VIDEO_URL = "https://www.youtube.com/watch?v=yo_nS0vpV4M";
+export const ICAN_PREVIOUS_HOLD_VIDEO_URL =
+  "https://www.youtube.com/watch?v=yo_nS0vpV4M";
+export const ICAN_HOLD_VIDEO_URL = "https://www.youtube.com/watch?v=aVO0k0a9Fc4";
 export const ICAN_HOLD_DURATION_SECONDS = 300;
 export const ICAN_DRAFT_MIGRATION =
   "supabase/migrations/20260824160000_seed_ican_draft_trainings.sql";
@@ -8,6 +10,8 @@ export const ICAN_RETURN_HOME_DRAFT_MIGRATION =
   "supabase/migrations/20260824170000_seed_return_home_draft_trainings.sql";
 export const ICAN_RETURN_HOME_DRAFT_DESCRIPTION_MIGRATION =
   "supabase/migrations/20260824180000_update_return_home_draft_descriptions.sql";
+export const ICAN_HOLD_VIDEO_MIGRATION =
+  "supabase/migrations/20260824210000_update_ican_hold_video.sql";
 
 export const ICAN_CEO_DRAFT_SLUGS = [
   "after-action-at-the-door",
@@ -1717,9 +1721,11 @@ function sqlTextBlock(value: string) {
 export function renderIcanDraftMigrationSql(options?: {
   trainings?: IcanDraftTraining[];
   heading?: string;
+  holdVideoUrl?: string;
 }) {
   const trainings = options?.trainings ?? icanDraftsForSlugs(ICAN_CEO_DRAFT_SLUGS);
   const heading = options?.heading ?? "-- Seed four Super-admin I CAN draft trainings.";
+  const holdVideoUrl = options?.holdVideoUrl ?? ICAN_HOLD_VIDEO_URL;
   const trainingValues = trainings.map((training) => {
     return `  (
     ${sqlLiteral(training.slug)},
@@ -1741,7 +1747,7 @@ export function renderIcanDraftMigrationSql(options?: {
       ${row.sessionNumber},
       ${sqlLiteral(row.title)},
       ${sqlLiteral(row.keyline)},
-      ${sqlLiteral(ICAN_HOLD_VIDEO_URL)},
+      ${sqlLiteral(holdVideoUrl)},
       ${ICAN_HOLD_DURATION_SECONDS},
       ${sqlTextBlock(icanDraftPromptText(row.checkin))},
       ${sqlTextBlock(icanDraftPromptText(row.action))}
@@ -1863,5 +1869,25 @@ from (
 ${values}
 ) as catalog(slug, description, leader_summary)
 where trainings.slug = catalog.slug;
+`;
+}
+
+export function renderIcanHoldVideoUpdateSql() {
+  return `-- Replace Micah's previous hold placeholder with the Ken+Micah overview/preview hold.
+-- Only updates trainings.overview_video_url and session film URLs that still use the old hold.
+-- Restricts trainings to the old hold URL or an empty overview_video_url so existing films stay.
+-- Does not change published, released_at, development_status, copy, or session titles/prompts.
+-- Idempotent: re-run is a no-op once URLs already match the new hold.
+-- Keep these rows unpublished. Do not call release RPCs.
+
+update public.trainings
+set overview_video_url = ${sqlLiteral(ICAN_HOLD_VIDEO_URL)}
+where
+  overview_video_url = ${sqlLiteral(ICAN_PREVIOUS_HOLD_VIDEO_URL)}
+  or coalesce(nullif(btrim(overview_video_url), ''), '') = '';
+
+update public.sessions
+set video_url = ${sqlLiteral(ICAN_HOLD_VIDEO_URL)}
+where video_url = ${sqlLiteral(ICAN_PREVIOUS_HOLD_VIDEO_URL)};
 `;
 }
