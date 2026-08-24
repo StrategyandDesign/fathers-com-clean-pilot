@@ -11,7 +11,7 @@ export const ICAN_RETURN_HOME_DRAFT_MIGRATION =
 export const ICAN_RETURN_HOME_DRAFT_DESCRIPTION_MIGRATION =
   "supabase/migrations/20260824180000_update_return_home_draft_descriptions.sql";
 export const ICAN_RETURN_HOME_FATHER_COPY_MIGRATION =
-  "supabase/migrations/20260824230000_rehab_hcd_return_home_descriptions.sql";
+  "supabase/migrations/20260824240000_ken_voice_v5_catalog.sql";
 export const ICAN_HOLD_VIDEO_MIGRATION =
   "supabase/migrations/20260824210000_update_ican_hold_video.sql";
 
@@ -982,21 +982,21 @@ export const ICAN_DRAFT_TRAININGS: IcanDraftTraining[] = [
     slug: "calm-you-can-lend",
     title: "Calm You Can Lend",
     description:
-      "This training is for fathers who cycle back into family life after hard stretches away. You may walk through the door still wired. Your body is still high. The people inside did not live that stretch with you. Children borrow the adult nervous system they meet. Other caregivers may borrow it too when they are there. They are optional, not assumed.\n\nPurpose: notice the surge as a body signal, come down with the same short ritual every return, and lend calm the people inside can use. What changes over twelve weeks is the door itself. You stop dumping leftover load onto the first person you see. You arrive as someone the house can borrow steadiness from.\n\nConcrete objectives: name body tells at the door; keep one short come-down every return; stay present once you are down; lend soft voice and proximity to a child before correction; lend calm to whoever is inside when present; repair same day after a snap; protect boring hours without posting calm as a win.\n\nHow a week works: watch one short teaching film, answer one checkpoint, then live one practice that week. The work stays between you and the house. Tone is ordinary house language and Ken Canfield's I CAN spine (Involvement, Consistency, Awareness, Nurturance). Education for steadiness at home.",
+      "A father can come back from a hard stretch still carrying the body that kept him going. The people inside should not have to receive that leftover load at the door.\n\nCalm You Can Lend is the come-down before you speak. Same short ritual every return. Then a calmer voice, nearer presence, and correction that waits until you are actually home. Over twelve weeks the door itself changes. A child can settle near you. If you snap, you close it the same day. Notice when you are still high. Keep the ritual. Stay in the room once you are down, so the calm is something someone else can use.",
     leaderSummary:
-      "Father returns from hard stretches still wired. Course owns come-down at the door and lending calm outward. Ken Canfield I CAN: Awareness of the surge, Consistency of a return ritual, Involvement once down, Nurturance in calm others can borrow. Success looks like the same short door ritual, soft presence with child (and with whoever is inside when present), same-day repair after a snap, and no peer scorekeeping. Kill the week if come-down becomes a tip he coaches others with and never uses at his own door, or if body language becomes diagnosis talk. Super-admin draft. Not published. Not released. Sponsorship funds the organization, not a preferred seat.",
+      "Watch the door. The course owns a short come-down and a calm he lends outward, not a tip he repeats for other men. Success looks like the same ritual every return, soft presence with the child and with whoever is inside when they are present, and same-day repair after a snap. Sponsorship funds the organization, not a preferred seat.",
     orderIndex: 14,
     sessions: [
       session(
         1,
-        "Body at the door",
+        "Before You Speak",
         "Your body arrives before your words do.",
         "Awareness",
         {
-          stem: "What does Awareness name first at the door, according to this session?",
-          a: "A speech about the stretch, so the house understands why you are still high",
-          b: "The body signal that arrived before your words",
-          c: "Whether anyone inside looks ready for you to speak",
+          stem: "What is the first body signal you notice before you speak? Name it.",
+          a: "Tight jaw, shallow breath, or a scan of every room",
+          b: "The urge to fix something or quiet the house fast",
+          c: "I usually do not notice anything until someone reacts to me",
         },
         {
           stem: "Which lived practice matches this session?",
@@ -1209,9 +1209,9 @@ export const ICAN_DRAFT_TRAININGS: IcanDraftTraining[] = [
     slug: "the-house-that-kept-going",
     title: "The House That Kept Going",
     description:
-      "This training is for fathers who return to a house that kept running while they were gone. Someone kept the routines: a co-parent, kin, a program, or the child. The wound repeats when you walk in and rewrite the rules as if the house waited for your management.\n\nPurpose: see the load in plain words, thank it without a speech, and join the system that already works instead of building a second cockpit. What changes over twelve weeks is how you reenter. You ask before you change a rule. You take one real load the house names. Trust rebuilds through small kept promises and same-day repair when you snap.\n\nConcrete objectives: inventory what kept going without you; name the carrier without assuming who it was; thank once, quietly; ask before changing a house rule; join one existing rhythm; complete one asked load; refuse a parallel ops plan; repair same day with whoever was there; treat trust as lagging, not a same-night score.\n\nHow a week works: one short film, one checkpoint, one lived practice. The work stays between you and the house. Tone is calm, practical, and spouse-safe: no default to a mother or partner. Ken Canfield's I CAN spine holds the arc. Education for joining a running house.",
+      "While you are away, a house often keeps running. Someone carries the routines: a co-parent, kin, a program, or the child. The wound opens when you walk in and rewrite the rules as if nothing happened without you.\n\nSee that load in plain words. Thank it once, without a speech. Join what already works. Ask before you change a rule. Take one real task the house names and finish it. Trust comes later than you want, through small kept promises and same-day repair. Notice who carried what. Finish the asked load. Keep the small promise. Watch your tone when you reenter.",
     leaderSummary:
-      "Father rejoins a house that ran without him. Carrier may be co-parent, kin, program, or child. Ken Canfield I CAN: Awareness of the load, Involvement in one named load done fully, Consistency of small promises, Nurturance in tone and same-day repair. Success looks like ask-before-rule-change, one joined rhythm, no parallel cockpit, and trust treated as lagging. Kill the week if the carrier becomes a COO or if gratitude covers taking the wheel again. Super-admin draft. Not published. Not released. Sponsorship funds the organization, not a preferred seat.",
+      "He is joining a house that ran without him. The carrier may be a co-parent, kin, a program, or the child. Watch for an ask before any rule change, one joined rhythm, and trust treated as something that lags. If gratitude becomes a cover for taking the wheel again, bring him back to one named load. Sponsorship funds the organization, not a preferred seat.",
     orderIndex: 15,
     sessions: [
       session(
@@ -1220,10 +1220,10 @@ export const ICAN_DRAFT_TRAININGS: IcanDraftTraining[] = [
         "While you were gone, the house kept going.",
         "Awareness",
         {
-          stem: "What does Awareness name first in this session?",
-          a: "How much the house suffered without your system",
-          b: "While you were gone, the house kept going",
-          c: "Which person failed to keep the house at your standard",
+          stem: "Who kept one routine going while you were away, and what was that routine?",
+          a: "A co-parent or kin kept a meal, bedtime, or school rhythm",
+          b: "A program or the child kept a rule or a check-in in place",
+          c: "I am still learning who carried which load",
         },
         {
           stem: "Which lived practice matches this session?",
@@ -1436,9 +1436,9 @@ export const ICAN_DRAFT_TRAININGS: IcanDraftTraining[] = [
     slug: "knowing-again",
     title: "Knowing Again",
     description:
-      "This training is for fathers whose children changed across stretches away. Interests, fears, friends, and how they want you all move. Coming home with yesterday's picture creates miss after miss. Knowing is never finished when absence cycles.\n\nPurpose: update the picture after every return, ask before you assume, and offer countable presence that fits the child in front of you. What changes over twelve weeks is how you meet them. You stop forcing a reunion script. You make small deposits that match who they are now. Frequency after each stretch beats one big make-up weekend.\n\nConcrete objectives: notice what grew while you were gone; rewrite a private child-now note; ask once and listen longer; treat hesitation as information; make one matching deposit; show up again after the next stretch; put presence before providing; soft-repair a miss with the child same day; optionally use another caregiver as an ally, never as a required messenger; destroy the list at week's end.\n\nHow a week works: one short film, one checkpoint, one lived practice. If child contact is unavailable, update the private note or rehearse the ask. The work stays between you and the house. Tone is warm, unhurried, and spouse-safe. Ken Canfield's I CAN spine (Involvement, Consistency, Awareness, Nurturance) holds the work. Education for knowing your child again.",
+      "Children change while you are gone. Interests, fears, friends, and the way they want you all move. Yesterday's picture of them will miss them, because knowing is never finished when a man has been away.\n\nKnowing Again is meeting the child in front of you. You update the picture. You ask before you assume. You offer presence that fits who they are now. Small matching deposits beat a make-up weekend. Hesitation is information, not a verdict on your worth. Another caregiver may help you see what changed. They are an ally when they are part of the week, never a required messenger. Stay current on who this child is today, and meet coolness without forcing a reunion.\n\nIf you cannot sit with your child, the week still completes on paper.",
     leaderSummary:
-      "Father re-knows a child who grew across cyclic absence. Ken Canfield I CAN: Awareness of who they are now, Involvement in matching deposits, Consistency of frequency over make-up weekends, Nurturance with hesitation. Success looks like an updated picture, ask-before-assume, soft presence, and no résumé extraction from the child. Kill the week if knowing becomes a talent review, growth dashboard, or forced reunion. Super-admin draft. Not published. Not released. Sponsorship funds the organization, not a preferred seat.",
+      "He is learning this child again, not recovering a former version. Watch for an updated picture, an ask before an assumption, and presence that is not a talent review. If the week becomes a growth dashboard or a forced reunion, bring him back to one matching deposit. This stays a Super-admin draft, unpublished and unreleased. Sponsorship funds the organization, not a preferred seat.",
     orderIndex: 16,
     sessions: [
       session(
@@ -1447,10 +1447,10 @@ export const ICAN_DRAFT_TRAININGS: IcanDraftTraining[] = [
         "Meet the child who grew.",
         "Awareness",
         {
-          stem: "Who does Awareness meet after a stretch away?",
-          a: "The child you remember from before you left",
-          b: "The child who grew while you were gone",
-          c: "The child you hope they became",
+          stem: "What is one thing about this child that may have changed while you were gone? Name it.",
+          a: "An interest, a friend, or a fear that is new to me",
+          b: "How they want me when I walk in",
+          c: "I am not sure yet; I will ask before I assume",
         },
         {
           stem: "Which lived practice meets the child who grew?",

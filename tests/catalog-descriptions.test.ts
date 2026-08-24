@@ -7,6 +7,7 @@ import {
   CATALOG_DESCRIPTION_MIGRATION,
   CATALOG_DESCRIPTION_SLUGS,
   CATALOG_DESCRIPTION_TRAININGS,
+  KEN_VOICE_SESSION_1,
   catalogDescriptionsForSlugs,
   renderCatalogDescriptionUpdateSql,
 } from "../lib/trainings/catalog-descriptions";
@@ -27,10 +28,21 @@ const BANNED = [
   /\bDaneshnia\b/i,
 ];
 const FATHER_AI_STACKS = [
+  /Purpose:/,
+  /Concrete objectives/,
+  /Kill the week/,
+  /This training is for fathers who/,
+  /Not treatment\.\s*Not a diagnosis/,
+  /This draft stays unpublished/,
   /No scoreboard\.\s*No peer forum/i,
-  /Not treatment\.\s*Not a diagnosis/i,
-  /This draft stays unpublished/i,
 ];
+
+const OPENINGS: Record<string, string> = {
+  fundamentals: "A father does not become effective by collecting ideas.",
+  anger: "The people nearest you feel your heat first.",
+  reentry:
+    "A man can do his work away from home and still walk through the door carrying the body that kept him there.",
+};
 
 function readRepo(relativePath: string) {
   return readFileSync(fileURLToPath(new URL(`../${relativePath}`, import.meta.url)), "utf8");
@@ -45,17 +57,16 @@ describe("published catalog training descriptions", () => {
     assert.deepEqual([...CATALOG_DESCRIPTION_SLUGS], ["fundamentals", "anger", "reentry"]);
   });
 
-  it("keeps descriptions long enough and structured for fathers", () => {
+  it("locks Ken-voice v5 openings and rejects the old AI overview stacks", () => {
     for (const training of catalogDescriptionsForSlugs(CATALOG_DESCRIPTION_SLUGS)) {
-      assert.ok(training.description.length >= 1000, `${training.slug} description length`);
-      assert.match(training.description, /Purpose:/);
-      assert.match(training.description, /How a (week|session) works/);
+      assert.ok(training.description.startsWith(OPENINGS[training.slug] ?? ""));
       assert.equal(training.description.includes(EM_DASH), false);
       assert.equal(training.description.includes(EN_DASH), false);
       assert.equal(training.leaderSummary.includes(EM_DASH), false);
       assert.equal(training.leaderSummary.includes(EN_DASH), false);
       assert.doesNotMatch(training.leaderSummary, /Not published/i);
       assert.doesNotMatch(training.leaderSummary, /Not released/i);
+      assert.doesNotMatch(training.leaderSummary, /^Leader: /);
 
       const scanned = [training.description, training.leaderSummary].join("\n");
       for (const pattern of BANNED) {
@@ -67,53 +78,56 @@ describe("published catalog training descriptions", () => {
     }
   });
 
-  it("rejects leftover draft-unpublished language on published catalog trainings", () => {
-    for (const training of catalogDescriptionsForSlugs(CATALOG_DESCRIPTION_SLUGS)) {
-      assert.doesNotMatch(training.description, /This draft stays unpublished/i);
-      assert.doesNotMatch(training.description, /Not published/i);
-      assert.doesNotMatch(training.leaderSummary, /This draft stays unpublished/i);
-      assert.doesNotMatch(training.leaderSummary, /Not published/i);
-      assert.doesNotMatch(training.leaderSummary, /Not released/i);
-    }
-  });
-
-  it("keeps fundamentals on nine sessions and reentry on borrowed nervous systems", () => {
+  it("keeps fundamentals on nine sessions and ends with the house line", () => {
     const fundamentals = catalogDescriptionsForSlugs(["fundamentals"])[0];
+    const anger = catalogDescriptionsForSlugs(["anger"])[0];
     const reentry = catalogDescriptionsForSlugs(["reentry"])[0];
 
     assert.match(fundamentals.description, /nine sessions/i);
+    assert.ok(fundamentals.description.trimEnd().endsWith("The work stays between you and the house."));
     assert.equal(fundamentals.description.includes("What changes over twelve weeks"), false);
-    assert.match(reentry.description, /Children borrow the adult nervous system they meet/);
+    assert.match(anger.leaderSummary, /^Help him notice the surge/);
+    assert.match(reentry.leaderSummary, /^Stay with the body at the door/);
   });
 
-  it("updates only description and leader_summary for the three catalog slugs", () => {
+  it("starts session 1 check-in with a named learning and optional A/B/C", () => {
+    for (const session of KEN_VOICE_SESSION_1) {
+      assert.match(
+        session.checkinPrompt,
+        /write one short thing you learned|Name it|what was that routine\?/
+      );
+      assert.match(session.checkinPrompt, /\n\nA\) /);
+      assert.match(session.checkinPrompt, /\nB\) /);
+      assert.match(session.checkinPrompt, /\nC\) /);
+    }
+
+    const fundamentals = KEN_VOICE_SESSION_1.find((row) => row.slug === "fundamentals");
+    const calm = KEN_VOICE_SESSION_1.find((row) => row.slug === "calm-you-can-lend");
+    assert.match(fundamentals?.checkinPrompt ?? "", /write one short thing you learned/);
+    assert.equal(calm?.title, "Before You Speak");
+    assert.match(calm?.checkinPrompt ?? "", /Name it/);
+    assert.equal(
+      KEN_VOICE_SESSION_1.some((row) => row.title === "Body at the door"),
+      false
+    );
+  });
+
+  it("updates description, leader_summary, Calm S1 title, and session 1 check-in by slug", () => {
     const sql = readRepo(CATALOG_DESCRIPTION_MIGRATION);
     assert.equal(sql, renderCatalogDescriptionUpdateSql());
-    assert.match(
-      sql,
-      /Update father-facing descriptions for the three published catalog trainings/
-    );
-    assert.match(sql, /Does not change sessions, titles, published, released_at, or development_status/);
-    assert.match(
-      sql,
-      /Does not touch calm-you-can-lend, the-house-that-kept-going, or knowing-again/
-    );
+    assert.match(sql, /Lock Ken-voice v5 father-facing copy to match live Pilot/);
+    assert.match(sql, /Does not change published, released_at, or development_status/);
+    assert.match(sql, /checkin_prompt/);
+    assert.match(sql, /Before You Speak/);
     assert.doesNotMatch(sql, /published\s*=/);
     assert.doesNotMatch(sql, /released_at\s*=/);
     assert.doesNotMatch(sql, /development_status\s*=/);
     assert.doesNotMatch(sql, /insert into public\.sessions/);
-    assert.doesNotMatch(sql, /checkin_prompt/);
     assert.doesNotMatch(sql, /action_prompt/);
-    assert.match(
-      sql,
-      /and trainings\.slug in \('fundamentals', 'anger', 'reentry'\)/
-    );
+    assert.doesNotMatch(sql, /Body at the door/);
 
-    for (const slug of CATALOG_DESCRIPTION_SLUGS) {
+    for (const slug of [...CATALOG_DESCRIPTION_SLUGS, ...RETURN_HOME_SLUGS]) {
       assert.match(sql, new RegExp(`'${slug}'`));
-    }
-    for (const slug of RETURN_HOME_SLUGS) {
-      assert.doesNotMatch(sql, new RegExp(`'${slug}'`));
     }
 
     const catalog = catalogDescriptionsForSlugs(CATALOG_DESCRIPTION_SLUGS);
@@ -122,6 +136,11 @@ describe("published catalog training descriptions", () => {
       const summarySql = training.leaderSummary.replaceAll("\n", "\\n").replaceAll("'", "''");
       assert.ok(sql.includes(descriptionSql), `${training.slug} description`);
       assert.ok(sql.includes(summarySql), `${training.slug} leader_summary`);
+    }
+
+    for (const session of KEN_VOICE_SESSION_1) {
+      const checkinSql = session.checkinPrompt.replaceAll("\n", "\\n").replaceAll("'", "''");
+      assert.ok(sql.includes(checkinSql), `${session.slug} checkin_prompt`);
     }
   });
 });
