@@ -1,11 +1,12 @@
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { describe, it } from "node:test";
 import { fileURLToPath } from "node:url";
 
 import {
   AUTH_CONTINUE_PATH,
   authContinueHref,
+  authGoReplaceScript,
   isAuthContinuePath,
   postAuthHome,
   resolvePostAuthPath,
@@ -129,16 +130,35 @@ describe("auth continue bounce", () => {
     assert.equal(authContinueHref(ROLE_HOME.father), "/auth/go?next=%2Ffather");
   });
 
-  it("wires signIn to the bounce with profile role and manager start", () => {
+  it("auto-redirects the hop without a Continue splash", () => {
+    assert.equal(authGoReplaceScript("/manager"), 'location.replace("/manager")');
+    assert.equal(
+      authGoReplaceScript("/father?desk=1"),
+      'location.replace("/father?desk=1")'
+    );
+
     const actions = readRepo("lib/auth/actions.ts");
     const join = readRepo("lib/auth/leader-join.ts");
-    const page = readRepo("app/(auth)/auth/go/page.tsx");
+    const page = readRepo("app/auth/go/page.tsx");
     const bounce = readRepo("components/auth/auth-continue.tsx");
+    const authLayout = readRepo("app/(auth)/layout.tsx");
+    assert.equal(
+      existsSync(fileURLToPath(new URL("../app/(auth)/auth/go/page.tsx", import.meta.url))),
+      false
+    );
 
     assert.match(page, /safeInternalPath/);
     assert.match(page, /httpEquiv="refresh"/);
+    assert.match(page, /authGoReplaceScript/);
+    assert.match(page, /dangerouslySetInnerHTML/);
     assert.match(bounce, /location\.replace/);
     assert.match(bounce, /useLayoutEffect/);
+    assert.match(bounce, /<noscript>/);
+    assert.doesNotMatch(bounce, /useT\(/);
+    assert.doesNotMatch(bounce, /common\.continue/);
+    assert.doesNotMatch(page, /BrandLogo/);
+    assert.doesNotMatch(page, /auth\.pilotNotice/);
+    assert.match(authLayout, /BrandLogo/);
     assert.match(actions, /resolveProfileRole/);
     assert.match(actions, /manager_onboarded_at/);
     assert.match(actions, /authContinueHref/);
