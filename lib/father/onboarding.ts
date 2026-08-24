@@ -1,3 +1,5 @@
+import { ROLE_HOME } from "@/lib/auth/roles";
+
 export const ONBOARDING_STEPS = [
   "welcome",
   "children",
@@ -157,7 +159,8 @@ export function currentOnboardingStep(input: {
   }
   const canStart = input.hasAssignedSession || Boolean(input.hasIncludedTraining);
   if (stored === "session" && !canStart) return "hold";
-  if (stored === "hold" && canStart) return "session";
+  // Home has trainings + assessments. Do not dump into week 1 Action.
+  if ((stored === "session" || stored === "hold") && canStart) return "done";
   return stored;
 }
 
@@ -170,7 +173,7 @@ const STEP_HREF: Record<OnboardingStep, string> = {
   session: "/father/start/session",
   hold: "/father/start/hold",
   complete: "/father/start/complete",
-  done: "/father",
+  done: ROLE_HOME.father,
 };
 
 export function onboardingHref(step: OnboardingStep) {
@@ -200,10 +203,56 @@ export function isFatherStartPath(pathname: string) {
   return pathname === "/father/start" || pathname.startsWith("/father/start/");
 }
 
+export function fatherOnboardingRedirect(input: {
+  pathname: string;
+  active: boolean;
+  step: OnboardingStep;
+  firstSessionId?: string | null;
+}): string | null {
+  if (!input.pathname || isFatherStartPath(input.pathname) || !input.active) {
+    return null;
+  }
+
+  if (
+    (input.pathname === ROLE_HOME.father || input.pathname === `${ROLE_HOME.father}/`) &&
+    (input.step === "session" || input.step === "done")
+  ) {
+    return null;
+  }
+
+  if (
+    (input.step === "session" || input.step === "complete") &&
+    isAssignedSessionPath(input.pathname, input.firstSessionId)
+  ) {
+    return null;
+  }
+
+  if (input.step === "session") {
+    return ROLE_HOME.father;
+  }
+
+  return onboardingHref(input.step);
+}
+
 export function isAssignedSessionPath(pathname: string, sessionId?: string | null) {
   if (!sessionId) return false;
   const base = `/father/sessions/${sessionId}`;
   return pathname === base || pathname === `${base}/checkin` || pathname === `${base}/action`;
+}
+
+/** Login / first-run must not resume a live week. In-session nav stays after Home. */
+export function isFatherLiveSessionPath(pathname: string) {
+  const path = pathname.split("?")[0] ?? pathname;
+  if (path === "/father/start/session" || path.startsWith("/father/start/session/")) {
+    return true;
+  }
+  if (path === "/father/sessions" || path.startsWith("/father/sessions/")) {
+    return true;
+  }
+  if (path.startsWith("/father/trainings/") && path !== "/father/trainings/") {
+    return true;
+  }
+  return false;
 }
 
 export function nextStepAfterAnswer(question: "children" | "skill" | "when"): OnboardingStep {

@@ -4,6 +4,7 @@ import {
   safeInternalPath,
   type AppRole,
 } from "@/lib/auth/roles";
+import { isFatherLiveSessionPath } from "@/lib/father/onboarding";
 import {
   managerOnboardingHref,
   shouldShowManagerOnboarding,
@@ -53,6 +54,9 @@ export function resolvePostAuthPath({
     (next === ROLE_HOME.manager || next === `${ROLE_HOME.manager}/`)
   ) {
     return managerOnboardingHref();
+  }
+  if (role === "father" && isFatherLiveSessionPath(next.split("?")[0] ?? next)) {
+    return home;
   }
   return next;
 }
