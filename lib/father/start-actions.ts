@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
+import { ROLE_HOME } from "@/lib/auth/roles";
 import { requireRole } from "@/lib/auth/session";
 import { loadFirstAssignedSession } from "@/lib/father/first-assigned";
 import { loadOnboardingState } from "@/lib/father/onboarding-data";
@@ -190,7 +191,7 @@ async function finishReminderStep(
   }
 
   const first = await loadFirstAssignedSession(fatherId);
-  const next: OnboardingStep = first ? "session" : "hold";
+  const next: OnboardingStep = first ? "done" : "hold";
   try {
     await writeOnboarding(fatherId, {
       step: next,
@@ -198,11 +199,12 @@ async function finishReminderStep(
         ...nextAnswers,
         first_session_id: first?.session.id,
       },
+      completedAt: first ? new Date().toISOString() : undefined,
     });
   } catch {
     failStart("reminder", "That reminder didn’t save. Try again.");
   }
-  redirect(first ? first.href : "/father/start/hold");
+  redirect(first ? ROLE_HOME.father : "/father/start/hold");
 }
 
 export async function advanceOnboardingAfterSession(fatherId: string, sessionId: string) {

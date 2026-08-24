@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 
+import { ROLE_HOME } from "@/lib/auth/roles";
 import { requireRole } from "@/lib/auth/session";
 import { loadOnboardingState } from "@/lib/father/onboarding-data";
 import { onboardingHref } from "@/lib/father/onboarding";
@@ -12,11 +13,8 @@ export default async function FatherStartIndexPage({
   const { error } = await searchParams;
   const { user } = await requireRole("father");
   const state = await loadOnboardingState(user.id);
-  if (state.mode === "done" || state.step === "done") {
-    redirect("/father");
-  }
-  if (state.step === "session" && state.firstSessionHref) {
-    redirect(state.firstSessionHref);
+  if (state.mode === "done" || state.step === "done" || state.step === "session") {
+    redirect(ROLE_HOME.father);
   }
   const href = onboardingHref(state.step);
   if (error) {

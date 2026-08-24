@@ -1,11 +1,12 @@
 import { redirect } from "next/navigation";
 
+import { ROLE_HOME } from "@/lib/auth/roles";
 import { requireStartPage } from "@/lib/father/start-page";
 
 export default async function FatherStartSessionPage() {
   const { state } = await requireStartPage("session");
-  if (!state.firstSessionHref) {
+  if (!state.hasAssignedSession) {
     redirect("/father/start/hold");
   }
-  redirect(state.firstSessionHref);
+  redirect(ROLE_HOME.father);
 }
