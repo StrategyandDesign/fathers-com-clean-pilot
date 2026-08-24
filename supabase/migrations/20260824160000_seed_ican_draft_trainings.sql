@@ -1,7 +1,7 @@
 -- Seed four Super-admin I CAN draft trainings.
 -- Unpublished and unreleased. Films are Micah's hold placeholder.
 -- Idempotent: re-run updates catalog rows in place by slug / session_number.
--- Do not set published = true. Do not call release RPCs.
+-- Keep these rows unpublished. Do not call release RPCs.
 
 insert into public.trainings (
   slug,

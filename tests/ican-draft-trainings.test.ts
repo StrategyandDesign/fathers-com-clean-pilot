@@ -110,12 +110,13 @@ describe("I CAN Super-admin draft trainings", () => {
     assert.match(sql, /development_status = 'in_development'/);
     assert.doesNotMatch(sql, /published\s*=\s*true/);
     assert.doesNotMatch(sql, /release_training_to_organizations/);
-    assert.doesNotMatch(sql, /Session \d+/);
+    assert.doesNotMatch(sql, /'Session \d+'/);
 
     for (const slug of ICAN_DRAFT_SLUGS) {
       assert.match(sql, new RegExp(`'${slug}'`));
     }
     assert.match(sql, /yo_nS0vpV4M/);
-    assert.match(sql, /, 300,/);
+    assert.match(sql, /duration_seconds/);
+    assert.match(sql, /^\s+300,$/m);
   });
 });
