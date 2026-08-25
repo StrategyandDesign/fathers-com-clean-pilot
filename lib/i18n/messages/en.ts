@@ -2105,8 +2105,6 @@ export const en = {
       catalogEmptyTitle: "No trainings available",
       catalogEmptyBody:
         "When a Super-admin releases a training to this organization, it will appear here.",
-      catalogShelfFathering: "From Fathers.com",
-      catalogShelfOrgProgram: "From this site",
       catalogPending: "Not decided",
       catalogReady: "Included",
       catalogDeclined: "Declined",

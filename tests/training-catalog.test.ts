@@ -16,23 +16,22 @@ describe("training catalog decisions", () => {
     assert.doesNotMatch(catalog, /StatusMark/);
   });
 
-  it("holds shelf headings until an org has a site-owned training", () => {
+  it("keeps Available trainings as a flat list with no source-shelf headings", () => {
     const catalog = readRepo("components/manager/training-catalog.tsx");
     const en = readRepo("lib/i18n/messages/en.ts");
     const he = readRepo("lib/i18n/messages/he.ts");
 
-    assert.match(catalog, /catalogHasOrgProgram/);
-    assert.match(catalog, /groupCatalogByShelf/);
-    assert.match(catalog, /manager\.trainings\.catalogShelfFathering/);
-    assert.match(catalog, /manager\.trainings\.catalogShelfOrgProgram/);
+    assert.doesNotMatch(catalog, /catalogHasOrgProgram/);
+    assert.doesNotMatch(catalog, /groupCatalogByShelf/);
+    assert.doesNotMatch(catalog, /catalogShelfFathering/);
+    assert.doesNotMatch(catalog, /catalogShelfOrgProgram/);
+    assert.doesNotMatch(catalog, /From Fathers\.com/);
+    assert.doesNotMatch(catalog, /From this site/);
     assert.doesNotMatch(catalog, /Your program/);
-    assert.doesNotMatch(catalog, /From this organization/);
-    assert.match(en, /catalogShelfFathering:\s*"From Fathers\.com"/);
-    assert.match(en, /catalogShelfOrgProgram:\s*"From this site"/);
-    assert.doesNotMatch(en, /catalogShelfOrgProgram:\s*"From this organization"/);
-    assert.match(he, /catalogShelfFathering:\s*"מאת Fathers\.com"/);
-    assert.match(he, /catalogShelfOrgProgram:\s*"מאת האתר הזה"/);
-    assert.doesNotMatch(he, /catalogShelfOrgProgram:.*"ארגון/);
+    assert.doesNotMatch(en, /catalogShelfFathering/);
+    assert.doesNotMatch(en, /catalogShelfOrgProgram/);
+    assert.doesNotMatch(he, /catalogShelfFathering/);
+    assert.doesNotMatch(he, /catalogShelfOrgProgram/);
   });
 
   it("does not keep Waiting on you or Hidden from your cohort on Trainings", () => {

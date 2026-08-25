@@ -181,7 +181,7 @@ describe("manager catalog", () => {
     assert.equal(items[0]?.status, "ready");
   });
 
-  it("defaults missing shelf to fathering and hides headings until an org program exists", () => {
+  it("defaults missing shelf to fathering and groups org_program separately", () => {
     const house = training({
       id: "fundamentals",
       title: "Fathering Fundamentals",
