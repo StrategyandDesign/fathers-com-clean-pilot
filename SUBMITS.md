@@ -1,3 +1,7 @@
+Daily work is branch `review` on this repo. Live is https://rootmandate.com.
+
+`submit/2` is a frozen snapshot from 19 Aug 2026. Do not check it out to do new work.
+
 # Submit record
 
 Official review copies are **even-numbered** and **date-stamped**.

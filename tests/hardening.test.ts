@@ -125,10 +125,14 @@ describe("hardening after Shared 1-1.117", () => {
     assert.equal(errorPage.includes(EM_DASH), false);
   });
 
-  it("keeps the README start-here door and a hardening note without a Desk tick", () => {
+  it("keeps the README front door and a hardening note without a Desk tick", () => {
     const readme = readRepo("README.md");
-    assert.match(readme, /\*\*Start here\.\*\*/);
+    assert.match(readme, /Work here\./);
+    assert.match(readme, /Branch: `review`/);
+    assert.match(readme, /https:\/\/rootmandate\.com/);
     assert.match(readme, /docs\/engineering\/PILOT\.md/);
+    assert.doesNotMatch(readme, /Start here/);
+    assert.doesNotMatch(readme, /## Transfer/);
     const note = readRepo("docs/engineering/HARDENING-1-1.117.md");
     assert.match(note, /No Desk tick/);
     assert.match(note, /fail closed/);

@@ -1,6 +1,12 @@
-# Clean Pilot — runbook
+# Clean Pilot runbook
 
 This Next.js app talks to the **Pilot** Supabase project. Local and Vercel use that same database, so the seats below work in both places.
+
+Clone https://github.com/StrategyandDesign/fathers-com-clean-pilot and check out `review`. Do not check out `submit/2` for daily work.
+
+Live site: https://rootmandate.com (Vercel project `fathers-com-pilot`).
+If the domain is down, use https://fathers-com-pilot.vercel.app. That is the same project.
+https://fathers-com-platform.vercel.app is a different app. Do not use it.
 
 ## Run locally and on Vercel
 
@@ -9,8 +15,7 @@ This Next.js app talks to the **Pilot** Supabase project. Local and Vercel use t
 ```bash
 git clone https://github.com/StrategyandDesign/fathers-com-clean-pilot.git
 cd fathers-com-clean-pilot
-git checkout submit/2          # frozen official copy
-# git checkout review          # moving draft, if you are iterating
+git checkout review
 cp .env.example .env.local
 # Leave Supabase keys blank. The app falls back to Pilot.
 # NEXT_PUBLIC_SITE_URL=http://127.0.0.1:3000 is already in .env.example
@@ -22,23 +27,15 @@ Open http://127.0.0.1:3000/login
 
 Optional desk flags live in `.env.local`. `desk_consider_next_v1` stays off until ranking is trustworthy. To show Consider next on `/manager`, set `DESK_CONSIDER_NEXT_V1=1`. Leave it unset to keep the prior dashboard. `/manager` always shows Review cadence from the same Companion, roster, and review-queue data. Open items are men mid-work. Pending actions are reviews and certificates waiting on the Leader. Certificates ready are the certificate subset. `npm run dev` keeps the Desktop clone on `review` and reloads the tab. The Shared badge stays at Shared 1-1.101 until the next desk push, which will tick 1.127. Local commits on `review` tick through `scripts/git-hooks/pre-commit` (`cp scripts/git-hooks/pre-commit .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit`). GitHub squash merges do not run that hook; after those merges stamp on `review` with `node scripts/shared-revision.mjs --stamp`. Father Home picks up a new leader update without a reload. The dashboard skips avatar signing and answer-bearing columns so the cold open stays lean. `leader_assessment_answers` stays off so Leaders see custom assessment completion only. Super-admin can turn it on per organization. To unlock answers for every org from the platform, set `LEADER_ASSESSMENT_ANSWERS=1`. `fidelity_board_enabled` stays off. To show the living fidelity checklist and Certified Facilitator registry, set `FIDELITY_BOARD_ENABLED=1`. Leave it unset to keep the prior desk. `sso_enabled` stays off per organization. Super-admin turns it on under Identity. Leave it off so login stays email and password. `secure_export_enabled` stays off. Leaders can still download a quality improvement packet from Reports. Set `SECURE_EXPORT_ENABLED=1` only to show destination metadata and the confirm-first send stub. This desk does not send files to an outside host. `vertical_pack_armed_forces` stays off. Super-admin can still open `/admin/verticals/armed-forces`. Set `VERTICAL_PACK_ARMED_FORCES=1` only to show the event closeout preset on Reports. This does not flip `SHOW_MILITARY`. `vertical_pack_optimization` stays off. Super-admin can still open `/admin/verticals/optimization`. Set `VERTICAL_PACK_OPTIMIZATION=1` only to apply the bonded-group copy skin and commitment board on Performance Optimization Group desks. Rehab organizations never receive this pack.
 
-To keep working on the Shared desk instead:
-
-```bash
-git fetch origin review
-git checkout review
-npm install
-npm run dev
-```
-
 ### Vercel (already live)
 
 | URL | What you get |
 |---|---|
-| https://fathers-com-platform.vercel.app/login | Public production. Current `main` (check-in freeze fix). Same Pilot seats. |
-| https://fathers-com-pilot.vercel.app/login | Live but stale. Do not use this to judge new work. |
+| https://rootmandate.com | Live Pilot. Vercel project `fathers-com-pilot`. |
+| https://fathers-com-pilot.vercel.app | Same project if the custom domain is down. |
+| https://fathers-com-platform.vercel.app | A different app. Do not use it. |
 
-Same emails and password work on localhost and on the public production URL. Use two browser profiles if you stay signed in on both.
+Same emails and password work on localhost and on the live Pilot URL. Use two browser profiles if you stay signed in on both.
 
 ### Shared pilot password
 
@@ -79,19 +76,20 @@ Sign out and sign in once if a role looks wrong (JWT refresh). Use three browser
 
 Re-run `supabase/sql/seed_returning_home_nwa.sql` or `supabase/sql/seed_unit_8200.sql` in the Pilot SQL editor if a seat loses its organization. Re-run `supabase/sql/pilot_hygiene_issue_17.sql` if Test Training, the test desk note, or the old military-unit org name comes back.
 
-## Current hosts (probed 18 August 2026)
+## Current hosts
 
 Use this table. Do not guess from project names.
 
-| Host | What it actually serves today | Use for clean-pilot review? |
+| Host | What it serves | Use for this Pilot? |
 |---|---|---|
-| Isolated repo `fathers-com-clean-pilot` (`review`) | Source of the Next.js pilot app | Yes — this is the review copy |
-| https://fathers-com-pilot.vercel.app | Next.js, **stale** build. Login still says “Official Fathers.com training pilot.” | No — not current `clean-pilot` HEAD |
-| https://fathers-com-platform.vercel.app | Next.js from **`main`**. Login says “The Fathers Performance Platform”. Paths like `/admin.html` return 404. | Seats work here. Tree is `main`, not Submit 2. |
+| Isolated repo `fathers-com-clean-pilot` (`review`) | Source of the Next.js Pilot app | Yes. Clone this and check out `review`. |
+| https://rootmandate.com | Live Pilot. Vercel project `fathers-com-pilot`. | Yes. This is the live site. |
+| https://fathers-com-pilot.vercel.app | Same Vercel project if the custom domain is down. | Yes, as a fallback. |
+| https://fathers-com-platform.vercel.app | A different app. | No. Do not use it. |
 | Supabase `koeplcybddrvbliuepsy` (name: **Pilot**) | Auth + Postgres + Storage for the Next.js app | Yes |
 | Supabase `kemqpiboqeqhbuuldmls` (name: fathers-com-platform) | **INACTIVE** | No |
 
-Reviewers should clone `fathers-com-clean-pilot` and run it locally, or use a Vercel preview of **that** repo. Do not treat either of the two public Vercel URLs above as “the Submit 2 tree.”
+Clone `fathers-com-clean-pilot` and check out `review`. Do not check out `submit/2` for daily work.
 
 ## 1. Create a Manager
 
