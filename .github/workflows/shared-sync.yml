@@ -1,8 +1,6 @@
 name: Shared marks
 
 on:
-  schedule:
-    - cron: "*/2 * * * *"
   workflow_dispatch:
   push:
     paths:
@@ -16,7 +14,7 @@ permissions:
 
 jobs:
   publish:
-    if: github.repository == 'StrategyandDesign/fathers-com-clean-pilot'
+    if: github.repository == 'StrategyandDesign/fathers-com-clean-pilot' && github.ref == 'refs/heads/review'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout review
@@ -25,14 +23,14 @@ jobs:
           ref: review
           fetch-depth: 0
 
-      - name: Hold local desk ticks off Eric's copy
+      - name: Skip when the copy is held
         id: hold
         run: |
           set -euo pipefail
           HOLD=$(node -p "Boolean(require('./shared-source.json').hold)")
           echo "skip=$HOLD" >> "$GITHUB_OUTPUT"
           if [ "$HOLD" = "true" ]; then
-            echo "Hold is on. Shared 7 / Shared 1-1.101 stays on review until Micah asks to publish."
+            echo "Hold is on. The Shared marks copy job is a no-op."
           fi
 
       - name: Setup Node

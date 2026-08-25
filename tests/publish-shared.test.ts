@@ -205,12 +205,22 @@ describe("shared publish marks", () => {
     }
   });
 
-  it("points the Shared desk at review without a hold", () => {
+  it("holds the Shared marks copy on review and does not schedule it", () => {
     const source = JSON.parse(
       readFileSync(fileURLToPath(new URL("../shared-source.json", import.meta.url)), "utf8")
     );
+    const workflow = readFileSync(
+      fileURLToPath(new URL("../.github/workflows/shared-sync.yml", import.meta.url)),
+      "utf8"
+    );
+    assert.equal(source.repo, "StrategyandDesign/fathers-com-platform");
     assert.equal(source.branch, "review");
-    assert.notEqual(source.hold, true);
+    assert.equal(source.hold, true);
+    assert.match(workflow, /workflow_dispatch:/);
+    assert.doesNotMatch(workflow, /cron:\s*"\*\/2 \* \* \* \*"/);
+    assert.match(workflow, /github\.ref == 'refs\/heads\/review'/);
+    assert.match(workflow, /if: steps\.hold\.outputs\.skip != 'true'/);
+    assert.match(workflow, /git clone --depth 1 --branch "\$SOURCE_BRANCH"/);
   });
 
   it("reads the local Shared badge file", () => {
