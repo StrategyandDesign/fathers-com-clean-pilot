@@ -1,53 +1,17 @@
-# How we work in this repo
+# How we work
 
-Two jobs share one GitHub repo:
+One repo. One working branch.
 
-| Role | Owns | Does not have to read |
-|---|---|---|
-| Eric — hardening and backend | `app/`, `lib/`, `supabase/`, `tests/`, CI | `docs/product/`, `handoff/`, `archive/` |
-| Micah — product discovery and agent work | `docs/product/`, `handoff/`, Shared marks | Must not dump essays into `app/` or `lib/` |
+https://github.com/StrategyandDesign/fathers-com-clean-pilot
+Branch: `review`
 
-The live product is Next.js. Root HTML is archived. PRs stay small. Product notes and schema changes do not land in the same commit unless they must.
+PRs go into `review`. Keep them small.
 
-## Rules for the Next.js app
+Eric owns `app/`, `lib/`, `supabase/`, and `tests/`.
+Micah owns product notes and the live Pilot.
 
-1. Edit `app/`, `components/`, and `lib/`. Do not edit `archive/static-site/*.html` to change the product.
-2. Every database change is a new file in `supabase/migrations/`.
-3. Secrets and money stay server-side (Route Handlers, Supabase Edge Functions). The browser never holds a service-role key.
-4. New behavior gets a test under `tests/` when there is an existing pattern to extend.
-5. Roles stay `father` / `manager` / `reviewer` / `admin`. Do not add a fifth product role without an explicit product decision.
+Do not edit `archive/static-site` to change the product.
+Every database change is a new file in `supabase/migrations/`.
+Roles stay `father` / `manager` / `reviewer` / `admin`.
 
-## Local loop
-
-```bash
-cp .env.example .env.local
-npm install
-npm run dev
-```
-
-http://127.0.0.1:3000/login — seats in `docs/engineering/PILOT.md`.
-
-```bash
-npm run lint
-npx tsx --test tests/*.test.ts
-npx tsc --noEmit
-```
-
-## Shared drops vs official submits
-
-- This desk branch is `review`, the moving line Micah and Eric share.
-- **`shared/N`** tags in `SHARED.md` number those drops. They do not freeze a submit.
-- **`submit/2`** is frozen. Do not fast-forward it.
-- Local commits on `review` tick the Shared badge through `scripts/git-hooks/pre-commit`. Install it once:
-
-```bash
-cp scripts/git-hooks/pre-commit .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit
-```
-
-- GitHub squash merges from cloud agents do not run that hook. After those merges, stamp on `review` with `node scripts/shared-revision.mjs --stamp`. That only runs on the desk branch and stages `shared-mark.json` plus `SHARED.md`.
-
-## Pull requests
-
-Work on a branch. Open a PR. Say what changed and what you verified. Merge when checks are green.
-
-This line is the review copy. It is not a cutover of `fathers.com` and it is not `fathers-com-platform` `main`.
+`submit/2` is a frozen snapshot from 19 Aug 2026. Daily work is not there.

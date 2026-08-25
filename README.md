@@ -1,28 +1,29 @@
-# Fathers.com — clean-pilot
+# Fathers.com Pilot
 
-This repository is the **Next.js 15** app. The product is `app/`, `components/`, `lib/`, and `supabase/`.
+Work here.
 
-Root HTML is gone on purpose. The old static site lives in `archive/static-site/` and is not what `npm run dev` serves.
+- Repo: https://github.com/StrategyandDesign/fathers-com-clean-pilot
+- Branch: `review`
+- Live site: https://rootmandate.com
 
-Official copies for Erik are even-numbered and date-stamped. See `SUBMITS.md`. **Submit 2** (19 Aug 2026) is frozen on `submit/2`.
+That is the only copy we judge. Do not use `fathers-com-platform`, `submit/2`, or https://fathers-com-platform.vercel.app for day-to-day work.
 
-## Transfer
+## How we work
 
-**Start here.** Read in this order. Do not start in `docs/product/` or `archive/`. The operator runbook is [docs/engineering/PILOT.md](docs/engineering/PILOT.md).
+Open a branch from `review`. Open a PR back into `review`. Merge when checks are green.
 
-1. This file
-2. [docs/engineering/PILOT.md](docs/engineering/PILOT.md) — run, seats, hosts
-3. [handoff/00-SUBMISSION-GUIDE.md](handoff/00-SUBMISSION-GUIDE.md) — what to send a reviewer
-4. [CONTRIBUTING.md](CONTRIBUTING.md) — who owns what
+There is no second repo to keep in sync. An old script used to copy from `fathers-com-platform`. It is held. Ignore it.
 
-| What | Where |
-|---|---|
-| How we work | [CONTRIBUTING.md](CONTRIBUTING.md) |
-| Official submit record | [SUBMITS.md](SUBMITS.md) |
-| Shared desk marks | [SHARED.md](SHARED.md) |
-| Everything else written down | [docs/README.md](docs/README.md) |
+The Shared 1-1.N number in the corner is a desk stamp on this same branch. It is not another repo and not another branch.
+
+`submit/2` is a frozen snapshot from 19 Aug 2026. Daily work is not there.
+
+## Run it
 
 ```bash
+git clone https://github.com/StrategyandDesign/fathers-com-clean-pilot.git
+cd fathers-com-clean-pilot
+git checkout review
 cp .env.example .env.local
 npm install
 npm run dev
@@ -30,25 +31,12 @@ npm run dev
 
 Open http://127.0.0.1:3000/login
 
-Pilot seats (password `12345` on local and Vercel): `father@nwa`, `manager@nwa`, `reviewer@nwa`, plus the Hebrew Pilot Group `*@il` seats and `admin@fathers`. Details in the runbook.
+Leave the Supabase keys blank. Local uses the Pilot database.
 
-```bash
-npm run lint
-npx tsx --test tests/*.test.ts
-npx tsc --noEmit
-```
+Password for Pilot seats is `12345`. Super-admin is `admin@fathers`.
 
-## What belongs where
+## What this app is
 
-| Keep reading | History — skip unless you need it |
-|---|---|
-| `app/` routes | `archive/static-site/` old HTML and Python builders |
-| `components/` React UI | `docs/product/` discovery notes |
-| `lib/` server and domain logic | `docs/archive/` outdated architecture writeups |
-| `supabase/` schema and RLS | `handoff/` reviewer packet |
-| `tests/` | `partner-kit/` field PDFs |
-| `public/` brand files for Next | `emails/` unused Resend HTML kit |
+Next.js in `app/`, `components/`, `lib/`, and `supabase/`. Old static HTML lives in `archive/` and is not served.
 
-Do not add new markdown to the repo root. Product notes go in `docs/product/`. Engineering runbooks go in `docs/engineering/`. The only root docs are `README.md`, `CONTRIBUTING.md`, `AGENTS.md`, `SHARED.md`, and `SUBMITS.md`.
-
-This repo is the review line. Do not use https://fathers-com-platform.vercel.app to judge it.
+Seats, flags, and schema notes: `docs/engineering/PILOT.md`.

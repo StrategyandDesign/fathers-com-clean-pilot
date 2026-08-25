@@ -1,3 +1,7 @@
+This file is a change log. It is not the setup guide.
+
+Work on https://github.com/StrategyandDesign/fathers-com-clean-pilot branch `review`. Live is https://rootmandate.com. The Shared 1-1.N badge is a stamp on that same branch.
+
 # Shared marks
 
 Numbered pushes on the review copy Micah and Eric share:
