@@ -16,6 +16,25 @@ describe("training catalog decisions", () => {
     assert.doesNotMatch(catalog, /StatusMark/);
   });
 
+  it("holds shelf headings until an org has a site-owned training", () => {
+    const catalog = readRepo("components/manager/training-catalog.tsx");
+    const en = readRepo("lib/i18n/messages/en.ts");
+    const he = readRepo("lib/i18n/messages/he.ts");
+
+    assert.match(catalog, /catalogHasOrgProgram/);
+    assert.match(catalog, /groupCatalogByShelf/);
+    assert.match(catalog, /manager\.trainings\.catalogShelfFathering/);
+    assert.match(catalog, /manager\.trainings\.catalogShelfOrgProgram/);
+    assert.doesNotMatch(catalog, /Your program/);
+    assert.doesNotMatch(catalog, /From this organization/);
+    assert.match(en, /catalogShelfFathering:\s*"From Fathers\.com"/);
+    assert.match(en, /catalogShelfOrgProgram:\s*"From this site"/);
+    assert.doesNotMatch(en, /catalogShelfOrgProgram:\s*"From this organization"/);
+    assert.match(he, /catalogShelfFathering:\s*"מאת Fathers\.com"/);
+    assert.match(he, /catalogShelfOrgProgram:\s*"מאת האתר הזה"/);
+    assert.doesNotMatch(he, /catalogShelfOrgProgram:.*"ארגון/);
+  });
+
   it("does not keep Waiting on you or Hidden from your cohort on Trainings", () => {
     const page = readRepo("app/(manager)/manager/trainings/page.tsx");
     assert.match(page, /TrainingCatalog/);
@@ -92,7 +111,7 @@ describe("training catalog decisions", () => {
 
     assert.match(
       data,
-      /DESK_TRAINING_COLUMNS =\s*"id, slug, title, description, leader_summary, attribution, session_count, order_index, published, released_at, first_published_at, first_released_at"/
+      /DESK_TRAINING_COLUMNS =\s*"id, slug, title, description, leader_summary, attribution, session_count, order_index, published, released_at, first_published_at, first_released_at, shelf"/
     );
     assert.match(data, /description: row\.description \?\? null/);
     assert.doesNotMatch(data, /description: null,\s*\.\.\.row/s);

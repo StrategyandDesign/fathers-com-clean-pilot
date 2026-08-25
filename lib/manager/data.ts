@@ -8,7 +8,7 @@ import {
 } from "@/lib/father/types";
 
 export const DESK_TRAINING_COLUMNS =
-  "id, slug, title, description, leader_summary, attribution, session_count, order_index, published, released_at, first_published_at, first_released_at";
+  "id, slug, title, description, leader_summary, attribution, session_count, order_index, published, released_at, first_published_at, first_released_at, shelf";
 export const DESK_SESSION_COLUMNS =
   "id, training_id, session_number, title, order_index";
 export const DESK_PROGRESS_COLUMNS =

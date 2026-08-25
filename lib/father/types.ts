@@ -19,6 +19,7 @@ export type Training = {
   previewed_at?: string | null;
   attribution?: string | null;
   overview_video_url?: string | null;
+  shelf?: "fathering" | "org_program" | null;
 };
 
 export function trainingOverviewPath(trainingId: string) {

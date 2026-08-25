@@ -1770,6 +1770,8 @@ export const he = {
       catalogLead: "כל הכשרה שהארגון יכול להשתמש בה. פתח לתצוגה מקדימה, ואז אשר או הקצה למטה.",
       catalogEmptyTitle: "אין הכשרות זמינות",
       catalogEmptyBody: "כשמנהל־על ישחרר הכשרה לארגון הזה, היא תופיע כאן.",
+      catalogShelfFathering: "מאת Fathers.com",
+      catalogShelfOrgProgram: "מאת האתר הזה",
       catalogPending: "ממתין לך",
       catalogReady: "מוכן להקצאה",
       waitingTitle: "ממתין לך",

@@ -3,6 +3,11 @@ import { describe, it } from "node:test";
 
 import type { Training } from "../lib/father/types";
 import { buildManagerCatalog, catalogCardSummary } from "../lib/manager/catalog";
+import {
+  catalogHasOrgProgram,
+  groupCatalogByShelf,
+  trainingShelf,
+} from "../lib/trainings/shelf";
 
 function training(overrides: Partial<Training> & Pick<Training, "id" | "title">): Training {
   return {
@@ -174,6 +179,44 @@ describe("manager catalog", () => {
 
     assert.equal(items.length, 1);
     assert.equal(items[0]?.status, "ready");
+  });
+
+  it("defaults missing shelf to fathering and hides headings until an org program exists", () => {
+    const house = training({
+      id: "fundamentals",
+      title: "Fathering Fundamentals",
+      order_index: 1,
+    });
+    const site = training({
+      id: "site-owned",
+      title: "Site module",
+      order_index: 2,
+      shelf: "org_program",
+    });
+    const houseItems = buildManagerCatalog({
+      trainings: [house],
+      pending: [],
+      accepted: [],
+    });
+    const mixed = buildManagerCatalog({
+      trainings: [house, site],
+      pending: [],
+      accepted: [],
+    });
+
+    assert.equal(trainingShelf(house), "fathering");
+    assert.equal(trainingShelf({ shelf: "org_program" }), "org_program");
+    assert.equal(catalogHasOrgProgram(houseItems), false);
+    assert.equal(groupCatalogByShelf(houseItems).orgProgram.length, 0);
+    assert.equal(catalogHasOrgProgram(mixed), true);
+    assert.deepEqual(
+      groupCatalogByShelf(mixed).orgProgram.map((item) => item.training.id),
+      ["site-owned"]
+    );
+    assert.deepEqual(
+      groupCatalogByShelf(mixed).fathering.map((item) => item.training.id),
+      ["fundamentals"]
+    );
   });
 
   it("prints the stored description, then leader_summary, on catalog cards", () => {
