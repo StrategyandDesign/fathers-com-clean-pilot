@@ -121,7 +121,7 @@ export async function RoleShell({
       )}
 
       {fatherMobile ? (
-        <div className="fixed inset-x-0 bottom-0 z-30 border-t border-border bg-background/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-md print:hidden lg:hidden">
+        <div className="fixed inset-x-0 bottom-0 z-30 border-t border-border bg-background pb-[env(safe-area-inset-bottom)] print:hidden lg:hidden">
           <AppNav role={role} layout="tabs" />
         </div>
       ) : null}
@@ -134,7 +134,7 @@ export async function RoleShell({
             : "pt-[calc(3.5rem+env(safe-area-inset-top))]",
           funnel ? "print:pt-0" : "lg:ps-[5.5rem] print:pt-0 print:ps-0",
           fatherMobile
-            ? "max-lg:pb-[calc(3.75rem+env(safe-area-inset-bottom))]"
+            ? "max-lg:pb-[calc(3.75rem+1rem+env(safe-area-inset-bottom))]"
             : "max-lg:pb-6"
         )}
       >
