@@ -1,17 +1,17 @@
-# How we work
+# Collaboration
 
-One repo. One working branch.
-
-https://github.com/StrategyandDesign/fathers-com-clean-pilot
+Repository: StrategyandDesign/fathers-com-clean-pilot
 Branch: `review`
+Host: https://rootmandate.com
 
-PRs go into `review`. Keep them small.
+PRs target `review`.
 
-Eric owns `app/`, `lib/`, `supabase/`, and `tests/`.
-Micah owns product notes and the live Pilot.
+Application code: `app/`, `components/`, `lib/`, `tests/`.
+Schema changes: new files under `supabase/migrations/`.
+Roles remain `father`, `manager`, `reviewer`, `admin`.
+`archive/static-site` is not the running app.
 
-Do not edit `archive/static-site` to change the product.
-Every database change is a new file in `supabase/migrations/`.
-Roles stay `father` / `manager` / `reviewer` / `admin`.
+Hosted deploys are CLI to Vercel project `fathers-com-pilot`. A merge to `review` does not publish.
 
-`submit/2` is a frozen snapshot from 19 Aug 2026. Daily work is not there.
+Local run and Pilot seats: `README.md`.
+Flags, remaining seats, and schema: `docs/engineering/PILOT.md`.

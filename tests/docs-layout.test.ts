@@ -7,7 +7,7 @@ import { fileURLToPath } from "node:url";
 const root = fileURLToPath(new URL("..", import.meta.url));
 
 describe("documentation layout", () => {
-  it("keeps only the transfer-facing markdown files at the repo root", () => {
+  it("keeps only the allowed markdown files at the repo root", () => {
     const markdown = readdirSync(root)
       .filter((name) => name.endsWith(".md"))
       .sort();

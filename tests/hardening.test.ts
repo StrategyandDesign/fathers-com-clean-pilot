@@ -127,10 +127,10 @@ describe("hardening after Shared 1-1.117", () => {
 
   it("keeps the README front door and a hardening note without a Desk tick", () => {
     const readme = readRepo("README.md");
-    assert.match(readme, /Work here\./);
-    assert.match(readme, /Branch: `review`/);
+    assert.match(readme, /branch `review`/);
     assert.match(readme, /https:\/\/rootmandate\.com/);
     assert.match(readme, /docs\/engineering\/PILOT\.md/);
+    assert.doesNotMatch(readme, /Work here/);
     assert.doesNotMatch(readme, /Start here/);
     assert.doesNotMatch(readme, /## Transfer/);
     const note = readRepo("docs/engineering/HARDENING-1-1.117.md");

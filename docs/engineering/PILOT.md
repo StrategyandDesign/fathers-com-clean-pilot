@@ -1,41 +1,41 @@
 # Clean Pilot runbook
 
-This Next.js app talks to the **Pilot** Supabase project. Local and Vercel use that same database, so the seats below work in both places.
+This Next.js app talks to the Pilot Supabase project. Local and Vercel use that same database. Seats below work in both places.
 
-Clone https://github.com/StrategyandDesign/fathers-com-clean-pilot and check out `review`. Do not check out `submit/2` for daily work.
+Repository: https://github.com/StrategyandDesign/fathers-com-clean-pilot
+Branch: `review`
+Host: https://rootmandate.com
+Vercel project: `fathers-com-pilot`
 
-Live site: https://rootmandate.com (Vercel project `fathers-com-pilot`).
-If the domain is down, use https://fathers-com-pilot.vercel.app. That is the same project.
-https://fathers-com-platform.vercel.app is a different app. Do not use it.
+`fathers-com-platform` and `submit/2` are prior lines. `review` is current.
 
-## Run locally and on Vercel
-
-### Local (fastest loop)
+## Local
 
 ```bash
 git clone https://github.com/StrategyandDesign/fathers-com-clean-pilot.git
 cd fathers-com-clean-pilot
 git checkout review
 cp .env.example .env.local
-# Leave Supabase keys blank. The app falls back to Pilot.
 # NEXT_PUBLIC_SITE_URL=http://127.0.0.1:3000 is already in .env.example
 npm install
 npm run dev
 ```
 
-Open http://127.0.0.1:3000/login
+http://127.0.0.1:3000/login
+
+Supabase keys in `.env.local` may stay blank. The app uses the Pilot project, the same database as the hosted site.
 
 Optional desk flags live in `.env.local`. `desk_consider_next_v1` stays off until ranking is trustworthy. To show Consider next on `/manager`, set `DESK_CONSIDER_NEXT_V1=1`. Leave it unset to keep the prior dashboard. `/manager` always shows Review cadence from the same Companion, roster, and review-queue data. Open items are men mid-work. Pending actions are reviews and certificates waiting on the Leader. Certificates ready are the certificate subset. `npm run dev` keeps the Desktop clone on `review` and reloads the tab. The Shared badge stays at Shared 1-1.101 until the next desk push, which will tick 1.127. Local commits on `review` tick through `scripts/git-hooks/pre-commit` (`cp scripts/git-hooks/pre-commit .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit`). GitHub squash merges do not run that hook; after those merges stamp on `review` with `node scripts/shared-revision.mjs --stamp`. Father Home picks up a new leader update without a reload. The dashboard skips avatar signing and answer-bearing columns so the cold open stays lean. `leader_assessment_answers` stays off so Leaders see custom assessment completion only. Super-admin can turn it on per organization. To unlock answers for every org from the platform, set `LEADER_ASSESSMENT_ANSWERS=1`. `fidelity_board_enabled` stays off. To show the living fidelity checklist and Certified Facilitator registry, set `FIDELITY_BOARD_ENABLED=1`. Leave it unset to keep the prior desk. `sso_enabled` stays off per organization. Super-admin turns it on under Identity. Leave it off so login stays email and password. `secure_export_enabled` stays off. Leaders can still download a quality improvement packet from Reports. Set `SECURE_EXPORT_ENABLED=1` only to show destination metadata and the confirm-first send stub. This desk does not send files to an outside host. `vertical_pack_armed_forces` stays off. Super-admin can still open `/admin/verticals/armed-forces`. Set `VERTICAL_PACK_ARMED_FORCES=1` only to show the event closeout preset on Reports. This does not flip `SHOW_MILITARY`. `vertical_pack_optimization` stays off. Super-admin can still open `/admin/verticals/optimization`. Set `VERTICAL_PACK_OPTIMIZATION=1` only to apply the bonded-group copy skin and commitment board on Performance Optimization Group desks. Rehab organizations never receive this pack.
 
-### Vercel (already live)
+## Hosted
 
-| URL | What you get |
+| URL | What it is |
 |---|---|
 | https://rootmandate.com | Live Pilot. Vercel project `fathers-com-pilot`. |
-| https://fathers-com-pilot.vercel.app | Same project if the custom domain is down. |
-| https://fathers-com-platform.vercel.app | A different app. Do not use it. |
+| https://fathers-com-pilot.vercel.app | Same project. |
+| https://fathers-com-platform.vercel.app | A different app. |
 
-Same emails and password work on localhost and on the live Pilot URL. Use two browser profiles if you stay signed in on both.
+Same seats and password work on localhost and on the live Pilot URL. Use separate browser profiles when more than one role is signed in.
 
 ### Shared pilot password
 
