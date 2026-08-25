@@ -14,7 +14,7 @@ permissions:
 
 jobs:
   publish:
-    if: github.repository == 'StrategyandDesign/fathers-com-clean-pilot'
+    if: github.repository == 'StrategyandDesign/fathers-com-clean-pilot' && github.ref == 'refs/heads/review'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout review

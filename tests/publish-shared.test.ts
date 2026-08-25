@@ -218,6 +218,7 @@ describe("shared publish marks", () => {
     assert.equal(source.hold, true);
     assert.match(workflow, /workflow_dispatch:/);
     assert.doesNotMatch(workflow, /cron:\s*"\*\/2 \* \* \* \*"/);
+    assert.match(workflow, /github\.ref == 'refs\/heads\/review'/);
     assert.match(workflow, /if: steps\.hold\.outputs\.skip != 'true'/);
     assert.match(workflow, /git clone --depth 1 --branch "\$SOURCE_BRANCH"/);
   });
