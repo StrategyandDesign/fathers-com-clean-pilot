@@ -1,19 +1,17 @@
-Daily work is branch `review` on this repo. Live is https://rootmandate.com.
-
-`submit/2` is a frozen snapshot from 19 Aug 2026. Do not check it out to do new work.
+Frozen submit snapshots. Current line is branch `review` at https://rootmandate.com.
 
 # Submit record
 
 Official review copies are **even-numbered** and **date-stamped**.
 
-Moving pushes that Micah and Eric share are numbered separately as **Shared 1, Shared 2, …** on `review`. See `SHARED.md`. Those marks do not freeze a submit and do not move `submit/2`.
+Shared marks are numbered separately as **Shared 1, Shared 2, …** on `review`. See `SHARED.md`. Those marks do not freeze a submit and do not move `submit/2`.
 
 | Submit | Date (UTC) | Frozen branch | Issue | What it is |
 |---|---|---|---|---|
 | *(informal)* | 18 Aug 2026 | — | — | First share. No number. Do not use this as the review SHA. |
 | **2** | 19 Aug 2026 | `submit/2` | [#1](https://github.com/StrategyandDesign/fathers-com-clean-pilot/issues/1) | First official submit. Clean-pilot Next.js app plus the seven UX refinements. |
 
-Next official submit is **4**, then **6**, then **8**. Do not use odd numbers.
+Next official submit is **4**, then **6**, then **8**. Odd numbers are unused.
 
 ## How to take a submit
 
@@ -31,7 +29,7 @@ git checkout submit/2
 1. Land the work on `review`.
 2. Freeze it: create branch `submit/4` from that `review` tip.
 3. Add a row to this table.
-4. Open a GitHub issue titled `Submit 4 — YYYY-MM-DD` and assign Erik.
+4. Open a GitHub issue titled `Submit 4 - YYYY-MM-DD`.
 5. Email: “Submit 4 is on branch submit/4. Pull that branch.”
 
-This repo is the review copy. It is not production. Do not use fathers-com-platform.vercel.app.
+`fathers-com-platform.vercel.app` is a different app. Current host is https://rootmandate.com.
