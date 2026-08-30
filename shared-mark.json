@@ -1,12 +1,12 @@
 {
   "mark": 7,
-  "patch": 129,
-  "label": "Shared 1-1.129",
+  "patch": 130,
+  "label": "Shared 1-1.130",
   "tag": "shared/7",
-  "at": "2026-08-21T00:00:00.000Z",
+  "at": "2026-08-30T13:55:00.000Z",
   "internalSha": "890fa8b684cc17a21c0ccbc13b787b24016b129e",
   "sharedSha": "",
-  "title": "Shared 1-1.128: Clearer return-home draft descriptions",
+  "title": "Let Super-admin minimize Launch so the training curriculum stays in view.",
   "url": "https://github.com/StrategyandDesign/fathers-com-clean-pilot/releases/tag/shared/7",
   "revisions": [
     {
@@ -911,6 +911,13 @@
       "label": "Shared 1-1.129",
       "at": "2026-08-24",
       "title": "Shared 1-1.128: Clearer return-home draft descriptions"
+    },
+    {
+      "patch": 130,
+      "revision": "1.130",
+      "label": "Shared 1-1.130",
+      "at": "2026-08-30",
+      "title": "Let Super-admin minimize Launch so the training curriculum stays in view."
     }
   ]
 }

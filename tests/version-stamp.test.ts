@@ -3,7 +3,7 @@ import { readFileSync } from "node:fs";
 import { describe, it } from "node:test";
 import { fileURLToPath } from "node:url";
 
-import { formatSharedLabel, formatSharedRevision, loadSharedMark } from "../lib/dev/shared-mark";
+import { deskStampLabel, formatSharedLabel, formatSharedRevision, loadSharedMark } from "../lib/dev/shared-mark";
 
 describe("version stamp", () => {
   it("reads the Shared mark from shared-mark.json", () => {
@@ -36,8 +36,18 @@ describe("version stamp", () => {
       fileURLToPath(new URL("../components/dev/version-stamp.tsx", import.meta.url)),
       "utf8"
     );
-    assert.match(stamp, /formatSharedLabel/);
-    assert.match(stamp, /\{label\}/);
+    const pill = readFileSync(
+      fileURLToPath(new URL("../components/dev/version-stamp-pill.tsx", import.meta.url)),
+      "utf8"
+    );
+    assert.match(stamp, /deskStampLabel/);
+    assert.match(stamp, /VersionStampPill/);
+    assert.match(stamp, /shared\.title/);
+    assert.match(pill, /\{label\}/);
+    assert.match(pill, /\{title\}/);
+    assert.match(pill, /Minimize/);
+    assert.doesNotMatch(pill, / title=/);
+    assert.equal(deskStampLabel(130), "Shared 1-1.130");
   });
 
   it("keeps the Shared desk hook on the pre-commit path", () => {

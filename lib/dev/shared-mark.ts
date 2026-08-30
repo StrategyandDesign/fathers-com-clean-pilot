@@ -32,6 +32,11 @@ export function formatSharedLabel(mark: number, patch: number) {
   return revision ? `Shared ${mark}-${revision}` : `Shared ${mark}`;
 }
 
+/** Visible desk pill. Overlay mark stays 7. The Shared 1 line is Shared 1-1.N. */
+export function deskStampLabel(patch: number) {
+  return formatSharedLabel(1, patch);
+}
+
 function parseRevisions(value: unknown): SharedRevision[] {
   if (!Array.isArray(value)) return [];
   return value.flatMap((row) => {
