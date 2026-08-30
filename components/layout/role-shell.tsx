@@ -135,7 +135,7 @@ export async function RoleShell({
           funnel ? "print:pt-0" : "lg:ps-[5.5rem] print:pt-0 print:ps-0",
           fatherMobile
             ? "max-lg:pb-[calc(3.75rem+1rem+env(safe-area-inset-bottom))]"
-            : "max-lg:pb-6"
+            : "pb-20 max-lg:pb-24"
         )}
       >
         {banner && !funnel ? (
