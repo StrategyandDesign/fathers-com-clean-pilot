@@ -15,6 +15,7 @@ import type { AdminTrainingRow } from "@/lib/admin/types";
 import { hasHardcodedSkillPack } from "@/lib/father/session-questions";
 import { hasTrainingOverview } from "@/lib/father/training-door";
 import { ReleaseTargets } from "@/components/admin/release-targets";
+import { TrainingLaunchCollapse } from "@/components/admin/training-launch-collapse";
 import { TrainingLaunchSteps } from "@/components/admin/training-launch-steps";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { fieldClassName } from "@/lib/ui";
@@ -45,34 +46,22 @@ export function TrainingLaunchDesk({
   surface?: "detail" | "stage";
 }) {
   const plan = trainingLaunchPlan(training, launchOptions(training, rightsBlocker));
-  const sticky = plan.current !== "release";
   const showReleaseForm = surface === "detail" && plan.kind === "release" && plan.enabled;
   const legacy = isLegacyCatalogTraining(training);
   const editHref = `/admin/trainings/${training.id}`;
   const walkHref = walkHrefFor(training);
+  const nowLabel = launchNowLabel(plan.current);
 
   return (
-    <section
-      id="launch"
-      className={cn(
-        "scroll-mt-[calc(4.5rem+env(safe-area-inset-top))] space-y-4 rounded-xl border border-primary/40 bg-card p-4 sm:p-6",
-        sticky &&
-          "sticky top-[calc(3.5rem+env(safe-area-inset-top))] z-20 bg-card/95 shadow-lg backdrop-blur-md"
-      )}
+    <TrainingLaunchCollapse
+      trainingId={training.id}
+      surface={surface}
+      title={surface === "stage" ? "Next step" : "Launch"}
+      nowLabel={nowLabel}
     >
       <div>
-        {surface === "stage" ? (
-          <>
-            <p className="text-[11px] font-medium tracking-[0.14em] text-muted-foreground uppercase">
-              Launch
-            </p>
-            <h2 className="mt-1 font-heading text-lg font-semibold">Next step</h2>
-          </>
-        ) : (
-          <h2 className="font-heading text-lg font-semibold">Launch</h2>
-        )}
-        <p className="mt-1 text-sm text-muted-foreground">{TRAINING_LAUNCH_HANDOFF}</p>
-        <p className="mt-2 font-medium">{launchNowLabel(plan.current)}</p>
+        <p className="text-sm text-muted-foreground">{TRAINING_LAUNCH_HANDOFF}</p>
+        <p className="mt-2 font-medium">{nowLabel}</p>
       </div>
 
       <TrainingLaunchSteps steps={plan.steps} />
@@ -180,7 +169,7 @@ export function TrainingLaunchDesk({
           {plan.detailLabel}
         </Button>
       )}
-    </section>
+    </TrainingLaunchCollapse>
   );
 }
 

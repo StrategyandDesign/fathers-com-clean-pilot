@@ -11,6 +11,8 @@ import {
   TRAINING_LAUNCH_LIST_LEAD,
   canReleaseTraining,
   catalogFlagLabel,
+  launchDeskStartsOpen,
+  launchDeskStorageKey,
   launchNowLabel,
   shortLaunchBlocker,
   stageContinueLabel,
@@ -310,8 +312,28 @@ describe("training launch surfaces", () => {
     assert.match(desk, /launchNowLabel/);
     assert.match(desk, /stageContinueLabel/);
     assert.match(desk, /TrainingLaunchWalkCue/);
+    assert.match(desk, /TrainingLaunchCollapse/);
     assert.doesNotMatch(desk, /publishAndReleaseTraining/);
+    assert.doesNotMatch(desk, /sticky /);
     assert.doesNotMatch(desk, /—/);
+  });
+
+  it("lets Super-admin minimize Launch so the curriculum stays in view", () => {
+    const collapse = readRepo("components/admin/training-launch-collapse.tsx");
+    const desk = readRepo("components/admin/training-launch-desk.tsx");
+    assert.match(collapse, /Minimize/);
+    assert.match(collapse, /Show Launch/);
+    assert.match(collapse, /aria-expanded/);
+    assert.match(collapse, /launchDeskStartsOpen/);
+    assert.doesNotMatch(collapse, /sticky /);
+    assert.doesNotMatch(desk, /sticky /);
+    assert.equal(launchDeskStorageKey("training-1"), "fathers.launch-desk.training-1");
+    assert.equal(launchDeskStartsOpen(null, "", "detail"), false);
+    assert.equal(launchDeskStartsOpen(null, "", "stage"), true);
+    assert.equal(launchDeskStartsOpen("0", "", "stage"), false);
+    assert.equal(launchDeskStartsOpen("1", "", "detail"), true);
+    assert.equal(launchDeskStartsOpen("0", "#launch", "detail"), true);
+    assert.doesNotMatch(collapse, /—/);
   });
 
   it("puts the same Launch ladder on the Stage hub", () => {

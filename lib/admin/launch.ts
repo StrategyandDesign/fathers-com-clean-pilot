@@ -45,6 +45,23 @@ export const TRAINING_LAUNCH_LIST_LEAD =
 export const TRAINING_LAUNCH_HANDOFF =
   "Stage walk, then Mark Ready for Review, then Publish, then Release to organizations. Publish does not ping Leaders. Release notifies Leaders. They accept, then Include or assign fathers.";
 
+export const LAUNCH_DESK_STORAGE_PREFIX = "fathers.launch-desk.";
+
+export function launchDeskStorageKey(trainingId: string) {
+  return `${LAUNCH_DESK_STORAGE_PREFIX}${trainingId}`;
+}
+
+export function launchDeskStartsOpen(
+  stored: string | null,
+  hash = "",
+  surface: "detail" | "stage" = "detail"
+) {
+  if (hash === "#launch") return true;
+  if (stored === "1") return true;
+  if (stored === "0") return false;
+  return surface === "stage";
+}
+
 export function launchNowLabel(current: LaunchStepKey | "done") {
   if (current === "done") return "Released to organizations";
   if (current === "stage") return "Now: Walk as Father";
