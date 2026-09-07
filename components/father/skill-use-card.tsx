@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 import { reportSkillUse } from "@/lib/father/actions";
-import type { SkillUse } from "@/lib/father/skill-use";
+import { SKILL_USE_PROMPT_ENABLED, type SkillUse } from "@/lib/father/skill-use";
 import { useI18n } from "@/components/i18n/locale-provider";
 import { Button } from "@/components/ui/button";
 
@@ -45,7 +45,7 @@ export function SkillUseCard({
   const copy = skillUseLabels(locale);
   const [hidden, setHidden] = useState(Boolean(reported));
 
-  if (hidden) return null;
+  if (!SKILL_USE_PROMPT_ENABLED || hidden) return null;
 
   return (
     <section className="space-y-4 rounded-xl border border-border bg-card p-4 sm:p-5">
