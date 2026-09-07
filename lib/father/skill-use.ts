@@ -1,5 +1,8 @@
 import { actionSkillText } from "@/lib/father/action-commitment";
 
+/** Father-facing "Did you use this skill?" card. Off: the ask felt condescending. */
+export const SKILL_USE_PROMPT_ENABLED = false;
+
 export const SKILL_USES = ["used", "later", "dismissed"] as const;
 
 export type SkillUse = (typeof SKILL_USES)[number];
