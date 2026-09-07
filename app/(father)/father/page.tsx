@@ -16,6 +16,7 @@ import { requireRole } from "@/lib/auth/session";
 import { formatCertificateDate } from "@/lib/certificates/types";
 import { readHomeDeskVisit } from "@/lib/father/home-desk-cookie";
 import { shouldOfferSkillUseOnHome } from "@/lib/father/home-desk";
+import { SKILL_USE_PROMPT_ENABLED } from "@/lib/father/skill-use";
 import { pickHomeAssessment, splitHomeRows } from "@/lib/father/home";
 import { loadFatherHome } from "@/lib/father/data";
 import { loadFatherStreakHome } from "@/lib/father/streak-store";
@@ -86,7 +87,9 @@ export default async function FatherHomePage({
   const optimizationPack = optimizationPackAppliesToOrg(organizationType);
   const commitmentBoard = optimizationPack ? await loadFatherCommitmentBoard(user.id) : [];
   const showSkillUse =
-    Boolean(skillUsePrompt) && shouldOfferSkillUseOnHome(homeDesk, loginAt);
+    SKILL_USE_PROMPT_ENABLED &&
+    Boolean(skillUsePrompt) &&
+    shouldOfferSkillUseOnHome(homeDesk, loginAt);
 
   const nextCard = next
     ? pathCards.find((card) => card.training.id === next.training.id)
