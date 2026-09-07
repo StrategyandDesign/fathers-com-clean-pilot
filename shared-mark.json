@@ -1,12 +1,12 @@
 {
   "mark": 7,
-  "patch": 130,
-  "label": "Shared 1-1.130",
+  "patch": 131,
+  "label": "Shared 1-1.131",
   "tag": "shared/7",
-  "at": "2026-08-30T13:55:00.000Z",
+  "at": "2026-09-07T14:52:00.000Z",
   "internalSha": "890fa8b684cc17a21c0ccbc13b787b24016b129e",
   "sharedSha": "",
-  "title": "Let Super-admin minimize Launch so the training curriculum stays in view.",
+  "title": "Hide the Did you use this skill prompt.",
   "url": "https://github.com/StrategyandDesign/fathers-com-clean-pilot/releases/tag/shared/7",
   "revisions": [
     {
@@ -918,6 +918,13 @@
       "label": "Shared 1-1.130",
       "at": "2026-08-30",
       "title": "Let Super-admin minimize Launch so the training curriculum stays in view."
+    },
+    {
+      "patch": 131,
+      "revision": "1.131",
+      "label": "Shared 1-1.131",
+      "at": "2026-09-07",
+      "title": "Hide the Did you use this skill prompt."
     }
   ]
 }
