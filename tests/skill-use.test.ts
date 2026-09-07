@@ -20,6 +20,7 @@ import {
   practiceLightCsvValue,
   practiceLightFromSkillUse,
   shouldAskSkillUse,
+  SKILL_USE_PROMPT_ENABLED,
   skillUseFollowUpDue,
 } from "../lib/father/skill-use";
 import { rosterPracticeLight } from "../lib/flags";
@@ -232,7 +233,8 @@ describe("skill use on Home", () => {
     assert.equal(parseHomeDeskVisit("nope"), null);
   });
 
-  it("gates the Home card and still asks on session closeout", () => {
+  it("hides the Did you use this skill prompt on Home and closeout", () => {
+    assert.equal(SKILL_USE_PROMPT_ENABLED, false);
     const page = readFileSync(
       fileURLToPath(new URL("../app/(father)/father/page.tsx", import.meta.url)),
       "utf8"
@@ -241,16 +243,14 @@ describe("skill use on Home", () => {
       fileURLToPath(new URL("../components/father/session-closeout.tsx", import.meta.url)),
       "utf8"
     );
-    assert.match(page, /shouldOfferSkillUseOnHome/);
-    assert.match(page, /HomeDeskStamp/);
-    assert.match(page, /showSkillUse && skillUsePrompt/);
-    assert.match(closeout, /SkillUseCard/);
-    assert.doesNotMatch(closeout, /shouldOfferSkillUseOnHome/);
-    const fatherDone = readFileSync(
-      fileURLToPath(new URL("../app/(father)/father/sessions/[sessionId]/done/page.tsx", import.meta.url)),
+    const card = readFileSync(
+      fileURLToPath(new URL("../components/father/skill-use-card.tsx", import.meta.url)),
       "utf8"
     );
-    assert.match(fatherDone, /shouldAskSkillUse/);
+    assert.match(page, /SKILL_USE_PROMPT_ENABLED/);
+    assert.match(page, /HomeDeskStamp/);
+    assert.match(closeout, /SKILL_USE_PROMPT_ENABLED && sessionId/);
+    assert.match(card, /!SKILL_USE_PROMPT_ENABLED \|\| hidden/);
     const signOut = readFileSync(
       fileURLToPath(new URL("../lib/auth/actions.ts", import.meta.url)),
       "utf8"
@@ -413,5 +413,6 @@ describe("skill use card", () => {
     assert.doesNotMatch(source, /father\.session\.skillUseDismiss/);
     assert.doesNotMatch(source, /skillUseMarked/);
     assert.doesNotMatch(source, /showLater/);
+    assert.match(source, /SKILL_USE_PROMPT_ENABLED/);
   });
 });
