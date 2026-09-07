@@ -3,7 +3,7 @@ import Link from "next/link";
 import { SkillUseCard } from "@/components/father/skill-use-card";
 import { buttonVariants } from "@/components/ui/button";
 import type { SessionCloseout } from "@/lib/father/session-closeout";
-import type { SkillUse } from "@/lib/father/skill-use";
+import { SKILL_USE_PROMPT_ENABLED, type SkillUse } from "@/lib/father/skill-use";
 import type { Translate } from "@/lib/i18n/translate";
 import { homePrimaryCtaClassName, interactiveControlClassName } from "@/lib/ui";
 import { cn } from "@/lib/utils";
@@ -46,7 +46,7 @@ export function SessionCloseoutView({
         </p>
       </header>
 
-      {sessionId ? (
+      {SKILL_USE_PROMPT_ENABLED && sessionId ? (
         <SkillUseCard
           sessionId={sessionId}
           skill={skill ?? ""}
