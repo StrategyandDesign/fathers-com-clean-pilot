@@ -43,12 +43,25 @@ Same seats and password work on localhost and on the live Pilot URL. Use separat
 
 These shared audit passwords are for the Pilot Supabase project and local review seats only. Do not treat `12345` as a production password policy. Do not copy these seats or this password into a production stack. Production must use unique passwords, leaked-password protection, and (where Super-admin turns it on) organization single sign-on for staff. See `docs/engineering/trust-pack/` for the dated questionnaire.
 
+### REHAB / Returning Home (English)
+
+Invite code for new fathers: `48d63aef95b7`
+
+| Email | Role | Lands on |
+|---|---|
+| `father1@rehab` | Father (assigned trainings finished) | `/father` |
+| `father2@rehab` | Father (starting out: same four assignments, no progress) | `/father` |
+| `manager@rehab` | Leader (Sarah May) | `/manager` |
+| `reviewer@rehab` | Reviewer, scoped to REHAB | `/reviewer` |
+
+`father2@rehab` is the first-time Home seat. It has the same four assigned trainings as `father1@rehab` and no session, assessment, Keystone, or certificate work. First-run `/father/start` is already marked done so login opens Home with Up Next. Re-run `supabase/sql/seed_rehab_father2.sql` if the seat loses its organization or assignments.
+
 ### Returning Home NWA (English)
 
 Invite code for new fathers: `12345`
 
 | Email | Role | Lands on |
-|---|---|---|
+|---|---|
 | `father@nwa` | Father | `/father` |
 | `father2@nwa` | Father | `/father` |
 | `manager@nwa` | Leader (Brenda) | `/manager` |
@@ -60,7 +73,7 @@ Invite code: `il`. Same `@il` seats as before. The group name is neutral.
 `groups.locale` must stay `'he'` so Account language and RTL stay org-gated.
 
 | Email | Role | Lands on |
-|---|---|---|
+|---|---|
 | `father1@il` | Father | `/father` |
 | `father2@il` | Father | `/father` |
 | `manager@il` | Leader | `/manager` |
@@ -69,19 +82,19 @@ Invite code: `il`. Same `@il` seats as before. The group name is neutral.
 ### Super-admin
 
 | Email | Role | Lands on |
-|---|---|---|
+|---|---|
 | `admin@fathers` | Super-admin | `/admin` |
 
 Sign out and sign in once if a role looks wrong (JWT refresh). Use three browsers or profiles so cookies do not collide.
 
-Re-run `supabase/sql/seed_returning_home_nwa.sql` or `supabase/sql/seed_unit_8200.sql` in the Pilot SQL editor if a seat loses its organization. Re-run `supabase/sql/pilot_hygiene_issue_17.sql` if Test Training, the test desk note, or the old military-unit org name comes back.
+Re-run `supabase/sql/seed_returning_home_nwa.sql`, `supabase/sql/seed_unit_8200.sql`, or `supabase/sql/seed_rehab_father2.sql` in the Pilot SQL editor if a seat loses its organization. Re-run `supabase/sql/pilot_hygiene_issue_17.sql` if Test Training, the test desk note, or the old military-unit org name comes back.
 
 ## Current hosts
 
 Use this table. Do not guess from project names.
 
 | Host | What it serves | Use for this Pilot? |
-|---|---|---|
+|---|---|
 | Isolated repo `fathers-com-clean-pilot` (`review`) | Source of the Next.js Pilot app | Yes. Clone this and check out `review`. |
 | https://rootmandate.com | Live Pilot. Vercel project `fathers-com-pilot`. | Yes. This is the live site. |
 | https://fathers-com-pilot.vercel.app | Same Vercel project if the custom domain is down. | Yes, as a fallback. |

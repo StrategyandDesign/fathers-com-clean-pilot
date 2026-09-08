@@ -29,7 +29,8 @@ Pilot password: `12345`
 |---|---|
 | `admin@fathers` | Super-admin |
 | `manager@rehab` | Leader, Returning Home |
-| `father1@rehab` | Father, Returning Home |
+| `father1@rehab` | Father, Returning Home (finished assigned trainings) |
+| `father2@rehab` | Father, Returning Home (starting out, no progress) |
 
 Use separate browser profiles when more than one role is signed in.
 
