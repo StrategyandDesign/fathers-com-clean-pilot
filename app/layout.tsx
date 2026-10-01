@@ -68,7 +68,9 @@ export default async function RootLayout({
       data-palette={palette}
       suppressHydrationWarning
     >
-      <body className="font-sans antialiased">
+      <body
+        className={`font-sans antialiased${process.env.NODE_ENV === "production" ? "" : " pt-8"}`}
+      >
         <Script id="fc-palette" strategy="beforeInteractive">
           {PALETTE_BOOT_SCRIPT}
         </Script>

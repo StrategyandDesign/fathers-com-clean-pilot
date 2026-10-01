@@ -42,7 +42,8 @@ export default async function FatherHomePage({
       {next ? (
         <HomeWeek
           sessionTitle={next.session.title}
-          videoUrl={next.session.video_url}
+          keyline={next.session.keyline}
+          durationSeconds={next.session.duration_seconds}
           practice={homePracticeCue(next.session)}
           href={trainingContinueHref({
             training: next.training,

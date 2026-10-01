@@ -23,6 +23,24 @@ function Mark({ done }: { done: boolean }) {
   return <span className="font-medium tabular-nums text-foreground">{markLabel(done)}</span>;
 }
 
+function WeekChips({ week, t }: { week: WeekMarks; t: Translate }) {
+  const chips = [
+    { label: t("manager.desk.colFilm"), done: week.film },
+    { label: t("manager.desk.colCheckpoint"), done: week.checkpoint },
+    { label: t("manager.desk.colPractice"), done: week.practice },
+  ];
+  return (
+    <div className="grid grid-cols-3 gap-2">
+      {chips.map((chip) => (
+        <div key={chip.label} className="rounded-lg border border-border bg-background px-1 py-2 text-center">
+          <p className="text-[11px] font-medium tracking-wide uppercase">{chip.label}</p>
+          <p className="mt-1 text-sm font-semibold">{markLabel(chip.done)}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export function FridayDesk({
   rows,
   claimKnown,
@@ -51,9 +69,6 @@ export function FridayDesk({
         <p className="mt-2 max-w-2xl text-sm leading-relaxed text-foreground">
           {t("manager.desk.directorDoor")}
         </p>
-        <p className="mt-1 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-          {t("manager.desk.coachDoor")}
-        </p>
       </div>
 
       <p className="text-sm text-muted-foreground">
@@ -79,8 +94,28 @@ export function FridayDesk({
         {rows.length === 0 ? (
           <p className="px-4 py-4 text-sm text-muted-foreground sm:px-5">{t("manager.desk.rosterEmpty")}</p>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full min-w-[40rem] text-left text-sm">
+          <>
+            <ul className="divide-y divide-border lg:hidden">
+              {(claimKnown ? claimedRows : rows).map((row) => (
+                <li key={row.fatherId} className="space-y-3 px-4 py-4 sm:px-5">
+                  <div className="flex items-baseline justify-between gap-3">
+                    <Link href={`/manager/participants/${row.fatherId}`} className="font-medium">
+                      {row.name}
+                    </Link>
+                    <span className="shrink-0 text-xs text-muted-foreground">
+                      {t("manager.desk.colClaimed")}{" "}
+                      {row.claimed == null
+                        ? t("common.emDash")
+                        : row.claimed
+                          ? t("father.home.markYes")
+                          : t("father.home.markNo")}
+                    </span>
+                  </div>
+                  <WeekChips week={row.week} t={t} />
+                </li>
+              ))}
+            </ul>
+            <table className="hidden w-full text-left text-sm lg:table">
               <thead>
                 <tr className="border-b border-border text-xs tracking-wide text-muted-foreground uppercase">
                   <th className="px-4 py-2 font-medium sm:px-5">{t("manager.desk.colName")}</th>
@@ -114,7 +149,7 @@ export function FridayDesk({
                 ))}
               </tbody>
             </table>
-          </div>
+          </>
         )}
         {claimKnown && claimedRows.length === 0 && rows.length > 0 ? (
           <p className="px-4 py-3 text-sm text-muted-foreground sm:px-5">{t("manager.desk.rosterEmpty")}</p>

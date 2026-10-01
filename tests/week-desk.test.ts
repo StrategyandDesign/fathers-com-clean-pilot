@@ -133,19 +133,32 @@ describe("father home strip", () => {
       "You hold the caseload. We hold the week. A human still owns the line."
     );
     assert.match(en.manager.desk.export, /complete and claimed/i);
+    assert.equal(en.father.home.cardMeta, "1 film · {n} min · then practice");
     const cover = readRepo("components/father/home-week.tsx");
-    assert.match(cover, /youtubeStillUrl/);
-    assert.doesNotMatch(cover, /HomePathRow/);
+    assert.match(cover, /HOUSE_STILL_SRC/);
+    assert.match(cover, /filmRuntimeMinutes/);
+    assert.doesNotMatch(cover, /youtubeStillUrl|HomePathRow/);
+    const film = readRepo("app/(father)/father/sessions/[sessionId]/page.tsx");
+    const player = readRepo("components/father/session-film-player.tsx");
+    assert.match(film, /HOUSE_STILL_SRC/);
+    assert.match(player, /hideChrome: true/);
+    assert.match(player, /setPlaying\(true\)/);
+    assert.doesNotMatch(player, /Watch on YouTube|onStateChange|YT\.Player/);
   });
 
   it("ends the Leader first paint at Export", () => {
     const desk = readRepo("components/manager/friday-desk.tsx");
     const page = readRepo("app/(manager)/manager/page.tsx");
     assert.match(desk, /manager\.desk\.export/);
-    assert.doesNotMatch(desk, /assignTraining|assignAssessment/);
+    assert.match(desk, /grid-cols-3/);
+    assert.match(desk, /manager\.desk\.colCheckpoint/);
+    assert.match(desk, /manager\.desk\.colPractice/);
+    assert.doesNotMatch(desk, /assignTraining|assignAssessment|coachDoor|overflow-x-auto|min-w-\[40rem\]/);
     const deskAt = page.indexOf("<FridayDesk");
     const moreAt = page.indexOf("<details");
     assert.ok(deskAt > 0 && moreAt > deskAt);
     assert.doesNotMatch(page.slice(moreAt, moreAt + 120), /\sopen[\s>]/);
+    assert.match(page.slice(moreAt), /manager\.desk\.coachDoor/);
+    assert.doesNotMatch(page.slice(0, moreAt), /manager\.desk\.coachDoor/);
   });
 });

@@ -197,6 +197,9 @@ export default async function ManagerHomePage({
       <details className="rounded-xl border border-border bg-card p-4 sm:p-5">
         <summary className="cursor-pointer text-sm font-medium">{t("manager.desk.moreTools")}</summary>
         <div className="mt-6 space-y-6">
+      <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground">
+        {t("manager.desk.coachDoor")}
+      </p>
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <h1 className="font-heading text-2xl font-semibold tracking-tight">{t("manager.dashboard.title")}</h1>

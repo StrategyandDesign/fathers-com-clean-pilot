@@ -10,6 +10,7 @@ export function FilmSeat({
   action,
   sessionId,
   title,
+  keyline,
   videoUrl,
   coverSrc,
   resumeSeconds,
@@ -21,6 +22,7 @@ export function FilmSeat({
   action: (formData: FormData) => void | Promise<void>;
   sessionId: string;
   title: string;
+  keyline?: string | null;
   videoUrl: string | null;
   coverSrc: string;
   resumeSeconds: number;
@@ -38,6 +40,7 @@ export function FilmSeat({
       <SessionFilmPlayer
         session={{ title, video_url: videoUrl }}
         coverSrc={coverSrc}
+        keyline={keyline}
         resumeSeconds={resumeSeconds}
         persistSessionId={sessionId}
         onSeconds={setSeconds}

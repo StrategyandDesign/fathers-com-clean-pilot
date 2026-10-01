@@ -1,8 +1,9 @@
 import Link from "next/link";
 
 import { buttonVariants } from "@/components/ui/button";
-import { youtubeStillUrl } from "@/lib/father/types";
+import { HOUSE_STILL_SRC } from "@/lib/brand/house-still";
 import type { Translate } from "@/lib/i18n/translate";
+import { filmRuntimeMinutes } from "@/lib/trainings/runtime";
 import { homePrimaryCtaClassName } from "@/lib/ui";
 import { cn } from "@/lib/utils";
 
@@ -11,7 +12,8 @@ const eyebrowClassName =
 
 export function HomeWeek({
   sessionTitle,
-  videoUrl,
+  keyline,
+  durationSeconds,
   practice,
   href,
   cta,
@@ -21,7 +23,8 @@ export function HomeWeek({
   t,
 }: {
   sessionTitle: string;
-  videoUrl?: string | null;
+  keyline?: string | null;
+  durationSeconds?: number | null;
   practice?: string | null;
   href: string;
   cta: string;
@@ -30,7 +33,8 @@ export function HomeWeek({
   practiceDone: boolean;
   t: Translate;
 }) {
-  const still = youtubeStillUrl(videoUrl);
+  const minutes = filmRuntimeMinutes(durationSeconds);
+  const line = keyline?.trim() ?? "";
   const tabs = [
     { label: t("father.home.weekFilm"), done: filmDone },
     { label: t("father.home.weekCheckpoint"), done: checkpointDone },
@@ -41,16 +45,21 @@ export function HomeWeek({
     <div className="mx-auto w-full max-w-xl space-y-6">
       <p className={eyebrowClassName}>{t("father.home.finishThisWeek")}</p>
       <article className="overflow-hidden rounded-xl border border-border bg-card">
-        {still ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={still} alt="" className="aspect-video w-full object-cover" />
-        ) : (
-          <div className="aspect-video w-full bg-foreground" />
-        )}
+        <div className="relative aspect-video">
+          {/* eslint-disable-next-line @next/next/no-img-element -- house still is a local public file */}
+          <img src={HOUSE_STILL_SRC} alt="" className="absolute inset-0 size-full object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-black/20" />
+          <div className="absolute inset-x-0 bottom-0 space-y-1 p-4 text-white sm:p-5">
+            <h1 className="font-heading text-2xl font-semibold leading-snug tracking-tight sm:text-3xl">
+              {sessionTitle}
+            </h1>
+            {line ? <p className="text-sm leading-snug sm:text-base">{line}</p> : null}
+          </div>
+        </div>
         <div className="space-y-4 p-4 sm:p-5">
-          <h1 className="font-heading text-2xl font-semibold leading-snug tracking-tight sm:text-3xl">
-            {sessionTitle}
-          </h1>
+          {minutes != null ? (
+            <p className="text-sm text-muted-foreground">{t("father.home.cardMeta", { n: minutes })}</p>
+          ) : null}
           <Link
             href={href}
             className={cn(buttonVariants({ variant: "default", size: "lg" }), homePrimaryCtaClassName)}

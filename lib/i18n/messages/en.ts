@@ -721,6 +721,7 @@ export const en = {
       upNext: "Up Next",
       continueSession: "Continue",
       start: "Start",
+      cardMeta: "1 film · {n} min · then practice",
       startSession: "Start Session",
       startOverview: "Start the Overview",
       sessionN: "Session {n}",

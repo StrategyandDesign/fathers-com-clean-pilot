@@ -671,6 +671,7 @@ export const he = {
       upNext: "בהמשך",
       continueSession: "המשך",
       start: "התחלה",
+      cardMeta: "סרט אחד · {n} דק׳ · ואז תרגול",
       startSession: "התחלת מפגש",
       startOverview: "התחלת הסקירה",
       sessionN: "מפגש {n}",
