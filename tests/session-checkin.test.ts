@@ -13,16 +13,20 @@ function readRepo(relativePath: string) {
 }
 
 describe("session film unlock", () => {
-  it("lets a father continue to check-in without a YouTube complete event", () => {
+  it("opens the checkpoint after most of a measured film, not on a tap", () => {
     const film = readRepo("app/(father)/father/sessions/[sessionId]/page.tsx");
     const player = readRepo("components/father/session-film-player.tsx");
+    const seat = readRepo("components/father/film-seat.tsx");
     const header = readRepo("components/father/session-header.tsx");
     const actions = readRepo("lib/father/actions.ts");
     const checkin = readRepo("app/(father)/father/sessions/[sessionId]/checkin/page.tsx");
 
     assert.match(film, /markFilmWatched/);
     assert.match(film, /father\.session\.continueCheckin/);
+    assert.match(film, /SessionFilmPlayer/);
+    assert.match(seat, /filmWatchUnlocksCheckpoint/);
     assert.match(actions, /export async function markFilmWatched/);
+    assert.match(actions, /filmWatchUnlocksCheckpoint/);
     assert.match(actions, /film_completed: true/);
     assert.doesNotMatch(player, /film_completed/);
     assert.doesNotMatch(player, /markFilmWatched/);

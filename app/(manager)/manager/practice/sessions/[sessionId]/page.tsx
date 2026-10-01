@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 
-import { SessionAdvanceButton } from "@/components/father/session-advance-button";
+import { FilmSeat } from "@/components/father/film-seat";
+import { FilmRuntime } from "@/components/father/film-runtime";
 import { SessionFilmPlayer } from "@/components/father/session-film-player";
 import { SessionHeader } from "@/components/father/session-header";
 import { Flash } from "@/components/manager/flash";
@@ -75,32 +76,46 @@ export default async function LeaderPracticeFilmPage({
         checkinCompleted={checkinDone}
       />
 
-      <SessionFilmPlayer
-        session={session}
-        coverSrc={sessionCover(session.session_number, orgPhotos?.photoPack)}
-        resumeSeconds={progress?.film_seconds ?? 0}
-        persistSessionId={session.id}
-      />
+      {session.keyline ? <p className="text-base leading-relaxed">{session.keyline}</p> : null}
+      <FilmRuntime seconds={session.duration_seconds} t={t} />
+
+      {filmDone ? (
+        <SessionFilmPlayer
+          session={session}
+          coverSrc={sessionCover(session.session_number, orgPhotos?.photoPack)}
+          resumeSeconds={progress?.film_seconds ?? 0}
+          persistSessionId={session.id}
+        />
+      ) : (
+        <FilmSeat
+          action={markFilmWatched}
+          sessionId={session.id}
+          title={session.title}
+          videoUrl={session.video_url}
+          coverSrc={sessionCover(session.session_number, orgPhotos?.photoPack)}
+          resumeSeconds={progress?.film_seconds ?? 0}
+          durationSeconds={session.duration_seconds}
+          continueLabel={t("father.session.continueCheckin")}
+          lockedLabel={t("father.session.filmLocked")}
+          unmeasuredLabel={t("father.session.filmUnmeasured")}
+        />
+      )}
 
       <Flash error={error} />
 
-      <div className="mx-auto max-w-lg space-y-3 text-center">
-        {outcome ? (
-          <div className="rounded-xl border border-border bg-card px-4 py-4 text-start">
-            <p className="text-sm font-medium">{t("father.session.whatHappened")}</p>
-            <p className="mt-1 text-sm leading-relaxed">{outcome}</p>
-          </div>
-        ) : null}
-        {!checkinDone ? (
-          <p className="text-sm leading-relaxed text-muted-foreground">
-            {t("father.session.filmNextHint")}
-          </p>
-        ) : !actionDone ? (
-          <p className="text-sm leading-relaxed text-muted-foreground">
-            {t("father.session.actionNextHint")}
-          </p>
-        ) : null}
-        {filmDone ? (
+      {filmDone ? (
+        <div className="mx-auto max-w-lg space-y-3 text-center">
+          {outcome ? (
+            <div className="rounded-xl border border-border bg-card px-4 py-4 text-start">
+              <p className="text-sm font-medium">{t("father.session.whatHappened")}</p>
+              <p className="mt-1 text-sm leading-relaxed">{outcome}</p>
+            </div>
+          ) : null}
+          {!actionDone ? (
+            <p className="text-sm leading-relaxed text-muted-foreground">
+              {checkinDone ? t("father.session.actionNextHint") : t("father.session.filmNextHint")}
+            </p>
+          ) : null}
           <div className="flex justify-center max-lg:block">
             <Link
               href={nextHref}
@@ -109,13 +124,8 @@ export default async function LeaderPracticeFilmPage({
               {nextLabel}
             </Link>
           </div>
-        ) : (
-          <form action={markFilmWatched}>
-            <input type="hidden" name="session_id" value={session.id} />
-            <SessionAdvanceButton label={t("father.session.continueCheckin")} />
-          </form>
-        )}
-      </div>
+        </div>
+      ) : null}
     </div>
   );
 }

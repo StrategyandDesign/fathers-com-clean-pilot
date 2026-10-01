@@ -30,18 +30,22 @@ export function SessionFilmPlayer({
   coverSrc,
   resumeSeconds = 0,
   persistSessionId,
+  onSeconds,
 }: {
   session: Pick<Session, "title" | "video_url">;
   coverSrc: string;
   resumeSeconds?: number;
   persistSessionId?: string;
+  onSeconds?: (seconds: number) => void;
 }) {
   const { locale } = useI18n();
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const lastSeenRef = useRef<number | null>(null);
   const lastSavedRef = useRef(Math.max(0, Math.floor(resumeSeconds)));
   const persistIdRef = useRef(persistSessionId);
+  const onSecondsRef = useRef(onSeconds);
   persistIdRef.current = persistSessionId;
+  onSecondsRef.current = onSeconds;
 
   const embed = youtubeEmbedUrl(session.video_url, {
     startSeconds: resumeSeconds,
@@ -98,6 +102,7 @@ export function SessionFilmPlayer({
       if (time == null) return;
       if (shouldIgnoreTime(time, lastSavedRef.current, lastSeenRef.current)) return;
       lastSeenRef.current = time;
+      onSecondsRef.current?.(time);
     };
 
     const onVisibility = () => {

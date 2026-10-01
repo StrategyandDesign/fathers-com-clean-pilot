@@ -25,6 +25,16 @@ export function homeTrainingLabel(training: {
   return training.title;
 }
 
+/** Lived practice line. A multiple-choice stem stays on the checkpoint, not on Home. */
+export function homePracticeCue(session: {
+  keyline?: string | null;
+  action_prompt?: string | null;
+}) {
+  const action = session.action_prompt?.replace(/\s+/g, " ").trim() ?? "";
+  if (action && !/(?:^|\s)[A-D]\)\s+/.test(action)) return action;
+  return session.keyline?.replace(/\s+/g, " ").trim() ?? "";
+}
+
 export function homeTrainingSessionCount(total: number) {
   return total > 0 ? total : null;
 }
