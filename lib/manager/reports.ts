@@ -3,6 +3,12 @@ import {
   practiceLightCsvValue,
   type PracticeLight,
 } from "@/lib/father/skill-use";
+import {
+  claimedLabel,
+  completeAndClaimedLabel,
+  markLabel,
+  weekMarksFromCards,
+} from "@/lib/manager/friday-desk";
 import { isSessionComplete, type SessionProgress, type Training } from "@/lib/father/types";
 import { rosterPracticeLight } from "@/lib/flags";
 import { dateLocale, DEFAULT_LOCALE, type Locale } from "@/lib/i18n/config";
@@ -45,6 +51,10 @@ export type ReportRow = {
   certificateIssuedAt: string | null;
   lastProgramActivity: string | null;
   practiceStatus: PracticeLight | "";
+  claimed?: boolean | null;
+  weekFilm?: boolean;
+  weekCheckpoint?: boolean;
+  weekPractice?: boolean;
 };
 
 export type ReportSummary = {
@@ -63,6 +73,8 @@ export type ReportBuildInput = {
   progress: SessionProgress[];
   trainings: Training[];
   trainingProgressFor: (fatherId: string) => TrainingProgress[];
+  /** Set = checked. Null = the claim query did not load. Omit in unit fixtures. */
+  claimedFatherIds?: Set<string> | null;
 };
 
 export const COMPLETION_STATUS_LABEL: Record<CompletionStatus, string> = {
@@ -269,7 +281,8 @@ function toAssignmentRow(
   participant: ParticipantRow,
   card: TrainingProgress | undefined,
   assignment: TrainingAssignment | undefined,
-  progress: SessionProgress[]
+  progress: SessionProgress[],
+  claimedFatherIds: Set<string> | null | undefined
 ): ReportRow {
   const status = trainingStatus(card);
   const completedDates = card ? sessionDates(card, progress) : [];
@@ -284,6 +297,13 @@ function toAssignmentRow(
         progress.filter((row) => sessionIds.has(row.session_id))
       ) ?? ""
     : "";
+  const week = weekMarksFromCards(card ? [card] : []);
+  const claimed =
+    claimedFatherIds === undefined
+      ? undefined
+      : claimedFatherIds === null
+        ? null
+        : claimedFatherIds.has(participant.fatherId);
 
   return {
     fatherId: participant.fatherId,
@@ -301,6 +321,10 @@ function toAssignmentRow(
     certificateSerial: card?.certificate?.serial_number ?? "",
     certificateIssuedAt: card?.certificate?.issued_at ?? null,
     lastProgramActivity,
+    claimed,
+    weekFilm: week.film,
+    weekCheckpoint: week.checkpoint,
+    weekPractice: week.practice,
   };
 }
 
@@ -344,7 +368,13 @@ export function buildManagerReport(input: ReportBuildInput, filters: ReportFilte
       const assignment = card
         ? fatherAssignments.find((row) => row.training_id === card.training.id)
         : undefined;
-      const row = toAssignmentRow(participant, card, assignment, fatherProgress);
+      const row = toAssignmentRow(
+        participant,
+        card,
+        assignment,
+        fatherProgress,
+        input.claimedFatherIds
+      );
       if (filters.status && row.completionStatus !== filters.status) return;
       if (!activityInRange(row.lastProgramActivity, filters.from, filters.to)) return;
       rows.push(row);
@@ -379,7 +409,11 @@ export function buildManagerReport(input: ReportBuildInput, filters: ReportFilte
 
 export async function loadManagerReport(managerId: string, filters: ReportFilters = EMPTY_FILTERS) {
   const { loadManagerWorkspace } = await import("@/lib/manager/data");
+  const { loadActiveClaimFatherIds } = await import("@/lib/certificates/claims");
   const workspace = await loadManagerWorkspace(managerId);
+  const claims = await loadActiveClaimFatherIds(
+    workspace.participants.map((participant) => participant.fatherId)
+  );
   return buildManagerReport(
     {
       participants: workspace.participants,
@@ -388,6 +422,7 @@ export async function loadManagerReport(managerId: string, filters: ReportFilter
       progress: workspace.progress,
       trainings: workspace.trainings,
       trainingProgressFor: workspace.trainingProgressFor,
+      claimedFatherIds: claims.ok ? claims.ids : null,
     },
     filters
   );
@@ -455,6 +490,7 @@ export function rowsToCsv(
           "# Date range: last program activity (assignment, session, or certificate). Join date is not counted.",
           "# Email is omitted. Leaders cannot read login emails.",
           "# Practice: completed, not yet, dismissed, or stale. Flag only. No answer text.",
+          "# Complete and claimed: training complete and an active claimed seat. Film, checkpoint, and practice are this week's marks.",
           ...(meta?.redisclosure ? [`# ${REPORT_REDISCLOSURE_LINE}`] : []),
         ];
 
@@ -466,6 +502,11 @@ export function rowsToCsv(
           t("manager.reports.csvGroup"),
           t("manager.reports.trainingCol"),
           t("manager.reports.csvCompletion"),
+          t("manager.reports.csvClaimed"),
+          t("manager.reports.csvCompleteClaimed"),
+          t("manager.reports.csvFilm"),
+          t("manager.reports.csvCheckpoint"),
+          t("manager.reports.csvWeekPractice"),
           t("manager.reports.csvPractice"),
           t("manager.reports.csvSessionsCompleted"),
           t("manager.reports.csvSessionsTotal"),
@@ -483,6 +524,11 @@ export function rowsToCsv(
           "Group",
           "Training",
           "Status",
+          "Claimed",
+          "Complete and claimed",
+          "Film",
+          "Checkpoint",
+          "Week practice",
           "Practice",
           "Sessions completed",
           "Sessions total",
@@ -507,6 +553,11 @@ export function rowsToCsv(
           ? t("manager.reports.noneAssigned")
           : row.trainingTitle,
         locale === "he" ? statusLabel(row.completionStatus, t) : COMPLETION_STATUS_LABEL[row.completionStatus],
+        claimedLabel(row.claimed ?? null),
+        completeAndClaimedLabel(row.completionStatus === "completed", row.claimed ?? null),
+        row.weekFilm == null ? "" : markLabel(row.weekFilm),
+        row.weekCheckpoint == null ? "" : markLabel(row.weekCheckpoint),
+        row.weekPractice == null ? "" : markLabel(row.weekPractice),
         locale === "he"
           ? practiceStatusLabel(row.practiceStatus, t)
           : practiceLightCsvValue(row.practiceStatus || null),

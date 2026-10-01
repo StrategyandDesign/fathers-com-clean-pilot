@@ -86,7 +86,7 @@ export function SessionAuthoringFields({
       <SkillPromptFields
         prefix="checkin"
         heading="Check-in"
-        hint="One skill question with three options. Fathers still answer a single Check-in."
+        hint="Stored skill question with three options. The checkpoint also asks two keyline placeholders until those questions are stored."
         values={checkin}
       />
       <SkillPromptFields

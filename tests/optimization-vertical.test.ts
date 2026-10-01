@@ -99,7 +99,8 @@ describe("vertical_pack_optimization flag", () => {
     assert.match(flags, /Rehab organizations\s+never receive this pack/);
     assert.match(env, /VERTICAL_PACK_OPTIMIZATION=/);
     assert.match(env, /Rehab\n# organizations never receive this pack/);
-    assert.match(father, /optimizationPackAppliesToOrg/);
+    assert.doesNotMatch(father, /optimizationPackAppliesToOrg/);
+    assert.doesNotMatch(father, /CommitmentBoard/);
     assert.match(manager, /optimizationPackAppliesToOrg/);
     assert.doesNotMatch(nav, /optimization|bonded-group/);
     assert.doesNotMatch(header, /optimization|bonded-group/);
@@ -120,8 +121,8 @@ describe("vertical_pack_optimization flag", () => {
     assert.match(en.manager.dashboard.participationExpectedHint, /Rehab, Armed Forces Unit/);
     assert.equal(fatherChromeOmitsRehabLabel("rehab", en.optimization.fatherChrome), false);
     const fatherPage = readRepo("app/(father)/father/page.tsx");
-    assert.match(fatherPage, /optimizationPack \? \(/);
-    assert.match(fatherPage, /optimization\.fatherChrome/);
+    assert.doesNotMatch(fatherPage, /optimization\.fatherChrome/);
+    assert.match(fatherPage, /HomeWeek/);
   });
 });
 

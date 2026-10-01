@@ -7,6 +7,7 @@ import { after } from "next/server";
 import { getAuthContext, requireWalkUser } from "@/lib/auth/session";
 import { loadSessionContext } from "@/lib/father/data";
 import { nextSkillUse, parseSkillUse } from "@/lib/father/skill-use";
+import { filmWatchUnlocksCheckpoint } from "@/lib/father/film-seat";
 import { isSessionComplete } from "@/lib/father/types";
 import { writeFilmSeconds } from "@/lib/father/film-position";
 import {
@@ -25,9 +26,9 @@ import { recordSessionCompletionForStreak } from "@/lib/father/streak-admin";
 import { cancelActionReminder, queueActionReminder } from "@/lib/notifications/events";
 import { parseTimeZone } from "@/lib/notifications/schedule";
 import {
-  CHECKIN_CHOICE_KEY,
   CHECKIN_NOTE_KEY,
   CHECKIN_NOTE_MAX_LENGTH,
+  checkinQuestionsFor,
 } from "@/lib/father/session-questions";
 import { walkPathsFor, type WalkPaths } from "@/lib/practice/paths";
 import { createClient } from "@/lib/supabase/server";
@@ -55,6 +56,7 @@ type ProgressPatch = {
   action_note?: string | null;
   session_note?: string | null;
   action_try_at?: string | null;
+  film_seconds?: number;
 };
 
 function revalidateSessionWalk(sessionId: string) {
@@ -110,9 +112,11 @@ async function persistProgress(
           ? patch.action_try_at
           : existing?.action_try_at ?? null,
       film_seconds:
-        typeof existing?.film_seconds === "number" && existing.film_seconds >= 0
-          ? existing.film_seconds
-          : 0,
+        typeof patch.film_seconds === "number" && patch.film_seconds >= 0
+          ? Math.floor(patch.film_seconds)
+          : typeof existing?.film_seconds === "number" && existing.film_seconds >= 0
+            ? existing.film_seconds
+            : 0,
       status: allDone ? "completed" : film || checkin || action ? "in_progress" : "not_started",
       completed_at: allDone
         ? (existing?.completed_at ?? new Date().toISOString())
@@ -149,8 +153,21 @@ export async function markFilmWatched(formData: FormData) {
     redirect(paths.session(sessionId));
   }
 
+  const submitted = Number(formData.get("watched_seconds"));
+  const stored = context.progress?.film_seconds ?? 0;
+  const watched = Math.max(stored, Number.isFinite(submitted) ? submitted : 0);
+  if (!filmWatchUnlocksCheckpoint(watched, context.session.duration_seconds)) {
+    const message = context.session.duration_seconds
+      ? "The checkpoint opens after the film. A tap does not open it."
+      : "This film has no measured length yet, so the checkpoint stays closed.";
+    redirect(`${paths.session(sessionId)}?error=${encodeURIComponent(message)}`);
+  }
+
   try {
-    await persistProgress(user.id, sessionId, { film_completed: true });
+    await persistProgress(user.id, sessionId, {
+      film_completed: true,
+      film_seconds: Math.floor(watched),
+    });
   } catch {
     redirect(
       `${paths.session(sessionId)}?error=${encodeURIComponent("Your progress didn’t save. Try again.")}`
@@ -178,14 +195,17 @@ export async function submitCheckin(formData: FormData) {
     redirect(paths.action(sessionId));
   }
 
-  const choice = String(formData.get(CHECKIN_CHOICE_KEY) ?? "").trim();
-  if (!choice) {
-    redirect(
-      `${paths.checkin(sessionId)}?error=${encodeURIComponent("Choose an answer to continue.")}`
-    );
+  const questions = checkinQuestionsFor(context.session, context.training);
+  const answers: Record<string, string> = {};
+  for (const question of questions) {
+    const choice = String(formData.get(question.key) ?? "").trim();
+    if (!choice) {
+      redirect(
+        `${paths.checkin(sessionId)}?error=${encodeURIComponent("Choose an answer to continue.")}`
+      );
+    }
+    answers[question.key] = choice;
   }
-
-  const answers: Record<string, string> = { [CHECKIN_CHOICE_KEY]: choice };
   const progressPatch: {
     checkin_completed: true;
     checkin_answers: Record<string, string>;

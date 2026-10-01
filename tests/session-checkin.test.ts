@@ -13,16 +13,20 @@ function readRepo(relativePath: string) {
 }
 
 describe("session film unlock", () => {
-  it("lets a father continue to check-in without a YouTube complete event", () => {
+  it("opens the checkpoint after most of a measured film, not on a tap", () => {
     const film = readRepo("app/(father)/father/sessions/[sessionId]/page.tsx");
     const player = readRepo("components/father/session-film-player.tsx");
+    const seat = readRepo("components/father/film-seat.tsx");
     const header = readRepo("components/father/session-header.tsx");
     const actions = readRepo("lib/father/actions.ts");
     const checkin = readRepo("app/(father)/father/sessions/[sessionId]/checkin/page.tsx");
 
     assert.match(film, /markFilmWatched/);
     assert.match(film, /father\.session\.continueCheckin/);
+    assert.match(film, /SessionFilmPlayer/);
+    assert.match(seat, /filmWatchUnlocksCheckpoint/);
     assert.match(actions, /export async function markFilmWatched/);
+    assert.match(actions, /filmWatchUnlocksCheckpoint/);
     assert.match(actions, /film_completed: true/);
     assert.doesNotMatch(player, /film_completed/);
     assert.doesNotMatch(player, /markFilmWatched/);
@@ -100,7 +104,7 @@ describe("check-in labels and write-in", () => {
     assert.equal(en.father.session.whenWillYou, "When will you try this?");
     assert.equal(en.father.session.actionTryAt, "When will you try this?");
     assert.equal(en.father.session.questionOf, "Question {n} of {total}");
-    assert.equal(en.father.session.checkinLabel, "One question about the film");
+    assert.equal(en.father.session.checkinLabel, "Three questions on the keyline");
     assert.match(en.father.start.welcomeBody, /one question/);
     assert.doesNotMatch(en.father.start.welcomeBody, /three questions/);
     assert.equal(he.father.session.skipForNow, "חזרה ללוח הבקרה");
@@ -120,8 +124,16 @@ describe("check-in labels and write-in", () => {
     const questions = checkinQuestionsFor({
       session_number: 1,
       title: "Body at the door",
+      keyline: "Name it without loading it.",
     });
-    assert.equal(questions.length, 1);
+    assert.equal(questions.length, 3);
+    assert.deepEqual(
+      questions.map((question) => question.key),
+      ["q1", "q2", "q3"]
+    );
+    assert.match(questions[1].label, /Name it without loading it/);
+    assert.match(questions[2].label, /Name it without loading it/);
+    assert.doesNotMatch(questions[1].label, /did you watch/i);
     assert.match(fields, /CHECKIN_NOTE_KEY/);
     assert.equal(CHECKIN_NOTE_KEY, "notes");
     assert.match(fields, /questionOf/);

@@ -46,7 +46,8 @@ export async function SessionHeader({
   const chrome = sessionChrome(current);
   const catalogHref = trainingHref === undefined ? "/father/trainings" : trainingHref;
   const total = sessionTotal ?? training.session_count;
-  const place = sessionPlaceLabel(session.session_number, total, t);
+  const onFilm = current === "film";
+  const place = onFilm ? null : sessionPlaceLabel(session.session_number, total, t);
   const subtitle =
     chrome.showKeyline && session.keyline && session.keyline !== session.title
       ? session.keyline
@@ -85,7 +86,9 @@ export async function SessionHeader({
       <div className="space-y-3">
         <div className="flex items-baseline justify-between gap-4">
           <p className={courseEyebrowClassName}>
-            {catalogHref ? (
+            {onFilm ? (
+              t("father.session.thisWeek")
+            ) : catalogHref ? (
               <Link href={catalogHref} className={interactiveLinkClassName}>
                 {training.title}
               </Link>
@@ -93,7 +96,17 @@ export async function SessionHeader({
               <span>{training.title}</span>
             )}
           </p>
-          {place ? (
+          {onFilm ? (
+            <p className="shrink-0 text-[11px] text-muted-foreground sm:text-xs">
+              {catalogHref ? (
+                <Link href={catalogHref} className={interactiveLinkClassName}>
+                  {training.title}
+                </Link>
+              ) : (
+                training.title
+              )}
+            </p>
+          ) : place ? (
             <p className="shrink-0 text-[11px] tabular-nums text-muted-foreground sm:text-xs">
               {place}
             </p>

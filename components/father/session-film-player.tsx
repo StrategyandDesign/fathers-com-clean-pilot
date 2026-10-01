@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { CoverPhoto } from "@/components/brand/cover";
 import { useI18n } from "@/components/i18n/locale-provider";
@@ -28,25 +28,38 @@ function shouldIgnoreTime(time: number, lastSaved: number, lastSeen: number | nu
 export function SessionFilmPlayer({
   session,
   coverSrc,
+  keyline,
   resumeSeconds = 0,
   persistSessionId,
+  onSeconds,
 }: {
   session: Pick<Session, "title" | "video_url">;
   coverSrc: string;
+  keyline?: string | null;
   resumeSeconds?: number;
   persistSessionId?: string;
+  onSeconds?: (seconds: number) => void;
 }) {
-  const { locale } = useI18n();
+  const { locale, t } = useI18n();
+  const [playing, setPlaying] = useState(false);
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const lastSeenRef = useRef<number | null>(null);
   const lastSavedRef = useRef(Math.max(0, Math.floor(resumeSeconds)));
   const persistIdRef = useRef(persistSessionId);
+  const onSecondsRef = useRef(onSeconds);
   persistIdRef.current = persistSessionId;
+  onSecondsRef.current = onSeconds;
 
-  const embed = youtubeEmbedUrl(session.video_url, {
-    startSeconds: resumeSeconds,
-    language: locale,
-  });
+  const line = keyline?.trim() ?? "";
+  const canPlay = Boolean(youtubeEmbedUrl(session.video_url));
+  const embed = playing
+    ? youtubeEmbedUrl(session.video_url, {
+        startSeconds: resumeSeconds,
+        language: locale,
+        hideChrome: true,
+        autoplay: true,
+      })
+    : null;
 
   useEffect(() => {
     if (!embed || !persistSessionId) return;
@@ -98,6 +111,7 @@ export function SessionFilmPlayer({
       if (time == null) return;
       if (shouldIgnoreTime(time, lastSavedRef.current, lastSeenRef.current)) return;
       lastSeenRef.current = time;
+      onSecondsRef.current?.(time);
     };
 
     const onVisibility = () => {
@@ -125,20 +139,36 @@ export function SessionFilmPlayer({
 
   return (
     <div className="overflow-hidden rounded-xl border border-border bg-black">
-      {embed ? (
-        <div className="aspect-video">
+      {playing && embed ? (
+        <div className="relative aspect-video overflow-hidden">
           <iframe
             ref={iframeRef}
-            className="h-full w-full"
+            className="absolute inset-x-0 top-[-3.25rem] h-[calc(100%+3.25rem)] w-full"
             src={embed}
             title={session.title}
-            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           />
         </div>
       ) : (
         <div className="relative aspect-video">
-          <CoverPhoto src={coverSrc} />
+          <CoverPhoto src={coverSrc} overlay={false} />
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/80 to-transparent"
+          />
+          <div className="absolute inset-x-0 bottom-0 space-y-1 p-4 text-white sm:p-5">
+            <p className="font-heading text-2xl font-semibold leading-snug">{session.title}</p>
+            {line ? <p className="text-sm leading-snug sm:text-base">{line}</p> : null}
+          </div>
+          {canPlay ? (
+            <button
+              type="button"
+              className="absolute start-4 top-4 rounded-full bg-white px-4 py-2 text-sm font-semibold text-black"
+              onClick={() => setPlaying(true)}
+            >
+              {t("father.session.watchFilm")}
+            </button>
+          ) : null}
         </div>
       )}
     </div>

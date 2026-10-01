@@ -36,7 +36,7 @@ export function VersionStampPill({
     return (
       <button
         type="button"
-        className="fixed end-3 bottom-3 z-50 rounded-full border border-border bg-card/95 px-3 py-1 text-xs text-muted-foreground shadow-sm print:hidden"
+        className="fixed start-3 top-1 z-50 rounded-full border border-border bg-card/95 px-3 py-1 text-xs text-muted-foreground shadow-sm print:hidden"
         aria-label={`Show ${label}`}
         onClick={() => persist(true)}
       >
@@ -46,25 +46,23 @@ export function VersionStampPill({
   }
 
   return (
-    <div className="fixed end-3 bottom-3 z-50 max-w-[16rem] rounded-xl border border-border bg-card/95 px-3 py-2 text-xs text-muted-foreground shadow-sm print:hidden">
-      <div className="flex items-start justify-between gap-2">
-        <a
-          href={href}
-          target="_blank"
-          rel="noreferrer"
-          className="font-medium text-foreground"
-        >
-          {label}
-        </a>
-        <button
-          type="button"
-          className="shrink-0 text-xs text-muted-foreground underline underline-offset-2"
-          onClick={() => persist(false)}
-        >
-          Minimize
-        </button>
-      </div>
-      {title ? <p className="mt-1 leading-snug">{title}</p> : null}
+    <div className="fixed inset-x-0 top-0 z-50 flex items-center gap-3 border-b border-border bg-card px-3 py-1.5 text-xs text-muted-foreground print:hidden">
+      <a
+        href={href}
+        target="_blank"
+        rel="noreferrer"
+        className="shrink-0 font-medium text-foreground"
+      >
+        {label}
+      </a>
+      {title ? <p className="min-w-0 flex-1 truncate">{title}</p> : null}
+      <button
+        type="button"
+        className="shrink-0 text-xs text-muted-foreground underline underline-offset-2"
+        onClick={() => persist(false)}
+      >
+        Minimize
+      </button>
     </div>
   );
 }

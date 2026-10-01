@@ -25,6 +25,31 @@ export function homeTrainingLabel(training: {
   return training.title;
 }
 
+/** Lived practice line. A multiple-choice stem stays on the checkpoint, not on Home. */
+export function homePracticeCue(session: {
+  keyline?: string | null;
+  action_prompt?: string | null;
+}) {
+  const action = session.action_prompt?.replace(/\s+/g, " ").trim() ?? "";
+  if (action && !/(?:^|\s)[A-D]\)\s+/.test(action)) return action;
+  return session.keyline?.replace(/\s+/g, " ").trim() ?? "";
+}
+
+/** The cover already carries the keyline. Do not repeat it under practice. */
+export function showHomePractice(
+  practice: string | null | undefined,
+  keyline: string | null | undefined,
+  title?: string | null
+) {
+  const line = practice?.replace(/\s+/g, " ").trim() ?? "";
+  if (!line) return true;
+  const key = keyline?.replace(/\s+/g, " ").trim() ?? "";
+  const name = title?.replace(/\s+/g, " ").trim() ?? "";
+  if (key && line === key) return false;
+  if (name && line === name) return false;
+  return true;
+}
+
 export function homeTrainingSessionCount(total: number) {
   return total > 0 ? total : null;
 }

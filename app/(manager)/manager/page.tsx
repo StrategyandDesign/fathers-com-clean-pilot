@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { FridayDesk } from "@/components/manager/friday-desk";
 import { CompanionPanel } from "@/components/manager/companion-panel";
 import { ConsiderNextCard } from "@/components/manager/consider-next";
 import { ParticipationModeCard } from "@/components/manager/participation-mode-card";
@@ -12,6 +13,7 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { EmptyState } from "@/components/ui/empty-state";
 import { fieldClassName, initials, interactiveSurfaceClassName } from "@/lib/ui";
 import { requireRole } from "@/lib/auth/session";
+import { loadActiveClaimFatherIds } from "@/lib/certificates/claims";
 import { translateAttention } from "@/lib/i18n/flash";
 import { getI18n } from "@/lib/i18n/server";
 import { scheduleDueReminderFlush } from "@/lib/jobs/flush-due-work";
@@ -44,7 +46,12 @@ import { optimizationPackAppliesToOrg } from "@/lib/verticals/optimization/apply
 import { buildCommitmentBoard } from "@/lib/verticals/optimization/commitment";
 import { joinPostureForOrg } from "@/lib/verticals/optimization/join";
 import { loadNudgeHistory, loadReminderPrefs } from "@/lib/manager/nudge-data";
-import { needsNudge } from "@/lib/manager/nudges";
+import {
+  isFridayStall,
+  pickFridayMan,
+  weekMarksFromCards,
+} from "@/lib/manager/friday-desk";
+import { daysSince, needsNudge } from "@/lib/manager/nudges";
 import { loadReviewQueue } from "@/lib/manager/reviews";
 import { cn } from "@/lib/utils";
 
@@ -137,6 +144,24 @@ export default async function ManagerHomePage({
     certificatesReady: companion.certificatesReady,
   });
 
+  const claimState = await loadActiveClaimFatherIds(
+    participants.map((participant) => participant.fatherId)
+  );
+  const deskRows = participants.map((participant) => {
+    const week = weekMarksFromCards(trainingProgressFor(participant.fatherId));
+    const quietFor = daysSince(participant.lastActivity);
+    const claimed = claimState.ok ? claimState.ids.has(participant.fatherId) : null;
+    return {
+      fatherId: participant.fatherId,
+      name: participant.name,
+      claimed,
+      week,
+      daysQuiet: quietFor,
+      stalled: claimed === true && isFridayStall(week, quietFor),
+    };
+  });
+  const fridayMan = pickFridayMan(deskRows);
+
   const participationMode = participationModeFromGroups(groups);
   const optimizationGroups = groups.filter((group) =>
     optimizationPackAppliesToOrg(group.organization_type)
@@ -166,7 +191,15 @@ export default async function ManagerHomePage({
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
+      <FridayDesk rows={deskRows} claimKnown={claimState.ok} nudge={fridayMan} t={t} />
+      <Flash error={params.error} notice={params.notice} />
+      <details className="rounded-xl border border-border bg-card p-4 sm:p-5">
+        <summary className="cursor-pointer text-sm font-medium">{t("manager.desk.moreTools")}</summary>
+        <div className="mt-6 space-y-6">
+      <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground">
+        {t("manager.desk.coachDoor")}
+      </p>
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <h1 className="font-heading text-2xl font-semibold tracking-tight">{t("manager.dashboard.title")}</h1>
@@ -175,7 +208,6 @@ export default async function ManagerHomePage({
           </p>
         </div>
       </div>
-      <Flash error={params.error} notice={params.notice} />
 
       <section className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
         {stats.map((stat) => (
@@ -405,6 +437,8 @@ export default async function ManagerHomePage({
           </div>
         </div>
       </section>
+        </div>
+      </details>
     </div>
   );
 }

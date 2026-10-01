@@ -244,9 +244,21 @@ export function youtubeVideoId(url: string | null | undefined) {
   return null;
 }
 
+export function youtubeStillUrl(url: string | null | undefined) {
+  const id = youtubeVideoId(url);
+  if (!id) return null;
+  return `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+}
+
 export function youtubeEmbedUrl(
   url: string | null,
-  options?: { startSeconds?: number; origin?: string; language?: string }
+  options?: {
+    startSeconds?: number;
+    origin?: string;
+    language?: string;
+    hideChrome?: boolean;
+    autoplay?: boolean;
+  }
 ) {
   const id = youtubeVideoId(url);
   if (!id) return null;
@@ -266,6 +278,13 @@ export function youtubeEmbedUrl(
   const start = Math.floor(options?.startSeconds ?? 0);
   if (start > 0) params.set("start", String(start));
   if (options?.origin) params.set("origin", options.origin);
+  if (options?.hideChrome) {
+    params.set("controls", "0");
+    params.set("iv_load_policy", "3");
+    params.set("fs", "0");
+    params.set("disablekb", "1");
+  }
+  if (options?.autoplay) params.set("autoplay", "1");
 
   return `https://www.youtube-nocookie.com/embed/${id}?${params.toString()}`;
 }

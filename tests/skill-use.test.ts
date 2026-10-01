@@ -247,8 +247,9 @@ describe("skill use on Home", () => {
       fileURLToPath(new URL("../components/father/skill-use-card.tsx", import.meta.url)),
       "utf8"
     );
-    assert.match(page, /SKILL_USE_PROMPT_ENABLED/);
-    assert.match(page, /HomeDeskStamp/);
+    assert.doesNotMatch(page, /SkillUseCard/);
+    assert.doesNotMatch(page, /HomeDeskStamp/);
+    assert.doesNotMatch(page, /HomeStreakRow/);
     assert.match(closeout, /SKILL_USE_PROMPT_ENABLED && sessionId/);
     assert.match(card, /!SKILL_USE_PROMPT_ENABLED \|\| hidden/);
     const signOut = readFileSync(

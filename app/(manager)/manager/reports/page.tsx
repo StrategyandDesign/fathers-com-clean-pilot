@@ -76,6 +76,7 @@ export default async function ManagerReportsPage({
             {t("manager.reports.title")}
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">{t("manager.reports.lead")}</p>
+          <p className="mt-2 max-w-2xl text-sm leading-relaxed">{t("manager.reports.directorLine")}</p>
         </div>
         <Link
           href="/manager/impact"
@@ -314,6 +315,26 @@ export default async function ManagerReportsPage({
                       <span>{translateAssignmentStatus(row.completionStatus, t)}</span>
                     </p>
                     <p className="flex justify-between gap-3 text-sm">
+                      <span className="text-muted-foreground">{t("manager.reports.csvClaimed")}</span>
+                      <span>
+                        {row.claimed == null
+                          ? t("common.emDash")
+                          : row.claimed
+                            ? t("father.home.markYes")
+                            : t("father.home.markNo")}
+                      </span>
+                    </p>
+                    <p className="flex justify-between gap-3 text-sm">
+                      <span className="text-muted-foreground">{t("manager.reports.csvCompleteClaimed")}</span>
+                      <span>
+                        {row.claimed == null
+                          ? t("common.emDash")
+                          : row.completionStatus === "completed" && row.claimed
+                            ? t("father.home.markYes")
+                            : t("father.home.markNo")}
+                      </span>
+                    </p>
+                    <p className="flex justify-between gap-3 text-sm">
                       <span className="text-muted-foreground">{t("manager.reports.sessionsCol")}</span>
                       <span>
                         {t("manager.reports.sessionsProgress", {
@@ -343,6 +364,8 @@ export default async function ManagerReportsPage({
                     <th className="px-6 py-3 font-medium">{t("manager.reports.name")}</th>
                     <th className="px-4 py-3 font-medium">{t("manager.reports.trainingCol")}</th>
                     <th className="px-4 py-3 font-medium">{t("manager.reports.statusCol")}</th>
+                    <th className="px-4 py-3 font-medium">{t("manager.reports.csvClaimed")}</th>
+                    <th className="px-4 py-3 font-medium">{t("manager.reports.csvCompleteClaimed")}</th>
                     <th className="px-4 py-3 font-medium">{t("manager.reports.sessionsCol")}</th>
                     <th className="px-4 py-3 font-medium">{t("manager.reports.csvCompletedOn")}</th>
                     <th className="px-6 py-3 font-medium">{t("manager.reports.serials")}</th>
@@ -370,6 +393,20 @@ export default async function ManagerReportsPage({
                       </td>
                       <td className="px-4 py-3">
                         {translateAssignmentStatus(row.completionStatus, t)}
+                      </td>
+                      <td className="px-4 py-3">
+                        {row.claimed == null
+                          ? t("common.emDash")
+                          : row.claimed
+                            ? t("father.home.markYes")
+                            : t("father.home.markNo")}
+                      </td>
+                      <td className="px-4 py-3">
+                        {row.claimed == null
+                          ? t("common.emDash")
+                          : row.completionStatus === "completed" && row.claimed
+                            ? t("father.home.markYes")
+                            : t("father.home.markNo")}
                       </td>
                       <td className="px-4 py-3 text-muted-foreground">
                         {row.sessionsCompleted}/{row.sessionsTotal}

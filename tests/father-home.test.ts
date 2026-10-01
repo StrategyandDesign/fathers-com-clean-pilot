@@ -196,7 +196,7 @@ describe("home shelves", () => {
 });
 
 describe("home board layout", () => {
-  it("puts completed trainings and certificates beside Your Path on desktop", () => {
+  it("keeps the shelf component and keeps it off Father Home first paint", () => {
     const path = readFileSync(
       fileURLToPath(new URL("../components/father/home-path.tsx", import.meta.url)),
       "utf8"
@@ -215,7 +215,12 @@ describe("home board layout", () => {
     assert.match(path, /shouldCompactHomeDoneShelf/);
     assert.doesNotMatch(path, /father\.home\.yourPath/);
     assert.match(path, /HomeEarnedRow/);
-    assert.match(page, /earned=\{earned\}/);
+    assert.doesNotMatch(page, /HomePathRow/);
+    assert.doesNotMatch(page, /HomeStreakRow/);
+    assert.doesNotMatch(page, /LeaderMeta/);
+    assert.doesNotMatch(page, /HomeDeskStamp/);
+    assert.match(page, /HomeWeek/);
+    assert.match(page, /father\.home\.finishThisWeek/);
     assert.doesNotMatch(page, /<HomeEarnedRow/);
     const earned = readFileSync(
       fileURLToPath(new URL("../components/father/home-earned.tsx", import.meta.url)),

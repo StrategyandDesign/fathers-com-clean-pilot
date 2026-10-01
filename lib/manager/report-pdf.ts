@@ -3,6 +3,7 @@ import { PDFDocument, rgb, type PDFFont, type PDFPage } from "pdf-lib";
 import type { Training } from "@/lib/father/types";
 import { dateLocale, DEFAULT_LOCALE, type Locale } from "@/lib/i18n/config";
 import { createTranslator, type Translate } from "@/lib/i18n/translate";
+import { claimedLabel, completeAndClaimedLabel } from "@/lib/manager/friday-desk";
 import {
   COMPLETION_STATUS_LABEL,
   filterSummary,
@@ -24,13 +25,15 @@ const PAGE_HEIGHT = 612;
 const MARGIN = 28;
 const ROW_HEIGHT = 18;
 const COLS = [
-  { key: "name", label: "Name", width: 112 },
-  { key: "group", label: "Group", width: 88 },
-  { key: "training", label: "Training", width: 132 },
-  { key: "status", label: "Status", width: 72 },
-  { key: "sessions", label: "Sessions", width: 64 },
-  { key: "completed", label: "Completed on", width: 88 },
-  { key: "serials", label: "Serial", width: 152 },
+  { key: "name", label: "Name", width: 100 },
+  { key: "group", label: "Group", width: 76 },
+  { key: "training", label: "Training", width: 110 },
+  { key: "status", label: "Status", width: 64 },
+  { key: "claimed", label: "Claimed", width: 52 },
+  { key: "kpi", label: "Complete and claimed", width: 70 },
+  { key: "sessions", label: "Sessions", width: 56 },
+  { key: "completed", label: "Completed on", width: 76 },
+  { key: "serials", label: "Serial", width: 132 },
 ] as const;
 
 function drawText(
@@ -71,6 +74,8 @@ function cellValues(row: ReportRow, locale: Locale, t: Translate) {
       group: row.groupName,
       training,
       status: COMPLETION_STATUS_LABEL[row.completionStatus],
+      claimed: claimedLabel(row.claimed ?? null) || "—",
+      kpi: completeAndClaimedLabel(row.completionStatus === "completed", row.claimed ?? null) || "—",
       sessions,
       completed: formatShortDate(row.completedAt),
       serials: row.certificateSerial || "—",
@@ -82,6 +87,8 @@ function cellValues(row: ReportRow, locale: Locale, t: Translate) {
     group: row.groupName,
     training,
     status: statusCopy(row.completionStatus, locale, t),
+    claimed: claimedLabel(row.claimed ?? null) || t("common.emDash"),
+    kpi: completeAndClaimedLabel(row.completionStatus === "completed", row.claimed ?? null) || t("common.emDash"),
     sessions,
     completed: row.completedAt
       ? new Date(row.completedAt).toLocaleDateString(dateLocale(locale), {
@@ -97,13 +104,15 @@ function cellValues(row: ReportRow, locale: Locale, t: Translate) {
 function columnLabels(locale: Locale, t: Translate) {
   if (locale !== "he") return COLS;
   return [
-    { key: "name", label: t("manager.reports.name"), width: 112 },
-    { key: "group", label: t("manager.reports.csvGroup"), width: 88 },
-    { key: "training", label: t("manager.reports.trainingCol"), width: 132 },
-    { key: "status", label: t("manager.reports.statusCol"), width: 72 },
-    { key: "sessions", label: t("manager.reports.sessionsCol"), width: 64 },
-    { key: "completed", label: t("manager.reports.csvCompletedOn"), width: 88 },
-    { key: "serials", label: t("manager.reports.serials"), width: 152 },
+    { key: "name", label: t("manager.reports.name"), width: 100 },
+    { key: "group", label: t("manager.reports.csvGroup"), width: 76 },
+    { key: "training", label: t("manager.reports.trainingCol"), width: 110 },
+    { key: "status", label: t("manager.reports.statusCol"), width: 64 },
+    { key: "claimed", label: t("manager.reports.csvClaimed"), width: 52 },
+    { key: "kpi", label: t("manager.reports.csvCompleteClaimed"), width: 70 },
+    { key: "sessions", label: t("manager.reports.sessionsCol"), width: 56 },
+    { key: "completed", label: t("manager.reports.csvCompletedOn"), width: 76 },
+    { key: "serials", label: t("manager.reports.serials"), width: 132 },
   ] as const;
 }
 
