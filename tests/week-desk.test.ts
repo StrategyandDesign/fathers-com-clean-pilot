@@ -137,4 +137,15 @@ describe("father home strip", () => {
     assert.match(cover, /youtubeStillUrl/);
     assert.doesNotMatch(cover, /HomePathRow/);
   });
+
+  it("ends the Leader first paint at Export", () => {
+    const desk = readRepo("components/manager/friday-desk.tsx");
+    const page = readRepo("app/(manager)/manager/page.tsx");
+    assert.match(desk, /manager\.desk\.export/);
+    assert.doesNotMatch(desk, /assignTraining|assignAssessment/);
+    const deskAt = page.indexOf("<FridayDesk");
+    const moreAt = page.indexOf("<details");
+    assert.ok(deskAt > 0 && moreAt > deskAt);
+    assert.doesNotMatch(page.slice(moreAt, moreAt + 120), /\sopen[\s>]/);
+  });
 });

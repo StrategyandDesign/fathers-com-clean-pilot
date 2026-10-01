@@ -159,21 +159,9 @@ export function FridayDesk({
         )}
       </section>
 
-      <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
+      <div>
         <Link href="/api/manager/reports/export?format=csv" className={cn(buttonVariants(), "w-full sm:w-auto")}>
           {t("manager.desk.export")}
-        </Link>
-        <Link
-          href="/manager/participants#assign"
-          className={cn(buttonVariants({ variant: "outline" }), "w-full sm:w-auto")}
-        >
-          {t("manager.desk.assignTraining")}
-        </Link>
-        <Link
-          href="/manager/assessments#cohort"
-          className={cn(buttonVariants({ variant: "outline" }), "w-full sm:w-auto")}
-        >
-          {t("manager.desk.assignAssessment")}
         </Link>
       </div>
     </div>

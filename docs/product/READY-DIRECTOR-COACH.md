@@ -1,11 +1,13 @@
 # READY: director and coach delivery
 
-Production stays paused. This note is what a rehab director or father coach can do on the review branch. It is not a board demo and it does not publish.
+Production stays paused. This note is what a rehab director or father coach can do on the review branch. It does not publish.
+
+**Board demo: YELLOW** until the claim grant is on the hosted database. Do not walk a board through Claimed until `grant select on table public.participant_claims to authenticated` has been run on Pilot project `koeplcybddrvbliuepsy`. Until then the desk says claim status did not load.
 
 ## What they can do now
 
 - **Father Home** opens on Finish this week, one cover (this week's film still and title) and one Start, this week's practice, and a solid Film / Checkpoint / Practice tab. No catalog wall. Shelves, streak, assessment peers, the desk stamp, and the leader chip are off that page.
-- **Leader desk** opens on the claimed roster with this week's film, checkpoint, and practice as Y or N. Stalls name one man. The Friday line is status plus Copy. It does not send. Export downloads complete and claimed (CSV, the reports table, and the PDF).
+- **Leader desk** opens on the claimed roster with this week's film, checkpoint, and practice as Y or N. Stalls name one man. The Friday line is a check-in, not a quiz: "Checking in on {name} — film, checkpoint, practice. Need anything to finish this week?" It is status plus Copy. It does not send. First paint ends at Export complete and claimed. Assign stays on Participants and Assessments. The older desk stays collapsed under More desk tools.
 - **Claim** is a button for a man already on the roster who has no active seat. Joining still does not bill him.
 - **Assign a training** stays on Participants. **Assign an assessment** stays on the assessment cohort. Assessments are a self-report, not a diagnosis. No norms on that desk.
 - **Film seat:** the checkpoint button stays hidden until the player reports about 95 percent of `duration_seconds`. The keyline is on the page so mute can still read. Certificate issuance still requires film, checkpoint, and lived practice.
