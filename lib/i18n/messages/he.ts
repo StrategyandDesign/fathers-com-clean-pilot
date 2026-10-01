@@ -4,6 +4,7 @@ export const he = {
   localeName: "עברית",
   nav: {
     home: "בית",
+    thisWeek: "השבוע",
     trainings: "הכשרות",
     profile: "הערכה",
     dashboard: "לוח בקרה",
@@ -889,6 +890,7 @@ export const he = {
       sessionN: "מפגש {n}",
       sessionDetail: "מפגש {n} · {detail}",
       sessionsCount: "{completed} מתוך {total} מפגשים",
+      thisWeek: "השבוע",
       sessionOfTotal: "מפגש {n} מתוך {total}",
       programLength: "{total} מפגשים",
       crumb: "סרט, אחר כך שלוש שאלות על שורת המפתח, ואז מיומנות אחת.",

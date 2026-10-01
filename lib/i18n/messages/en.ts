@@ -2,6 +2,7 @@ export const en = {
   localeName: "English",
   nav: {
     home: "Home",
+    thisWeek: "This week",
     trainings: "Trainings",
     profile: "Assessment",
     dashboard: "Dashboard",
@@ -1006,6 +1007,7 @@ export const en = {
       sessionN: "Session {n}",
       sessionDetail: "Session {n} · {detail}",
       sessionsCount: "{completed} of {total} sessions",
+      thisWeek: "This week",
       sessionOfTotal: "Session {n} of {total}",
       programLength: "{total} sessions",
       crumb: "Film, then three questions on the keyline, then one skill.",

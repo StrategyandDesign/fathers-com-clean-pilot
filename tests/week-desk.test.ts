@@ -3,7 +3,7 @@ import { readFileSync } from "node:fs";
 import { describe, it } from "node:test";
 import { fileURLToPath } from "node:url";
 
-import { homePracticeCue } from "../lib/father/home";
+import { homePracticeCue, showHomePractice } from "../lib/father/home";
 import { filmWatchUnlocksCheckpoint, FILM_UNLOCK_RATIO } from "../lib/father/film-seat";
 import {
   fridayCopyLine,
@@ -118,6 +118,10 @@ describe("father home strip", () => {
       homePracticeCue({ keyline: "Show up.", action_prompt: "Call once this week." }),
       "Call once this week."
     );
+    assert.equal(showHomePractice("Show up the same way.", "Show up the same way.", "Feelings"), false);
+    assert.equal(showHomePractice("Feelings", "Name it.", "Feelings"), false);
+    assert.equal(showHomePractice("Call once this week.", "Show up.", "Feelings"), true);
+    assert.equal(showHomePractice("", "Show up.", "Feelings"), true);
   });
 
   it("does not paint shelves, streak, or a role chip on Father Home", () => {
@@ -137,13 +141,45 @@ describe("father home strip", () => {
     const cover = readRepo("components/father/home-week.tsx");
     assert.match(cover, /HOUSE_STILL_SRC/);
     assert.match(cover, /filmRuntimeMinutes/);
-    assert.doesNotMatch(cover, /youtubeStillUrl|HomePathRow/);
+    assert.match(cover, /showHomePractice/);
+    assert.match(cover, /bottom-0 h-1\/3 bg-gradient-to-t from-black\/80 to-transparent/);
+    assert.doesNotMatch(cover, /youtubeStillUrl|HomePathRow|via-black|backdrop-blur|\bblur-/);
     const film = readRepo("app/(father)/father/sessions/[sessionId]/page.tsx");
     const player = readRepo("components/father/session-film-player.tsx");
+    const nav = readRepo("components/layout/app-nav.tsx");
+    const header = readRepo("components/father/session-header.tsx");
     assert.match(film, /HOUSE_STILL_SRC/);
     assert.match(player, /hideChrome: true/);
     assert.match(player, /setPlaying\(true\)/);
-    assert.doesNotMatch(player, /Watch on YouTube|onStateChange|YT\.Player/);
+    assert.match(player, /overlay=\{false\}/);
+    assert.match(player, /bottom-0 h-1\/3 bg-gradient-to-t from-black\/80 to-transparent/);
+    assert.doesNotMatch(player, /Watch on YouTube|onStateChange|YT\.Player|via-black|backdrop-blur|\bblur-/);
+    assert.match(nav, /labelKey: "nav.thisWeek"/);
+    assert.match(nav, /path\.startsWith\("\/father\/sessions"\)/);
+    assert.doesNotMatch(
+      nav.slice(nav.indexOf("labelKey: \"nav.trainings\""), nav.indexOf("labelKey: \"nav.assessments\"")),
+      /father\/sessions/
+    );
+    assert.match(header, /father\.session\.thisWeek/);
+    assert.match(header, /const onFilm = current === "film"/);
+    assert.equal(en.nav.thisWeek, "This week");
+    assert.equal(en.father.session.thisWeek, "This week");
+    const still = readFileSync(
+      fileURLToPath(new URL("../public/brand/covers/ken-teacher-cover-solo-16x9.jpg", import.meta.url))
+    );
+    let width = 0;
+    let height = 0;
+    for (let i = 0; i < still.length - 8; i += 1) {
+      if (still[i] !== 0xff) continue;
+      const marker = still[i + 1];
+      if (marker === 0xc0 || marker === 0xc1 || marker === 0xc2) {
+        height = still.readUInt16BE(i + 5);
+        width = still.readUInt16BE(i + 7);
+        break;
+      }
+    }
+    assert.ok(width >= 448, `cover width ${width} is an upscale of a tight crop`);
+    assert.ok(Math.abs(width / height - 16 / 9) < 0.02);
   });
 
   it("ends the Leader first paint at Export", () => {

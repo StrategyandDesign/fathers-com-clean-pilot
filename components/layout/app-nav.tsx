@@ -40,15 +40,16 @@ export const NAV: Record<AppRole, NavItem[]> = {
   father: [
     {
       href: "/father",
-      labelKey: "nav.home",
+      labelKey: "nav.thisWeek",
       icon: Home,
-      match: (path) => path === "/father" || path === "/home",
+      match: (path) =>
+        path === "/father" || path === "/home" || path.startsWith("/father/sessions"),
     },
     {
       href: "/father/trainings",
       labelKey: "nav.trainings",
       icon: BrandLogoArrow,
-      match: (path) => path === "/father/trainings" || path.startsWith("/father/sessions"),
+      match: (path) => path === "/father/trainings" || path.startsWith("/father/trainings/"),
     },
     {
       href: "/father/assessments",

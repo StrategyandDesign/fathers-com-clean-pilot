@@ -151,8 +151,11 @@ export function SessionFilmPlayer({
         </div>
       ) : (
         <div className="relative aspect-video">
-          <CoverPhoto src={coverSrc} />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/25" />
+          <CoverPhoto src={coverSrc} overlay={false} />
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/80 to-transparent"
+          />
           <div className="absolute inset-x-0 bottom-0 space-y-1 p-4 text-white sm:p-5">
             <p className="font-heading text-2xl font-semibold leading-snug">{session.title}</p>
             {line ? <p className="text-sm leading-snug sm:text-base">{line}</p> : null}
