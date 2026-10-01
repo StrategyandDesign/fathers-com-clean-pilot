@@ -1,6 +1,9 @@
 import type { Session, Training } from "@/lib/father/types";
 
-export const CHECKIN_CHOICE_KEY = "q1";
+export const CHECKIN_QUESTION_COUNT = 3;
+export const CHECKIN_CHOICE_KEYS = ["q1", "q2", "q3"] as const;
+export type CheckinChoiceKey = (typeof CHECKIN_CHOICE_KEYS)[number];
+export const CHECKIN_CHOICE_KEY = CHECKIN_CHOICE_KEYS[0];
 export const CHECKIN_NOTE_KEY = "notes";
 export const CHECKIN_NOTE_MAX_LENGTH = 2000;
 
@@ -16,7 +19,7 @@ export function sessionNotePreview(text: string, max = SESSION_NOTE_PREVIEW_MAX)
 }
 
 export type CheckinQuestion = {
-  key: typeof CHECKIN_CHOICE_KEY;
+  key: CheckinChoiceKey;
   label: string;
 };
 
@@ -28,6 +31,7 @@ type SessionSkillPack = {
 type SessionLookup = Pick<Session, "session_number" | "title"> & {
   checkin_prompt?: string | null;
   action_prompt?: string | null;
+  keyline?: string | null;
 };
 type TrainingLookup = Pick<Training, "slug"> | null | undefined;
 
@@ -239,11 +243,50 @@ function skillPack(
   };
 }
 
+const KEYLINE_PLACEHOLDER_STEMS = [
+  "Which line is the skill in this session?",
+  "Which choice keeps this session's keyline as the skill?",
+  "Which practice matches this session's keyline?",
+] as const;
+
+function sessionKeyline(session: SessionLookup) {
+  const keyline = session.keyline?.replace(/\s+/g, " ").trim();
+  if (keyline) return keyline;
+  const title = session.title?.replace(/\s+/g, " ").trim();
+  if (title) return title;
+  return "the line from this session";
+}
+
+/**
+ * Placeholder until a second or third skill question is stored.
+ * The line is the session keyline. The other choices stay generic.
+ */
+export function keylineSkillPlaceholder(keyline: string, index: 0 | 1 | 2) {
+  const line = keyline.replace(/\s+/g, " ").trim() || "the line from this session";
+  const stem = KEYLINE_PLACEHOLDER_STEMS[index];
+  return `${stem} A) ${line} B) A private feeling to journal C) A substitute habit the session warns against`;
+}
+
+function storedOrPackCheckin(session: SessionLookup, training?: TrainingLookup) {
+  const stored = session.checkin_prompt?.trim();
+  if (stored) return stored;
+  const number = resolveFundamentalsNumber(session, training);
+  if (number && FUNDAMENTALS_BY_NUMBER[number]) {
+    return FUNDAMENTALS_BY_NUMBER[number].checkin;
+  }
+  return null;
+}
+
 export function checkinQuestionsFor(
   session: SessionLookup,
   training?: TrainingLookup
 ): CheckinQuestion[] {
-  return [{ key: CHECKIN_CHOICE_KEY, label: skillPack(session, training).checkin }];
+  const line = sessionKeyline(session);
+  const first = storedOrPackCheckin(session, training) ?? keylineSkillPlaceholder(line, 0);
+  return CHECKIN_CHOICE_KEYS.map((key, index) => ({
+    key,
+    label: index === 0 ? first : keylineSkillPlaceholder(line, index as 1 | 2),
+  }));
 }
 
 export function sessionAction(

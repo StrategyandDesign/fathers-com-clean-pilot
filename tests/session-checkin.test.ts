@@ -104,7 +104,7 @@ describe("check-in labels and write-in", () => {
     assert.equal(en.father.session.whenWillYou, "When will you try this?");
     assert.equal(en.father.session.actionTryAt, "When will you try this?");
     assert.equal(en.father.session.questionOf, "Question {n} of {total}");
-    assert.equal(en.father.session.checkinLabel, "One question about the film");
+    assert.equal(en.father.session.checkinLabel, "Three questions on the keyline");
     assert.match(en.father.start.welcomeBody, /one question/);
     assert.doesNotMatch(en.father.start.welcomeBody, /three questions/);
     assert.equal(he.father.session.skipForNow, "חזרה ללוח הבקרה");
@@ -124,8 +124,16 @@ describe("check-in labels and write-in", () => {
     const questions = checkinQuestionsFor({
       session_number: 1,
       title: "Body at the door",
+      keyline: "Name it without loading it.",
     });
-    assert.equal(questions.length, 1);
+    assert.equal(questions.length, 3);
+    assert.deepEqual(
+      questions.map((question) => question.key),
+      ["q1", "q2", "q3"]
+    );
+    assert.match(questions[1].label, /Name it without loading it/);
+    assert.match(questions[2].label, /Name it without loading it/);
+    assert.doesNotMatch(questions[1].label, /did you watch/i);
     assert.match(fields, /CHECKIN_NOTE_KEY/);
     assert.equal(CHECKIN_NOTE_KEY, "notes");
     assert.match(fields, /questionOf/);

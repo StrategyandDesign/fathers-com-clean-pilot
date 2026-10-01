@@ -26,9 +26,9 @@ import { recordSessionCompletionForStreak } from "@/lib/father/streak-admin";
 import { cancelActionReminder, queueActionReminder } from "@/lib/notifications/events";
 import { parseTimeZone } from "@/lib/notifications/schedule";
 import {
-  CHECKIN_CHOICE_KEY,
   CHECKIN_NOTE_KEY,
   CHECKIN_NOTE_MAX_LENGTH,
+  checkinQuestionsFor,
 } from "@/lib/father/session-questions";
 import { walkPathsFor, type WalkPaths } from "@/lib/practice/paths";
 import { createClient } from "@/lib/supabase/server";
@@ -195,14 +195,17 @@ export async function submitCheckin(formData: FormData) {
     redirect(paths.action(sessionId));
   }
 
-  const choice = String(formData.get(CHECKIN_CHOICE_KEY) ?? "").trim();
-  if (!choice) {
-    redirect(
-      `${paths.checkin(sessionId)}?error=${encodeURIComponent("Choose an answer to continue.")}`
-    );
+  const questions = checkinQuestionsFor(context.session, context.training);
+  const answers: Record<string, string> = {};
+  for (const question of questions) {
+    const choice = String(formData.get(question.key) ?? "").trim();
+    if (!choice) {
+      redirect(
+        `${paths.checkin(sessionId)}?error=${encodeURIComponent("Choose an answer to continue.")}`
+      );
+    }
+    answers[question.key] = choice;
   }
-
-  const answers: Record<string, string> = { [CHECKIN_CHOICE_KEY]: choice };
   const progressPatch: {
     checkin_completed: true;
     checkin_answers: Record<string, string>;
