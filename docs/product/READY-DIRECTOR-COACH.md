@@ -4,14 +4,14 @@ Production stays paused. This note is what a rehab director or father coach can 
 
 ## What they can do now
 
-- **Father Home** opens on Finish this week, the session title, one film card with one button, this week's practice, and a solid Film / Checkpoint / Practice tab. Shelves, streak, assessment peers, the desk stamp, and the leader chip are off that page.
+- **Father Home** opens on Finish this week, one cover (this week's film still and title) and one Start, this week's practice, and a solid Film / Checkpoint / Practice tab. No catalog wall. Shelves, streak, assessment peers, the desk stamp, and the leader chip are off that page.
 - **Leader desk** opens on the claimed roster with this week's film, checkpoint, and practice as Y or N. Stalls name one man. The Friday line is status plus Copy. It does not send. Export downloads complete and claimed (CSV, the reports table, and the PDF).
 - **Claim** is a button for a man already on the roster who has no active seat. Joining still does not bill him.
 - **Assign a training** stays on Participants. **Assign an assessment** stays on the assessment cohort. Assessments are a self-report, not a diagnosis. No norms on that desk.
 - **Film seat:** the checkpoint button stays hidden until the player reports about 95 percent of `duration_seconds`. The keyline is on the page so mute can still read. Certificate issuance still requires film, checkpoint, and lived practice.
 - **Checkpoint:** three skill questions. The first is the stored check-in, or the existing Fundamentals pack when that session has no stored prompt. The next two are placeholders on the session keyline (the session title when the keyline is empty). They are not a new course. Any choice saves, the same way the stored question already saves.
 
-Doors on the desk: directors see "Men finish the week. You can claim them. The man never pays." Coaches see "You hold the caseload. We hold the week."
+Doors on the desk: directors see "Men finish the week. You can claim them. The man never pays." Coaches see "You hold the caseload. We hold the week. A human still owns the line."
 
 ## Research drivers
 

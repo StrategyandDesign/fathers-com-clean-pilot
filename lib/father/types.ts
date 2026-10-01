@@ -244,6 +244,12 @@ export function youtubeVideoId(url: string | null | undefined) {
   return null;
 }
 
+export function youtubeStillUrl(url: string | null | undefined) {
+  const id = youtubeVideoId(url);
+  if (!id) return null;
+  return `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+}
+
 export function youtubeEmbedUrl(
   url: string | null,
   options?: { startSeconds?: number; origin?: string; language?: string }

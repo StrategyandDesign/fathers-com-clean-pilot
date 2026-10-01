@@ -1755,7 +1755,7 @@ export const en = {
     desk: {
       title: "Leader desk",
       directorDoor: "Men finish the week. You can claim them. The man never pays.",
-      coachDoor: "You hold the caseload. We hold the week.",
+      coachDoor: "You hold the caseload. We hold the week. A human still owns the line.",
       counts: "Claimed {claimed} · Week done {done} · Stalled {stalled}",
       countsUnknown: "{men} on the roster. Claim status did not load.",
       rosterTitle: "Claimed roster",

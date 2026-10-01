@@ -1,7 +1,7 @@
 import Link from "next/link";
 
-import { FilmRuntime } from "@/components/father/film-runtime";
 import { buttonVariants } from "@/components/ui/button";
+import { youtubeStillUrl } from "@/lib/father/types";
 import type { Translate } from "@/lib/i18n/translate";
 import { homePrimaryCtaClassName } from "@/lib/ui";
 import { cn } from "@/lib/utils";
@@ -11,9 +11,8 @@ const eyebrowClassName =
 
 export function HomeWeek({
   sessionTitle,
-  keyline,
+  videoUrl,
   practice,
-  durationSeconds,
   href,
   cta,
   filmDone,
@@ -22,9 +21,8 @@ export function HomeWeek({
   t,
 }: {
   sessionTitle: string;
-  keyline?: string | null;
+  videoUrl?: string | null;
   practice?: string | null;
-  durationSeconds?: number | null;
   href: string;
   cta: string;
   filmDone: boolean;
@@ -32,6 +30,7 @@ export function HomeWeek({
   practiceDone: boolean;
   t: Translate;
 }) {
+  const still = youtubeStillUrl(videoUrl);
   const tabs = [
     { label: t("father.home.weekFilm"), done: filmDone },
     { label: t("father.home.weekCheckpoint"), done: checkpointDone },
@@ -41,20 +40,25 @@ export function HomeWeek({
   return (
     <div className="mx-auto w-full max-w-xl space-y-6">
       <p className={eyebrowClassName}>{t("father.home.finishThisWeek")}</p>
-      <h1 className="font-heading text-2xl font-semibold leading-snug tracking-tight sm:text-3xl">
-        {sessionTitle}
-      </h1>
-      <section className="space-y-4 rounded-xl border border-border bg-card p-4 sm:p-5">
-        <p className={eyebrowClassName}>{t("father.home.weekFilm")}</p>
-        {keyline ? <p className="text-base leading-relaxed">{keyline}</p> : null}
-        <FilmRuntime seconds={durationSeconds} t={t} />
-        <Link
-          href={href}
-          className={cn(buttonVariants({ variant: "default", size: "lg" }), homePrimaryCtaClassName)}
-        >
-          {cta}
-        </Link>
-      </section>
+      <article className="overflow-hidden rounded-xl border border-border bg-card">
+        {still ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={still} alt="" className="aspect-video w-full object-cover" />
+        ) : (
+          <div className="aspect-video w-full bg-foreground" />
+        )}
+        <div className="space-y-4 p-4 sm:p-5">
+          <h1 className="font-heading text-2xl font-semibold leading-snug tracking-tight sm:text-3xl">
+            {sessionTitle}
+          </h1>
+          <Link
+            href={href}
+            className={cn(buttonVariants({ variant: "default", size: "lg" }), homePrimaryCtaClassName)}
+          >
+            {cta}
+          </Link>
+        </div>
+      </article>
       <section className="space-y-2">
         <p className={eyebrowClassName}>{t("father.home.practiceEyebrow")}</p>
         <p className="text-base leading-relaxed">

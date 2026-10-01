@@ -65,8 +65,11 @@ describe("friday desk", () => {
     ]);
     assert.equal(picked?.fatherId, "quiet");
     assert.equal(markLabel(true), "Y");
-    assert.match(fridayCopyLine("Quiet"), /Quiet/);
-    assert.doesNotMatch(fridayCopyLine("Quiet"), /answer/i);
+    assert.equal(
+      fridayCopyLine("Quiet"),
+      "Checking in on Quiet — film, checkpoint, practice. Need anything to finish this week?"
+    );
+    assert.doesNotMatch(fridayCopyLine("Quiet"), /answer|Did the film|Friday question/i);
   });
 
   it("reads this week's three marks from the open session", () => {
@@ -125,6 +128,13 @@ describe("father home strip", () => {
     assert.equal(findOverclaimHits(en.manager.desk.directorDoor).length, 0);
     assert.doesNotMatch(en.manager.desk.directorDoor, /PTSD|evidence-based|anger management|batterer/i);
     assert.match(en.manager.desk.directorDoor, /never pays/);
+    assert.equal(
+      en.manager.desk.coachDoor,
+      "You hold the caseload. We hold the week. A human still owns the line."
+    );
     assert.match(en.manager.desk.export, /complete and claimed/i);
+    const cover = readRepo("components/father/home-week.tsx");
+    assert.match(cover, /youtubeStillUrl/);
+    assert.doesNotMatch(cover, /HomePathRow/);
   });
 });

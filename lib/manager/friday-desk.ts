@@ -58,7 +58,7 @@ export function pickFridayMan<T extends FridayMan>(men: T[]): T | null {
 }
 
 export function fridayCopyLine(name: string) {
-  return `Friday question for ${name}: Did the film, the checkpoint, and the practice get done?`;
+  return `Checking in on ${name} — film, checkpoint, practice. Need anything to finish this week?`;
 }
 
 export function markLabel(done: boolean) {
